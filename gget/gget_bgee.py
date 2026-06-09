@@ -1,9 +1,7 @@
 import pandas as pd
 import json as json_
 
-import requests
-
-from .utils import set_up_logger, json_list_to_df
+from .utils import set_up_logger, json_list_to_df, http_json, dig
 
 logger = set_up_logger()
 
@@ -19,8 +17,10 @@ def _bgee_species(gene_id: str, verbose=True):
     if verbose:
         logger.info(f"Getting species ID for gene {gene_id} from Bgee")
 
-    response = requests.get(
+    payload = http_json(
+        "GET",
         "https://bgee.org/api/",
+        context="Bgee API (species lookup)",
         params={
             "display_type": "json",
             "page": "gene",
@@ -29,13 +29,7 @@ def _bgee_species(gene_id: str, verbose=True):
         },
     )
 
-    if not response.ok:
-        raise RuntimeError(
-            f"Bgee API request returned with error code: {response.status_code}. "
-            "Please double-check the arguments and try again.\n"
-        )
-
-    genes_data = response.json()["data"]["genes"]
+    genes_data = dig(payload, "data", "genes", context="Bgee API (species lookup)")
     assert len(genes_data) == 1
     gene_data = genes_data[0]
 
@@ -68,8 +62,10 @@ def _bgee_orthologs(gene_id, json=False, verbose=True):
         logger.info(f"Getting orthologs for gene {gene_id} from Bgee")
 
     # then obtain homologs
-    response = requests.get(
-        f"https://bgee.org/api/",
+    payload = http_json(
+        "GET",
+        "https://bgee.org/api/",
+        context="Bgee API (orthologs)",
         params={
             "display_type": "json",
             "page": "gene",
@@ -79,13 +75,7 @@ def _bgee_orthologs(gene_id, json=False, verbose=True):
         },
     )
 
-    if not response.ok:
-        raise RuntimeError(
-            f"Bgee API request returned with error code: {response.status_code}. "
-            "Please double-check the arguments and try again.\n"
-        )
-
-    homologs_data = response.json()["data"]["orthologsByTaxon"]
+    homologs_data = dig(payload, "data", "orthologsByTaxon", context="Bgee API (orthologs)")
     homologs_data = sum([v["genes"] for v in homologs_data], [])
 
     df = json_list_to_df(
@@ -136,8 +126,10 @@ def _bgee_expression(gene_id, json=False, verbose=True):
         logger.info(f"Getting expression data for gene {', '.join(gene_ids)} from Bgee")
 
     # then obtain expression data
-    response = requests.get(
+    payload = http_json(
+        "GET",
         "https://bgee.org/api/",
+        context="Bgee API (expression)",
         params={
             "display_type": "json",
             "page": "data",
@@ -150,13 +142,10 @@ def _bgee_expression(gene_id, json=False, verbose=True):
         },
     )
 
-    if not response.ok:
-        raise RuntimeError(
-            f"Bgee API request returned with error code: {response.status_code}. "
-            "Please double-check the arguments and try again.\n"
-        )
-
-    expression_data = response.json()["data"]["expressionData"]["expressionCalls"]
+    expression_data = dig(
+        payload, "data", "expressionData", "expressionCalls",
+        context="Bgee API (expression)",
+    )
 
     df = json_list_to_df(
         expression_data,

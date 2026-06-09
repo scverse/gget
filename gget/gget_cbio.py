@@ -981,14 +981,22 @@ class _GeneAnalysis:
             if "Hugo_Symbol" not in pivot_df1.columns:
                 pivot_df1["Hugo_Symbol"] = pivot_df1.index
 
-            # Iterate over the top_mutant_gene_list and add missing entries
-            for gene in self.genes:
-                if gene not in pivot_df1["Hugo_Symbol"].values:
-                    new_row = pd.Series(
-                        {col: np.nan for col in pivot_df1.columns}, name=gene
-                    )
-                    new_row["Hugo_Symbol"] = gene
-                    pivot_df1 = pivot_df1.append(new_row)
+            # Add missing entries for any requested gene not already present.
+            # The previous implementation used DataFrame.append in a loop,
+            # which (a) was O(n^2) and (b) was removed in pandas 2.0 — the
+            # whole code path no longer ran on modern pandas. Building one
+            # DataFrame of the missing rows and concatenating once fixes both.
+            existing = set(pivot_df1["Hugo_Symbol"].values)
+            missing_genes = [g for g in self.genes if g not in existing]
+            if missing_genes:
+                new_rows = pd.DataFrame(
+                    {col: np.nan for col in pivot_df1.columns},
+                    index=missing_genes,
+                )
+                new_rows["Hugo_Symbol"] = missing_genes
+                pivot_df1 = pd.concat(
+                    [pivot_df1, new_rows], ignore_index=True
+                )
 
             # Set 'Hugo_Symbol' back as index if needed
             pivot_df1 = pivot_df1.set_index("Hugo_Symbol")

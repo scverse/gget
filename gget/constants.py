@@ -1,5 +1,10 @@
 import uuid
 
+# Default (connect, read) timeout in seconds for HTTP requests issued via the
+# `requests` library. Centralized so callers without their own retry/timeout
+# strategy avoid hanging indefinitely on slow upstreams.
+DEFAULT_REQUESTS_TIMEOUT = (10, 60)
+
 # Ensembl REST API server for gget seq and info
 ENSEMBL_REST_API = "http://rest.ensembl.org/"
 ENSEMBL_FTP_URL = "http://ftp.ensembl.org/pub/"

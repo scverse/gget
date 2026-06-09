@@ -53,7 +53,7 @@ def download_reference(download_link, tar_folder_path, file_path, verbose, email
 
     try:
         response_data = json_package.loads(result.stdout)
-    except ValueError:
+    except json_package.JSONDecodeError:
         raise RuntimeError(
             "Failed to download file. Please double-check arguments (especially cosmic_version) and try again."
         )
@@ -67,7 +67,7 @@ def download_reference(download_link, tar_folder_path, file_path, verbose, email
 
     if result2.returncode != 0:
         raise RuntimeError(
-            f"Failed to download file. Return code: {result.returncode}\n{result.stderr}"
+            f"Failed to download file. Return code: {result2.returncode}\n{result2.stderr}"
         )
 
     with tarfile.open(f"{tar_folder_path}.tar", "r") as tar:
