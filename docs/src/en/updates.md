@@ -1,6 +1,25 @@
 [<kbd> View page source on GitHub </kbd>](https://github.com/pachterlab/gget/blob/main/docs/src/en/updates.md)
 
 ## ✨ What's new
+**Version ≥ 0.30.6** (Jun 08, 2026):
+- [`gget blat`](blat.md): Improved resilience against UCSC BLAT endpoint failures (fixes intermittently failing tests).
+  - Added retry-with-exponential-backoff for transient failures (HTTP 429/5xx, network errors, and non-JSON 200 responses caused by UCSC rate-limiting or HTML error pages). Up to 4 attempts with 1.5s → 3s → 6s backoff.
+  - Replaced the misleading "sequence too short or assembly invalid" message with the actual server response (status code, response preview) so failures are diagnosable.
+  - `HTTPError` and `URLError` are now caught explicitly instead of bubbling up as unhandled exceptions.
+- Bug fixes:
+  - [`gget cosmic`](cosmic.md): Fixed misleading error message when the download step fails — was reporting the previous command's return code/stderr instead of the failing command's.
+  - [`gget cosmic`](cosmic.md): Narrowed the JSON parse exception handler to `json.JSONDecodeError` so unrelated `ValueError`s are no longer masked by the "Failed to download file" message.
+  - `gget --version`, `gget --help`, `gget` invoked with no arguments, and `gget <module>` with no further arguments now all exit with status 0 instead of 1, so CI scripts and shell pipelines no longer treat these informational outputs as failures.
+  - Added request timeouts to previously-unguarded `requests` calls in [`gget ref`](ref.md), [`gget info`](info.md), [`gget 8cube`](8cube.md), [`gget enrichr`](enrichr.md), and [`gget opentargets`](opentargets.md). Default is 10s connect / 60s read; configurable via the new `DEFAULT_REQUESTS_TIMEOUT` constant.
+  - Narrowed a bare `except:` in `utils.get_uniprot_seqs` to `(KeyError, IndexError, TypeError)` so unrelated errors (including `KeyboardInterrupt`) are no longer swallowed.
+  - Added `utils.http_json()` and `utils.dig()` helpers that issue a request and parse JSON / walk a nested response path with consistent error reporting. Migrated [`gget bgee`](bgee.md), [`gget opentargets`](opentargets.md), and one `.json()` callsite in [`gget virus`](virus.md) to use them; remaining modules will migrate opportunistically. Upstream HTML error pages, malformed JSON, and missing response keys now surface as clear `RuntimeError`s naming the failing service instead of cryptic `JSONDecodeError` / `KeyError` tracebacks.
+  - [`gget virus`](virus.md): Replaced 11 bare `except: pass` blocks around `file.close()` / `os.remove()` cleanup calls with narrowed `except OSError` handlers that log the failure at `DEBUG`. Previously, real I/O issues during cleanup (disk full, permissions) were silently dropped and the cleanup path also swallowed `KeyboardInterrupt`.
+  - [`gget cbio`](cbio.md): Fixed a code path in `cbio_plot` that called the removed-in-pandas-2.0 `DataFrame.append()` inside a loop when filling missing CNA genes — the entire branch crashed on modern pandas. It now builds a single DataFrame of missing rows and concatenates once.
+- Performance:
+  - `utils.get_uniprot_seqs`: Collect per-ID DataFrames in a list and `pd.concat(..., ignore_index=True)` once at the end, avoiding the O(n²) cost of growing a DataFrame inside the request loop.
+  - Cached `utils.find_latest_ens_rel`, `utils.search_species_options`, `utils.ref_species_options`, and `utils.find_nv_kingdom` with `functools.lru_cache`. These hit Ensembl FTP listings that are stable for a release; repeated calls within one Python process are now free.
+  - Added `utils.parallel_map`, a thin `ThreadPoolExecutor` wrapper for I/O-bound work. Used to fan out `utils.get_uniprot_seqs` across the input ID list — looking up N IDs is now bounded by ~`N / pool_size` UniProt round-trips instead of `N`. Pool size defaults to 8 and can be overridden via the `GGET_MAX_WORKERS` environment variable.
+
 **Version ≥ 0.30.5** (May 23, 2026):
 - [`gget opentargets`](opentargets.md): Rewrote this module to reflect the new Open Targets API structure
   - some output column/key names may differ to reflect the new API structure

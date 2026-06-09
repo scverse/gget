@@ -4,6 +4,7 @@ import json as json_package
 import io
 
 from .utils import set_up_logger
+from .constants import DEFAULT_REQUESTS_TIMEOUT
 
 logger = set_up_logger()
 
@@ -100,7 +101,7 @@ def specificity(
     if verbose:
         logger.info(f"Fetching specificity for {len(processed)} genes…")
 
-    r = requests.get(SPECIFICITY_URL, params=params)
+    r = requests.get(SPECIFICITY_URL, params=params, timeout=DEFAULT_REQUESTS_TIMEOUT)
     if not r.ok:
         raise RuntimeError(f"Specificity request failed ({r.status_code}): {r.text}")
 
@@ -170,7 +171,7 @@ def psi_block(
             f"({analysis_level}, {analysis_type})…"
         )
 
-    r = requests.get(PSI_BLOCK_URL, params=params)
+    r = requests.get(PSI_BLOCK_URL, params=params, timeout=DEFAULT_REQUESTS_TIMEOUT)
     if not r.ok:
         raise RuntimeError(f"ψ-block request failed ({r.status_code}): {r.text}")
 
@@ -241,7 +242,7 @@ def gene_expression(
             f"({analysis_level}, {analysis_type})…"
         )
 
-    r = requests.get(GENE_EXPR_URL, params=params)
+    r = requests.get(GENE_EXPR_URL, params=params, timeout=DEFAULT_REQUESTS_TIMEOUT)
     if not r.ok:
         raise RuntimeError(
             f"Gene expression request failed ({r.status_code}): {r.text}"

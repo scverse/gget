@@ -197,6 +197,7 @@
             "assembly": "zebrafinch"
         },
         "expected_result": null,
+        "expected_log": "No protein BLAT matches were found",
         "msg": "DNA search in protein database is not None."
     },
     "test_blat_nt_RNA": {
@@ -206,6 +207,7 @@
             "seqtype": "translated%20RNA"
         },
         "expected_result": null,
+        "expected_log": "No translated%20RNA BLAT matches were found",
         "msg": "DNA search in RNA database is not None."
     },
     "test_blat_nt_transDNA": {
@@ -215,6 +217,7 @@
             "seqtype": "translated%20DNA"
         },
         "expected_result": null,
+        "expected_log": "No translated%20DNA BLAT matches were found",
         "msg": "DNA search in translated DNA database is not None."
     },
     "test_blat_aa_RNA": {
@@ -224,6 +227,7 @@
             "seqtype": "translated%20RNA"
         },
         "expected_result": null,
+        "expected_log": "failed after",
         "msg": "DNA search in RNA database is not None."
     },
     "test_blat_bad_assembly": {
@@ -234,6 +238,7 @@
             "assembly": "banana"
         },
         "expected_result": null,
+        "expected_log": "failed after",
         "msg": "Invalid assembly result is not None."
     },
     "test_blat_shortseq": {
@@ -242,6 +247,7 @@
             "sequence": "MLMPGPLRRALGQ"
         },
         "expected_result": null,
+        "expected_log": "No protein BLAT matches were found",
         "msg": "Sequence too short result is not None."
     },
     "test_blat_bad_seqtype": {

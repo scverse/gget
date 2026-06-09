@@ -12,7 +12,12 @@ from .utils import (
 
 logger = set_up_logger()
 
-from .constants import ENSEMBL_FTP_URL, ENSEMBL_FTP_URL_NV, ENSEMBL_FTP_URL_GRCH37
+from .constants import (
+    ENSEMBL_FTP_URL,
+    ENSEMBL_FTP_URL_NV,
+    ENSEMBL_FTP_URL_GRCH37,
+    DEFAULT_REQUESTS_TIMEOUT,
+)
 
 
 def find_FTP_link(url, link_substring):
@@ -25,7 +30,7 @@ def find_FTP_link(url, link_substring):
 
     Returns the link, date, and size as strings.
     """
-    html = requests.get(url)
+    html = requests.get(url, timeout=DEFAULT_REQUESTS_TIMEOUT)
 
     # Raise error if status code not "OK" Response
     if html.status_code != 200:

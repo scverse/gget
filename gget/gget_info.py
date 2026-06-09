@@ -17,7 +17,12 @@ from .utils import (
 logger = set_up_logger()
 
 # Constants
-from .constants import ENSEMBL_REST_API, UNIPROT_REST_API, NCBI_URL
+from .constants import (
+    ENSEMBL_REST_API,
+    UNIPROT_REST_API,
+    NCBI_URL,
+    DEFAULT_REQUESTS_TIMEOUT,
+)
 
 
 ## gget info
@@ -236,7 +241,7 @@ def info(
                 url = NCBI_URL + f"/gene/?term={ens_id}"
 
                 try:
-                    html = requests.get(url)
+                    html = requests.get(url, timeout=DEFAULT_REQUESTS_TIMEOUT)
                     # Raise error if status code not "OK" Response
                     if html.status_code != 200:
                         logger.error(

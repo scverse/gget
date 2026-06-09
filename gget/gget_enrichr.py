@@ -13,6 +13,7 @@ from .constants import (
     GET_ENRICHR_URLS,
     POST_BACKGROUND_ID_ENRICHR_URL,
     GET_BACKGROUND_ENRICHR_URL,
+    DEFAULT_REQUESTS_TIMEOUT,
 )
 from .compile import PACKAGE_PATH
 from .gget_info import info
@@ -284,7 +285,7 @@ def enrichr(
         "description": (None, "gget client gene list"),
     }
 
-    r1 = requests.post(POST_ENRICHR_URLS[species], files=args_dict)
+    r1 = requests.post(POST_ENRICHR_URLS[species], files=args_dict, timeout=DEFAULT_REQUESTS_TIMEOUT)
 
     if not r1.ok:
         raise RuntimeError(
@@ -329,7 +330,9 @@ def enrichr(
         }
 
         request_background_id = requests.post(
-            POST_BACKGROUND_ID_ENRICHR_URL, files=args_dict_background
+            POST_BACKGROUND_ID_ENRICHR_URL,
+            files=args_dict_background,
+            timeout=DEFAULT_REQUESTS_TIMEOUT,
         )
 
         if not request_background_id.ok:
@@ -349,6 +352,7 @@ def enrichr(
         r2 = requests.get(
             GET_ENRICHR_URLS[species],
             params={"userListId": userListId, "backgroundType": database},
+            timeout=DEFAULT_REQUESTS_TIMEOUT,
         )
     else:
         r2 = requests.post(
@@ -358,6 +362,7 @@ def enrichr(
                 "backgroundid": background_list_id,
                 "backgroundType": database,
             },
+            timeout=DEFAULT_REQUESTS_TIMEOUT,
         )
 
     if not r2.ok:

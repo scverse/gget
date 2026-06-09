@@ -2843,17 +2843,17 @@ def main():
             for choice, subparser in subparsers_action.choices.items():
                 print("Subparser '{}'".format(choice))
                 print(subparser.format_help())
-        sys.exit(1)
+        sys.exit(0)
 
     # Version return
     if args.version:
         print(f"gget version: {__version__}")
-        sys.exit(1)
+        sys.exit(0)
 
     # Show help when no arguments are given
     if len(sys.argv) == 1:
         parent_parser.print_help(sys.stderr)
-        sys.exit(1)
+        sys.exit(0)
 
     # Show module specific help if only module but no further arguments are given
     command_to_parser = {
@@ -2887,7 +2887,7 @@ def main():
             command_to_parser[sys.argv[1]].print_help(sys.stderr)
         else:
             parent_parser.print_help(sys.stderr)
-        sys.exit(1)
+        sys.exit(0)
 
     ## cellxgene return
     if args.command == "cellxgene":

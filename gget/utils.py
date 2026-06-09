@@ -3,9 +3,12 @@ import requests
 
 # from requests.adapters import HTTPAdapter, Retry
 # import time
+import concurrent.futures
+import json
 import re
 import os
 import uuid
+import functools
 import pandas as pd
 import numpy as np
 from IPython.display import display, HTML
@@ -21,6 +24,7 @@ from .constants import (
     ENSEMBL_FTP_URL_NV,
     ENS_TO_PDB_API,
     COSMIC_RELEASE_URL,
+    DEFAULT_REQUESTS_TIMEOUT,
 )
 
 
@@ -64,6 +68,78 @@ def flatten(xss):
     Function to flatten a list of lists.
     """
     return [x for xs in xss for x in xs]
+
+
+def parallel_map(fn, items, *, max_workers=None):
+    """
+    Apply `fn` to each item using a thread pool and return the results
+    in input order. Designed for I/O-bound work — typically per-ID HTTP
+    calls — where the per-call latency is dominated by network RTT.
+
+    Pool size defaults to 8 (capped at len(items)). Override with the
+    `GGET_MAX_WORKERS` environment variable, or pass `max_workers`
+    explicitly. Exceptions inside `fn` propagate to the caller.
+    """
+    items = list(items)
+    if not items:
+        return []
+    if max_workers is None:
+        env_val = os.getenv("GGET_MAX_WORKERS")
+        try:
+            max_workers = int(env_val) if env_val else 8
+        except ValueError:
+            max_workers = 8
+    max_workers = max(1, min(max_workers, len(items)))
+    if max_workers == 1:
+        return [fn(item) for item in items]
+    with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+        return list(executor.map(fn, items))
+
+
+def http_json(method, url, *, context="", timeout=DEFAULT_REQUESTS_TIMEOUT, **kwargs):
+    """
+    Issue an HTTP request and return the parsed JSON body, raising a
+    RuntimeError with consistent context if the request fails or the body
+    is not valid JSON.
+
+    `context` is a short human-readable label (e.g. "Bgee API") used in
+    error messages so users can identify which upstream service failed.
+    All other keyword arguments are forwarded to `requests.request`.
+    """
+    response = requests.request(method, url, timeout=timeout, **kwargs)
+    label = context or url
+    if not response.ok:
+        body = response.text[:200] if response.text else ""
+        raise RuntimeError(
+            f"{label} returned HTTP {response.status_code}. Body: {body}"
+        )
+    try:
+        return response.json()
+    except json.JSONDecodeError as e:
+        body = response.text[:200] if response.text else ""
+        raise RuntimeError(
+            f"{label} returned non-JSON response (HTTP {response.status_code}): {body}"
+        ) from e
+
+
+def dig(obj, *path, context=""):
+    """
+    Walk a nested key path through `obj` and return the resulting value.
+    Raises RuntimeError with `context` if any intermediate key is missing
+    or any intermediate value is not a dict. Use to make
+    `response["data"]["target"]`-style access fail with a clear message
+    when an upstream API changes shape.
+    """
+    cur = obj
+    for i, key in enumerate(path):
+        if not isinstance(cur, dict) or key not in cur:
+            traversed = ".".join(path[:i]) or "<root>"
+            label = f"{context}: " if context else ""
+            raise RuntimeError(
+                f"{label}expected key '{key}' under {traversed} in response."
+            )
+        cur = cur[key]
+    return cur
 
 
 def get_latest_cosmic():
@@ -259,6 +335,58 @@ def aa_colors(amino_acid):
     return f"\033[38;5;{textcolor}m\033[48;5;{bkg_color}m{amino_acid}\033[0;0m"
 
 
+def _fetch_uniprot_for_id(server, id_):
+    """Per-ID body of get_uniprot_seqs. Returns a DataFrame or None."""
+    r = requests.get(server + id_ + "+AND+reviewed:true")
+    if not r.ok:
+        logger.error(
+            f"UniProt server request returned with error status code: {r.status_code}. Please double-check arguments or try again later."
+        )
+    payload = r.json()
+
+    if not len(payload["results"]) > 0:
+        r = requests.get(server + id_)
+        if not r.ok:
+            logger.error(
+                f"UniProt server request returned with error status code: {r.status_code}. Please double-check arguments or try again later."
+            )
+        payload = r.json()
+        if len(payload["results"]) > 0:
+            logger.warning(
+                f"No reviewed UniProt results were found for ID {id_}. Returning all unreviewed results."
+            )
+
+    if not len(payload["results"]) > 0:
+        logger.warning(f"No UniProt sequences were found for ID {id_}.")
+        return None
+
+    df = pd.json_normalize(payload["results"])
+    df = df[
+        [
+            "primaryAccession",
+            "organism.scientificName",
+            "sequence.value",
+            "sequence.length",
+        ]
+    ]
+    df.columns = [
+        "uniprot_id",
+        "organism",
+        "sequence",
+        "sequence_length",
+    ]
+
+    gene_names = []
+    for result in payload["results"]:
+        try:
+            gene_names.append(result["genes"][0]["geneName"]["value"])
+        except (KeyError, IndexError, TypeError):
+            gene_names.append(np.nan)
+    df["gene_name"] = gene_names
+    df["query"] = id_
+    return df
+
+
 def get_uniprot_seqs(server, ensembl_ids):
     """
     Retrieve UniProt sequences based on Ensemsbl, WormBase or FlyBase identifiers.
@@ -274,79 +402,16 @@ def get_uniprot_seqs(server, ensembl_ids):
     if type(ensembl_ids) == str:
         ensembl_ids = [ensembl_ids]
 
-    # Initiate data frame so empty df will be returned if no matches are found
-    master_df = pd.DataFrame()
-
-    for id_ in ensembl_ids:
-        # API documentation: https://www.uniprot.org/help/api_queries
-        # Submit server request
-        r = requests.get(server + id_ + "+AND+reviewed:true")
-        if not r.ok:
-            logger.error(
-                f"UniProt server request returned with error status code: {r.status_code}. Please double-check arguments or try again later."
-            )
-        # Convert to json
-        json = r.json()
-
-        # If no reviewed results were found, try again for unreviewed results
-        if not len(json["results"]) > 0:
-            # Submit server request
-            r = requests.get(server + id_)
-            if not r.ok:
-                logger.error(
-                    f"UniProt server request returned with error status code: {r.status_code}. Please double-check arguments or try again later."
-                )
-            # Convert to json
-            json = r.json()
-
-            # Warn user if unreviewed results were found
-            if len(json["results"]) > 0:
-                logger.warning(
-                    f"No reviewed UniProt results were found for ID {id_}. Returning all unreviewed results."
-                )
-
-        if len(json["results"]) > 0:
-            # Convert results to data frame
-            df = pd.json_normalize(json["results"])
-
-            # Remove non-relevant columns
-            df = df[
-                [
-                    "primaryAccession",
-                    "organism.scientificName",
-                    "sequence.value",
-                    "sequence.length",
-                ]
-            ]
-
-            # Rename columns
-            df.columns = [
-                "uniprot_id",
-                "organism",
-                "sequence",
-                "sequence_length",
-            ]
-
-            # Add gene name and query columns
-            gene_names = []
-            for i in np.arange(len(json["results"])):
-                try:
-                    gene_names.append(
-                        json["results"][i]["genes"][0]["geneName"]["value"]
-                    )
-                except:
-                    gene_names.append(np.nan)
-            df["gene_name"] = gene_names
-            df["query"] = id_
-
-            # Append results for this ID to master data frame
-            master_df = pd.concat([master_df, df], axis=0)
-
-        else:
-            # If no results were found, warn user and do nothing -> returns empty df
-            logger.warning(f"No UniProt sequences were found for ID {id_}.")
-
-    return master_df
+    # Fan out per-ID requests across a thread pool. Each call is independent
+    # and entirely I/O-bound, so the wall-clock saving on a list of IDs is
+    # roughly the pool size. Override with GGET_MAX_WORKERS env var.
+    results = parallel_map(
+        lambda id_: _fetch_uniprot_for_id(server, id_), ensembl_ids
+    )
+    per_id_dfs = [df for df in results if df is not None]
+    if per_id_dfs:
+        return pd.concat(per_id_dfs, ignore_index=True)
+    return pd.DataFrame()
 
 
 def get_uniprot_info(server, ensembl_id, verbose=True):
@@ -726,12 +791,16 @@ def graphql_query(server, query, variables):
     return r.json()
 
 
+@functools.lru_cache(maxsize=None)
 def find_latest_ens_rel(database=ENSEMBL_FTP_URL):
     """
     Returns the latest Ensembl release number.
 
     Args:
     - database    Link to Ensembl database.
+
+    Cached for the lifetime of the Python process — the latest-release
+    number is stable across a single CLI invocation.
     """
     # html = requests.get(database)
 
@@ -762,6 +831,7 @@ def find_latest_ens_rel(database=ENSEMBL_FTP_URL):
     return ENS_rel
 
 
+@functools.lru_cache(maxsize=None)
 def search_species_options(database=ENSEMBL_FTP_URL, release=None):
     """
     Function to find all available species core databases for gget search.
@@ -770,7 +840,8 @@ def search_species_options(database=ENSEMBL_FTP_URL, release=None):
     - release   Ensembl release for which the databases are fetched.
                 (Default: latest release.)
 
-    Returns list of available core databases.
+    Returns list of available core databases. Cached per (database, release)
+    since the underlying Ensembl listings are static within a release.
     """
     # Find latest Ensembl release
     ENS_rel = find_latest_ens_rel(database)
@@ -826,6 +897,7 @@ def search_species_options(database=ENSEMBL_FTP_URL, release=None):
     return databases
 
 
+@functools.lru_cache(maxsize=None)
 def find_nv_kingdom(species, release):
     kds = ["plants", "protists", "metazoa", "fungi"]
     for kingdom in kds:
@@ -850,6 +922,7 @@ def find_nv_kingdom(species, release):
             return kingdom
 
 
+@functools.lru_cache(maxsize=None)
 def ref_species_options(which, database=ENSEMBL_FTP_URL, release=None):
     """
     Function to find all available species for gget ref.
@@ -860,7 +933,8 @@ def ref_species_options(which, database=ENSEMBL_FTP_URL, release=None):
     - database  Link to Ensembl database.
     - release   Ensembl release for which available species should be fetched.
 
-    Returns list of available species.
+    Returns list of available species. Cached per (which, database, release)
+    since the underlying Ensembl listings are static within a release.
     """
     # Find latest Ensembl release
     ENS_rel = find_latest_ens_rel(database)

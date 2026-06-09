@@ -1,10 +1,9 @@
 import json as json_
 import textwrap
 import pandas as pd
-import requests
 
-from .constants import OPENTARGETS_GRAPHQL_API
-from .utils import set_up_logger
+from .constants import OPENTARGETS_GRAPHQL_API, DEFAULT_REQUESTS_TIMEOUT
+from .utils import set_up_logger, http_json, dig
 
 logger = set_up_logger()  # export GGET_LOGLEVEL=DEBUG
 
@@ -304,23 +303,24 @@ def opentargets(
         logger.info(f"Querying OpenTargets for {resource} associated with {ensembl_id}...")
         logger.debug(f"GraphQL query string:\n{query_string}\n\nWith variables:\n{variables}")
 
-    r = requests.post(
+    api_response = http_json(
+        "POST",
         OPENTARGETS_GRAPHQL_API,
+        context="OpenTargets GraphQL",
         json={"query": query_string, "variables": variables},
+        timeout=DEFAULT_REQUESTS_TIMEOUT,
     )
-
-    api_response = json_.loads(r.text)
 
     if "errors" in api_response:
         raise ValueError(api_response["errors"])
 
     if verbose:
         logger.debug(f"Raw API response:\n{json_.dumps(api_response, indent=2)}")
-    
+
     # if json:
     #     return api_response
-    
-    api_target = api_response["data"]["target"]
+
+    api_target = dig(api_response, "data", "target", context="OpenTargets GraphQL")
 
     rows = api_target
     for row_key in rows_path:
