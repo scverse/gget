@@ -3,9 +3,7 @@
 [![license](https://img.shields.io/pypi/l/gget)](https://github.com/pachterlab/gget/blob/main/LICENSE)
 [![status](https://github.com/pachterlab/gget/actions/workflows/ci.yml/badge.svg)](https://github.com/pachterlab/gget/blob/main/tests/pytest_results_py3.12.txt)
 [![Powered by NumFOCUS](https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat&colorA=E1523D&colorB=007D8A)](https://numfocus.org/)
-[![Star on GitHub](https://img.shields.io/github/stars/scverse/gget.svg?style=social)](https://github.com/scverse/gget/)  
-
-[<img align="right" width="50%" height="50%" src="https://github.com/pachterlab/gget/blob/main/docs/assets/website_v2_gget_overview.png?raw=true" />](https://raw.githubusercontent.com/pachterlab/gget/main/figures/gget_overview.png)
+[![GitHub stars](https://img.shields.io/github/stars/scverse/gget?style=social)](https://github.com/scverse/gget)
 
 # ¡Bienvenidos!
   
