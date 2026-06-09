@@ -4,6 +4,8 @@ Thank you for investing your time in contributing to our project! Any contributi
 
 Read our [Code of Conduct](./code_of_conduct.md) to keep our community approachable and respectable.
 
+Please note that `gget` aims to **maintain backward compatibility** whenever possible. When contributing changes, avoid breaking existing user workflows, APIs, command-line behavior, or documented outputs unless there is a strong reason to do so and the change has been clearly discussed.
+
 In this guide you will get an overview of the contribution workflow from opening an issue or creating a pull request (PR) to reviewing and merging a PR.
 
 ## Issues
@@ -49,6 +51,7 @@ Commit the changes once you are happy with them.
     - The command line interface and arguments are defined in ./gget/main.py
 8. Add new modules/arguments to the documentation if applicable:
     - The manual for each module can be added/edited in `./docs/src/en/*.md` (the Spanish version of the docs in `./docs/src/es/*.md` is automatically generated/updated, and does not need to be edited manually)
+    - List all edits in `./docs/src/en/updates.md`
 
 If you have any questions, feel free to start a [discussion](https://github.com/pachterlab/gget/discussions) or create an issue as described above.
 
