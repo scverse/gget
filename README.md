@@ -7,7 +7,7 @@
 [![status](https://github.com/lauraluebbert/test_gget_alphafold/actions/workflows/CI_alphafold.yml/badge.svg)](https://github.com/lauraluebbert/test_gget_alphafold)
 ![Code Coverage](https://img.shields.io/badge/Coverage-83%25-green.svg)  
 
-`gget` is a free, open-source command-line tool and Python package that enables efficient querying of genomic databases. `gget`  consists of a collection of separate but interoperable modules, each designed to facilitate one type of database querying in a single line of code.  
+`gget` is a free, open-source command-line tool and Python package that enables efficient querying of genomic databases. `gget`  consists of a collection of separate but interoperable modules, each designed to facilitate one type of database querying in a single line of code. `gget` was developed by Laura Luebbert in the [Pachter Lab](https://pachterlab.github.io/).
   
 ![alt text](https://github.com/pachterlab/gget/blob/main/figures/gget_overview.png?raw=true)
     
