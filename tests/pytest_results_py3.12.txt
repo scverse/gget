@@ -1,4 +1,4 @@
-Pytest results (Python 3.12) - 2026-05-21T16:59:59Z
+Pytest results (Python 3.12) - 2026-06-08T17:12:59Z
 
 ============================= test session starts ==============================
 platform linux -- Python 3.12.13, pytest-9.0.3, pluggy-1.6.0 -- /opt/hostedtoolcache/Python/3.12.13/x64/bin/python
@@ -6,806 +6,219 @@ cachedir: .pytest_cache
 rootdir: /home/runner/work/gget/gget
 configfile: pyproject.toml
 plugins: cov-7.1.0, fast-array-utils-1.4.1, zarr-3.2.1
-collecting ... collected 256 items
+collecting ... collected 390 items
 
 tests/test_8cube.py::TestSpecificity::test_specificity_basic PASSED      [  0%]
 tests/test_8cube.py::TestPsiBlock::test_psi_block_basic PASSED           [  0%]
-tests/test_8cube.py::TestGeneExpression::test_gene_expression_basic PASSED [  1%]
+tests/test_8cube.py::TestGeneExpression::test_gene_expression_basic PASSED [  0%]
 tests/test_archs4.py::TestArchs4::test_archs4_bad_ensembl PASSED         [  1%]
 tests/test_archs4.py::TestArchs4::test_archs4_bad_gene PASSED            [  1%]
-tests/test_archs4.py::TestArchs4::test_archs4_bad_gene_tissue PASSED     [  2%]
-tests/test_archs4.py::TestArchs4::test_archs4_bad_species PASSED         [  2%]
-tests/test_archs4.py::TestArchs4::test_archs4_bad_which PASSED           [  3%]
-tests/test_archs4.py::TestArchs4::test_archs4_defaults PASSED            [  3%]
-tests/test_archs4.py::TestArchs4::test_archs4_mouse_json_ensembl PASSED  [  3%]
-tests/test_archs4.py::TestArchs4::test_archs4_tissue PASSED              [  4%]
-tests/test_archs4.py::TestArchs4::test_archs4_tissue_ensembl PASSED      [  4%]
-tests/test_archs4.py::TestArchs4::test_archs4_tissue_json PASSED         [  5%]
-tests/test_archs4.py::TestArchs4::test_archs4_tissue_mouse PASSED        [  5%]
-tests/test_bgee.py::TestBgee::test_bgee_expression PASSED                [  5%]
-tests/test_bgee.py::TestBgee::test_bgee_expression_multiple PASSED       [  6%]
-tests/test_bgee.py::TestBgee::test_bgee_orthologs PASSED                 [  6%]
-tests/test_bgee.py::TestBgee::test_error_bgee_expression_no_exist PASSED [  7%]
-tests/test_bgee.py::TestBgee::test_error_bgee_orthologs_no_exist PASSED  [  7%]
-tests/test_bgee.py::TestBgee::test_error_bgee_unknown_type PASSED        [  7%]
-tests/test_blast.py::TestBlast::test_blast_bad_db1 PASSED                [  8%]
-tests/test_blast.py::TestBlast::test_blast_bad_db2 PASSED                [  8%]
-tests/test_blast.py::TestBlast::test_blast_bad_fasta PASSED              [  8%]
-tests/test_blast.py::TestBlast::test_blast_bad_program PASSED            [  9%]
-tests/test_blast.py::TestBlast::test_blast_bad_seq PASSED                [  9%]
-tests/test_blast.py::TestBlast::test_blast_db_missing PASSED             [ 10%]
-tests/test_blast.py::TestBlast::test_blast_nt PASSED                     [ 10%]
-tests/test_blat.py::TestBlat::test_blat_aa PASSED                        [ 10%]
-tests/test_blat.py::TestBlat::test_blat_aa_RNA PASSED                    [ 11%]
-tests/test_blat.py::TestBlat::test_blat_aa_protein PASSED                [ 11%]
-tests/test_blat.py::TestBlat::test_blat_bad_assembly PASSED              [ 12%]
-tests/test_blat.py::TestBlat::test_blat_bad_fasta PASSED                 [ 12%]
-tests/test_blat.py::TestBlat::test_blat_bad_fileformat PASSED            [ 12%]
-tests/test_blat.py::TestBlat::test_blat_bad_seqtype PASSED               [ 13%]
-tests/test_blat.py::TestBlat::test_blat_bad_txt PASSED                   [ 13%]
-tests/test_blat.py::TestBlat::test_blat_nt PASSED                        [ 14%]
-tests/test_blat.py::TestBlat::test_blat_nt_DNA PASSED                    [ 14%]
-tests/test_blat.py::TestBlat::test_blat_nt_RNA PASSED                    [ 14%]
-tests/test_blat.py::TestBlat::test_blat_nt_fasta PASSED                  [ 15%]
-tests/test_blat.py::TestBlat::test_blat_nt_json PASSED                   [ 15%]
-tests/test_blat.py::TestBlat::test_blat_nt_protein PASSED                [ 16%]
-tests/test_blat.py::TestBlat::test_blat_nt_transDNA PASSED               [ 16%]
-tests/test_blat.py::TestBlat::test_blat_nt_txt PASSED                    [ 16%]
-tests/test_blat.py::TestBlat::test_blat_shortseq PASSED                  [ 17%]
-tests/test_cbio.py::TestCbioSearch::test_cbio_search PASSED              [ 17%]
-tests/test_cbio.py::TestCbio::test_cbio_download PASSED                  [ 17%]
-tests/test_cbio.py::TestCbio::test_cbio_download_partially_existing_files PASSED [ 18%]
-tests/test_cbio.py::TestCbio::test_error_cbio_download PASSED            [ 18%]
-tests/test_cellxgene.py::TestCellxgene::test_cellxgene_adata PASSED      [ 19%]
-tests/test_cellxgene.py::TestCellxgene::test_cellxgene_metadata PASSED   [ 19%]
-tests/test_compile.py::TestCompilerWindows::test_compiler_windows PASSED [ 19%]
-tests/test_cosmic.py::TestCosmicWorkflow::test_cosmic_defaults ERROR     [ 20%]
-tests/test_diamond.py::TestDiamond::test_diamond_JSON_out PASSED         [ 20%]
-tests/test_diamond.py::TestDiamond::test_diamond_both_files PASSED       [ 21%]
-tests/test_diamond.py::TestDiamond::test_diamond_query_file PASSED       [ 21%]
-tests/test_diamond.py::TestDiamond::test_diamond_ref_file PASSED         [ 21%]
-tests/test_diamond.py::TestDiamond::test_diamond_seqs_multiple PASSED    [ 22%]
-tests/test_diamond.py::TestDiamond::test_diamond_seqs_single PASSED      [ 22%]
-tests/test_elm.py::TestELM::test_elm_uniprot_aminoacidseq PASSED         [ 23%]
-tests/test_elm.py::TestELM::test_elm_uniprot_id_in_elm PASSED            [ 23%]
-tests/test_elm.py::TestELM::test_elm_uniprot_id_new PASSED               [ 23%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_background PASSED       [ 24%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_background_ensembl PASSED [ 24%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_bad_background PASSED   [ 25%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_bad_background_list PASSED [ 25%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_bad_database_shortcut PASSED [ 25%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_bad_gene PASSED         [ 26%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_bad_species PASSED      [ 26%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_celltypes PASSED        [ 26%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_diseases_drugs PASSED   [ 27%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_ensembl_ids PASSED      [ 27%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_fish PASSED             [ 28%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_fly PASSED              [ 28%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_json PASSED             [ 28%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_kinase_interactions PASSED [ 29%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_mouse_is_human PASSED   [ 29%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_none PASSED             [ 30%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_ontology PASSED         [ 30%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_pathway PASSED          [ 30%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_plot PASSED             [ 31%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_transcription PASSED    [ 31%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_worm PASSED             [ 32%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_yeast PASSED            [ 32%]
-tests/test_gpt.py::TestGpt::test_gpt PASSED                              [ 32%]
-tests/test_info.py::TestInfo::test_info_WB_transcript PASSED             [ 33%]
-tests/test_info.py::TestInfo::test_info_exon PASSED                      [ 33%]
-tests/test_info.py::TestInfo::test_info_gene PASSED                      [ 33%]
-tests/test_info.py::TestInfo::test_info_gene_list_non_model PASSED       [ 34%]
-tests/test_info.py::TestInfo::test_info_mix PASSED                       [ 34%]
-tests/test_info.py::TestInfo::test_info_ncbifalse_uniprotfalse PASSED    [ 35%]
-tests/test_info.py::TestInfo::test_info_ncbifalse_uniprottrue PASSED     [ 35%]
-tests/test_info.py::TestInfo::test_info_ncbitrue_uniprotfalse PASSED     [ 35%]
-tests/test_info.py::TestInfo::test_info_transcript PASSED                [ 36%]
-tests/test_muscle.py::TestMuscle::test_muscle_nt PASSED                  [ 36%]
-tests/test_muscle.py::TestMuscle::test_muscle_nt_txt PASSED              [ 37%]
-tests/test_muscle.py::TestMuscleSuper::test_muscle_nt_super5 PASSED      [ 37%]
-tests/test_muscle.py::TestMuscleAA::test_muscle_aa PASSED                [ 37%]
-tests/test_muscle.py::TestMuscleSeqsInput::test_muscle_seqs_as_input PASSED [ 38%]
-tests/test_muscle.py::TestMuscleAASuper::test_muscle_aa_super5 PASSED    [ 38%]
-tests/test_muscle.py::TestMusclePrints::test_muscle_print_nt PASSED      [ 39%]
-tests/test_mutate.py::TestMutate::test_ambiguous_mutation PASSED         [ 39%]
-tests/test_mutate.py::TestMutate::test_index_error PASSED                [ 39%]
-tests/test_mutate.py::TestMutate::test_intron_mutation_minus PASSED      [ 40%]
-tests/test_mutate.py::TestMutate::test_intron_mutation_plus PASSED       [ 40%]
-tests/test_mutate.py::TestMutate::test_inversion_with_overlaps PASSED    [ 41%]
-tests/test_mutate.py::TestMutate::test_large_k PASSED                    [ 41%]
-tests/test_mutate.py::TestMutate::test_list_of_mutations PASSED          [ 41%]
-tests/test_mutate.py::TestMutate::test_multi_deletion PASSED             [ 42%]
-tests/test_mutate.py::TestMutate::test_multi_deletion_with_right_repeats PASSED [ 42%]
-tests/test_mutate.py::TestMutate::test_multi_delins PASSED               [ 42%]
-tests/test_mutate.py::TestMutate::test_multi_delins_with_psuedo_left_repeats PASSED [ 43%]
-tests/test_mutate.py::TestMutate::test_multi_delins_with_true_left_repeats PASSED [ 43%]
-tests/test_mutate.py::TestMutate::test_multi_delins_with_true_right_repeats PASSED [ 44%]
-tests/test_mutate.py::TestMutate::test_multi_dup PASSED                  [ 44%]
-tests/test_mutate.py::TestMutate::test_multi_insertion PASSED            [ 44%]
-tests/test_mutate.py::TestMutate::test_multi_insertion_with_left_repeats PASSED [ 45%]
-tests/test_mutate.py::TestMutate::test_posttranslational_mutation PASSED [ 45%]
-tests/test_mutate.py::TestMutate::test_single_deletion PASSED            [ 46%]
-tests/test_mutate.py::TestMutate::test_single_deletion_with_left_repeats PASSED [ 46%]
-tests/test_mutate.py::TestMutate::test_single_deletion_with_right_repeats PASSED [ 46%]
-tests/test_mutate.py::TestMutate::test_single_delins PASSED              [ 47%]
-tests/test_mutate.py::TestMutate::test_single_dup PASSED                 [ 47%]
-tests/test_mutate.py::TestMutate::test_single_insertion PASSED           [ 48%]
-tests/test_mutate.py::TestMutate::test_single_substitution PASSED        [ 48%]
-tests/test_mutate.py::TestMutate::test_single_substitution_near_left_end PASSED [ 48%]
-tests/test_mutate.py::TestMutate::test_single_substitution_near_right_end PASSED [ 49%]
-tests/test_mutate.py::TestMutate::test_uncertain_mutation PASSED         [ 49%]
-tests/test_mutate.py::test_csv_of_mutations PASSED                       [ 50%]
-tests/test_mutate.py::test_mismatch_error PASSED                         [ 50%]
-tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_bad_limit PASSED [ 50%]
-tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_bad_resource PASSED [ 51%]
-tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_diseases_filter PASSED [ 51%]
-tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_drugs_invalid_filter PASSED [ 51%]
-tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_nonexistent_id PASSED [ 52%]
-tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_tractability_limit PASSED [ 52%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets PASSED      [ 53%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets_depmap PASSED [ 53%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets_depmap_filter PASSED [ 53%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets_expression_no_limit PASSED [ 54%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets_interactions_no_limit PASSED [ 54%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets_interactions_simple_filter PASSED [ 55%]
-tests/test_pdb.py::TestPDB::test_pdb_assembly FAILED                     [ 55%]
-tests/test_pdb.py::TestPDB::test_pdb_pdb PASSED                          [ 55%]
-tests/test_ref.py::TestRef::test_ref PASSED                              [ 56%]
-tests/test_ref.py::TestRef::test_ref_bad_rel PASSED                      [ 56%]
-tests/test_ref.py::TestRef::test_ref_bad_species PASSED                  [ 57%]
-tests/test_ref.py::TestRef::test_ref_bad_which PASSED                    [ 57%]
-tests/test_ref.py::TestRef::test_ref_ftp PASSED                          [ 57%]
-tests/test_ref.py::TestRef::test_ref_list PASSED                         [ 58%]
-tests/test_ref.py::TestRef::test_ref_plant PASSED                        [ 58%]
-tests/test_ref.py::TestRef::test_ref_rel PASSED                          [ 58%]
-tests/test_ref.py::TestRef::test_ref_rel_ftp PASSED                      [ 59%]
-tests/test_ref.py::TestRef::test_ref_rel_ftp_octopus PASSED              [ 59%]
-tests/test_ref.py::TestRef::test_ref_rel_protist PASSED                  [ 60%]
-tests/test_ref.py::TestRef::test_ref_which PASSED                        [ 60%]
-tests/test_ref.py::TestRef::test_ref_which_plant PASSED                  [ 60%]
-tests/test_search.py::TestSearch::test_search_db PASSED                  [ 61%]
-tests/test_search.py::TestSearch::test_search_gene_bad_andor PASSED      [ 61%]
-tests/test_search.py::TestSearch::test_search_gene_bad_species PASSED    [ 62%]
-tests/test_search.py::TestSearch::test_search_gene_one_sw PASSED         [ 62%]
-tests/test_search.py::TestSearch::test_search_gene_one_sw_json PASSED    [ 62%]
-tests/test_search.py::TestSearch::test_search_gene_one_sw_limit PASSED   [ 63%]
-tests/test_search.py::TestSearch::test_search_gene_two_sw_and PASSED     [ 63%]
-tests/test_search.py::TestSearch::test_search_gene_two_sw_limit PASSED   [ 64%]
-tests/test_search.py::TestSearch::test_search_gene_two_sw_or PASSED      [ 64%]
-tests/test_search.py::TestSearch::test_search_octopus PASSED             [ 64%]
-tests/test_search.py::TestSearch::test_search_plant PASSED               [ 65%]
-tests/test_search.py::TestSearch::test_search_plant_db PASSED            [ 65%]
-tests/test_search.py::TestSearch::test_search_release PASSED             [ 66%]
-tests/test_search.py::TestSearch::test_search_transcript_bad_andor PASSED [ 66%]
-tests/test_search.py::TestSearch::test_search_transcript_bad_species PASSED [ 66%]
-tests/test_search.py::TestSearch::test_search_transcript_one_sw PASSED   [ 67%]
-tests/test_search.py::TestSearch::test_search_transcript_two_sw_and PASSED [ 67%]
-tests/test_search.py::TestSearch::test_search_transcript_two_sw_or PASSED [ 67%]
-tests/test_seq.py::TestSeq::test_seq_gene PASSED                         [ 68%]
-tests/test_seq.py::TestSeq::test_seq_gene_iso PASSED                     [ 68%]
-tests/test_seq.py::TestSeq::test_seq_gene_transcript_iso PASSED          [ 69%]
-tests/test_seq.py::TestSeq::test_seq_missing_uniprot_gene_name PASSED    [ 69%]
-tests/test_seq.py::TestSeq::test_seq_transcript PASSED                   [ 69%]
-tests/test_seq.py::TestSeq::test_seq_transcript_gene PASSED              [ 70%]
-tests/test_seq.py::TestSeq::test_seq_transcript_gene_WB PASSED           [ 70%]
-tests/test_seq.py::TestSeq::test_seq_transcript_gene_iso PASSED          [ 71%]
-tests/test_seq.py::TestSeq::test_seq_transcript_transcript_WB PASSED     [ 71%]
-tests/test_seq.py::TestSeq::test_seq_transcript_transcript_iso PASSED    [ 71%]
-tests/test_utils.py::TestUtils::test_aa_colors PASSED                    [ 72%]
-tests/test_utils.py::TestUtils::test_find_latest_ens_rel PASSED          [ 72%]
-tests/test_utils.py::TestUtils::test_get_uniprot_info_gene PASSED        [ 73%]
-tests/test_utils.py::TestUtils::test_get_uniprot_info_transcript PASSED  [ 73%]
-tests/test_utils.py::TestUtils::test_get_uniprot_seqs PASSED             [ 73%]
-tests/test_utils.py::TestUtils::test_n_colors PASSED                     [ 74%]
-tests/test_utils.py::TestUtils::test_read_fasta PASSED                   [ 74%]
-tests/test_utils.py::TestUtils::test_ref_iv_species_options PASSED       [ 75%]
-tests/test_utils.py::TestUtils::test_ref_species_options PASSED          [ 75%]
-tests/test_utils.py::TestUtils::test_ref_species_options_bad_type PASSED [ 75%]
-tests/test_utils.py::TestUtils::test_rest_query PASSED                   [ 76%]
-tests/test_utils.py::TestUtils::test_rest_query_bad_type PASSED          [ 76%]
-tests/test_utils.py::TestUtils::test_search_iv_species_options PASSED    [ 76%]
-tests/test_utils.py::TestUtils::test_search_species_options PASSED       [ 77%]
-tests/test_utils.py::TestUtils::test_search_species_options_bad_type PASSED [ 77%]
-tests/test_virus.py::TestVirus::test_batch_accessions_for_url PASSED     [ 78%]
-tests/test_virus.py::TestVirus::test_calculate_max_accessions_per_batch PASSED [ 78%]
-tests/test_virus.py::TestVirus::test_datasets_cli_version_output PASSED  [ 78%]
-tests/test_virus.py::TestVirus::test_get_datasets_path_returns_valid_path PASSED [ 79%]
-tests/test_virus.py::TestVirus::test_get_datasets_path_uses_bundled_binary PASSED [ 79%]
-tests/test_virus.py::TestVirus::test_parse_accession_input_empty_file_raises_error PASSED [ 80%]
-tests/test_virus.py::TestVirus::test_parse_accession_input_from_file PASSED [ 80%]
-tests/test_virus.py::TestVirus::test_parse_accession_input_nonexistent_file_raises_error PASSED [ 80%]
-tests/test_virus.py::TestVirus::test_parse_accession_input_single PASSED [ 81%]
-tests/test_virus.py::TestVirus::test_parse_accession_input_space_separated PASSED [ 81%]
-tests/test_virus.py::TestVirus::test_retry_helper_custom_retryable_exceptions PASSED [ 82%]
-tests/test_virus.py::TestVirus::test_retry_helper_exponential_backoff_timing PASSED [ 82%]
-tests/test_virus.py::TestVirus::test_retry_helper_failed_commands_tracking PASSED [ 82%]
-tests/test_virus.py::TestVirus::test_retry_helper_non_retryable_exception PASSED [ 83%]
-tests/test_virus.py::TestVirus::test_retry_helper_success_after_retry PASSED [ 83%]
-tests/test_virus.py::TestVirus::test_retry_helper_successful_operation PASSED [ 83%]
-tests/test_virus.py::TestVirus::test_virus_completeness_filter_verification PASSED [ 84%]
-tests/test_virus.py::TestVirus::test_virus_empty_virus_name PASSED       [ 84%]
-tests/test_virus.py::TestVirus::test_virus_host_filter_verification PASSED [ 85%]
-tests/test_virus.py::TestVirus::test_virus_integer_virus_id PASSED       [ 85%]
-tests/test_virus.py::TestVirus::test_virus_invalid_annotated_type PASSED [ 85%]
-tests/test_virus.py::TestVirus::test_virus_invalid_completeness PASSED   [ 86%]
-tests/test_virus.py::TestVirus::test_virus_invalid_genbank_batch_size_negative PASSED [ 86%]
-tests/test_virus.py::TestVirus::test_virus_invalid_genbank_batch_size_type PASSED [ 87%]
-tests/test_virus.py::TestVirus::test_virus_invalid_genbank_batch_size_zero PASSED [ 87%]
-tests/test_virus.py::TestVirus::test_virus_invalid_genbank_metadata_type PASSED [ 87%]
-tests/test_virus.py::TestVirus::test_virus_invalid_is_accession_type PASSED [ 88%]
-tests/test_virus.py::TestVirus::test_virus_invalid_keep_temp_type PASSED [ 88%]
-tests/test_virus.py::TestVirus::test_virus_invalid_lab_passaged_type PASSED [ 89%]
-tests/test_virus.py::TestVirus::test_virus_invalid_proteins_complete_type PASSED [ 89%]
-tests/test_virus.py::TestVirus::test_virus_metadata_schema_validation PASSED [ 89%]
-tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_collection_date PASSED [ 90%]
-tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_gene_count PASSED [ 90%]
-tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_peptide_count PASSED [ 91%]
-tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_protein_count PASSED [ 91%]
-tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_release_date PASSED [ 91%]
-tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_seq_length PASSED [ 92%]
-tests/test_virus.py::TestVirus::test_virus_multi_accession_file_input PASSED [ 92%]
-tests/test_virus.py::TestVirus::test_virus_multi_accession_space_separated PASSED [ 92%]
-tests/test_virus.py::TestVirus::test_virus_multiple_filters_relationship_check PASSED [ 93%]
-tests/test_virus.py::TestVirus::test_virus_none_virus_name PASSED        [ 93%]
-tests/test_virus.py::TestVirus::test_virus_relationship_check_counts_match PASSED [ 94%]
-tests/test_virus.py::TestVirus::test_virus_release_date_filter_verification PASSED [ 94%]
-tests/test_virus.py::TestVirus::test_virus_specific_accession_file_creation PASSED [ 94%]
-tests/test_virus.py::TestVirus::test_virus_with_annotated_filter PASSED  [ 95%]
-tests/test_virus.py::TestVirus::test_virus_with_collection_date_filters PASSED [ 95%]
-tests/test_virus.py::TestVirus::test_virus_with_completeness_filter PASSED [ 96%]
-tests/test_virus.py::TestVirus::test_virus_with_genbank_metadata_retrieval PASSED [ 96%]
-tests/test_virus.py::TestVirus::test_virus_with_geographic_location_filter PASSED [ 96%]
-tests/test_virus.py::TestVirus::test_virus_with_has_proteins_filter PASSED [ 97%]
-tests/test_virus.py::TestVirus::test_virus_with_host_filter PASSED       [ 97%]
-tests/test_virus.py::TestVirus::test_virus_with_lab_passaged_filter PASSED [ 98%]
-tests/test_virus.py::TestVirus::test_virus_with_length_filters PASSED    [ 98%]
-tests/test_virus.py::TestVirus::test_virus_with_max_ambiguous_chars_filter PASSED [ 98%]
-tests/test_virus.py::TestVirus::test_virus_with_multiple_filters PASSED  [ 99%]
-tests/test_virus.py::TestVirus::test_virus_with_protein_count_filters PASSED [ 99%]
-tests/test_virus.py::TestVirus::test_virus_with_source_database_filter PASSED [100%]
+tests/test_archs4.py::TestArchs4::test_archs4_bad_gene_tissue PASSED     [  1%]
+tests/test_archs4.py::TestArchs4::test_archs4_bad_species PASSED         [  1%]
+tests/test_archs4.py::TestArchs4::test_archs4_bad_which PASSED           [  2%]
+tests/test_archs4.py::TestArchs4::test_archs4_defaults PASSED            [  2%]
+tests/test_archs4.py::TestArchs4::test_archs4_mouse_json_ensembl PASSED  [  2%]
+tests/test_archs4.py::TestArchs4::test_archs4_tissue PASSED              [  2%]
+tests/test_archs4.py::TestArchs4::test_archs4_tissue_ensembl PASSED      [  3%]
+tests/test_archs4.py::TestArchs4::test_archs4_tissue_json PASSED         [  3%]
+tests/test_archs4.py::TestArchs4::test_archs4_tissue_mouse PASSED        [  3%]
+tests/test_bgee.py::TestBgee::test_bgee_expression PASSED                [  3%]
+tests/test_bgee.py::TestBgee::test_bgee_expression_multiple PASSED       [  4%]
+tests/test_bgee.py::TestBgee::test_bgee_orthologs PASSED                 [  4%]
+tests/test_bgee.py::TestBgee::test_error_bgee_expression_no_exist PASSED [  4%]
+tests/test_bgee.py::TestBgee::test_error_bgee_orthologs_no_exist PASSED  [  4%]
+tests/test_bgee.py::TestBgee::test_error_bgee_unknown_type PASSED        [  5%]
+tests/test_blast.py::TestBlast::test_blast_bad_db1 PASSED                [  5%]
+tests/test_blast.py::TestBlast::test_blast_bad_db2 PASSED                [  5%]
+tests/test_blast.py::TestBlast::test_blast_bad_fasta PASSED              [  5%]
+tests/test_blast.py::TestBlast::test_blast_bad_program PASSED            [  6%]
+tests/test_blast.py::TestBlast::test_blast_bad_seq PASSED                [  6%]
+tests/test_blast.py::TestBlast::test_blast_db_missing PASSED             [  6%]
+tests/test_blast.py::TestBlast::test_blast_nt PASSED                     [  6%]
+tests/test_blat.py::TestBlat::test_blat_aa FAILED                        [  7%]
+tests/test_blat.py::TestBlat::test_blat_aa_RNA PASSED                    [  7%]
+tests/test_blat.py::TestBlat::test_blat_aa_protein FAILED                [  7%]
+tests/test_blat.py::TestBlat::test_blat_bad_assembly PASSED              [  7%]
+tests/test_blat.py::TestBlat::test_blat_bad_fasta PASSED                 [  8%]
+tests/test_blat.py::TestBlat::test_blat_bad_fileformat PASSED            [  8%]
+tests/test_blat.py::TestBlat::test_blat_bad_seqtype PASSED               [  8%]
+tests/test_blat.py::TestBlat::test_blat_bad_txt PASSED                   [  8%]
+tests/test_blat.py::TestBlat::test_blat_nt FAILED                        [  9%]
+tests/test_blat.py::TestBlat::test_blat_nt_DNA FAILED                    [  9%]
+tests/test_blat.py::TestBlat::test_blat_nt_RNA PASSED                    [  9%]
+tests/test_blat.py::TestBlat::test_blat_nt_fasta FAILED                  [ 10%]
 
-==================================== ERRORS ====================================
-__________ ERROR at setup of TestCosmicWorkflow.test_cosmic_defaults ___________
-
-cls = <class 'tests.test_cosmic.TestCosmicWorkflow'>
-
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        time.sleep(sleep_time)
-    
-        # Download data if it doesn't already exist
-        mut_class, grch_version, file_name, version = arg_combinations[0]
-    
-        if mut_class == "cancer_example":
-            cls.tarred_folder = f"example_GRCh{grch_version}"
-        else:
-            cls.tarred_folder = f"{file_name}_Tsv_v{version}_GRCh{grch_version}"
-    
-        cls.file_name = file_name
-        cls.grch_version = grch_version
-        cls.cosmic_version = version
-    
-        expected_file = os.path.join(cls.tarred_folder, f"{file_name}_v{version}_GRCh{grch_version}.tsv")
-    
-        if not os.path.exists(expected_file):
-            cosmic(
-                searchterm=None,
-                download_cosmic=True,
-                cosmic_project=mut_class,
-                cosmic_version=version,
-                grch_version=grch_version,
-                gget_mutate=True,
-            )
-    
-        # Check that files were downloaded correctly
-        contained_file = f"{file_name}_v{version}_GRCh{grch_version}.tsv"
-        gm_file = f"{file_name}_v{version}_GRCh{grch_version}_mutation_workflow.csv"
-    
-        path1 = pl.Path(os.path.abspath(os.path.join(cls.tarred_folder, contained_file)))
-        path2 = pl.Path(os.path.abspath(os.path.join(cls.tarred_folder, gm_file)))
-    
-        if not path1.is_file() or not path2.is_file():
->           raise FileNotFoundError("Expected COSMIC files were not found after download.")
-E           FileNotFoundError: Expected COSMIC files were not found after download.
-
-tests/test_cosmic.py:79: FileNotFoundError
------------------------------- Captured log setup ------------------------------
-INFO     gget.utils:gget_cosmic.py:391 NOTE: Licence fees apply for the commercial use of COSMIC (https://www.cosmickb.org/licensing).
-INFO     gget.utils:gget_cosmic.py:185 Extracted tar file to /home/runner/work/gget/gget/example_GRCh37
-INFO     gget.utils:gget_cosmic.py:441 Creating modified mutations file for use with gget mutate...
-INFO     gget.utils:gget_cosmic.py:659 Modified mutations file for use with gget mutate created at /home/runner/work/gget/gget/example_GRCh37/CancerMutationCensus_AllData_v104_GRCh37_mutation_workflow.csv
 =================================== FAILURES ===================================
-__________________________ TestPDB.test_pdb_assembly ___________________________
+____________________________ TestBlat.test_blat_aa _____________________________
 
-self = <tests.test_pdb.TestPDB testMethod=test_pdb_assembly>
+self = <tests.test_blat.TestBlat testMethod=test_blat_aa>
 
-    def test_pdb_assembly(self):
-        test = "test1"
-        expected_result = pdb_dict[test]["expected_result"]
-        result_to_test = pdb(**pdb_dict[test]["args"])
+    def assert_equal(self: unittest.TestCase):
+        test = name
+        expected_result = td[test]["expected_result"]
+        result_to_test = do_call(func, td[test]["args"])
+        if test == "test_cosmic_defaults":  # special case for cosmic
+            import numpy as np
+            expected_result = pd.DataFrame(expected_result[0])
+            expected_result = expected_result.replace({None: np.nan})
+            # result_to_test.equals(expected_result)
+            pd.testing.assert_frame_equal(result_to_test, expected_result, check_dtype=False)
+            return
+    
+        # If result is a DataFrame, convert to list
+        if isinstance(result_to_test, pd.DataFrame):
+            result_to_test = result_to_test.dropna(axis=1).values.tolist()
     
 >       self.assertEqual(result_to_test, expected_result)
-E       AssertionError: {'pdb[458 chars]atrix_1_1': 1.0, 'matrix_1_2': 0.0, 'matrix_1_[2910 chars]2.2'} != {'pdb[458 chars]atrix11': 1.0, 'matrix12': 0.0, 'matrix13': 0.[2864 chars]2.2'}
-E         {'pdbx_struct_assembly': {'details': 'author_and_software_defined_assembly',
-E                                   'id': '1',
-E                                   'method_details': 'PISA',
-E                                   'oligomeric_count': 3,
-E                                   'oligomeric_details': 'trimeric',
-E                                   'rcsb_candidate_assembly': 'Y',
-E                                   'rcsb_details': 'author_and_software_defined_assembly'},
-E          'pdbx_struct_assembly_gen': [{'assembly_id': '1',
-E                                        'asym_id_list': ['A',
-E                                                         'B',
-E                                                         'C',
-E                                                         'G',
-E                                                         'H',
-E                                                         'I',
-E                                                         'J',
-E                                                         'K',
-E                                                         'O',
-E                                                         'P',
-E                                                         'Q'],
-E                                        'oper_expression': '1',
-E                                        'ordinal': 1}],
-E          'pdbx_struct_oper_list': [{'id': '1',
-E       -                             'matrix_1_1': 1.0,
-E       ?                                    - -
-E       
-E       +                             'matrix11': 1.0,
-E       -                             'matrix_1_2': 0.0,
-E       ?                                    - -
-E       
-E       +                             'matrix12': 0.0,
-E       -                             'matrix_1_3': 0.0,
-E       ?                                    - -
-E       
-E       +                             'matrix13': 0.0,
-E       -                             'matrix_2_1': 0.0,
-E       ?                                    - -
-E       
-E       +                             'matrix21': 0.0,
-E       -                             'matrix_2_2': 1.0,
-E       ?                                    - -
-E       
-E       +                             'matrix22': 1.0,
-E       -                             'matrix_2_3': 0.0,
-E       ?                                    - -
-E       
-E       +                             'matrix23': 0.0,
-E       -                             'matrix_3_1': 0.0,
-E       ?                                    - -
-E       
-E       +                             'matrix31': 0.0,
-E       -                             'matrix_3_2': 0.0,
-E       ?                                    - -
-E       
-E       +                             'matrix32': 0.0,
-E       -                             'matrix_3_3': 1.0,
-E       ?                                    - -
-E       
-E       +                             'matrix33': 1.0,
-E                                     'name': '1_555',
-E                                     'symmetry_operation': 'x,y,z',
-E                                     'type': 'identity operation',
-E       -                             'vector_1': 0.0,
-E       ?                                    -
-E       
-E       +                             'vector1': 0.0,
-E       -                             'vector_2': 0.0,
-E       ?                                    -
-E       
-E       +                             'vector2': 0.0,
-E       -                             'vector_3': 0.0}],
-E       ?                                    -
-E       
-E       +                             'vector3': 0.0}],
-E          'rcsb_assembly_container_identifiers': {'assembly_id': '1',
-E                                                  'entry_id': '1RH7',
-E                                                  'interface_ids': ['1', '2', '3'],
-E                                                  'rcsb_id': '1RH7-1'},
-E          'rcsb_assembly_info': {'assembly_id': '1',
-E                                 'atom_count': 1762,
-E                                 'branched_atom_count': 0,
-E                                 'branched_entity_count': 0,
-E                                 'branched_entity_instance_count': 0,
-E                                 'deuterated_water_count': 0,
-E                                 'entry_id': '1RH7',
-E       -                         'formula_weight': 27.08,
-E                                 'hydrogen_atom_count': 0,
-E                                 'modeled_polymer_monomer_count': 243,
-E                                 'na_polymer_entity_types': 'Other',
-E                                 'nonpolymer_atom_count': 29,
-E                                 'nonpolymer_entity_count': 2,
-E                                 'nonpolymer_entity_instance_count': 5,
-E                                 'num_heterologous_interface_entities': 0,
-E                                 'num_heteromeric_interface_entities': 0,
-E                                 'num_homomeric_interface_entities': 1,
-E                                 'num_interface_entities': 1,
-E                                 'num_interfaces': 3,
-E                                 'num_isologous_interface_entities': 1,
-E                                 'num_na_interface_entities': 0,
-E                                 'num_prot_na_interface_entities': 0,
-E                                 'num_protein_interface_entities': 1,
-E                                 'polymer_atom_count': 1658,
-E                                 'polymer_composition': 'homomeric protein',
-E                                 'polymer_entity_count': 1,
-E       -                         'polymer_entity_count_DNA': 0,
-E       ?                                               ^^^
-E       
-E       +                         'polymer_entity_count_dna': 0,
-E       ?                                               ^^^
-E       
-E       -                         'polymer_entity_count_RNA': 0,
-E                                 'polymer_entity_count_nucleic_acid': 0,
-E                                 'polymer_entity_count_nucleic_acid_hybrid': 0,
-E                                 'polymer_entity_count_protein': 1,
-E       +                         'polymer_entity_count_rna': 0,
-E                                 'polymer_entity_instance_count': 3,
-E       -                         'polymer_entity_instance_count_DNA': 0,
-E       ?                                                        ^^^
-E       
-E       +                         'polymer_entity_instance_count_dna': 0,
-E       ?                                                        ^^^
-E       
-E       -                         'polymer_entity_instance_count_RNA': 0,
-E                                 'polymer_entity_instance_count_nucleic_acid': 0,
-E                                 'polymer_entity_instance_count_nucleic_acid_hybrid': 0,
-E                                 'polymer_entity_instance_count_protein': 3,
-E       +                         'polymer_entity_instance_count_rna': 0,
-E                                 'polymer_monomer_count': 243,
-E                                 'selected_polymer_entity_types': 'Protein (only)',
-E                                 'solvent_atom_count': 75,
-E                                 'solvent_entity_count': 1,
-E                                 'solvent_entity_instance_count': 3,
-E                                 'total_assembly_buried_surface_area': 2316.9225073146845,
-E                                 'total_number_interface_residues': 160,
-E                                 'unmodeled_polymer_monomer_count': 0},
-E          'rcsb_id': '1RH7-1',
-E          'rcsb_struct_symmetry': [{'clusters': [{'avg_rmsd': 0.8418294327358263,
-E                                                  'members': [{'asym_id': 'A',
-E                                                               'pdbx_struct_oper_list_ids': ['1']},
-E                                                              {'asym_id': 'C',
-E                                                               'pdbx_struct_oper_list_ids': ['1']},
-E                                                              {'asym_id': 'B',
-E                                                               'pdbx_struct_oper_list_ids': ['1']}]}],
-E                                    'kind': 'Global Symmetry',
-E                                    'oligomeric_state': 'Homo 3-mer',
-E                                    'rotation_axes': [{'end': [13.473746075056361,
-E                                                               41.0962265805248,
-E                                                               -5.777587727129287],
-E                                                       'order': 3,
-E                                                       'start': [13.838143875349235,
-E                                                                 28.581996104345052,
-E                                                                 78.43743587115125]}],
-E                                    'stoichiometry': ['A3'],
-E                                    'symbol': 'C3',
-E                                    'type': 'Cyclic'}],
-E          'rcsb_struct_symmetry_lineage': [{'depth': 0,
-E                                            'id': 'Global Symmetry',
-E                                            'name': 'Global Symmetry'},
-E                                           {'depth': 2,
-E                                            'id': 'Global Symmetry.Cyclic.C3',
-E                                            'name': 'C3'},
-E                                           {'depth': 3,
-E                                            'id': 'Global Symmetry.Cyclic.C3.Homo 3-mer',
-E                                            'name': 'Homo 3-mer'},
-E                                           {'depth': 1,
-E                                            'id': 'Global Symmetry.Cyclic',
-E                                            'name': 'Cyclic'}],
-E          'rcsb_struct_symmetry_provenance_code': 'biojava-7.2.2'}
+E       AssertionError: None != [['mm39', 64, 25, 64, 35, 5, 62.5, 87.5, 'chrX', '+-', 17437571, 17437690]]
 
-tests/test_pdb.py:19: AssertionError
-=============================== warnings summary ===============================
-tests/test_blast.py::TestBlast::test_blast_nt
-  /home/runner/work/gget/gget/gget/gget_blast.py:327: FutureWarning: Passing literal html to 'read_html' is deprecated and will be removed in a future version. To read from a literal string, wrap it in a 'StringIO' object.
-    results_df = pd.read_html(str(dsc_table))[0]
+tests/from_json.py:78: AssertionError
+------------------------------ Captured log call -------------------------------
+INFO     gget.utils:gget_blat.py:90 Sequence recognized as amino acid sequence. 'seqtype' will be set as protein.
+ERROR    gget.utils:gget_blat.py:148 
+            BLAT of seqtype 'protein' using assembly 'mm39' was unsuccesful. 
+            Possible causes: 
+            - Sequence possibly too short (required minimum: 20 characters). 
+            - Assembly possibly invalid. All available species with their respective assemblies are listed at https://genome.ucsc.edu/cgi-bin/hgBlat
+________________________ TestBlat.test_blat_aa_protein _________________________
 
-tests/test_cbio.py::TestCbioSearch::test_cbio_search
-tests/test_cbio.py::TestCbioSearch::test_cbio_search
-  /opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/swagger_spec_validator/validator12.py:18: DeprecationWarning: jsonschema.RefResolver is deprecated as of v4.18.0, in favor of the https://github.com/python-jsonschema/referencing library, which provides more compliant referencing behavior as well as more flexible APIs for customization. A future release will remove RefResolver. Please file a feature request (on referencing) if you are missing an API for the kind of customization you need.
-    from jsonschema import RefResolver
+self = <tests.test_blat.TestBlat testMethod=test_blat_aa_protein>
 
-tests/test_cbio.py::TestCbioSearch::test_cbio_search
-  /opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/swagger_spec_validator/ref_validators.py:14: DeprecationWarning: jsonschema.RefResolver is deprecated as of v4.18.0, in favor of the https://github.com/python-jsonschema/referencing library, which provides more compliant referencing behavior as well as more flexible APIs for customization. A future release will remove RefResolver. Please file a feature request (on referencing) if you are missing an API for the kind of customization you need.
-    from jsonschema.validators import RefResolver
+    def assert_equal(self: unittest.TestCase):
+        test = name
+        expected_result = td[test]["expected_result"]
+        result_to_test = do_call(func, td[test]["args"])
+        if test == "test_cosmic_defaults":  # special case for cosmic
+            import numpy as np
+            expected_result = pd.DataFrame(expected_result[0])
+            expected_result = expected_result.replace({None: np.nan})
+            # result_to_test.equals(expected_result)
+            pd.testing.assert_frame_equal(result_to_test, expected_result, check_dtype=False)
+            return
+    
+        # If result is a DataFrame, convert to list
+        if isinstance(result_to_test, pd.DataFrame):
+            result_to_test = result_to_test.dropna(axis=1).values.tolist()
+    
+>       self.assertEqual(result_to_test, expected_result)
+E       AssertionError: None != [['mm39', 64, 25, 64, 35, 5, 62.5, 87.5, 'chrX', '+-', 17437571, 17437690]]
 
-tests/test_cbio.py::TestCbioSearch::test_cbio_search
-  /opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/swagger_spec_validator/validator20.py:18: DeprecationWarning: jsonschema.RefResolver is deprecated as of v4.18.0, in favor of the https://github.com/python-jsonschema/referencing library, which provides more compliant referencing behavior as well as more flexible APIs for customization. A future release will remove RefResolver. Please file a feature request (on referencing) if you are missing an API for the kind of customization you need.
-    from jsonschema.validators import RefResolver
+tests/from_json.py:78: AssertionError
+------------------------------ Captured log call -------------------------------
+ERROR    gget.utils:gget_blat.py:148 
+            BLAT of seqtype 'protein' using assembly 'mm39' was unsuccesful. 
+            Possible causes: 
+            - Sequence possibly too short (required minimum: 20 characters). 
+            - Assembly possibly invalid. All available species with their respective assemblies are listed at https://genome.ucsc.edu/cgi-bin/hgBlat
+____________________________ TestBlat.test_blat_nt _____________________________
 
-tests/test_cbio.py::TestCbioSearch::test_cbio_search
-tests/test_cbio.py::TestCbioSearch::test_cbio_search
-  /opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/bravado_core/swagger20_validator.py:6: DeprecationWarning: jsonschema.RefResolver is deprecated as of v4.18.0, in favor of the https://github.com/python-jsonschema/referencing library, which provides more compliant referencing behavior as well as more flexible APIs for customization. A future release will remove RefResolver. Please file a feature request (on referencing) if you are missing an API for the kind of customization you need.
-    from jsonschema import RefResolver
+self = <tests.test_blat.TestBlat testMethod=test_blat_nt>
 
-tests/test_cbio.py::TestCbioSearch::test_cbio_search
-  /opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/bravado_core/spec.py:14: DeprecationWarning: jsonschema.RefResolver is deprecated as of v4.18.0, in favor of the https://github.com/python-jsonschema/referencing library, which provides more compliant referencing behavior as well as more flexible APIs for customization. A future release will remove RefResolver. Please file a feature request (on referencing) if you are missing an API for the kind of customization you need.
-    from jsonschema.validators import RefResolver
+    def assert_equal(self: unittest.TestCase):
+        test = name
+        expected_result = td[test]["expected_result"]
+        result_to_test = do_call(func, td[test]["args"])
+        if test == "test_cosmic_defaults":  # special case for cosmic
+            import numpy as np
+            expected_result = pd.DataFrame(expected_result[0])
+            expected_result = expected_result.replace({None: np.nan})
+            # result_to_test.equals(expected_result)
+            pd.testing.assert_frame_equal(result_to_test, expected_result, check_dtype=False)
+            return
+    
+        # If result is a DataFrame, convert to list
+        if isinstance(result_to_test, pd.DataFrame):
+            result_to_test = result_to_test.dropna(axis=1).values.tolist()
+    
+>       self.assertEqual(result_to_test, expected_result)
+E       AssertionError: None != [['hg38', 44, 17, 44, 28, 0, 63.64, 100.0, 'chr18', '+', 1952614, 1952647]]
 
-tests/test_cbio.py: 16 warnings
-  /opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/bravado_core/model.py:888: DeprecationWarning: jsonschema.RefResolver.in_scope is deprecated and will be removed in a future release.
-    with spec.resolver.in_scope(additional_uri):
+tests/from_json.py:78: AssertionError
+------------------------------ Captured log call -------------------------------
+INFO     gget.utils:gget_blat.py:82 Sequence recognized as nucleotide sequence. 'seqtype' will be set as DNA.
+ERROR    gget.utils:gget_blat.py:148 
+            BLAT of seqtype 'DNA' using assembly 'hg38' was unsuccesful. 
+            Possible causes: 
+            - Sequence possibly too short (required minimum: 20 characters). 
+            - Assembly possibly invalid. All available species with their respective assemblies are listed at https://genome.ucsc.edu/cgi-bin/hgBlat
+__________________________ TestBlat.test_blat_nt_DNA ___________________________
 
-tests/test_cellxgene.py::TestCellxgene::test_cellxgene_adata
-  /home/runner/work/gget/gget/gget/gget_cellxgene.py:222: FutureWarning: The argument `column_names` is deprecated and will be removed in a future release. Please use `obs_column_names` and `var_column_names` instead.
-    adata = cellxgene_census.get_anndata(
+self = <tests.test_blat.TestBlat testMethod=test_blat_nt_DNA>
 
-tests/test_cellxgene.py::TestCellxgene::test_cellxgene_adata
-tests/test_cellxgene.py::TestCellxgene::test_cellxgene_adata
-  /opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/functools.py:912: ImplicitModificationWarning: Transforming to str index.
-    return dispatch(args[0].__class__)(*args, **kw)
+    def assert_equal(self: unittest.TestCase):
+        test = name
+        expected_result = td[test]["expected_result"]
+        result_to_test = do_call(func, td[test]["args"])
+        if test == "test_cosmic_defaults":  # special case for cosmic
+            import numpy as np
+            expected_result = pd.DataFrame(expected_result[0])
+            expected_result = expected_result.replace({None: np.nan})
+            # result_to_test.equals(expected_result)
+            pd.testing.assert_frame_equal(result_to_test, expected_result, check_dtype=False)
+            return
+    
+        # If result is a DataFrame, convert to list
+        if isinstance(result_to_test, pd.DataFrame):
+            result_to_test = result_to_test.dropna(axis=1).values.tolist()
+    
+>       self.assertEqual(result_to_test, expected_result)
+E       AssertionError: None != [['hg38', 44, 17, 44, 28, 0, 63.64, 100.0, 'chr18', '+', 1952614, 1952647]]
 
-tests/test_cosmic.py::TestCosmicWorkflow::test_cosmic_defaults
-  /home/runner/work/gget/gget/gget/gget_cosmic.py:183: DeprecationWarning: Python 3.14 will, by default, filter extracted tar archives and reject files or modify their metadata. Use the filter argument to control this behavior.
-    tar.extractall(path=tar_folder_path)
+tests/from_json.py:78: AssertionError
+------------------------------ Captured log call -------------------------------
+ERROR    gget.utils:gget_blat.py:148 
+            BLAT of seqtype 'DNA' using assembly 'hg38' was unsuccesful. 
+            Possible causes: 
+            - Sequence possibly too short (required minimum: 20 characters). 
+            - Assembly possibly invalid. All available species with their respective assemblies are listed at https://genome.ucsc.edu/cgi-bin/hgBlat
+_________________________ TestBlat.test_blat_nt_fasta __________________________
 
-tests/test_mutate.py: 29 warnings
-  /home/runner/work/gget/gget/gget/gget_mutate.py:663: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
-    mask = mutations[mut_column].str.contains(combined_pattern)
+self = <tests.test_blat.TestBlat testMethod=test_blat_nt_fasta>
 
-tests/test_ref.py: 22 warnings
-tests/test_utils.py: 1 warning
-  /home/runner/work/gget/gget/gget/utils.py:924: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
-    for subsoup in soup.body.findAll("a"):
+    def assert_equal(self: unittest.TestCase):
+        test = name
+        expected_result = td[test]["expected_result"]
+        result_to_test = do_call(func, td[test]["args"])
+        if test == "test_cosmic_defaults":  # special case for cosmic
+            import numpy as np
+            expected_result = pd.DataFrame(expected_result[0])
+            expected_result = expected_result.replace({None: np.nan})
+            # result_to_test.equals(expected_result)
+            pd.testing.assert_frame_equal(result_to_test, expected_result, check_dtype=False)
+            return
+    
+        # If result is a DataFrame, convert to list
+        if isinstance(result_to_test, pd.DataFrame):
+            result_to_test = result_to_test.dropna(axis=1).values.tolist()
+    
+>       self.assertEqual(result_to_test, expected_result)
+E       AssertionError: None != [['taeGut2', 63, 1, 63, 63, 0, 100.0, 100[108 chars]346]]
 
-tests/test_ref.py: 39 warnings
-  /home/runner/work/gget/gget/gget/gget_ref.py:43: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
-    links = [stuff.text.strip() for stuff in soup.findAll("td")]
-
-tests/test_ref.py::TestRef::test_ref
-tests/test_ref.py::TestRef::test_ref_ftp
-  /home/runner/work/gget/gget/gget/gget_ref.py:350: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
-    links = [stuff.text.strip() for stuff in soup.findAll("td")]
-
-tests/test_ref.py: 32 warnings
-tests/test_utils.py: 4 warnings
-  /home/runner/work/gget/gget/gget/utils.py:899: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
-    for subsoup in soup.body.findAll("a"):
-
-tests/test_ref.py: 7 warnings
-tests/test_search.py: 44 warnings
-  /home/runner/work/gget/gget/gget/utils.py:845: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
-    for subsoup in soup.body.findAll("a"):
-
-tests/test_search.py: 10 warnings
-  /home/runner/work/gget/gget/gget/gget_search.py:244: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
-    df_temp = pd.read_sql(query, con=db_connection)
-
-tests/test_search.py: 9 warnings
-tests/test_utils.py: 1 warning
-  /home/runner/work/gget/gget/gget/utils.py:822: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
-    for subsoup in soup.body.findAll("a"):
-
-tests/test_search.py: 36 warnings
-tests/test_utils.py: 4 warnings
-  /home/runner/work/gget/gget/gget/utils.py:804: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
-    for subsoup in soup.body.findAll("a"):
-
-tests/test_search.py::TestSearch::test_search_gene_two_sw_limit
-tests/test_search.py::TestSearch::test_search_transcript_one_sw
-tests/test_search.py::TestSearch::test_search_transcript_two_sw_and
-tests/test_search.py::TestSearch::test_search_transcript_two_sw_or
-  /home/runner/work/gget/gget/gget/gget_search.py:279: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
-    df_temp = pd.read_sql(query, con=db_connection)
-
--- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-================================ tests coverage ================================
-_______________ coverage: platform linux, python 3.12.13-final-0 _______________
-
-Name                       Stmts   Miss  Cover   Missing
---------------------------------------------------------
-gget/__init__.py              35      2    94%   34-35
-gget/__main__.py               2      2     0%   1-3
-gget/compile.py               39     27    31%   30-84
-gget/constants.py             34      0   100%
-gget/gget_8cube.py            83     28    66%   26-27, 34-43, 93, 105, 112, 115-118, 158, 175, 182, 185-188, 229, 246, 255, 258-261
-gget/gget_alphafold.py       362    321    11%   86-108, 115-116, 123-149, 181-186, 233-867
-gget/gget_archs4.py           79     13    84%   75-78, 84, 107, 123-126, 139-142, 148, 170, 198-201, 207
-gget/gget_bgee.py             56      6    89%   60, 83, 103, 130, 154, 175
-gget/gget_blast.py           127     36    72%   92, 124-142, 163-165, 204, 207, 246-248, 296-299, 302-303, 322-325, 332-333, 336-341, 346, 351-354
-gget/gget_blat.py             86     10    88%   58-62, 95, 136, 139, 168, 232-233, 239
-gget/gget_cbio.py            524    400    24%   28, 39-67, 77-87, 136-137, 143, 154-157, 161, 164, 172-177, 208, 226, 265, 271-275, 278, 282-294, 296, 322-331, 334, 376-389, 393-416, 420-441, 447-450, 454-473, 477, 494-537, 540-757, 760-789, 802-1164, 1218-1254
-gget/gget_cellxgene.py        53      9    83%   21-22, 140-149, 176, 215, 231, 247
-gget/gget_cosmic.py          277    198    29%   24-26, 30-82, 94-109, 112-114, 117-119, 122-126, 131-135, 140-142, 155-168, 189-202, 215-249, 256-313, 396-398, 410, 416, 424, 427-429, 454-472, 496-621, 637-646, 649, 651, 653, 851-904
-gget/gget_diamond.py          98     26    73%   16, 69, 75, 77, 95, 98-99, 105, 111, 117-121, 130-132, 145, 147, 160, 162, 181, 184, 216-217, 223
-gget/gget_elm.py             158     22    86%   128, 278, 301, 325-332, 353, 420-423, 426, 436, 490, 503, 506-515, 519-520
-gget/gget_enrichr.py         213     42    80%   39-42, 48, 172, 226-237, 254-255, 263-264, 290, 310, 316-322, 336, 364-374, 403-418, 439, 451-453, 555, 564-565, 575-576, 583
-gget/gget_gpt.py              20      6    70%   56-65, 88, 110-111
-gget/gget_info.py            316    106    66%   58-59, 63-64, 150-152, 161-162, 175, 201-206, 213-216, 242, 255-266, 300-308, 324-342, 368-369, 453-454, 461-462, 465-466, 469-470, 473-474, 507-508, 511-512, 515-516, 543-544, 547-548, 551-552, 575-576, 579-673, 677
-gget/gget_muscle.py           85     12    86%   17, 45, 68-69, 78-80, 91, 94, 115, 162-163
-gget/gget_mutate.py          434    193    56%   124-175, 186, 190-198, 215-226, 274-278, 283-287, 291-296, 300-305, 309-312, 317-320, 324-334, 340-350, 493, 516-520, 528, 538-542, 553-557, 576, 583, 593-600, 611, 616, 624, 635, 730-741, 855-879, 891-904, 948-985, 1032-1050, 1053-1056, 1070-1077, 1083-1093, 1109-1110, 1147, 1152, 1156, 1160, 1165-1241, 1255-1258, 1299, 1308-1324, 1332-1336, 1341, 1349, 1353
-gget/gget_opentargets.py     148     24    84%   75, 91, 104-106, 136-142, 147-149, 154-155, 184, 186, 192-195, 199-205, 285, 385-386
-gget/gget_pdb.py              60     22    63%   52, 58, 67, 75, 83, 104, 108-110, 113-129, 141-147
-gget/gget_ref.py             215     57    73%   32, 97-98, 117-118, 124-152, 161, 174, 176, 178-179, 186-187, 225, 244, 256-258, 279-281, 308-310, 329-331, 384-386, 485-494, 507, 512-513, 529-534, 538, 542, 548, 553-554
-gget/gget_search.py          142     23    84%   84-87, 96, 113, 117, 125, 149-150, 157, 165-171, 213-222, 308-309, 315-316, 368-369, 376-377, 385
-gget/gget_seq.py             146     24    84%   44-47, 49, 119, 140-143, 177-178, 207-208, 245-248, 271-272, 293, 312-315, 334, 356, 365, 402-405
-gget/gget_setup.py           215    149    31%   49-90, 108, 113, 116, 128-138, 152, 175-176, 189, 199, 209, 221-466
-gget/gget_virus.py          2921   1659    43%   138, 198, 239-247, 261, 265, 276-277, 318-322, 327-341, 348, 359-360, 378-383, 398-414, 427-428, 463-502, 555, 679-680, 684, 742, 748-749, 753-783, 792, 796-799, 807, 810, 814-822, 861-892, 965-966, 1018-1020, 1070-1222, 1247-1248, 1268-1531, 1540-1541, 1583-1680, 1705-1706, 1739-1740, 1773-2003, 2025-2074, 2127-2280, 2328-2440, 2494-2601, 2635, 2642-2643, 2711, 2730-2752, 2768-2770, 2816, 2847, 2870, 2879-2933, 2941, 2944-2945, 2952-2954, 2965-2979, 3007-3015, 3051, 3102-3109, 3192-3193, 3237, 3243-3249, 3260, 3277-3283, 3295-3301, 3332, 3339-3340, 3346-3347, 3495, 3510-3511, 3515-3517, 3554, 3557-3558, 3560-3562, 3598, 3601-3602, 3604-3606, 3618-3621, 3630-3638, 3642-3650, 3654-3667, 3671-3687, 3691-3704, 3708-3716, 3719-3723, 3734-3737, 3756-3757, 3811-3814, 3980-3982, 4012-4014, 4047, 4050, 4062-4063, 4092-4093, 4097-4105, 4109-4126, 4136, 4139, 4143-4147, 4190-4192, 4223, 4233-4298, 4400, 4437-4443, 4453, 4482-4485, 4512-4515, 4531, 4534-4535, 4600, 4643, 4655-4658, 4823-4825, 4862-5028, 5097, 5135-5137, 5151-5165, 5169-5179, 5183-5187, 5200-5204, 5208-5221, 5245-5248, 5251-5253, 5267-5270, 5273-5275, 5288-5318, 5322-5341, 5353-5356, 5359-5362, 5367-5385, 5389-5399, 5405-5407, 5418-5480, 5485-5516, 5529-5536, 5650, 5684-5688, 5725, 5729-5730, 5770, 5785, 5799-5800, 5845-5847, 5881, 5883-5922, 5930, 5932-5970, 5981-6019, 6062, 6081, 6086-6103, 6107-6134, 6137-6153, 6170-6171, 6217-6234, 6245-6246, 6255-6279, 6284, 6327, 6340-6342, 6351-6356, 6385-6399, 6422-6431, 6464-6467, 6487-6637, 6652-6653, 6659-6672, 6674, 6677-6680, 6683-6687, 6700
-gget/main.py                 857    857     0%   1-3872
-gget/utils.py                448     80    82%   31, 36-42, 72, 95, 119, 122, 186, 193, 245, 257, 285, 296, 347, 367, 378, 411-412, 452-453, 468-469, 476-478, 494-495, 501-502, 623-639, 647-650, 676, 695, 757, 797, 837, 953, 961, 969-989, 994, 999, 1005-1006, 1024-1025, 1116, 1140-1141, 1156, 1164
---------------------------------------------------------
-TOTAL                       8233   4354    47%
+tests/from_json.py:78: AssertionError
+------------------------------ Captured log call -------------------------------
+INFO     gget.utils:gget_blat.py:52 File contains more than one sequence. Only the first sequence will be submitted to BLAT.
+INFO     gget.utils:gget_blat.py:82 Sequence recognized as nucleotide sequence. 'seqtype' will be set as DNA.
+ERROR    gget.utils:gget_blat.py:148 
+            BLAT of seqtype 'DNA' using assembly 'taeGut2' was unsuccesful. 
+            Possible causes: 
+            - Sequence possibly too short (required minimum: 20 characters). 
+            - Assembly possibly invalid. All available species with their respective assemblies are listed at https://genome.ucsc.edu/cgi-bin/hgBlat
 ============================= slowest 10 durations =============================
-427.71s call     tests/test_blast.py::TestBlast::test_blast_nt
-44.23s call     tests/test_search.py::TestSearch::test_search_gene_two_sw_limit
-36.27s call     tests/test_cellxgene.py::TestCellxgene::test_cellxgene_adata
-32.50s call     tests/test_virus.py::TestVirus::test_virus_with_source_database_filter
-32.11s call     tests/test_virus.py::TestVirus::test_virus_with_has_proteins_filter
-30.59s call     tests/test_virus.py::TestVirus::test_virus_integer_virus_id
-28.88s call     tests/test_virus.py::TestVirus::test_virus_with_max_ambiguous_chars_filter
-27.70s call     tests/test_virus.py::TestVirus::test_virus_with_lab_passaged_filter
-27.10s call     tests/test_virus.py::TestVirus::test_virus_with_protein_count_filters
-25.08s call     tests/test_virus.py::TestVirus::test_virus_with_annotated_filter
+74.22s call     tests/test_blast.py::TestBlast::test_blast_nt
+35.25s call     tests/test_bgee.py::TestBgee::test_bgee_expression_multiple
+16.90s call     tests/test_bgee.py::TestBgee::test_bgee_orthologs
+13.30s call     tests/test_bgee.py::TestBgee::test_bgee_expression
+5.57s call     tests/test_8cube.py::TestSpecificity::test_specificity_basic
+3.53s call     tests/test_archs4.py::TestArchs4::test_archs4_mouse_json_ensembl
+3.30s call     tests/test_archs4.py::TestArchs4::test_archs4_bad_ensembl
+3.21s call     tests/test_archs4.py::TestArchs4::test_archs4_bad_gene
+3.13s call     tests/test_archs4.py::TestArchs4::test_archs4_defaults
+2.16s call     tests/test_bgee.py::TestBgee::test_error_bgee_expression_no_exist
 =========================== short test summary info ============================
-ERROR tests/test_cosmic.py::TestCosmicWorkflow::test_cosmic_defaults - FileNotFoundError: Expected COSMIC files were not found after download.
-FAILED tests/test_pdb.py::TestPDB::test_pdb_assembly - AssertionError: {'pdb[458 chars]atrix_1_1': 1.0, 'matrix_1_2': 0.0, 'matrix_1_[2910 chars]2.2'} != {'pdb[458 chars]atrix11': 1.0, 'matrix12': 0.0, 'matrix13': 0.[2864 chars]2.2'}
-  {'pdbx_struct_assembly': {'details': 'author_and_software_defined_assembly',
-                            'id': '1',
-                            'method_details': 'PISA',
-                            'oligomeric_count': 3,
-                            'oligomeric_details': 'trimeric',
-                            'rcsb_candidate_assembly': 'Y',
-                            'rcsb_details': 'author_and_software_defined_assembly'},
-   'pdbx_struct_assembly_gen': [{'assembly_id': '1',
-                                 'asym_id_list': ['A',
-                                                  'B',
-                                                  'C',
-                                                  'G',
-                                                  'H',
-                                                  'I',
-                                                  'J',
-                                                  'K',
-                                                  'O',
-                                                  'P',
-                                                  'Q'],
-                                 'oper_expression': '1',
-                                 'ordinal': 1}],
-   'pdbx_struct_oper_list': [{'id': '1',
--                             'matrix_1_1': 1.0,
-?                                    - -
-
-+                             'matrix11': 1.0,
--                             'matrix_1_2': 0.0,
-?                                    - -
-
-+                             'matrix12': 0.0,
--                             'matrix_1_3': 0.0,
-?                                    - -
-
-+                             'matrix13': 0.0,
--                             'matrix_2_1': 0.0,
-?                                    - -
-
-+                             'matrix21': 0.0,
--                             'matrix_2_2': 1.0,
-?                                    - -
-
-+                             'matrix22': 1.0,
--                             'matrix_2_3': 0.0,
-?                                    - -
-
-+                             'matrix23': 0.0,
--                             'matrix_3_1': 0.0,
-?                                    - -
-
-+                             'matrix31': 0.0,
--                             'matrix_3_2': 0.0,
-?                                    - -
-
-+                             'matrix32': 0.0,
--                             'matrix_3_3': 1.0,
-?                                    - -
-
-+                             'matrix33': 1.0,
-                              'name': '1_555',
-                              'symmetry_operation': 'x,y,z',
-                              'type': 'identity operation',
--                             'vector_1': 0.0,
-?                                    -
-
-+                             'vector1': 0.0,
--                             'vector_2': 0.0,
-?                                    -
-
-+                             'vector2': 0.0,
--                             'vector_3': 0.0}],
-?                                    -
-
-+                             'vector3': 0.0}],
-   'rcsb_assembly_container_identifiers': {'assembly_id': '1',
-                                           'entry_id': '1RH7',
-                                           'interface_ids': ['1', '2', '3'],
-                                           'rcsb_id': '1RH7-1'},
-   'rcsb_assembly_info': {'assembly_id': '1',
-                          'atom_count': 1762,
-                          'branched_atom_count': 0,
-                          'branched_entity_count': 0,
-                          'branched_entity_instance_count': 0,
-                          'deuterated_water_count': 0,
-                          'entry_id': '1RH7',
--                         'formula_weight': 27.08,
-                          'hydrogen_atom_count': 0,
-                          'modeled_polymer_monomer_count': 243,
-                          'na_polymer_entity_types': 'Other',
-                          'nonpolymer_atom_count': 29,
-                          'nonpolymer_entity_count': 2,
-                          'nonpolymer_entity_instance_count': 5,
-                          'num_heterologous_interface_entities': 0,
-                          'num_heteromeric_interface_entities': 0,
-                          'num_homomeric_interface_entities': 1,
-                          'num_interface_entities': 1,
-                          'num_interfaces': 3,
-                          'num_isologous_interface_entities': 1,
-                          'num_na_interface_entities': 0,
-                          'num_prot_na_interface_entities': 0,
-                          'num_protein_interface_entities': 1,
-                          'polymer_atom_count': 1658,
-                          'polymer_composition': 'homomeric protein',
-                          'polymer_entity_count': 1,
--                         'polymer_entity_count_DNA': 0,
-?                                               ^^^
-
-+                         'polymer_entity_count_dna': 0,
-?                                               ^^^
-
--                         'polymer_entity_count_RNA': 0,
-                          'polymer_entity_count_nucleic_acid': 0,
-                          'polymer_entity_count_nucleic_acid_hybrid': 0,
-                          'polymer_entity_count_protein': 1,
-+                         'polymer_entity_count_rna': 0,
-                          'polymer_entity_instance_count': 3,
--                         'polymer_entity_instance_count_DNA': 0,
-?                                                        ^^^
-
-+                         'polymer_entity_instance_count_dna': 0,
-?                                                        ^^^
-
--                         'polymer_entity_instance_count_RNA': 0,
-                          'polymer_entity_instance_count_nucleic_acid': 0,
-                          'polymer_entity_instance_count_nucleic_acid_hybrid': 0,
-                          'polymer_entity_instance_count_protein': 3,
-+                         'polymer_entity_instance_count_rna': 0,
-                          'polymer_monomer_count': 243,
-                          'selected_polymer_entity_types': 'Protein (only)',
-                          'solvent_atom_count': 75,
-                          'solvent_entity_count': 1,
-                          'solvent_entity_instance_count': 3,
-                          'total_assembly_buried_surface_area': 2316.9225073146845,
-                          'total_number_interface_residues': 160,
-                          'unmodeled_polymer_monomer_count': 0},
-   'rcsb_id': '1RH7-1',
-   'rcsb_struct_symmetry': [{'clusters': [{'avg_rmsd': 0.8418294327358263,
-                                           'members': [{'asym_id': 'A',
-                                                        'pdbx_struct_oper_list_ids': ['1']},
-                                                       {'asym_id': 'C',
-                                                        'pdbx_struct_oper_list_ids': ['1']},
-                                                       {'asym_id': 'B',
-                                                        'pdbx_struct_oper_list_ids': ['1']}]}],
-                             'kind': 'Global Symmetry',
-                             'oligomeric_state': 'Homo 3-mer',
-                             'rotation_axes': [{'end': [13.473746075056361,
-                                                        41.0962265805248,
-                                                        -5.777587727129287],
-                                                'order': 3,
-                                                'start': [13.838143875349235,
-                                                          28.581996104345052,
-                                                          78.43743587115125]}],
-                             'stoichiometry': ['A3'],
-                             'symbol': 'C3',
-                             'type': 'Cyclic'}],
-   'rcsb_struct_symmetry_lineage': [{'depth': 0,
-                                     'id': 'Global Symmetry',
-                                     'name': 'Global Symmetry'},
-                                    {'depth': 2,
-                                     'id': 'Global Symmetry.Cyclic.C3',
-                                     'name': 'C3'},
-                                    {'depth': 3,
-                                     'id': 'Global Symmetry.Cyclic.C3.Homo 3-mer',
-                                     'name': 'Homo 3-mer'},
-                                    {'depth': 1,
-                                     'id': 'Global Symmetry.Cyclic',
-                                     'name': 'Cyclic'}],
-   'rcsb_struct_symmetry_provenance_code': 'biojava-7.2.2'}
-====== 1 failed, 254 passed, 272 warnings, 1 error in 1165.57s (0:19:25) =======
+FAILED tests/test_blat.py::TestBlat::test_blat_aa - AssertionError: None != [['mm39', 64, 25, 64, 35, 5, 62.5, 87.5, 'chrX', '+-', 17437571, 17437690]]
+FAILED tests/test_blat.py::TestBlat::test_blat_aa_protein - AssertionError: None != [['mm39', 64, 25, 64, 35, 5, 62.5, 87.5, 'chrX', '+-', 17437571, 17437690]]
+FAILED tests/test_blat.py::TestBlat::test_blat_nt - AssertionError: None != [['hg38', 44, 17, 44, 28, 0, 63.64, 100.0, 'chr18', '+', 1952614, 1952647]]
+FAILED tests/test_blat.py::TestBlat::test_blat_nt_DNA - AssertionError: None != [['hg38', 44, 17, 44, 28, 0, 63.64, 100.0, 'chr18', '+', 1952614, 1952647]]
+FAILED tests/test_blat.py::TestBlat::test_blat_nt_fasta - AssertionError: None != [['taeGut2', 63, 1, 63, 63, 0, 100.0, 100[108 chars]346]]
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 5 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+=================== 5 failed, 34 passed in 175.41s (0:02:55) ===================

@@ -1,7 +1,11 @@
 [<kbd> View page source on GitHub </kbd>](https://github.com/pachterlab/gget/blob/main/docs/src/en/updates.md)
 
 ## ✨ What's new
-**Version ≥ 0.30.6** (XXX XX, 2026):
+**Version ≥ 0.30.6** (Jun 08, 2026):
+- [`gget blat`](blat.md): Improved resilience against UCSC BLAT endpoint failures (fixes intermittently failing tests).
+  - Added retry-with-exponential-backoff for transient failures (HTTP 429/5xx, network errors, and non-JSON 200 responses caused by UCSC rate-limiting or HTML error pages). Up to 4 attempts with 1.5s → 3s → 6s backoff.
+  - Replaced the misleading "sequence too short or assembly invalid" message with the actual server response (status code, response preview) so failures are diagnosable.
+  - `HTTPError` and `URLError` are now caught explicitly instead of bubbling up as unhandled exceptions.
 - Bug fixes:
   - [`gget cosmic`](cosmic.md): Fixed misleading error message when the download step fails — was reporting the previous command's return code/stderr instead of the failing command's.
   - [`gget cosmic`](cosmic.md): Narrowed the JSON parse exception handler to `json.JSONDecodeError` so unrelated `ValueError`s are no longer masked by the "Failed to download file" message.

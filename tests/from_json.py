@@ -4,6 +4,7 @@ import unittest
 unittest.TestCase.maxDiff = 10_000
 
 # from typing import Callable, Any, Optional, Union
+import logging
 import pandas as pd
 import sys
 import json
@@ -99,12 +100,31 @@ def _assert_none(name, td, func):
         test = name
         expected_result = td[test].get("expected_result", None)
         msg = td[test].get("msg", None)
-        result_to_test = do_call(func, td[test]["args"])
+        expected_log = td[test].get("expected_log", None)
 
         self.assertIsNone(
             expected_result,
             "assert_none test must not have a non-null expected_result key.",
         )
+
+        if expected_log is not None:
+            # Captures logs across all loggers, so the function under test
+            # cannot silently return None for the wrong reason (e.g. a
+            # rate-limited HTML response from an upstream API).
+            with self.assertLogs(level=logging.DEBUG) as captured:
+                result_to_test = do_call(func, td[test]["args"])
+            joined = "\n".join(captured.output)
+            self.assertIn(
+                expected_log,
+                joined,
+                msg=(
+                    f"Expected log substring {expected_log!r} not found. "
+                    f"Captured: {joined}"
+                ),
+            )
+        else:
+            result_to_test = do_call(func, td[test]["args"])
+
         self.assertIsNone(result_to_test, msg=msg)
 
     return assert_none

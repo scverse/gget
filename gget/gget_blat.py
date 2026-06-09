@@ -1,11 +1,17 @@
 import json as json_package
+import time
 from json.decoder import JSONDecodeError
 import pandas as pd
 from urllib import request
+from urllib.error import HTTPError, URLError
 
 from .utils import set_up_logger, read_fasta
 
 logger = set_up_logger()
+
+# Retry settings for transient UCSC failures (rate limits, HTML error pages, 5xx)
+_BLAT_MAX_ATTEMPTS = 4
+_BLAT_BACKOFF_BASE_SECONDS = 1.5
 
 
 def blat(
@@ -121,38 +127,8 @@ def blat(
     # Define server URL
     url = f"https://genome.ucsc.edu/cgi-bin/hgBlat?userSeq={sequence}&type={seqtype}&db={database}&output=json"
 
-    # Submit URL request
-    req = request.Request(
-            url,
-            headers={
-                "User-Agent": "gget"
-            }
-        )
-    r = request.urlopen(req)
-
-    # Get status code (in a way that is stable across Python versions)
-    code = getattr(r, "status", None)
-    if code is None:
-        code = r.getcode()
-
-    if code != 200:
-        raise RuntimeError(
-            f"HTTP response status code {code}. "
-            "Please double-check arguments and try again.\n"
-        )
-
-    try:
-        # Read json results into a dictionary
-        results = json_package.load(r)
-    except JSONDecodeError:
-        logger.error(
-            f"""
-            BLAT of seqtype '{seqtype}' using assembly '{database}' was unsuccesful. 
-            Possible causes: 
-            - Sequence possibly too short (required minimum: 20 characters). 
-            - Assembly possibly invalid. All available species with their respective assemblies are listed at https://genome.ucsc.edu/cgi-bin/hgBlat
-            """
-        )
+    results = _fetch_blat_results(url, seqtype, database)
+    if results is None:
         return
 
     if len(results["blat"]) == 0:
@@ -239,3 +215,95 @@ def blat(
             df.to_csv("gget_blat_results.csv", index=False)
 
         return df
+
+
+class _RetryableBlatError(Exception):
+    """Raised when a BLAT attempt failed in a way that may succeed on retry."""
+
+
+def _fetch_blat_results(url, seqtype, database):
+    """
+    Submit a BLAT request to UCSC and return the parsed JSON dict, or None
+    on a non-recoverable failure. Retries transient failures (5xx, network
+    errors, non-JSON responses from rate-limiting / HTML error pages) with
+    exponential backoff. The legacy "sequence too short or assembly invalid"
+    message is replaced with the actual server response so failures are
+    diagnosable.
+    """
+    last_error = None
+    for attempt in range(1, _BLAT_MAX_ATTEMPTS + 1):
+        try:
+            return _fetch_blat_attempt(url, seqtype, database)
+        except _RetryableBlatError as e:
+            last_error = str(e)
+            if attempt < _BLAT_MAX_ATTEMPTS:
+                delay = _BLAT_BACKOFF_BASE_SECONDS * (2 ** (attempt - 1))
+                logger.warning(
+                    f"BLAT attempt {attempt}/{_BLAT_MAX_ATTEMPTS} failed ({last_error}). "
+                    f"Retrying in {delay:.1f}s."
+                )
+                time.sleep(delay)
+
+    logger.error(
+        f"BLAT of seqtype '{seqtype}' using assembly '{database}' failed after "
+        f"{_BLAT_MAX_ATTEMPTS} attempts. Last error: {last_error}. "
+        f"If the sequence is shorter than 20 characters or the assembly is invalid, "
+        f"see https://genome.ucsc.edu/cgi-bin/hgBlat."
+    )
+    return None
+
+
+def _fetch_blat_attempt(url, seqtype, database):
+    """One BLAT attempt. Raises _RetryableBlatError on transient failures."""
+    req = request.Request(url, headers={"User-Agent": "gget"})
+
+    try:
+        r = request.urlopen(req)
+    except HTTPError as e:
+        body = _safe_read_preview(e)
+        # 5xx and 429 are transient; 4xx (other) are not.
+        if e.code >= 500 or e.code == 429:
+            raise _RetryableBlatError(f"HTTP {e.code} {e.reason}: {body!r}") from e
+        logger.error(
+            f"BLAT request failed: HTTP {e.code} {e.reason}. "
+            f"seqtype='{seqtype}', assembly='{database}'. "
+            f"Response preview: {body!r}"
+        )
+        return None
+    except URLError as e:
+        raise _RetryableBlatError(f"network error ({e.reason})") from e
+
+    code = getattr(r, "status", None)
+    if code is None:
+        code = r.getcode()
+
+    if code != 200:
+        raise RuntimeError(
+            f"HTTP response status code {code}. "
+            "Please double-check arguments and try again.\n"
+        )
+
+    raw = r.read()
+    try:
+        return json_package.loads(raw)
+    except JSONDecodeError:
+        preview = _preview_bytes(raw)
+        # Non-JSON from a 200 response is almost always an HTML error / throttle
+        # page from UCSC, which is worth retrying.
+        raise _RetryableBlatError(f"non-JSON response: {preview!r}")
+
+
+def _safe_read_preview(response, limit=300):
+    try:
+        return _preview_bytes(response.read(), limit=limit)
+    except Exception:
+        return ""
+
+
+def _preview_bytes(raw, limit=300):
+    if isinstance(raw, bytes):
+        raw = raw.decode("utf-8", errors="replace")
+    raw = raw.strip()
+    if len(raw) > limit:
+        return raw[:limit] + "..."
+    return raw
