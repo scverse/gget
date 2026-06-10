@@ -5,7 +5,7 @@
 [![Powered by NumFOCUS](https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat&colorA=E1523D&colorB=007D8A)](https://numfocus.org/)
 [![GitHub stars](https://img.shields.io/github/stars/scverse/gget?style=social)](https://github.com/scverse/gget)
 
-[<img align="right" width="60%" height="60%" src="https://github.com/pachterlab/gget/blob/main/docs/assets/website_v2_gget_overview.png?raw=true" />](https://raw.githubusercontent.com/pachterlab/gget/main/figures/gget_overview.png)
+[<img align="right" width="65%" height="65%" src="https://github.com/pachterlab/gget/blob/main/docs/assets/website_v2_gget_overview.png?raw=true" />](https://raw.githubusercontent.com/pachterlab/gget/main/figures/gget_overview.png)
 
 # ¡Bienvenidos!
   
@@ -15,16 +15,10 @@
 <br>
 `gget` es parte del proyecto [scverse®](https://scverse.org) y está patrocinado fiscalmente por [NumFOCUS](https://numfocus.org/). Si te gusta `gget` y quieres apoyar nuestra misión, por favor considera hacer una [donación](https://opencollective.com/scverse/projects/scverse-gget/donate?interval=oneTime&amount=20&contributeAs=me) deducible de impuestos.
 
-<br>
-
 > Nota: Las bases de datos consultadas por `gget` se actualizan continuamente y pueden cambiar su estructura. Los módulos de `gget` se [prueban automáticamente](https://github.com/pachterlab/gget/blob/main/tests/pytest_results_py3.12.txt) dos veces por semana y se actualizan cuando es necesario. Si encuentras un problema, primero actualiza a la versión más reciente con `pip install --upgrade gget`. Si el problema persiste, por favor [repórtalo](https://github.com/pachterlab/gget/issues/new/choose).
-
-<br>
 
 ¿Falta alguna base de datos o funcionalidad que te gustaría ver?
 [<kbd> <br> Solicitar una nueva función <br> </kbd>](https://github.com/pachterlab/gget/issues/new/choose)
-
-<br>
 
 # Módulos gget
 
