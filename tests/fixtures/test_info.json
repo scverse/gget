@@ -18,7 +18,6 @@
                     "aaim-1",
                     "dop-3"
                 ],
-                "aaim-1-201",
                 [],
                 "WBGene00043981",
                 [
@@ -115,7 +114,7 @@
         },
         "expected_result": [
             [
-                "EnsMUSG00000000001.5",
+                "EnsMUSG00000000001.6",
                 "Q9DC51",
                 "14679",
                 "mus_musculus",
@@ -138,27 +137,81 @@
                 ],
                 "Gene",
                 "protein_coding",
-                "ENSMUST00000000001.5",
+                "ENSMUST00000000001.6",
                 "3",
                 -1,
-                108014596,
-                108053462,
+                108014590,
+                108053469,
                 [
-                    "ENSMUST00000000001.5"
+                    "ENSMUST00000000001.6",
+                    "ENSMUST00000535596.1",
+                    "ENSMUST00000535597.1",
+                    "ENSMUST00000535598.1",
+                    "ENSMUST00000535599.1",
+                    "ENSMUST00000535600.1",
+                    "ENSMUST00000535601.1",
+                    "ENSMUST00000535602.1",
+                    "ENSMUST00000535603.1",
+                    "ENSMUST00000558104.1"
                 ],
                 [
-                    "protein_coding"
+                    "protein_coding",
+                    "protein_coding",
+                    "protein_coding",
+                    "nonsense_mediated_decay",
+                    "protein_coding",
+                    "nonsense_mediated_decay",
+                    "nonsense_mediated_decay",
+                    "protein_coding",
+                    "nonsense_mediated_decay",
+                    "nonsense_mediated_decay"
                 ],
                 [
-                    "Gnai3-201"
+                    "Gnai3-201",
+                    "Gnai3-202",
+                    "Gnai3-203",
+                    "Gnai3-204",
+                    "Gnai3-205",
+                    "Gnai3-206",
+                    "Gnai3-207",
+                    "Gnai3-208",
+                    "Gnai3-209",
+                    "Gnai3-210"
                 ],
                 [
+                    -1,
+                    -1,
+                    -1,
+                    -1,
+                    -1,
+                    -1,
+                    -1,
+                    -1,
+                    -1,
                     -1
                 ],
                 [
+                    108014596,
+                    108014596,
+                    108014597,
+                    108014597,
+                    108014592,
+                    108014597,
+                    108014590,
+                    108014613,
+                    108014611,
                     108014596
                 ],
                 [
+                    108053469,
+                    108053469,
+                    108053469,
+                    108053453,
+                    108053469,
+                    108053443,
+                    108053435,
+                    108053469,
+                    108053426,
                     108053462
                 ]
             ]
@@ -177,7 +230,7 @@
                 "macaca_mulatta",
                 "Mmul_10",
                 "CCDC13",
-                "coiled-coil domain containing 13 [Source:UniProtKB Gene Name;Acc:F7D2F4]",
+                "coiled-coil domain containing 13 [Source:HGNC Symbol;Acc:HGNC:26358]",
                 "Gene",
                 "protein_coding",
                 "ENSMMUT00000029894.4",
@@ -268,7 +321,7 @@
         },
         "expected_result": [
             [
-                "ENSMUst00000000001.5",
+                "ENSMUst00000000001.6",
                 "Q9DC51",
                 "mus_musculus",
                 "GRCm39",
@@ -288,9 +341,9 @@
                 "3",
                 -1,
                 108014596,
-                108053462,
+                108053469,
                 [
-                    "ENSMUSE00000334714.4",
+                    "ENSMUSE00002195087.1",
                     "ENSMUSE00000276500.2",
                     "ENSMUSE00000276490.2",
                     "ENSMUSE00000276482.2",
@@ -312,7 +365,7 @@
                     108014596
                 ],
                 [
-                    108053462,
+                    108053469,
                     108031153,
                     108030999,
                     108025774,
@@ -323,7 +376,7 @@
                     108016632
                 ],
                 [
-                    "ENSMUSE00000334714.4",
+                    "ENSMUSE00002195087.1",
                     "ENSMUSE00000276500.2",
                     "ENSMUSE00000276490.2",
                     "ENSMUSE00000276482.2",
@@ -345,7 +398,7 @@
                     108014596
                 ],
                 [
-                    108053462,
+                    108053469,
                     108031153,
                     108030999,
                     108025774,
@@ -388,7 +441,7 @@
                 107526965
             ],
             [
-                "ENSG00000169174.14",
+                "ENSG00000169174.15",
                 "Q8NBP7",
                 "homo_sapiens",
                 "GRCh38",
@@ -449,7 +502,7 @@
         },
         "expected_result": [
             [
-                "ENSMUSG00000035847.16",
+                "ENSMUSG00000035847.17",
                 "Q08890",
                 "mus_musculus",
                 "GRCm39",
@@ -466,7 +519,7 @@
                 "X",
                 -1,
                 69386675,
-                69408690
+                69408718
             ],
             [
                 "ENSCMIT00000032966.1",
