@@ -1,4 +1,4 @@
-Pytest results (Python 3.12) - 2026-06-09T22:36:33Z
+Pytest results (Python 3.12) - 2026-06-10T01:57:38Z
 
 ============================= test session starts ==============================
 platform linux -- Python 3.12.13, pytest-9.0.3, pluggy-1.6.0 -- /opt/hostedtoolcache/Python/3.12.13/x64/bin/python
@@ -92,572 +92,415 @@ tests/test_enrichr.py::TestEnrichr::test_enrichr_transcription PASSED    [ 20%]
 tests/test_enrichr.py::TestEnrichr::test_enrichr_worm PASSED             [ 21%]
 tests/test_enrichr.py::TestEnrichr::test_enrichr_yeast PASSED            [ 21%]
 tests/test_gpt.py::TestGpt::test_gpt PASSED                              [ 21%]
-tests/test_info.py::TestInfo::test_info_WB_transcript FAILED             [ 21%]
+tests/test_info.py::TestInfo::test_info_WB_transcript PASSED             [ 21%]
 tests/test_info.py::TestInfo::test_info_exon PASSED                      [ 22%]
-tests/test_info.py::TestInfo::test_info_gene FAILED                      [ 22%]
-tests/test_info.py::TestInfo::test_info_gene_list_non_model FAILED       [ 22%]
-tests/test_info.py::TestInfo::test_info_mix FAILED                       [ 22%]
+tests/test_info.py::TestInfo::test_info_gene PASSED                      [ 22%]
+tests/test_info.py::TestInfo::test_info_gene_list_non_model PASSED       [ 22%]
+tests/test_info.py::TestInfo::test_info_mix PASSED                       [ 22%]
 tests/test_info.py::TestInfo::test_info_ncbifalse_uniprotfalse PASSED    [ 23%]
-tests/test_info.py::TestInfo::test_info_ncbifalse_uniprottrue FAILED     [ 23%]
+tests/test_info.py::TestInfo::test_info_ncbifalse_uniprottrue PASSED     [ 23%]
+tests/test_info.py::TestInfo::test_info_ncbitrue_uniprotfalse PASSED     [ 23%]
+tests/test_info.py::TestInfo::test_info_transcript PASSED                [ 23%]
+tests/test_muscle.py::TestMuscle::test_muscle_nt PASSED                  [ 24%]
+tests/test_muscle.py::TestMuscle::test_muscle_nt_txt PASSED              [ 24%]
+tests/test_muscle.py::TestMuscleSuper::test_muscle_nt_super5 PASSED      [ 24%]
+tests/test_muscle.py::TestMuscleAA::test_muscle_aa PASSED                [ 24%]
+tests/test_muscle.py::TestMuscleSeqsInput::test_muscle_seqs_as_input PASSED [ 25%]
+tests/test_muscle.py::TestMuscleAASuper::test_muscle_aa_super5 PASSED    [ 25%]
+tests/test_muscle.py::TestMusclePrints::test_muscle_print_nt PASSED      [ 25%]
+tests/test_mutate.py::TestMutate::test_ambiguous_mutation PASSED         [ 25%]
+tests/test_mutate.py::TestMutate::test_index_error PASSED                [ 26%]
+tests/test_mutate.py::TestMutate::test_intron_mutation_minus PASSED      [ 26%]
+tests/test_mutate.py::TestMutate::test_intron_mutation_plus PASSED       [ 26%]
+tests/test_mutate.py::TestMutate::test_inversion_with_overlaps PASSED    [ 26%]
+tests/test_mutate.py::TestMutate::test_large_k PASSED                    [ 27%]
+tests/test_mutate.py::TestMutate::test_list_of_mutations PASSED          [ 27%]
+tests/test_mutate.py::TestMutate::test_multi_deletion PASSED             [ 27%]
+tests/test_mutate.py::TestMutate::test_multi_deletion_with_right_repeats PASSED [ 27%]
+tests/test_mutate.py::TestMutate::test_multi_delins PASSED               [ 28%]
+tests/test_mutate.py::TestMutate::test_multi_delins_with_psuedo_left_repeats PASSED [ 28%]
+tests/test_mutate.py::TestMutate::test_multi_delins_with_true_left_repeats PASSED [ 28%]
+tests/test_mutate.py::TestMutate::test_multi_delins_with_true_right_repeats PASSED [ 28%]
+tests/test_mutate.py::TestMutate::test_multi_dup PASSED                  [ 29%]
+tests/test_mutate.py::TestMutate::test_multi_insertion PASSED            [ 29%]
+tests/test_mutate.py::TestMutate::test_multi_insertion_with_left_repeats PASSED [ 29%]
+tests/test_mutate.py::TestMutate::test_posttranslational_mutation PASSED [ 30%]
+tests/test_mutate.py::TestMutate::test_single_deletion PASSED            [ 30%]
+tests/test_mutate.py::TestMutate::test_single_deletion_with_left_repeats PASSED [ 30%]
+tests/test_mutate.py::TestMutate::test_single_deletion_with_right_repeats PASSED [ 30%]
+tests/test_mutate.py::TestMutate::test_single_delins PASSED              [ 31%]
+tests/test_mutate.py::TestMutate::test_single_dup PASSED                 [ 31%]
+tests/test_mutate.py::TestMutate::test_single_insertion PASSED           [ 31%]
+tests/test_mutate.py::TestMutate::test_single_substitution PASSED        [ 31%]
+tests/test_mutate.py::TestMutate::test_single_substitution_near_left_end PASSED [ 32%]
+tests/test_mutate.py::TestMutate::test_single_substitution_near_right_end PASSED [ 32%]
+tests/test_mutate.py::TestMutate::test_uncertain_mutation PASSED         [ 32%]
+tests/test_mutate.py::test_csv_of_mutations PASSED                       [ 32%]
+tests/test_mutate.py::test_mismatch_error PASSED                         [ 33%]
+tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_bad_limit PASSED [ 33%]
+tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_bad_resource PASSED [ 33%]
+tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_diseases_filter PASSED [ 33%]
+tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_drugs_invalid_filter PASSED [ 34%]
+tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_nonexistent_id PASSED [ 34%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets PASSED      [ 34%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_depmap PASSED [ 34%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_depmap_filter PASSED [ 35%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_diseases PASSED [ 35%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_drugs PASSED [ 35%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_expression PASSED [ 35%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_expression_no_limit PASSED [ 36%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_interactions PASSED [ 36%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_interactions_no_limit PASSED [ 36%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_interactions_simple_filter PASSED [ 36%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_pharmacogenetics PASSED [ 37%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_tractability PASSED [ 37%]
+tests/test_pdb.py::TestPDB::test_pdb_assembly PASSED                     [ 37%]
+tests/test_pdb.py::TestPDB::test_pdb_pdb PASSED                          [ 37%]
+tests/test_ref.py::TestRef::test_ref PASSED                              [ 38%]
+tests/test_ref.py::TestRef::test_ref_bad_rel PASSED                      [ 38%]
+tests/test_ref.py::TestRef::test_ref_bad_species PASSED                  [ 38%]
+tests/test_ref.py::TestRef::test_ref_bad_which PASSED                    [ 38%]
+tests/test_ref.py::TestRef::test_ref_ftp PASSED                          [ 39%]
+tests/test_ref.py::TestRef::test_ref_list PASSED                         [ 39%]
+tests/test_ref.py::TestRef::test_ref_plant PASSED                        [ 39%]
+tests/test_ref.py::TestRef::test_ref_rel PASSED                          [ 40%]
+tests/test_ref.py::TestRef::test_ref_rel_ftp PASSED                      [ 40%]
+tests/test_ref.py::TestRef::test_ref_rel_ftp_octopus PASSED              [ 40%]
+tests/test_ref.py::TestRef::test_ref_rel_protist PASSED                  [ 40%]
+tests/test_ref.py::TestRef::test_ref_which PASSED                        [ 41%]
+tests/test_ref.py::TestRef::test_ref_which_plant PASSED                  [ 41%]
+tests/test_search.py::TestSearch::test_search_db PASSED                  [ 41%]
+tests/test_search.py::TestSearch::test_search_gene_bad_andor PASSED      [ 41%]
+tests/test_search.py::TestSearch::test_search_gene_bad_species PASSED    [ 42%]
+tests/test_search.py::TestSearch::test_search_gene_one_sw PASSED         [ 42%]
+tests/test_search.py::TestSearch::test_search_gene_one_sw_json PASSED    [ 42%]
+tests/test_search.py::TestSearch::test_search_gene_one_sw_limit PASSED   [ 42%]
+tests/test_search.py::TestSearch::test_search_gene_two_sw_and PASSED     [ 43%]
+tests/test_search.py::TestSearch::test_search_gene_two_sw_limit PASSED   [ 43%]
+tests/test_search.py::TestSearch::test_search_gene_two_sw_or PASSED      [ 43%]
+tests/test_search.py::TestSearch::test_search_octopus PASSED             [ 43%]
+tests/test_search.py::TestSearch::test_search_plant PASSED               [ 44%]
+tests/test_search.py::TestSearch::test_search_plant_db PASSED            [ 44%]
+tests/test_search.py::TestSearch::test_search_release PASSED             [ 44%]
+tests/test_search.py::TestSearch::test_search_transcript_bad_andor PASSED [ 44%]
+tests/test_search.py::TestSearch::test_search_transcript_bad_species PASSED [ 45%]
+tests/test_search.py::TestSearch::test_search_transcript_one_sw PASSED   [ 45%]
+tests/test_search.py::TestSearch::test_search_transcript_two_sw_and PASSED [ 45%]
+tests/test_search.py::TestSearch::test_search_transcript_two_sw_or PASSED [ 45%]
+tests/test_seq.py::TestSeq::test_seq_gene FAILED                         [ 46%]
+tests/test_seq.py::TestSeq::test_seq_gene_iso FAILED                     [ 46%]
+tests/test_seq.py::TestSeq::test_seq_gene_transcript_iso PASSED          [ 46%]
+tests/test_seq.py::TestSeq::test_seq_missing_uniprot_gene_name PASSED    [ 46%]
+tests/test_seq.py::TestSeq::test_seq_transcript PASSED                   [ 47%]
+tests/test_seq.py::TestSeq::test_seq_transcript_gene PASSED              [ 47%]
+tests/test_seq.py::TestSeq::test_seq_transcript_gene_WB PASSED           [ 47%]
+tests/test_seq.py::TestSeq::test_seq_transcript_gene_iso PASSED          [ 47%]
+tests/test_seq.py::TestSeq::test_seq_transcript_transcript_WB PASSED     [ 48%]
+tests/test_seq.py::TestSeq::test_seq_transcript_transcript_iso PASSED    [ 48%]
+tests/test_utils.py::TestUtils::test_aa_colors PASSED                    [ 48%]
+tests/test_utils.py::TestUtils::test_find_latest_ens_rel FAILED          [ 48%]
+tests/test_utils.py::TestUtils::test_get_uniprot_info_gene PASSED        [ 49%]
+tests/test_utils.py::TestUtils::test_get_uniprot_info_transcript PASSED  [ 49%]
+tests/test_utils.py::TestUtils::test_get_uniprot_seqs PASSED             [ 49%]
+tests/test_utils.py::TestUtils::test_n_colors PASSED                     [ 50%]
+tests/test_utils.py::TestUtils::test_read_fasta PASSED                   [ 50%]
+tests/test_utils.py::TestUtils::test_ref_iv_species_options PASSED       [ 50%]
+tests/test_utils.py::TestUtils::test_ref_species_options PASSED          [ 50%]
+tests/test_utils.py::TestUtils::test_ref_species_options_bad_type PASSED [ 51%]
+tests/test_utils.py::TestUtils::test_rest_query FAILED                   [ 51%]
+tests/test_utils.py::TestUtils::test_rest_query_bad_type PASSED          [ 51%]
+tests/test_utils.py::TestUtils::test_search_iv_species_options PASSED    [ 51%]
+tests/test_utils.py::TestUtils::test_search_species_options PASSED       [ 52%]
+tests/test_utils.py::TestUtils::test_search_species_options_bad_type PASSED [ 52%]
+tests/test_virus.py::TestVirus::test_batch_accessions_for_url PASSED     [ 52%]
+tests/test_virus.py::TestVirus::test_calculate_max_accessions_per_batch PASSED [ 52%]
+tests/test_virus.py::TestVirus::test_check_min_max_date_invalid_raises PASSED [ 53%]
+tests/test_virus.py::TestVirus::test_check_min_max_date_valid PASSED     [ 53%]
+tests/test_virus.py::TestVirus::test_check_min_max_equal PASSED          [ 53%]
+tests/test_virus.py::TestVirus::test_check_min_max_invalid_raises PASSED [ 53%]
+tests/test_virus.py::TestVirus::test_check_min_max_none_values PASSED    [ 54%]
+tests/test_virus.py::TestVirus::test_check_min_max_valid PASSED          [ 54%]
+tests/test_virus.py::TestVirus::test_clean_xml_declarations PASSED       [ 54%]
+tests/test_virus.py::TestVirus::test_clean_xml_declarations_no_declarations PASSED [ 54%]
+tests/test_virus.py::TestVirus::test_datasets_cli_version_output PASSED  [ 55%]
+tests/test_virus.py::TestVirus::test_deduplicate_all_existing PASSED     [ 55%]
+tests/test_virus.py::TestVirus::test_deduplicate_empty_baseline PASSED   [ 55%]
+tests/test_virus.py::TestVirus::test_deduplicate_metadata_against_baseline PASSED [ 55%]
+tests/test_virus.py::TestVirus::test_filter_cached_annotated PASSED      [ 56%]
+tests/test_virus.py::TestVirus::test_filter_cached_complete_only PASSED  [ 56%]
+tests/test_virus.py::TestVirus::test_filter_cached_geographic_location PASSED [ 56%]
+tests/test_virus.py::TestVirus::test_filter_cached_host_in_strategy_skipped PASSED [ 56%]
+tests/test_virus.py::TestVirus::test_filter_cached_host_not_in_strategy PASSED [ 57%]
+tests/test_virus.py::TestVirus::test_filter_cached_min_release_date PASSED [ 57%]
+tests/test_virus.py::TestVirus::test_filter_cached_no_filters PASSED     [ 57%]
+tests/test_virus.py::TestVirus::test_filter_cached_refseq_only PASSED    [ 57%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_combined PASSED [ 58%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_empty PASSED [ 58%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_env_source PASSED [ 58%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_gen_mol_type PASSED [ 58%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_genotype PASSED [ 59%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_genotype_list PASSED [ 59%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_has_proteins PASSED [ 59%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_mature_peptide_count PASSED [ 60%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_max_gene_count PASSED [ 60%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_min_gene_count PASSED [ 60%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_no_filters PASSED [ 60%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_provirus_false PASSED [ 61%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_provirus_true PASSED [ 61%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_annotated_false PASSED [ 61%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_annotated_true PASSED [ 61%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_collection_date_range PASSED [ 62%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_combined_filters PASSED [ 62%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_geographic_location PASSED [ 62%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_host PASSED    [ 62%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_isolate PASSED [ 63%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_isolation_source PASSED [ 63%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_lab_passaged_false PASSED [ 63%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_lab_passaged_true PASSED [ 63%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_max_release_date PASSED [ 64%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_max_seq_length PASSED [ 64%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_min_seq_length PASSED [ 64%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_no_filters PASSED [ 64%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_nuc_completeness_partial PASSED [ 65%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_protein_count PASSED [ 65%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_segment PASSED [ 65%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_source_database PASSED [ 65%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_submitter_country PASSED [ 66%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_submitter_institution PASSED [ 66%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_submitter_name PASSED [ 66%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_vaccine_strain_false PASSED [ 66%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_vaccine_strain_true PASSED [ 67%]
+tests/test_virus.py::TestVirus::test_filter_sequences_max_ambiguous_chars PASSED [ 67%]
+tests/test_virus.py::TestVirus::test_filter_sequences_no_filters PASSED  [ 67%]
+tests/test_virus.py::TestVirus::test_filter_sequences_proteins_complete PASSED [ 67%]
+tests/test_virus.py::TestVirus::test_force_garbage_collection_runs PASSED [ 68%]
+tests/test_virus.py::TestVirus::test_genbank_xml_to_csv_basic PASSED     [ 68%]
+tests/test_virus.py::TestVirus::test_get_datasets_path_returns_valid_path PASSED [ 68%]
+tests/test_virus.py::TestVirus::test_get_datasets_path_uses_bundled_binary PASSED [ 68%]
+tests/test_virus.py::TestVirus::test_get_datasets_version_returns_string_or_none PASSED [ 69%]
+tests/test_virus.py::TestVirus::test_get_gget_version_returns_string PASSED [ 69%]
+tests/test_virus.py::TestVirus::test_get_memory_usage_returns_dict PASSED [ 69%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_add_space_before_virus PASSED [ 70%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_add_virus_suffix PASSED [ 70%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_already_correct_returns_none PASSED [ 70%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_empty_returns_none PASSED [ 70%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_invalid_attempt_returns_none PASSED [ 71%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_no_parentheses_returns_none PASSED [ 71%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_remove_parentheses PASSED [ 71%]
+tests/test_virus.py::TestVirus::test_is_alphainfluenza_query_accession_mode PASSED [ 71%]
+tests/test_virus.py::TestVirus::test_is_alphainfluenza_query_common_names PASSED [ 72%]
+tests/test_virus.py::TestVirus::test_is_alphainfluenza_query_negative PASSED [ 72%]
+tests/test_virus.py::TestVirus::test_is_sars_cov2_query_accession_mode PASSED [ 72%]
+tests/test_virus.py::TestVirus::test_is_sars_cov2_query_common_names PASSED [ 72%]
+tests/test_virus.py::TestVirus::test_is_sars_cov2_query_negative PASSED  [ 73%]
+tests/test_virus.py::TestVirus::test_load_metadata_from_api_reports_basic PASSED [ 73%]
+tests/test_virus.py::TestVirus::test_load_metadata_from_api_reports_empty PASSED [ 73%]
+tests/test_virus.py::TestVirus::test_load_metadata_from_api_reports_missing_accession PASSED [ 73%]
+tests/test_virus.py::TestVirus::test_load_metadata_from_api_reports_multiple PASSED [ 74%]
+tests/test_virus.py::TestVirus::test_local_name_with_namespace PASSED    [ 74%]
+tests/test_virus.py::TestVirus::test_local_name_without_namespace PASSED [ 74%]
+tests/test_virus.py::TestVirus::test_merge_baseline_with_new_csv PASSED  [ 74%]
+tests/test_virus.py::TestVirus::test_merge_baseline_with_new_deduplicates PASSED [ 75%]
+tests/test_virus.py::TestVirus::test_merge_baseline_with_new_empty_new PASSED [ 75%]
+tests/test_virus.py::TestVirus::test_merge_metadata_csvs_fills_missing PASSED [ 75%]
+tests/test_virus.py::TestVirus::test_merge_metadata_csvs_missing_standard_file PASSED [ 75%]
+tests/test_virus.py::TestVirus::test_merge_metadata_csvs_no_overwrite PASSED [ 76%]
+tests/test_virus.py::TestVirus::test_parse_accession_input_empty_file_raises_error PASSED [ 76%]
+tests/test_virus.py::TestVirus::test_parse_accession_input_from_file PASSED [ 76%]
+tests/test_virus.py::TestVirus::test_parse_accession_input_nonexistent_file_raises_error PASSED [ 76%]
+tests/test_virus.py::TestVirus::test_parse_accession_input_single PASSED [ 77%]
+tests/test_virus.py::TestVirus::test_parse_accession_input_space_separated PASSED [ 77%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_csv PASSED      [ 77%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_empty_raises PASSED [ 77%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_json PASSED     [ 78%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_jsonl PASSED    [ 78%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_none_raises PASSED [ 78%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_nonexistent_raises PASSED [ 78%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_text PASSED     [ 79%]
+tests/test_virus.py::TestVirus::test_parse_date_full PASSED              [ 79%]
+tests/test_virus.py::TestVirus::test_parse_date_invalid_raises PASSED    [ 79%]
+tests/test_virus.py::TestVirus::test_parse_date_various_formats PASSED   [ 80%]
+tests/test_virus.py::TestVirus::test_parse_genbank_xml_basic PASSED      [ 80%]
+tests/test_virus.py::TestVirus::test_parse_genbank_xml_empty_set PASSED  [ 80%]
+tests/test_virus.py::TestVirus::test_parse_genbank_xml_invalid_raises PASSED [ 80%]
+tests/test_virus.py::TestVirus::test_parse_partial_date_empty_raises PASSED [ 81%]
+tests/test_virus.py::TestVirus::test_parse_partial_date_full_date PASSED [ 81%]
+tests/test_virus.py::TestVirus::test_parse_partial_date_year_month_max PASSED [ 81%]
+tests/test_virus.py::TestVirus::test_parse_partial_date_year_month_min PASSED [ 81%]
+tests/test_virus.py::TestVirus::test_parse_partial_date_year_only_max_comparison PASSED [ 82%]
+tests/test_virus.py::TestVirus::test_parse_partial_date_year_only_min_comparison PASSED [ 82%]
+tests/test_virus.py::TestVirus::test_retry_helper_custom_retryable_exceptions PASSED [ 82%]
+tests/test_virus.py::TestVirus::test_retry_helper_exponential_backoff_timing PASSED [ 82%]
+tests/test_virus.py::TestVirus::test_retry_helper_failed_commands_tracking PASSED [ 83%]
+tests/test_virus.py::TestVirus::test_retry_helper_non_retryable_exception PASSED [ 83%]
+tests/test_virus.py::TestVirus::test_retry_helper_success_after_retry PASSED [ 83%]
+tests/test_virus.py::TestVirus::test_retry_helper_successful_operation PASSED [ 83%]
+tests/test_virus.py::TestVirus::test_save_command_summary_creates_file PASSED [ 84%]
+tests/test_virus.py::TestVirus::test_save_command_summary_with_error PASSED [ 84%]
+tests/test_virus.py::TestVirus::test_save_genbank_metadata_to_csv_basic PASSED [ 84%]
+tests/test_virus.py::TestVirus::test_save_genbank_metadata_to_csv_empty PASSED [ 84%]
+tests/test_virus.py::TestVirus::test_save_metadata_to_csv_basic PASSED   [ 85%]
+tests/test_virus.py::TestVirus::test_save_metadata_to_csv_empty_metadata PASSED [ 85%]
+tests/test_virus.py::TestVirus::test_save_partial_metadata PASSED        [ 85%]
+tests/test_virus.py::TestVirus::test_save_partial_metadata_empty PASSED  [ 85%]
+tests/test_virus.py::TestVirus::test_stream_copy_fasta_all_records PASSED [ 86%]
+tests/test_virus.py::TestVirus::test_stream_copy_fasta_with_accession_filter PASSED [ 86%]
+tests/test_virus.py::TestVirus::test_track_failed_operation_appends PASSED [ 86%]
+tests/test_virus.py::TestVirus::test_track_failed_operation_creates_key PASSED [ 86%]
+tests/test_virus.py::TestVirus::test_track_failed_operation_none_dict PASSED [ 87%]
+tests/test_virus.py::TestVirus::test_unzip_file_bad_zip_raises PASSED    [ 87%]
+tests/test_virus.py::TestVirus::test_unzip_file_nonexistent_raises PASSED [ 87%]
+tests/test_virus.py::TestVirus::test_unzip_file_valid PASSED             [ 87%]
+tests/test_virus.py::TestVirus::test_validate_datasets_binary_empty_path PASSED [ 88%]
+tests/test_virus.py::TestVirus::test_validate_datasets_binary_nonexistent PASSED [ 88%]
+tests/test_virus.py::TestVirus::test_validate_datasets_binary_valid PASSED [ 88%]
+tests/test_virus.py::TestVirus::test_virus_completeness_filter_verification PASSED [ 88%]
+tests/test_virus.py::TestVirus::test_virus_empty_virus_name PASSED       [ 89%]
+tests/test_virus.py::TestVirus::test_virus_host_filter_verification PASSED [ 89%]
+tests/test_virus.py::TestVirus::test_virus_integer_virus_id PASSED       [ 89%]
+tests/test_virus.py::TestVirus::test_virus_invalid_annotated_type PASSED [ 90%]
+tests/test_virus.py::TestVirus::test_virus_invalid_completeness PASSED   [ 90%]
+tests/test_virus.py::TestVirus::test_virus_invalid_genbank_batch_size_negative PASSED [ 90%]
+tests/test_virus.py::TestVirus::test_virus_invalid_genbank_batch_size_type PASSED [ 90%]
+tests/test_virus.py::TestVirus::test_virus_invalid_genbank_batch_size_zero PASSED [ 91%]
+tests/test_virus.py::TestVirus::test_virus_invalid_genbank_metadata_type PASSED [ 91%]
+tests/test_virus.py::TestVirus::test_virus_invalid_is_accession_type PASSED [ 91%]
+tests/test_virus.py::TestVirus::test_virus_invalid_keep_temp_type PASSED [ 91%]
+tests/test_virus.py::TestVirus::test_virus_invalid_lab_passaged_type PASSED [ 92%]
+tests/test_virus.py::TestVirus::test_virus_invalid_proteins_complete_type PASSED [ 92%]
+tests/test_virus.py::TestVirus::test_virus_metadata_schema_validation PASSED [ 92%]
+tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_collection_date PASSED [ 92%]
+tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_gene_count PASSED [ 93%]
+tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_peptide_count PASSED [ 93%]
+tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_protein_count PASSED [ 93%]
+tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_release_date PASSED [ 93%]
+tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_seq_length PASSED [ 94%]
+tests/test_virus.py::TestVirus::test_virus_multi_accession_file_input PASSED [ 94%]
+tests/test_virus.py::TestVirus::test_virus_multi_accession_space_separated PASSED [ 94%]
+tests/test_virus.py::TestVirus::test_virus_multiple_filters_relationship_check PASSED [ 94%]
+tests/test_virus.py::TestVirus::test_virus_none_virus_name PASSED        [ 95%]
+tests/test_virus.py::TestVirus::test_virus_relationship_check_counts_match PASSED [ 95%]
+tests/test_virus.py::TestVirus::test_virus_release_date_filter_verification PASSED [ 95%]
+tests/test_virus.py::TestVirus::test_virus_specific_accession_file_creation PASSED [ 95%]
+tests/test_virus.py::TestVirus::test_virus_with_annotated_filter PASSED  [ 96%]
+tests/test_virus.py::TestVirus::test_virus_with_collection_date_filters PASSED [ 96%]
+tests/test_virus.py::TestVirus::test_virus_with_completeness_filter PASSED [ 96%]
+tests/test_virus.py::TestVirus::test_virus_with_genbank_metadata_retrieval PASSED [ 96%]
+tests/test_virus.py::TestVirus::test_virus_with_geographic_location_filter PASSED [ 97%]
+tests/test_virus.py::TestVirus::test_virus_with_has_proteins_filter PASSED [ 97%]
+tests/test_virus.py::TestVirus::test_virus_with_host_filter PASSED       [ 97%]
+tests/test_virus.py::TestVirus::test_virus_with_lab_passaged_filter PASSED [ 97%]
+tests/test_virus.py::TestVirus::test_virus_with_length_filters PASSED    [ 98%]
+tests/test_virus.py::TestVirus::test_virus_with_max_ambiguous_chars_filter PASSED [ 98%]
+tests/test_virus.py::TestVirus::test_virus_with_multiple_filters PASSED  [ 98%]
+tests/test_virus.py::TestVirus::test_virus_with_protein_count_filters PASSED [ 98%]
+tests/test_virus.py::TestVirus::test_virus_with_source_database_filter PASSED [ 99%]
+tests/test_virus.py::TestVirus::test_write_fasta_record_long_sequence_wraps PASSED [ 99%]
+tests/test_virus.py::TestVirus::test_write_fasta_record_with_description PASSED [ 99%]
+tests/test_virus.py::TestVirus::test_write_fasta_record_without_description PASSED [100%]
 
 =================================== FAILURES ===================================
-_______________________ TestInfo.test_info_WB_transcript _______________________
+____________________________ TestSeq.test_seq_gene _____________________________
 
-self = <tests.test_info.TestInfo testMethod=test_info_WB_transcript>
+self = <tests.test_seq.TestSeq testMethod=test_seq_gene>
 
-    def assert_equal(self: unittest.TestCase):
-        test = name
-        expected_result = td[test]["expected_result"]
-        result_to_test = do_call(func, td[test]["args"])
-        if test == "test_cosmic_defaults":  # special case for cosmic
-            import numpy as np
-            expected_result = pd.DataFrame(expected_result[0])
-            expected_result = expected_result.replace({None: np.nan})
-            # result_to_test.equals(expected_result)
-            pd.testing.assert_frame_equal(result_to_test, expected_result, check_dtype=False)
-            return
+    def test_seq_gene(self):
+        test = "test1"
+        expected_result = seq_dict[test]["expected_result"]
+        result_to_test = seq(**seq_dict[test]["args"])
     
-        # If result is a DataFrame, convert to list
-        if isinstance(result_to_test, pd.DataFrame):
-            result_to_test = result_to_test.dropna(axis=1).values.tolist()
-    
->       self.assertEqual(result_to_test, expected_result)
-E       AssertionError: Lists differ: [['T1[86 chars]3'], [], 'WBGene00043981', ['Protein aaim-1', [2746 chars]67]]] != [['T1[86 chars]3'], 'aaim-1-201', [], 'WBGene00043981', ['Pro[2760 chars]67]]]
+>       self.assertListEqual(result_to_test, expected_result)
+E       AssertionError: Lists differ: ['>EN[36 chars]3056118:153065583:-1', 'CTGTGCTGACTTCAAGTCCTGA[9441 chars]ATA'] != ['>EN[36 chars]3056120:153057512:-1', 'AAACCCCTGGTACCTGAGCACT[1368 chars]ATA']
 E       
 E       First differing element 0:
-E       ['T14[85 chars]3'], [], 'WBGene00043981', ['Protein aaim-1', [2745 chars]667]]
-E       ['T14[85 chars]3'], 'aaim-1-201', [], 'WBGene00043981', ['Pro[2759 chars]667]]
+E       '>ENSG00000241794 chromosome:GRCh38:1:153056118:153065583:-1'
+E       '>ENSG00000241794 chromosome:GRCh38:1:153056120:153057512:-1'
 E       
-E         [['T14E8.4.1',
-E           ['Q5WRS0', 'Q6RYS9'],
-E           'caenorhabditis_elegans',
-E           'WBcel235',
-E           ['aaim-1', 'dop-3'],
-E       +   'aaim-1-201',
-E           [],
-E           'WBGene00043981',
-E           ['Protein aaim-1', 'Dopamine receptor 3'],
-E           ['(Microbial infection) Promotes infection by microsporidian pathogens such '
-E            'as N.parisii in the early larval stages of development (PubMed:34994689). '
-E            'Involved in ensuring the proper orientation and location of the spore '
-E            'proteins of N.parisii during intestinal cell invasion (PubMed:34994689) '
-E            'Plays a role in promoting resistance to bacterial pathogens such as '
-E            'P.aeruginosa by inhibiting bacterial intestinal colonization',
-E            'G-protein coupled receptor which binds to the neurotransmitter dopamine '
-E            'with high affinity leading to the activation of an associated G-protein '
-E            'and downstream signaling pathways (PubMed:15378064, PubMed:16001968). '
-E            'Couples to G-proteins to inhibit adenylate cyclase (AC) activity and cAMP '
-E            'production (PubMed:15378064, PubMed:16001968). Antagonizes the D1-like '
-E            'dopamine receptor dop-1 to negatively regulate the rate of locomotion '
-E            '(PubMed:15378064). Negatively regulates locomotion through the activation '
-E            'of goa-1 subunit proteins which inactivates the unc-77/nca-1 and nca-2 '
-E            'ion-channels in the command interneurons (PubMed:28968387). Inhibits '
-E            'early-stage swimming by modulating the unc-77/nca-1 and nca-2 ion channels '
-E            'of premotor interneurons (PubMed:33796839). In GABAergic, RIC, and SIA '
-E            'neurons, antagonizes the function of dop-1 to play a role in behavioral '
-E            'plasticity and regulate the decision-making process when conflicting '
-E            'alternatives are present (PubMed:25536037). Antagonizes octopamine '
-E            'signaling in response to food by promoting the dopamine-mediated '
-E            'suppression of crh-1/CREB1 transcription factor activation in cholinergic '
-E            'SIA neurons (PubMed:19609300). This is most likely in association with the '
-E            'G(o)-alpha G-protein subunit goa-1 (PubMed:19609300). Promotes male mating '
-E            'behavior by antagonizing acetylcholine signaling to control the protrusion '
-E            'of copulatory spicules from the tail of males during hermaphrodite vulval '
-E            'location (PubMed:23166505). Under mitochondria stress, plays a role in '
-E            'bacterial preference, resulting in learned avoidance behavior '
-E            '(PubMed:35074444)'],
-E           ['Secreted', 'Cell membrane'],
-E           'Transcript',
-E           'protein_coding',
-E           'X',
-E           -1,
-E           6559466,
-E           6562428,
-E           ['T14E8.4.1.e1',
-E            'T14E8.4.1.e2',
-E            'T14E8.4.1.e3',
-E            'T14E8.4.1.e4',
-E            'T14E8.4.1.e5',
-E            'T14E8.4.1.e6',
-E            'T14E8.4.1.e7',
-E            'T14E8.4.1.e8',
-E            'T14E8.4.1.e9'],
-E           [6562330,
-E            6562225,
-E            6562110,
-E            6561817,
-E            6561252,
-E            6560727,
-E            6560492,
-E            6560197,
-E            6559466],
-E           [6562428,
-E            6562286,
-E            6562183,
-E            6562059,
-E            6561378,
-E            6561206,
-E            6560671,
-E            6560443,
-E            6559667],
-E           ['T14E8.4.1.e1',
-E            'T14E8.4.1.e2',
-E            'T14E8.4.1.e3',
-E            'T14E8.4.1.e4',
-E            'T14E8.4.1.e5',
-E            'T14E8.4.1.e6',
-E            'T14E8.4.1.e7',
-E            'T14E8.4.1.e8',
-E            'T14E8.4.1.e9'],
-E           [6562330,
-E            6562225,
-E            6562110,
-E            6561817,
-E            6561252,
-E            6560727,
-E            6560492,
-E            6560197,
-E            6559466],
-E           [6562428,
-E            6562286,
-E            6562183,
-E            6562059,
-E            6561378,
-E            6561206,
-E            6560671,
-E            6560443,
-E            6559667]]]
+E       Diff is 11129 characters long. Set self.maxDiff to None to see it.
 
-tests/from_json.py:79: AssertionError
-___________________________ TestInfo.test_info_gene ____________________________
-
-self = <tests.test_info.TestInfo testMethod=test_info_gene>
-
-    def assert_equal(self: unittest.TestCase):
-        test = name
-        expected_result = td[test]["expected_result"]
-        result_to_test = do_call(func, td[test]["args"])
-        if test == "test_cosmic_defaults":  # special case for cosmic
-            import numpy as np
-            expected_result = pd.DataFrame(expected_result[0])
-            expected_result = expected_result.replace({None: np.nan})
-            # result_to_test.equals(expected_result)
-            pd.testing.assert_frame_equal(result_to_test, expected_result, check_dtype=False)
-            return
-    
-        # If result is a DataFrame, convert to list
-        if isinstance(result_to_test, pd.DataFrame):
-            result_to_test = result_to_test.dropna(axis=1).values.tolist()
-    
->       self.assertEqual(result_to_test, expected_result)
-E       AssertionError: Lists differ: [['EnsMUSG00000000001.6', 'Q9DC51', '14679', 'mus_musculus', 'G[3077 chars]62]]] != [['EnsMUSG00000000001.5', 'Q9DC51', '14679', 'mus_musculus', 'G[2303 chars]62]]]
-E       
-E       First differing element 0:
-E       ['EnsMUSG00000000001.6', 'Q9DC51', '14679', 'mus_musculus', 'G[3076 chars]462]]
-E       ['EnsMUSG00000000001.5', 'Q9DC51', '14679', 'mus_musculus', 'G[2302 chars]462]]
-E       
-E       - [['EnsMUSG00000000001.6',
-E       ?                       ^
-E       
-E       + [['EnsMUSG00000000001.5',
-E       ?                       ^
-E       
-E           'Q9DC51',
-E           '14679',
-E           'mus_musculus',
-E           'GRCm39',
-E           'Gnai3',
-E           'Gnai3',
-E           ['Galphai3', 'Gnai-3', 'Hg1a'],
-E           'Guanine nucleotide-binding protein G(i) subunit alpha-3',
-E           'G protein subunit alpha i3 [Source:MGI Symbol;Acc:MGI:95773]',
-E           'Heterotrimeric guanine nucleotide-binding proteins (G proteins) function as '
-E           'transducers downstream of G protein-coupled receptors (GPCRs) in numerous '
-E           'signaling cascades. The alpha chain contains the guanine nucleotide binding '
-E           'site and alternates between an active, GTP-bound state and an inactive, '
-E           'GDP-bound state. Signaling by an activated GPCR promotes GDP release and '
-E           'GTP binding. The alpha subunit has a low GTPase activity that converts '
-E           'bound GTP to GDP, thereby terminating the signal (By similarity). Both GDP '
-E           'release and GTP hydrolysis are modulated by numerous regulatory proteins '
-E           '(By similarity). Signaling is mediated via effector proteins, such as '
-E           'adenylate cyclase. Inhibits adenylate cyclase activity, leading to '
-E           'decreased intracellular cAMP levels (By similarity). Stimulates the '
-E           'activity of receptor-regulated K(+) channels (By similarity). The active '
-E           'GTP-bound form prevents the association of RGS14 with centrosomes and is '
-E           'required for the translocation of RGS14 from the cytoplasm to the plasma '
-E           'membrane. May play a role in cell division (By similarity). The active '
-E           'GTP-bound form activates the calcium permeant TRPC5 ion channels (By '
-E           'similarity)',
-E           'Predicted to enable several functions, including G-protein '
-E           'beta/gamma-subunit complex binding activity; GDP binding activity; and '
-E           'GTPase activating protein binding activity. Predicted to be involved in '
-E           'several processes, including G protein-coupled receptor signaling pathway; '
-E           'positive regulation of metabolic process; and positive regulation of '
-E           'vascular associated smooth muscle cell proliferation. Predicted to act '
-E           'upstream of or within G protein-coupled receptor signaling pathway. Located '
-E           'in Golgi apparatus. Is expressed in early conceptus; inner ear; and oocyte. '
-E           'Orthologous to human GNAI3 (G protein subunit alpha i3). [provided by '
-E           'Alliance of Genome Resources, Apr 2025]',
-E           ['Cytoplasm',
-E            'Cell membrane',
-E            'Cytoplasm, cytoskeleton, microtubule organizing center, centrosome'],
-E           'Gene',
-E           'protein_coding',
-E       -   'ENSMUST00000000001.6',
-E       ?                       ^
-E       
-E       +   'ENSMUST00000000001.5',
-E       ?                       ^
-E       
-E           '3',
-E           -1,
-E       -   108014590,
-E       ?           ^
-E       
-E       +   108014596,
-E       ?           ^
-E       
-E       -   108053469,
-E       ?           ^
-E       
-E       +   108053462,
-E       ?           ^
-E       
-E       -   ['ENSMUST00000000001.6',
-E       ?                        ^
-E       
-E       +   ['ENSMUST00000000001.5'],
-E       ?                        ^ +
-E       
-E       -    'ENSMUST00000535596.1',
-E       -    'ENSMUST00000535597.1',
-E       -    'ENSMUST00000535598.1',
-E       -    'ENSMUST00000535599.1',
-E       -    'ENSMUST00000535600.1',
-E       -    'ENSMUST00000535601.1',
-E       -    'ENSMUST00000535602.1',
-E       -    'ENSMUST00000535603.1',
-E       -    'ENSMUST00000558104.1'],
-E       -   ['protein_coding',
-E       +   ['protein_coding'],
-E       ?                    +
-E       
-E       -    'protein_coding',
-E       -    'protein_coding',
-E       -    'nonsense_mediated_decay',
-E       -    'protein_coding',
-E       -    'nonsense_mediated_decay',
-E       -    'nonsense_mediated_decay',
-E       -    'protein_coding',
-E       -    'nonsense_mediated_decay',
-E       -    'nonsense_mediated_decay'],
-E       -   ['Gnai3-201',
-E       +   ['Gnai3-201'],
-E       ?               +
-E       
-E       +   [-1],
-E       -    'Gnai3-202',
-E       -    'Gnai3-203',
-E       -    'Gnai3-204',
-E       -    'Gnai3-205',
-E       -    'Gnai3-206',
-E       -    'Gnai3-207',
-E       -    'Gnai3-208',
-E       -    'Gnai3-209',
-E       -    'Gnai3-210'],
-E       -   [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-E       -   [108014596,
-E       +   [108014596],
-E       ?             +
-E       
-E       -    108014596,
-E       -    108014597,
-E       -    108014597,
-E       -    108014592,
-E       -    108014597,
-E       -    108014590,
-E       -    108014613,
-E       -    108014611,
-E       -    108014596],
-E       -   [108053469,
-E       -    108053469,
-E       -    108053469,
-E       -    108053453,
-E       -    108053469,
-E       -    108053443,
-E       -    108053435,
-E       -    108053469,
-E       -    108053426,
-E       -    108053462]]]
-E       ?   ^
-E       
-E       +   [108053462]]]
-E       ?   ^
-
-tests/from_json.py:79: AssertionError
-____________________ TestInfo.test_info_gene_list_non_model ____________________
-
-self = <tests.test_info.TestInfo testMethod=test_info_gene_list_non_model>
-
-    def assert_equal(self: unittest.TestCase):
-        test = name
-        expected_result = td[test]["expected_result"]
-        result_to_test = do_call(func, td[test]["args"])
-        if test == "test_cosmic_defaults":  # special case for cosmic
-            import numpy as np
-            expected_result = pd.DataFrame(expected_result[0])
-            expected_result = expected_result.replace({None: np.nan})
-            # result_to_test.equals(expected_result)
-            pd.testing.assert_frame_equal(result_to_test, expected_result, check_dtype=False)
-            return
-    
-        # If result is a DataFrame, convert to list
-        if isinstance(result_to_test, pd.DataFrame):
-            result_to_test = result_to_test.dropna(axis=1).values.tolist()
-    
->       self.assertEqual(result_to_test, expected_result)
-E       AssertionError: Lists differ: [['EN[97 chars]urce:HGNC Symbol;Acc:HGNC:26358]', 'Gene', 'pr[875 chars]84]]] != [['EN[97 chars]urce:UniProtKB Gene Name;Acc:F7D2F4]', 'Gene',[879 chars]84]]]
-E       
-E       First differing element 0:
-E       ['ENS[96 chars]urce:HGNC Symbol;Acc:HGNC:26358]', 'Gene', 'pr[874 chars]684]]
-E       ['ENS[96 chars]urce:UniProtKB Gene Name;Acc:F7D2F4]', 'Gene',[878 chars]684]]
-E       
-E         [['ENSMMUG00000021246.4',
-E           'macaca_mulatta',
-E           'Mmul_10',
-E           'CCDC13',
-E       -   'coiled-coil domain containing 13 [Source:HGNC Symbol;Acc:HGNC:26358]',
-E       +   'coiled-coil domain containing 13 [Source:UniProtKB Gene Name;Acc:F7D2F4]',
-E           'Gene',
-E           'protein_coding',
-E           'ENSMMUT00000029894.4',
-E           '2',
-E           -1,
-E           98646979,
-E           98755023,
-E           ['ENSMMUT00000029893.4',
-E            'ENSMMUT00000053619.2',
-E            'ENSMMUT00000104418.1',
-E            'ENSMMUT00000087615.1',
-E            'ENSMMUT00000103912.1',
-E            'ENSMMUT00000086824.1',
-E            'ENSMMUT00000029894.4',
-E            'ENSMMUT00000104481.1',
-E            'ENSMMUT00000090481.1',
-E            'ENSMMUT00000026408.4'],
-E           ['protein_coding',
-E            'protein_coding',
-E            'protein_coding',
-E            'protein_coding',
-E            'protein_coding',
-E            'protein_coding',
-E            'protein_coding',
-E            'protein_coding',
-E            'protein_coding',
-E            'protein_coding'],
-E           ['CCDC13-201',
-E            'CCDC13-202',
-E            'CCDC13-204',
-E            'CCDC13-203',
-E            'CCDC13-205',
-E            'CCDC13-206',
-E            'CCDC13-207',
-E            'CCDC13-208',
-E            'CCDC13-209',
-E            'CCDC13-210'],
-E           [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-E           [98646979,
-E            98646982,
-E            98646984,
-E            98646984,
-E            98646985,
-E            98662368,
-E            98663259,
-E            98690412,
-E            98737900,
-E            98738870],
-E           [98655536,
-E            98656674,
-E            98688669,
-E            98656968,
-E            98656865,
-E            98713982,
-E            98746548,
-E            98713982,
-E            98755023,
-E            98754684]]]
-
-tests/from_json.py:79: AssertionError
+tests/test_seq.py:21: AssertionError
 ------------------------------ Captured log call -------------------------------
-INFO     gget.utils:gget_info.py:103 We noticed that you passed a version number with your Ensembl ID.
-Please note that gget info will always return information linked to the latest Ensembl ID version (see 'ensembl_id').
-____________________________ TestInfo.test_info_mix ____________________________
+INFO     gget.utils:gget_seq.py:112 Requesting nucleotide sequence of ENSG00000241794 from Ensembl.
+__________________________ TestSeq.test_seq_gene_iso ___________________________
 
-self = <tests.test_info.TestInfo testMethod=test_info_mix>
+self = <tests.test_seq.TestSeq testMethod=test_seq_gene_iso>
 
-    def assert_equal(self: unittest.TestCase):
-        test = name
-        expected_result = td[test]["expected_result"]
-        result_to_test = do_call(func, td[test]["args"])
-        if test == "test_cosmic_defaults":  # special case for cosmic
-            import numpy as np
-            expected_result = pd.DataFrame(expected_result[0])
-            expected_result = expected_result.replace({None: np.nan})
-            # result_to_test.equals(expected_result)
-            pd.testing.assert_frame_equal(result_to_test, expected_result, check_dtype=False)
-            return
+    def test_seq_gene_iso(self):
+        test = "test7"
+        expected_result = seq_dict[test]["expected_result"]
+        result_to_test = seq(**seq_dict[test]["args"])
     
-        # If result is a DataFrame, convert to list
-        if isinstance(result_to_test, pd.DataFrame):
-            result_to_test = result_to_test.dropna(axis=1).values.tolist()
+>       self.assertListEqual(result_to_test, expected_result)
+E       AssertionError: Lists differ: ['>EN[1449 chars]TATA', '>ENST00001096805 chromosome:GRCh38:1:1[19049 chars]ATA'] != ['>EN[1449 chars]TATA']
+E       
+E       First list contains 14 additional elements.
+E       First extra element 2:
+E       '>ENST00001096805 chromosome:GRCh38:1:153056118:153065583:-1'
+E       
+E       Diff is 24804 characters long. Set self.maxDiff to None to see it.
+
+tests/test_seq.py:66: AssertionError
+------------------------------ Captured log call -------------------------------
+INFO     gget.utils:gget_seq.py:150 Requesting nucleotide sequences of all transcripts of ENSG00000241794 from Ensembl.
+______________________ TestUtils.test_find_latest_ens_rel ______________________
+
+self = <tests.test_utils.TestUtils testMethod=test_find_latest_ens_rel>
+
+    def test_find_latest_ens_rel(self):
+        result_to_test = find_latest_ens_rel()
+        expected_result = LATEST_ENS_RELEASE
     
 >       self.assertEqual(result_to_test, expected_result)
-E       AssertionError: Lists differ: [['EN[219 chars]174.15', 'Q8NBP7', 'homo_sapiens', 'GRCh38', '[1453 chars]852]] != [['EN[219 chars]174.14', 'Q8NBP7', 'homo_sapiens', 'GRCh38', '[1453 chars]852]]
-E       
-E       First differing element 1:
-E       ['ENSG00000169174.15', 'Q8NBP7', 'homo_sapiens', 'GRCh38', '[1452 chars]4852]
-E       ['ENSG00000169174.14', 'Q8NBP7', 'homo_sapiens', 'GRCh38', '[1452 chars]4852]
-E       
-E         [['ENSTGUT00000027003.1',
-E           'A0A674GVD2',
-E           'taeniopygia_guttata',
-E           'bTaeGut1_v1.p',
-E           'FUNDC1',
-E           'FUNDC1-201',
-E           [],
-E           '',
-E           ['Mitochondrion outer membrane'],
-E           'Transcript',
-E           'protein_coding',
-E           '1',
-E           -1,
-E           107513786,
-E           107526965],
-E       -  ['ENSG00000169174.15',
-E       ?                     ^
-E       
-E       +  ['ENSG00000169174.14',
-E       ?                     ^
-E       
-E           'Q8NBP7',
-E           'homo_sapiens',
-E           'GRCh38',
-E           'PCSK9',
-E           'PCSK9',
-E           ['NARC1'],
-E           'Crucial player in the regulation of plasma cholesterol homeostasis. Binds '
-E           'to low-density lipid receptor family members: low density lipoprotein '
-E           'receptor (LDLR), very low density lipoprotein receptor (VLDLR), '
-E           'apolipoprotein E receptor (LRP1/APOER) and apolipoprotein receptor 2 '
-E           '(LRP8/APOER2), and promotes their degradation in intracellular acidic '
-E           'compartments (PubMed:18039658). Acts via a non-proteolytic mechanism to '
-E           'enhance the degradation of the hepatic LDLR through a clathrin '
-E           'LDLRAP1/ARH-mediated pathway. May prevent the recycling of LDLR from '
-E           'endosomes to the cell surface or direct it to lysosomes for degradation. '
-E           'Can induce ubiquitination of LDLR leading to its subsequent degradation '
-E           '(PubMed:17461796, PubMed:18197702, PubMed:18799458, PubMed:22074827). '
-E           'Inhibits intracellular degradation of APOB via the autophagosome/lysosome '
-E           'pathway in a LDLR-independent manner. Involved in the disposal of '
-E           'non-acetylated intermediates of BACE1 in the early secretory pathway '
-E           '(PubMed:18660751). Inhibits epithelial Na(+) channel (ENaC)-mediated Na(+) '
-E           'absorption by reducing ENaC surface expression primarily by increasing its '
-E           'proteasomal degradation. Regulates neuronal apoptosis via modulation of '
-E           'LRP8/APOER2 levels and related anti-apoptotic signaling pathways',
-E           ['Cytoplasm',
-E            'Secreted',
-E            'Endosome',
-E            'Lysosome',
-E            'Cell surface',
-E            'Endoplasmic reticulum',
-E            'Golgi apparatus'],
-E           'Gene',
-E           'protein_coding',
-E           '1',
-E           1,
-E           55039445,
-E           55064852]]
+E       AssertionError: 116 != 115
 
-tests/from_json.py:79: AssertionError
------------------------------- Captured log call -------------------------------
-INFO     gget.utils:gget_info.py:103 We noticed that you passed a version number with your Ensembl ID.
-Please note that gget info will always return information linked to the latest Ensembl ID version (see 'ensembl_id').
-WARNING  gget.utils:utils.py:452 No reviewed UniProt results were found for ID ENSTGUT00000027003. Returning all unreviewed results.
-___________________ TestInfo.test_info_ncbifalse_uniprottrue ___________________
+tests/test_utils.py:158: AssertionError
+__________________________ TestUtils.test_rest_query ___________________________
 
-self = <tests.test_info.TestInfo testMethod=test_info_ncbifalse_uniprottrue>
+self = <tests.test_utils.TestUtils testMethod=test_rest_query>
 
-    def assert_equal(self: unittest.TestCase):
-        test = name
-        expected_result = td[test]["expected_result"]
-        result_to_test = do_call(func, td[test]["args"])
-        if test == "test_cosmic_defaults":  # special case for cosmic
-            import numpy as np
-            expected_result = pd.DataFrame(expected_result[0])
-            expected_result = expected_result.replace({None: np.nan})
-            # result_to_test.equals(expected_result)
-            pd.testing.assert_frame_equal(result_to_test, expected_result, check_dtype=False)
-            return
-    
-        # If result is a DataFrame, convert to list
-        if isinstance(result_to_test, pd.DataFrame):
-            result_to_test = result_to_test.dropna(axis=1).values.tolist()
+    def test_rest_query(self):
+        server = ENSEMBL_REST_API
+        content_type = "application/json"
+        ensembl_ID = "ENSPFOG00000009362"
+        query = "lookup/id/" + ensembl_ID + "?"
+        result_to_test = rest_query(server, query, content_type)
+        expected_result = {
+            "source": "ensembl",
+            "id": "ENSPFOG00000009362",
+            "db_type": "core",
+            "species": "poecilia_formosa",
+            "canonical_transcript": "ENSPFOT00000009352.1",
+            "end": 504269,
+            "logic_name": "ensembl",
+            "version": 1,
+            "strand": 1,
+            "biotype": "protein_coding",
+            "assembly_name": "PoeFor_5.1.2",
+            "object_type": "Gene",
+            "description": "fish-egg lectin-like [Source:NCBI gene;Acc:103152571]",
+            "start": 502511,
+            "seq_region_name": "KI519928.1",
+        }
     
 >       self.assertEqual(result_to_test, expected_result)
-E       AssertionError: Lists differ: [['EN[13 chars]847.17', 'Q08890', 'mus_musculus', 'GRCm39', '[427 chars]357]] != [['EN[13 chars]847.16', 'Q08890', 'mus_musculus', 'GRCm39', '[427 chars]357]]
-E       
-E       First differing element 0:
-E       ['ENSMUSG00000035847.17', 'Q08890', 'mus_musculus', 'GRCm39', '[201 chars]8718]
-E       ['ENSMUSG00000035847.16', 'Q08890', 'mus_musculus', 'GRCm39', '[201 chars]8690]
-E       
-E       - [['ENSMUSG00000035847.17',
-E       ?                        ^
-E       
-E       + [['ENSMUSG00000035847.16',
-E       ?                        ^
-E       
-E           'Q08890',
-E           'mus_musculus',
-E           'GRCm39',
-E           'Ids',
-E           'Ids',
-E           [],
-E           'Iduronate 2-sulfatase',
-E           'Lysosomal enzyme involved in the degradation pathway of dermatan sulfate '
-E           'and heparan sulfate',
-E           ['Lysosome'],
-E           'Gene',
-E           'protein_coding',
-E           'X',
-E           -1,
-E           69386675,
-E       -   69408718],
-E       ?        ^^^
-E       
-E       +   69408690],
-E       ?        ^^^
-E       
-E          ['ENSCMIT00000032966.1',
-E           'A0A4W3J2P3',
-E           'callorhinchus_milii',
-E           'Callorhinchus_milii-6.1.3',
-E           'tyr',
-E           'tyr-204',
-E           [],
-E           'Tyrosinase',
-E           '',
-E           ['Melanosome membrane'],
-E           'Transcript',
-E           'protein_coding',
-E           'KI635858.1',
-E           -1,
-E           7674910,
-E           7685357]]
+E       AssertionError: {'strand': 1, 'logic_name': 'ensembl', 'cano[300 chars]2511} != {'source': 'ensembl', 'id': 'ENSPFOG00000009[372 chars]8.1'}
+E         {'assembly_name': 'PoeFor_5.1.2',
+E          'biotype': 'protein_coding',
+E          'canonical_transcript': 'ENSPFOT00000009352.1',
+E          'db_type': 'core',
+E       +  'description': 'fish-egg lectin-like [Source:NCBI gene;Acc:103152571]',
+E          'end': 504269,
+E          'id': 'ENSPFOG00000009362',
+E          'logic_name': 'ensembl',
+E          'object_type': 'Gene',
+E          'seq_region_name': 'KI519928.1',
+E          'source': 'ensembl',
+E          'species': 'poecilia_formosa',
+E          'start': 502511,
+E          'strand': 1,
+E          'version': 1}
 
-tests/from_json.py:79: AssertionError
------------------------------- Captured log call -------------------------------
-INFO     gget.utils:gget_info.py:103 We noticed that you passed a version number with your Ensembl ID.
-Please note that gget info will always return information linked to the latest Ensembl ID version (see 'ensembl_id').
-WARNING  gget.utils:utils.py:452 No reviewed UniProt results were found for ID ENSCMIT00000032966. Returning all unreviewed results.
+tests/test_utils.py:144: AssertionError
 =============================== warnings summary ===============================
 tests/test_cbio.py::TestCbioSearch::test_cbio_search
 tests/test_cbio.py::TestCbioSearch::test_cbio_search
@@ -702,449 +545,141 @@ tests/test_cosmic.py::TestCosmicWorkflow::test_cosmic_defaults
   /home/runner/work/gget/gget/tests/from_json.py:70: FutureWarning: Downcasting behavior in `replace` is deprecated and will be removed in a future version. To retain the old behavior, explicitly call `result.infer_objects(copy=False)`. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
     expected_result = expected_result.replace({None: np.nan})
 
+tests/test_mutate.py: 29 warnings
+  /home/runner/work/gget/gget/gget/gget_mutate.py:663: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
+    mask = mutations[mut_column].str.contains(combined_pattern)
+
+tests/test_ref.py: 11 warnings
+tests/test_utils.py: 1 warning
+  /home/runner/work/gget/gget/gget/utils.py:998: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
+    for subsoup in soup.body.findAll("a"):
+
+tests/test_ref.py: 39 warnings
+  /home/runner/work/gget/gget/gget/gget_ref.py:48: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
+    links = [stuff.text.strip() for stuff in soup.findAll("td")]
+
+tests/test_ref.py::TestRef::test_ref
+tests/test_ref.py::TestRef::test_ref_ftp
+  /home/runner/work/gget/gget/gget/gget_ref.py:355: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
+    links = [stuff.text.strip() for stuff in soup.findAll("td")]
+
+tests/test_ref.py: 24 warnings
+tests/test_utils.py: 4 warnings
+  /home/runner/work/gget/gget/gget/utils.py:973: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
+    for subsoup in soup.body.findAll("a"):
+
+tests/test_ref.py: 7 warnings
+tests/test_search.py: 19 warnings
+  /home/runner/work/gget/gget/gget/utils.py:917: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
+    for subsoup in soup.body.findAll("a"):
+
+tests/test_search.py: 10 warnings
+  /home/runner/work/gget/gget/gget/gget_search.py:244: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+    df_temp = pd.read_sql(query, con=db_connection)
+
+tests/test_search.py::TestSearch::test_search_gene_bad_species
+tests/test_search.py::TestSearch::test_search_release
+tests/test_search.py::TestSearch::test_search_transcript_two_sw_or
+tests/test_utils.py::TestUtils::test_search_species_options
+  /home/runner/work/gget/gget/gget/utils.py:893: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
+    for subsoup in soup.body.findAll("a"):
+
+tests/test_search.py::TestSearch::test_search_gene_bad_species
+tests/test_search.py::TestSearch::test_search_gene_bad_species
+tests/test_search.py::TestSearch::test_search_gene_bad_species
+tests/test_search.py::TestSearch::test_search_gene_bad_species
+tests/test_utils.py::TestUtils::test_search_iv_species_options
+tests/test_utils.py::TestUtils::test_search_iv_species_options
+tests/test_utils.py::TestUtils::test_search_iv_species_options
+tests/test_utils.py::TestUtils::test_search_iv_species_options
+  /home/runner/work/gget/gget/gget/utils.py:875: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
+    for subsoup in soup.body.findAll("a"):
+
+tests/test_search.py::TestSearch::test_search_gene_two_sw_limit
+tests/test_search.py::TestSearch::test_search_transcript_one_sw
+tests/test_search.py::TestSearch::test_search_transcript_two_sw_and
+tests/test_search.py::TestSearch::test_search_transcript_two_sw_or
+  /home/runner/work/gget/gget/gget/gget_search.py:279: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+    df_temp = pd.read_sql(query, con=db_connection)
+
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.13-final-0 _______________
+
+Name                       Stmts   Miss  Cover   Missing
+--------------------------------------------------------
+gget/__init__.py              35      2    94%   34-35
+gget/__main__.py               2      2     0%   1-3
+gget/compile.py               39     27    31%   30-84
+gget/constants.py             36      0   100%
+gget/gget_8cube.py            84     28    67%   27-28, 35-44, 94, 106, 113, 116-119, 159, 176, 183, 186-189, 230, 247, 256, 259-262
+gget/gget_alphafold.py       362    321    11%   86-108, 115-116, 123-149, 181-186, 233-867
+gget/gget_archs4.py           79     13    84%   75-78, 84, 107, 123-126, 139-142, 148, 170, 198-201, 207
+gget/gget_bgee.py             49      4    92%   54, 93, 120, 164
+gget/gget_blast.py           128     36    72%   94, 126-144, 165-167, 206, 209, 248-250, 298-301, 304-305, 324-327, 334-335, 338-343, 348, 353-356
+gget/gget_blat.py            130     23    82%   64-68, 101, 144, 208-209, 215, 262-274, 278, 281, 297-300, 309
+gget/gget_cbio.py            525    413    21%   28, 39-67, 77-87, 128-143, 149, 154-157, 161, 164, 172-177, 208, 225-227, 265, 271-275, 278, 282-294, 296, 322-331, 334, 376-389, 393-416, 420-441, 447-450, 454-473, 477, 494-537, 540-757, 760-789, 802-1172, 1226-1262
+gget/gget_cellxgene.py        53      9    83%   21-22, 140-149, 176, 215, 231, 247
+gget/gget_cosmic.py          279    156    44%   24-26, 30-83, 95-110, 113-115, 118-120, 123-127, 132-136, 141-143, 154, 157-170, 190-203, 221, 243-244, 284-309, 312, 397-399, 411, 417, 425, 428-430, 455-473, 497-622, 638-647, 650, 652, 654, 853-856, 869-871, 880-892, 897-902
+gget/gget_diamond.py          98     26    73%   16, 69, 75, 77, 95, 98-99, 105, 111, 117-121, 130-132, 145, 147, 160, 162, 181, 184, 216-217, 223
+gget/gget_elm.py             158     22    86%   128, 278, 301, 325-332, 353, 420-423, 426, 436, 490, 503, 506-515, 519-520
+gget/gget_enrichr.py         213     42    80%   40-43, 49, 173, 227-238, 255-256, 264-265, 291, 311, 317-323, 339, 369-379, 408-423, 444, 456-458, 560, 569-570, 580-581, 588
+gget/gget_gpt.py              20      6    70%   56-65, 88, 110-111
+gget/gget_info.py            316    106    66%   63-64, 68-69, 155-157, 166-167, 180, 206-211, 218-221, 247, 260-271, 305-313, 329-347, 373-374, 458-459, 466-467, 470-471, 474-475, 478-479, 512-513, 516-517, 520-521, 548-549, 552-553, 556-557, 580-581, 584-678, 682
+gget/gget_muscle.py           85     12    86%   17, 45, 68-69, 78-80, 91, 94, 115, 162-163
+gget/gget_mutate.py          434    193    56%   124-175, 186, 190-198, 215-226, 274-278, 283-287, 291-296, 300-305, 309-312, 317-320, 324-334, 340-350, 493, 516-520, 528, 538-542, 553-557, 576, 583, 593-600, 611, 616, 624, 635, 730-741, 855-879, 891-904, 948-985, 1032-1050, 1053-1056, 1070-1077, 1083-1093, 1109-1110, 1147, 1152, 1156, 1160, 1165-1241, 1255-1258, 1299, 1308-1324, 1332-1336, 1341, 1349, 1353
+gget/gget_opentargets.py     111     10    91%   189, 230, 315, 341-343, 366-368, 373
+gget/gget_pdb.py              63     22    65%   52, 58, 67, 75, 83, 104, 108-110, 113-129, 146-152
+gget/gget_ref.py             215     57    73%   37, 102-103, 122-123, 129-157, 166, 179, 181, 183-184, 191-192, 230, 249, 261-263, 284-286, 313-315, 334-336, 389-391, 490-499, 512, 517-518, 534-539, 543, 547, 553, 558-559
+gget/gget_search.py          142     21    85%   84-87, 96, 113, 117, 125, 149-150, 157, 213-222, 308-309, 315-316, 368-369, 376-377, 385
+gget/gget_seq.py             146     24    84%   44-47, 49, 119, 140-143, 177-178, 207-208, 245-248, 271-272, 293, 312-315, 334, 356, 365, 402-405
+gget/gget_setup.py           215    149    31%   49-90, 108, 113, 116, 128-138, 152, 175-176, 189, 199, 209, 221-466
+gget/gget_virus.py          4587   2186    52%   36-37, 188-230, 243-244, 255, 274, 288, 349, 428-429, 470-474, 479-493, 500, 511-512, 530-535, 563-566, 579-580, 707, 771, 785, 791-792, 804-807, 816-817, 819-822, 836-839, 906-907, 914-916, 937-964, 987-989, 1093-1094, 1098, 1156, 1169-1172, 1179-1180, 1184-1214, 1223, 1227-1230, 1238, 1241, 1245-1253, 1292-1323, 1400-1401, 1453-1455, 1489-1490, 1510-1626, 1631-1682, 1707-1708, 1728-2072, 2081-2082, 2126-2287, 2378-2621, 2643-2692, 2745-2898, 2946-3058, 3112-3219, 3254, 3261-3262, 3284, 3295-3296, 3326-3327, 3408, 3421, 3471-3472, 3477-3479, 3538, 3545, 3564-3586, 3602-3604, 3651, 3678, 3684, 3707, 3721-3755, 3778, 3789-3791, 3814, 3912-3929, 3933-3945, 3982-3989, 4034, 4064-4065, 4074, 4078-4081, 4125, 4129, 4149-4179, 4217-4363, 4490-4555, 4585-4601, 4702, 4791-4792, 4808, 4839-4844, 4849, 4875, 4884, 4890-4897, 5000-5009, 5013-5021, 5025-5037, 5041-5057, 5074, 5078-5086, 5095-5096, 5108-5111, 5185-5188, 5357, 5366, 5370-5372, 5402-5404, 5471, 5475, 5479, 5481, 5483, 5487-5488, 5502, 5514-5515, 5526-5527, 5530-5531, 5550, 5578-5586, 5621, 5661-5667, 5672-5674, 5698-5792, 5822, 5827, 5830, 5878, 5907-5984, 6017-6020, 6024-6025, 6033-6034, 6063, 6080-6081, 6085, 6089, 6093-6100, 6104-6130, 6137-6172, 6195-6201, 6205-6208, 6210-6213, 6216-6219, 6234, 6241-6242, 6248-6249, 6256, 6260-6266, 6309-6311, 6345, 6355-6420, 6564, 6590-6607, 6653, 6656-6657, 6725, 6750, 6757, 6771, 6827-6830, 6995-6997, 7039, 7063-7064, 7111-7113, 7137-7141, 7150-7152, 7176-7178, 7315-7317, 7351-7353, 7393-7395, 7412-7413, 7435-7436, 7458-7459, 7481-7482, 7518-7521, 7524-7526, 7540-7543, 7546-7548, 7564-7566, 7577-7580, 7583-7585, 7632-7635, 7678-7680, 7700-7702, 7734-7735, 7738-7739, 7742-7743, 7746-7747, 7764-7766, 7802-7809, 7932-7934, 7960-7962, 7983-7985, 8027-8029, 8057-8058, 8076, 8095-8096, 8098, 8115-8122, 8212, 8220, 8263-8267, 8288, 8308, 8312-8313, 8353, 8358, 8368, 8401-8402, 8447-8449, 8476-8493, 8508, 8510-8547, 8600, 8602-8640, 8696-8765, 8809, 8828, 8833-8851, 8855-8927, 8930-8946, 8962-8977, 8995-8996, 9002-9045, 9096-9116, 9128-9129, 9174-9176, 9204-9233, 9240, 9307-9348, 9357-9381, 9386, 9428-9429, 9445, 9457-9459, 9468-9471, 9475-9507, 9558-9560, 9583-9597, 9619-9719, 9753-9756, 9786-9946, 9961-9962, 9968-9981, 9983, 9986-9989, 9992-9996, 10009
+gget/main.py                 888    888     0%   1-3928
+gget/utils.py                494    101    80%   35, 40-46, 85, 90-91, 118-120, 136-138, 148, 171, 195, 198, 262, 269, 321, 333, 342, 350, 414, 432, 443, 476-477, 517-518, 533-534, 541-543, 559-560, 566-567, 688-704, 712-715, 741, 760, 780-791, 826, 868, 909, 1027, 1035, 1043-1063, 1068, 1073, 1079-1080, 1098-1099, 1158, 1190, 1229-1243
+--------------------------------------------------------
+TOTAL                       9986   4899    51%
 ============================= slowest 10 durations =============================
-7215.82s call     tests/test_blast.py::TestBlast::test_blast_nt
-47.70s call     tests/test_enrichr.py::TestEnrichr::test_enrichr_background_ensembl
-37.63s call     tests/test_cellxgene.py::TestCellxgene::test_cellxgene_adata
-17.64s call     tests/test_8cube.py::TestSpecificity::test_specificity_basic
-13.42s call     tests/test_elm.py::TestELM::test_elm_uniprot_id_new
-13.18s setup    tests/test_cosmic.py::TestCosmicWorkflow::test_cosmic_defaults
-11.38s call     tests/test_blat.py::TestBlat::test_blat_aa_RNA
-10.96s call     tests/test_blat.py::TestBlat::test_blat_bad_assembly
-10.05s call     tests/test_cosmic.py::TestCosmicWorkflow::test_cosmic_defaults
-5.92s call     tests/test_info.py::TestInfo::test_info_ncbifalse_uniprotfalse
+185.42s call     tests/test_virus.py::TestVirus::test_virus_with_lab_passaged_filter
+142.49s call     tests/test_virus.py::TestVirus::test_virus_integer_virus_id
+141.21s call     tests/test_virus.py::TestVirus::test_virus_with_source_database_filter
+101.13s call     tests/test_blast.py::TestBlast::test_blast_nt
+84.80s call     tests/test_virus.py::TestVirus::test_virus_with_annotated_filter
+83.85s call     tests/test_virus.py::TestVirus::test_virus_with_has_proteins_filter
+80.56s call     tests/test_virus.py::TestVirus::test_virus_with_protein_count_filters
+49.21s call     tests/test_virus.py::TestVirus::test_virus_with_max_ambiguous_chars_filter
+43.90s call     tests/test_cellxgene.py::TestCellxgene::test_cellxgene_adata
+32.13s call     tests/test_search.py::TestSearch::test_search_gene_two_sw_limit
 =========================== short test summary info ============================
-FAILED tests/test_info.py::TestInfo::test_info_WB_transcript - AssertionError: Lists differ: [['T1[86 chars]3'], [], 'WBGene00043981', ['Protein aaim-1', [2746 chars]67]]] != [['T1[86 chars]3'], 'aaim-1-201', [], 'WBGene00043981', ['Pro[2760 chars]67]]]
+FAILED tests/test_seq.py::TestSeq::test_seq_gene - AssertionError: Lists differ: ['>EN[36 chars]3056118:153065583:-1', 'CTGTGCTGACTTCAAGTCCTGA[9441 chars]ATA'] != ['>EN[36 chars]3056120:153057512:-1', 'AAACCCCTGGTACCTGAGCACT[1368 chars]ATA']
 
 First differing element 0:
-['T14[85 chars]3'], [], 'WBGene00043981', ['Protein aaim-1', [2745 chars]667]]
-['T14[85 chars]3'], 'aaim-1-201', [], 'WBGene00043981', ['Pro[2759 chars]667]]
+'>ENSG00000241794 chromosome:GRCh38:1:153056118:153065583:-1'
+'>ENSG00000241794 chromosome:GRCh38:1:153056120:153057512:-1'
 
-  [['T14E8.4.1',
-    ['Q5WRS0', 'Q6RYS9'],
-    'caenorhabditis_elegans',
-    'WBcel235',
-    ['aaim-1', 'dop-3'],
-+   'aaim-1-201',
-    [],
-    'WBGene00043981',
-    ['Protein aaim-1', 'Dopamine receptor 3'],
-    ['(Microbial infection) Promotes infection by microsporidian pathogens such '
-     'as N.parisii in the early larval stages of development (PubMed:34994689). '
-     'Involved in ensuring the proper orientation and location of the spore '
-     'proteins of N.parisii during intestinal cell invasion (PubMed:34994689) '
-     'Plays a role in promoting resistance to bacterial pathogens such as '
-     'P.aeruginosa by inhibiting bacterial intestinal colonization',
-     'G-protein coupled receptor which binds to the neurotransmitter dopamine '
-     'with high affinity leading to the activation of an associated G-protein '
-     'and downstream signaling pathways (PubMed:15378064, PubMed:16001968). '
-     'Couples to G-proteins to inhibit adenylate cyclase (AC) activity and cAMP '
-     'production (PubMed:15378064, PubMed:16001968). Antagonizes the D1-like '
-     'dopamine receptor dop-1 to negatively regulate the rate of locomotion '
-     '(PubMed:15378064). Negatively regulates locomotion through the activation '
-     'of goa-1 subunit proteins which inactivates the unc-77/nca-1 and nca-2 '
-     'ion-channels in the command interneurons (PubMed:28968387). Inhibits '
-     'early-stage swimming by modulating the unc-77/nca-1 and nca-2 ion channels '
-     'of premotor interneurons (PubMed:33796839). In GABAergic, RIC, and SIA '
-     'neurons, antagonizes the function of dop-1 to play a role in behavioral '
-     'plasticity and regulate the decision-making process when conflicting '
-     'alternatives are present (PubMed:25536037). Antagonizes octopamine '
-     'signaling in response to food by promoting the dopamine-mediated '
-     'suppression of crh-1/CREB1 transcription factor activation in cholinergic '
-     'SIA neurons (PubMed:19609300). This is most likely in association with the '
-     'G(o)-alpha G-protein subunit goa-1 (PubMed:19609300). Promotes male mating '
-     'behavior by antagonizing acetylcholine signaling to control the protrusion '
-     'of copulatory spicules from the tail of males during hermaphrodite vulval '
-     'location (PubMed:23166505). Under mitochondria stress, plays a role in '
-     'bacterial preference, resulting in learned avoidance behavior '
-     '(PubMed:35074444)'],
-    ['Secreted', 'Cell membrane'],
-    'Transcript',
-    'protein_coding',
-    'X',
-    -1,
-    6559466,
-    6562428,
-    ['T14E8.4.1.e1',
-     'T14E8.4.1.e2',
-     'T14E8.4.1.e3',
-     'T14E8.4.1.e4',
-     'T14E8.4.1.e5',
-     'T14E8.4.1.e6',
-     'T14E8.4.1.e7',
-     'T14E8.4.1.e8',
-     'T14E8.4.1.e9'],
-    [6562330,
-     6562225,
-     6562110,
-     6561817,
-     6561252,
-     6560727,
-     6560492,
-     6560197,
-     6559466],
-    [6562428,
-     6562286,
-     6562183,
-     6562059,
-     6561378,
-     6561206,
-     6560671,
-     6560443,
-     6559667],
-    ['T14E8.4.1.e1',
-     'T14E8.4.1.e2',
-     'T14E8.4.1.e3',
-     'T14E8.4.1.e4',
-     'T14E8.4.1.e5',
-     'T14E8.4.1.e6',
-     'T14E8.4.1.e7',
-     'T14E8.4.1.e8',
-     'T14E8.4.1.e9'],
-    [6562330,
-     6562225,
-     6562110,
-     6561817,
-     6561252,
-     6560727,
-     6560492,
-     6560197,
-     6559466],
-    [6562428,
-     6562286,
-     6562183,
-     6562059,
-     6561378,
-     6561206,
-     6560671,
-     6560443,
-     6559667]]]
-FAILED tests/test_info.py::TestInfo::test_info_gene - AssertionError: Lists differ: [['EnsMUSG00000000001.6', 'Q9DC51', '14679', 'mus_musculus', 'G[3077 chars]62]]] != [['EnsMUSG00000000001.5', 'Q9DC51', '14679', 'mus_musculus', 'G[2303 chars]62]]]
+Diff is 11129 characters long. Set self.maxDiff to None to see it.
+FAILED tests/test_seq.py::TestSeq::test_seq_gene_iso - AssertionError: Lists differ: ['>EN[1449 chars]TATA', '>ENST00001096805 chromosome:GRCh38:1:1[19049 chars]ATA'] != ['>EN[1449 chars]TATA']
 
-First differing element 0:
-['EnsMUSG00000000001.6', 'Q9DC51', '14679', 'mus_musculus', 'G[3076 chars]462]]
-['EnsMUSG00000000001.5', 'Q9DC51', '14679', 'mus_musculus', 'G[2302 chars]462]]
+First list contains 14 additional elements.
+First extra element 2:
+'>ENST00001096805 chromosome:GRCh38:1:153056118:153065583:-1'
 
-- [['EnsMUSG00000000001.6',
-?                       ^
-
-+ [['EnsMUSG00000000001.5',
-?                       ^
-
-    'Q9DC51',
-    '14679',
-    'mus_musculus',
-    'GRCm39',
-    'Gnai3',
-    'Gnai3',
-    ['Galphai3', 'Gnai-3', 'Hg1a'],
-    'Guanine nucleotide-binding protein G(i) subunit alpha-3',
-    'G protein subunit alpha i3 [Source:MGI Symbol;Acc:MGI:95773]',
-    'Heterotrimeric guanine nucleotide-binding proteins (G proteins) function as '
-    'transducers downstream of G protein-coupled receptors (GPCRs) in numerous '
-    'signaling cascades. The alpha chain contains the guanine nucleotide binding '
-    'site and alternates between an active, GTP-bound state and an inactive, '
-    'GDP-bound state. Signaling by an activated GPCR promotes GDP release and '
-    'GTP binding. The alpha subunit has a low GTPase activity that converts '
-    'bound GTP to GDP, thereby terminating the signal (By similarity). Both GDP '
-    'release and GTP hydrolysis are modulated by numerous regulatory proteins '
-    '(By similarity). Signaling is mediated via effector proteins, such as '
-    'adenylate cyclase. Inhibits adenylate cyclase activity, leading to '
-    'decreased intracellular cAMP levels (By similarity). Stimulates the '
-    'activity of receptor-regulated K(+) channels (By similarity). The active '
-    'GTP-bound form prevents the association of RGS14 with centrosomes and is '
-    'required for the translocation of RGS14 from the cytoplasm to the plasma '
-    'membrane. May play a role in cell division (By similarity). The active '
-    'GTP-bound form activates the calcium permeant TRPC5 ion channels (By '
-    'similarity)',
-    'Predicted to enable several functions, including G-protein '
-    'beta/gamma-subunit complex binding activity; GDP binding activity; and '
-    'GTPase activating protein binding activity. Predicted to be involved in '
-    'several processes, including G protein-coupled receptor signaling pathway; '
-    'positive regulation of metabolic process; and positive regulation of '
-    'vascular associated smooth muscle cell proliferation. Predicted to act '
-    'upstream of or within G protein-coupled receptor signaling pathway. Located '
-    'in Golgi apparatus. Is expressed in early conceptus; inner ear; and oocyte. '
-    'Orthologous to human GNAI3 (G protein subunit alpha i3). [provided by '
-    'Alliance of Genome Resources, Apr 2025]',
-    ['Cytoplasm',
-     'Cell membrane',
-     'Cytoplasm, cytoskeleton, microtubule organizing center, centrosome'],
-    'Gene',
-    'protein_coding',
--   'ENSMUST00000000001.6',
-?                       ^
-
-+   'ENSMUST00000000001.5',
-?                       ^
-
-    '3',
-    -1,
--   108014590,
-?           ^
-
-+   108014596,
-?           ^
-
--   108053469,
-?           ^
-
-+   108053462,
-?           ^
-
--   ['ENSMUST00000000001.6',
-?                        ^
-
-+   ['ENSMUST00000000001.5'],
-?                        ^ +
-
--    'ENSMUST00000535596.1',
--    'ENSMUST00000535597.1',
--    'ENSMUST00000535598.1',
--    'ENSMUST00000535599.1',
--    'ENSMUST00000535600.1',
--    'ENSMUST00000535601.1',
--    'ENSMUST00000535602.1',
--    'ENSMUST00000535603.1',
--    'ENSMUST00000558104.1'],
--   ['protein_coding',
-+   ['protein_coding'],
-?                    +
-
--    'protein_coding',
--    'protein_coding',
--    'nonsense_mediated_decay',
--    'protein_coding',
--    'nonsense_mediated_decay',
--    'nonsense_mediated_decay',
--    'protein_coding',
--    'nonsense_mediated_decay',
--    'nonsense_mediated_decay'],
--   ['Gnai3-201',
-+   ['Gnai3-201'],
-?               +
-
-+   [-1],
--    'Gnai3-202',
--    'Gnai3-203',
--    'Gnai3-204',
--    'Gnai3-205',
--    'Gnai3-206',
--    'Gnai3-207',
--    'Gnai3-208',
--    'Gnai3-209',
--    'Gnai3-210'],
--   [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
--   [108014596,
-+   [108014596],
-?             +
-
--    108014596,
--    108014597,
--    108014597,
--    108014592,
--    108014597,
--    108014590,
--    108014613,
--    108014611,
--    108014596],
--   [108053469,
--    108053469,
--    108053469,
--    108053453,
--    108053469,
--    108053443,
--    108053435,
--    108053469,
--    108053426,
--    108053462]]]
-?   ^
-
-+   [108053462]]]
-?   ^
-FAILED tests/test_info.py::TestInfo::test_info_gene_list_non_model - AssertionError: Lists differ: [['EN[97 chars]urce:HGNC Symbol;Acc:HGNC:26358]', 'Gene', 'pr[875 chars]84]]] != [['EN[97 chars]urce:UniProtKB Gene Name;Acc:F7D2F4]', 'Gene',[879 chars]84]]]
-
-First differing element 0:
-['ENS[96 chars]urce:HGNC Symbol;Acc:HGNC:26358]', 'Gene', 'pr[874 chars]684]]
-['ENS[96 chars]urce:UniProtKB Gene Name;Acc:F7D2F4]', 'Gene',[878 chars]684]]
-
-  [['ENSMMUG00000021246.4',
-    'macaca_mulatta',
-    'Mmul_10',
-    'CCDC13',
--   'coiled-coil domain containing 13 [Source:HGNC Symbol;Acc:HGNC:26358]',
-+   'coiled-coil domain containing 13 [Source:UniProtKB Gene Name;Acc:F7D2F4]',
-    'Gene',
-    'protein_coding',
-    'ENSMMUT00000029894.4',
-    '2',
-    -1,
-    98646979,
-    98755023,
-    ['ENSMMUT00000029893.4',
-     'ENSMMUT00000053619.2',
-     'ENSMMUT00000104418.1',
-     'ENSMMUT00000087615.1',
-     'ENSMMUT00000103912.1',
-     'ENSMMUT00000086824.1',
-     'ENSMMUT00000029894.4',
-     'ENSMMUT00000104481.1',
-     'ENSMMUT00000090481.1',
-     'ENSMMUT00000026408.4'],
-    ['protein_coding',
-     'protein_coding',
-     'protein_coding',
-     'protein_coding',
-     'protein_coding',
-     'protein_coding',
-     'protein_coding',
-     'protein_coding',
-     'protein_coding',
-     'protein_coding'],
-    ['CCDC13-201',
-     'CCDC13-202',
-     'CCDC13-204',
-     'CCDC13-203',
-     'CCDC13-205',
-     'CCDC13-206',
-     'CCDC13-207',
-     'CCDC13-208',
-     'CCDC13-209',
-     'CCDC13-210'],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [98646979,
-     98646982,
-     98646984,
-     98646984,
-     98646985,
-     98662368,
-     98663259,
-     98690412,
-     98737900,
-     98738870],
-    [98655536,
-     98656674,
-     98688669,
-     98656968,
-     98656865,
-     98713982,
-     98746548,
-     98713982,
-     98755023,
-     98754684]]]
-FAILED tests/test_info.py::TestInfo::test_info_mix - AssertionError: Lists differ: [['EN[219 chars]174.15', 'Q8NBP7', 'homo_sapiens', 'GRCh38', '[1453 chars]852]] != [['EN[219 chars]174.14', 'Q8NBP7', 'homo_sapiens', 'GRCh38', '[1453 chars]852]]
-
-First differing element 1:
-['ENSG00000169174.15', 'Q8NBP7', 'homo_sapiens', 'GRCh38', '[1452 chars]4852]
-['ENSG00000169174.14', 'Q8NBP7', 'homo_sapiens', 'GRCh38', '[1452 chars]4852]
-
-  [['ENSTGUT00000027003.1',
-    'A0A674GVD2',
-    'taeniopygia_guttata',
-    'bTaeGut1_v1.p',
-    'FUNDC1',
-    'FUNDC1-201',
-    [],
-    '',
-    ['Mitochondrion outer membrane'],
-    'Transcript',
-    'protein_coding',
-    '1',
-    -1,
-    107513786,
-    107526965],
--  ['ENSG00000169174.15',
-?                     ^
-
-+  ['ENSG00000169174.14',
-?                     ^
-
-    'Q8NBP7',
-    'homo_sapiens',
-    'GRCh38',
-    'PCSK9',
-    'PCSK9',
-    ['NARC1'],
-    'Crucial player in the regulation of plasma cholesterol homeostasis. Binds '
-    'to low-density lipid receptor family members: low density lipoprotein '
-    'receptor (LDLR), very low density lipoprotein receptor (VLDLR), '
-    'apolipoprotein E receptor (LRP1/APOER) and apolipoprotein receptor 2 '
-    '(LRP8/APOER2), and promotes their degradation in intracellular acidic '
-    'compartments (PubMed:18039658). Acts via a non-proteolytic mechanism to '
-    'enhance the degradation of the hepatic LDLR through a clathrin '
-    'LDLRAP1/ARH-mediated pathway. May prevent the recycling of LDLR from '
-    'endosomes to the cell surface or direct it to lysosomes for degradation. '
-    'Can induce ubiquitination of LDLR leading to its subsequent degradation '
-    '(PubMed:17461796, PubMed:18197702, PubMed:18799458, PubMed:22074827). '
-    'Inhibits intracellular degradation of APOB via the autophagosome/lysosome '
-    'pathway in a LDLR-independent manner. Involved in the disposal of '
-    'non-acetylated intermediates of BACE1 in the early secretory pathway '
-    '(PubMed:18660751). Inhibits epithelial Na(+) channel (ENaC)-mediated Na(+) '
-    'absorption by reducing ENaC surface expression primarily by increasing its '
-    'proteasomal degradation. Regulates neuronal apoptosis via modulation of '
-    'LRP8/APOER2 levels and related anti-apoptotic signaling pathways',
-    ['Cytoplasm',
-     'Secreted',
-     'Endosome',
-     'Lysosome',
-     'Cell surface',
-     'Endoplasmic reticulum',
-     'Golgi apparatus'],
-    'Gene',
-    'protein_coding',
-    '1',
-    1,
-    55039445,
-    55064852]]
-FAILED tests/test_info.py::TestInfo::test_info_ncbifalse_uniprottrue - AssertionError: Lists differ: [['EN[13 chars]847.17', 'Q08890', 'mus_musculus', 'GRCm39', '[427 chars]357]] != [['EN[13 chars]847.16', 'Q08890', 'mus_musculus', 'GRCm39', '[427 chars]357]]
-
-First differing element 0:
-['ENSMUSG00000035847.17', 'Q08890', 'mus_musculus', 'GRCm39', '[201 chars]8718]
-['ENSMUSG00000035847.16', 'Q08890', 'mus_musculus', 'GRCm39', '[201 chars]8690]
-
-- [['ENSMUSG00000035847.17',
-?                        ^
-
-+ [['ENSMUSG00000035847.16',
-?                        ^
-
-    'Q08890',
-    'mus_musculus',
-    'GRCm39',
-    'Ids',
-    'Ids',
-    [],
-    'Iduronate 2-sulfatase',
-    'Lysosomal enzyme involved in the degradation pathway of dermatan sulfate '
-    'and heparan sulfate',
-    ['Lysosome'],
-    'Gene',
-    'protein_coding',
-    'X',
-    -1,
-    69386675,
--   69408718],
-?        ^^^
-
-+   69408690],
-?        ^^^
-
-   ['ENSCMIT00000032966.1',
-    'A0A4W3J2P3',
-    'callorhinchus_milii',
-    'Callorhinchus_milii-6.1.3',
-    'tyr',
-    'tyr-204',
-    [],
-    'Tyrosinase',
-    '',
-    ['Melanosome membrane'],
-    'Transcript',
-    'protein_coding',
-    'KI635858.1',
-    -1,
-    7674910,
-    7685357]]
-!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 5 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
-============ 5 failed, 86 passed, 28 warnings in 7473.77s (2:04:33) ============
+Diff is 24804 characters long. Set self.maxDiff to None to see it.
+FAILED tests/test_utils.py::TestUtils::test_find_latest_ens_rel - AssertionError: 116 != 115
+FAILED tests/test_utils.py::TestUtils::test_rest_query - AssertionError: {'strand': 1, 'logic_name': 'ensembl', 'cano[300 chars]2511} != {'source': 'ensembl', 'id': 'ENSPFOG00000009[372 chars]8.1'}
+  {'assembly_name': 'PoeFor_5.1.2',
+   'biotype': 'protein_coding',
+   'canonical_transcript': 'ENSPFOT00000009352.1',
+   'db_type': 'core',
++  'description': 'fish-egg lectin-like [Source:NCBI gene;Acc:103152571]',
+   'end': 504269,
+   'id': 'ENSPFOG00000009362',
+   'logic_name': 'ensembl',
+   'object_type': 'Gene',
+   'seq_region_name': 'KI519928.1',
+   'source': 'ensembl',
+   'species': 'poecilia_formosa',
+   'start': 502511,
+   'strand': 1,
+   'version': 1}
+=========== 4 failed, 386 passed, 190 warnings in 1409.45s (0:23:29) ===========
