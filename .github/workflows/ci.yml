@@ -54,7 +54,7 @@ jobs:
       - name: Run tests on push
         if: github.event_name == 'push'
         run: |
-          pytest -ra -v --tb=long --maxfail=5 --durations=10 \
+          pytest -ra -v --tb=long --durations=10 \
             --cov=gget --cov-report=term-missing tests
 
       # Scheduled/manual behavior:
@@ -78,7 +78,7 @@ jobs:
           echo "" >> "$OUT"
 
           set +e
-          pytest -ra -v --tb=long --maxfail=5 --durations=10 \
+          pytest -ra -v --tb=long --durations=10 \
             --cov=gget --cov-report=term-missing tests 2>&1 | tee -a "$OUT"
           code=${PIPESTATUS[0]}
           set -e

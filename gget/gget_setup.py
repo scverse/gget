@@ -147,21 +147,26 @@ def setup(module, verbose=True, out=None):
             if not os.path.exists(ELM_FILES):
                 os.makedirs(ELM_FILES)
 
+        # --fail: non-zero exit on HTTP 4xx/5xx (so the && chain breaks instead of writing an error page).
+        # --retry 3 / --retry-delay 5: re-try transient failures; elm.eu.org can be slow on cold cache.
+        # --max-time 180: cap each download at 3 min so a hung server fails loudly instead of stalling forever.
+        curl_opts = "--fail --retry 3 --retry-delay 5 --max-time 180"
+
         if platform.system() == "Windows":
             # The double-quotation marks allow white spaces in the path, but this does not work for Windows
             command = f"""
-                curl -o {elm_instances_fasta} \"{ELM_INSTANCES_FASTA_DOWNLOAD}\" \\
-                &&  curl -o {elm_classes_tsv} \"{ELM_CLASSES_TSV_DOWNLOAD}\" \\
-                &&  curl -o {elm_instances_tsv} \"{ELM_INSTANCES_TSV_DOWNLOAD}\" \\
-                &&  curl -o {elm_intdomains_tsv} \"{ELM_INTDOMAINS_TSV_DOWNLOAD}\"
+                curl {curl_opts} -o {elm_instances_fasta} \"{ELM_INSTANCES_FASTA_DOWNLOAD}\" \\
+                &&  curl {curl_opts} -o {elm_classes_tsv} \"{ELM_CLASSES_TSV_DOWNLOAD}\" \\
+                &&  curl {curl_opts} -o {elm_instances_tsv} \"{ELM_INSTANCES_TSV_DOWNLOAD}\" \\
+                &&  curl {curl_opts} -o {elm_intdomains_tsv} \"{ELM_INTDOMAINS_TSV_DOWNLOAD}\"
                 """
 
         else:
             command = f"""
-                curl -o '{elm_instances_fasta}' {ELM_INSTANCES_FASTA_DOWNLOAD} \\
-                &&  curl -o '{elm_classes_tsv}' {ELM_CLASSES_TSV_DOWNLOAD} \\
-                &&  curl -o '{elm_instances_tsv}' {ELM_INSTANCES_TSV_DOWNLOAD} \\
-                &&  curl -o '{elm_intdomains_tsv}' '{ELM_INTDOMAINS_TSV_DOWNLOAD}'
+                curl {curl_opts} -o '{elm_instances_fasta}' {ELM_INSTANCES_FASTA_DOWNLOAD} \\
+                &&  curl {curl_opts} -o '{elm_classes_tsv}' {ELM_CLASSES_TSV_DOWNLOAD} \\
+                &&  curl {curl_opts} -o '{elm_instances_tsv}' {ELM_INSTANCES_TSV_DOWNLOAD} \\
+                &&  curl {curl_opts} -o '{elm_intdomains_tsv}' '{ELM_INTDOMAINS_TSV_DOWNLOAD}'
                 """
 
         with subprocess.Popen(command, shell=True, stderr=subprocess.PIPE) as process:
@@ -172,53 +177,32 @@ def setup(module, verbose=True, out=None):
 
         # Exit system if the subprocess returned with an error
         if process.wait() != 0:
-            logger.error("ELM database files download failed.")
-            return
-
-        # Check if files are present
-        if os.path.exists(elm_instances_fasta):
-            # Check that file does not just contain an error message
-            check_file_for_error_message(
-                elm_instances_fasta,
-                "ELM instances fasta file",
-                ELM_INSTANCES_FASTA_DOWNLOAD,
+            raise RuntimeError(
+                "ELM database files download failed (curl returned a non-zero exit code). "
+                "Check the stderr above for details."
             )
-            if verbose:
-                logger.info(f"ELM sequences file present.")
-        else:
-            logger.error("ELM FASTA file missing.")
 
-        if os.path.exists(elm_classes_tsv):
-            # Check that file does not just contain an error message
-            check_file_for_error_message(
-                elm_classes_tsv, "ELM classes tsv file", ELM_CLASSES_TSV_DOWNLOAD
-            )
-            if verbose:
-                logger.info("ELM classes file present.")
-        else:
-            logger.error("ELM classes file missing.")
+        # Check if files are present; raise if any are missing so the failure surfaces
+        # at setup time rather than later during gget.elm().
+        missing = []
+        for path, label, url in [
+            (elm_instances_fasta, "ELM instances fasta file", ELM_INSTANCES_FASTA_DOWNLOAD),
+            (elm_classes_tsv, "ELM classes tsv file", ELM_CLASSES_TSV_DOWNLOAD),
+            (elm_instances_tsv, "ELM instances tsv file", ELM_INSTANCES_TSV_DOWNLOAD),
+            (elm_intdomains_tsv, "ELM interaction domains tsv file", ELM_INTDOMAINS_TSV_DOWNLOAD),
+        ]:
+            if os.path.exists(path):
+                check_file_for_error_message(path, label, url)
+                if verbose:
+                    logger.info(f"{label} present.")
+            else:
+                missing.append(label)
 
-        if os.path.exists(elm_instances_tsv):
-            # Check that file does not just contain an error message
-            check_file_for_error_message(
-                elm_instances_tsv, "ELM instances tsv file", ELM_INSTANCES_TSV_DOWNLOAD
+        if missing:
+            raise RuntimeError(
+                "ELM database files download failed; missing files: "
+                + ", ".join(missing)
             )
-            if verbose:
-                logger.info("ELM instances file present.")
-        else:
-            logger.error("ELM instances file missing.")
-
-        if os.path.exists(elm_intdomains_tsv):
-            # Check that file does not just contain an error message
-            check_file_for_error_message(
-                elm_intdomains_tsv,
-                "ELM interaction domains tsv file",
-                ELM_INTDOMAINS_TSV_DOWNLOAD,
-            )
-            if verbose:
-                logger.info("ELM interaction domains file present.")
-        else:
-            logger.error("ELM interaction domains file missing.")
 
     elif module == "alphafold":
         if platform.system() == "Windows":
