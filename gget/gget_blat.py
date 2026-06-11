@@ -1,11 +1,12 @@
 import json as json_package
 import time
 from json.decoder import JSONDecodeError
-import pandas as pd
 from urllib import request
 from urllib.error import HTTPError, URLError
 
-from .utils import set_up_logger, read_fasta
+import pandas as pd
+
+from .utils import read_fasta, set_up_logger
 
 logger = set_up_logger()
 
@@ -22,8 +23,7 @@ def blat(
     save=False,
     verbose=True,
 ):
-    """
-    BLAT a nucleotide or amino acid sequence against any BLAT UCSC assembly.
+    """BLAT a nucleotide or amino acid sequence against any BLAT UCSC assembly.
 
     Args:
      - sequence       Sequence (str) or path to fasta file containing one sequence.
@@ -38,7 +38,6 @@ def blat(
 
     Returns a data frame with the BLAT results.
     """
-
     ## Clean up sequence
     # If the path to a fasta file was provided instead of a nucleotide sequence,
     # read the file and extract the first sequence
@@ -47,24 +46,18 @@ def blat(
             _, seqs = read_fasta(sequence)
 
         else:
-            raise ValueError(
-                "File format not recognized. gget BLAT currently only supports '.txt' or '.fa' files. "
-            )
+            raise ValueError("File format not recognized. gget BLAT currently only supports '.txt' or '.fa' files. ")
 
         # Set the first sequence from the fasta file as 'sequence'
         sequence = seqs[0]
         if len(seqs) > 1:
             if verbose:
-                logger.info(
-                    "File contains more than one sequence. Only the first sequence will be submitted to BLAT."
-                )
+                logger.info("File contains more than one sequence. Only the first sequence will be submitted to BLAT.")
 
     # Shorten sequence to length limit if necessary
     if len(sequence) > 8000:
         if verbose:
-            logger.info(
-                "Length of sequence is > 8000. Only the fist 8000 characters will be submitted to BLAT."
-            )
+            logger.info("Length of sequence is > 8000. Only the fist 8000 characters will be submitted to BLAT.")
         sequence = sequence[:8000]
 
     # Convert sequence to upper case
@@ -85,33 +78,27 @@ def blat(
         if set(sequence) <= nucleotides:
             seqtype = "DNA"
             if verbose:
-                logger.info(
-                    f"Sequence recognized as nucleotide sequence. 'seqtype' will be set as {seqtype}."
-                )
+                logger.info(f"Sequence recognized as nucleotide sequence. 'seqtype' will be set as {seqtype}.")
 
         # If sequence is an amino acid sequence, set seqtype to protein
         elif set(sequence) <= amino_acids:
             seqtype = "protein"
             if verbose:
-                logger.info(
-                    f"Sequence recognized as amino acid sequence. 'seqtype' will be set as {seqtype}."
-                )
+                logger.info(f"Sequence recognized as amino acid sequence. 'seqtype' will be set as {seqtype}.")
 
         else:
             raise ValueError(
                 f"""
                 Sequence not automatically recognized as a nucleotide or amino acid sequence.
                 Please specify 'seqtype'.
-                Seqtype options: {', '.join(seqtypes)} 
+                Seqtype options: {", ".join(seqtypes)}
                 """
             )
 
     else:
         # Check if the user specified seqtype is valid
         if seqtype not in seqtypes:
-            raise ValueError(
-                f"Seqtype specified is {seqtype}. Expected one of {', '.join(seqtypes)}"
-            )
+            raise ValueError(f"Seqtype specified is {seqtype}. Expected one of {', '.join(seqtypes)}")
 
     ## Set assembly
     # Note: If assembly not found, defaults to hg38
@@ -133,17 +120,13 @@ def blat(
 
     if len(results["blat"]) == 0:
         if verbose:
-            logger.info(
-                f"No {seqtype} BLAT matches were found for this sequence in genome {results['genome']}."
-            )
+            logger.info(f"No {seqtype} BLAT matches were found for this sequence in genome {results['genome']}.")
         return
 
     # Let user know if assembly was not found
     # If this is the case, BLAT automatically defaults to human (hg38)
     if results["genome"] != database:
-        logger.warning(
-            f"Assembly {database} not recognized. Defaulted to {results['genome']} instead."
-        )
+        logger.warning(f"Assembly {database} not recognized. Defaulted to {results['genome']} instead.")
 
     ## Build data frame to resemble BLAT web search results
     # Define dataframe from dictionary
@@ -153,7 +136,7 @@ def blat(
         df_dict.update({field: []})
 
     for blat_result_list in results["blat"]:
-        for field, (i, result) in zip(results["fields"], enumerate(blat_result_list)):
+        for field, (_i, result) in zip(results["fields"], enumerate(blat_result_list), strict=False):
             df_dict[field].append(result)
 
     df = pd.DataFrame(df_dict)
@@ -222,9 +205,9 @@ class _RetryableBlatError(Exception):
 
 
 def _fetch_blat_results(url, seqtype, database):
-    """
-    Submit a BLAT request to UCSC and return the parsed JSON dict, or None
-    on a non-recoverable failure. Retries transient failures (5xx, network
+    """Submit a BLAT request to UCSC and return the parsed JSON dict, or None on a non-recoverable failure.
+
+    Retries transient failures (5xx, network
     errors, non-JSON responses from rate-limiting / HTML error pages) with
     exponential backoff. The legacy "sequence too short or assembly invalid"
     message is replaced with the actual server response so failures are
@@ -239,8 +222,7 @@ def _fetch_blat_results(url, seqtype, database):
             if attempt < _BLAT_MAX_ATTEMPTS:
                 delay = _BLAT_BACKOFF_BASE_SECONDS * (2 ** (attempt - 1))
                 logger.warning(
-                    f"BLAT attempt {attempt}/{_BLAT_MAX_ATTEMPTS} failed ({last_error}). "
-                    f"Retrying in {delay:.1f}s."
+                    f"BLAT attempt {attempt}/{_BLAT_MAX_ATTEMPTS} failed ({last_error}). Retrying in {delay:.1f}s."
                 )
                 time.sleep(delay)
 
@@ -278,10 +260,7 @@ def _fetch_blat_attempt(url, seqtype, database):
         code = r.getcode()
 
     if code != 200:
-        raise RuntimeError(
-            f"HTTP response status code {code}. "
-            "Please double-check arguments and try again.\n"
-        )
+        raise RuntimeError(f"HTTP response status code {code}. Please double-check arguments and try again.\n")
 
     raw = r.read()
     try:
@@ -290,13 +269,13 @@ def _fetch_blat_attempt(url, seqtype, database):
         preview = _preview_bytes(raw)
         # Non-JSON from a 200 response is almost always an HTML error / throttle
         # page from UCSC, which is worth retrying.
-        raise _RetryableBlatError(f"non-JSON response: {preview!r}")
+        raise _RetryableBlatError(f"non-JSON response: {preview!r}") from None
 
 
 def _safe_read_preview(response, limit=300):
     try:
         return _preview_bytes(response.read(), limit=limit)
-    except Exception:
+    except Exception:  # noqa: BLE001
         return ""
 
 

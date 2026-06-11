@@ -21,12 +21,12 @@ Add `--is_accession` when passing an NCBI accession number. Add `--is_sars_cov2`
 
 For SARS-CoV-2 and Alphainfluenza cached downloads, supports:  
   - Single accession: `NC_045512.2`  
-  - Space-separated list: `NC_045512.2 MN908947.3 MT020781.1`   
+  - Space-separated list: `NC_045512.2 MN908947.3 MT020781.1`  
   - Text file path: `accessions.txt` (one accession per line)  
 
 Use flag `--download_all_accessions` to apply filters without searching for a specific virus.  
 
-**Optional arguments**   
+**Optional arguments**  
 
 _Host filters_  
 
@@ -87,7 +87,7 @@ Command line: `--annotated true` to fetch only that have been annotated with gen
 Python: `annotated=True` or `annotated=False` (`annotated=None` for no filter).
 
 `--lab_passaged`  
-'true' or 'false'. Filter for or against lab-passaged samples.   
+'true' or 'false'. Filter for or against lab-passaged samples.  
 Command line: `--lab_passaged true` to fetch only lab-passaged samples, or `--lab_passaged false` to exclude them.  
 Python: `lab_passaged=True` or `lab_passaged=False` (`lab_passaged=None` for no filter).
 
@@ -205,8 +205,8 @@ Python: `merge_results=False`
 `-a` `--is_accession`  
 Flag to indicate that the `virus` positional argument is an accession number, a space-separated list of accessions, or a path to a text file containing accession numbers (one per line).  
 
-`--download_all_accessions`   
-Use this flag when applying filters without searching for a specific virus (leave `virus` argument empty).     
+`--download_all_accessions`  
+Use this flag when applying filters without searching for a specific virus (leave `virus` argument empty).  
 ⚠️ **WARNING**: If you do not specify additional filters, this flag downloads ALL available viral sequences from NCBI (entire Viruses taxonomy, taxon ID 10239). This is an extremely large dataset that can take many hours to download and require significant disk space. Use with caution and ensure you have adequate storage and bandwidth. When this flag is set, the `virus` argument is ignored.
 
 `--is_sars_cov2`  
@@ -227,7 +227,7 @@ Flag to keep all intermediate/temporary files generated during processing. By de
 
 `-q` `--quiet`  
 Command-line only. Prevents progress information from being displayed.  
-Python: Use `verbose=False` to prevent progress information from being displayed. 
+Python: Use `verbose=False` to prevent progress information from being displayed.
 
 ### Example
 
@@ -278,8 +278,8 @@ gget virus "SARS-CoV-2" --host human --nuc_completeness complete --min_seq_lengt
 import gget
 
 gget.virus(
-  "SARS-CoV-2", 
-  host="human", 
+  "SARS-CoV-2",
+  host="human",
   nuc_completeness="complete",
   min_seq_length=29000,
   genbank_metadata=True,
@@ -302,8 +302,8 @@ gget virus "Influenza A virus" --host human --nuc_completeness complete --max_se
 import gget
 
 gget.virus(
-  "Influenza A virus", 
-  host="human", 
+  "Influenza A virus",
+  host="human",
   nuc_completeness="complete",
   max_seq_length=15000,
   genbank_metadata=True,
@@ -660,5 +660,3 @@ If you use `gget virus` in a publication, please cite the following articles:
   - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
 
   - O’Leary, N.A., Cox, E., Holmes, J.B. et al (2024). Exploring and retrieving sequence and metadata for species across the tree of life with NCBI Datasets. Sci Data 11, 732. [https://doi.org/10.1038/s41597-024-03571-y](https://doi.org/10.1038/s41597-024-03571-y)
-
-

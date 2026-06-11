@@ -6,11 +6,11 @@ Alinea múltiples secuencias de nucleótidos o aminoácidos usando el algoritmo 
 Regresa: Salida estándar (STDOUT) en formato ClustalW o archivo de tipo 'aligned FASTA' (.afa).  
 
 **Parámetro posicional**  
-`fasta`   
+`fasta`  
 Lista de secuencias o ruta al archivo FASTA o .txt que contiene las secuencias de nucleótidos o aminoácidos que se van a alinear.  
 
 **Parámetros optionales**  
-`-o` `--out`   
+`-o` `--out`  
 Ruta al archivo en el que se guardarán los resultados, p. ej. ruta/al/directorio/resultados.afa. Por defecto: salida estándar (STDOUT).  
 Para Python, usa `save=True` para guardar los resultados en el directorio de trabajo actual.  
 
@@ -19,11 +19,11 @@ Para Python, usa `save=True` para guardar los resultados en el directorio de tra
 Alinea las secuencies usando el algoritmo [Super5](https://drive5.com/muscle5/Muscle5_SuppMat.pdf) en lugar del algoritmo [Parallel Perturbed Probcons (PPP)](https://drive5.com/muscle5/Muscle5_SuppMat.pdf) para disminuir el tiempo y la memoria usada durante la corrida.  
 Use para ingresos grandes (unos cientos secuencias).
 
-`-q` `--quiet`   
+`-q` `--quiet`  
 Solo para la Terminal. Impide la informacion de progreso de ser exhibida durante la corrida.  
 Para Python, usa `verbose=False` para imipidir la informacion de progreso de ser exhibida durante la corrida.  
-  
-  
+
+
 ### Por ejemplo  
 ```bash
 gget muscle MSSSSWLLLSLVAVTAAQSTIEEQAKTFLDKFNHEAEDLFYQSSLAS MSSSSWLLLSLVEVTAAQSTIEQQAKTFLDKFHEAEDLFYQSLLAS
@@ -32,7 +32,7 @@ gget muscle MSSSSWLLLSLVAVTAAQSTIEEQAKTFLDKFNHEAEDLFYQSSLAS MSSSSWLLLSLVEVTAAQST
 # Python
 gget.muscle(["MSSSSWLLLSLVAVTAAQSTIEEQAKTFLDKFNHEAEDLFYQSSLAS", "MSSSSWLLLSLVEVTAAQSTIEQQAKTFLDKFHEAEDLFYQSLLAS"])
 ```
-  
+
 ```bash
 gget muscle fasta.fa
 ```
@@ -59,7 +59,7 @@ alv.view(msa)
 
 #### [More examples](https://github.com/pachterlab/gget_examples)
 
-# Citar    
+# Citar  
 Si utiliza `gget muscle` en una publicación, favor de citar los siguientes artículos:
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)

@@ -1,17 +1,16 @@
-from urllib.request import urlopen
-from urllib.error import HTTPError
 import json
+from urllib.error import HTTPError
+from urllib.request import urlopen
 
 from .utils import set_up_logger
 
 logger = set_up_logger()
 
-from .constants import RCSB_PDB_API
+from .constants import RCSB_PDB_API  # noqa: E402
 
 
 def pdb(pdb_id, resource="pdb", identifier=None, save=False):
-    """
-    Query RCSB PDB for the protein structutre/metadata of a given PDB ID.
+    """Query RCSB PDB for the protein structutre/metadata of a given PDB ID.
 
     Args:
     - pdb_id        PDB ID to be queried (str), e.g. "7S7U".
@@ -33,7 +32,6 @@ def pdb(pdb_id, resource="pdb", identifier=None, save=False):
 
     Returns requested information in JSON format (except for resource="pdb" which returns protein structure in PDB format).
     """
-
     # Check if resource argument is valid
     resources = [
         "pdb",
@@ -49,9 +47,7 @@ def pdb(pdb_id, resource="pdb", identifier=None, save=False):
         "nonpolymer_entity_instance",
     ]
     if resource not in resources:
-        raise ValueError(
-            f"'resource' argument specified as {resource}. Expected one of: {', '.join(resources)}"
-        )
+        raise ValueError(f"'resource' argument specified as {resource}. Expected one of: {', '.join(resources)}")
 
     # Check if required identifiers are present
     if resource == "assembly" and identifier is None:
@@ -92,7 +88,6 @@ def pdb(pdb_id, resource="pdb", identifier=None, save=False):
 
     # Submit URL request with fallback logic
     r = None
-    last_error = None
     code = None
     for url in urls:
         try:
@@ -105,8 +100,7 @@ def pdb(pdb_id, resource="pdb", identifier=None, save=False):
 
             if code == 200:
                 break
-        except HTTPError as e:
-            last_error = e
+        except HTTPError:
             continue
 
     if r is None or code != 200:
@@ -123,9 +117,7 @@ def pdb(pdb_id, resource="pdb", identifier=None, save=False):
                 f"{resource} for {pdb_id} chain {identifier} was not found. Please double-check arguments and try again."
             )
         else:
-            logger.error(
-                f"{resource} for {pdb_id} was not found. Please double-check arguments and try again."
-            )
+            logger.error(f"{resource} for {pdb_id} was not found. Please double-check arguments and try again.")
         return
 
     if resource != "pdb":

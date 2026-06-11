@@ -1,9 +1,10 @@
-import hashlib
+import json
 import os
 import unittest
-import json
-from gget.gget_cbio import download_cbioportal_data, cbio_search
-from .from_json import from_json, do_call
+
+from gget.gget_cbio import cbio_search, download_cbioportal_data
+
+from .from_json import do_call, from_json
 
 # Load dictionary containing arguments and expected results
 with open("./tests/fixtures/test_cbio_search.json") as json_file:
@@ -13,9 +14,7 @@ with open("./tests/fixtures/test_cbio.json") as json_file:
     cb_dict = json.load(json_file)
 
 
-class TestCbioSearch(
-    unittest.TestCase, metaclass=from_json(cb_search_dict, cbio_search)
-):
+class TestCbioSearch(unittest.TestCase, metaclass=from_json(cb_search_dict, cbio_search)):
     pass  # all tests are loaded from json
 
 
@@ -24,9 +23,7 @@ def _cbio_download(name: str, td, func):
         test = name
         expected_result = td[test]["expected_result"]
 
-        if not isinstance(expected_result, dict) and not isinstance(
-            expected_result, bool
-        ):
+        if not isinstance(expected_result, dict) and not isinstance(expected_result, bool):
             raise ValueError("Expected result must be a dictionary or a boolean")
 
         result = do_call(func, td[test]["args"])
@@ -35,7 +32,7 @@ def _cbio_download(name: str, td, func):
             # # check that all files downloaded
             # self.assertTrue(result)
 
-            for file_name, expected_hash in expected_result.items():
+            for file_name, _expected_hash in expected_result.items():
                 if os.path.exists(file_name):
                     # # check non-empty
                     if os.path.getsize(file_name) == 0:
@@ -57,8 +54,6 @@ def _cbio_download(name: str, td, func):
 
 class TestCbio(
     unittest.TestCase,
-    metaclass=from_json(
-        cb_dict, download_cbioportal_data, {"cbio_download": _cbio_download}
-    ),
+    metaclass=from_json(cb_dict, download_cbioportal_data, {"cbio_download": _cbio_download}),
 ):
     pass  # all tests are loaded from json

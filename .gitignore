@@ -144,3 +144,5 @@ dmypy.json
 # VSCode settings
 .vscode/
 
+# uv lockfile (library: resolve fresh; hatch CI manages its own envs)
+uv.lock

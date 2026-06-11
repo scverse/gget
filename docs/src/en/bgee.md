@@ -2,7 +2,7 @@
 
 > Python arguments are equivalent to long-option arguments (`--arg`), unless otherwise specified. Flags are True/False arguments in Python. The manual for any gget tool can be called from the command-line using the `-h` `--help` flag.  
 # gget bgee 🐝
-Fetch orthology and gene expression data from [Bgee](https://www.bgee.org/) using Ensembl IDs.   
+Fetch orthology and gene expression data from [Bgee](https://www.bgee.org/) using Ensembl IDs.  
 Return format: JSON/CSV (command-line) or data frame (Python).
 
 > If you are specifically interested in human gene expression data, consider using [gget opentargets](./opentargets.md) or [gget archs4](./archs4.md) instead.
@@ -21,19 +21,19 @@ NOTE: Some of the species in [Bgee](https://www.bgee.org/) are not in Ensembl or
 `-t` `--type`  
 Type of data to fetch. Options: `orthologs` (default), `expression`.  
 
-`-o` `--out`    
+`-o` `--out`  
 Path to the JSON file the results will be saved in, e.g. path/to/directory/results.json. Default: Standard out.
 
-**Flags**   
+**Flags**  
 `-csv` `--csv`  
 Command-line only. Returns the output in CSV format, instead of JSON format.  
 Python: Use `json=True` to return output in JSON format.
 
-`-q` `--quiet`   
+`-q` `--quiet`  
 Command-line only. Prevents progress information from being displayed.  
 Python: Use `verbose=False` to prevent progress information from being displayed.
-  
-  
+
+
 ### Examples
 
 **Get orthologs for a gene**
@@ -102,11 +102,11 @@ gget.bgee(["ENSBTAG00000047356", "ENSBTAG00000018317"], type="expression")
 | BGEE:0000000   | anatomical entity and cellular component | 89.12 | high| expressed        |
 | ...            | ...                         | ...   | ...              | ...              |
 
-        
+
 #### [More examples](https://github.com/pachterlab/gget_examples)
 
 # References
-If you use `gget bgee` in a publication, please cite the following articles:   
+If you use `gget bgee` in a publication, please cite the following articles:  
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
 

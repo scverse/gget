@@ -9,7 +9,7 @@
 * [Quick Start Guide](en/quick_start_guide.md)  
 
 # Manual
-* [gget 8cube](en/8cube.md) 
+* [gget 8cube](en/8cube.md)
 * [gget alphafold](en/alphafold.md)  
 * [gget archs4](en/archs4.md)
 * [gget bgee](en/bgee.md)
@@ -25,12 +25,12 @@
 * [gget info](en/info.md)  
 * [gget muscle](en/muscle.md)
 * [gget mutate](en/mutate.md)
-* [gget opentargets](en/opentargets.md) 
+* [gget opentargets](en/opentargets.md)
 * [gget pdb](en/pdb.md)  
 * [gget ref](en/ref.md)  
 * [gget search](en/search.md)  
 * [gget setup](en/setup.md)  
-* [gget seq](en/seq.md)   
+* [gget seq](en/seq.md)  
 * [gget virus](en/virus.md)
 
 ---
@@ -44,14 +44,14 @@
 # Español
 * [Introdución](es/introduction.md)  
 * [¡Lo más reciente!](es/updates.md)
-* [Dependientes y Noticias](es/dependents.md)   
+* [Dependientes y Noticias](es/dependents.md)  
 
 # Guía del usario
 * [Instalación](es/installation.md)  
 * [Guía de inicio rápido](es/quick_start_guide.md)  
 
 # Manuál
-* [gget 8cube](es/8cube.md) 
+* [gget 8cube](es/8cube.md)
 * [gget alphafold](es/alphafold.md)  
 * [gget archs4](es/archs4.md)  
 * [gget bgee](es/bgee.md)  
@@ -67,7 +67,7 @@
 * [gget info](es/info.md)  
 * [gget muscle](es/muscle.md)
 * [gget mutate](es/mutate.md)  
-* [gget opentargets](es/opentargets.md)   
+* [gget opentargets](es/opentargets.md)  
 * [gget pdb](es/pdb.md)  
 * [gget ref](es/ref.md)  
 * [gget search](es/search.md)  
@@ -80,4 +80,3 @@
 * [Guía de contribución](es/contributing.md)  
 * [Codigo de conducto](es/code_of_conduct.md)  
 * [Cómo citar](es/cite.md)  
-

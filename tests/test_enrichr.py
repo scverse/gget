@@ -1,9 +1,11 @@
-import unittest
-import pandas as pd
 import json
+import math
+import unittest
+
 import matplotlib
 import matplotlib.pyplot as plt
-import math
+import pandas as pd
+
 from .from_json import from_json
 
 # Prevent matplotlib from opening windows
@@ -31,10 +33,7 @@ class TestEnrichr(unittest.TestCase, metaclass=from_json(enrichr_dict, enrichr))
         # If result is a DataFrame, convert to list
         if isinstance(result_to_test, pd.DataFrame):
             result_to_test = result_to_test.values.tolist()[:20]
-            result_to_test = [
-                list(map(lambda x: x if x != math.inf else "inf", i))
-                for i in result_to_test
-            ]
+            result_to_test = [[x if x != math.inf else "inf" for x in i] for i in result_to_test]
 
         self.assertListEqual(result_to_test, expected_result)
 
@@ -45,10 +44,7 @@ class TestEnrichr(unittest.TestCase, metaclass=from_json(enrichr_dict, enrichr))
         # If result is a DataFrame, convert to list
         if isinstance(result_to_test, pd.DataFrame):
             result_to_test = result_to_test.values.tolist()
-            result_to_test = [
-                list(map(lambda x: x if x != math.inf else "inf", i))
-                for i in result_to_test
-            ]
+            result_to_test = [[x if x != math.inf else "inf" for x in i] for i in result_to_test]
 
         self.assertListEqual(result_to_test, expected_result)
 

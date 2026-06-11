@@ -1,9 +1,9 @@
 [<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/pachterlab/gget/blob/main/docs/src/es/cosmic.md)
 
-> Parámetros de Python són iguales a los parámetros largos (`--parámetro`) de Terminal, si no especificado de otra manera. Las banderas son parámetros de verdadero o falso (True/False) en Python. El manuál para cualquier modulo de gget se puede llamar desde la Terminal con la bandera `-h` `--help`.   
+> Parámetros de Python són iguales a los parámetros largos (`--parámetro`) de Terminal, si no especificado de otra manera. Las banderas son parámetros de verdadero o falso (True/False) en Python. El manuál para cualquier modulo de gget se puede llamar desde la Terminal con la bandera `-h` `--help`.  
 # gget cosmic 🪐  
 Busca genes, mutaciones y otros factores asociados con el cáncer utilizando la base de datos [COSMIC](https://cancer.sanger.ac.uk/cosmic) (Catalogue Of Somatic Mutations In Cancer).  
-Formato de retorno: JSON (línea de comandos) o data frame/CSV (Python) cuando `download_cosmic=False`. Cuando `download_cosmic=True`, se descarga la base de datos solicitada en la carpeta especificada.    
+Formato de retorno: JSON (línea de comandos) o data frame/CSV (Python) cuando `download_cosmic=False`. Cuando `download_cosmic=True`, se descarga la base de datos solicitada en la carpeta especificada.  
 
 Este módulo fue escrito originalmente en parte por [@AubakirovArman](https://github.com/AubakirovArman) (consultas de información) y [@josephrich98](https://github.com/josephrich98) (descarga de bases de datos).  
 
@@ -143,13 +143,9 @@ gget.cosmic("EGFR", cosmic_tsv_path="Cosmic_MutantCensus_Tsv_v101_GRCh37/Cosmic_
 | ... | ... | ... | ... | ... | ... | ... |
 
 
-# Citar    
+# Citar  
 Si utiliza `gget cosmic` en una publicación, favor de citar los siguientes artículos:
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
 
 - Tate JG, Bamford S, Jubb HC, Sondka Z, Beare DM, Bindal N, Boutselakis H, Cole CG, Creatore C, Dawson E, Fish P, Harsha B, Hathaway C, Jupe SC, Kok CY, Noble K, Ponting L, Ramshaw CC, Rye CE, Speedy HE, Stefancsik R, Thompson SL, Wang S, Ward S, Campbell PJ, Forbes SA. COSMIC: the Catalogue Of Somatic Mutations In Cancer. Nucleic Acids Res. 2019 Jan 8;47(D1):D941-D947. doi: [10.1093/nar/gky1015](https://doi.org/10.1093/nar/gky1015). PMID: 30371878; PMCID: PMC6323903.
-
-
-
-

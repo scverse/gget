@@ -3,7 +3,7 @@
 > Python arguments are equivalent to long-option arguments (`--arg`), unless otherwise specified. Flags are True/False arguments in Python.  The manual for any gget tool can be called from the command-line using the `-h` `--help` flag.  
 # gget cosmic 🪐
 Search for genes, mutations, and other factors associated with cancer using the [COSMIC](https://cancer.sanger.ac.uk/cosmic) (Catalogue Of Somatic Mutations In Cancer) database.  
-Return format: JSON (command-line) or data frame/CSV (Python) when `download_cosmic=False`. When `download_cosmic=True`, downloads the requested database into the specified folder.    
+Return format: JSON (command-line) or data frame/CSV (Python) when `download_cosmic=False`. When `download_cosmic=True`, downloads the requested database into the specified folder.  
 
 This module was originally written in part by [@AubakirovArman](https://github.com/AubakirovArman) (information querying) and [@josephrich98](https://github.com/josephrich98) (database download).  
 
@@ -12,13 +12,13 @@ NOTE: License fees apply for the commercial use of COSMIC. You can read more abo
 NOTE: When using this module for the first time, first download a COSMIC database to obtain `cosmic_tsv_path` (see examples below).  
 
 **Positional argument (for querying information)**  
-`searchterm`   
-Search term, which can be a mutation, or gene name (or Ensembl ID), or sample, etc.   
+`searchterm`  
+Search term, which can be a mutation, or gene name (or Ensembl ID), or sample, etc.  
 Examples: 'EGFR', 'ENST00000275493', 'c.650A>T', 'p.Q217L', 'COSV51765119', 'BT2012100223LNCTB' (sample ID)  
 NOTE: (Python only) Set to `None` when downloading COSMIC databases with `download_cosmic=True`.  
 
 **Required argument (for querying information)**  
-`-ctp` `--cosmic_tsv_path`   
+`-ctp` `--cosmic_tsv_path`  
 Path to the COSMIC database tsv file, e.g. 'path/to/CancerMutationCensus_AllData_v101_GRCh37.tsv'.  
 This file is downloaded when downloading COSMIC databases using the arguments described below.  
 NOTE: This is a required argument when `download_cosmic=False`.  
@@ -41,8 +41,8 @@ Creates a modified version of the COSMIC database for use with [`gget mutate`](m
 **Optional arguments (for downloading COSMIC databases)**  
 `-cp` `--cosmic_project`  
 'cancer' (default), 'cancer_example', 'census', 'resistance', 'cell_line', 'genome_screen', or 'targeted_screen'  
-Type of COSMIC database to download:   
-  
+Type of COSMIC database to download:  
+
 | cosmic_project  | Description                                                           | Notes                                                                              | Size   |
 |-----------------|-----------------------------------------------------------------------|------------------------------------------------------------------------------------|--------|
 | cancer          | Cancer Mutation Census (CMC) (most commonly used COSMIC mutation set) | Only available for GRCh37. Most feature-rich schema (takes the longest to search). | 2 GB   |
@@ -82,18 +82,18 @@ Whether to remove duplicate rows from the modified database for use with `gget m
 (str) Name of the mutation_id column in the csv file created by `gget_mutate`. Default: "mutation_id"
 
 **Optional arguments (general)**  
-`-o` `--out`   
+`-o` `--out`  
 Path to the file (or folder when downloading databases with the `download_cosmic` flag) the results will be saved in, e.g. 'path/to/results.json'.  
-Defaults:    
+Defaults:  
 -> When `download_cosmic=False`: Results will be returned to standard out  
 -> When `download_cosmic=True`: Database will be downloaded into current working directory  
 
 **Flags (general)**  
-`-q` `--quiet`   
+`-q` `--quiet`  
 Command-line only. Prevents progress information from being displayed.  
 Python: Use `verbose=False` to prevent progress information from being displayed.  
 
-  
+
 ### Examples
 #### Download the COSMIC "cancer" database and query information
 ```bash
@@ -143,7 +143,7 @@ gget.cosmic("EGFR", cosmic_tsv_path="Cosmic_MutantCensus_Tsv_v101_GRCh37/Cosmic_
 
 
 # References
-If you use `gget cosmic` in a publication, please cite the following articles:   
+If you use `gget cosmic` in a publication, please cite the following articles:  
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
 

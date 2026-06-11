@@ -1,11 +1,11 @@
-import unittest
+import json
 import os
 import pathlib as pl
-import pandas as pd
-import json
 import time
+import unittest
 
 from gget.gget_cosmic import cosmic
+
 # from gget.utils import get_latest_cosmic
 from .from_json import from_json
 
@@ -28,10 +28,12 @@ sleep_time = 10
 class TestCaseBase(unittest.TestCase):
     def assertIsFile(self, path):
         if not pl.Path(path).resolve().is_file():
-            raise AssertionError("File does not exist: %s" % str(path))
+            raise AssertionError(f"File does not exist: {path}")
 
 
-class TestCosmicWorkflow(TestCaseBase, metaclass=from_json(cosmic_dict, cosmic, pre_test=lambda: time.sleep(sleep_time))):
+class TestCosmicWorkflow(
+    TestCaseBase, metaclass=from_json(cosmic_dict, cosmic, pre_test=lambda: time.sleep(sleep_time))
+):
     """
     Combined test class to:
     1. Download COSMIC cancer_example data

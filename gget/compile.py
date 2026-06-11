@@ -1,7 +1,7 @@
 import os
+import platform
 import subprocess
 import sys
-import platform
 
 from .constants import MUSCLE_GITHUB_LINK
 from .utils import set_up_logger
@@ -11,21 +11,16 @@ logger = set_up_logger()
 # Get absolute package path
 PACKAGE_PATH = os.path.abspath(os.path.dirname(__file__))
 # Path to muscle binary (only exists after 'compile_muscle' was executed)
-MUSCLE_PATH = os.path.join(
-    PACKAGE_PATH, f"bins/compiled/muscle/src/{platform.system()}/muscle"
-)
+MUSCLE_PATH = os.path.join(PACKAGE_PATH, f"bins/compiled/muscle/src/{platform.system()}/muscle")
 
 
 def compile_muscle():
-    """
-    Compiles MUSCLE from source.
+    """Compiles MUSCLE from source.
+
     Currently only supports Linux and Darwin.
     """
-
     if platform.system() != "Linux" and platform.system() != "Darwin":
-        raise OSError(
-            f"Muscle compiler currently only supports Linux and Darwin, not {platform.system()}.\n"
-        )
+        raise OSError(f"Muscle compiler currently only supports Linux and Darwin, not {platform.system()}.\n")
 
     logger.info("Compiling MUSCLE binary from source... ")
 
@@ -56,16 +51,10 @@ def compile_muscle():
 
     # Run make command
     if platform.system() == "Linux":
-        logger.warning(
-            "Compiling MUSCLE requires that g++, make, sed and git are installed."
-        )
+        logger.warning("Compiling MUSCLE requires that g++, make, sed and git are installed.")
     if platform.system() == "Darwin":
-        logger.warning(
-            "Compiling MUSCLE requires that gcc v11, make, sed and git are installed."
-        )
-        logger.warning(
-            "Please run 'brew install gcc' to install gcc v11 if the compile fails."
-        )
+        logger.warning("Compiling MUSCLE requires that gcc v11, make, sed and git are installed.")
+        logger.warning("Please run 'brew install gcc' to install gcc v11 if the compile fails.")
 
     command2 = "make -s"
 

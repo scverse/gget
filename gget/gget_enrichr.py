@@ -1,32 +1,29 @@
-import requests
-import pandas as pd
 import json as json_package
-import numpy as np
+import textwrap
 
 # Plotting packages
 import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+import requests
 from matplotlib.ticker import MaxNLocator
-import textwrap
 
+from .compile import PACKAGE_PATH
 from .constants import (
-    POST_ENRICHR_URLS,
+    DEFAULT_REQUESTS_TIMEOUT,
+    GET_BACKGROUND_ENRICHR_URL,
     GET_ENRICHR_URLS,
     POST_BACKGROUND_ID_ENRICHR_URL,
-    GET_BACKGROUND_ENRICHR_URL,
-    DEFAULT_REQUESTS_TIMEOUT,
+    POST_ENRICHR_URLS,
 )
-from .compile import PACKAGE_PATH
 from .gget_info import info
-
 from .utils import set_up_logger
 
 logger = set_up_logger()
 
 
 def ensembl_to_gene_names(ensembl_ids):
-    """
-    Function to fetch gene names from a list of Ensembl IDs using gget info.
-    """
+    """Function to fetch gene names from a list of Ensembl IDs using gget info."""
     genes_v2 = []
 
     # Remove version number if passed
@@ -37,9 +34,7 @@ def ensembl_to_gene_names(ensembl_ids):
     for gene_id in ensembl_ids:
         # Check if Ensembl ID was found
         if gene_id not in info_df.index:
-            logger.warning(
-                f"ID '{gene_id}' not found. Please double-check spelling/arguments."
-            )
+            logger.warning(f"ID '{gene_id}' not found. Please double-check spelling/arguments.")
             continue
 
         gene_symbol = info_df.loc[gene_id]["ensembl_gene_name"]
@@ -54,6 +49,7 @@ def ensembl_to_gene_names(ensembl_ids):
 
 
 def clean_genes_list(genes_list):
+    """Remove NaNs, Nones, and 'nan' strings from a list of genes."""
     # Remove any NaNs/Nones from the gene list
     genes_clean = []
     for gene in genes_list:
@@ -79,8 +75,7 @@ def enrichr(
     save=False,
     verbose=True,
 ):
-    """
-    Perform an enrichment analysis on a list of genes using Enrichr (https://maayanlab.cloud/Enrichr/).
+    """Perform an enrichment analysis on a list of genes using Enrichr (https://maayanlab.cloud/Enrichr/).
 
     Args:
     - genes             List of Entrez gene symbols to perform enrichment analysis on, passed as a list of strings, e.g. ['PHF14', 'RBM3', 'MSL1', 'PHF21A'].
@@ -117,11 +112,8 @@ def enrichr(
 
     Returns a data frame with the Enrichr results.
     """
-
     if species not in ["human", "mouse", "fly", "yeast", "worm", "fish"]:
-        raise ValueError(
-            f"Argument 'species' must be one of 'human', 'mouse', 'fly', 'yeast', 'worm', or 'fish'."
-        )
+        raise ValueError("Argument 'species' must be one of 'human', 'mouse', 'fly', 'yeast', 'worm', or 'fish'.")
 
     if species == "mouse":
         species = "human"
@@ -161,61 +153,49 @@ def enrichr(
     # All available libraries: https://maayanlab.cloud/Enrichr/#libraries
     if species == "human":
         db_message = f"""
-        Please note that there might be a more appropriate database for your application. 
+        Please note that there might be a more appropriate database for your application.
         Go to https://maayanlab.cloud/{species_enrichr}/#libraries for a full list of supported databases.
         """
     else:
         db_message = f"""
-        Please note that there might be a more appropriate database for your application. 
+        Please note that there might be a more appropriate database for your application.
         Go to https://maayanlab.cloud/{species_enrichr}/#stats for a full list of supported databases.
         """
     if not isinstance(background, bool):
         raise ValueError(
-            f"Argument`background` must be a boolean True/False. If you are adding a background list, use the argument `background_list` instead."
+            "Argument`background` must be a boolean True/False. If you are adding a background list, use the argument `background_list` instead."
         )
 
     # Handle database shortcuts
     if database == "pathway":
         database = "KEGG_2021_Human"
         if verbose:
-            logger.info(
-                f"Performing Enrichr analysis using database {database}. " + db_message
-            )
+            logger.info(f"Performing Enrichr analysis using database {database}. " + db_message)
 
     elif database == "transcription":
         database = "ChEA_2016"
         if verbose:
-            logger.info(
-                f"Performing Enrichr analysis using database {database}. " + db_message
-            )
+            logger.info(f"Performing Enrichr analysis using database {database}. " + db_message)
 
     elif database == "ontology":
         database = "GO_Biological_Process_2021"
         if verbose:
-            logger.info(
-                f"Performing Enrichr analysis using database {database}. " + db_message
-            )
+            logger.info(f"Performing Enrichr analysis using database {database}. " + db_message)
 
     elif database == "diseases_drugs":
         database = "GWAS_Catalog_2019"
         if verbose:
-            logger.info(
-                f"Performing Enrichr analysis using database {database}. " + db_message
-            )
+            logger.info(f"Performing Enrichr analysis using database {database}. " + db_message)
 
     elif database == "celltypes":
         database = "PanglaoDB_Augmented_2021"
         if verbose:
-            logger.info(
-                f"Performing Enrichr analysis using database {database}. " + db_message
-            )
+            logger.info(f"Performing Enrichr analysis using database {database}. " + db_message)
 
     elif database == "kinase_interactions":
         database = "KEA_2015"
         if verbose:
-            logger.info(
-                f"Performing Enrichr analysis using database {database}. " + db_message
-            )
+            logger.info(f"Performing Enrichr analysis using database {database}. " + db_message)
 
     else:
         database = database
@@ -225,9 +205,7 @@ def enrichr(
     # To generate a KEGG pathway image, confirm that the database is a KEGG database and pykegg is installed
     if kegg_out:
         if not database.startswith("KEGG"):
-            logger.error(
-                "Please specify a KEGG database when generating a KEGG pathway image."
-            )
+            logger.error("Please specify a KEGG database when generating a KEGG pathway image.")
             return
         try:
             import pykegg
@@ -268,9 +246,7 @@ def enrichr(
 
     if ensembl:
         if verbose:
-            logger.info(
-                f"Performing Enrichr analysis on the following gene symbols: {', '.join(genes_clean)}"
-            )
+            logger.info(f"Performing Enrichr analysis on the following gene symbols: {', '.join(genes_clean)}")
 
     # Join genes from list
     genes_clean_final = "\n".join(genes_clean)
@@ -303,9 +279,7 @@ def enrichr(
     # If user gives a background list, use the user input instead of the default
     if background_list:
         if verbose:
-            logger.info(
-                f"Performing Enrichr analysis using user-defined background gene list."
-            )
+            logger.info("Performing Enrichr analysis using user-defined background gene list.")
 
         if background:
             logger.warning(
@@ -409,14 +383,14 @@ def enrichr(
         if species == "human":
             logger.error(
                 f"""
-                Database {database} not found. Go to https://maayanlab.cloud/{species_enrichr}/#libraries 
+                Database {database} not found. Go to https://maayanlab.cloud/{species_enrichr}/#libraries
                 for a full list of supported databases.
                 """
             )
         else:
             logger.error(
                 f"""
-                Database {database} not found. Go to https://maayanlab.cloud/{species_enrichr}/#stats 
+                Database {database} not found. Go to https://maayanlab.cloud/{species_enrichr}/#stats
                 for a full list of supported databases.
                 """
             )
@@ -485,12 +459,8 @@ def enrichr(
 
         # Plot barplot
         # ax1.barh(np.arange(len(gene_counts)), gene_counts, color=cmap(c_values), align="center")
-        ax1.barh(
-            np.arange(len(gene_counts)), gene_counts, color=barcolor, align="center"
-        )
-        ax1.set_yticks(
-            np.arange(len(gene_counts)), labels, linespacing=0.85, fontsize=fontsize
-        )
+        ax1.barh(np.arange(len(gene_counts)), gene_counts, color=barcolor, align="center")
+        ax1.set_yticks(np.arange(len(gene_counts)), labels, linespacing=0.85, fontsize=fontsize)
         ax1.invert_yaxis()
         # Set x-limit to be gene count + 1
         ax1.set_xlim(0, ax1.get_xlim()[1] + 1)
@@ -509,9 +479,7 @@ def enrichr(
             s=20,
         )
         # Change label and color of p-value axis
-        ax2.set_xlabel(
-            "$-log_{10}$(adjusted P value)", fontsize=fontsize, color=p_val_color
-        )
+        ax2.set_xlabel("$-log_{10}$(adjusted P value)", fontsize=fontsize, color=p_val_color)
         ax2.spines["top"].set_color(p_val_color)
         ax2.tick_params(axis="x", colors=p_val_color, labelsize=fontsize)
 
@@ -543,9 +511,7 @@ def enrichr(
         ax1.tick_params(axis="y", labelsize=fontsize)
 
         # Set title
-        ax1.set_title(
-            f"Enrichr results from database {database}", fontsize=fontsize + 2
-        )
+        ax1.set_title(f"Enrichr results from database {database}", fontsize=fontsize + 2)
 
         # Set axis margins
         ax1.margins(y=0, x=0)
@@ -567,7 +533,7 @@ def enrichr(
     # Generate KEGG pathway image
     if kegg_out:
         candidate_rank = df[df["rank"] == kegg_rank].iloc[0, :]
-        kegg_img = pykegg.visualize(
+        pykegg.visualize(
             candidate_rank["path_name"],
             candidate_rank["overlapping_genes"],
             db=database,

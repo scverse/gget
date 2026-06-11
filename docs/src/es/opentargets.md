@@ -12,8 +12,8 @@ Este módulo fue escrito por [Sam Wagenaar](https://github.com/techno-sam).
 ID de gen Ensembl, por ejemplo, ENSG00000169194.
 
 **Argumentos opcionales**  
-`-r` `--resource`   
-Define el tipo de información a devolver en la salida. Predeterminado: 'diseases' (enfermedades).   
+`-r` `--resource`  
+Define el tipo de información a devolver en la salida. Predeterminado: 'diseases' (enfermedades).  
 Los recursos posibles son:
 
 | Recurso            | Valor devuelto                                                    | Filtros válidos                                   | Fuentes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
@@ -27,24 +27,24 @@ Los recursos posibles son:
 | `interactions`     | Interacciones proteína&rlarr;proteína                             | `protein_a_id`<br/>`protein_b_id`<br/>`gene_b_id` | <ul><li>[Open&nbsp;Targets](https://platform-docs.opentargets.org/target/molecular-interactions)</li><li>[IntAct](https://platform-docs.opentargets.org/target/molecular-interactions#intact)</li><li>[Signor](https://platform-docs.opentargets.org/target/molecular-interactions#signor)</li><li>[Reactome](https://platform-docs.opentargets.org/target/molecular-interactions#reactome)</li><li>[String](https://platform-docs.opentargets.org/target/molecular-interactions#string)</li></ul> |
 
 `-l` `--limit`  
-Limitar el número de resultados, por ejemplo, 10. Predeterminado: Sin límite.     
+Limitar el número de resultados, por ejemplo, 10. Predeterminado: Sin límite.  
 Nota: No es compatible con los recursos `tractability` y `depmap`.
 
-`-o` `--out`    
+`-o` `--out`  
 Ruta al archivo JSON donde se guardarán los resultados, por ejemplo, path/to/directory/results.json. Predeterminado: Salida estándar.  
 Python: `save=True` guardará la salida en el directorio de trabajo actual.
 
 `--filters`  
 Filtrar resultados por igualdad exacta usando nombres de columnas de OpenTargets devueltos. Pase múltiples filtros repitiendo la bandera, p. ej. '--filter disease.id=EFO_0000274 --filter drug.id=CHEMBL1743081'. Los campos anidados usan notación de punto, coincidiendo con los nombres de columna devueltos por la API.
 
-**Banderas**   
+**Banderas**  
 `-csv` `--csv`  
 Solo en línea de comandos. Devuelve la salida en formato CSV, en lugar de formato JSON.  
 Python: Use `json=True` para devolver la salida en formato JSON.
 
-`-q` `--quiet`   
+`-q` `--quiet`  
 Solo en línea de comandos. Evita que se muestre la información de progreso.  
-Python: Use `verbose=False` para evitar que se muestre la información de progreso. 
+Python: Use `verbose=False` para evitar que se muestre la información de progreso.
 
 `-or` `--or`  
 Solo en línea de comandos. Los filtros se combinan con lógica OR. Predeterminado: lógica AND.
@@ -54,7 +54,7 @@ Solo para Python. `wrap_text=True` muestra el marco de datos con texto ajustado 
 
 ### Ejemplos
 
-**Obtenga enfermedades asociadas a un gen específico:**   
+**Obtenga enfermedades asociadas a un gen específico:**  
 ```bash
 gget opentargets ENSG00000169194 -r diseases -l 1
 ```
@@ -71,7 +71,7 @@ gget.opentargets('ENSG00000169194', resource='diseases', limit=1)
 
 <br/><br/>
 
-**Obtener medicamentos asociados para un gen específico:**   
+**Obtener medicamentos asociados para un gen específico:**  
 ```bash
 gget opentargets ENSG00000169194 -r drugs -l 2
 ```
@@ -92,7 +92,7 @@ gget.opentargets('ENSG00000169194', resource='drugs', limit=2)
 
 <br/><br/>
 
-**Obtenga datos de trazabilidad para un gen específico:**   
+**Obtenga datos de trazabilidad para un gen específico:**  
 ```bash
 gget opentargets ENSG00000169194 -r tractability
 ```
@@ -235,10 +235,10 @@ gget.opentargets(
 | 0.400          | 1              | intact    | P35225          | ENSG00000169194 | IL13          | unspecified&nbsp;role | 9606    | Q86XT9          | ENSG00000149932 | TMEM219       | stimulator            | 9606    |
 
 
-    
+
 #### [Más ejemplos](https://github.com/pachterlab/gget_examples)
 
-# Citar    
+# Citar  
 Si utiliza `gget opentargets` en una publicación, favor de citar los siguientes artículos:
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)

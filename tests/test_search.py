@@ -1,7 +1,8 @@
-import unittest
-import pandas as pd
 import json
+import unittest
+
 from gget.gget_search import search
+
 from .from_json import from_json
 
 # Load dictionary containing arguments and expected results

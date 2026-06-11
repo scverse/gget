@@ -1,27 +1,29 @@
-import numpy as np
-import pandas as pd
 import json as json_package
-import mysql.connector as sql
 import time
 import warnings
+
+import mysql.connector as sql
+import numpy as np
+import pandas as pd
 
 warnings.simplefilter(action="ignore", category=UserWarning)
 
 # Custom functions
-from .utils import (
-    search_species_options,
+from .utils import (  # noqa: E402
     find_latest_ens_rel,
-    wrap_cols_func,
     find_nv_kingdom,
+    search_species_options,
     set_up_logger,
+    wrap_cols_func,
 )
 
 logger = set_up_logger()
 
-from gget.constants import ENSEMBL_FTP_URL, ENSEMBL_FTP_URL_NV
+from gget.constants import ENSEMBL_FTP_URL, ENSEMBL_FTP_URL_NV  # noqa: E402
 
 
 def clean_cols(x):
+    """Collapse a list to its single unique value, or return x unchanged if not a list."""
     if isinstance(x, list):
         unique_list = list(set(x))
         if len(unique_list) == 1:
@@ -45,8 +47,8 @@ def search(
     save=False,
     verbose=True,
 ):
-    """
-    Function to query Ensembl for genes based on species and free form search terms.
+    """Function to query Ensembl for genes based on species and free form search terms.
+
     Automatically fetches results from latest Ensembl release, unless user specifies database (see 'species' argument)
     or release database (see 'release' argument).
 
@@ -81,9 +83,7 @@ def search(
     """
     # Handle deprecated arguments
     if seqtype:
-        logger.error(
-            "'seqtype' argument deprecated! Please use argument 'id_type' instead."
-        )
+        logger.error("'seqtype' argument deprecated! Please use argument 'id_type' instead.")
         return
 
     start_time = time.time()
@@ -93,17 +93,13 @@ def search(
     id_types = ["gene", "transcript"]
     id_type = id_type.lower()
     if id_type not in id_types:
-        raise ValueError(
-            f"ID type (id_type) specified is '{id_type}'. Expected one of: {', '.join(id_types)}"
-        )
+        raise ValueError(f"ID type (id_type) specified is '{id_type}'. Expected one of: {', '.join(id_types)}")
 
     # Check if 'andor' arg is valid
     andors = ["and", "or"]
     andor = andor.lower()
     if andor not in andors:
-        raise ValueError(
-            f"'andor' argument specified as {andor}. Expected one of {', '.join(andors)}"
-        )
+        raise ValueError(f"'andor' argument specified as {andor}. Expected one of {', '.join(andors)}")
 
     ## Get database for specified species
     # Species shortcuts
@@ -122,9 +118,7 @@ def search(
     if "core" in species:
         db = species
         if release:
-            logger.warning(
-                "Specified release overwritten because database name was provided."
-            )
+            logger.warning("Specified release overwritten because database name was provided.")
     else:
         if release:
             ens_rel = release
@@ -157,11 +151,7 @@ def search(
             db = f"homo_sapiens_core_{ens_rel}_38"
 
         # Check for ambiguous species matches in species other than mouse and human
-        elif (
-            len(db) > 1
-            and "mus_musculus" not in species
-            and "homo_sapiens" not in species
-        ):
+        elif len(db) > 1 and "mus_musculus" not in species and "homo_sapiens" not in species:
             logger.warning(
                 f"Species matches more than one database. Defaulting to first database: {db[0]}.\n"
                 "All available databases can be found here:\n"
@@ -203,7 +193,7 @@ def search(
             )
             connection_successful = True
             break
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             last_exception = e
             # Continue to the next port if the connection is unsuccessful
             continue
@@ -214,18 +204,16 @@ def search(
             raise RuntimeError(
                 f"""
                 The Ensembl server returned the following error: {str(last_exception)}.
-                This might be caused by the Ensembl release number being too low. 
+                This might be caused by the Ensembl release number being too low.
                 Please try again with a more recent release.
                 """
             )
         else:
-            raise RuntimeError(
-                f"The Ensembl server returned the following error: {str(last_exception)}"
-            )
+            raise RuntimeError(f"The Ensembl server returned the following error: {str(last_exception)}")
 
     ## Clean up list of searchwords
     # If single searchword passed as string, convert to list
-    if type(searchwords) == str:
+    if isinstance(searchwords, str):
         searchwords = [searchwords]
 
     ## Find genes
@@ -233,10 +221,10 @@ def search(
         if id_type == "gene":
             query = f"""
             SELECT gene.stable_id AS 'ensembl_id', xref.display_label AS 'gene_name', gene.description AS 'ensembl_description', xref.description AS 'ext_ref_description', gene.biotype AS 'biotype', external_synonym.synonym AS 'synonym'
-            FROM gene 
-            LEFT JOIN xref ON gene.display_xref_id = xref.xref_id 
-            LEFT JOIN external_synonym ON gene.display_xref_id = external_synonym.xref_id 
-            LEFT JOIN gene_attrib ON gene.gene_id = gene_attrib.gene_id 
+            FROM gene
+            LEFT JOIN xref ON gene.display_xref_id = xref.xref_id
+            LEFT JOIN external_synonym ON gene.display_xref_id = external_synonym.xref_id
+            LEFT JOIN gene_attrib ON gene.gene_id = gene_attrib.gene_id
             WHERE (gene.description LIKE '%{searchword}%' OR xref.description LIKE '%{searchword}%' OR xref.display_label LIKE '%{searchword}%' OR external_synonym.synonym LIKE '%{searchword}%' OR gene_attrib.value LIKE '%{searchword}%')
             """
 
@@ -268,10 +256,10 @@ def search(
         if id_type == "transcript":
             query = f"""
             SELECT transcript.stable_id AS 'ensembl_id', xref.display_label AS 'gene_name', transcript.description AS 'ensembl_description', xref.description AS 'ext_ref_description', transcript.biotype AS 'biotype', external_synonym.synonym AS 'synonym'
-            FROM transcript 
-            LEFT JOIN xref ON transcript.display_xref_id = xref.xref_id 
-            LEFT JOIN external_synonym ON transcript.display_xref_id = external_synonym.xref_id 
-            LEFT JOIN transcript_attrib ON transcript.transcript_id = transcript_attrib.transcript_id 
+            FROM transcript
+            LEFT JOIN xref ON transcript.display_xref_id = xref.xref_id
+            LEFT JOIN external_synonym ON transcript.display_xref_id = external_synonym.xref_id
+            LEFT JOIN transcript_attrib ON transcript.transcript_id = transcript_attrib.transcript_id
             WHERE (transcript.description LIKE '%{searchword}%' OR xref.description LIKE '%{searchword}%' OR xref.display_label LIKE '%{searchword}%' OR external_synonym.synonym LIKE '%{searchword}%' OR transcript_attrib.value LIKE '%{searchword}%')
             """
 
@@ -317,12 +305,11 @@ def search(
 
     # Keep synonyms always of type list for consistency
     df["synonym"] = [
-        np.sort(syn).tolist() if isinstance(syn, list) else np.sort([syn]).tolist()
-        for syn in df["synonym"].values
+        np.sort(syn).tolist() if isinstance(syn, list) else np.sort([syn]).tolist() for syn in df["synonym"].values
     ]
 
     # If limit is not None, keep only the first {limit} rows
-    if limit != None:
+    if limit is not None:
         # Print number of genes/transcripts found versus fetched
         if verbose:
             logger.info(f"Returning {limit} matches of {len(df)} total matches found.")
@@ -342,33 +329,19 @@ def search(
     clean_db = "_".join(db.split("_")[:3]).replace("_core", "")
 
     ## Find kingdom for non-vertebrate species
-    kingdom = find_nv_kingdom(
-        clean_db, release=find_latest_ens_rel(database=ENSEMBL_FTP_URL_NV)
-    )
+    kingdom = find_nv_kingdom(clean_db, release=find_latest_ens_rel(database=ENSEMBL_FTP_URL_NV))
 
     if kingdom:
         # Add URL to gene summary on Ensembl for invertebrates
-        df["url"] = (
-            f"https://{kingdom}.ensembl.org/"
-            + clean_db
-            + "/Gene/Summary?g="
-            + df["ensembl_id"]
-        )
+        df["url"] = f"https://{kingdom}.ensembl.org/" + clean_db + "/Gene/Summary?g=" + df["ensembl_id"]
 
     else:
         # Add URL to gene summary on Ensembl for vertebrates
-        df["url"] = (
-            "https://useast.ensembl.org/"
-            + clean_db
-            + "/Gene/Summary?g="
-            + df["ensembl_id"]
-        )
+        df["url"] = "https://useast.ensembl.org/" + clean_db + "/Gene/Summary?g=" + df["ensembl_id"]
 
     if wrap_text:
         df_wrapped = df.copy()
-        wrap_cols_func(
-            df_wrapped, ["ensembl_description", "ext_ref_description", "url"]
-        )
+        wrap_cols_func(df_wrapped, ["ensembl_description", "ext_ref_description", "url"])
 
     if json:
         results_dict = json_package.loads(df.to_json(orient="records"))

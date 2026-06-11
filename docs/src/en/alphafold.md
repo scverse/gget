@@ -13,10 +13,10 @@ Before using `gget alphafold` for the first time:
    `conda install -qy conda==24.1.2 && conda install -qy -c conda-forge openmm=7.7.0`  
    For Python version 3.11:  
    `conda install -qy conda==24.11.1 && conda install -qy -c conda-forge openmm=8.0.0`  
-  
+
    Recommendation: Follow with `conda update -qy conda` to update conda to the latest version afterwards.
-   
-3. Run `gget setup alphafold` / `gget.setup("alphafold")` once (also see [`gget setup`](setup.md)). Running `gget setup alphafold` / `gget.setup("alphafold")` will download and install the latest version of AlphaFold2 hosted on the [AlphaFold GitHub Repo](https://github.com/deepmind/alphafold). You can rerun this command any time to update the software after a new AlphaFold release.    
+
+3. Run `gget setup alphafold` / `gget.setup("alphafold")` once (also see [`gget setup`](setup.md)). Running `gget setup alphafold` / `gget.setup("alphafold")` will download and install the latest version of AlphaFold2 hosted on the [AlphaFold GitHub Repo](https://github.com/deepmind/alphafold). You can rerun this command any time to update the software after a new AlphaFold release.  
 
 **Positional argument**  
 `sequence`  
@@ -27,27 +27,27 @@ Amino acid sequence (str), or list of sequences (*gget alphafold will automatica
 The multimer model will continue recycling until the predictions stop changing, up to the limit set here. Default: 3.  
 For higher accuracy, at the potential cost of longer inference times, set this to 20.  
 
-`-o` `--out`   
+`-o` `--out`  
 Path to folder to save prediction results in (str). Default: "./[date_time]_gget_alphafold_prediction".  
-  
-**Flags**   
+
+**Flags**  
 `-mfm` `--multimer_for_monomer`  
 Use multimer model for a monomer.  
 
-`-r` `--relax`   
-AMBER relax the best model. 
+`-r` `--relax`  
+AMBER relax the best model.
 
-`-q` `--quiet`   
+`-q` `--quiet`  
 Command-line only. Prevents progress information from being displayed.  
-Python: Use `verbose=False` to prevent progress information from being displayed. 
+Python: Use `verbose=False` to prevent progress information from being displayed.
 
 `plot`  
 Python only. `plot=True` provides an interactive, 3D graphical overview of the predicted structure and alignment quality using [py3Dmol](https://pypi.org/project/py3Dmol/) and [matplotlib](https://matplotlib.org/) (default: True).  
 
 `show_sidechains`  
 Python only. `show_sidechains=True` includes side chains in the plot (default: True).  
-  
-  
+
+
 ### Example
 ```bash
 # Generate new prediction from amino acid sequence
@@ -83,7 +83,7 @@ gget.pdb("2K42", save=True)
 ### [🔗 gget alphafold FAQ](https://github.com/pachterlab/gget/discussions/39)
 
 # References
-If you use `gget alphafold` in a publication, please cite the following articles:   
+If you use `gget alphafold` in a publication, please cite the following articles:  
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
 

@@ -36,7 +36,7 @@ Gene symbols or Ensembl gene IDs. Multiple genes allowed.
 
 **Optional arguments**  
 `-csv` `--csv`  
-Returns CSV instead of JSON (command-line only).   
+Returns CSV instead of JSON (command-line only).  
 Python: Use `json=False` (default DataFrame) or `json=True` for JSON.
 
 `-o` `--out`  

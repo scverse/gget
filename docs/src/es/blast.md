@@ -6,7 +6,7 @@ BLAST una secuencia de nucleótidos o aminoácidos a cualquier base de datos [BL
 Produce: Resultados en formato JSON (Terminal) o Dataframe/CSV (Python).  
 
 **Parámetro posicional**  
-`sequence`   
+`sequence`  
 Secuencia de nucleótidos o aminoácidos, o una ruta a un archivo tipo FASTA o .txt.  
 
 **Parámetros optionales**  
@@ -25,7 +25,7 @@ Limita el número de resultados producidos. Por defecto: 50.
 `-e` `--expect`  
 Define el umbral de ['expect value'](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=FAQ#expect). Por defecto: 10.0.  
 
-`-o` `--out`   
+`-o` `--out`  
 Ruta al archivo en el que se guardarán los resultados, p. ej. ruta/al/directorio/resultados.csv (o .json). Por defecto: salida estándar (STDOUT).  
 Para Python, usa `save=True` para guardar los resultados en el directorio de trabajo actual.  
 
@@ -37,16 +37,16 @@ Activa el ['low complexity filter'](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD
 Desactiva el algoritmo MegaBLAST. Por defecto: MegaBLAST esta activado (solo aplicable para blastn).  
 
 `-csv` `--csv`  
-Solo para Terminal. Produce los resultados en formato CSV.    
+Solo para Terminal. Produce los resultados en formato CSV.  
 Para Python, usa `json=True` para producir los resultados en formato JSON.  
 
-`-q` `--quiet`   
+`-q` `--quiet`  
 Solo para Terminal. Impide la información de progreso de ser exhibida durante la ejecución del programa.  
 Para Python, usa `verbose=False` para imipidir la informacion de progreso de ser exhibida durante la ejecución del programa.  
 
 `wrap_text`  
-Solo para Python. `wrap_text=True` muestra los resultados con texto envuelto para facilitar la lectura (por defecto: False).   
-  
+Solo para Python. `wrap_text=True` muestra los resultados con texto envuelto para facilitar la lectura (por defecto: False).  
+
 ### Por ejemplo
 ```bash
 gget blast MKWMFKEDHSLEHRCVESAKIRAKYPDRVPVIVEKVSGSQIVDIDKRKYLVPSDITVAQFMWIIRKRIQLPSEKAIFLFVDKTVPQSR
@@ -60,7 +60,7 @@ gget.blast("MKWMFKEDHSLEHRCVESAKIRAKYPDRVPVIVEKVSGSQIVDIDKRKYLVPSDITVAQFMWIIRKRI
 | Description     | Scientific Name	     | Common Name     | Taxid        | Max Score | Total Score | Query Cover | ... |
 | -------------- |-------------------------| ------------------------| -------------- | ----------|-----|---|---|
 | PREDICTED: gamma-aminobutyric acid receptor-as...| Colobus angolensis palliatus	 | 	NaN | 336983 | 180	 | 180 | 100% | ... |
-| . . . | . . . | . . . | . . . | . . . | . . . | . . . | ... | 
+| . . . | . . . | . . . | . . . | . . . | . . . | . . . | ... |
 
 
 **BLAST desde un archivo .fa o .txt:**  
@@ -75,7 +75,7 @@ gget.blast("fasta.fa")
 
 #### [Más ejemplos](https://github.com/pachterlab/gget_examples)
 
-# Citar    
+# Citar  
 Si utiliza `gget blast` en una publicación, favor de citar los siguientes artículos:
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)

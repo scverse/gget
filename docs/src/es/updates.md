@@ -64,7 +64,7 @@
 - [`gget pdb`](pdb.md): Agregado el sitio web de `wwpdb`, retrocede a `rcsb` si las solicitudes fallan.  
 - [`gget cellxgene`](cellxgene.md): Mejora el manejo de argumentos; el frontend no cambia.
 - [`gget setup`](setup.md)/[`gget alphafold`](alphafold.md): Corrige el error pip_cmd en `gget.setup("alphafold")`.
-  
+
 **Versión ≥ 0.29.2** (03 de julio de 2025):  
 - Ahora se puede instalar `gget` usando `uv pip install gget`
   - Toda la metadata del paquete (versión, autor, descripción, etc.) ahora se gestiona en `setup.cfg` para una compatibilidad total con herramientas modernas como `uv`, `pip` y PyPI  
@@ -89,7 +89,7 @@
   - Se permite la consulta de múltiples genes a la vez.
 - [`gget diamond`](diamond.md):  
   - Ahora soporta alineamiento traducido de secuencias nucleotídicas contra secuencias de referencia de aminoácidos usando la opción `--translated`.
-- [`gget elm`](elm.md):   
+- [`gget elm`](elm.md):  
   - Mejorado el manejo de errores del servidor.
 
 **Versión ≥ 0.29.0** (25 de septiembre de 2024):  
@@ -110,14 +110,14 @@
     - Pruebas unitarias reorganizadas para aumentar la velocidad y disminuir el código
     - Requisitos actualizados para [permitir versiones más nuevas de mysql-connector](https://github.com/pachterlab/gget/pull/159)
     - [Soporte para Numpy>= 2.0](https://github.com/pachterlab/gget/issues/157)
-  
+
 **Versión ≥ 0.28.6 (2 de junio de 2024):**
 - **Nuevo módulo: [`gget mutate`](./mutate.md)**
 - [`gget cosmic`](./cosmic.md): Ahora puedes descargar bases de datos completas de COSMIC utilizando el argumento `download_cosmic`
 - [`gget ref`](./ref.md): Ahora puede obtener la ensambladura del genoma GRCh27 usando `species='human_grch37'`
 - [`gget search`](./search.md): Ajusta el acceso a los datos humanos a la estructura de la versión 112 de Ensembl (corrige [issue 129](https://github.com/pachterlab/gget/issues/129))
 
-~~**Version ≥ 0.28.5** (May 29, 2024):~~ 
+~~**Version ≥ 0.28.5** (May 29, 2024):~~
 - Retirado debido a un error con 'logging' en `gget.setup("alphafold")` + mutaciones de inversión en `gget mutate` solo invierten la cadena en lugar de también calcular la hebra complementaria
 
 **Versión ≥ 0.28.4** (31 de enero de 2024):  
@@ -141,13 +141,13 @@
 - [`gget ref`](./ref.md):
   - Cambios de back-end para aumentar la velocidad.
   - Nuevo argumento: `list_iv_species` para enumerar todas las especies de invertebrados disponibles (se puede combinar con el argumento `release` para obtener todas las especies disponibles de una liberación específica de Ensembl)
-    
+
 **Versión ≥ 0.28.2** (15 de noviembre de 2023):
 - [`gget info`](./info.md): devuelve un mensaje de error cuando el servidor NCBI falla por un motivo distinto a un error de recuperación (esto es un error en el lado del servidor en lugar de un error con `gget`)
 - Reemplace el argumento obsoleto 'texto' para los métodos de tipo find() siempre que se usen con la dependencia `BeautifulSoup`
 - [`gget elm`](elm.md): Elimina instancias de falsos positivos y verdaderos negativos de los resultados devueltos.
 - [`gget elm`](elm.md): agrega el argumento `expand`
-  
+
 **Versión ≥ 0.28.0** (5 de noviembre de 2023):
 - Documentación actualizada de [`gget muscle`](./muscle.md) para agregar un tutorial sobre cómo visualizar secuencias con diferentes longitudes de nombres de secuencia + ligero cambio en la visualización devuelta para que sea un poco más sólida ante diferentes nombres de secuencia  
 - [`gget muscle`](./muscle.md) ahora también permite una lista de secuencias como entrada (como alternativa a proporcionar la ruta a un archivo FASTA)
@@ -155,11 +155,11 @@
 - [`gget seq`](./seq.md): permite nombres de genes faltantes (correccione [https://github.com/pachterlab/gget/issues/107](https://github.com/pachterlab/gget /números/107))  
 - Nuevos argumentos para [`gget enrichr`](enrichr.md): use el argumento `kegg_out` y `kegg_rank` para crear una imagen de la vía KEGG con los genes del análisis de enriquecimiento resaltados (gracias a [este PR](https ://github.com/pachterlab/gget/pull/106) por [Noriaki Sato](https://github.com/noriakis))  
 - Nuevos módulos: [`gget elm`](elm.md) y [`gget Diamond`](diamond.md)
-  
+
 **Versión ≥ 0.27.9** (7 de agosto de 2023):
 - Nuevos argumentos para [`gget enrichr`](enrichr.md): use el argumento `background_list` para proporcionar una lista de genes 'background'
 - [`gget search`](search.md) ahora también busca sinónimos [Ensembl](https://ensembl.org/) (además de nombres y descripciones de genes) para obtener resultados de búsqueda más completos (gracias a [Samuel Klein](https://github.com/KleinSamuel) por la [sugerencia](https://github.com/pachterlab/gget/issu90))
-  
+
 **Versión ≥ 0.27.8** (12 de julio de 2023):
 - Nuevo argumento para [`gget search`](search.md): especifique la versión de Ensembl desde la cual se obtiene la información con `-r` `--release`
 - Se corrigió un [error](https://github.com/pachterlab/gget/issu91) en [`gget pdb`](pdb.md) (este error se introdujo en la versión 0.27.5)
@@ -179,7 +179,7 @@
 - Todos los módulos gget ahora tienen una bandera `-q / --quiet` (para Python: `verbose=False`) para desactivar la información de progreso
 
 **Versión ≥ 0.27.4** (19 de marzo de 2023):
-- Nuevo módulo: [`gget gpt`](gpt.md) 
+- Nuevo módulo: [`gget gpt`](gpt.md)
 
 **Versión ≥ 0.27.3** (11 de marzo de 2023):
 - [`gget info`](info.md) excluye los ID de PDB de forma predeterminada para aumentar la velocidad (los resultados de PDB se pueden incluir usando la marca `--pdb` / `pdb=True`).

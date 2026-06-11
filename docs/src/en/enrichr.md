@@ -4,7 +4,7 @@
 # gget enrichr 💰
 Perform an enrichment analysis on a list of genes using [Enrichr](https://maayanlab.cloud/Enrichr/) or [modEnrichr](https://maayanlab.cloud/modEnrichr/).  
 Return format: JSON (command-line) or data frame/CSV (Python).
-  
+
 **Positional argument**  
 `genes`  
 Short names (gene symbols) of genes to perform enrichment analysis on, e.g. PHF14 RBM3 MSL1 PHF21A.  
@@ -17,12 +17,12 @@ Supports any database listed [here](https://maayanlab.cloud/Enrichr/#libraries) 
 'pathway'       (KEGG_2021_Human)  
 'transcription'     (ChEA_2016)  
 'ontology'      (GO_Biological_Process_2021)  
-'diseases_drugs'   (GWAS_Catalog_2019)   
+'diseases_drugs'   (GWAS_Catalog_2019)  
 'celltypes'      (PanglaoDB_Augmented_2021)  
 'kinase_interactions'   (KEA_2015)  
-  
-NOTE: database shortcuts are not supported for species other than 'human' or 'mouse'. Click on the species databases listed below under `species` to view a list of databases available for each species.  	  
-  
+
+NOTE: database shortcuts are not supported for species other than 'human' or 'mouse'. Click on the species databases listed below under `species` to view a list of databases available for each species.  
+
 **Optional arguments**  
 `-s` `--species`  
 Species to use as reference for the enrichment analysis. (Default: human)  
@@ -42,8 +42,8 @@ Short names (gene symbols) of background genes to perform enrichment analysis on
 Alternatively: use flag `--ensembl_background` to input a list of Ensembl gene IDs.  
 See [this Tweetorial](https://x.com/ChiHoangCaltech/status/1689679611335155712?s=20) to learn why you should use a background gene list when performing an enrichment analysis.  
 
-`-o` `--out`   
-Path to the file the results will be saved in, e.g. path/to/directory/results.csv (or .json). (Default: Standard out.)   
+`-o` `--out`  
+Path to the file the results will be saved in, e.g. path/to/directory/results.csv (or .json). (Default: Standard out.)  
 Python: `save=True` will save the output in the current working directory.  
 
 `-ko` `--kegg_out`  
@@ -58,9 +58,9 @@ Python only. (width, height) of plot in inches. (Default: (10,10))
 `ax`  
 Python only. Pass a matplotlib axes object for plot customization. (Default: None)
 
-  
+
 **Flags**  
-`-e` `--ensembl`   
+`-e` `--ensembl`  
 Add this flag if `genes` are given as Ensembl gene IDs.
 
 `-e_b` `--ensembl_bkg`  
@@ -68,19 +68,19 @@ Add this flag if `background_list` are given as Ensembl gene IDs.
 
 `-bkg` `--background`  
 If True, use set of > 20,000 default background genes listed [here](https://github.com/pachterlab/gget/blob/main/gget/constants/enrichr_bkg_genes.txt).  
- 
+
 `-csv` `--csv`  
 Command-line only. Returns results in CSV format.  
 Python: Use `json=True` to return output in JSON format.
 
-`-q` `--quiet`   
+`-q` `--quiet`  
 Command-line only. Prevents progress information from being displayed.  
-Python: Use `verbose=False` to prevent progress information from being displayed. 
-  
+Python: Use `verbose=False` to prevent progress information from being displayed.
+
 `plot`  
 Python only. `plot=True` provides a graphical overview of the first 15 results (default: False).  
-  
-  
+
+
 ### Examples
 ```bash
 gget enrichr -db ontology ACE2 AGT AGTR1
@@ -110,10 +110,10 @@ gget.enrichr(
 	genes = [
 		"PHF14", "RBM3", "MSL1", "PHF21A", "ARL10", "INSR", "JADE2", "P2RX7",
 		"LINC00662", "CCDC101", "PPM1B", "KANSL1L", "CRYZL1", "ANAPC16", "TMCC1",
-		"CDH8", "RBM11", "CNPY2", "HSPA1L", "CUL2", "PLBD2", "LARP7", "TECPR2", 
+		"CDH8", "RBM11", "CNPY2", "HSPA1L", "CUL2", "PLBD2", "LARP7", "TECPR2",
 		"ZNF302", "CUX1", "MOB2", "CYTH2", "SEC22C", "EIF4E3", "ROBO2",
 		"ADAMTS9-AS2", "CXXC1", "LINC01314", "ATF7", "ATP5F1"
-	], 
+	],
 	database = "ChEA_2022",
 	background_list = [
 		"NSUN3","POLRMT","NLRX1","SFXN5","ZC3H12C","SLC25A39","ARSG",
@@ -128,11 +128,11 @@ gget.enrichr(
 		"ZFP787","ZFP655","RABEPK","ZFP650","4732466D17RIK","EXOSC4",
 		"WDR42A","GPHN","2610528J11RIK","1110003E01RIK","MDH1","1200014M14RIK",
 		"AW209491","MUT","1700123L14RIK","2610036D13RIK",
-		"PHF14", "RBM3", "MSL1", "PHF21A", "ARL10", "INSR", "JADE2", 
-		"P2RX7", "LINC00662", "CCDC101", "PPM1B", "KANSL1L", "CRYZL1", 
-		"ANAPC16", "TMCC1","CDH8", "RBM11", "CNPY2", "HSPA1L", "CUL2", 
-		"PLBD2", "LARP7", "TECPR2", "ZNF302", "CUX1", "MOB2", "CYTH2", 
-		"SEC22C", "EIF4E3", "ROBO2", "ADAMTS9-AS2", "CXXC1", "LINC01314", "ATF7", 
+		"PHF14", "RBM3", "MSL1", "PHF21A", "ARL10", "INSR", "JADE2",
+		"P2RX7", "LINC00662", "CCDC101", "PPM1B", "KANSL1L", "CRYZL1",
+		"ANAPC16", "TMCC1","CDH8", "RBM11", "CNPY2", "HSPA1L", "CUL2",
+		"PLBD2", "LARP7", "TECPR2", "ZNF302", "CUX1", "MOB2", "CYTH2",
+		"SEC22C", "EIF4E3", "ROBO2", "ADAMTS9-AS2", "CXXC1", "LINC01314", "ATF7",
 		"ATP5F1""COX15","TMEM30A","NSMCE4A","TM2D2","RHBDD3","ATXN2","NFS1",
 		"3110001I20RIK","BC038156","C330002I19RIK","ZFYVE20","POLI","TOMM70A",
 		"LOC100047782","2410012H22RIK","RILP","A230062G08RIK",
@@ -226,15 +226,15 @@ df |>
 [Using `gget enrichr` with background genes](https://github.com/pachterlab/gget_examples/blob/main/gget_enrichr_with_background_genes.ipynb)
 
 # References
-If you use `gget enrichr` in a publication, please cite the following articles:   
+If you use `gget enrichr` in a publication, please cite the following articles:  
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
 
-- Chen EY, Tan CM, Kou Y, Duan Q, Wang Z, Meirelles GV, Clark NR, Ma'ayan A. Enrichr: interactive and collaborative HTML5 gene list enrichment analysis tool. BMC Bioinformatics. 2013; 128(14). [https://doi.org/10.1186/1471-2105-14-128 ](https://doi.org/10.1186/1471-2105-14-128) 
+- Chen EY, Tan CM, Kou Y, Duan Q, Wang Z, Meirelles GV, Clark NR, Ma'ayan A. Enrichr: interactive and collaborative HTML5 gene list enrichment analysis tool. BMC Bioinformatics. 2013; 128(14). [https://doi.org/10.1186/1471-2105-14-128 ](https://doi.org/10.1186/1471-2105-14-128)
 
-- Kuleshov MV, Jones MR, Rouillard AD, Fernandez NF, Duan Q, Wang Z, Koplev S, Jenkins SL, Jagodnik KM, Lachmann A, McDermott MG, Monteiro CD, Gundersen GW, Ma'ayan A. Enrichr: a comprehensive gene set enrichment analysis web server 2016 update. Nucleic Acids Research. 2016; gkw377. doi: [10.1093/nar/gkw377](https://doi.org/10.1093/nar/gkw377) 
+- Kuleshov MV, Jones MR, Rouillard AD, Fernandez NF, Duan Q, Wang Z, Koplev S, Jenkins SL, Jagodnik KM, Lachmann A, McDermott MG, Monteiro CD, Gundersen GW, Ma'ayan A. Enrichr: a comprehensive gene set enrichment analysis web server 2016 update. Nucleic Acids Research. 2016; gkw377. doi: [10.1093/nar/gkw377](https://doi.org/10.1093/nar/gkw377)
 
 - Xie Z, Bailey A, Kuleshov MV, Clarke DJB., Evangelista JE, Jenkins SL, Lachmann A, Wojciechowicz ML, Kropiwnicki E, Jagodnik KM, Jeon M, & Ma’ayan A. Gene set knowledge discovery with Enrichr. Current Protocols, 1, e90. 2021. doi: [10.1002/cpz1.90](https://doi.org/10.1002/cpz1.90).
-  
+
 If working with non-human/mouse datasets, please also cite:
 - Kuleshov MV, Diaz JEL, Flamholz ZN, Keenan AB, Lachmann A, Wojciechowicz ML, Cagan RL, Ma'ayan A. modEnrichr: a suite of gene set enrichment analysis tools for model organisms. Nucleic Acids Res. 2019 Jul 2;47(W1):W183-W190. doi: [10.1093/nar/gkz347](https://doi.org/10.1093/nar/gkz347). PMID: 31069376; PMCID: PMC6602483.
