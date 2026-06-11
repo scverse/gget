@@ -1,12 +1,11 @@
 from bs4 import BeautifulSoup
 import requests
 
-# from requests.adapters import HTTPAdapter, Retry
-# import time
 import concurrent.futures
 import json
 import re
 import os
+import time
 import uuid
 import functools
 import pandas as pd
@@ -96,7 +95,16 @@ def parallel_map(fn, items, *, max_workers=None):
         return list(executor.map(fn, items))
 
 
-def http_json(method, url, *, context="", timeout=DEFAULT_REQUESTS_TIMEOUT, **kwargs):
+def http_json(
+    method,
+    url,
+    *,
+    context="",
+    timeout=DEFAULT_REQUESTS_TIMEOUT,
+    retries=3,
+    backoff=1.0,
+    **kwargs,
+):
     """
     Issue an HTTP request and return the parsed JSON body, raising a
     RuntimeError with consistent context if the request fails or the body
@@ -104,22 +112,61 @@ def http_json(method, url, *, context="", timeout=DEFAULT_REQUESTS_TIMEOUT, **kw
 
     `context` is a short human-readable label (e.g. "Bgee API") used in
     error messages so users can identify which upstream service failed.
+    Transient failures (connection errors, read timeouts, HTTP 5xx) are
+    retried up to `retries` additional times with exponential backoff
+    (`backoff * 2**i` seconds between attempts). Set `retries=0` to disable.
     All other keyword arguments are forwarded to `requests.request`.
     """
-    response = requests.request(method, url, timeout=timeout, **kwargs)
     label = context or url
-    if not response.ok:
-        body = response.text[:200] if response.text else ""
+    last_exc = None
+    last_status = None
+    last_body = ""
+    attempts = retries + 1
+    for attempt in range(attempts):
+        try:
+            response = requests.request(method, url, timeout=timeout, **kwargs)
+        except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
+            last_exc = e
+            last_status = None
+            last_body = ""
+        else:
+            if response.ok:
+                try:
+                    return response.json()
+                except json.JSONDecodeError as e:
+                    body = response.text[:200] if response.text else ""
+                    raise RuntimeError(
+                        f"{label} returned non-JSON response (HTTP {response.status_code}): {body}"
+                    ) from e
+            # Retry on transient server errors only; client errors are returned
+            # to the caller without retry.
+            if response.status_code < 500:
+                body = response.text[:200] if response.text else ""
+                raise RuntimeError(
+                    f"{label} returned HTTP {response.status_code}. Body: {body}"
+                )
+            last_exc = None
+            last_status = response.status_code
+            last_body = response.text[:200] if response.text else ""
+
+        if attempt < attempts - 1:
+            delay = backoff * (2 ** attempt)
+            logger.warning(
+                f"{label}: transient failure (%s); retrying in %.1fs (attempt %d/%d).",
+                last_exc or f"HTTP {last_status}",
+                delay,
+                attempt + 2,
+                attempts,
+            )
+            time.sleep(delay)
+
+    if last_exc is not None:
         raise RuntimeError(
-            f"{label} returned HTTP {response.status_code}. Body: {body}"
-        )
-    try:
-        return response.json()
-    except json.JSONDecodeError as e:
-        body = response.text[:200] if response.text else ""
-        raise RuntimeError(
-            f"{label} returned non-JSON response (HTTP {response.status_code}): {body}"
-        ) from e
+            f"{label} request failed after {attempts} attempts: {last_exc}"
+        ) from last_exc
+    raise RuntimeError(
+        f"{label} returned HTTP {last_status} after {attempts} attempts. Body: {last_body}"
+    )
 
 
 def dig(obj, *path, context=""):
