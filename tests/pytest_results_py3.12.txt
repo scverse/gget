@@ -1,4 +1,4 @@
-Pytest results (Python 3.12) - 2026-06-10T21:03:45Z
+Pytest results (Python 3.12) - 2026-06-11T17:21:12Z
 
 ============================= test session starts ==============================
 platform linux -- Python 3.12.13, pytest-9.0.3, pluggy-1.6.0 -- /opt/hostedtoolcache/Python/3.12.13/x64/bin/python
@@ -19,12 +19,12 @@ tests/test_archs4.py::TestArchs4::test_archs4_bad_which PASSED           [  2%]
 tests/test_archs4.py::TestArchs4::test_archs4_defaults PASSED            [  2%]
 tests/test_archs4.py::TestArchs4::test_archs4_mouse_json_ensembl PASSED  [  2%]
 tests/test_archs4.py::TestArchs4::test_archs4_tissue PASSED              [  2%]
-tests/test_archs4.py::TestArchs4::test_archs4_tissue_ensembl FAILED      [  3%]
+tests/test_archs4.py::TestArchs4::test_archs4_tissue_ensembl PASSED      [  3%]
 tests/test_archs4.py::TestArchs4::test_archs4_tissue_json PASSED         [  3%]
 tests/test_archs4.py::TestArchs4::test_archs4_tissue_mouse PASSED        [  3%]
 tests/test_bgee.py::TestBgee::test_bgee_expression FAILED                [  3%]
-tests/test_bgee.py::TestBgee::test_bgee_expression_multiple PASSED       [  4%]
-tests/test_bgee.py::TestBgee::test_bgee_orthologs PASSED                 [  4%]
+tests/test_bgee.py::TestBgee::test_bgee_expression_multiple FAILED       [  4%]
+tests/test_bgee.py::TestBgee::test_bgee_orthologs FAILED                 [  4%]
 tests/test_bgee.py::TestBgee::test_error_bgee_expression_no_exist PASSED [  4%]
 tests/test_bgee.py::TestBgee::test_error_bgee_orthologs_no_exist PASSED  [  4%]
 tests/test_bgee.py::TestBgee::test_error_bgee_unknown_type PASSED        [  5%]
@@ -92,7 +92,7 @@ tests/test_enrichr.py::TestEnrichr::test_enrichr_transcription PASSED    [ 20%]
 tests/test_enrichr.py::TestEnrichr::test_enrichr_worm PASSED             [ 21%]
 tests/test_enrichr.py::TestEnrichr::test_enrichr_yeast PASSED            [ 21%]
 tests/test_gpt.py::TestGpt::test_gpt PASSED                              [ 21%]
-tests/test_info.py::TestInfo::test_info_WB_transcript FAILED             [ 21%]
+tests/test_info.py::TestInfo::test_info_WB_transcript PASSED             [ 21%]
 tests/test_info.py::TestInfo::test_info_exon PASSED                      [ 22%]
 tests/test_info.py::TestInfo::test_info_gene PASSED                      [ 22%]
 tests/test_info.py::TestInfo::test_info_gene_list_non_model PASSED       [ 22%]
@@ -187,1437 +187,220 @@ tests/test_search.py::TestSearch::test_search_transcript_bad_species PASSED [ 45
 tests/test_search.py::TestSearch::test_search_transcript_one_sw PASSED   [ 45%]
 tests/test_search.py::TestSearch::test_search_transcript_two_sw_and PASSED [ 45%]
 tests/test_search.py::TestSearch::test_search_transcript_two_sw_or PASSED [ 45%]
-tests/test_seq.py::TestSeq::test_seq_gene FAILED                         [ 46%]
-tests/test_seq.py::TestSeq::test_seq_gene_iso FAILED                     [ 46%]
+tests/test_seq.py::TestSeq::test_seq_gene PASSED                         [ 46%]
+tests/test_seq.py::TestSeq::test_seq_gene_iso PASSED                     [ 46%]
+tests/test_seq.py::TestSeq::test_seq_gene_transcript_iso PASSED          [ 46%]
+tests/test_seq.py::TestSeq::test_seq_missing_uniprot_gene_name PASSED    [ 46%]
+tests/test_seq.py::TestSeq::test_seq_transcript PASSED                   [ 47%]
+tests/test_seq.py::TestSeq::test_seq_transcript_gene PASSED              [ 47%]
+tests/test_seq.py::TestSeq::test_seq_transcript_gene_WB PASSED           [ 47%]
+tests/test_seq.py::TestSeq::test_seq_transcript_gene_iso PASSED          [ 47%]
+tests/test_seq.py::TestSeq::test_seq_transcript_transcript_WB PASSED     [ 48%]
+tests/test_seq.py::TestSeq::test_seq_transcript_transcript_iso PASSED    [ 48%]
+tests/test_utils.py::TestUtils::test_aa_colors PASSED                    [ 48%]
+tests/test_utils.py::TestUtils::test_find_latest_ens_rel PASSED          [ 48%]
+tests/test_utils.py::TestUtils::test_get_uniprot_info_gene PASSED        [ 49%]
+tests/test_utils.py::TestUtils::test_get_uniprot_info_transcript PASSED  [ 49%]
+tests/test_utils.py::TestUtils::test_get_uniprot_seqs PASSED             [ 49%]
+tests/test_utils.py::TestUtils::test_n_colors PASSED                     [ 50%]
+tests/test_utils.py::TestUtils::test_read_fasta PASSED                   [ 50%]
+tests/test_utils.py::TestUtils::test_ref_iv_species_options PASSED       [ 50%]
+tests/test_utils.py::TestUtils::test_ref_species_options PASSED          [ 50%]
+tests/test_utils.py::TestUtils::test_ref_species_options_bad_type PASSED [ 51%]
+tests/test_utils.py::TestUtils::test_rest_query PASSED                   [ 51%]
+tests/test_utils.py::TestUtils::test_rest_query_bad_type PASSED          [ 51%]
+tests/test_utils.py::TestUtils::test_search_iv_species_options PASSED    [ 51%]
+tests/test_utils.py::TestUtils::test_search_species_options PASSED       [ 52%]
+tests/test_utils.py::TestUtils::test_search_species_options_bad_type PASSED [ 52%]
+tests/test_virus.py::TestVirus::test_batch_accessions_for_url PASSED     [ 52%]
+tests/test_virus.py::TestVirus::test_calculate_max_accessions_per_batch PASSED [ 52%]
+tests/test_virus.py::TestVirus::test_check_min_max_date_invalid_raises PASSED [ 53%]
+tests/test_virus.py::TestVirus::test_check_min_max_date_valid PASSED     [ 53%]
+tests/test_virus.py::TestVirus::test_check_min_max_equal PASSED          [ 53%]
+tests/test_virus.py::TestVirus::test_check_min_max_invalid_raises PASSED [ 53%]
+tests/test_virus.py::TestVirus::test_check_min_max_none_values PASSED    [ 54%]
+tests/test_virus.py::TestVirus::test_check_min_max_valid PASSED          [ 54%]
+tests/test_virus.py::TestVirus::test_clean_xml_declarations PASSED       [ 54%]
+tests/test_virus.py::TestVirus::test_clean_xml_declarations_no_declarations PASSED [ 54%]
+tests/test_virus.py::TestVirus::test_datasets_cli_version_output PASSED  [ 55%]
+tests/test_virus.py::TestVirus::test_deduplicate_all_existing PASSED     [ 55%]
+tests/test_virus.py::TestVirus::test_deduplicate_empty_baseline PASSED   [ 55%]
+tests/test_virus.py::TestVirus::test_deduplicate_metadata_against_baseline PASSED [ 55%]
+tests/test_virus.py::TestVirus::test_filter_cached_annotated PASSED      [ 56%]
+tests/test_virus.py::TestVirus::test_filter_cached_complete_only PASSED  [ 56%]
+tests/test_virus.py::TestVirus::test_filter_cached_geographic_location PASSED [ 56%]
+tests/test_virus.py::TestVirus::test_filter_cached_host_in_strategy_skipped PASSED [ 56%]
+tests/test_virus.py::TestVirus::test_filter_cached_host_not_in_strategy PASSED [ 57%]
+tests/test_virus.py::TestVirus::test_filter_cached_min_release_date PASSED [ 57%]
+tests/test_virus.py::TestVirus::test_filter_cached_no_filters PASSED     [ 57%]
+tests/test_virus.py::TestVirus::test_filter_cached_refseq_only PASSED    [ 57%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_combined PASSED [ 58%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_empty PASSED [ 58%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_env_source PASSED [ 58%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_gen_mol_type PASSED [ 58%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_genotype PASSED [ 59%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_genotype_list PASSED [ 59%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_has_proteins PASSED [ 59%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_mature_peptide_count PASSED [ 60%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_max_gene_count PASSED [ 60%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_min_gene_count PASSED [ 60%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_no_filters PASSED [ 60%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_provirus_false PASSED [ 61%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_provirus_true PASSED [ 61%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_annotated_false PASSED [ 61%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_annotated_true PASSED [ 61%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_collection_date_range PASSED [ 62%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_combined_filters PASSED [ 62%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_geographic_location PASSED [ 62%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_host PASSED    [ 62%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_isolate PASSED [ 63%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_isolation_source PASSED [ 63%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_lab_passaged_false PASSED [ 63%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_lab_passaged_true PASSED [ 63%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_max_release_date PASSED [ 64%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_max_seq_length PASSED [ 64%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_min_seq_length PASSED [ 64%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_no_filters PASSED [ 64%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_nuc_completeness_partial PASSED [ 65%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_protein_count PASSED [ 65%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_segment PASSED [ 65%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_source_database PASSED [ 65%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_submitter_country PASSED [ 66%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_submitter_institution PASSED [ 66%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_submitter_name PASSED [ 66%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_vaccine_strain_false PASSED [ 66%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_vaccine_strain_true PASSED [ 67%]
+tests/test_virus.py::TestVirus::test_filter_sequences_max_ambiguous_chars PASSED [ 67%]
+tests/test_virus.py::TestVirus::test_filter_sequences_no_filters PASSED  [ 67%]
+tests/test_virus.py::TestVirus::test_filter_sequences_proteins_complete PASSED [ 67%]
+tests/test_virus.py::TestVirus::test_force_garbage_collection_runs PASSED [ 68%]
+tests/test_virus.py::TestVirus::test_genbank_xml_to_csv_basic PASSED     [ 68%]
+tests/test_virus.py::TestVirus::test_get_datasets_path_returns_valid_path PASSED [ 68%]
+tests/test_virus.py::TestVirus::test_get_datasets_path_uses_bundled_binary PASSED [ 68%]
+tests/test_virus.py::TestVirus::test_get_datasets_version_returns_string_or_none PASSED [ 69%]
+tests/test_virus.py::TestVirus::test_get_gget_version_returns_string PASSED [ 69%]
+tests/test_virus.py::TestVirus::test_get_memory_usage_returns_dict PASSED [ 69%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_add_space_before_virus PASSED [ 70%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_add_virus_suffix PASSED [ 70%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_already_correct_returns_none PASSED [ 70%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_empty_returns_none PASSED [ 70%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_invalid_attempt_returns_none PASSED [ 71%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_no_parentheses_returns_none PASSED [ 71%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_remove_parentheses PASSED [ 71%]
+tests/test_virus.py::TestVirus::test_is_alphainfluenza_query_accession_mode PASSED [ 71%]
+tests/test_virus.py::TestVirus::test_is_alphainfluenza_query_common_names PASSED [ 72%]
+tests/test_virus.py::TestVirus::test_is_alphainfluenza_query_negative PASSED [ 72%]
+tests/test_virus.py::TestVirus::test_is_sars_cov2_query_accession_mode PASSED [ 72%]
+tests/test_virus.py::TestVirus::test_is_sars_cov2_query_common_names PASSED [ 72%]
+tests/test_virus.py::TestVirus::test_is_sars_cov2_query_negative PASSED  [ 73%]
+tests/test_virus.py::TestVirus::test_load_metadata_from_api_reports_basic PASSED [ 73%]
+tests/test_virus.py::TestVirus::test_load_metadata_from_api_reports_empty PASSED [ 73%]
+tests/test_virus.py::TestVirus::test_load_metadata_from_api_reports_missing_accession PASSED [ 73%]
+tests/test_virus.py::TestVirus::test_load_metadata_from_api_reports_multiple PASSED [ 74%]
+tests/test_virus.py::TestVirus::test_local_name_with_namespace PASSED    [ 74%]
+tests/test_virus.py::TestVirus::test_local_name_without_namespace PASSED [ 74%]
+tests/test_virus.py::TestVirus::test_merge_baseline_with_new_csv PASSED  [ 74%]
+tests/test_virus.py::TestVirus::test_merge_baseline_with_new_deduplicates PASSED [ 75%]
+tests/test_virus.py::TestVirus::test_merge_baseline_with_new_empty_new PASSED [ 75%]
+tests/test_virus.py::TestVirus::test_merge_metadata_csvs_fills_missing PASSED [ 75%]
+tests/test_virus.py::TestVirus::test_merge_metadata_csvs_missing_standard_file PASSED [ 75%]
+tests/test_virus.py::TestVirus::test_merge_metadata_csvs_no_overwrite PASSED [ 76%]
+tests/test_virus.py::TestVirus::test_parse_accession_input_empty_file_raises_error PASSED [ 76%]
+tests/test_virus.py::TestVirus::test_parse_accession_input_from_file PASSED [ 76%]
+tests/test_virus.py::TestVirus::test_parse_accession_input_nonexistent_file_raises_error PASSED [ 76%]
+tests/test_virus.py::TestVirus::test_parse_accession_input_single PASSED [ 77%]
+tests/test_virus.py::TestVirus::test_parse_accession_input_space_separated PASSED [ 77%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_csv PASSED      [ 77%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_empty_raises PASSED [ 77%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_json PASSED     [ 78%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_jsonl PASSED    [ 78%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_none_raises PASSED [ 78%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_nonexistent_raises PASSED [ 78%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_text PASSED     [ 79%]
+tests/test_virus.py::TestVirus::test_parse_date_full PASSED              [ 79%]
+tests/test_virus.py::TestVirus::test_parse_date_invalid_raises PASSED    [ 79%]
+tests/test_virus.py::TestVirus::test_parse_date_various_formats PASSED   [ 80%]
+tests/test_virus.py::TestVirus::test_parse_genbank_xml_basic PASSED      [ 80%]
+tests/test_virus.py::TestVirus::test_parse_genbank_xml_empty_set PASSED  [ 80%]
+tests/test_virus.py::TestVirus::test_parse_genbank_xml_invalid_raises PASSED [ 80%]
+tests/test_virus.py::TestVirus::test_parse_partial_date_empty_raises PASSED [ 81%]
+tests/test_virus.py::TestVirus::test_parse_partial_date_full_date PASSED [ 81%]
+tests/test_virus.py::TestVirus::test_parse_partial_date_year_month_max PASSED [ 81%]
+tests/test_virus.py::TestVirus::test_parse_partial_date_year_month_min PASSED [ 81%]
+tests/test_virus.py::TestVirus::test_parse_partial_date_year_only_max_comparison PASSED [ 82%]
+tests/test_virus.py::TestVirus::test_parse_partial_date_year_only_min_comparison PASSED [ 82%]
+tests/test_virus.py::TestVirus::test_retry_helper_custom_retryable_exceptions PASSED [ 82%]
+tests/test_virus.py::TestVirus::test_retry_helper_exponential_backoff_timing PASSED [ 82%]
+tests/test_virus.py::TestVirus::test_retry_helper_failed_commands_tracking PASSED [ 83%]
+tests/test_virus.py::TestVirus::test_retry_helper_non_retryable_exception PASSED [ 83%]
+tests/test_virus.py::TestVirus::test_retry_helper_success_after_retry PASSED [ 83%]
+tests/test_virus.py::TestVirus::test_retry_helper_successful_operation PASSED [ 83%]
+tests/test_virus.py::TestVirus::test_save_command_summary_creates_file PASSED [ 84%]
+tests/test_virus.py::TestVirus::test_save_command_summary_with_error PASSED [ 84%]
+tests/test_virus.py::TestVirus::test_save_genbank_metadata_to_csv_basic PASSED [ 84%]
+tests/test_virus.py::TestVirus::test_save_genbank_metadata_to_csv_empty PASSED [ 84%]
+tests/test_virus.py::TestVirus::test_save_metadata_to_csv_basic PASSED   [ 85%]
+tests/test_virus.py::TestVirus::test_save_metadata_to_csv_empty_metadata PASSED [ 85%]
+tests/test_virus.py::TestVirus::test_save_partial_metadata PASSED        [ 85%]
+tests/test_virus.py::TestVirus::test_save_partial_metadata_empty PASSED  [ 85%]
+tests/test_virus.py::TestVirus::test_stream_copy_fasta_all_records PASSED [ 86%]
+tests/test_virus.py::TestVirus::test_stream_copy_fasta_with_accession_filter PASSED [ 86%]
+tests/test_virus.py::TestVirus::test_track_failed_operation_appends PASSED [ 86%]
+tests/test_virus.py::TestVirus::test_track_failed_operation_creates_key PASSED [ 86%]
+tests/test_virus.py::TestVirus::test_track_failed_operation_none_dict PASSED [ 87%]
+tests/test_virus.py::TestVirus::test_unzip_file_bad_zip_raises PASSED    [ 87%]
+tests/test_virus.py::TestVirus::test_unzip_file_nonexistent_raises PASSED [ 87%]
+tests/test_virus.py::TestVirus::test_unzip_file_valid PASSED             [ 87%]
+tests/test_virus.py::TestVirus::test_validate_datasets_binary_empty_path PASSED [ 88%]
+tests/test_virus.py::TestVirus::test_validate_datasets_binary_nonexistent PASSED [ 88%]
+tests/test_virus.py::TestVirus::test_validate_datasets_binary_valid PASSED [ 88%]
+tests/test_virus.py::TestVirus::test_virus_completeness_filter_verification PASSED [ 88%]
+tests/test_virus.py::TestVirus::test_virus_empty_virus_name PASSED       [ 89%]
+tests/test_virus.py::TestVirus::test_virus_host_filter_verification PASSED [ 89%]
+tests/test_virus.py::TestVirus::test_virus_integer_virus_id PASSED       [ 89%]
+tests/test_virus.py::TestVirus::test_virus_invalid_annotated_type PASSED [ 90%]
+tests/test_virus.py::TestVirus::test_virus_invalid_completeness PASSED   [ 90%]
+tests/test_virus.py::TestVirus::test_virus_invalid_genbank_batch_size_negative PASSED [ 90%]
+tests/test_virus.py::TestVirus::test_virus_invalid_genbank_batch_size_type PASSED [ 90%]
+tests/test_virus.py::TestVirus::test_virus_invalid_genbank_batch_size_zero PASSED [ 91%]
+tests/test_virus.py::TestVirus::test_virus_invalid_genbank_metadata_type PASSED [ 91%]
+tests/test_virus.py::TestVirus::test_virus_invalid_is_accession_type PASSED [ 91%]
+tests/test_virus.py::TestVirus::test_virus_invalid_keep_temp_type PASSED [ 91%]
+tests/test_virus.py::TestVirus::test_virus_invalid_lab_passaged_type PASSED [ 92%]
+tests/test_virus.py::TestVirus::test_virus_invalid_proteins_complete_type PASSED [ 92%]
+tests/test_virus.py::TestVirus::test_virus_metadata_schema_validation PASSED [ 92%]
+tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_collection_date PASSED [ 92%]
+tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_gene_count PASSED [ 93%]
+tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_peptide_count PASSED [ 93%]
+tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_protein_count PASSED [ 93%]
+tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_release_date PASSED [ 93%]
+tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_seq_length PASSED [ 94%]
+tests/test_virus.py::TestVirus::test_virus_multi_accession_file_input PASSED [ 94%]
+tests/test_virus.py::TestVirus::test_virus_multi_accession_space_separated PASSED [ 94%]
+tests/test_virus.py::TestVirus::test_virus_multiple_filters_relationship_check PASSED [ 94%]
+tests/test_virus.py::TestVirus::test_virus_none_virus_name PASSED        [ 95%]
+tests/test_virus.py::TestVirus::test_virus_relationship_check_counts_match PASSED [ 95%]
+tests/test_virus.py::TestVirus::test_virus_release_date_filter_verification PASSED [ 95%]
+tests/test_virus.py::TestVirus::test_virus_specific_accession_file_creation PASSED [ 95%]
+tests/test_virus.py::TestVirus::test_virus_with_annotated_filter PASSED  [ 96%]
+tests/test_virus.py::TestVirus::test_virus_with_collection_date_filters PASSED [ 96%]
+tests/test_virus.py::TestVirus::test_virus_with_completeness_filter PASSED [ 96%]
+tests/test_virus.py::TestVirus::test_virus_with_genbank_metadata_retrieval PASSED [ 96%]
+tests/test_virus.py::TestVirus::test_virus_with_geographic_location_filter PASSED [ 97%]
+tests/test_virus.py::TestVirus::test_virus_with_has_proteins_filter PASSED [ 97%]
+tests/test_virus.py::TestVirus::test_virus_with_host_filter PASSED       [ 97%]
+tests/test_virus.py::TestVirus::test_virus_with_lab_passaged_filter PASSED [ 97%]
+tests/test_virus.py::TestVirus::test_virus_with_length_filters PASSED    [ 98%]
+tests/test_virus.py::TestVirus::test_virus_with_max_ambiguous_chars_filter PASSED [ 98%]
+tests/test_virus.py::TestVirus::test_virus_with_multiple_filters PASSED  [ 98%]
+tests/test_virus.py::TestVirus::test_virus_with_protein_count_filters PASSED [ 98%]
+tests/test_virus.py::TestVirus::test_virus_with_source_database_filter PASSED [ 99%]
+tests/test_virus.py::TestVirus::test_write_fasta_record_long_sequence_wraps PASSED [ 99%]
+tests/test_virus.py::TestVirus::test_write_fasta_record_with_description PASSED [ 99%]
+tests/test_virus.py::TestVirus::test_write_fasta_record_without_description PASSED [100%]
 
 =================================== FAILURES ===================================
-____________________ TestArchs4.test_archs4_tissue_ensembl _____________________
-
-self = <tests.test_archs4.TestArchs4 testMethod=test_archs4_tissue_ensembl>
-
-    def assert_equal(self: unittest.TestCase):
-        test = name
-        expected_result = td[test]["expected_result"]
->       result_to_test = do_call(func, td[test]["args"])
-                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-tests/from_json.py:66: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-func = <function archs4 at 0x7f4f16293100>
-args = {'ensembl': True, 'gene': 'ENSG00000106443', 'species': 'mouse', 'which': 'tissue'}
-
-    def do_call(func, args):
-        if isinstance(args, dict):
->           return func(**args)
-                   ^^^^^^^^^^^^
-
-tests/from_json.py:58: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-gene = 'ENSG00000106443', ensembl = True, which = 'tissue', gene_count = 100
-species = 'mouse', json = False, save = False, verbose = True
-
-    def archs4(
-        gene,
-        ensembl=False,
-        which="correlation",
-        gene_count=100,
-        species="human",
-        json=False,
-        save=False,
-        verbose=True,
-    ):
-        """
-        Find the most correlated genes or the tissue expression atlas
-        of a gene of interest using data from the human and mouse RNA-seq
-        database ARCHS4 (https://maayanlab.cloud/archs4/).
-    
-        Args:
-        - gene          Short name (Entrez gene symbol) of gene of interest (str), e.g. 'STAT4'.
-                        Set 'ensembl=True' to input an Ensembl gene ID, e.g. ENSG00000138378.
-        - ensembl       Define as 'True' if 'gene' is an Ensembl gene ID. (Default: False)
-        - which         'correlation' (default) or 'tissue'.
-                        - 'correlation' returns a gene correlation table that contains the
-                        100 most correlated genes to the gene of interest. The Pearson
-                        correlation is calculated over all samples and tissues in ARCHS4.
-                        - 'tissue' returns a tissue expression atlas calculated from
-                        human or mouse samples (as defined by 'species') in ARCHS4.
-        - gene_count    Number of correlated genes to return (default: 100).
-                        (Only for gene correlation.)
-        - species       'human' (default) or 'mouse'.
-                        (Only for tissue expression atlas.)
-        - json          If True, returns results in json format instead of data frame. Default: False.
-        - save          True/False whether to save the results in the local directory.
-        - verbose        True/False whether to print progress information. Default True.
-    
-        Returns a data frame with the requested results.
-        """
-        # Check if 'which' argument is valid
-        whichs = ["correlation", "tissue"]
-        if which not in whichs:
-            raise ValueError(
-                f"'which' argument specified as {which}. Expected one of: {', '.join(whichs)}"
-            )
-    
-        # Check if 'species' argument is valid
-        sps = ["human", "mouse"]
-        if species not in sps:
-            raise ValueError(
-                f"'species' argument specified as {species}. Expected one of: {', '.join(sps)}"
-            )
-    
-        ## Transform Ensembl IDs to gene symbols
-        if ensembl:
-            # Remove version number if passed
-            gene = gene.split(".")[0]
-    
->           info_df = info(gene, verbose=False, pdb=False, ncbi=False, uniprot=False)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-gget/gget_archs4.py:71: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-ens_ids = ['ENSG00000106443'], wrap_text = False, ncbi = False, uniprot = False
-pdb = False, json = False, verbose = False, save = False, expand = False
-ensembl_only = False
-
-    def info(
-        ens_ids,
-        wrap_text=False,
-        ncbi=True,
-        uniprot=True,
-        pdb=False,
-        json=False,
-        verbose=True,
-        save=False,
-        expand=False,
-        ensembl_only=False,
-    ):
-        """
-        Fetch gene and transcript metadata using Ensembl IDs.
-    
-        Args:
-        - ens_ids       One or more Ensembl IDs to look up (string or list of strings).
-                        Also supports WormBase and Flybase IDs.
-        - wrap_text     If True, displays data frame with wrapped text for easy reading. Default: False.
-        - ncbi          If False, does not return data from NCBI. Default: True.
-        - uniprot       If False, does not return data from UniProt. Default: True.
-        - pdb           If True, also returns PDB IDs (might increase run time). Default: False.
-        - json          If True, returns results in json/dictionary format instead of data frame. Default: False.
-        - verbose       True/False whether to print progress information. Default True.
-        - save          True/False wether to save csv with query results in current working directory. Default: False.
-    
-        Returns a data frame containing the requested information.
-    
-        Deprecated arguments:
-        - expand        (gget info now always returns all of the available information)
-        - ensembl_only  If True, only returns results from Ensembl (excludes PDB, UniProt, and NCBI results). Default: False.
-        """
-        # Handle deprecated arguments
-        if expand:
-            if verbose:
-                logger.warning(
-                    "'expand' argument deprecated! gget info now always returns all of the available information."
-                )
-        if ensembl_only:
-            if verbose:
-                logger.warning(
-                    "'ensembl_only' argument deprecated! Please use arguments 'ncbi=False' and 'uniprot=False'."
-                )
-    
-        # Set synonyms found by each database initially to none
-        ncbi_synonyms = None
-        df_uniprot = None
-        df_pdb = pd.DataFrame()
-        df_ncbi = pd.DataFrame()
-    
-        # Rename pdb, uniprot, ncbi arguments
-        fetch_ncbi = ncbi
-        fetch_uniprot = uniprot
-        fetch_pdb = pdb
-    
-        # Define Ensembl REST API server
-        server = ENSEMBL_REST_API
-        # Define type of returned content from REST
-        content_type = "application/json"
-    
-        ## Clean up Ensembl IDs
-        # If single Ensembl ID passed as string, convert to list
-        if type(ens_ids) == str:
-            ens_ids = [ens_ids]
-        # Remove Ensembl ID version if passed
-        ens_ids_clean = []
-        temp = 0
-        for ensembl_ID in ens_ids:
-            # But only for Ensembl ID (and not for flybase/wormbase IDs)
-            if ensembl_ID.startswith("ENS"):
-                ens_ids_clean.append(ensembl_ID.split(".")[0])
-    
-                if "." in ensembl_ID and temp == 0:
-                    if verbose is True:
-                        logger.info(
-                            "We noticed that you passed a version number with your Ensembl ID.\n"
-                            "Please note that gget info will always return information linked to the latest Ensembl ID version (see 'ensembl_id')."
-                        )
-                    temp = +1
-    
-            else:
-                ens_ids_clean.append(ensembl_ID)
-    
-        # Remove duplicates in the Ensembl ID list without changing their order
-        ens_ids_clean = sorted(set(ens_ids_clean), key=ens_ids_clean.index)
-        # Create second clean list of Ensembl IDs which will not include IDs that were not found
-        ens_ids_clean_2 = ens_ids_clean.copy()
-    
-        # Initiate dictionary to save results for all IDs in
-        master_dict = {}
-    
-        # Query REST APIs from https://rest.ensembl.org/
-        endpoint = "lookup/id/"
-        query = {"ids": ens_ids_clean, "expand": True}
-    
->       results_dict = post_query(server, endpoint, query)
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-gget/gget_info.py:124: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-server = 'http://rest.ensembl.org/', endpoint = 'lookup/id/'
-query = {'expand': True, 'ids': ['ENSG00000106443']}
-
-    def post_query(server, endpoint, query):
-        """
-        Function to perform a POST API query.
-    
-        :param server:  Server to query .
-        :param endpoint: Server endpoint
-        :param query:   Query that is passed to server.
-    
-        :return: server output
-        """
-    
-        r = requests.post(
-            server + endpoint, json=query, headers={"Content-Type": "application/json"}
-        )
-    
-        if not r.ok:
->           raise RuntimeError(
-                f"{server} returned error status code {r.status_code}. "
-                "Please double-check arguments and try again.\n"
-            )
-E           RuntimeError: http://rest.ensembl.org/ returned error status code 500. Please double-check arguments and try again.
-
-gget/utils.py:760: RuntimeError
 ________________________ TestBgee.test_bgee_expression _________________________
-
-self = <urllib3.connectionpool.HTTPSConnectionPool object at 0x7f4f15eee4e0>
-conn = <HTTPSConnection(host='www.bgee.org', port=443) at 0x7f4f15eee840>
-method = 'GET'
-url = '/api/?display_type=json&page=gene&action=general_info&gene_id=ENSBTAG00000047356'
-body = None
-headers = {'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'}
-retries = Retry(total=0, connect=None, read=False, redirect=None, status=None)
-timeout = Timeout(connect=10, read=60, total=None), chunked = False
-response_conn = <HTTPSConnection(host='www.bgee.org', port=443) at 0x7f4f15eee840>
-preload_content = False, decode_content = False, enforce_content_length = True
-
-    def _make_request(
-        self,
-        conn: BaseHTTPConnection,
-        method: str,
-        url: str,
-        body: _TYPE_BODY | None = None,
-        headers: typing.Mapping[str, str] | None = None,
-        retries: Retry | None = None,
-        timeout: _TYPE_TIMEOUT = _DEFAULT_TIMEOUT,
-        chunked: bool = False,
-        response_conn: BaseHTTPConnection | None = None,
-        preload_content: bool = True,
-        decode_content: bool = True,
-        enforce_content_length: bool = True,
-    ) -> BaseHTTPResponse:
-        """
-        Perform a request on a given urllib connection object taken from our
-        pool.
-    
-        :param conn:
-            a connection from one of our connection pools
-    
-        :param method:
-            HTTP request method (such as GET, POST, PUT, etc.)
-    
-        :param url:
-            The URL to perform the request on.
-    
-        :param body:
-            Data to send in the request body, either :class:`str`, :class:`bytes`,
-            an iterable of :class:`str`/:class:`bytes`, or a file-like object.
-    
-        :param headers:
-            Dictionary of custom headers to send, such as User-Agent,
-            If-None-Match, etc. If None, pool headers are used. If provided,
-            these headers completely replace any pool-specific headers.
-    
-        :param retries:
-            Configure the number of retries to allow before raising a
-            :class:`~urllib3.exceptions.MaxRetryError` exception.
-    
-            Pass ``None`` to retry until you receive a response. Pass a
-            :class:`~urllib3.util.retry.Retry` object for fine-grained control
-            over different types of retries.
-            Pass an integer number to retry connection errors that many times,
-            but no other types of errors. Pass zero to never retry.
-    
-            If ``False``, then retries are disabled and any exception is raised
-            immediately. Also, instead of raising a MaxRetryError on redirects,
-            the redirect response will be returned.
-    
-        :type retries: :class:`~urllib3.util.retry.Retry`, False, or an int.
-    
-        :param timeout:
-            If specified, overrides the default timeout for this one
-            request. It may be a float (in seconds) or an instance of
-            :class:`urllib3.util.Timeout`.
-    
-        :param chunked:
-            If True, urllib3 will send the body using chunked transfer
-            encoding. Otherwise, urllib3 will send the body using the standard
-            content-length form. Defaults to False.
-    
-        :param response_conn:
-            Set this to ``None`` if you will handle releasing the connection or
-            set the connection to have the response release it.
-    
-        :param preload_content:
-          If True, the response's body will be preloaded during construction.
-    
-        :param decode_content:
-            If True, will attempt to decode the body based on the
-            'content-encoding' header.
-    
-        :param enforce_content_length:
-            Enforce content length checking. Body returned by server must match
-            value of Content-Length header, if present. Otherwise, raise error.
-        """
-        self.num_requests += 1
-    
-        timeout_obj = self._get_timeout(timeout)
-        timeout_obj.start_connect()
-        conn.timeout = Timeout.resolve_default_timeout(timeout_obj.connect_timeout)
-    
-        try:
-            # Trigger any extra validation we need to do.
-            try:
-                self._validate_conn(conn)
-            except (SocketTimeout, BaseSSLError) as e:
-                self._raise_timeout(err=e, url=url, timeout_value=conn.timeout)
-                raise
-    
-        # _validate_conn() starts the connection to an HTTPS proxy
-        # so we need to wrap errors with 'ProxyError' here too.
-        except (
-            OSError,
-            NewConnectionError,
-            TimeoutError,
-            BaseSSLError,
-            CertificateError,
-            SSLError,
-        ) as e:
-            new_e: Exception = e
-            if isinstance(e, (BaseSSLError, CertificateError)):
-                new_e = SSLError(e)
-            # If the connection didn't successfully connect to it's proxy
-            # then there
-            if isinstance(
-                new_e, (OSError, NewConnectionError, TimeoutError, SSLError)
-            ) and (conn and conn.proxy and not conn.has_connected_to_proxy):
-                new_e = _wrap_proxy_error(new_e, conn.proxy.scheme)
-            raise new_e
-    
-        # conn.request() calls http.client.*.request, not the method in
-        # urllib3.request. It also calls makefile (recv) on the socket.
-        try:
-            conn.request(
-                method,
-                url,
-                body=body,
-                headers=headers,
-                chunked=chunked,
-                preload_content=preload_content,
-                decode_content=decode_content,
-                enforce_content_length=enforce_content_length,
-            )
-    
-        # We are swallowing BrokenPipeError (errno.EPIPE) since the server is
-        # legitimately able to close the connection after sending a valid response.
-        # With this behaviour, the received response is still readable.
-        except BrokenPipeError:
-            pass
-        except OSError as e:
-            # MacOS/Linux
-            # EPROTOTYPE and ECONNRESET are needed on macOS
-            # https://erickt.github.io/blog/2014/11/19/adventures-in-debugging-a-potential-osx-kernel-bug/
-            # Condition changed later to emit ECONNRESET instead of only EPROTOTYPE.
-            if e.errno != errno.EPROTOTYPE and e.errno != errno.ECONNRESET:
-                raise
-    
-        # Reset the timeout for the recv() on the socket
-        read_timeout = timeout_obj.read_timeout
-    
-        if not conn.is_closed:
-            # In Python 3 socket.py will catch EAGAIN and return None when you
-            # try and read into the file pointer created by http.client, which
-            # instead raises a BadStatusLine exception. Instead of catching
-            # the exception and assuming all BadStatusLine exceptions are read
-            # timeouts, check for a zero timeout before making the request.
-            if read_timeout == 0:
-                raise ReadTimeoutError(
-                    self, url, f"Read timed out. (read timeout={read_timeout})"
-                )
-            conn.timeout = read_timeout
-    
-        # Receive the response from the server
-        try:
->           response = conn.getresponse()
-                       ^^^^^^^^^^^^^^^^^^
-
-/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/urllib3/connectionpool.py:534: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = <HTTPSConnection(host='www.bgee.org', port=443) at 0x7f4f15eee840>
-
-    def getresponse(  # type: ignore[override]
-        self,
-    ) -> HTTPResponse:
-        """
-        Get the response from the server.
-    
-        If the HTTPConnection is in the correct state, returns an instance of HTTPResponse or of whatever object is returned by the response_class variable.
-    
-        If a request has not been sent or if a previous response has not be handled, ResponseNotReady is raised. If the HTTP response indicates that the connection should be closed, then it will be closed before the response is returned. When the connection is closed, the underlying socket is closed.
-        """
-        # Raise the same error as http.client.HTTPConnection
-        if self._response_options is None:
-            raise ResponseNotReady()
-    
-        # Reset this attribute for being used again.
-        resp_options = self._response_options
-        self._response_options = None
-    
-        # Since the connection's timeout value may have been updated
-        # we need to set the timeout on the socket.
-        self.sock.settimeout(self.timeout)
-    
-        # This is needed here to avoid circular import errors
-        from .response import HTTPResponse
-    
-        # Save a reference to the shutdown function before ownership is passed
-        # to httplib_response
-        # TODO should we implement it everywhere?
-        _shutdown = getattr(self.sock, "shutdown", None)
-    
-        # Get the response from http.client.HTTPConnection
->       httplib_response = super().getresponse()
-                           ^^^^^^^^^^^^^^^^^^^^^
-
-/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/urllib3/connection.py:571: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = <HTTPSConnection(host='www.bgee.org', port=443) at 0x7f4f15eee840>
-
-    def getresponse(self):
-        """Get the response from the server.
-    
-        If the HTTPConnection is in the correct state, returns an
-        instance of HTTPResponse or of whatever object is returned by
-        the response_class variable.
-    
-        If a request has not been sent or if a previous response has
-        not be handled, ResponseNotReady is raised.  If the HTTP
-        response indicates that the connection should be closed, then
-        it will be closed before the response is returned.  When the
-        connection is closed, the underlying socket is closed.
-        """
-    
-        # if a prior response has been completed, then forget about it.
-        if self.__response and self.__response.isclosed():
-            self.__response = None
-    
-        # if a prior response exists, then it must be completed (otherwise, we
-        # cannot read this response's header to determine the connection-close
-        # behavior)
-        #
-        # note: if a prior response existed, but was connection-close, then the
-        # socket and response were made independent of this HTTPConnection
-        # object since a new request requires that we open a whole new
-        # connection
-        #
-        # this means the prior response had one of two states:
-        #   1) will_close: this connection was reset and the prior socket and
-        #                  response operate independently
-        #   2) persistent: the response was retained and we await its
-        #                  isclosed() status to become true.
-        #
-        if self.__state != _CS_REQ_SENT or self.__response:
-            raise ResponseNotReady(self.__state)
-    
-        if self.debuglevel > 0:
-            response = self.response_class(self.sock, self.debuglevel,
-                                           method=self._method)
-        else:
-            response = self.response_class(self.sock, method=self._method)
-    
-        try:
-            try:
->               response.begin()
-
-/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/http/client.py:1450: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = <http.client.HTTPResponse object at 0x7f4f15eeec50>
-
-    def begin(self):
-        if self.headers is not None:
-            # we've already started reading the response
-            return
-    
-        # read until we get a non-100 response
-        while True:
->           version, status, reason = self._read_status()
-                                      ^^^^^^^^^^^^^^^^^^^
-
-/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/http/client.py:336: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = <http.client.HTTPResponse object at 0x7f4f15eeec50>
-
-    def _read_status(self):
->       line = str(self.fp.readline(_MAXLINE + 1), "iso-8859-1")
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/http/client.py:297: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = <socket.SocketIO object at 0x7f4f15eee8c0>
-b = <memory at 0x7f4f15c2c280>
-
-    def readinto(self, b):
-        """Read up to len(b) bytes into the writable buffer *b* and return
-        the number of bytes read.  If the socket is non-blocking and no bytes
-        are available, None is returned.
-    
-        If *b* is non-empty, a 0 return value indicates that the connection
-        was shutdown at the other end.
-        """
-        self._checkClosed()
-        self._checkReadable()
-        if self._timeout_occurred:
-            raise OSError("cannot read from timed out object")
-        while True:
-            try:
->               return self._sock.recv_into(b)
-                       ^^^^^^^^^^^^^^^^^^^^^^^
-
-/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/socket.py:720: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = <ssl.SSLSocket [closed] fd=-1, family=2, type=1, proto=6>
-buffer = <memory at 0x7f4f15c2c280>, nbytes = 8192, flags = 0
-
-    def recv_into(self, buffer, nbytes=None, flags=0):
-        self._checkClosed()
-        if nbytes is None:
-            if buffer is not None:
-                with memoryview(buffer) as view:
-                    nbytes = view.nbytes
-                if not nbytes:
-                    nbytes = 1024
-            else:
-                nbytes = 1024
-        if self._sslobj is not None:
-            if flags != 0:
-                raise ValueError(
-                  "non-zero flags not allowed in calls to recv_into() on %s" %
-                  self.__class__)
->           return self.read(nbytes, buffer)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^
-
-/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/ssl.py:1251: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = <ssl.SSLSocket [closed] fd=-1, family=2, type=1, proto=6>, len = 8192
-buffer = <memory at 0x7f4f15c2c280>
-
-    def read(self, len=1024, buffer=None):
-        """Read up to LEN bytes and return them.
-        Return zero-length string on EOF."""
-    
-        self._checkClosed()
-        if self._sslobj is None:
-            raise ValueError("Read on closed or unwrapped SSL socket.")
-        try:
-            if buffer is not None:
->               return self._sslobj.read(len, buffer)
-                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-E               TimeoutError: The read operation timed out
-
-/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/ssl.py:1103: TimeoutError
-
-The above exception was the direct cause of the following exception:
-
-self = <requests.adapters.HTTPAdapter object at 0x7f4f15eec1d0>
-request = <PreparedRequest [GET]>, stream = False, timeout = (10, 60)
-verify = True, cert = None, proxies = OrderedDict()
-
-    def send(
-        self,
-        request: PreparedRequest,
-        stream: bool = False,
-        timeout: _t.TimeoutType = None,
-        verify: _t.VerifyType = True,
-        cert: _t.CertType = None,
-        proxies: dict[str, str] | None = None,
-    ) -> Response:
-        """Sends PreparedRequest object. Returns Response object.
-    
-        :param request: The :class:`PreparedRequest <PreparedRequest>` being sent.
-        :param stream: (optional) Whether to stream the request content.
-        :param timeout: (optional) How long to wait for the server to send
-            data before giving up, as a float, or a :ref:`(connect timeout,
-            read timeout) <timeouts>` tuple.
-        :type timeout: float or tuple or urllib3 Timeout object
-        :param verify: (optional) Either a boolean, in which case it controls whether
-            we verify the server's TLS certificate, or a string, in which case it
-            must be a path to a CA bundle to use
-        :param cert: (optional) Any user-provided SSL certificate to be trusted.
-        :param proxies: (optional) The proxies dictionary to apply to the request.
-        :rtype: requests.Response
-        """
-    
-        assert _is_prepared(request)
-    
-        try:
-            conn = self.get_connection_with_tls_context(
-                request, verify, proxies=proxies, cert=cert
-            )
-        except LocationValueError as e:
-            raise InvalidURL(e, request=request)
-    
-        self.cert_verify(conn, request.url, verify, cert)
-        url = self.request_url(request, proxies)
-        self.add_headers(
-            request,
-            stream=stream,
-            timeout=timeout,
-            verify=verify,
-            cert=cert,
-            proxies=proxies,
-        )
-    
-        chunked = not (request.body is None or "Content-Length" in request.headers)
-    
-        if isinstance(timeout, tuple):
-            try:
-                connect, read = timeout
-                resolved_timeout = TimeoutSauce(connect=connect, read=read)
-            except ValueError:
-                raise ValueError(
-                    f"Invalid timeout {timeout}. Pass a (connect, read) timeout tuple, "
-                    f"or a single float to set both timeouts to the same value."
-                )
-        elif isinstance(timeout, TimeoutSauce):
-            resolved_timeout = timeout
-        else:
-            resolved_timeout = TimeoutSauce(connect=timeout, read=timeout)
-    
-        try:
->           resp = conn.urlopen(
-                method=request.method,
-                url=url,
-                body=request.body,  # type: ignore[arg-type]  # urllib3 stubs don't accept Iterable[bytes | str]
-                headers=request.headers,  # type: ignore[arg-type]  # urllib3#3072
-                redirect=False,
-                assert_same_host=False,
-                preload_content=False,
-                decode_content=False,
-                retries=self.max_retries,
-                timeout=resolved_timeout,
-                chunked=chunked,
-            )
-
-/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/requests/adapters.py:696: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = <urllib3.connectionpool.HTTPSConnectionPool object at 0x7f4f15eee4e0>
-method = 'GET'
-url = '/api/?display_type=json&page=gene&action=general_info&gene_id=ENSBTAG00000047356'
-body = None
-headers = {'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'}
-retries = Retry(total=0, connect=None, read=False, redirect=None, status=None)
-redirect = False, assert_same_host = False
-timeout = Timeout(connect=10, read=60, total=None), pool_timeout = None
-release_conn = False, chunked = False, body_pos = None, preload_content = False
-decode_content = False, response_kw = {}, destination_scheme = None, conn = None
-release_this_conn = True, http_tunnel_required = False, err = None
-clean_exit = False
-
-    def urlopen(  # type: ignore[override]
-        self,
-        method: str,
-        url: str,
-        body: _TYPE_BODY | None = None,
-        headers: typing.Mapping[str, str] | None = None,
-        retries: Retry | bool | int | None = None,
-        redirect: bool = True,
-        assert_same_host: bool = True,
-        timeout: _TYPE_TIMEOUT = _DEFAULT_TIMEOUT,
-        pool_timeout: int | None = None,
-        release_conn: bool | None = None,
-        chunked: bool = False,
-        body_pos: _TYPE_BODY_POSITION | None = None,
-        preload_content: bool = True,
-        decode_content: bool = True,
-        **response_kw: typing.Any,
-    ) -> BaseHTTPResponse:
-        """
-        Get a connection from the pool and perform an HTTP request. This is the
-        lowest level call for making a request, so you'll need to specify all
-        the raw details.
-    
-        .. note::
-    
-           More commonly, it's appropriate to use a convenience method
-           such as :meth:`request`.
-    
-        .. note::
-    
-           `release_conn` will only behave as expected if
-           `preload_content=False` because we want to make
-           `preload_content=False` the default behaviour someday soon without
-           breaking backwards compatibility.
-    
-        :param method:
-            HTTP request method (such as GET, POST, PUT, etc.)
-    
-        :param url:
-            The URL to perform the request on.
-    
-        :param body:
-            Data to send in the request body, either :class:`str`, :class:`bytes`,
-            an iterable of :class:`str`/:class:`bytes`, or a file-like object.
-    
-        :param headers:
-            Dictionary of custom headers to send, such as User-Agent,
-            If-None-Match, etc. If None, pool headers are used. If provided,
-            these headers completely replace any pool-specific headers.
-    
-        :param retries:
-            Configure the number of retries to allow before raising a
-            :class:`~urllib3.exceptions.MaxRetryError` exception.
-    
-            If ``None`` (default) will retry 3 times, see ``Retry.DEFAULT``. Pass a
-            :class:`~urllib3.util.retry.Retry` object for fine-grained control
-            over different types of retries.
-            Pass an integer number to retry connection errors that many times,
-            but no other types of errors. Pass zero to never retry.
-    
-            If ``False``, then retries are disabled and any exception is raised
-            immediately. Also, instead of raising a MaxRetryError on redirects,
-            the redirect response will be returned.
-    
-        :type retries: :class:`~urllib3.util.retry.Retry`, False, or an int.
-    
-        :param redirect:
-            If True, automatically handle redirects (status codes 301, 302,
-            303, 307, 308). Each redirect counts as a retry. Disabling retries
-            will disable redirect, too.
-    
-        :param assert_same_host:
-            If ``True``, will make sure that the host of the pool requests is
-            consistent else will raise HostChangedError. When ``False``, you can
-            use the pool on an HTTP proxy and request foreign hosts.
-    
-        :param timeout:
-            If specified, overrides the default timeout for this one
-            request. It may be a float (in seconds) or an instance of
-            :class:`urllib3.util.Timeout`.
-    
-        :param pool_timeout:
-            If set and the pool is set to block=True, then this method will
-            block for ``pool_timeout`` seconds and raise EmptyPoolError if no
-            connection is available within the time period.
-    
-        :param bool preload_content:
-            If True, the response's body will be preloaded into memory.
-    
-        :param bool decode_content:
-            If True, will attempt to decode the body based on the
-            'content-encoding' header.
-    
-        :param release_conn:
-            If False, then the urlopen call will not release the connection
-            back into the pool once a response is received (but will release if
-            you read the entire contents of the response such as when
-            `preload_content=True`). This is useful if you're not preloading
-            the response's content immediately. You will need to call
-            ``r.release_conn()`` on the response ``r`` to return the connection
-            back into the pool. If None, it takes the value of ``preload_content``
-            which defaults to ``True``.
-    
-        :param bool chunked:
-            If True, urllib3 will send the body using chunked transfer
-            encoding. Otherwise, urllib3 will send the body using the standard
-            content-length form. Defaults to False.
-    
-        :param int body_pos:
-            Position to seek to in file-like body in the event of a retry or
-            redirect. Typically this won't need to be set because urllib3 will
-            auto-populate the value when needed.
-        """
-        # Ensure that the URL we're connecting to is properly encoded
-        if url.startswith("/"):
-            # URLs starting with / are inherently schemeless.
-            url = to_str(_encode_target(url))
-            destination_scheme = None
-        else:
-            parsed_url = parse_url(url)
-            destination_scheme = parsed_url.scheme
-            url = to_str(parsed_url.url)
-    
-        if headers is None:
-            headers = self.headers
-    
-        if not isinstance(retries, Retry):
-            retries = Retry.from_int(retries, redirect=redirect, default=self.retries)
-    
-        if release_conn is None:
-            release_conn = preload_content
-    
-        # Check host
-        if assert_same_host and not self.is_same_host(url):
-            raise HostChangedError(self, url, retries)
-    
-        conn = None
-    
-        # Track whether `conn` needs to be released before
-        # returning/raising/recursing. Update this variable if necessary, and
-        # leave `release_conn` constant throughout the function. That way, if
-        # the function recurses, the original value of `release_conn` will be
-        # passed down into the recursive call, and its value will be respected.
-        #
-        # See issue #651 [1] for details.
-        #
-        # [1] <https://github.com/urllib3/urllib3/issues/651>
-        release_this_conn = release_conn
-    
-        http_tunnel_required = connection_requires_http_tunnel(
-            self.proxy, self.proxy_config, destination_scheme
-        )
-    
-        # Merge the proxy headers. Only done when not using HTTP CONNECT. We
-        # have to copy the headers dict so we can safely change it without those
-        # changes being reflected in anyone else's copy.
-        if not http_tunnel_required:
-            headers = headers.copy()  # type: ignore[attr-defined]
-            headers.update(self.proxy_headers)  # type: ignore[union-attr]
-    
-        # Must keep the exception bound to a separate variable or else Python 3
-        # complains about UnboundLocalError.
-        err = None
-    
-        # Keep track of whether we cleanly exited the except block. This
-        # ensures we do proper cleanup in finally.
-        clean_exit = False
-    
-        # Rewind body position, if needed. Record current position
-        # for future rewinds in the event of a redirect/retry.
-        body_pos = set_file_position(body, body_pos)
-    
-        try:
-            # Request a connection from the queue.
-            timeout_obj = self._get_timeout(timeout)
-            conn = self._get_conn(timeout=pool_timeout)
-    
-            conn.timeout = timeout_obj.connect_timeout  # type: ignore[assignment]
-    
-            # Is this a closed/new connection that requires CONNECT tunnelling?
-            if self.proxy is not None and http_tunnel_required and conn.is_closed:
-                try:
-                    self._prepare_proxy(conn)
-                except (BaseSSLError, OSError, SocketTimeout) as e:
-                    self._raise_timeout(
-                        err=e, url=self.proxy.url, timeout_value=conn.timeout
-                    )
-                    raise
-    
-            # If we're going to release the connection in ``finally:``, then
-            # the response doesn't need to know about the connection. Otherwise
-            # it will also try to release it and we'll have a double-release
-            # mess.
-            response_conn = conn if not release_conn else None
-    
-            # Make the request on the HTTPConnection object
-            response = self._make_request(
-                conn,
-                method,
-                url,
-                timeout=timeout_obj,
-                body=body,
-                headers=headers,
-                chunked=chunked,
-                retries=retries,
-                response_conn=response_conn,
-                preload_content=preload_content,
-                decode_content=decode_content,
-                **response_kw,
-            )
-    
-            # Everything went great!
-            clean_exit = True
-    
-        except EmptyPoolError:
-            # Didn't get a connection from the pool, no need to clean up
-            clean_exit = True
-            release_this_conn = False
-            raise
-    
-        except (
-            TimeoutError,
-            HTTPException,
-            OSError,
-            ProtocolError,
-            BaseSSLError,
-            SSLError,
-            CertificateError,
-            ProxyError,
-        ) as e:
-            # Discard the connection for these exceptions. It will be
-            # replaced during the next _get_conn() call.
-            clean_exit = False
-            new_e: Exception = e
-            if isinstance(e, (BaseSSLError, CertificateError)):
-                new_e = SSLError(e)
-            if isinstance(
-                new_e,
-                (
-                    OSError,
-                    NewConnectionError,
-                    TimeoutError,
-                    SSLError,
-                    HTTPException,
-                ),
-            ) and (conn and conn.proxy and not conn.has_connected_to_proxy):
-                new_e = _wrap_proxy_error(new_e, conn.proxy.scheme)
-            elif isinstance(new_e, (OSError, HTTPException)):
-                new_e = ProtocolError("Connection aborted.", new_e)
-    
->           retries = retries.increment(
-                method, url, error=new_e, _pool=self, _stacktrace=sys.exc_info()[2]
-            )
-
-/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/urllib3/connectionpool.py:842: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = Retry(total=0, connect=None, read=False, redirect=None, status=None)
-method = 'GET'
-url = '/api/?display_type=json&page=gene&action=general_info&gene_id=ENSBTAG00000047356'
-response = None
-error = ReadTimeoutError("HTTPSConnectionPool(host='www.bgee.org', port=443): Read timed out. (read timeout=60)")
-_pool = <urllib3.connectionpool.HTTPSConnectionPool object at 0x7f4f15eee4e0>
-_stacktrace = <traceback object at 0x7f4f16322080>
-
-    def increment(
-        self,
-        method: str | None = None,
-        url: str | None = None,
-        response: BaseHTTPResponse | None = None,
-        error: Exception | None = None,
-        _pool: ConnectionPool | None = None,
-        _stacktrace: TracebackType | None = None,
-    ) -> Self:
-        """Return a new Retry object with incremented retry counters.
-    
-        :param response: A response object, or None, if the server did not
-            return a response.
-        :type response: :class:`~urllib3.response.BaseHTTPResponse`
-        :param Exception error: An error encountered during the request, or
-            None if the response was received successfully.
-    
-        :return: A new ``Retry`` object.
-        """
-        if self.total is False and error:
-            # Disabled, indicate to re-raise the error.
-            raise reraise(type(error), error, _stacktrace)
-    
-        total = self.total
-        if total is not None:
-            total -= 1
-    
-        connect = self.connect
-        read = self.read
-        redirect = self.redirect
-        status_count = self.status
-        other = self.other
-        cause = "unknown"
-        status = None
-        redirect_location = None
-    
-        if error and self._is_connection_error(error):
-            # Connect retry?
-            if connect is False:
-                raise reraise(type(error), error, _stacktrace)
-            elif connect is not None:
-                connect -= 1
-    
-        elif error and self._is_read_error(error):
-            # Read retry?
-            if read is False or method is None or not self._is_method_retryable(method):
->               raise reraise(type(error), error, _stacktrace)
-                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/urllib3/util/retry.py:498: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-tp = <class 'urllib3.exceptions.ReadTimeoutError'>, value = None, tb = None
-
-    def reraise(
-        tp: type[BaseException] | None,
-        value: BaseException,
-        tb: TracebackType | None = None,
-    ) -> typing.NoReturn:
-        try:
-            if value.__traceback__ is not tb:
-                raise value.with_traceback(tb)
->           raise value
-
-/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/urllib3/util/util.py:39: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = <urllib3.connectionpool.HTTPSConnectionPool object at 0x7f4f15eee4e0>
-method = 'GET'
-url = '/api/?display_type=json&page=gene&action=general_info&gene_id=ENSBTAG00000047356'
-body = None
-headers = {'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'}
-retries = Retry(total=0, connect=None, read=False, redirect=None, status=None)
-redirect = False, assert_same_host = False
-timeout = Timeout(connect=10, read=60, total=None), pool_timeout = None
-release_conn = False, chunked = False, body_pos = None, preload_content = False
-decode_content = False, response_kw = {}, destination_scheme = None, conn = None
-release_this_conn = True, http_tunnel_required = False, err = None
-clean_exit = False
-
-    def urlopen(  # type: ignore[override]
-        self,
-        method: str,
-        url: str,
-        body: _TYPE_BODY | None = None,
-        headers: typing.Mapping[str, str] | None = None,
-        retries: Retry | bool | int | None = None,
-        redirect: bool = True,
-        assert_same_host: bool = True,
-        timeout: _TYPE_TIMEOUT = _DEFAULT_TIMEOUT,
-        pool_timeout: int | None = None,
-        release_conn: bool | None = None,
-        chunked: bool = False,
-        body_pos: _TYPE_BODY_POSITION | None = None,
-        preload_content: bool = True,
-        decode_content: bool = True,
-        **response_kw: typing.Any,
-    ) -> BaseHTTPResponse:
-        """
-        Get a connection from the pool and perform an HTTP request. This is the
-        lowest level call for making a request, so you'll need to specify all
-        the raw details.
-    
-        .. note::
-    
-           More commonly, it's appropriate to use a convenience method
-           such as :meth:`request`.
-    
-        .. note::
-    
-           `release_conn` will only behave as expected if
-           `preload_content=False` because we want to make
-           `preload_content=False` the default behaviour someday soon without
-           breaking backwards compatibility.
-    
-        :param method:
-            HTTP request method (such as GET, POST, PUT, etc.)
-    
-        :param url:
-            The URL to perform the request on.
-    
-        :param body:
-            Data to send in the request body, either :class:`str`, :class:`bytes`,
-            an iterable of :class:`str`/:class:`bytes`, or a file-like object.
-    
-        :param headers:
-            Dictionary of custom headers to send, such as User-Agent,
-            If-None-Match, etc. If None, pool headers are used. If provided,
-            these headers completely replace any pool-specific headers.
-    
-        :param retries:
-            Configure the number of retries to allow before raising a
-            :class:`~urllib3.exceptions.MaxRetryError` exception.
-    
-            If ``None`` (default) will retry 3 times, see ``Retry.DEFAULT``. Pass a
-            :class:`~urllib3.util.retry.Retry` object for fine-grained control
-            over different types of retries.
-            Pass an integer number to retry connection errors that many times,
-            but no other types of errors. Pass zero to never retry.
-    
-            If ``False``, then retries are disabled and any exception is raised
-            immediately. Also, instead of raising a MaxRetryError on redirects,
-            the redirect response will be returned.
-    
-        :type retries: :class:`~urllib3.util.retry.Retry`, False, or an int.
-    
-        :param redirect:
-            If True, automatically handle redirects (status codes 301, 302,
-            303, 307, 308). Each redirect counts as a retry. Disabling retries
-            will disable redirect, too.
-    
-        :param assert_same_host:
-            If ``True``, will make sure that the host of the pool requests is
-            consistent else will raise HostChangedError. When ``False``, you can
-            use the pool on an HTTP proxy and request foreign hosts.
-    
-        :param timeout:
-            If specified, overrides the default timeout for this one
-            request. It may be a float (in seconds) or an instance of
-            :class:`urllib3.util.Timeout`.
-    
-        :param pool_timeout:
-            If set and the pool is set to block=True, then this method will
-            block for ``pool_timeout`` seconds and raise EmptyPoolError if no
-            connection is available within the time period.
-    
-        :param bool preload_content:
-            If True, the response's body will be preloaded into memory.
-    
-        :param bool decode_content:
-            If True, will attempt to decode the body based on the
-            'content-encoding' header.
-    
-        :param release_conn:
-            If False, then the urlopen call will not release the connection
-            back into the pool once a response is received (but will release if
-            you read the entire contents of the response such as when
-            `preload_content=True`). This is useful if you're not preloading
-            the response's content immediately. You will need to call
-            ``r.release_conn()`` on the response ``r`` to return the connection
-            back into the pool. If None, it takes the value of ``preload_content``
-            which defaults to ``True``.
-    
-        :param bool chunked:
-            If True, urllib3 will send the body using chunked transfer
-            encoding. Otherwise, urllib3 will send the body using the standard
-            content-length form. Defaults to False.
-    
-        :param int body_pos:
-            Position to seek to in file-like body in the event of a retry or
-            redirect. Typically this won't need to be set because urllib3 will
-            auto-populate the value when needed.
-        """
-        # Ensure that the URL we're connecting to is properly encoded
-        if url.startswith("/"):
-            # URLs starting with / are inherently schemeless.
-            url = to_str(_encode_target(url))
-            destination_scheme = None
-        else:
-            parsed_url = parse_url(url)
-            destination_scheme = parsed_url.scheme
-            url = to_str(parsed_url.url)
-    
-        if headers is None:
-            headers = self.headers
-    
-        if not isinstance(retries, Retry):
-            retries = Retry.from_int(retries, redirect=redirect, default=self.retries)
-    
-        if release_conn is None:
-            release_conn = preload_content
-    
-        # Check host
-        if assert_same_host and not self.is_same_host(url):
-            raise HostChangedError(self, url, retries)
-    
-        conn = None
-    
-        # Track whether `conn` needs to be released before
-        # returning/raising/recursing. Update this variable if necessary, and
-        # leave `release_conn` constant throughout the function. That way, if
-        # the function recurses, the original value of `release_conn` will be
-        # passed down into the recursive call, and its value will be respected.
-        #
-        # See issue #651 [1] for details.
-        #
-        # [1] <https://github.com/urllib3/urllib3/issues/651>
-        release_this_conn = release_conn
-    
-        http_tunnel_required = connection_requires_http_tunnel(
-            self.proxy, self.proxy_config, destination_scheme
-        )
-    
-        # Merge the proxy headers. Only done when not using HTTP CONNECT. We
-        # have to copy the headers dict so we can safely change it without those
-        # changes being reflected in anyone else's copy.
-        if not http_tunnel_required:
-            headers = headers.copy()  # type: ignore[attr-defined]
-            headers.update(self.proxy_headers)  # type: ignore[union-attr]
-    
-        # Must keep the exception bound to a separate variable or else Python 3
-        # complains about UnboundLocalError.
-        err = None
-    
-        # Keep track of whether we cleanly exited the except block. This
-        # ensures we do proper cleanup in finally.
-        clean_exit = False
-    
-        # Rewind body position, if needed. Record current position
-        # for future rewinds in the event of a redirect/retry.
-        body_pos = set_file_position(body, body_pos)
-    
-        try:
-            # Request a connection from the queue.
-            timeout_obj = self._get_timeout(timeout)
-            conn = self._get_conn(timeout=pool_timeout)
-    
-            conn.timeout = timeout_obj.connect_timeout  # type: ignore[assignment]
-    
-            # Is this a closed/new connection that requires CONNECT tunnelling?
-            if self.proxy is not None and http_tunnel_required and conn.is_closed:
-                try:
-                    self._prepare_proxy(conn)
-                except (BaseSSLError, OSError, SocketTimeout) as e:
-                    self._raise_timeout(
-                        err=e, url=self.proxy.url, timeout_value=conn.timeout
-                    )
-                    raise
-    
-            # If we're going to release the connection in ``finally:``, then
-            # the response doesn't need to know about the connection. Otherwise
-            # it will also try to release it and we'll have a double-release
-            # mess.
-            response_conn = conn if not release_conn else None
-    
-            # Make the request on the HTTPConnection object
->           response = self._make_request(
-                conn,
-                method,
-                url,
-                timeout=timeout_obj,
-                body=body,
-                headers=headers,
-                chunked=chunked,
-                retries=retries,
-                response_conn=response_conn,
-                preload_content=preload_content,
-                decode_content=decode_content,
-                **response_kw,
-            )
-
-/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/urllib3/connectionpool.py:788: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = <urllib3.connectionpool.HTTPSConnectionPool object at 0x7f4f15eee4e0>
-conn = <HTTPSConnection(host='www.bgee.org', port=443) at 0x7f4f15eee840>
-method = 'GET'
-url = '/api/?display_type=json&page=gene&action=general_info&gene_id=ENSBTAG00000047356'
-body = None
-headers = {'User-Agent': 'python-requests/2.34.2', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive'}
-retries = Retry(total=0, connect=None, read=False, redirect=None, status=None)
-timeout = Timeout(connect=10, read=60, total=None), chunked = False
-response_conn = <HTTPSConnection(host='www.bgee.org', port=443) at 0x7f4f15eee840>
-preload_content = False, decode_content = False, enforce_content_length = True
-
-    def _make_request(
-        self,
-        conn: BaseHTTPConnection,
-        method: str,
-        url: str,
-        body: _TYPE_BODY | None = None,
-        headers: typing.Mapping[str, str] | None = None,
-        retries: Retry | None = None,
-        timeout: _TYPE_TIMEOUT = _DEFAULT_TIMEOUT,
-        chunked: bool = False,
-        response_conn: BaseHTTPConnection | None = None,
-        preload_content: bool = True,
-        decode_content: bool = True,
-        enforce_content_length: bool = True,
-    ) -> BaseHTTPResponse:
-        """
-        Perform a request on a given urllib connection object taken from our
-        pool.
-    
-        :param conn:
-            a connection from one of our connection pools
-    
-        :param method:
-            HTTP request method (such as GET, POST, PUT, etc.)
-    
-        :param url:
-            The URL to perform the request on.
-    
-        :param body:
-            Data to send in the request body, either :class:`str`, :class:`bytes`,
-            an iterable of :class:`str`/:class:`bytes`, or a file-like object.
-    
-        :param headers:
-            Dictionary of custom headers to send, such as User-Agent,
-            If-None-Match, etc. If None, pool headers are used. If provided,
-            these headers completely replace any pool-specific headers.
-    
-        :param retries:
-            Configure the number of retries to allow before raising a
-            :class:`~urllib3.exceptions.MaxRetryError` exception.
-    
-            Pass ``None`` to retry until you receive a response. Pass a
-            :class:`~urllib3.util.retry.Retry` object for fine-grained control
-            over different types of retries.
-            Pass an integer number to retry connection errors that many times,
-            but no other types of errors. Pass zero to never retry.
-    
-            If ``False``, then retries are disabled and any exception is raised
-            immediately. Also, instead of raising a MaxRetryError on redirects,
-            the redirect response will be returned.
-    
-        :type retries: :class:`~urllib3.util.retry.Retry`, False, or an int.
-    
-        :param timeout:
-            If specified, overrides the default timeout for this one
-            request. It may be a float (in seconds) or an instance of
-            :class:`urllib3.util.Timeout`.
-    
-        :param chunked:
-            If True, urllib3 will send the body using chunked transfer
-            encoding. Otherwise, urllib3 will send the body using the standard
-            content-length form. Defaults to False.
-    
-        :param response_conn:
-            Set this to ``None`` if you will handle releasing the connection or
-            set the connection to have the response release it.
-    
-        :param preload_content:
-          If True, the response's body will be preloaded during construction.
-    
-        :param decode_content:
-            If True, will attempt to decode the body based on the
-            'content-encoding' header.
-    
-        :param enforce_content_length:
-            Enforce content length checking. Body returned by server must match
-            value of Content-Length header, if present. Otherwise, raise error.
-        """
-        self.num_requests += 1
-    
-        timeout_obj = self._get_timeout(timeout)
-        timeout_obj.start_connect()
-        conn.timeout = Timeout.resolve_default_timeout(timeout_obj.connect_timeout)
-    
-        try:
-            # Trigger any extra validation we need to do.
-            try:
-                self._validate_conn(conn)
-            except (SocketTimeout, BaseSSLError) as e:
-                self._raise_timeout(err=e, url=url, timeout_value=conn.timeout)
-                raise
-    
-        # _validate_conn() starts the connection to an HTTPS proxy
-        # so we need to wrap errors with 'ProxyError' here too.
-        except (
-            OSError,
-            NewConnectionError,
-            TimeoutError,
-            BaseSSLError,
-            CertificateError,
-            SSLError,
-        ) as e:
-            new_e: Exception = e
-            if isinstance(e, (BaseSSLError, CertificateError)):
-                new_e = SSLError(e)
-            # If the connection didn't successfully connect to it's proxy
-            # then there
-            if isinstance(
-                new_e, (OSError, NewConnectionError, TimeoutError, SSLError)
-            ) and (conn and conn.proxy and not conn.has_connected_to_proxy):
-                new_e = _wrap_proxy_error(new_e, conn.proxy.scheme)
-            raise new_e
-    
-        # conn.request() calls http.client.*.request, not the method in
-        # urllib3.request. It also calls makefile (recv) on the socket.
-        try:
-            conn.request(
-                method,
-                url,
-                body=body,
-                headers=headers,
-                chunked=chunked,
-                preload_content=preload_content,
-                decode_content=decode_content,
-                enforce_content_length=enforce_content_length,
-            )
-    
-        # We are swallowing BrokenPipeError (errno.EPIPE) since the server is
-        # legitimately able to close the connection after sending a valid response.
-        # With this behaviour, the received response is still readable.
-        except BrokenPipeError:
-            pass
-        except OSError as e:
-            # MacOS/Linux
-            # EPROTOTYPE and ECONNRESET are needed on macOS
-            # https://erickt.github.io/blog/2014/11/19/adventures-in-debugging-a-potential-osx-kernel-bug/
-            # Condition changed later to emit ECONNRESET instead of only EPROTOTYPE.
-            if e.errno != errno.EPROTOTYPE and e.errno != errno.ECONNRESET:
-                raise
-    
-        # Reset the timeout for the recv() on the socket
-        read_timeout = timeout_obj.read_timeout
-    
-        if not conn.is_closed:
-            # In Python 3 socket.py will catch EAGAIN and return None when you
-            # try and read into the file pointer created by http.client, which
-            # instead raises a BadStatusLine exception. Instead of catching
-            # the exception and assuming all BadStatusLine exceptions are read
-            # timeouts, check for a zero timeout before making the request.
-            if read_timeout == 0:
-                raise ReadTimeoutError(
-                    self, url, f"Read timed out. (read timeout={read_timeout})"
-                )
-            conn.timeout = read_timeout
-    
-        # Receive the response from the server
-        try:
-            response = conn.getresponse()
-        except (BaseSSLError, OSError) as e:
->           self._raise_timeout(err=e, url=url, timeout_value=read_timeout)
-
-/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/urllib3/connectionpool.py:536: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = <urllib3.connectionpool.HTTPSConnectionPool object at 0x7f4f15eee4e0>
-err = TimeoutError('The read operation timed out')
-url = '/api/?display_type=json&page=gene&action=general_info&gene_id=ENSBTAG00000047356'
-timeout_value = 60
-
-    def _raise_timeout(
-        self,
-        err: BaseSSLError | OSError | SocketTimeout,
-        url: str,
-        timeout_value: _TYPE_TIMEOUT | None,
-    ) -> None:
-        """Is the error actually a timeout? Will raise a ReadTimeout or pass"""
-    
-        if isinstance(err, SocketTimeout):
->           raise ReadTimeoutError(
-                self, url, f"Read timed out. (read timeout={timeout_value})"
-            ) from err
-E           urllib3.exceptions.ReadTimeoutError: HTTPSConnectionPool(host='www.bgee.org', port=443): Read timed out. (read timeout=60)
-
-/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/urllib3/connectionpool.py:367: ReadTimeoutError
-
-During handling of the above exception, another exception occurred:
 
 self = <tests.test_bgee.TestBgee testMethod=test_bgee_expression>
 
@@ -1630,7 +413,7 @@ self = <tests.test_bgee.TestBgee testMethod=test_bgee_expression>
 tests/from_json.py:66: 
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-func = <function bgee at 0x7f4f160c0f40>
+func = <function bgee at 0x7f80e30e8fe0>
 args = {'gene_id': 'ENSBTAG00000047356', 'type': 'expression'}
 
     def do_call(func, args):
@@ -1724,10 +507,21 @@ gget/gget_bgee.py:20:
 _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
 method = 'GET', url = 'https://bgee.org/api/'
-context = 'Bgee API (species lookup)', timeout = (10, 60)
+context = 'Bgee API (species lookup)', timeout = (10, 60), retries = 3
+backoff = 1.0
 kwargs = {'params': {'action': 'general_info', 'display_type': 'json', 'gene_id': 'ENSBTAG00000047356', 'page': 'gene'}}
+label = 'Bgee API (species lookup)', last_exc = None, last_status = None
 
-    def http_json(method, url, *, context="", timeout=DEFAULT_REQUESTS_TIMEOUT, **kwargs):
+    def http_json(
+        method,
+        url,
+        *,
+        context="",
+        timeout=DEFAULT_REQUESTS_TIMEOUT,
+        retries=3,
+        backoff=1.0,
+        **kwargs,
+    ):
         """
         Issue an HTTP request and return the parsed JSON body, raising a
         RuntimeError with consistent context if the request fails or the body
@@ -1735,725 +529,380 @@ kwargs = {'params': {'action': 'general_info', 'display_type': 'json', 'gene_id'
     
         `context` is a short human-readable label (e.g. "Bgee API") used in
         error messages so users can identify which upstream service failed.
+        Transient failures (connection errors, read timeouts, HTTP 5xx) are
+        retried up to `retries` additional times with exponential backoff
+        (`backoff * 2**i` seconds between attempts). Set `retries=0` to disable.
         All other keyword arguments are forwarded to `requests.request`.
         """
->       response = requests.request(method, url, timeout=timeout, **kwargs)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-gget/utils.py:109: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-method = 'GET', url = 'https://bgee.org/api/'
-kwargs = {'params': {'action': 'general_info', 'display_type': 'json', 'gene_id': 'ENSBTAG00000047356', 'page': 'gene'}, 'timeout': (10, 60)}
-session = <requests.sessions.Session object at 0x7f4f15eee330>
-
-    def request(
-        method: str, url: _t.UriType, **kwargs: Unpack[_t.RequestKwargs]
-    ) -> Response:
-        """Constructs and sends a :class:`Request <Request>`.
-    
-        :param method: method for the new :class:`Request` object: ``GET``, ``OPTIONS``, ``HEAD``, ``POST``, ``PUT``, ``PATCH``, or ``DELETE``.
-        :param url: URL for the new :class:`Request` object.
-        :param params: (optional) Dictionary, list of tuples or bytes to send
-            in the query string for the :class:`Request`.
-        :param data: (optional) Dictionary, list of tuples, bytes, or file-like
-            object to send in the body of the :class:`Request`.
-        :param json: (optional) A JSON serializable Python object to send in the body of the :class:`Request`.
-        :param headers: (optional) Dictionary of HTTP Headers to send with the :class:`Request`.
-        :param cookies: (optional) Dict or CookieJar object to send with the :class:`Request`.
-        :param files: (optional) Dictionary of ``'name': file-like-objects`` (or ``{'name': file-tuple}``) for multipart encoding upload.
-            ``file-tuple`` can be a 2-tuple ``('filename', fileobj)``, 3-tuple ``('filename', fileobj, 'content_type')``
-            or a 4-tuple ``('filename', fileobj, 'content_type', custom_headers)``, where ``'content_type'`` is a string
-            defining the content type of the given file and ``custom_headers`` a dict-like object containing additional headers
-            to add for the file.
-        :param auth: (optional) Auth tuple to enable Basic/Digest/Custom HTTP Auth.
-        :param timeout: (optional) How many seconds to wait for the server to send data
-            before giving up, as a float, or a :ref:`(connect timeout, read
-            timeout) <timeouts>` tuple.
-        :type timeout: float or tuple
-        :param allow_redirects: (optional) Boolean. Enable/disable GET/OPTIONS/POST/PUT/PATCH/DELETE/HEAD redirection. Defaults to ``True``.
-        :type allow_redirects: bool
-        :param proxies: (optional) Dictionary mapping protocol to the URL of the proxy.
-        :param verify: (optional) Either a boolean, in which case it controls whether we verify
-                the server's TLS certificate, or a string, in which case it must be a path
-                to a CA bundle to use. Defaults to ``True``.
-        :param stream: (optional) if ``False``, the response content will be immediately downloaded.
-        :param cert: (optional) if String, path to ssl client cert file (.pem). If Tuple, ('cert', 'key') pair.
-        :return: :class:`Response <Response>` object
-        :rtype: requests.Response
-    
-        Usage::
-    
-          >>> import requests
-          >>> req = requests.request('GET', 'https://httpbin.org/get')
-          >>> req
-          <Response [200]>
-        """
-    
-        # By using the 'with' statement we are sure the session is closed, thus we
-        # avoid leaving sockets open which can trigger a ResourceWarning in some
-        # cases, and look like a memory leak in others.
-        with sessions.Session() as session:
->           return session.request(method=method, url=url, **kwargs)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/requests/api.py:71: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = <requests.sessions.Session object at 0x7f4f15eee330>, method = 'GET'
-url = 'https://bgee.org/api/'
-params = {'action': 'general_info', 'display_type': 'json', 'gene_id': 'ENSBTAG00000047356', 'page': 'gene'}
-data = None, headers = None, cookies = None, files = None, auth = None
-timeout = (10, 60), allow_redirects = True, proxies = {}, hooks = None
-stream = None, verify = None, cert = None, json = None
-
-    def request(
-        self,
-        method: str,
-        url: _t.UriType,
-        params: _t.ParamsType = None,
-        data: _t.DataType = None,
-        headers: _t.HeadersType = None,
-        cookies: RequestsCookieJar | CookieJar | dict[str, str] | None = None,
-        files: _t.FilesType = None,
-        auth: _t.AuthType = None,
-        timeout: _t.TimeoutType = None,
-        allow_redirects: bool = True,
-        proxies: dict[str, str] | None = None,
-        hooks: _t.HooksInputType | None = None,
-        stream: bool | None = None,
-        verify: _t.VerifyType | None = None,
-        cert: _t.CertType = None,
-        json: _t.JsonType = None,
-    ) -> Response:
-        """Constructs a :class:`Request <Request>`, prepares it and sends it.
-        Returns :class:`Response <Response>` object.
-    
-        :param method: method for the new :class:`Request` object.
-        :param url: URL for the new :class:`Request` object.
-        :param params: (optional) Dictionary or bytes to be sent in the query
-            string for the :class:`Request`.
-        :param data: (optional) Dictionary, list of tuples, bytes, or file-like
-            object to send in the body of the :class:`Request`.
-        :param json: (optional) json to send in the body of the
-            :class:`Request`.
-        :param headers: (optional) Dictionary of HTTP Headers to send with the
-            :class:`Request`.
-        :param cookies: (optional) Dict or CookieJar object to send with the
-            :class:`Request`.
-        :param files: (optional) Dictionary of ``'filename': file-like-objects``
-            for multipart encoding upload.
-        :param auth: (optional) Auth tuple or callable to enable
-            Basic/Digest/Custom HTTP Auth.
-        :param timeout: (optional) How many seconds to wait for the server to send
-            data before giving up, as a float, or a :ref:`(connect timeout,
-            read timeout) <timeouts>` tuple.
-        :type timeout: float or tuple
-        :param allow_redirects: (optional) Set to True by default.
-        :type allow_redirects: bool
-        :param proxies: (optional) Dictionary mapping protocol or protocol and
-            hostname to the URL of the proxy.
-        :param hooks: (optional) Dictionary mapping hook name to one event or
-            list of events, event must be callable.
-        :param stream: (optional) whether to immediately download the response
-            content. Defaults to ``False``.
-        :param verify: (optional) Either a boolean, in which case it controls whether we verify
-            the server's TLS certificate, or a string, in which case it must be a path
-            to a CA bundle to use. Defaults to ``True``. When set to
-            ``False``, requests will accept any TLS certificate presented by
-            the server, and will ignore hostname mismatches and/or expired
-            certificates, which will make your application vulnerable to
-            man-in-the-middle (MitM) attacks. Setting verify to ``False``
-            may be useful during local development or testing.
-        :param cert: (optional) if String, path to ssl client cert file (.pem).
-            If Tuple, ('cert', 'key') pair.
-        :rtype: requests.Response
-        """
-        if isinstance(url, bytes):
-            url = url.decode("utf-8")
-    
-        # Create the Request.
-        req = Request(
-            method=method.upper(),
-            url=url,
-            headers=headers,
-            files=files,
-            data=data or {},
-            json=json,
-            params=params or {},
-            auth=auth,
-            cookies=cookies,
-            hooks=hooks,
-        )
-        prep = self.prepare_request(req)
-    
-        assert _is_prepared(prep)
-    
-        proxies = proxies or {}
-    
-        settings = self.merge_environment_settings(
-            prep.url, proxies, stream, verify, cert
-        )
-    
-        # Send the request.
-        send_kwargs = {
-            "timeout": timeout,
-            "allow_redirects": allow_redirects,
-        }
-        send_kwargs.update(settings)
->       resp = self.send(prep, **send_kwargs)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/requests/sessions.py:651: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = <requests.sessions.Session object at 0x7f4f15eee330>
-request = <PreparedRequest [GET]>
-kwargs = {'cert': None, 'proxies': OrderedDict(), 'stream': False, 'timeout': (10, 60), ...}
-allow_redirects = True, stream = False, hooks = {'response': []}
-adapter = <requests.adapters.HTTPAdapter object at 0x7f4f15eec1d0>
-start = 1781125569.097462, r = <Response [301]>, elapsed = 4.375673532485962
-
-    def send(self, request: PreparedRequest, **kwargs: Any) -> Response:
-        """Send a given PreparedRequest.
-    
-        :rtype: requests.Response
-        """
-        # Set defaults that the hooks can utilize to ensure they always have
-        # the correct parameters to reproduce the previous request.
-        kwargs.setdefault("stream", self.stream)
-        kwargs.setdefault("verify", self.verify)
-        kwargs.setdefault("cert", self.cert)
-        if "proxies" not in kwargs:
-            kwargs["proxies"] = resolve_proxies(request, self.proxies, self.trust_env)
-    
-        # It's possible that users might accidentally send a Request object.
-        # Guard against that specific failure case.
-        if isinstance(request, Request):
-            raise ValueError("You can only send PreparedRequests.")
-    
-        assert _is_prepared(request)
-    
-        # Set up variables needed for resolve_redirects and dispatching of hooks
-        allow_redirects = kwargs.pop("allow_redirects", True)
-        stream = kwargs.get("stream")
-        hooks = request.hooks
-    
-        # Get the appropriate adapter to use
-        adapter = self.get_adapter(url=request.url)
-    
-        # Start time (approximately) of the request
-        start = preferred_clock()
-    
-        # Send the request
-        r = adapter.send(request, **kwargs)
-    
-        # Total elapsed time of the request (approximately)
-        elapsed = preferred_clock() - start
-        r.elapsed = timedelta(seconds=elapsed)
-    
-        # Response manipulation hooks
-        r = dispatch_hook("response", hooks, r, **kwargs)
-    
-        # Persist cookies
-        if r.history:
-            # If the hooks create history then we want those cookies too
-            for resp in r.history:
-                extract_cookies_to_jar(self.cookies, resp.request, resp.raw)
-    
-        extract_cookies_to_jar(self.cookies, request, r.raw)
-    
-        # Resolve redirects if allowed.
-        if allow_redirects:
-            # Redirect resolving generator.
-            gen = self.resolve_redirects(r, request, **kwargs)
->           history = [resp for resp in gen]
-                                        ^^^
-
-/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/requests/sessions.py:805: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = <requests.sessions.Session object at 0x7f4f15eee330>
-resp = <Response [301]>, req = <PreparedRequest [GET]>, stream = False
-timeout = (10, 60), verify = True, cert = None, proxies = OrderedDict()
-yield_requests = False, adapter_kwargs = {}, hist = [<Response [301]>]
-url = 'https://www.bgee.org/api/?display_type=json&page=gene&action=general_info&gene_id=ENSBTAG00000047356'
-previous_fragment = '', prepared_request = <PreparedRequest [GET]>
-parsed = ParseResult(scheme='https', netloc='www.bgee.org', path='/api/', params='', query='display_type=json&page=gene&action=general_info&gene_id=ENSBTAG00000047356', fragment='')
-purged_headers = ('Content-Length', 'Content-Type', 'Transfer-Encoding')
-
-    def resolve_redirects(
-        self,
-        resp: Response,
-        req: PreparedRequest,
-        stream: bool = False,
-        timeout: _t.TimeoutType = None,
-        verify: _t.VerifyType = True,
-        cert: _t.CertType = None,
-        proxies: dict[str, str] | None = None,
-        yield_requests: bool = False,
-        **adapter_kwargs: Any,
-    ) -> Generator[Response, None, None]:
-        """Receives a Response. Returns a generator of Responses or Requests."""
-    
-        hist: list[Response] = []  # keep track of history
-    
-        url = self.get_redirect_target(resp)
-        previous_fragment = urlparse(req.url).fragment
-        while url:
-            prepared_request = req.copy()
-    
-            # Update history and keep track of redirects.
-            resp.history = hist[:]
-            hist.append(resp)
-    
+        label = context or url
+        last_exc = None
+        last_status = None
+        last_body = ""
+        attempts = retries + 1
+        for attempt in range(attempts):
             try:
-                resp.content  # Consume socket so it can be released
-            except (ChunkedEncodingError, ContentDecodingError, RuntimeError):
-                resp.raw.read(decode_content=False)
-    
-            if len(resp.history) >= self.max_redirects:
-                raise TooManyRedirects(
-                    f"Exceeded {self.max_redirects} redirects.", response=resp
-                )
-    
-            # Release the connection back into the pool.
-            resp.close()
-    
-            # Handle redirection without scheme (see: RFC 1808 Section 4)
-            if url.startswith("//"):
-                parsed_rurl = urlparse(resp.url)
-                url = ":".join([to_native_string(parsed_rurl.scheme), url])
-    
-            # Normalize url case and attach previous fragment if needed (RFC 7231 7.1.2)
-            parsed = urlparse(url)
-            if parsed.fragment == "" and previous_fragment:
-                parsed = parsed._replace(fragment=previous_fragment)
-            elif parsed.fragment:
-                previous_fragment = parsed.fragment
-            url = parsed.geturl()
-    
-            # Facilitate relative 'location' headers, as allowed by RFC 7231.
-            # (e.g. '/path/to/resource' instead of 'http://domain.tld/path/to/resource')
-            # Compliant with RFC3986, we percent encode the url.
-            if not parsed.netloc:
-                url = urljoin(resp.url, requote_uri(url))
+                response = requests.request(method, url, timeout=timeout, **kwargs)
+            except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
+                last_exc = e
+                last_status = None
+                last_body = ""
             else:
-                url = requote_uri(url)
-    
-            prepared_request.url = to_native_string(url)
-    
-            self.rebuild_method(prepared_request, resp)
-    
-            # https://github.com/psf/requests/issues/1084
-            if resp.status_code not in (
-                codes.temporary_redirect,
-                codes.permanent_redirect,
-            ):
-                # https://github.com/psf/requests/issues/3490
-                purged_headers = ("Content-Length", "Content-Type", "Transfer-Encoding")
-                for header in purged_headers:
-                    prepared_request.headers.pop(header, None)
-                prepared_request.body = None
-    
-            headers = prepared_request.headers
-            headers.pop("Cookie", None)
-    
-            # Extract any cookies sent on the response to the cookiejar
-            # in the new request. Because we've mutated our copied prepared
-            # request, use the old one that we haven't yet touched.
-            cookie_jar = cast("CookieJar", prepared_request._cookies)  # type: ignore[reportPrivateUsage]
-            extract_cookies_to_jar(cookie_jar, req, resp.raw)
-            merge_cookies(cookie_jar, self.cookies)
-            prepared_request.prepare_cookies(cookie_jar)
-    
-            # Rebuild auth and proxy information.
-            proxies = self.rebuild_proxies(prepared_request, proxies)
-            self.rebuild_auth(prepared_request, resp)
-    
-            # A failed tell() sets `_body_position` to `object()`. This non-None
-            # value ensures `rewindable` will be True, allowing us to raise an
-            # UnrewindableBodyError, instead of hanging the connection.
-            rewindable = prepared_request._body_position is not None and (  # type: ignore[reportPrivateUsage]
-                "Content-Length" in headers or "Transfer-Encoding" in headers
-            )
-    
-            # Attempt to rewind consumed file-like object.
-            if rewindable:
-                rewind_body(prepared_request)
-    
-            # Override the original request.
-            req = prepared_request
-    
-            if yield_requests:
-                yield req  # type: ignore[misc]  # Internal use only, returns PreparedRequest
-            else:
->               resp = self.send(
-                    req,
-                    stream=stream,
-                    timeout=timeout,
-                    verify=verify,
-                    cert=cert,
-                    proxies=proxies,
-                    allow_redirects=False,
-                    **adapter_kwargs,
-                )
+                if response.ok:
+                    try:
+                        return response.json()
+                    except json.JSONDecodeError as e:
+                        body = response.text[:200] if response.text else ""
+                        raise RuntimeError(
+                            f"{label} returned non-JSON response (HTTP {response.status_code}): {body}"
+                        ) from e
+                # Retry on transient server errors only; client errors are returned
+                # to the caller without retry.
+                if response.status_code < 500:
+                    body = response.text[:200] if response.text else ""
+>                   raise RuntimeError(
+                        f"{label} returned HTTP {response.status_code}. Body: {body}"
+                    )
+E                   RuntimeError: Bgee API (species lookup) returned HTTP 403. Body: <!DOCTYPE html><html lang="en-US"><head><title>Just a moment...</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta nam
 
-/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/requests/sessions.py:292: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = <requests.sessions.Session object at 0x7f4f15eee330>
-request = <PreparedRequest [GET]>
-kwargs = {'cert': None, 'proxies': OrderedDict(), 'stream': False, 'timeout': (10, 60), ...}
-allow_redirects = False, stream = False, hooks = {'response': []}
-adapter = <requests.adapters.HTTPAdapter object at 0x7f4f15eec1d0>
-start = 1781125573.473891
-
-    def send(self, request: PreparedRequest, **kwargs: Any) -> Response:
-        """Send a given PreparedRequest.
-    
-        :rtype: requests.Response
-        """
-        # Set defaults that the hooks can utilize to ensure they always have
-        # the correct parameters to reproduce the previous request.
-        kwargs.setdefault("stream", self.stream)
-        kwargs.setdefault("verify", self.verify)
-        kwargs.setdefault("cert", self.cert)
-        if "proxies" not in kwargs:
-            kwargs["proxies"] = resolve_proxies(request, self.proxies, self.trust_env)
-    
-        # It's possible that users might accidentally send a Request object.
-        # Guard against that specific failure case.
-        if isinstance(request, Request):
-            raise ValueError("You can only send PreparedRequests.")
-    
-        assert _is_prepared(request)
-    
-        # Set up variables needed for resolve_redirects and dispatching of hooks
-        allow_redirects = kwargs.pop("allow_redirects", True)
-        stream = kwargs.get("stream")
-        hooks = request.hooks
-    
-        # Get the appropriate adapter to use
-        adapter = self.get_adapter(url=request.url)
-    
-        # Start time (approximately) of the request
-        start = preferred_clock()
-    
-        # Send the request
->       r = adapter.send(request, **kwargs)
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/requests/sessions.py:784: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-self = <requests.adapters.HTTPAdapter object at 0x7f4f15eec1d0>
-request = <PreparedRequest [GET]>, stream = False, timeout = (10, 60)
-verify = True, cert = None, proxies = OrderedDict()
-
-    def send(
-        self,
-        request: PreparedRequest,
-        stream: bool = False,
-        timeout: _t.TimeoutType = None,
-        verify: _t.VerifyType = True,
-        cert: _t.CertType = None,
-        proxies: dict[str, str] | None = None,
-    ) -> Response:
-        """Sends PreparedRequest object. Returns Response object.
-    
-        :param request: The :class:`PreparedRequest <PreparedRequest>` being sent.
-        :param stream: (optional) Whether to stream the request content.
-        :param timeout: (optional) How long to wait for the server to send
-            data before giving up, as a float, or a :ref:`(connect timeout,
-            read timeout) <timeouts>` tuple.
-        :type timeout: float or tuple or urllib3 Timeout object
-        :param verify: (optional) Either a boolean, in which case it controls whether
-            we verify the server's TLS certificate, or a string, in which case it
-            must be a path to a CA bundle to use
-        :param cert: (optional) Any user-provided SSL certificate to be trusted.
-        :param proxies: (optional) The proxies dictionary to apply to the request.
-        :rtype: requests.Response
-        """
-    
-        assert _is_prepared(request)
-    
-        try:
-            conn = self.get_connection_with_tls_context(
-                request, verify, proxies=proxies, cert=cert
-            )
-        except LocationValueError as e:
-            raise InvalidURL(e, request=request)
-    
-        self.cert_verify(conn, request.url, verify, cert)
-        url = self.request_url(request, proxies)
-        self.add_headers(
-            request,
-            stream=stream,
-            timeout=timeout,
-            verify=verify,
-            cert=cert,
-            proxies=proxies,
-        )
-    
-        chunked = not (request.body is None or "Content-Length" in request.headers)
-    
-        if isinstance(timeout, tuple):
-            try:
-                connect, read = timeout
-                resolved_timeout = TimeoutSauce(connect=connect, read=read)
-            except ValueError:
-                raise ValueError(
-                    f"Invalid timeout {timeout}. Pass a (connect, read) timeout tuple, "
-                    f"or a single float to set both timeouts to the same value."
-                )
-        elif isinstance(timeout, TimeoutSauce):
-            resolved_timeout = timeout
-        else:
-            resolved_timeout = TimeoutSauce(connect=timeout, read=timeout)
-    
-        try:
-            resp = conn.urlopen(
-                method=request.method,
-                url=url,
-                body=request.body,  # type: ignore[arg-type]  # urllib3 stubs don't accept Iterable[bytes | str]
-                headers=request.headers,  # type: ignore[arg-type]  # urllib3#3072
-                redirect=False,
-                assert_same_host=False,
-                preload_content=False,
-                decode_content=False,
-                retries=self.max_retries,
-                timeout=resolved_timeout,
-                chunked=chunked,
-            )
-    
-        except (ProtocolError, OSError) as err:
-            raise ConnectionError(err, request=request)
-    
-        except MaxRetryError as e:
-            if isinstance(e.reason, ConnectTimeoutError):
-                # TODO: Remove this in 3.0.0: see #2811
-                if not isinstance(e.reason, NewConnectionError):
-                    raise ConnectTimeout(e, request=request)
-    
-            if isinstance(e.reason, ResponseError):
-                raise RetryError(e, request=request)
-    
-            if isinstance(e.reason, _ProxyError):
-                raise ProxyError(e, request=request)
-    
-            if isinstance(e.reason, _SSLError):
-                # This branch is for urllib3 v1.22 and later.
-                raise SSLError(e, request=request)
-    
-            raise ConnectionError(e, request=request)
-    
-        except ClosedPoolError as e:
-            raise ConnectionError(e, request=request)
-    
-        except _ProxyError as e:
-            raise ProxyError(e)
-    
-        except (_SSLError, _HTTPError) as e:
-            if isinstance(e, _SSLError):
-                # This branch is for urllib3 versions earlier than v1.22
-                raise SSLError(e, request=request)
-            elif isinstance(e, ReadTimeoutError):
->               raise ReadTimeout(e, request=request)
-E               requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='www.bgee.org', port=443): Read timed out. (read timeout=60)
-
-/opt/hostedtoolcache/Python/3.12.13/x64/lib/python3.12/site-packages/requests/adapters.py:742: ReadTimeout
+gget/utils.py:145: RuntimeError
 ------------------------------ Captured log call -------------------------------
 INFO     gget.utils:gget_bgee.py:18 Getting species ID for gene ENSBTAG00000047356 from Bgee
-_______________________ TestInfo.test_info_WB_transcript _______________________
+____________________ TestBgee.test_bgee_expression_multiple ____________________
 
-self = <tests.test_info.TestInfo testMethod=test_info_WB_transcript>
+self = <tests.test_bgee.TestBgee testMethod=test_bgee_expression_multiple>
 
     def assert_equal(self: unittest.TestCase):
         test = name
         expected_result = td[test]["expected_result"]
-        result_to_test = do_call(func, td[test]["args"])
-        if test == "test_cosmic_defaults":  # special case for cosmic
-            import numpy as np
-            expected_result = pd.DataFrame(expected_result[0])
-            expected_result = expected_result.replace({None: np.nan})
-            # result_to_test.equals(expected_result)
-            pd.testing.assert_frame_equal(result_to_test, expected_result, check_dtype=False)
-            return
+>       result_to_test = do_call(func, td[test]["args"])
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/from_json.py:66: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+func = <function bgee at 0x7f80e30e8fe0>
+args = {'gene_id': ['ENSBTAG00000047356', 'ENSBTAG00000018317'], 'type': 'expression'}
+
+    def do_call(func, args):
+        if isinstance(args, dict):
+>           return func(**args)
+                   ^^^^^^^^^^^^
+
+tests/from_json.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+gene_id = ['ENSBTAG00000047356', 'ENSBTAG00000018317'], type = 'expression'
+json = False, verbose = True
+
+    def bgee(
+        gene_id,
+        type="orthologs",
+        json=False,
+        verbose=True,
+    ):
+        """
+        Get orthologs/expression data for a gene from Bgee (https://www.bgee.org/).
     
-        # If result is a DataFrame, convert to list
-        if isinstance(result_to_test, pd.DataFrame):
-            result_to_test = result_to_test.dropna(axis=1).values.tolist()
+        Args:
+        type        type of data to retrieve ('expression' or 'orthologs')
+        gene_id     Ensembl gene ID
+        json        return JSON instead of DataFrame
+        verbose     log progress
     
->       self.assertEqual(result_to_test, expected_result)
-E       AssertionError: Lists differ: [['T1[576 chars]', 'G protein-coupled receptor which binds to [2256 chars]67]]] != [['T1[576 chars]', 'G-protein coupled receptor which binds to [2256 chars]67]]]
-E       
-E       First differing element 0:
-E       ['T14[575 chars]', 'G protein-coupled receptor which binds to [2255 chars]667]]
-E       ['T14[575 chars]', 'G-protein coupled receptor which binds to [2255 chars]667]]
-E       
-E         [['T14E8.4.1',
-E           ['Q5WRS0', 'Q6RYS9'],
-E           'caenorhabditis_elegans',
-E           'WBcel235',
-E           ['aaim-1', 'dop-3'],
-E           [],
-E           'WBGene00043981',
-E           ['Protein aaim-1', 'Dopamine receptor 3'],
-E           ['(Microbial infection) Promotes infection by microsporidian pathogens such '
-E            'as N.parisii in the early larval stages of development (PubMed:34994689). '
-E            'Involved in ensuring the proper orientation and location of the spore '
-E            'proteins of N.parisii during intestinal cell invasion (PubMed:34994689) '
-E            'Plays a role in promoting resistance to bacterial pathogens such as '
-E            'P.aeruginosa by inhibiting bacterial intestinal colonization',
-E       -    'G protein-coupled receptor which binds to the neurotransmitter dopamine '
-E       ?      ^       ^
-E       
-E       +    'G-protein coupled receptor which binds to the neurotransmitter dopamine '
-E       ?      ^       ^
-E       
-E       -    'with high affinity leading to the activation of an associated G protein '
-E       ?                                                                    ^
-E       
-E       +    'with high affinity leading to the activation of an associated G-protein '
-E       ?                                                                    ^
-E       
-E            'and downstream signaling pathways (PubMed:15378064, PubMed:16001968). '
-E       -    'Couples to G proteins to inhibit adenylate cyclase (AC) activity and cAMP '
-E       ?                 ^
-E       
-E       +    'Couples to G-proteins to inhibit adenylate cyclase (AC) activity and cAMP '
-E       ?                 ^
-E       
-E            'production (PubMed:15378064, PubMed:16001968). Antagonizes the D1-like '
-E            'dopamine receptor dop-1 to negatively regulate the rate of locomotion '
-E            '(PubMed:15378064). Negatively regulates locomotion through the activation '
-E            'of goa-1 subunit proteins which inactivates the unc-77/nca-1 and nca-2 '
-E            'ion-channels in the command interneurons (PubMed:28968387). Inhibits '
-E            'early-stage swimming by modulating the unc-77/nca-1 and nca-2 ion channels '
-E            'of premotor interneurons (PubMed:33796839). In GABAergic, RIC, and SIA '
-E            'neurons, antagonizes the function of dop-1 to play a role in behavioral '
-E            'plasticity and regulate the decision-making process when conflicting '
-E            'alternatives are present (PubMed:25536037). Antagonizes octopamine '
-E            'signaling in response to food by promoting the dopamine-mediated '
-E            'suppression of crh-1/CREB1 transcription factor activation in cholinergic '
-E            'SIA neurons (PubMed:19609300). This is most likely in association with the '
-E       -    'G(o)-alpha G protein subunit goa-1 (PubMed:19609300). Promotes male mating '
-E       ?                 ^
-E       
-E       +    'G(o)-alpha G-protein subunit goa-1 (PubMed:19609300). Promotes male mating '
-E       ?                 ^
-E       
-E            'behavior by antagonizing acetylcholine signaling to control the protrusion '
-E            'of copulatory spicules from the tail of males during hermaphrodite vulval '
-E            'location (PubMed:23166505). Under mitochondria stress, plays a role in '
-E            'bacterial preference, resulting in learned avoidance behavior '
-E            '(PubMed:35074444)'],
-E           ['Secreted', 'Cell membrane'],
-E           'Transcript',
-E           'protein_coding',
-E           'X',
-E           -1,
-E           6559466,
-E           6562428,
-E           ['T14E8.4.1.e1',
-E            'T14E8.4.1.e2',
-E            'T14E8.4.1.e3',
-E            'T14E8.4.1.e4',
-E            'T14E8.4.1.e5',
-E            'T14E8.4.1.e6',
-E            'T14E8.4.1.e7',
-E            'T14E8.4.1.e8',
-E            'T14E8.4.1.e9'],
-E           [6562330,
-E            6562225,
-E            6562110,
-E            6561817,
-E            6561252,
-E            6560727,
-E            6560492,
-E            6560197,
-E            6559466],
-E           [6562428,
-E            6562286,
-E            6562183,
-E            6562059,
-E            6561378,
-E            6561206,
-E            6560671,
-E            6560443,
-E            6559667],
-E           ['T14E8.4.1.e1',
-E            'T14E8.4.1.e2',
-E            'T14E8.4.1.e3',
-E            'T14E8.4.1.e4',
-E            'T14E8.4.1.e5',
-E            'T14E8.4.1.e6',
-E            'T14E8.4.1.e7',
-E            'T14E8.4.1.e8',
-E            'T14E8.4.1.e9'],
-E           [6562330,
-E            6562225,
-E            6562110,
-E            6561817,
-E            6561252,
-E            6560727,
-E            6560492,
-E            6560197,
-E            6559466],
-E           [6562428,
-E            6562286,
-E            6562183,
-E            6562059,
-E            6561378,
-E            6561206,
-E            6560671,
-E            6560443,
-E            6559667]]]
+        Returns requested information as a DataFrame or JSON.
+        """
+        if type == "expression":
+>           return _bgee_expression(gene_id, json=json, verbose=verbose)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-tests/from_json.py:79: AssertionError
-____________________________ TestSeq.test_seq_gene _____________________________
+gget/gget_bgee.py:188: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <tests.test_seq.TestSeq testMethod=test_seq_gene>
+gene_id = ['ENSBTAG00000047356', 'ENSBTAG00000018317'], json = False
+verbose = True
 
-    def test_seq_gene(self):
-        test = "test1"
-        expected_result = seq_dict[test]["expected_result"]
-        result_to_test = seq(**seq_dict[test]["args"])
+    def _bgee_expression(gene_id, json=False, verbose=True):
+        """
+        Get expression data from Bgee
     
->       self.assertListEqual(result_to_test, expected_result)
-E       AssertionError: Lists differ: ['>EN[36 chars]3056118:153065583:-1', 'CTGTGCTGACTTCAAGTCCTGA[9441 chars]ATA'] != ['>EN[36 chars]3056120:153057512:-1', 'AAACCCCTGGTACCTGAGCACT[1368 chars]ATA']
-E       
-E       First differing element 0:
-E       '>ENSG00000241794 chromosome:GRCh38:1:153056118:153065583:-1'
-E       '>ENSG00000241794 chromosome:GRCh38:1:153056120:153057512:-1'
-E       
-E       Diff is 11129 characters long. Set self.maxDiff to None to see it.
+        Args:
+    
+        :param gene_id: Ensembl gene ID(s)
+        :param json:    return JSON instead of DataFrame
+        :param verbose: log progress
+    
+        Returns requested information as a DataFrame or JSON
+        """
+        # if single Ensembl ID passed as string, convert to list
+        if isinstance(gene_id, str):
+            gene_ids = [gene_id]
+        else:
+            gene_ids = gene_id
+    
+        # make sure all gene IDs correspond to the same species
+>       species_set = {_bgee_species(gene_id, verbose=verbose) for gene_id in gene_ids}
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-tests/test_seq.py:21: AssertionError
+gget/gget_bgee.py:117: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+gene_id = 'ENSBTAG00000047356', verbose = True
+
+    def _bgee_species(gene_id: str, verbose=True):
+        """
+        Get species ID from Bgee
+        :param gene_id: Ensembl gene ID
+        :param verbose: log progress
+        :return: species ID
+        """
+    
+        if verbose:
+            logger.info(f"Getting species ID for gene {gene_id} from Bgee")
+    
+>       payload = http_json(
+            "GET",
+            "https://bgee.org/api/",
+            context="Bgee API (species lookup)",
+            params={
+                "display_type": "json",
+                "page": "gene",
+                "action": "general_info",
+                "gene_id": gene_id,
+            },
+        )
+
+gget/gget_bgee.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+method = 'GET', url = 'https://bgee.org/api/'
+context = 'Bgee API (species lookup)', timeout = (10, 60), retries = 3
+backoff = 1.0
+kwargs = {'params': {'action': 'general_info', 'display_type': 'json', 'gene_id': 'ENSBTAG00000047356', 'page': 'gene'}}
+label = 'Bgee API (species lookup)', last_exc = None, last_status = None
+
+    def http_json(
+        method,
+        url,
+        *,
+        context="",
+        timeout=DEFAULT_REQUESTS_TIMEOUT,
+        retries=3,
+        backoff=1.0,
+        **kwargs,
+    ):
+        """
+        Issue an HTTP request and return the parsed JSON body, raising a
+        RuntimeError with consistent context if the request fails or the body
+        is not valid JSON.
+    
+        `context` is a short human-readable label (e.g. "Bgee API") used in
+        error messages so users can identify which upstream service failed.
+        Transient failures (connection errors, read timeouts, HTTP 5xx) are
+        retried up to `retries` additional times with exponential backoff
+        (`backoff * 2**i` seconds between attempts). Set `retries=0` to disable.
+        All other keyword arguments are forwarded to `requests.request`.
+        """
+        label = context or url
+        last_exc = None
+        last_status = None
+        last_body = ""
+        attempts = retries + 1
+        for attempt in range(attempts):
+            try:
+                response = requests.request(method, url, timeout=timeout, **kwargs)
+            except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
+                last_exc = e
+                last_status = None
+                last_body = ""
+            else:
+                if response.ok:
+                    try:
+                        return response.json()
+                    except json.JSONDecodeError as e:
+                        body = response.text[:200] if response.text else ""
+                        raise RuntimeError(
+                            f"{label} returned non-JSON response (HTTP {response.status_code}): {body}"
+                        ) from e
+                # Retry on transient server errors only; client errors are returned
+                # to the caller without retry.
+                if response.status_code < 500:
+                    body = response.text[:200] if response.text else ""
+>                   raise RuntimeError(
+                        f"{label} returned HTTP {response.status_code}. Body: {body}"
+                    )
+E                   RuntimeError: Bgee API (species lookup) returned HTTP 403. Body: <!DOCTYPE html><html lang="en-US"><head><title>Just a moment...</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta nam
+
+gget/utils.py:145: RuntimeError
 ------------------------------ Captured log call -------------------------------
-INFO     gget.utils:gget_seq.py:112 Requesting nucleotide sequence of ENSG00000241794 from Ensembl.
-__________________________ TestSeq.test_seq_gene_iso ___________________________
+INFO     gget.utils:gget_bgee.py:18 Getting species ID for gene ENSBTAG00000047356 from Bgee
+_________________________ TestBgee.test_bgee_orthologs _________________________
 
-self = <tests.test_seq.TestSeq testMethod=test_seq_gene_iso>
+self = <tests.test_bgee.TestBgee testMethod=test_bgee_orthologs>
 
-    def test_seq_gene_iso(self):
-        test = "test7"
-        expected_result = seq_dict[test]["expected_result"]
-        result_to_test = seq(**seq_dict[test]["args"])
+    def assert_equal(self: unittest.TestCase):
+        test = name
+        expected_result = td[test]["expected_result"]
+>       result_to_test = do_call(func, td[test]["args"])
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/from_json.py:66: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+func = <function bgee at 0x7f80e30e8fe0>
+args = {'gene_id': 'ENSOARG00000019163'}
+
+    def do_call(func, args):
+        if isinstance(args, dict):
+>           return func(**args)
+                   ^^^^^^^^^^^^
+
+tests/from_json.py:58: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+gene_id = 'ENSOARG00000019163', type = 'orthologs', json = False, verbose = True
+
+    def bgee(
+        gene_id,
+        type="orthologs",
+        json=False,
+        verbose=True,
+    ):
+        """
+        Get orthologs/expression data for a gene from Bgee (https://www.bgee.org/).
     
->       self.assertListEqual(result_to_test, expected_result)
-E       AssertionError: Lists differ: ['>EN[1449 chars]TATA', '>ENST00001096805 chromosome:GRCh38:1:1[19049 chars]ATA'] != ['>EN[1449 chars]TATA']
-E       
-E       First list contains 14 additional elements.
-E       First extra element 2:
-E       '>ENST00001096805 chromosome:GRCh38:1:153056118:153065583:-1'
-E       
-E       Diff is 24804 characters long. Set self.maxDiff to None to see it.
+        Args:
+        type        type of data to retrieve ('expression' or 'orthologs')
+        gene_id     Ensembl gene ID
+        json        return JSON instead of DataFrame
+        verbose     log progress
+    
+        Returns requested information as a DataFrame or JSON.
+        """
+        if type == "expression":
+            return _bgee_expression(gene_id, json=json, verbose=verbose)
+        elif type == "orthologs":
+>           return _bgee_orthologs(gene_id, json=json, verbose=verbose)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-tests/test_seq.py:66: AssertionError
+gget/gget_bgee.py:190: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+gene_id = 'ENSOARG00000019163', json = False, verbose = True
+
+    def _bgee_orthologs(gene_id, json=False, verbose=True):
+        """
+        Get orthologs for a gene from Bgee
+    
+        Args:
+    
+        :param gene_id: Ensembl gene ID
+        :param json:    return JSON instead of DataFrame
+        :param verbose: log progress
+    
+        Returns requested information as a DataFrame or JSON
+        """
+        # if single Ensembl ID passed as string, convert to list
+        if isinstance(gene_id, list):
+            raise ValueError(
+                "One a single gene ID can be passed at a time for ortholog searches."
+            )
+    
+        # must first obtain species
+>       species = _bgee_species(gene_id, verbose=verbose)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+gget/gget_bgee.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+gene_id = 'ENSOARG00000019163', verbose = True
+
+    def _bgee_species(gene_id: str, verbose=True):
+        """
+        Get species ID from Bgee
+        :param gene_id: Ensembl gene ID
+        :param verbose: log progress
+        :return: species ID
+        """
+    
+        if verbose:
+            logger.info(f"Getting species ID for gene {gene_id} from Bgee")
+    
+>       payload = http_json(
+            "GET",
+            "https://bgee.org/api/",
+            context="Bgee API (species lookup)",
+            params={
+                "display_type": "json",
+                "page": "gene",
+                "action": "general_info",
+                "gene_id": gene_id,
+            },
+        )
+
+gget/gget_bgee.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+method = 'GET', url = 'https://bgee.org/api/'
+context = 'Bgee API (species lookup)', timeout = (10, 60), retries = 3
+backoff = 1.0
+kwargs = {'params': {'action': 'general_info', 'display_type': 'json', 'gene_id': 'ENSOARG00000019163', 'page': 'gene'}}
+label = 'Bgee API (species lookup)', last_exc = None, last_status = None
+
+    def http_json(
+        method,
+        url,
+        *,
+        context="",
+        timeout=DEFAULT_REQUESTS_TIMEOUT,
+        retries=3,
+        backoff=1.0,
+        **kwargs,
+    ):
+        """
+        Issue an HTTP request and return the parsed JSON body, raising a
+        RuntimeError with consistent context if the request fails or the body
+        is not valid JSON.
+    
+        `context` is a short human-readable label (e.g. "Bgee API") used in
+        error messages so users can identify which upstream service failed.
+        Transient failures (connection errors, read timeouts, HTTP 5xx) are
+        retried up to `retries` additional times with exponential backoff
+        (`backoff * 2**i` seconds between attempts). Set `retries=0` to disable.
+        All other keyword arguments are forwarded to `requests.request`.
+        """
+        label = context or url
+        last_exc = None
+        last_status = None
+        last_body = ""
+        attempts = retries + 1
+        for attempt in range(attempts):
+            try:
+                response = requests.request(method, url, timeout=timeout, **kwargs)
+            except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
+                last_exc = e
+                last_status = None
+                last_body = ""
+            else:
+                if response.ok:
+                    try:
+                        return response.json()
+                    except json.JSONDecodeError as e:
+                        body = response.text[:200] if response.text else ""
+                        raise RuntimeError(
+                            f"{label} returned non-JSON response (HTTP {response.status_code}): {body}"
+                        ) from e
+                # Retry on transient server errors only; client errors are returned
+                # to the caller without retry.
+                if response.status_code < 500:
+                    body = response.text[:200] if response.text else ""
+>                   raise RuntimeError(
+                        f"{label} returned HTTP {response.status_code}. Body: {body}"
+                    )
+E                   RuntimeError: Bgee API (species lookup) returned HTTP 403. Body: <!DOCTYPE html><html lang="en-US"><head><title>Just a moment...</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta nam
+
+gget/utils.py:145: RuntimeError
 ------------------------------ Captured log call -------------------------------
-INFO     gget.utils:gget_seq.py:150 Requesting nucleotide sequences of all transcripts of ENSG00000241794 from Ensembl.
+INFO     gget.utils:gget_bgee.py:18 Getting species ID for gene ENSOARG00000019163 from Bgee
 =============================== warnings summary ===============================
 tests/test_cbio.py::TestCbioSearch::test_cbio_search
 tests/test_cbio.py::TestCbioSearch::test_cbio_search
@@ -2503,7 +952,8 @@ tests/test_mutate.py: 29 warnings
     mask = mutations[mut_column].str.contains(combined_pattern)
 
 tests/test_ref.py: 11 warnings
-  /home/runner/work/gget/gget/gget/utils.py:998: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
+tests/test_utils.py: 1 warning
+  /home/runner/work/gget/gget/gget/utils.py:1045: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
     for subsoup in soup.body.findAll("a"):
 
 tests/test_ref.py: 39 warnings
@@ -2516,12 +966,13 @@ tests/test_ref.py::TestRef::test_ref_ftp
     links = [stuff.text.strip() for stuff in soup.findAll("td")]
 
 tests/test_ref.py: 24 warnings
-  /home/runner/work/gget/gget/gget/utils.py:973: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
+tests/test_utils.py: 4 warnings
+  /home/runner/work/gget/gget/gget/utils.py:1020: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
     for subsoup in soup.body.findAll("a"):
 
 tests/test_ref.py: 7 warnings
 tests/test_search.py: 19 warnings
-  /home/runner/work/gget/gget/gget/utils.py:917: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
+  /home/runner/work/gget/gget/gget/utils.py:964: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
     for subsoup in soup.body.findAll("a"):
 
 tests/test_search.py: 10 warnings
@@ -2531,14 +982,19 @@ tests/test_search.py: 10 warnings
 tests/test_search.py::TestSearch::test_search_gene_bad_species
 tests/test_search.py::TestSearch::test_search_release
 tests/test_search.py::TestSearch::test_search_transcript_two_sw_or
-  /home/runner/work/gget/gget/gget/utils.py:893: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
+tests/test_utils.py::TestUtils::test_search_species_options
+  /home/runner/work/gget/gget/gget/utils.py:940: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
     for subsoup in soup.body.findAll("a"):
 
 tests/test_search.py::TestSearch::test_search_gene_bad_species
 tests/test_search.py::TestSearch::test_search_gene_bad_species
 tests/test_search.py::TestSearch::test_search_gene_bad_species
 tests/test_search.py::TestSearch::test_search_gene_bad_species
-  /home/runner/work/gget/gget/gget/utils.py:875: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
+tests/test_utils.py::TestUtils::test_search_iv_species_options
+tests/test_utils.py::TestUtils::test_search_iv_species_options
+tests/test_utils.py::TestUtils::test_search_iv_species_options
+tests/test_utils.py::TestUtils::test_search_iv_species_options
+  /home/runner/work/gget/gget/gget/utils.py:922: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
     for subsoup in soup.body.findAll("a"):
 
 tests/test_search.py::TestSearch::test_search_gene_two_sw_limit
@@ -2549,157 +1005,55 @@ tests/test_search.py::TestSearch::test_search_transcript_two_sw_or
     df_temp = pd.read_sql(query, con=db_connection)
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.13-final-0 _______________
+
+Name                       Stmts   Miss  Cover   Missing
+--------------------------------------------------------
+gget/__init__.py              35      2    94%   34-35
+gget/__main__.py               2      2     0%   1-3
+gget/compile.py               39     27    31%   30-84
+gget/constants.py             36      0   100%
+gget/gget_8cube.py            84     28    67%   27-28, 35-44, 94, 106, 113, 116-119, 159, 176, 183, 186-189, 230, 247, 256, 259-262
+gget/gget_alphafold.py       362    321    11%   86-108, 115-116, 123-149, 181-186, 233-867
+gget/gget_archs4.py           79     13    84%   75-78, 84, 107, 123-126, 139-142, 148, 170, 198-201, 207
+gget/gget_bgee.py             49     27    45%   32-37, 54, 61-95, 119-166
+gget/gget_blast.py           128     36    72%   94, 126-144, 165-167, 206, 209, 248-250, 298-301, 304-305, 324-327, 334-335, 338-343, 348, 353-356
+gget/gget_blat.py            130     23    82%   64-68, 101, 144, 208-209, 215, 262-274, 278, 281, 297-300, 309
+gget/gget_cbio.py            525    413    21%   28, 39-67, 77-87, 128-143, 149, 154-157, 161, 164, 172-177, 208, 225-227, 265, 271-275, 278, 282-294, 296, 322-331, 334, 376-389, 393-416, 420-441, 447-450, 454-473, 477, 494-537, 540-757, 760-789, 802-1172, 1226-1262
+gget/gget_cellxgene.py        53      9    83%   21-22, 140-149, 176, 215, 231, 247
+gget/gget_cosmic.py          279    156    44%   24-26, 30-83, 95-110, 113-115, 118-120, 123-127, 132-136, 141-143, 154, 157-170, 190-203, 221, 243-244, 284-309, 312, 397-399, 411, 417, 425, 428-430, 455-473, 497-622, 638-647, 650, 652, 654, 853-856, 869-871, 880-892, 897-902
+gget/gget_diamond.py          98     26    73%   16, 69, 75, 77, 95, 98-99, 105, 111, 117-121, 130-132, 145, 147, 160, 162, 181, 184, 216-217, 223
+gget/gget_elm.py             158     22    86%   128, 278, 301, 325-332, 353, 420-423, 426, 436, 490, 503, 506-515, 519-520
+gget/gget_enrichr.py         213     42    80%   40-43, 49, 173, 227-238, 255-256, 264-265, 291, 311, 317-323, 339, 369-379, 408-423, 444, 456-458, 560, 569-570, 580-581, 588
+gget/gget_gpt.py              20      6    70%   56-65, 88, 110-111
+gget/gget_info.py            316    106    66%   63-64, 68-69, 155-157, 166-167, 180, 206-211, 218-221, 247, 260-271, 305-313, 329-347, 373-374, 458-459, 466-467, 470-471, 474-475, 478-479, 512-513, 516-517, 520-521, 548-549, 552-553, 556-557, 580-581, 584-678, 682
+gget/gget_muscle.py           85     12    86%   17, 45, 68-69, 78-80, 91, 94, 115, 162-163
+gget/gget_mutate.py          434    193    56%   124-175, 186, 190-198, 215-226, 274-278, 283-287, 291-296, 300-305, 309-312, 317-320, 324-334, 340-350, 493, 516-520, 528, 538-542, 553-557, 576, 583, 593-600, 611, 616, 624, 635, 730-741, 855-879, 891-904, 948-985, 1032-1050, 1053-1056, 1070-1077, 1083-1093, 1109-1110, 1147, 1152, 1156, 1160, 1165-1241, 1255-1258, 1299, 1308-1324, 1332-1336, 1341, 1349, 1353
+gget/gget_opentargets.py     111     10    91%   189, 230, 315, 341-343, 366-368, 373
+gget/gget_pdb.py              63     22    65%   52, 58, 67, 75, 83, 104, 108-110, 113-129, 146-152
+gget/gget_ref.py             215     57    73%   37, 102-103, 122-123, 129-157, 166, 179, 181, 183-184, 191-192, 230, 249, 261-263, 284-286, 313-315, 334-336, 389-391, 490-499, 512, 517-518, 534-539, 543, 547, 553, 558-559
+gget/gget_search.py          142     21    85%   84-87, 96, 113, 117, 125, 149-150, 157, 213-222, 308-309, 315-316, 368-369, 376-377, 385
+gget/gget_seq.py             146     24    84%   44-47, 49, 119, 140-143, 177-178, 207-208, 245-248, 271-272, 293, 312-315, 334, 356, 365, 402-405
+gget/gget_setup.py           204    146    28%   49-90, 108, 113, 116, 128-138, 157, 180, 199, 202-450
+gget/gget_virus.py          4587   2174    53%   36-37, 188-230, 243-244, 255, 274, 288, 349, 428-429, 470-474, 479-493, 500, 511-512, 530-535, 563-566, 579-580, 707, 771, 785, 791-792, 804-807, 816-817, 819-822, 836-839, 906-907, 914-916, 937-964, 987-989, 1093-1094, 1098, 1156, 1169-1172, 1179-1180, 1184-1214, 1223, 1227-1230, 1238, 1241, 1245-1253, 1292-1323, 1400-1401, 1453-1455, 1489-1490, 1510-1626, 1631-1682, 1707-1708, 1728-2072, 2081-2082, 2126-2287, 2378-2621, 2643-2692, 2745-2898, 2946-3058, 3112-3219, 3254, 3261-3262, 3279-3285, 3295-3296, 3326-3327, 3371, 3408, 3421, 3471-3472, 3477-3479, 3538, 3545, 3564-3586, 3602-3604, 3651, 3678, 3684, 3707, 3716-3770, 3778, 3781-3782, 3789-3791, 3814, 3912-3929, 3933-3945, 3982-3989, 4034, 4064-4065, 4074, 4078-4081, 4125, 4129, 4149-4179, 4217-4363, 4490-4555, 4585-4601, 4702, 4791-4792, 4808, 4839-4844, 4849, 4875, 4884, 4890-4897, 5000-5009, 5013-5021, 5025-5037, 5041-5057, 5074, 5078-5086, 5095-5096, 5108-5111, 5185-5188, 5357, 5366, 5370-5372, 5402-5404, 5471, 5475, 5479, 5481, 5483, 5487-5488, 5502, 5514-5515, 5526-5527, 5530-5531, 5550, 5578-5586, 5621, 5661-5674, 5709, 5720-5722, 5749, 5759-5792, 5822, 5827, 5830, 5878, 5942, 5955-5960, 5964, 5968, 5974-5980, 5984-5989, 5993-6020, 6024-6025, 6033-6034, 6063, 6080-6081, 6085, 6089, 6093-6100, 6104-6130, 6137-6172, 6195-6201, 6205-6208, 6210-6213, 6216-6219, 6234, 6241-6242, 6248-6249, 6256, 6260-6266, 6309-6311, 6345, 6355-6420, 6564, 6590-6607, 6653, 6656-6657, 6725, 6750, 6757, 6771, 6827-6830, 6995-6997, 7039, 7063-7064, 7111-7113, 7137-7141, 7150-7152, 7176-7178, 7315-7317, 7351-7353, 7393-7395, 7412-7413, 7435-7436, 7458-7459, 7481-7482, 7518-7521, 7524-7526, 7540-7543, 7546-7548, 7564-7566, 7577-7580, 7583-7585, 7632-7635, 7678-7680, 7700-7702, 7734-7735, 7738-7739, 7742-7743, 7746-7747, 7764-7766, 7802-7809, 7932-7934, 7960-7962, 7983-7985, 8027-8029, 8057-8058, 8076, 8095-8096, 8098, 8115-8122, 8212, 8220, 8263-8267, 8288, 8308, 8312-8313, 8353, 8358, 8368, 8401-8402, 8447-8449, 8476-8493, 8508, 8510-8547, 8600, 8602-8640, 8696-8765, 8809, 8828, 8833-8851, 8855-8927, 8930-8946, 8962-8977, 8995-8996, 9002-9045, 9096-9116, 9128-9129, 9174-9176, 9204-9233, 9240, 9307-9348, 9357-9381, 9386, 9428-9429, 9445, 9457-9459, 9468-9471, 9475-9507, 9558-9560, 9583-9597, 9619-9719, 9753-9756, 9786-9946, 9961-9962, 9968-9981, 9983, 9986-9989, 9992-9996, 10009
+gget/main.py                 888    888     0%   1-3928
+gget/utils.py                516    128    75%   34, 39-45, 84, 89-90, 128-131, 136-138, 148-167, 183-185, 195, 218, 242, 245, 309, 316, 368, 380, 389, 397, 430-431, 461, 479, 490, 523-524, 564-565, 580-581, 588-590, 606-607, 613-614, 735-751, 759-762, 788, 807, 827-838, 873, 915, 956, 1074, 1082, 1090-1110, 1115, 1120, 1126-1127, 1145-1146, 1196-1209, 1237, 1276-1290
+--------------------------------------------------------
+TOTAL                       9997   4934    51%
 ============================= slowest 10 durations =============================
-135.24s call     tests/test_blast.py::TestBlast::test_blast_nt
-64.64s call     tests/test_bgee.py::TestBgee::test_bgee_expression
-47.08s call     tests/test_seq.py::TestSeq::test_seq_gene_iso
-39.94s call     tests/test_cellxgene.py::TestCellxgene::test_cellxgene_adata
-35.67s call     tests/test_search.py::TestSearch::test_search_gene_two_sw_limit
-30.24s call     tests/test_bgee.py::TestBgee::test_bgee_expression_multiple
-20.72s call     tests/test_enrichr.py::TestEnrichr::test_enrichr_background_ensembl
-14.90s call     tests/test_info.py::TestInfo::test_info_exon
-13.11s call     tests/test_archs4.py::TestArchs4::test_archs4_mouse_json_ensembl
-12.28s call     tests/test_blat.py::TestBlat::test_blat_aa_RNA
+205.30s call     tests/test_blast.py::TestBlast::test_blast_nt
+82.83s call     tests/test_virus.py::TestVirus::test_virus_with_source_database_filter
+64.83s call     tests/test_virus.py::TestVirus::test_virus_with_has_proteins_filter
+54.68s call     tests/test_enrichr.py::TestEnrichr::test_enrichr_background_ensembl
+45.86s call     tests/test_cellxgene.py::TestCellxgene::test_cellxgene_adata
+39.23s call     tests/test_info.py::TestInfo::test_info_mix
+38.37s call     tests/test_enrichr.py::TestEnrichr::test_enrichr_ensembl_ids
+35.33s call     tests/test_virus.py::TestVirus::test_virus_with_max_ambiguous_chars_filter
+33.83s call     tests/test_search.py::TestSearch::test_search_gene_two_sw_limit
+33.04s call     tests/test_virus.py::TestVirus::test_virus_integer_virus_id
 =========================== short test summary info ============================
-FAILED tests/test_archs4.py::TestArchs4::test_archs4_tissue_ensembl - RuntimeError: http://rest.ensembl.org/ returned error status code 500. Please double-check arguments and try again.
-FAILED tests/test_bgee.py::TestBgee::test_bgee_expression - requests.exceptions.ReadTimeout: HTTPSConnectionPool(host='www.bgee.org', port=443): Read timed out. (read timeout=60)
-FAILED tests/test_info.py::TestInfo::test_info_WB_transcript - AssertionError: Lists differ: [['T1[576 chars]', 'G protein-coupled receptor which binds to [2256 chars]67]]] != [['T1[576 chars]', 'G-protein coupled receptor which binds to [2256 chars]67]]]
-
-First differing element 0:
-['T14[575 chars]', 'G protein-coupled receptor which binds to [2255 chars]667]]
-['T14[575 chars]', 'G-protein coupled receptor which binds to [2255 chars]667]]
-
-  [['T14E8.4.1',
-    ['Q5WRS0', 'Q6RYS9'],
-    'caenorhabditis_elegans',
-    'WBcel235',
-    ['aaim-1', 'dop-3'],
-    [],
-    'WBGene00043981',
-    ['Protein aaim-1', 'Dopamine receptor 3'],
-    ['(Microbial infection) Promotes infection by microsporidian pathogens such '
-     'as N.parisii in the early larval stages of development (PubMed:34994689). '
-     'Involved in ensuring the proper orientation and location of the spore '
-     'proteins of N.parisii during intestinal cell invasion (PubMed:34994689) '
-     'Plays a role in promoting resistance to bacterial pathogens such as '
-     'P.aeruginosa by inhibiting bacterial intestinal colonization',
--    'G protein-coupled receptor which binds to the neurotransmitter dopamine '
-?      ^       ^
-
-+    'G-protein coupled receptor which binds to the neurotransmitter dopamine '
-?      ^       ^
-
--    'with high affinity leading to the activation of an associated G protein '
-?                                                                    ^
-
-+    'with high affinity leading to the activation of an associated G-protein '
-?                                                                    ^
-
-     'and downstream signaling pathways (PubMed:15378064, PubMed:16001968). '
--    'Couples to G proteins to inhibit adenylate cyclase (AC) activity and cAMP '
-?                 ^
-
-+    'Couples to G-proteins to inhibit adenylate cyclase (AC) activity and cAMP '
-?                 ^
-
-     'production (PubMed:15378064, PubMed:16001968). Antagonizes the D1-like '
-     'dopamine receptor dop-1 to negatively regulate the rate of locomotion '
-     '(PubMed:15378064). Negatively regulates locomotion through the activation '
-     'of goa-1 subunit proteins which inactivates the unc-77/nca-1 and nca-2 '
-     'ion-channels in the command interneurons (PubMed:28968387). Inhibits '
-     'early-stage swimming by modulating the unc-77/nca-1 and nca-2 ion channels '
-     'of premotor interneurons (PubMed:33796839). In GABAergic, RIC, and SIA '
-     'neurons, antagonizes the function of dop-1 to play a role in behavioral '
-     'plasticity and regulate the decision-making process when conflicting '
-     'alternatives are present (PubMed:25536037). Antagonizes octopamine '
-     'signaling in response to food by promoting the dopamine-mediated '
-     'suppression of crh-1/CREB1 transcription factor activation in cholinergic '
-     'SIA neurons (PubMed:19609300). This is most likely in association with the '
--    'G(o)-alpha G protein subunit goa-1 (PubMed:19609300). Promotes male mating '
-?                 ^
-
-+    'G(o)-alpha G-protein subunit goa-1 (PubMed:19609300). Promotes male mating '
-?                 ^
-
-     'behavior by antagonizing acetylcholine signaling to control the protrusion '
-     'of copulatory spicules from the tail of males during hermaphrodite vulval '
-     'location (PubMed:23166505). Under mitochondria stress, plays a role in '
-     'bacterial preference, resulting in learned avoidance behavior '
-     '(PubMed:35074444)'],
-    ['Secreted', 'Cell membrane'],
-    'Transcript',
-    'protein_coding',
-    'X',
-    -1,
-    6559466,
-    6562428,
-    ['T14E8.4.1.e1',
-     'T14E8.4.1.e2',
-     'T14E8.4.1.e3',
-     'T14E8.4.1.e4',
-     'T14E8.4.1.e5',
-     'T14E8.4.1.e6',
-     'T14E8.4.1.e7',
-     'T14E8.4.1.e8',
-     'T14E8.4.1.e9'],
-    [6562330,
-     6562225,
-     6562110,
-     6561817,
-     6561252,
-     6560727,
-     6560492,
-     6560197,
-     6559466],
-    [6562428,
-     6562286,
-     6562183,
-     6562059,
-     6561378,
-     6561206,
-     6560671,
-     6560443,
-     6559667],
-    ['T14E8.4.1.e1',
-     'T14E8.4.1.e2',
-     'T14E8.4.1.e3',
-     'T14E8.4.1.e4',
-     'T14E8.4.1.e5',
-     'T14E8.4.1.e6',
-     'T14E8.4.1.e7',
-     'T14E8.4.1.e8',
-     'T14E8.4.1.e9'],
-    [6562330,
-     6562225,
-     6562110,
-     6561817,
-     6561252,
-     6560727,
-     6560492,
-     6560197,
-     6559466],
-    [6562428,
-     6562286,
-     6562183,
-     6562059,
-     6561378,
-     6561206,
-     6560671,
-     6560443,
-     6559667]]]
-FAILED tests/test_seq.py::TestSeq::test_seq_gene - AssertionError: Lists differ: ['>EN[36 chars]3056118:153065583:-1', 'CTGTGCTGACTTCAAGTCCTGA[9441 chars]ATA'] != ['>EN[36 chars]3056120:153057512:-1', 'AAACCCCTGGTACCTGAGCACT[1368 chars]ATA']
-
-First differing element 0:
-'>ENSG00000241794 chromosome:GRCh38:1:153056118:153065583:-1'
-'>ENSG00000241794 chromosome:GRCh38:1:153056120:153057512:-1'
-
-Diff is 11129 characters long. Set self.maxDiff to None to see it.
-FAILED tests/test_seq.py::TestSeq::test_seq_gene_iso - AssertionError: Lists differ: ['>EN[1449 chars]TATA', '>ENST00001096805 chromosome:GRCh38:1:1[19049 chars]ATA'] != ['>EN[1449 chars]TATA']
-
-First list contains 14 additional elements.
-First extra element 2:
-'>ENST00001096805 chromosome:GRCh38:1:153056118:153065583:-1'
-
-Diff is 24804 characters long. Set self.maxDiff to None to see it.
-!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 5 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
-=========== 5 failed, 176 passed, 180 warnings in 749.21s (0:12:29) ============
+FAILED tests/test_bgee.py::TestBgee::test_bgee_expression - RuntimeError: Bgee API (species lookup) returned HTTP 403. Body: <!DOCTYPE html><html lang="en-US"><head><title>Just a moment...</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta nam
+FAILED tests/test_bgee.py::TestBgee::test_bgee_expression_multiple - RuntimeError: Bgee API (species lookup) returned HTTP 403. Body: <!DOCTYPE html><html lang="en-US"><head><title>Just a moment...</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta nam
+FAILED tests/test_bgee.py::TestBgee::test_bgee_orthologs - RuntimeError: Bgee API (species lookup) returned HTTP 403. Body: <!DOCTYPE html><html lang="en-US"><head><title>Just a moment...</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta nam
+=========== 3 failed, 387 passed, 190 warnings in 1228.82s (0:20:28) ===========
