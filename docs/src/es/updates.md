@@ -1,6 +1,26 @@
 [<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/pachterlab/gget/blob/main/docs/src/es/updates.md)
 
 ## ✨ ¡Lo más reciente!  
+**Versión ≥ 0.30.6** (8 de junio de 2026):
+- [`gget blat`](blat.md): Mejora la resistencia contra fallas del endpoint UCSC BLAT (corrige pruebas que fallan de manera intermitente).
+  - Se agregó reintento con backoff exponencial para fallas transitorias (HTTP 429/5xx, errores de red, y respuestas no-JSON 200 causadas por limitación de tasa de UCSC o páginas de error HTML). Hasta 4 intentos con backoff de 1.5s → 3s → 6s.
+  - Se reemplazó el mensaje engañoso "sequence too short or assembly invalid" con la respuesta real del servidor (código de estado, vista previa de respuesta) para que las fallas sean diagnosticables.
+  - `HTTPError` y `URLError` ahora se capturan explícitamente en lugar de aparecer como excepciones no manejadas.
+- Correcciones de errores:
+  - [`gget cosmic`](cosmic.md): Corregido mensaje de error engañoso cuando falla el paso de descarga — reportaba el código de retorno/stderr del comando anterior en lugar del comando que falló.
+  - [`gget cosmic`](cosmic.md): Se limitó el manejador de excepción de parseo JSON a `json.JSONDecodeError` para que `ValueError`s no relacionados ya no sean enmascarados por el mensaje "Failed to download file".
+  - `gget --version`, `gget --help`, `gget` invocado sin argumentos, y `gget <module>` sin más argumentos ahora todos salen con estado 0 en lugar de 1, para que scripts de CI y pipelines de shell ya no traten estas salidas informativas como fallas.
+  - Se agregaron tiempos límite de solicitud a llamadas `requests` anteriormente no protegidas en [`gget ref`](ref.md), [`gget info`](info.md), [`gget 8cube`](8cube.md), [`gget enrichr`](enrichr.md), y [`gget opentargets`](opentargets.md). Por defecto es 10s conexión / 60s lectura; configurable a través de la nueva constante `DEFAULT_REQUESTS_TIMEOUT`.
+  - Se limitó un `except:` desnudo en `utils.get_uniprot_seqs` a `(KeyError, IndexError, TypeError)` para que errores no relacionados (incluyendo `KeyboardInterrupt`) ya no sean suprimidos.
+  - Se agregaron los helpers `utils.http_json()` y `utils.dig()` que emiten una solicitud y parsean JSON / caminan por una ruta de respuesta anidada con reporte de errores consistente. Se migraron [`gget bgee`](bgee.md), [`gget opentargets`](opentargets.md), y un sitio de llamada `.json()` en [`gget virus`](virus.md) para usarlos; los módulos restantes migrarán oportunamente. Páginas de error HTML upstream, JSON malformado, y claves de respuesta faltantes ahora aparecen como `RuntimeError`s claros nombrando el servicio que falla en lugar de trazas crípticas de `JSONDecodeError` / `KeyError`.
+  - `utils.http_json()` ahora reintenta fallas transitorias (errores de conexión, tiempos límite de lectura, HTTP 5xx) hasta 3 veces con backoff exponencial. Suaviza interrupciones upstream cortas (por ejemplo, tiempos límite de lectura de bgee.org) sin afectar errores 4xx, que siguen levantándose inmediatamente.
+  - [`gget virus`](virus.md): Se reemplazaron 11 bloques desnudos `except: pass` alrededor de llamadas de limpieza `file.close()` / `os.remove()` con manejadores `except OSError` limitados que registran la falla en `DEBUG`. Anteriormente, problemas reales de I/O durante la limpieza (disco lleno, permisos) se eliminaban silenciosamente y la ruta de limpieza también suprimía `KeyboardInterrupt`.
+  - [`gget cbio`](cbio.md): Se corrigió una ruta de código en `cbio_plot` que llamaba al `DataFrame.append()` removido-en-pandas-2.0 dentro de un bucle al llenar genes CNA faltantes — toda la rama se colgaba en pandas moderno. Ahora construye un solo DataFrame de filas faltantes y concatena una vez.
+- Rendimiento:
+  - `utils.get_uniprot_seqs`: Recolecta DataFrames por-ID en una lista y `pd.concat(..., ignore_index=True)` una vez al final, evitando el costo O(n²) de hacer crecer un DataFrame dentro del bucle de solicitud.
+  - Se cachearon `utils.find_latest_ens_rel`, `utils.search_species_options`, `utils.ref_species_options`, y `utils.find_nv_kingdom` con `functools.lru_cache`. Estos acceden a listados FTP de Ensembl que son estables para una versión; llamadas repetidas dentro de un proceso de Python ahora son gratuitas.
+  - Se agregó `utils.parallel_map`, un envoltorio delgado de `ThreadPoolExecutor` para trabajo vinculado a I/O. Se usa para distribuir `utils.get_uniprot_seqs` a través de la lista de ID de entrada — buscar N IDs ahora está limitado por ~`N / pool_size` viajes redondos a UniProt en lugar de `N`. El tamaño del pool por defecto es 8 y se puede sobrescribir a través de la variable de entorno `GGET_MAX_WORKERS`.
+
 **Versión ≥ 0.30.5** (23 de mayo de 2026):
 - [`gget opentargets`](opentargets.md): Se reescribió este módulo para reflejar la nueva estructura de la API de Open Targets
   - algunos nombres de columnas/claves de salida pueden diferir para reflejar la nueva estructura de la API
