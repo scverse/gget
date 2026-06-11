@@ -136,7 +136,6 @@ class TestUtils(unittest.TestCase):
             "biotype": "protein_coding",
             "assembly_name": "PoeFor_5.1.2",
             "object_type": "Gene",
-            "description": "fish-egg lectin-like [Source:NCBI gene;Acc:103152571]",
             "start": 502511,
             "seq_region_name": "KI519928.1",
         }

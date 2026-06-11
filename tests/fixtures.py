@@ -1,5 +1,5 @@
 # Latest Ensembl release for unittests
-LATEST_ENS_RELEASE = 115
+LATEST_ENS_RELEASE = 116
 
 # gget search species options for Ensembl release 106
 SPECIES_OPTIONS = [
