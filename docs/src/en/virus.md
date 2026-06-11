@@ -655,7 +655,7 @@ The summary file tracks the following failure types, each with actionable detail
 
 If you use `gget virus` in a publication, please cite the following articles:
 
-  - Nasri, F. et al (2026). Coming soon.
+  - Nasri, F., Gurev, S., Varilly, P., Ramesh, K., O’Leary, N. A., Cool, J., Renard, B. Y., Sabeti, P. C., & Luebbert, L. (2026). Deterministic access to global viral sequence data enables robust agentic scientific discovery. [arXiv:2606.06749](https://arxiv.org/abs/2606.06749)
 
   - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
 
