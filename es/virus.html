@@ -1,0 +1,779 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>gget virus - gget</title>
+
+
+        <!-- Custom HTML head -->
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZM4N3XBEW7"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-ZM4N3XBEW7');
+        </script>
+
+        <meta name="description" content="gget enables efficient querying of genomic reference databases">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../en/introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="../en/updates.html">What's New?</a></li><li class="chapter-item expanded affix "><a href="../en/dependents.html">Dependents & News</a></li><li class="chapter-item expanded affix "><li class="part-title">User Guide</li><li class="chapter-item expanded "><a href="../en/installation.html">Installation</a></li><li class="chapter-item expanded "><a href="../en/quick_start_guide.html">Quick Start Guide</a></li><li class="chapter-item expanded affix "><li class="part-title">Manual</li><li class="chapter-item expanded "><a href="../en/8cube.html">gget 8cube</a></li><li class="chapter-item expanded "><a href="../en/alphafold.html">gget alphafold</a></li><li class="chapter-item expanded "><a href="../en/archs4.html">gget archs4</a></li><li class="chapter-item expanded "><a href="../en/bgee.html">gget bgee</a></li><li class="chapter-item expanded "><a href="../en/blast.html">gget blast</a></li><li class="chapter-item expanded "><a href="../en/blat.html">gget blat</a></li><li class="chapter-item expanded "><a href="../en/cbio.html">gget cbio</a></li><li class="chapter-item expanded "><a href="../en/cellxgene.html">gget cellxgene</a></li><li class="chapter-item expanded "><a href="../en/cosmic.html">gget cosmic</a></li><li class="chapter-item expanded "><a href="../en/diamond.html">gget diamond</a></li><li class="chapter-item expanded "><a href="../en/elm.html">gget elm</a></li><li class="chapter-item expanded "><a href="../en/enrichr.html">gget enrichr</a></li><li class="chapter-item expanded "><a href="../en/gpt.html">gget gpt</a></li><li class="chapter-item expanded "><a href="../en/info.html">gget info</a></li><li class="chapter-item expanded "><a href="../en/muscle.html">gget muscle</a></li><li class="chapter-item expanded "><a href="../en/mutate.html">gget mutate</a></li><li class="chapter-item expanded "><a href="../en/opentargets.html">gget opentargets</a></li><li class="chapter-item expanded "><a href="../en/pdb.html">gget pdb</a></li><li class="chapter-item expanded "><a href="../en/ref.html">gget ref</a></li><li class="chapter-item expanded "><a href="../en/search.html">gget search</a></li><li class="chapter-item expanded "><a href="../en/setup.html">gget setup</a></li><li class="chapter-item expanded "><a href="../en/seq.html">gget seq</a></li><li class="chapter-item expanded "><a href="../en/virus.html">gget virus</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../en/contributing.html">Contributing Guide</a></li><li class="chapter-item expanded "><a href="../en/code_of_conduct.html">Code of Conduct</a></li><li class="chapter-item expanded "><a href="../en/cite.html">Citation Guidelines</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Español</li><li class="chapter-item expanded "><a href="../es/introduction.html">Introdución</a></li><li class="chapter-item expanded "><a href="../es/updates.html">¡Lo más reciente!</a></li><li class="chapter-item expanded "><a href="../es/dependents.html">Dependientes y Noticias</a></li><li class="chapter-item expanded affix "><li class="part-title">Guía del usario</li><li class="chapter-item expanded "><a href="../es/installation.html">Instalación</a></li><li class="chapter-item expanded "><a href="../es/quick_start_guide.html">Guía de inicio rápido</a></li><li class="chapter-item expanded affix "><li class="part-title">Manuál</li><li class="chapter-item expanded "><a href="../es/8cube.html">gget 8cube</a></li><li class="chapter-item expanded "><a href="../es/alphafold.html">gget alphafold</a></li><li class="chapter-item expanded "><a href="../es/archs4.html">gget archs4</a></li><li class="chapter-item expanded "><a href="../es/bgee.html">gget bgee</a></li><li class="chapter-item expanded "><a href="../es/blast.html">gget blast</a></li><li class="chapter-item expanded "><a href="../es/blat.html">gget blat</a></li><li class="chapter-item expanded "><a href="../es/cbio.html">gget cbio</a></li><li class="chapter-item expanded "><a href="../es/cellxgene.html">gget cellxgene</a></li><li class="chapter-item expanded "><a href="../es/cosmic.html">gget cosmic</a></li><li class="chapter-item expanded "><a href="../es/diamond.html">gget diamond</a></li><li class="chapter-item expanded "><a href="../es/elm.html">gget elm</a></li><li class="chapter-item expanded "><a href="../es/enrichr.html">gget enrichr</a></li><li class="chapter-item expanded "><a href="../es/gpt.html">gget gpt</a></li><li class="chapter-item expanded "><a href="../es/info.html">gget info</a></li><li class="chapter-item expanded "><a href="../es/muscle.html">gget muscle</a></li><li class="chapter-item expanded "><a href="../es/mutate.html">gget mutate</a></li><li class="chapter-item expanded "><a href="../es/opentargets.html">gget opentargets</a></li><li class="chapter-item expanded "><a href="../es/pdb.html">gget pdb</a></li><li class="chapter-item expanded "><a href="../es/ref.html">gget ref</a></li><li class="chapter-item expanded "><a href="../es/search.html">gget search</a></li><li class="chapter-item expanded "><a href="../es/setup.html">gget setup</a></li><li class="chapter-item expanded "><a href="../es/seq.html">gget seq</a></li><li class="chapter-item expanded "><a href="../es/virus.html" class="active">gget virus</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../es/contributing.html">Guía de contribución</a></li><li class="chapter-item expanded "><a href="../es/code_of_conduct.html">Codigo de conducto</a></li><li class="chapter-item expanded "><a href="../es/cite.html">Cómo citar</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">gget</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <p><a href="https://github.com/pachterlab/gget/blob/main/docs/src/es/virus.md"><kbd> Ver el codigo fuente de la pagina en GitHub </kbd></a></p>
+<blockquote>
+<p>Parámetros de Python són iguales a los parámetros largos (<code>--parámetro</code>) de Terminal, si no especificado de otra manera. Banderas son parámetros de verdadero o falso (True/False) en Python. El manuál para cualquier modulo de gget se puede llamar desde la Terminal con la bandera <code>-h</code> <code>--help</code>.</p>
+</blockquote>
+<h1 id="gget-virus-"><a class="header" href="#gget-virus-">gget virus 🦠</a></h1>
+<p>Descargue secuencias nucleotídicas virales, junto con metadatos ricos y vinculados, de toda la International Nucleotide Sequence Database Collaboration (<a href="https://www.insdc.org/">INSDC</a>), incluyendo NCBI, <a href="https://www.ebi.ac.uk/ena/browser/">ENA</a> y <a href="https://www.ddbj.nig.ac.jp/index-e.html">DDBJ</a> (a través de <a href="https://www.ncbi.nlm.nih.gov/labs/virus/">NCBI Virus</a>), con la opción de enriquecer adicionalmente los resultados usando metadatos de NCBI GenBank (p. ej. anotaciones de genes y proteínas). <code>gget virus</code> aplica filtros secuenciales tanto del lado del servidor como locales para descargar de forma eficiente conjuntos de datos personalizados.</p>
+<p>Formato de salida: archivos FASTA, CSV y JSONL guardados en una carpeta de salida.</p>
+<p><a href="https://colab.research.google.com/github/pachterlab/gget_examples/blob/main/gget_virus/gget_virus_colab.ipynb">Cuaderno de Google Colab sin código y compartible para descargar secuencias virales.</a></p>
+<p>Este módulo fue escrito por <a href="https://github.com/ferbsx">Ferdous Nasri</a>.</p>
+<p><strong>Nota</strong>: Para consultas de SARS-CoV-2 y Alphainfluenza (Influenza A), <code>gget virus</code> utiliza los paquetes de datos optimizados en caché de NCBI mediante la <a href="https://www.ncbi.nlm.nih.gov/datasets/docs/v2/download-and-install/">NCBI datasets CLI</a>. El binario de la CLI de datasets se incluye con gget para las principales plataformas—no se requiere instalación adicional. Si ya tienes la CLI <code>datasets</code> instalada en tu sistema, gget usará automáticamente tu instalación existente.</p>
+<p><strong>Argumento posicional</strong><br />
+<code>virus</code>
+Nombre del taxón viral (p. ej., 'Zika virus'), ID de taxón (p. ej., '2697049'), número de acceso de NCBI (p. ej., 'NC_045512.2'), lista de números de acceso separados por espacios (p. ej., 'NC_045512.2 MN908947.3 MT020781.1') o ruta a un archivo de texto que contenga números de acceso (uno por línea) (p. ej., 'path/to/text.txt').</p>
+<p>Añada <code>--is_accession</code> al proporcionar un número de acceso de NCBI. Añada <code>--is_sars_cov2</code> o <code>--is_alphainfluenza</code> para la descarga optimizada de secuencias de SARS-CoV-2 o Alphainfluenza, respectivamente.</p>
+<p>Para descargas en caché de SARS-CoV-2 y Alphainfluenza, se admite:</p>
+<ul>
+<li>Acceso único: <code>NC_045512.2</code></li>
+<li>Lista separada por espacios: <code>NC_045512.2 MN908947.3 MT020781.1</code></li>
+<li>Ruta a archivo de texto: <code>accessions.txt</code> (un número de acceso por línea)</li>
+</ul>
+<p>Use la opción <code>--download_all_accessions</code> para aplicar filtros sin buscar un virus específico.</p>
+<p><strong>Argumentos opcionales</strong></p>
+<p><em>Filtros de hospedador</em></p>
+<p><code>--host</code><br />
+Filtra por nombre del organismo hospedador o ID de Taxonomía de NCBI (p. ej. 'human', 'Aedes aegypti', <code>1335626</code>).</p>
+<p><em>Filtros de Secuencia y Gen</em></p>
+<p><code>--nuc_completeness</code><br />
+Filtrar por integridad del nucleótido. Una de las siguientes opciones: 'complete' o 'partial'.<br />
+Establezca 'complete' para devolver únicamente secuencias de nucleótidos marcadas como completas; establezca 'partial' para devolver únicamente secuencias marcadas como parciales.</p>
+<p><code>--min_seq_length</code><br />
+Filtra por longitud mínima de secuencia.</p>
+<p><code>--max_seq_length</code><br />
+Filtra por longitud máxima de secuencia.</p>
+<p><code>--min_gene_count</code><br />
+Filtra por número mínimo de genes.<br />
+<strong>Nota:</strong> El uso de este filtro habilita automáticamente la obtención de metadatos de GenBank (<code>-g</code>).</p>
+<p><code>--max_gene_count</code><br />
+Filtra por número máximo de genes.<br />
+<strong>Nota:</strong> El uso de este filtro habilita automáticamente la obtención de metadatos de GenBank (<code>-g</code>).</p>
+<p><code>--min_protein_count</code><br />
+Filtra por número mínimo de proteínas.</p>
+<p><code>--max_protein_count</code><br />
+Filtra por número máximo de proteínas.</p>
+<p><code>--min_mature_peptide_count</code><br />
+Filtra por número mínimo de péptidos maduros.<br />
+<strong>Nota:</strong> El uso de este filtro habilita automáticamente la obtención de metadatos de GenBank (<code>-g</code>).</p>
+<p><code>--max_mature_peptide_count</code><br />
+Filtra por número máximo de péptidos maduros.<br />
+<strong>Nota:</strong> El uso de este filtro habilita automáticamente la obtención de metadatos de GenBank (<code>-g</code>).</p>
+<p><code>--max_ambiguous_chars</code><br />
+Filtra por número máximo de caracteres nucleotídicos ambiguos (N).</p>
+<p><code>--has_proteins</code><br />
+Filtra por secuencias que contengan proteínas o genes específicos (p. ej. 'spike', 'ORF1ab'). Puede ser un solo nombre de proteína o una lista de nombres de proteínas. Cualquier proteína que coincida mantendrá la secuencia.<br />
+Línea de comandos: <code>--has_proteins spike</code> o <code>--has_proteins hemagglutinin,neuraminidase</code> (separados por comas, sin espacios)<br />
+Python: <code>has_proteins=&quot;spike&quot;</code> o <code>has_proteins=[&quot;spike&quot;, &quot;ORF1ab&quot;]</code><br />
+<strong>Nota:</strong> El uso de este filtro habilita automáticamente la obtención de metadatos de GenBank (<code>-g</code>).</p>
+<p><code>--segment</code><br />
+Filtra por secuencias con segmento(s) específico(s) (p. ej. 'HA', 'NA'). Puede ser un solo nombre de segmento o una lista de nombres de segmentos. Cualquier segmento que coincida mantendrá la secuencia.<br />
+Línea de comandos: <code>--segment HA</code> o <code>--segment HA,NA,PB1</code> (separados por comas, sin espacios)<br />
+Python: <code>segment=&quot;HA&quot;</code> o <code>segment=[&quot;HA&quot;, &quot;NA&quot;, &quot;PB1&quot;]</code></p>
+<p><code>--annotated</code><br />
+<code>'true'</code> o <code>'false'</code>. Filtra por secuencias que han sido anotadas con información de genes/proteínas.<br />
+Línea de comandos: <code>--annotated true</code> para obtener únicamente secuencias anotadas con información de genes/proteínas, o <code>--annotated false</code> para excluirlas.<br />
+Python: <code>annotated=True</code> o <code>annotated=False</code> (<code>annotated=None</code> para no aplicar ningún filtro).</p>
+<p><code>--lab_passaged</code><br />
+<code>'true'</code> o <code>'false'</code>. Filtra a favor o en contra de muestras pasadas por laboratorio (<em>lab-passaged</em>).<br />
+Línea de comandos: <code>--lab_passaged true</code> para obtener únicamente muestras pasadas por laboratorio, o <code>--lab_passaged false</code> para excluirlas.<br />
+Python: <code>lab_passaged=True</code> o <code>lab_passaged=False</code> (<code>lab_passaged=None</code> para no aplicar ningún filtro).</p>
+<p><code>--vaccine_strain</code><br />
+Filtra a favor o en contra de secuencias de cepas de vacunas.<br />
+Línea de comandos: <code>--vaccine_strain true</code> para obtener solo cepas de vacunas, o <code>--vaccine_strain false</code> para excluirlas.<br />
+Python: <code>vaccine_strain=True</code> o <code>vaccine_strain=False</code> (<code>vaccine_strain=None</code> para no aplicar ningún filtro).</p>
+<p><code>--provirus</code><br />
+Filtra a favor o en contra de secuencias provirales/integradas.<br />
+Línea de comandos: <code>--provirus true</code> para obtener solo secuencias provirales, o <code>--provirus false</code> para excluirlas.<br />
+Python: <code>provirus=True</code> o <code>provirus=False</code> (<code>provirus=None</code> para no aplicar ningún filtro).<br />
+<strong>Nota:</strong> El uso de este filtro habilita automáticamente la obtención de metadatos de GenBank (<code>-g</code>).</p>
+<p><em>Filtros de fecha</em></p>
+<p><code>--min_collection_date</code><br />
+Filtra por fecha mínima de recolección de la muestra (YYYY-MM-DD).</p>
+<p><code>--max_collection_date</code><br />
+Filtra por fecha máxima de recolección de la muestra (YYYY-MM-DD).</p>
+<p><code>--min_release_date</code><br />
+Filtra por fecha mínima de liberación de la secuencia (YYYY-MM-DD).</p>
+<p><code>--max_release_date</code><br />
+Filtra por fecha máxima de liberación de la secuencia (YYYY-MM-DD).</p>
+<p><em>Filtros de ubicación y remitente</em></p>
+<p><code>--geographic_location</code><br />
+Filtra por ubicación geográfica de la recolección de la muestra (p. ej. 'USA', 'Asia').</p>
+<p><code>--submitter_name</code><br />
+Filtra por el nombre del autor remitente. Puede ser un solo nombre o una lista de nombres. Cualquier nombre que coincida mantendrá la secuencia.<br />
+Línea de comandos: <code>--submitter_name &quot;John Doe&quot;</code> o <code>--submitter_name &quot;John Doe,Jane Smith&quot;</code> (separados por comas)<br />
+Python: <code>submitter_name=&quot;John Doe&quot;</code> o <code>submitter_name=[&quot;John Doe&quot;, &quot;Jane Smith&quot;]</code></p>
+<p><code>--submitter_institution</code><br />
+Filtra por la institución del remitente. Puede ser una sola institución o una lista de instituciones. Cualquier institución que coincida mantendrá la secuencia.<br />
+Línea de comandos: <code>--submitter_institution CDC</code> o <code>--submitter_institution CDC,NIH,WHO</code> (separados por comas, sin espacios)<br />
+Python: <code>submitter_institution=&quot;CDC&quot;</code> o <code>submitter_institution=[&quot;CDC&quot;, &quot;NIH&quot;, &quot;WHO&quot;]</code></p>
+<p><code>--submitter_country</code><br />
+Filtra por el país del remitente de la secuencia. Puede ser un solo país o una lista de países.<br />
+Línea de comandos: <code>--submitter_country USA</code> o <code>--submitter_country USA,Germany,Japan</code> (separados por comas, sin espacios)<br />
+Python: <code>submitter_country=&quot;USA&quot;</code> o <code>submitter_country=[&quot;USA&quot;, &quot;Germany&quot;, &quot;Japan&quot;]</code></p>
+<p><code>--source_database</code><br />
+Filtra por base de datos de origen. Uno de: 'genbank' o 'refseq'.</p>
+<p><em>Filtros de muestra y aislado</em></p>
+<p><code>--isolate</code><br />
+Filtra por nombre de aislado (p. ej. 'Wuhan-hu-1'). Puede ser un solo nombre de aislado o una lista de nombres de aislados. Cualquier aislado que coincida mantendrá la secuencia.<br />
+Línea de comandos: <code>--isolate Wuhan-hu-1</code> o <code>--isolate Wuhan-hu-1,LASV_3609</code> (separados por comas, sin espacios)<br />
+Python: <code>isolate=&quot;Wuhan-hu-1&quot;</code> o <code>isolate=[&quot;Wuhan-hu-1&quot;, &quot;LASV_3609&quot;]</code></p>
+<p><code>--isolation_source</code><br />
+Filtra por fuente de aislamiento (tejido/espécimen/fuente) (p. ej. 'blood', 'serum'). Puede ser una sola fuente o una lista de fuentes. Cualquier fuente que coincida mantendrá la secuencia.<br />
+Línea de comandos: <code>--isolation_source blood</code> o <code>--isolation_source blood,serum,plasma</code> (separados por comas, sin espacios)<br />
+Python: <code>isolation_source=&quot;blood&quot;</code> o <code>isolation_source=[&quot;blood&quot;, &quot;serum&quot;, &quot;plasma&quot;]</code></p>
+<p><code>--env_source</code><br />
+Filtra por fuente ambiental (p. ej. 'water', 'sewage'). Excluye cualquier secuencia con hospedadores nombrados. NO combinar con el filtro <code>--host</code>. Puede ser una sola fuente o una lista de fuentes. Cualquier fuente que coincida mantendrá la secuencia.<br />
+Línea de comandos: <code>--env_source water</code> o <code>--env_source water,soil,air</code> (separados por comas, sin espacios)<br />
+Python: <code>env_source=&quot;water&quot;</code> o <code>env_source=[&quot;water&quot;, &quot;soil&quot;, &quot;air&quot;]</code><br />
+<strong>Nota:</strong> El uso de este filtro habilita automáticamente la obtención de metadatos de GenBank (<code>-g</code>).</p>
+<p><em>Filtros de clasificación viral</em></p>
+<p><code>--genotype</code><br />
+Filtra por genotipo (p. ej. 'H5N1', 'H3N2'). Puede ser un solo genotipo o una lista de genotipos. Cualquier genotipo que coincida mantendrá la secuencia.<br />
+Línea de comandos: <code>--genotype H5N1</code> o <code>--genotype H5N1,H3N2</code> (separados por comas, sin espacios)<br />
+Python: <code>genotype=&quot;H5N1&quot;</code> o <code>genotype=[&quot;H5N1&quot;, &quot;H3N2&quot;]</code><br />
+<strong>Nota:</strong> El uso de este filtro habilita automáticamente la obtención de metadatos de GenBank (<code>-g</code>).</p>
+<p><code>--gen_mol_type</code><br />
+Filtra por tipo de molécula genómica (p. ej. 'dsDNA', 'RNA'). Puede ser un solo tipo o una lista de tipos. Cualquier tipo de molécula que coincida mantendrá la secuencia.<br />
+Línea de comandos: <code>--gen_mol_type dsDNA</code> o <code>--gen_mol_type RNA,dsRNA</code> (separados por comas, sin espacios)<br />
+Python: <code>gen_mol_type=&quot;dsDNA&quot;</code> o <code>gen_mol_type=[&quot;RNA&quot;, &quot;dsRNA&quot;]</code><br />
+<strong>Nota:</strong> El uso de este filtro habilita automáticamente la obtención de metadatos de GenBank (<code>-g</code>).</p>
+<p><em>Filtros específicos de SARS-CoV-2</em></p>
+<p><code>--lineage</code><br />
+Filtra por linaje Pango de SARS-CoV-2 (p. ej. 'B.1.1.7', 'P.1'). Puede ser un solo linaje o una lista de linajes. Cualquier linaje que coincida mantendrá la secuencia.<br />
+Línea de comandos: <code>--lineage B.1.1.7</code> o <code>--lineage B.1.1.7,P.1</code> (separados por comas, sin espacios)<br />
+Python: <code>lineage=&quot;B.1.1.7&quot;</code> o <code>lineage=[&quot;B.1.1.7&quot;, &quot;P.1&quot;]</code></p>
+<p><em>Configuración del pipeline</em></p>
+<p><code>--genbank_batch_size</code><br />
+Tamaño de lote para solicitudes a la API de metadatos de GenBank. Por defecto: 200. Lotes más grandes son más rápidos pero pueden ser más propensos a timeouts.</p>
+<p><code>-o</code> <code>--out</code><br />
+Ruta a la carpeta donde se guardarán los resultados. Por defecto: <code>./gget_virus_output/{virus}_{timestamp}/</code> en el directorio de trabajo actual.<br />
+Python: <code>outfolder=&quot;path/to/folder&quot;</code></p>
+<p><code>--baseline</code><br />
+Ruta a un archivo de metadatos de referencia (CSV, JSONL, JSON o texto) que contiene accesiones a omitir. Solo se descargarán las accesiones nuevas que no se encuentren en la referencia. Útil para actualizaciones incrementales o para reanudar después de fallos de la API.<br />
+Los archivos CSV deben tener una columna 'accession'. Los archivos de texto deben tener una accesión por línea.<br />
+Python: <code>baseline_metadata=&quot;path/to/previous_metadata.csv&quot;</code></p>
+<p><code>--merge-results</code><br />
+Al usar <code>--baseline</code>, fusiona los resultados nuevos con la referencia en un único archivo de salida combinado. Este es el comportamiento predeterminado.<br />
+Python: <code>merge_results=True</code> (predeterminado)</p>
+<p><code>--no-merge</code><br />
+Al usar <code>--baseline</code>, genera los resultados nuevos por separado de la referencia en lugar de fusionarlos. Crea <code>{virus}_new.csv</code> (solo secuencias nuevas) y conserva la referencia como referencia.<br />
+Python: <code>merge_results=False</code></p>
+<p><strong>Banderas</strong><br />
+<code>-a</code> <code>--is_accession</code><br />
+Bandera para indicar que el argumento posicional <code>virus</code> es un número de acceso, una lista de accesiones separadas por espacios, o una ruta a un archivo de texto que contiene números de acceso (uno por línea).</p>
+<p><code>--download_all_accessions</code><br />
+Use esta bandera al aplicar filtros sin buscar un virus específico (deje el argumento <code>virus</code> vacío).<br />
+⚠️ <strong>ADVERTENCIA</strong>: Si no especifica filtros adicionales, esta bandera descargará TODAS las secuencias virales disponibles de NCBI (toda la taxonomía de Virus, taxon ID 10239). Este es un conjunto de datos extremadamente grande que puede tardar muchas horas en descargarse y requerir un espacio considerable en disco. Úsela con precaución y asegúrese de contar con suficiente almacenamiento y ancho de banda. Cuando esta bandera está activada, el argumento <code>virus</code> se ignora.</p>
+<p><code>--is_sars_cov2</code><br />
+Usa los paquetes de datos optimizados en caché de NCBI para una consulta de SARS-CoV-2. Esto proporciona descargas más rápidas y confiables. El sistema puede detectar automáticamente consultas por nombre de taxón de SARS-CoV-2, pero para consultas basadas en accesiones debes establecer esta bandera explícitamente.</p>
+<p><code>--is_alphainfluenza</code><br />
+Usa los paquetes de datos optimizados en caché de NCBI para una consulta de Alphainfluenza (virus de la Influenza A). Esto proporciona descargas más rápidas y confiables para grandes conjuntos de datos de Influenza A. El sistema puede detectar automáticamente consultas por nombre de taxón de Alphainfluenza, pero para consultas basadas en accesiones debes establecer esta bandera explícitamente.</p>
+<p><code>-g</code> <code>--genbank_metadata</code><br />
+Obtiene y guarda metadatos adicionales detallados desde GenBank, incluyendo fechas de recolección, detalles del hospedador y referencias de publicaciones, en un archivo separado <code>{virus}_genbank_metadata.csv</code> (además de volcados completos XML/CSV dumps).<br />
+<strong>Nota:</strong> Esta bandera se habilita automáticamente al usar cualquiera de los siguientes filtros dependientes de GenBank: <code>--has_proteins</code>, <code>--gen_mol_type</code>, <code>--env_source</code>, <code>--genotype</code>, <code>--provirus</code>, <code>--min_gene_count</code>, <code>--max_gene_count</code>, <code>--min_mature_peptide_count</code>, <code>--max_mature_peptide_count</code>.</p>
+<p><code>--proteins_complete</code><br />
+Bandera para incluir solo secuencias donde todas las proteínas anotadas estén completas.</p>
+<p><code>-kt</code> <code>--keep_temp</code><br />
+Bandera para conservar todos los archivos intermedios/temporales generados durante el procesamiento. Por defecto, solo se conservan los archivos de salida finales.</p>
+<p><code>-q</code> <code>--quiet</code><br />
+Uso limitado para Terminal. Impide la información de progreso de ser exhibida durante la ejecución del programa.<br />
+Para Python, usa <code>verbose=False</code>.</p>
+<h3 id="ejemplo"><a class="header" href="#ejemplo">Ejemplo</a></h3>
+<pre><code class="language-bash">gget virus &quot;Zika virus&quot; --nuc_completeness complete --host human --out zika_data
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+
+gget.virus(
+  &quot;Zika virus&quot;,
+  nuc_completeness=&quot;complete&quot;,
+  host=&quot;human&quot;,
+  outfolder=&quot;zika_data&quot;
+)
+</code></pre>
+<p>→ Descarga genomas completos de Zika virus de hospedadores humanos. Los resultados se guardan en la carpeta <code>zika_data</code> como <code>Zika_virus_sequences.fasta</code>, <code>Zika_virus_metadata.csv</code>, <code>Zika_virus_metadata.jsonl</code> y <code>command_summary.txt</code>.</p>
+<p><br><br>
+<strong>Descargar un genoma de referencia específico de SARS-CoV-2 usando su número de acceso:</strong></p>
+<pre><code class="language-bash">gget virus NC_045512.2 --is_accession --is_sars_cov2
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+
+gget.virus(&quot;NC_045512.2&quot;, is_accession=True, is_sars_cov2=True)
+</code></pre>
+<p>→ Uses the optimized download method for SARS-CoV-2 to fetch the reference genome and its metadata.</p>
+<p><br><br>
+<strong>Descargar secuencias de SARS-CoV-2 con optimización en caché Y metadatos de GenBank:</strong></p>
+<pre><code class="language-bash">gget virus &quot;SARS-CoV-2&quot; --host human --nuc_completeness complete --min_seq_length 29000 --genbank_metadata
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+
+gget.virus(
+  &quot;SARS-CoV-2&quot;, 
+  host=&quot;human&quot;, 
+  nuc_completeness=&quot;complete&quot;,
+  min_seq_length=29000,
+  genbank_metadata=True,
+  is_sars_cov2=True,
+  outfolder=&quot;covid_data&quot;
+)
+</code></pre>
+<p>→ Uses cached download for speed (via NCBI's SARS-CoV-2 data packages when available), applies the sequence length filter post-download, and fetches detailed GenBank metadata for all filtered sequences.</p>
+<p><br><br>
+<strong>Descargar secuencias del virus de la Influenza A con caché optimizada y filtrado posterior a la descarga:</strong></p>
+<pre><code class="language-bash">gget virus &quot;Influenza A virus&quot; --host human --nuc_completeness complete --max_seq_length 15000 --genbank_metadata --is_alphainfluenza
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+
+gget.virus(
+  &quot;Influenza A virus&quot;, 
+  host=&quot;human&quot;, 
+  nuc_completeness=&quot;complete&quot;,
+  max_seq_length=15000,
+  genbank_metadata=True,
+  is_alphainfluenza=True,
+  outfolder=&quot;influenza_a_data&quot;
+)
+</code></pre>
+<p>→ Usa los paquetes de datos en caché de NCBI para Alphainfluenza para descargar genomas completos de Influenza A de hospedadores humanos mucho más rápido que el método estándar de API, luego aplica el filtro de longitud de secuencia y obtiene metadatos de GenBank.</p>
+<p><br><br>
+<strong>Reanudar una descarga fallida usando deduplicación de referencia:</strong></p>
+<pre><code class="language-bash">gget virus &quot;SARS-CoV-2&quot; --host human --nuc_completeness complete --baseline previous_run/SARS_CoV_2_metadata.csv --merge-results -o covid_update
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+
+gget.virus(
+  &quot;SARS-CoV-2&quot;,
+  host=&quot;human&quot;,
+  nuc_completeness=&quot;complete&quot;,
+  baseline_metadata=&quot;previous_run/SARS_CoV_2_metadata.csv&quot;,
+  merge_results=True,
+  outfolder=&quot;covid_update&quot;
+)
+</code></pre>
+<p>→ Carga las accesiones del archivo de metadatos de una ejecución anterior, omite las ya descargadas y fusiona los resultados nuevos con la referencia en una salida combinada única.</p>
+<hr />
+<h3 id="archivos-de-salida"><a class="header" href="#archivos-de-salida">Archivos de salida</a></h3>
+<p><code>gget virus</code> guarda los resultados en la carpeta de salida especificada (por defecto: <code>./gget_virus_output/{virus}_{timestamp}/</code>). Los archivos de salida estándar son:</p>
+<div class="table-wrapper"><table><thead><tr><th>Archivo</th><th>Descripción</th></tr></thead><tbody>
+<tr><td><code>{virus}_sequences.fasta</code></td><td>Secuencias nucleotídicas en formato FASTA</td></tr>
+<tr><td><code>{virus}_metadata.csv</code></td><td>Metadatos de todas las secuencias en formato CSV</td></tr>
+<tr><td><code>{virus}_metadata.jsonl</code></td><td>Metadatos en formato JSONL (un objeto JSON por línea)</td></tr>
+<tr><td><code>{virus}_genbank_metadata.csv</code></td><td>Metadatos detallados de GenBank (solo cuando se usa <code>-g</code> o se habilita automáticamente)</td></tr>
+<tr><td><code>{virus}_genbank_metadata_full.xml</code></td><td>Volcado XML completo de GenBank (solo cuando se usa <code>-g</code>)</td></tr>
+<tr><td><code>{virus}_genbank_metadata_full.csv</code></td><td>Volcado CSV completo de GenBank - formato XML legible (solo cuando se usa <code>-g</code>)</td></tr>
+<tr><td><code>command_summary.txt</code></td><td>Resumen de ejecución con estadísticas, archivos de salida y errores</td></tr>
+</tbody></table>
+</div>
+<h3 id="archivo-de-resumen-de-comando"><a class="header" href="#archivo-de-resumen-de-comando">Archivo de resumen de comando</a></h3>
+<p>Cada ejecución de <code>gget virus</code> genera un archivo <code>command_summary.txt</code> en la carpeta de salida, proporcionando un registro completo de la ejecución, incluyendo el comando exacto utilizado, estadísticas del conjunto de datos, archivos de salida con tamaños y detalles de cualquier error u operación fallida. Esto es útil para reproducibilidad, depuración y recuperación manual después de fallos parciales.</p>
+<p><strong>Ejemplo de <code>command_summary.txt</code> para una ejecución exitosa:</strong></p>
+<pre><code>GGET VIRUS COMMAND SUMMARY
+
+Execution Date: 2026-03-15 14:30:22
+Output Folder: /home/user/zika_data
+
+--------------------------------------------------------------------------------
+SOFTWARE VERSIONS
+--------------------------------------------------------------------------------
+gget version: 0.28.10
+NCBI datasets version: 16.40.2
+
+--------------------------------------------------------------------------------
+COMMAND LINE
+--------------------------------------------------------------------------------
+gget virus &quot;Zika virus&quot; --nuc_completeness complete --host human --out zika_data
+
+--------------------------------------------------------------------------------
+EXECUTION STATUS
+--------------------------------------------------------------------------------
+✅ Command completed successfully
+
+--------------------------------------------------------------------------------
+RUNTIME
+--------------------------------------------------------------------------------
+Total wall-clock time: 4m 12s (252.3 seconds)
+
+--------------------------------------------------------------------------------
+MEMORY USAGE
+--------------------------------------------------------------------------------
+Process RSS (resident memory): 512.4 MB
+Process VMS (virtual memory): 1024.8 MB
+Process memory percent: 3.2%
+System total memory: 16384 MB
+System available memory: 12288 MB
+System memory used: 25.0%
+
+--------------------------------------------------------------------------------
+SEQUENCE STATISTICS
+--------------------------------------------------------------------------------
+Total records from API: 1523
+After metadata filtering: 1523
+Final sequences (after all filters): 1523
+
+--------------------------------------------------------------------------------
+FILTER BREAKDOWN BY STAGE
+--------------------------------------------------------------------------------
+
+No records were filtered out at any stage.
+
+--------------------------------------------------------------------------------
+DETAILED STATISTICS
+--------------------------------------------------------------------------------
+Unique hosts: 1
+  - Homo sapiens
+
+Unique geographic locations: 42
+  - Brazil
+  - Colombia
+  - ...
+
+Sequence length range: 10217 - 10839 bp
+Average sequence length: 10708 bp
+
+Completeness breakdown:
+  - complete: 1523
+
+Source database breakdown:
+  - GenBank: 1510
+  - RefSeq: 13
+
+--------------------------------------------------------------------------------
+OUTPUT FILES
+--------------------------------------------------------------------------------
+FASTA Sequences: Zika_virus_sequences.fasta (16.02 MB)
+CSV Metadata: Zika_virus_metadata.csv (1.85 MB)
+JSONL Metadata: Zika_virus_metadata.jsonl (3.41 MB)
+
+END OF SUMMARY
+</code></pre>
+<br>
+<p><strong>Ejemplo de <code>command_summary.txt</code> después de un error del servidor de la API:</strong></p>
+<pre><code>GGET VIRUS COMMAND SUMMARY
+
+Execution Date: 2026-03-19 21:03:22
+Output Folder: /home/user/11632_20260319_210251
+
+--------------------------------------------------------------------------------
+COMMAND LINE
+--------------------------------------------------------------------------------
+gget virus 11632 --nuc_completeness complete --geographic_location Gabon --host human
+
+--------------------------------------------------------------------------------
+EXECUTION STATUS
+--------------------------------------------------------------------------------
+✗ Command failed
+Error: HTTP error while fetching virus metadata: 500 Server Error: Internal Server
+Error for url: https://api.ncbi.nlm.nih.gov/datasets/v2/virus/taxon/11632/dataset_report
+?filter.complete_only=true&amp;filter.host=human&amp;filter.geo_location=Gabon&amp;page_size=1000
+
+🔧 SERVER ERROR DETECTED: NCBI's API is experiencing temporary server-side issues.
+This is not a problem with your query.
+Try again in a few minutes, or consider using more specific filters to reduce the dataset size.
+
+--------------------------------------------------------------------------------
+SEQUENCE STATISTICS
+--------------------------------------------------------------------------------
+Total records from API: 0
+After metadata filtering: 0
+Final sequences (after all filters): 0
+
+--------------------------------------------------------------------------------
+OUTPUT FILES
+--------------------------------------------------------------------------------
+No output files generated
+
+END OF SUMMARY
+</code></pre>
+<br>
+<p><strong>Ejemplo de <code>command_summary.txt</code> con lotes de metadatos fallidos e instrucciones de recuperación:</strong></p>
+<pre><code>GGET VIRUS COMMAND SUMMARY
+
+Execution Date: 2026-04-01 10:15:33
+Output Folder: /home/user/hiv_data
+
+--------------------------------------------------------------------------------
+COMMAND LINE
+--------------------------------------------------------------------------------
+gget virus &quot;HIV-1&quot; --host human --nuc_completeness complete
+
+--------------------------------------------------------------------------------
+EXECUTION STATUS
+--------------------------------------------------------------------------------
+✗ Command failed
+Error: HTTP error while fetching virus metadata after 15 retries
+
+--------------------------------------------------------------------------------
+SEQUENCE STATISTICS
+--------------------------------------------------------------------------------
+Total records from API: 8500
+After metadata filtering: 0
+Final sequences (after all filters): 0
+
+--------------------------------------------------------------------------------
+💾 PARTIAL METADATA RECOVERY
+--------------------------------------------------------------------------------
+Partial metadata saved: /home/user/hiv_data/HIV_1_partial_metadata_api_failure.jsonl
+
+Recovery command:
+  gget virus HIV-1 --baseline /home/user/hiv_data/HIV_1_partial_metadata_api_failure.jsonl --merge-results -o /home/user/hiv_data
+
+--------------------------------------------------------------------------------
+⚠️ FAILED OPERATIONS - MANUAL RETRY REQUIRED
+--------------------------------------------------------------------------------
+
+📍 FAILED METADATA BATCHES (2 batches):
+
+   Batch 3: 1000 accessions
+   Error: 500 Server Error: Internal Server Error
+   API URL: https://api.ncbi.nlm.nih.gov/datasets/v2/virus/taxon/11676/dataset_report?...
+
+   Batch 7: 1000 accessions
+   Error: ConnectionError: Connection reset by peer
+   API URL: https://api.ncbi.nlm.nih.gov/datasets/v2/virus/taxon/11676/dataset_report?...
+
+📍 PAGINATION TIMEOUTS (1 pages):
+   Page 5: 4000 records retrieved
+   Error: ReadTimeout: HTTPSConnectionPool read timed out
+
+💡 RECOVERY INSTRUCTIONS:
+   1. Copy the URL from above and paste it into your browser
+   2. Save the downloaded file manually
+   3. Retry the command with updated filters (e.g., stricter date ranges)
+   4. If the issue persists, NCBI servers may be temporarily unavailable
+
+   5. RESUME with baseline deduplication:
+      gget virus HIV-1 --baseline /home/user/hiv_data/HIV_1_partial_metadata_api_failure.jsonl --merge-results -o /home/user/hiv_data
+
+--------------------------------------------------------------------------------
+OUTPUT FILES
+--------------------------------------------------------------------------------
+No output files generated
+
+END OF SUMMARY
+</code></pre>
+<br>
+<p><strong>Ejemplo de <code>command_summary.txt</code> completado con advertencias de GenBank y lotes de secuencias fallidos:</strong></p>
+<pre><code>GGET VIRUS COMMAND SUMMARY
+
+Execution Date: 2026-03-20 08:45:11
+Output Folder: /home/user/ebola_data
+
+--------------------------------------------------------------------------------
+COMMAND LINE
+--------------------------------------------------------------------------------
+gget virus &quot;Ebola virus&quot; --host human --genbank_metadata --out ebola_data
+
+--------------------------------------------------------------------------------
+EXECUTION STATUS
+--------------------------------------------------------------------------------
+Command completed with warnings
+⚠️ GenBank metadata retrieval failed: Connection timed out after 5 retries
+
+--------------------------------------------------------------------------------
+RUNTIME
+--------------------------------------------------------------------------------
+Total wall-clock time: 12m 45s (765.2 seconds)
+
+--------------------------------------------------------------------------------
+MEMORY USAGE
+--------------------------------------------------------------------------------
+Process RSS (resident memory): 1024.5 MB
+Process VMS (virtual memory): 2048.3 MB
+Process memory percent: 6.3%
+System total memory: 16384 MB
+System available memory: 10240 MB
+System memory used: 37.5%
+
+--------------------------------------------------------------------------------
+SEQUENCE STATISTICS
+--------------------------------------------------------------------------------
+Total records from API: 2150
+After metadata filtering: 2150
+After GenBank metadata filtering: 2130
+Final sequences (after all filters): 2130
+
+--------------------------------------------------------------------------------
+FILTER BREAKDOWN BY STAGE
+--------------------------------------------------------------------------------
+
+GenBank metadata filtering (records excluded):
+  genbank_fetch_failed: 20
+
+--------------------------------------------------------------------------------
+⚠️ FAILED OPERATIONS - MANUAL RETRY AVAILABLE
+--------------------------------------------------------------------------------
+
+📍 FAILED SEQUENCE DOWNLOAD BATCHES (1 batches):
+
+   Batch 4
+   Error: 503 Service Unavailable
+   Retry URL: https://api.ncbi.nlm.nih.gov/datasets/v2/virus/genome/download?accessions=...
+
+📍 SEQUENCE FETCH FAILURES (1 operations):
+
+   Operation: batch_sequence_download
+   Accessions: 20
+   Error: ReadTimeout: HTTPSConnectionPool read timed out
+   Retry URL: https://api.ncbi.nlm.nih.gov/datasets/v2/virus/genome/download?accessions=...
+
+💡 RECOVERY INSTRUCTIONS:
+   1. Copy the URL from above and paste it into your browser
+   2. Save the downloaded file manually
+   3. Retry the command with updated filters (e.g., stricter date ranges)
+   4. If the issue persists, NCBI servers may be temporarily unavailable
+
+--------------------------------------------------------------------------------
+OUTPUT FILES
+--------------------------------------------------------------------------------
+FASTA Sequences: Ebola_virus_sequences.fasta (24.31 MB)
+CSV Metadata: Ebola_virus_metadata.csv (2.10 MB)
+JSONL Metadata: Ebola_virus_metadata.jsonl (4.56 MB)
+
+END OF SUMMARY
+</code></pre>
+<p>El archivo de resumen rastrea los siguientes tipos de fallos, cada uno con detalles accionables (mensajes de error, URLs para reintento manual, comandos de recuperación):</p>
+<ul>
+<li><strong>Tiempo de espera de API agotado</strong> — La API de NCBI agotó el tiempo de espera durante la obtención inicial de metadatos.</li>
+<li><strong>Respuesta vacía de la API</strong> — La API no devolvió resultados para la consulta dada.</li>
+<li><strong>Lotes de metadatos fallidos</strong> — Una o más solicitudes de API paginadas para metadatos fallaron después de reintentos.</li>
+<li><strong>Tiempos de espera/errores de paginación</strong> — Páginas específicas de resultados agotaron el tiempo de espera o devolvieron errores durante la paginación.</li>
+<li><strong>Lotes de descarga de secuencias fallidos</strong> — Uno o más lotes de descargas de secuencias (FASTA) fallaron.</li>
+<li><strong>Fallos de obtención de secuencias</strong> — Operaciones individuales de descarga de secuencias fallaron.</li>
+<li><strong>Errores de metadatos de GenBank</strong> — La obtención de metadatos de GenBank falló (el comando aún se completa con una advertencia).</li>
+<li><strong>Recuperación parcial de metadatos</strong> — Cuando la API falla a mitad de descarga, los metadatos parciales se guardan en un archivo JSONL con un comando de recuperación para reanudar usando <code>--baseline</code>.</li>
+</ul>
+<h4 id="más-ejemplos"><a class="header" href="#más-ejemplos"><a href="https://github.com/pachterlab/gget_examples/tree/main/gget_virus">Más ejemplos</a></a></h4>
+<h1 id="citar"><a class="header" href="#citar">Citar</a></h1>
+<p>Si utilizas <code>gget virus</code> en una publicación, por favor cita los siguientes artículos:</p>
+<ul>
+<li>
+<p>Nasri, F., Gurev, S., Varilly, P., Ramesh, K., O'Leary, N. A., Cool, J., Renard, B. Y., Sabeti, P. C., &amp; Luebbert, L. (2026). Deterministic access to global viral sequence data enables robust agentic scientific discovery. <a href="https://arxiv.org/abs/2606.06749">arXiv:2606.06749</a></p>
+</li>
+<li>
+<p>Luebbert, L., &amp; Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. <a href="https://doi.org/10.1093/bioinformatics/btac836">https://doi.org/10.1093/bioinformatics/btac836</a></p>
+</li>
+<li>
+<p>O'Leary, N.A., Cox, E., Holmes, J.B. et al (2024). Exploring and retrieving sequence and metadata for species across the tree of life with NCBI Datasets. Sci Data 11, 732. <a href="https://doi.org/10.1038/s41597-024-03571-y">https://doi.org/10.1038/s41597-024-03571-y</a></p>
+</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../es/seq.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../es/contributing.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../es/seq.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../es/contributing.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

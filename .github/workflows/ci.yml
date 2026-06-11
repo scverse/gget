@@ -1,0 +1,161 @@
+name: CI - tests
+
+on:
+  # Scheduled runs twice weekly.
+  # These runs execute tests on both Python versions, save the pytest output to a file,
+  # upload the file as an artifact, and commit the 3.12 report back to main.
+  schedule:
+    - cron: "0 16 * * 1,4"
+
+  # Push runs only when package code or tests change.
+  # These runs execute tests normally and fail immediately on test failure.
+  push:
+    paths:
+      - "gget/**"
+      - "tests/**"
+      # Avoid recursively triggering on committed pytest result files.
+      - "!tests/pytest_results_py*.txt"
+
+  # Manual runs behave like scheduled runs:
+  # save output, upload artifact, and optionally commit report back to main.
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Test on Python ${{ matrix.python }}
+    runs-on: ubuntu-22.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12"]
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install -r requirements.txt
+          python -m pip install -r dev-requirements.txt
+
+      # Push behavior:
+      # run pytest normally and let this step fail the job immediately if tests fail.
+      - name: Run tests on push
+        if: github.event_name == 'push'
+        run: |
+          pytest -ra -v --tb=long --durations=10 \
+            --cov=gget --cov-report=term-missing tests
+
+      # Scheduled/manual behavior:
+      # run pytest, save full output to a file, and capture the real pytest exit code.
+      #
+      # Important:
+      # - GitHub bash shells may stop on non-zero commands before later lines run.
+      # - We temporarily disable errexit with "set +e" so failed tests do not prevent
+      #   us from recording PIPESTATUS[0] and writing it to GITHUB_OUTPUT.
+      # - continue-on-error keeps later artifact/commit steps running.
+      - name: Run tests and save output for scheduled/manual runs
+        id: pytest_saved
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+
+          OUT="tests/pytest_results_py${{ matrix.python }}.txt"
+          echo "Pytest results (Python ${{ matrix.python }}) - $(date -u +"%Y-%m-%dT%H:%M:%SZ")" > "$OUT"
+          echo "" >> "$OUT"
+
+          set +e
+          pytest -ra -v --tb=long --durations=10 \
+            --cov=gget --cov-report=term-missing tests 2>&1 | tee -a "$OUT"
+          code=${PIPESTATUS[0]}
+          set -e
+
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          echo "pytest exit code: $code"
+
+          # Do not fail here; a later step fails the job after artifacts/report handling.
+          exit 0
+
+      # Upload the saved pytest report as an artifact.
+      # Only do this once (3.12) to avoid duplicate artifacts from the matrix.
+      - name: Upload pytest results artifact
+        if: always() && matrix.python == '3.12' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-results-py${{ matrix.python }}
+          path: tests/pytest_results_py${{ matrix.python }}.txt
+
+      # Commit the saved pytest report back to the repository.
+      # Safety guards:
+      # - only on scheduled/manual runs
+      # - only once (3.12) to avoid matrix push races
+      # - commits back to the branch that the run was triggered from
+      # Retry logic helps if the branch moved while this job was running.
+      - name: Commit and push pytest results
+        if: >
+          always() &&
+          matrix.python == '3.12' &&
+          (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        shell: bash
+        run: |
+          set -euo pipefail
+      
+          BRANCH="${GITHUB_REF#refs/heads/}"
+          echo "Current branch: $BRANCH"
+      
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+      
+          git add tests/pytest_results_py*.txt
+      
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+      
+          git commit -m "CI: update pytest results ($BRANCH)"
+      
+          for attempt in 1 2 3 4 5; do
+            echo "Push attempt $attempt..."
+            git pull --rebase --autostash origin "$BRANCH" || true
+            if git push origin "$BRANCH"; then
+              exit 0
+            fi
+            sleep $((attempt * 5))
+          done
+      
+          echo "Push failed after retries."
+          exit 1
+
+      # After scheduled/manual runs, explicitly fail the job if pytest failed.
+      # This step is separate so that artifact upload and report commit can still happen
+      # even when tests fail.
+      - name: Fail job if pytest failed
+        if: always() && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        shell: bash
+        run: |
+          code="${{ steps.pytest_saved.outputs.exit_code }}"
+          echo "Captured pytest exit code: ${code:-<missing>}"
+
+          # Missing output means something went wrong before exit code capture.
+          if [ -z "${code:-}" ]; then
+            echo "pytest exit code was not captured"
+            exit 1
+          fi
+
+          if [ "$code" != "0" ]; then
+            exit "$code"
+          fi

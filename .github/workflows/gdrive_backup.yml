@@ -1,0 +1,60 @@
+name: Backup gget Repo on Google Drive
+
+on:
+  schedule:
+    - cron: "0 0 1 * *"  # Runs at midnight on the 1st of every month
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set backup filename
+        run: echo "BACKUP_FILE=$(echo \"${{ github.repository }}-backup-$(date +%F).tar.gz\" | sed 's/\//-/g')" >> $GITHUB_ENV
+
+      - name: Clone the repository (mirror all branches and history)
+        run: |
+          git clone --mirror https://github.com/${{ github.repository }}.git repo-mirror
+
+      - name: Create backup archive
+        run: |
+          tar -czvf "$BACKUP_FILE" repo-mirror
+
+      - name: Check if backup archive exists
+        run: |
+          if [ -f "$BACKUP_FILE" ]; then
+            echo "Backup file found: $BACKUP_FILE"
+            ls -lh "$BACKUP_FILE"
+          else
+            echo "Backup file not found!"
+            exit 1
+          fi
+
+      - name: Create credentials.json
+        id: create-json
+        uses: jsdaniell/create-json@v1.2.3
+        with:
+          name: "credentials.json"
+          json: ${{ secrets.GDRIVE_BACKUP_CREDENTIALS }}
+
+      - name: Install rclone
+        run: |
+          curl https://rclone.org/install.sh | sudo bash
+
+      - name: Configure rclone
+        run: |
+          mkdir -p ~/.config/rclone/
+          rclone config create gdrive drive \
+            --config ~/.config/rclone/rclone.conf \
+            service_account_file credentials.json || exit 1
+
+      - name: Upload archive to Google Drive
+        run: |
+          rclone copy "$BACKUP_FILE" gdrive:/GitHub_backups --drive-shared-with-me --verbose || exit 1
+
+      - name: Clean up
+        run: |
+          rm -rf repo-mirror
+          rm -f "$BACKUP_FILE"
+          rm -f credentials.json

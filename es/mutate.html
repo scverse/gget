@@ -1,0 +1,424 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>gget mutate - gget</title>
+
+
+        <!-- Custom HTML head -->
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZM4N3XBEW7"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-ZM4N3XBEW7');
+        </script>
+
+        <meta name="description" content="gget enables efficient querying of genomic reference databases">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../en/introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="../en/updates.html">What's New?</a></li><li class="chapter-item expanded affix "><a href="../en/dependents.html">Dependents & News</a></li><li class="chapter-item expanded affix "><li class="part-title">User Guide</li><li class="chapter-item expanded "><a href="../en/installation.html">Installation</a></li><li class="chapter-item expanded "><a href="../en/quick_start_guide.html">Quick Start Guide</a></li><li class="chapter-item expanded affix "><li class="part-title">Manual</li><li class="chapter-item expanded "><a href="../en/8cube.html">gget 8cube</a></li><li class="chapter-item expanded "><a href="../en/alphafold.html">gget alphafold</a></li><li class="chapter-item expanded "><a href="../en/archs4.html">gget archs4</a></li><li class="chapter-item expanded "><a href="../en/bgee.html">gget bgee</a></li><li class="chapter-item expanded "><a href="../en/blast.html">gget blast</a></li><li class="chapter-item expanded "><a href="../en/blat.html">gget blat</a></li><li class="chapter-item expanded "><a href="../en/cbio.html">gget cbio</a></li><li class="chapter-item expanded "><a href="../en/cellxgene.html">gget cellxgene</a></li><li class="chapter-item expanded "><a href="../en/cosmic.html">gget cosmic</a></li><li class="chapter-item expanded "><a href="../en/diamond.html">gget diamond</a></li><li class="chapter-item expanded "><a href="../en/elm.html">gget elm</a></li><li class="chapter-item expanded "><a href="../en/enrichr.html">gget enrichr</a></li><li class="chapter-item expanded "><a href="../en/gpt.html">gget gpt</a></li><li class="chapter-item expanded "><a href="../en/info.html">gget info</a></li><li class="chapter-item expanded "><a href="../en/muscle.html">gget muscle</a></li><li class="chapter-item expanded "><a href="../en/mutate.html">gget mutate</a></li><li class="chapter-item expanded "><a href="../en/opentargets.html">gget opentargets</a></li><li class="chapter-item expanded "><a href="../en/pdb.html">gget pdb</a></li><li class="chapter-item expanded "><a href="../en/ref.html">gget ref</a></li><li class="chapter-item expanded "><a href="../en/search.html">gget search</a></li><li class="chapter-item expanded "><a href="../en/setup.html">gget setup</a></li><li class="chapter-item expanded "><a href="../en/seq.html">gget seq</a></li><li class="chapter-item expanded "><a href="../en/virus.html">gget virus</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../en/contributing.html">Contributing Guide</a></li><li class="chapter-item expanded "><a href="../en/code_of_conduct.html">Code of Conduct</a></li><li class="chapter-item expanded "><a href="../en/cite.html">Citation Guidelines</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Español</li><li class="chapter-item expanded "><a href="../es/introduction.html">Introdución</a></li><li class="chapter-item expanded "><a href="../es/updates.html">¡Lo más reciente!</a></li><li class="chapter-item expanded "><a href="../es/dependents.html">Dependientes y Noticias</a></li><li class="chapter-item expanded affix "><li class="part-title">Guía del usario</li><li class="chapter-item expanded "><a href="../es/installation.html">Instalación</a></li><li class="chapter-item expanded "><a href="../es/quick_start_guide.html">Guía de inicio rápido</a></li><li class="chapter-item expanded affix "><li class="part-title">Manuál</li><li class="chapter-item expanded "><a href="../es/8cube.html">gget 8cube</a></li><li class="chapter-item expanded "><a href="../es/alphafold.html">gget alphafold</a></li><li class="chapter-item expanded "><a href="../es/archs4.html">gget archs4</a></li><li class="chapter-item expanded "><a href="../es/bgee.html">gget bgee</a></li><li class="chapter-item expanded "><a href="../es/blast.html">gget blast</a></li><li class="chapter-item expanded "><a href="../es/blat.html">gget blat</a></li><li class="chapter-item expanded "><a href="../es/cbio.html">gget cbio</a></li><li class="chapter-item expanded "><a href="../es/cellxgene.html">gget cellxgene</a></li><li class="chapter-item expanded "><a href="../es/cosmic.html">gget cosmic</a></li><li class="chapter-item expanded "><a href="../es/diamond.html">gget diamond</a></li><li class="chapter-item expanded "><a href="../es/elm.html">gget elm</a></li><li class="chapter-item expanded "><a href="../es/enrichr.html">gget enrichr</a></li><li class="chapter-item expanded "><a href="../es/gpt.html">gget gpt</a></li><li class="chapter-item expanded "><a href="../es/info.html">gget info</a></li><li class="chapter-item expanded "><a href="../es/muscle.html">gget muscle</a></li><li class="chapter-item expanded "><a href="../es/mutate.html" class="active">gget mutate</a></li><li class="chapter-item expanded "><a href="../es/opentargets.html">gget opentargets</a></li><li class="chapter-item expanded "><a href="../es/pdb.html">gget pdb</a></li><li class="chapter-item expanded "><a href="../es/ref.html">gget ref</a></li><li class="chapter-item expanded "><a href="../es/search.html">gget search</a></li><li class="chapter-item expanded "><a href="../es/setup.html">gget setup</a></li><li class="chapter-item expanded "><a href="../es/seq.html">gget seq</a></li><li class="chapter-item expanded "><a href="../es/virus.html">gget virus</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../es/contributing.html">Guía de contribución</a></li><li class="chapter-item expanded "><a href="../es/code_of_conduct.html">Codigo de conducto</a></li><li class="chapter-item expanded "><a href="../es/cite.html">Cómo citar</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">gget</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <p><a href="https://github.com/pachterlab/gget/blob/main/docs/src/es/mutate.md"><kbd> Ver el codigo fuente de la pagina en GitHub </kbd></a></p>
+<blockquote>
+<p>Parámetros de Python són iguales a los parámetros largos (<code>--parámetro</code>) de Terminal, si no especificado de otra manera. Banderas son parámetros de verdadero o falso (True/False) en Python. El manuál para cualquier modulo de gget se puede llamar desde la Terminal con la bandera <code>-h</code> <code>--help</code>.</p>
+</blockquote>
+<h1 id="gget-mutate-"><a class="header" href="#gget-mutate-">gget mutate 🧟</a></h1>
+<p>Recibe secuencias de nucleótidos y mutaciones (en <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1867422/">anotación de mutación estándar</a>) y devuelve versiones mutadas de las secuencias según las mutaciones proporcionadas.<br />
+Resultado: Guarda las secuencias mutadas en formato FASTA (o devuelve una lista que contiene las secuencias mutadas si <code>out=None</code>).</p>
+<p>Este módulo fue coescrito por <a href="https://github.com/josephrich98">Joseph Rich</a>.</p>
+<p><strong>Argumento posicional</strong><br />
+<code>sequences</code><br />
+Ruta al archivo FASTA que contiene las secuencias a ser mutadas, por ejemplo, 'path/to/seqs.fa'.<br />
+Los identificadores de las secuencias que siguen al carácter '&gt;' deben corresponder a los identificadores en la columna seq_ID de <code>mutations</code>.</p>
+<p>Formato de ejemplo del archivo FASTA:</p>
+<pre><code>&gt;seq1 (or ENSG00000106443)  
+ACTGCGATAGACT  
+&gt;seq2  
+AGATCGCTAG
+</code></pre>
+<p>Alternativamente: Secuencia(s) de entrada como una cadena o lista, por ejemplo, 'AGCTAGCT'.</p>
+<p>NOTA: Solo se utilizarán las letras hasta el primer espacio o punto como identificadores de secuencias; se ignorarán los números de versión de los IDs de Ensembl.<br />
+NOTA: Cuando la entrada <code>sequences</code> es un archivo fasta de genoma, consulte también el argumento <code>gtf</code> a continuación.</p>
+<p><strong>Argumentos requeridos</strong><br />
+<code>-m</code> <code>--mutations</code><br />
+Ruta al archivo csv o tsv (por ejemplo, 'path/to/mutations.csv') o marco de datos (objeto DataFrame) que contiene información sobre las mutaciones en el siguiente formato (las columnas 'notes' y 'mut_ID' son opcionales):</p>
+<div class="table-wrapper"><table><thead><tr><th>mutation</th><th>mut_ID</th><th>seq_ID</th><th>notes</th></tr></thead><tbody>
+<tr><td>c.2C&gt;T</td><td>mut1</td><td>seq1</td><td>-&gt; Aplicar mutación 1 a la secuencia 1</td></tr>
+<tr><td>c.9_13inv</td><td>mut2</td><td>seq2</td><td>-&gt; Aplicar mutación 2 a la secuencia 2</td></tr>
+<tr><td>c.9_13inv</td><td>mut2</td><td>seq4</td><td>-&gt; Aplicar mutación 2 a la secuencia 4</td></tr>
+<tr><td>c.9_13delinsAAT</td><td>mut3</td><td>seq4</td><td>-&gt; Aplicar mutación 3 a la secuencia 4</td></tr>
+<tr><td>...</td><td>...</td><td>...</td><td></td></tr>
+</tbody></table>
+</div>
+<p>'mutation' = Columna que contiene las mutaciones a realizar escritas en la anotación estándar de mutaciones<br />
+'mut_ID' = Columna que contiene el identificador para cada mutación<br />
+'seq_ID' = Columna que contiene los identificadores de las secuencias a ser mutadas (deben corresponder a la cadena que sigue al carácter '&gt;' en el archivo FASTA 'sequences'; NO incluya espacios ni puntos)</p>
+<p>Alternativamente: Mutación(es) de entrada como una cadena o lista, por ejemplo, 'c.2C&gt;T'.<br />
+Si se proporciona una lista, el número de mutaciones debe ser igual al número de secuencias de entrada.</p>
+<p>Para usar desde la terminal (bash): Enciérrale las anotaciones de mutación individuales entre comillas para evitar errores de análisis.</p>
+<p><strong>Argumentos opcionales relacionados con la entrada</strong><br />
+<code>-mc</code> <code>--mut_column</code><br />
+Nombre de la columna que contiene las mutaciones a realizar en <code>mutations</code>. Predeterminado: 'mutation'.</p>
+<p><code>-sic</code> <code>--seq_id_column</code><br />
+Nombre de la columna que contiene los ID de las secuencias a ser mutadas en <code>mutations</code>. Predeterminado: 'seq_ID'.</p>
+<p><code>-mic</code> <code>--mut_id_column</code><br />
+Nombre de la columna que contiene los IDs de cada mutación en <code>mutations</code>. Predeterminado: Igual que <code>mut_column</code>.</p>
+<p><code>-gtf</code> <code>--gtf</code><br />
+Ruta a un archivo .gtf. Al proporcionar un archivo fasta de genoma como entrada para 'sequences', puede proporcionar un archivo .gtf aquí y las secuencias de entrada se definirán de acuerdo con los límites de los transcritos, por ejemplo, 'path/to/genome_annotation.gtf'. Predeterminado: Ninguno</p>
+<p><code>-gtic</code> <code>--gtf_transcript_id_column</code><br />
+Nombre de la columna en el archivo de entrada <code>mutations</code> que contiene el ID del transcrito. En este caso, la columna <code>seq_id_column</code> debe contener el número de cromosoma.<br />
+Requerido cuando se proporciona <code>gtf</code>. Predeterminado: Ninguno</p>
+<p><strong>Argumentos opcionales para la generación/filtrado de secuencias mutantes</strong><br />
+<code>-k</code> <code>--k</code><br />
+Longitud de las secuencias que flanquean la mutación. Predeterminado: 30.<br />
+Si k &gt; longitud total de la secuencia, se mantendrá toda la secuencia.</p>
+<p><code>-msl</code> <code>--min_seq_len</code><br />
+Longitud mínima de la secuencia de salida mutante, por ejemplo, 100. Las secuencias mutantes más pequeñas que esto serán descartadas. Predeterminado: Ninguno</p>
+<p><code>-ma</code> <code>--max_ambiguous</code><br />
+Número máximo de caracteres 'N' (o 'n') permitidos en la secuencia de salida, por ejemplo, 10. Predeterminado: Ninguno (no se aplicará filtro de caracteres ambiguos)</p>
+<p><strong>Banderas opcionales para la generación/filtrado de secuencias mutantes</strong><br />
+<code>-ofr</code> <code>--optimize_flanking_regions</code><br />
+Elimina nucleótidos de cualquiera de los extremos de la secuencia mutante para asegurar (cuando sea posible) que la secuencia mutante no contenga ningún k-mer que también se encuentre en la secuencia de tipo salvaje/entrada. </p>
+<p><code>-rswk</code> <code>--remove_seqs_with_wt_kmers</code><br />
+Elimina las secuencias de salida donde al menos un k-mer también está presente en la secuencia de tipo salvaje/entrada en la misma región.<br />
+Cuando se utiliza con <code>--optimize_flanking_regions</code>, solo se eliminarán las secuencias para las cuales un k-mer de tipo salvaje aún está presente después de la optimización.</p>
+<p><code>-mio</code> <code>--merge_identical_off</code><br />
+No fusionar secuencias mutantes idénticas en la salida (por defecto, las secuencias idénticas se fusionarán concatenando los encabezados de secuencia para todas las secuencias idénticas).</p>
+<p><strong>Argumentos opcionales para generar salida adicional</strong><br />
+Esta salida se activa utilizando la bandera <code>--update_df</code> y se almacenará en una copia del DataFrame <code>mutations</code>.</p>
+<p><code>-udf_o</code> <code>--update_df_out</code><br />
+Ruta al archivo csv de salida que contiene el DataFrame actualizado, por ejemplo, 'path/to/mutations_updated.csv'. Solo válido cuando se usa con <code>--update_df</code>.<br />
+Predeterminado: Ninguno -&gt; el nuevo archivo csv se guardará en el mismo directorio que el DataFrame <code>mutations</code> con el apéndice '_updated'</p>
+<p><code>-ts</code> <code>--translate_start</code><br />
+(int o str) La posición en la secuencia de nucleótidos de entrada para comenzar a traducir, por ejemplo, 5. Si se proporciona una cadena, debe corresponder a un nombre de columna en <code>mutations</code> que contenga las posiciones de inicio del marco de lectura abierto para cada secuencia/mutación. Solo válido cuando se usa con <code>--translate</code>.<br />
+Predeterminado: traduce desde el principio de cada secuencia</p>
+<p><code>-te</code> <code>--translate_end</code><br />
+(int o str) La posición en la secuencia de nucleótidos de entrada para finalizar la traducción, por ejemplo, 35. Si se proporciona una cadena, debe corresponder a un nombre de columna en <code>mutations</code> que contenga las posiciones de fin del marco de lectura abierto para cada secuencia/mutación. Solo válido cuando se usa con <code>--translate</code>.<br />
+Predeterminado: traduce hasta el final de cada secuencia</p>
+<p><strong>Banderas opcionales para modificar salida adicional</strong><br />
+<code>-udf</code> <code>--update_df</code><br />
+Actualiza el DataFrame de entrada <code>mutations</code> para incluir columnas adicionales con el tipo de mutación, la secuencia de nucleótidos de tipo salvaje y la secuencia de nucleótidos mutante (solo válido si <code>mutations</code> es un archivo .csv o .tsv).</p>
+<p><code>-sfs</code> <code>--store_full_sequences</code><br />
+Incluye las secuencias completas de tipo salvaje y mutantes en el DataFrame actualizado <code>mutations</code> (no solo la sub-secuencia con flancos de longitud k). Solo válido cuando se usa con <code>--update_df</code>.</p>
+<p><code>-tr</code> <code>--translate</code><br />
+Agrega columnas adicionales al DataFrame actualizado <code>mutations</code> que contienen las secuencias de aminoácidos de tipo salvaje y mutantes. Solo válido cuando se usa con <code>--store_full_sequences</code>.</p>
+<p><strong>Argumentos generales opcionales</strong><br />
+<code>-o</code> <code>--out</code><br />
+Ruta al archivo FASTA de salida que contiene las secuencias mutadas, por ejemplo, 'path/to/output_fasta.fa'.<br />
+Predeterminado: Ninguno -&gt; devuelve una lista de las secuencias mutadas a la salida estándar.<br />
+Los identificadores (que siguen al '&gt;') de las secuencias mutadas en el FASTA de salida serán '&gt;[seq_ID]_[mut_ID]'. </p>
+<p><strong>Banderas generales opcionales</strong><br />
+<code>-q</code> <code>--quiet</code><br />
+Solo en línea de comandos. Previene que se muestre información de progreso.<br />
+Python: Usa <code>verbose=False</code> para prevenir que se muestre información de progreso.</p>
+<h3 id="ejemplos"><a class="header" href="#ejemplos">Ejemplos</a></h3>
+<pre><code class="language-bash">gget mutate ATCGCTAAGCT -m 'c.4G&gt;T'
+</code></pre>
+<pre><code class="language-python"># Python
+gget.mutate(&quot;ATCGCTAAGCT&quot;, &quot;c.4G&gt;T&quot;)
+</code></pre>
+<p>→ Devuelve ATCTCTAAGCT.</p>
+<p><br/><br/></p>
+<p><strong>Lista de secuencias con una mutación para cada secuencia proporcionada en una lista:</strong></p>
+<pre><code class="language-bash">gget mutate ATCGCTAAGCT TAGCTA -m 'c.4G&gt;T' 'c.1_3inv' -o mut_fasta.fa
+</code></pre>
+<pre><code class="language-python"># Python
+gget.mutate([&quot;ATCGCTAAGCT&quot;, &quot;TAGCTA&quot;], [&quot;c.4G&gt;T&quot;, &quot;c.1_3inv&quot;], out=&quot;mut_fasta.fa&quot;)
+</code></pre>
+<p>→ Guarda el archivo 'mut_fasta.fa' que contiene:</p>
+<pre><code>&gt;seq1_mut1  
+ATCTCTAAGCT  
+&gt;seq2_mut2  
+GATCTA
+</code></pre>
+<p><br/><br/></p>
+<p><strong>Una mutación aplicada a varias secuencias con k ajustado:</strong></p>
+<pre><code class="language-bash">gget mutate ATCGCTAAGCT TAGCTA -m 'c.1_3inv' -k 3
+</code></pre>
+<pre><code class="language-python"># Python
+gget.mutate([&quot;ATCGCTAAGCT&quot;, &quot;TAGCTA&quot;], &quot;c.1_3inv&quot;, k=3)
+</code></pre>
+<p>→ Devuelve ['CTAGCT', 'GATCTA'].</p>
+<p><br/><br/></p>
+<p><strong>Agregar mutaciones a un genoma completo con salida extendida</strong><br />
+Entrada principal:</p>
+<ul>
+<li>información de mutación como un CSV de <code>mutations</code> (teniendo <code>seq_id_column</code> que contenga información de cromosoma, y <code>mut_column</code> que contenga información de mutación con respecto a las coordenadas del genoma)</li>
+<li>el genoma como el archivo <code>sequences</code></li>
+</ul>
+<p>Dado que estamos pasando la ruta a un archivo gtf al argumento <code>gtf</code>, se respetarán los límites de los transcritos (el genoma se dividirá en transcritos). <code>gtf_transcript_id_column</code> especifica el nombre de la columna en <code>mutations</code> que contiene los IDs de los transcritos correspondientes a los IDs de transcritos en el archivo <code>gtf</code>.</p>
+<p>El argumento <code>optimize_flanking_regions</code> maximiza la longitud de las secuencias resultantes que contienen la mutación manteniendo la especificidad (ningún k-mer de tipo salvaje se mantendrá).</p>
+<p><code>update_df</code> activa la creación de un nuevo archivo CSV con información actualizada sobre cada secuencia de entrada y salida. Este nuevo archivo CSV se guardará como <code>update_df_out</code>. Dado que <code>store_full_sequences</code> está activado, este nuevo archivo CSV no solo contendrá las secuencias de salida (restringidas en tamaño por las regiones flanqueantes de tamaño <code>k</code>), sino también las secuencias completas de entrada y salida. Esto nos permite observar la mutación en el contexto de la secuencia completa. Por último, también estamos agregando las versiones traducidas de las secuencias completas mediante la activación de la bandera <code>translate</code>, para que podamos observar cómo cambia la secuencia de aminoácidos resultante. Los argumentos <code>translate_start</code> y <code>translate_end</code> especifican los nombres de las columnas en <code>mutations</code> que contienen las posiciones de inicio y fin del marco de lectura abierto (posiciones de inicio y fin para traducir la secuencia de nucleótidos a una secuencia de aminoácidos), respectivamente.</p>
+<pre><code class="language-bash">gget mutate \
+  -m mutations_input.csv \
+  -o mut_fasta.fa \
+  -k 4 \
+  -sic Chromosome \
+  -mic Mutation \
+  -gtf genome_annotation.gtf \
+  -gtic Ensembl_Transcript_ID \
+  -ofr \
+  -update_df \
+  -udf_o mutations_updated.csv \
+  -sfs \
+  -tr \
+  -ts Translate_Start \
+  -te Translate_End \
+  genome_reference.fa
+</code></pre>
+<pre><code class="language-python"># Python
+gget.mutate(
+  sequences=&quot;genome_reference.fa&quot;,
+  mutations=&quot;mutations_input.csv&quot;,
+  out=&quot;mut_fasta.fa&quot;,
+  k=4,
+  seq_id_column=&quot;Chromosome&quot;,
+  mut_column=&quot;Mutation&quot;,
+  gtf=&quot;genome_annotation.gtf&quot;,
+  gtf_transcript_id_column=&quot;Ensembl_Transcript_ID&quot;,
+  optimize_flanking_regions=True,
+  update_df=True,
+  update_df_out=&quot;mutations_updated.csv&quot;,
+  store_full_sequences=True,
+  translate=True,
+  translate_start=&quot;Translate_Start&quot;,
+  translate_end=&quot;Translate_End&quot;
+)
+</code></pre>
+<p>→ Toma un genoma fasta ('genome_reference.fa') y un archivo gtf ('genome_annotation.gtf') (estos se pueden descargar usando <a href="ref.html"><code>gget ref</code></a>), así como un archivo 'mutations_input.csv' que contiene:</p>
+<pre><code>| Chromosome | Mutation          | Ensembl_Transcript_ID  | Translate_Start | Translate_End |
+|------------|-------------------|------------------------|-----------------|---------------|
+| 1          | g.224411A&gt;C       | ENST00000193812        | 0               | 100           |
+| 8          | g.25111del        | ENST00000174411        | 0               | 294           |
+| X          | g.1011_1012insAA  | ENST00000421914        | 9               | 1211          |
+</code></pre>
+<p>→ Guarda el archivo 'mut_fasta.fa' que contiene:</p>
+<pre><code>&gt;1:g.224411A&gt;C  
+TGCTCTGCT  
+&gt;8:g.25111del  
+GAGTCGAT
+&gt;X:g.1011_1012insAA
+TTAGAACTT
+</code></pre>
+<p>→ Guarda el archivo 'mutations_updated.csv' que contiene:</p>
+<pre><code>
+| Chromosome | Mutation          | Ensembl_Transcript_ID  | mutation_type | wt_sequence | mutant_sequence | wt_sequence_full  | mutant_sequence_full | wt_sequence_aa_full | mutant_sequence_aa_full |
+|------------|-------------------|------------------------|---------------|-------------|-----------------|-------------------|----------------------|---------------------|-------------------------|
+| 1          | g.224411A&gt;C       | ENSMUST00000193812     | Substitution  | TGCTATGCT   | TGCTCTGCT       | ...TGCTATGCT...   | ...TGCTCTGCT...      | ...CYA...           | ...CSA...               |
+| 8          | g.25111del        | ENST00000174411        | Deletion      | GAGTCCGAT   | GAGTCGAT        | ...GAGTCCGAT...   | ...GAGTCGAT...       | ...ESD...           | ...ES...                |
+| X          | g.1011_1012insAA  | ENST00000421914        | Insertion     | TTAGCTT     | TTAGAACTT       | ...TTAGCTT...     | ...TTAGAACTT...      | ...A...             | ...EL...                |
+
+</code></pre>
+<h1 id="citar"><a class="header" href="#citar">Citar</a></h1>
+<p>Si utiliza <code>gget mutate</code> en una publicación, favor de citar los siguientes artículos:</p>
+<ul>
+<li>Luebbert, L., &amp; Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. <a href="https://doi.org/10.1093/bioinformatics/btac836">https://doi.org/10.1093/bioinformatics/btac836</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../es/muscle.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../es/opentargets.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../es/muscle.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../es/opentargets.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

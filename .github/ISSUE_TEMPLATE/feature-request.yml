@@ -1,0 +1,38 @@
+name: Feature request
+description: Request a new feature
+labels: "enhancement"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to let us know what gget is missing!
+  - type: dropdown
+    id: request-type
+    attributes:
+      label: Request type
+      description: Are you requesting the extension of an existing module or a new module?
+      options:
+        - Extension of existing module
+        - New module
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Request description
+      description: Please describe your request.
+      placeholder: Include links to references/databases if applicable.
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Example command
+      description: Please provide an example command as you envision it.
+      render: shell
+  - type: textarea
+    id: command-output
+    attributes:
+      label: Example return value
+      description: Please describe what the above-mentioned command should return.
+      placeholder: What is the most important information? Which format would be most useful?

@@ -1,0 +1,351 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>gget cosmic - gget</title>
+
+
+        <!-- Custom HTML head -->
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZM4N3XBEW7"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-ZM4N3XBEW7');
+        </script>
+
+        <meta name="description" content="gget enables efficient querying of genomic reference databases">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../en/introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="../en/updates.html">What's New?</a></li><li class="chapter-item expanded affix "><a href="../en/dependents.html">Dependents & News</a></li><li class="chapter-item expanded affix "><li class="part-title">User Guide</li><li class="chapter-item expanded "><a href="../en/installation.html">Installation</a></li><li class="chapter-item expanded "><a href="../en/quick_start_guide.html">Quick Start Guide</a></li><li class="chapter-item expanded affix "><li class="part-title">Manual</li><li class="chapter-item expanded "><a href="../en/8cube.html">gget 8cube</a></li><li class="chapter-item expanded "><a href="../en/alphafold.html">gget alphafold</a></li><li class="chapter-item expanded "><a href="../en/archs4.html">gget archs4</a></li><li class="chapter-item expanded "><a href="../en/bgee.html">gget bgee</a></li><li class="chapter-item expanded "><a href="../en/blast.html">gget blast</a></li><li class="chapter-item expanded "><a href="../en/blat.html">gget blat</a></li><li class="chapter-item expanded "><a href="../en/cbio.html">gget cbio</a></li><li class="chapter-item expanded "><a href="../en/cellxgene.html">gget cellxgene</a></li><li class="chapter-item expanded "><a href="../en/cosmic.html" class="active">gget cosmic</a></li><li class="chapter-item expanded "><a href="../en/diamond.html">gget diamond</a></li><li class="chapter-item expanded "><a href="../en/elm.html">gget elm</a></li><li class="chapter-item expanded "><a href="../en/enrichr.html">gget enrichr</a></li><li class="chapter-item expanded "><a href="../en/gpt.html">gget gpt</a></li><li class="chapter-item expanded "><a href="../en/info.html">gget info</a></li><li class="chapter-item expanded "><a href="../en/muscle.html">gget muscle</a></li><li class="chapter-item expanded "><a href="../en/mutate.html">gget mutate</a></li><li class="chapter-item expanded "><a href="../en/opentargets.html">gget opentargets</a></li><li class="chapter-item expanded "><a href="../en/pdb.html">gget pdb</a></li><li class="chapter-item expanded "><a href="../en/ref.html">gget ref</a></li><li class="chapter-item expanded "><a href="../en/search.html">gget search</a></li><li class="chapter-item expanded "><a href="../en/setup.html">gget setup</a></li><li class="chapter-item expanded "><a href="../en/seq.html">gget seq</a></li><li class="chapter-item expanded "><a href="../en/virus.html">gget virus</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../en/contributing.html">Contributing Guide</a></li><li class="chapter-item expanded "><a href="../en/code_of_conduct.html">Code of Conduct</a></li><li class="chapter-item expanded "><a href="../en/cite.html">Citation Guidelines</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Español</li><li class="chapter-item expanded "><a href="../es/introduction.html">Introdución</a></li><li class="chapter-item expanded "><a href="../es/updates.html">¡Lo más reciente!</a></li><li class="chapter-item expanded "><a href="../es/dependents.html">Dependientes y Noticias</a></li><li class="chapter-item expanded affix "><li class="part-title">Guía del usario</li><li class="chapter-item expanded "><a href="../es/installation.html">Instalación</a></li><li class="chapter-item expanded "><a href="../es/quick_start_guide.html">Guía de inicio rápido</a></li><li class="chapter-item expanded affix "><li class="part-title">Manuál</li><li class="chapter-item expanded "><a href="../es/8cube.html">gget 8cube</a></li><li class="chapter-item expanded "><a href="../es/alphafold.html">gget alphafold</a></li><li class="chapter-item expanded "><a href="../es/archs4.html">gget archs4</a></li><li class="chapter-item expanded "><a href="../es/bgee.html">gget bgee</a></li><li class="chapter-item expanded "><a href="../es/blast.html">gget blast</a></li><li class="chapter-item expanded "><a href="../es/blat.html">gget blat</a></li><li class="chapter-item expanded "><a href="../es/cbio.html">gget cbio</a></li><li class="chapter-item expanded "><a href="../es/cellxgene.html">gget cellxgene</a></li><li class="chapter-item expanded "><a href="../es/cosmic.html">gget cosmic</a></li><li class="chapter-item expanded "><a href="../es/diamond.html">gget diamond</a></li><li class="chapter-item expanded "><a href="../es/elm.html">gget elm</a></li><li class="chapter-item expanded "><a href="../es/enrichr.html">gget enrichr</a></li><li class="chapter-item expanded "><a href="../es/gpt.html">gget gpt</a></li><li class="chapter-item expanded "><a href="../es/info.html">gget info</a></li><li class="chapter-item expanded "><a href="../es/muscle.html">gget muscle</a></li><li class="chapter-item expanded "><a href="../es/mutate.html">gget mutate</a></li><li class="chapter-item expanded "><a href="../es/opentargets.html">gget opentargets</a></li><li class="chapter-item expanded "><a href="../es/pdb.html">gget pdb</a></li><li class="chapter-item expanded "><a href="../es/ref.html">gget ref</a></li><li class="chapter-item expanded "><a href="../es/search.html">gget search</a></li><li class="chapter-item expanded "><a href="../es/setup.html">gget setup</a></li><li class="chapter-item expanded "><a href="../es/seq.html">gget seq</a></li><li class="chapter-item expanded "><a href="../es/virus.html">gget virus</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../es/contributing.html">Guía de contribución</a></li><li class="chapter-item expanded "><a href="../es/code_of_conduct.html">Codigo de conducto</a></li><li class="chapter-item expanded "><a href="../es/cite.html">Cómo citar</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">gget</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <p><a href="https://github.com/pachterlab/gget/blob/main/docs/src/en/cosmic.md"><kbd> View page source on GitHub </kbd></a></p>
+<blockquote>
+<p>Python arguments are equivalent to long-option arguments (<code>--arg</code>), unless otherwise specified. Flags are True/False arguments in Python.  The manual for any gget tool can be called from the command-line using the <code>-h</code> <code>--help</code> flag.</p>
+</blockquote>
+<h1 id="gget-cosmic-"><a class="header" href="#gget-cosmic-">gget cosmic 🪐</a></h1>
+<p>Search for genes, mutations, and other factors associated with cancer using the <a href="https://cancer.sanger.ac.uk/cosmic">COSMIC</a> (Catalogue Of Somatic Mutations In Cancer) database.<br />
+Return format: JSON (command-line) or data frame/CSV (Python) when <code>download_cosmic=False</code>. When <code>download_cosmic=True</code>, downloads the requested database into the specified folder.</p>
+<p>This module was originally written in part by <a href="https://github.com/AubakirovArman">@AubakirovArman</a> (information querying) and <a href="https://github.com/josephrich98">@josephrich98</a> (database download).</p>
+<p>NOTE: License fees apply for the commercial use of COSMIC. You can read more about licensing COSMIC data <a href="https://cancer.sanger.ac.uk/cosmic/license">here</a>.</p>
+<p>NOTE: When using this module for the first time, first download a COSMIC database to obtain <code>cosmic_tsv_path</code> (see examples below).</p>
+<p><strong>Positional argument (for querying information)</strong><br />
+<code>searchterm</code><br />
+Search term, which can be a mutation, or gene name (or Ensembl ID), or sample, etc.<br />
+Examples: 'EGFR', 'ENST00000275493', 'c.650A&gt;T', 'p.Q217L', 'COSV51765119', 'BT2012100223LNCTB' (sample ID)<br />
+NOTE: (Python only) Set to <code>None</code> when downloading COSMIC databases with <code>download_cosmic=True</code>.</p>
+<p><strong>Required argument (for querying information)</strong><br />
+<code>-ctp</code> <code>--cosmic_tsv_path</code><br />
+Path to the COSMIC database tsv file, e.g. 'path/to/CancerMutationCensus_AllData_v101_GRCh37.tsv'.<br />
+This file is downloaded when downloading COSMIC databases using the arguments described below.<br />
+NOTE: This is a required argument when <code>download_cosmic=False</code>.</p>
+<p><strong>Optional arguments (for querying information)</strong><br />
+<code>-l</code> <code>--limit</code><br />
+Limits number of hits to return. Default: 100.</p>
+<p><code>-csv</code> <code>--csv</code><br />
+Command-line only. Returns results in CSV format.<br />
+Python: Use <code>json=True</code> to return output in JSON format.</p>
+<p><strong>Flags (for downloading COSMIC databases)</strong><br />
+<code>-d</code> <code>--download_cosmic</code><br />
+Switches into database download mode.</p>
+<p><code>-gm</code> <code>--gget_mutate</code><br />
+Creates a modified version of the COSMIC database for use with <a href="mutate.html"><code>gget mutate</code></a>.</p>
+<p><strong>Optional arguments (for downloading COSMIC databases)</strong><br />
+<code>-cp</code> <code>--cosmic_project</code><br />
+'cancer' (default), 'cancer_example', 'census', 'resistance', 'cell_line', 'genome_screen', or 'targeted_screen'<br />
+Type of COSMIC database to download:</p>
+<div class="table-wrapper"><table><thead><tr><th>cosmic_project</th><th>Description</th><th>Notes</th><th>Size</th></tr></thead><tbody>
+<tr><td>cancer</td><td>Cancer Mutation Census (CMC) (most commonly used COSMIC mutation set)</td><td>Only available for GRCh37. Most feature-rich schema (takes the longest to search).</td><td>2 GB</td></tr>
+<tr><td>cancer_example</td><td>Example CMC subset provided for testing and demonstration</td><td>Downloadable without a COSMIC account. Minimal dataset.</td><td>2.5 MB</td></tr>
+<tr><td>census</td><td>COSMIC census of curated somatic mutations in known cancer genes</td><td>Smaller curated set of known cancer drivers.</td><td>630 MB</td></tr>
+<tr><td>resistance</td><td>Mutations associated with drug resistance</td><td>Helpful for pharmacogenomics research.</td><td>1.6 MB</td></tr>
+<tr><td>cell_line</td><td>Cell Lines Project mutation data</td><td>Sample metadata often available.</td><td>2.7 GB</td></tr>
+<tr><td>genome_screen</td><td>Mutations from genome screening efforts</td><td>Includes less curated data, good for large-scale screens.</td><td></td></tr>
+<tr><td>targeted_screen</td><td>Mutations from targeted screening panels</td><td>Focused panel datasets, good for clinical settings.</td><td></td></tr>
+</tbody></table>
+</div>
+<p><code>-cv</code> <code>--cosmic_version</code><br />
+Version of the COSMIC database. Default: None -&gt; Defaults to latest version.</p>
+<p><code>-gv</code> <code>--grch_version</code><br />
+Version of the human GRCh reference genome the COSMIC database was based on (37 or 38). Default: 37</p>
+<p><code>--email</code>
+Email for COSMIC login. Helpful for avoiding required input upon running gget COSMIC. Default: None</p>
+<p><code>--password</code>
+Password for COSMIC login. Helpful for avoiding required input upon running gget COSMIC, but password will be stored in plain text in the script. Default: None</p>
+<p><strong>Additional arguments for the <code>--gget_mutate</code> flag</strong><br />
+<code>--keep_genome_info</code>
+Whether to keep genome information in the modified database for use with <code>gget mutate</code>. Default: False</p>
+<p><code>--remove_duplicates</code>
+Whether to remove duplicate rows from the modified database for use with <code>gget mutate</code>. Default: False</p>
+<p><code>--seq_id_column</code>
+(str) Name of the seq_id column in the csv file created by <code>gget_mutate</code>. Default: &quot;seq_ID&quot;</p>
+<p><code>--mutation_column</code>
+(str) Name of the mutation column in the csv file created by <code>gget_mutate</code>. Default: &quot;mutation&quot;</p>
+<p><code>--mut_id_column</code>
+(str) Name of the mutation_id column in the csv file created by <code>gget_mutate</code>. Default: &quot;mutation_id&quot;</p>
+<p><strong>Optional arguments (general)</strong><br />
+<code>-o</code> <code>--out</code><br />
+Path to the file (or folder when downloading databases with the <code>download_cosmic</code> flag) the results will be saved in, e.g. 'path/to/results.json'.<br />
+Defaults:<br />
+-&gt; When <code>download_cosmic=False</code>: Results will be returned to standard out<br />
+-&gt; When <code>download_cosmic=True</code>: Database will be downloaded into current working directory</p>
+<p><strong>Flags (general)</strong><br />
+<code>-q</code> <code>--quiet</code><br />
+Command-line only. Prevents progress information from being displayed.<br />
+Python: Use <code>verbose=False</code> to prevent progress information from being displayed.</p>
+<h3 id="examples"><a class="header" href="#examples">Examples</a></h3>
+<h4 id="download-the-cosmic-cancer-database-and-query-information"><a class="header" href="#download-the-cosmic-cancer-database-and-query-information">Download the COSMIC &quot;cancer&quot; database and query information</a></h4>
+<pre><code class="language-bash"># The download_cosmic command will ask for your COSMIC email and password and only needs to be run once
+gget cosmic --download_cosmic --cosmic_project cancer
+
+gget cosmic EGFR --cosmic_tsv_path 'CancerMutationCensus_AllData_Tsv_v101_GRCh37/CancerMutationCensus_AllData_v101_GRCh37.tsv'
+</code></pre>
+<pre><code class="language-python"># Python
+# The download_cosmic command will ask for your COSMIC email and password and only needs to be run once
+gget.cosmic(searchterm=None, download_cosmic=True, cosmic_project=&quot;cancer&quot;)
+
+gget.cosmic(&quot;EGFR&quot;, cosmic_tsv_path=&quot;CancerMutationCensus_AllData_Tsv_v101_GRCh37/CancerMutationCensus_AllData_v101_GRCh37.tsv&quot;)
+</code></pre>
+<p>→ The first command downloads the requested COSMIC database of the latest COSMIC release into the current working directory. The second command searches the database for mutations associated with the 'EGFR' gene and returns results in the following format:</p>
+<div class="table-wrapper"><table><thead><tr><th>GENE_NAME</th><th>ACCESSION_NUMBER</th><th>ONC_TSG</th><th>Mutation_CDS</th><th>Mutation_AA</th><th>...</th></tr></thead><tbody>
+<tr><td>EGFR</td><td>ENST00000275493.2</td><td>oncogene</td><td>c.650A&gt;T</td><td>p.Q217L</td><td>...</td></tr>
+<tr><td>EGFR</td><td>ENST00000275493.2</td><td>oncogene</td><td>c.966C&gt;T</td><td>p.G322=</td><td>...</td></tr>
+<tr><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+</tbody></table>
+</div>
+<h4 id="download-the-cosmic-census-database-and-query-information"><a class="header" href="#download-the-cosmic-census-database-and-query-information">Download the COSMIC &quot;census&quot; database and query information</a></h4>
+<pre><code class="language-bash"># The download_cosmic command will ask for your COSMIC email and password and only needs to be run once
+gget cosmic --download_cosmic --cosmic_project census
+
+gget cosmic EGFR --cosmic_tsv_path 'Cosmic_MutantCensus_Tsv_v101_GRCh37/Cosmic_MutantCensus_v101_GRCh37.tsv'
+</code></pre>
+<pre><code class="language-python"># Python
+# The download_cosmic command will ask for your COSMIC email and password and only needs to be run once
+gget.cosmic(searchterm=None, download_cosmic=True, cosmic_project=&quot;cancer&quot;)
+
+gget.cosmic(&quot;EGFR&quot;, cosmic_tsv_path=&quot;Cosmic_MutantCensus_Tsv_v101_GRCh37/Cosmic_MutantCensus_v101_GRCh37.tsv&quot;)
+</code></pre>
+<p>→ The first command downloads the requested COSMIC database of the latest COSMIC release into the current working directory. The second command searches the database for mutations associated with the 'EGFR' gene and returns results in the following format:</p>
+<div class="table-wrapper"><table><thead><tr><th>GENE_SYMBOL</th><th>COSMIC_GENE_ID</th><th>MUTATION_DESCRIPTION</th><th>MUTATION_CDS</th><th>Mutation_AA</th><th>MUTATION_SOMATIC_STATUS</th><th>...</th></tr></thead><tbody>
+<tr><td>EGFR</td><td>COSG35617</td><td>inframe_deletion</td><td>c.2235_2249del</td><td>p.E746_A750del</td><td>Reported in another cancer sample as somatic</td><td>...</td></tr>
+<tr><td>EGFR</td><td>COSG35617</td><td>missense_variant</td><td>c.2573T&gt;G</td><td>p.L858R</td><td>Reported in another cancer sample as somatic</td><td>...</td></tr>
+<tr><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td><td>...</td></tr>
+</tbody></table>
+</div>
+<h1 id="references"><a class="header" href="#references">References</a></h1>
+<p>If you use <code>gget cosmic</code> in a publication, please cite the following articles:</p>
+<ul>
+<li>
+<p>Luebbert, L., &amp; Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. <a href="https://doi.org/10.1093/bioinformatics/btac836">https://doi.org/10.1093/bioinformatics/btac836</a></p>
+</li>
+<li>
+<p>Tate JG, Bamford S, Jubb HC, Sondka Z, Beare DM, Bindal N, Boutselakis H, Cole CG, Creatore C, Dawson E, Fish P, Harsha B, Hathaway C, Jupe SC, Kok CY, Noble K, Ponting L, Ramshaw CC, Rye CE, Speedy HE, Stefancsik R, Thompson SL, Wang S, Ward S, Campbell PJ, Forbes SA. COSMIC: the Catalogue Of Somatic Mutations In Cancer. Nucleic Acids Res. 2019 Jan 8;47(D1):D941-D947. doi: <a href="https://doi.org/10.1093/nar/gky1015">10.1093/nar/gky1015</a>. PMID: 30371878; PMCID: PMC6323903.</p>
+</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../en/cellxgene.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../en/diamond.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../en/cellxgene.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../en/diamond.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

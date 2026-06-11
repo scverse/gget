@@ -1,0 +1,379 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Dependents &amp; News - gget</title>
+
+
+        <!-- Custom HTML head -->
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZM4N3XBEW7"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-ZM4N3XBEW7');
+        </script>
+
+        <meta name="description" content="gget enables efficient querying of genomic reference databases">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../en/introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="../en/updates.html">What's New?</a></li><li class="chapter-item expanded affix "><a href="../en/dependents.html" class="active">Dependents & News</a></li><li class="chapter-item expanded affix "><li class="part-title">User Guide</li><li class="chapter-item expanded "><a href="../en/installation.html">Installation</a></li><li class="chapter-item expanded "><a href="../en/quick_start_guide.html">Quick Start Guide</a></li><li class="chapter-item expanded affix "><li class="part-title">Manual</li><li class="chapter-item expanded "><a href="../en/8cube.html">gget 8cube</a></li><li class="chapter-item expanded "><a href="../en/alphafold.html">gget alphafold</a></li><li class="chapter-item expanded "><a href="../en/archs4.html">gget archs4</a></li><li class="chapter-item expanded "><a href="../en/bgee.html">gget bgee</a></li><li class="chapter-item expanded "><a href="../en/blast.html">gget blast</a></li><li class="chapter-item expanded "><a href="../en/blat.html">gget blat</a></li><li class="chapter-item expanded "><a href="../en/cbio.html">gget cbio</a></li><li class="chapter-item expanded "><a href="../en/cellxgene.html">gget cellxgene</a></li><li class="chapter-item expanded "><a href="../en/cosmic.html">gget cosmic</a></li><li class="chapter-item expanded "><a href="../en/diamond.html">gget diamond</a></li><li class="chapter-item expanded "><a href="../en/elm.html">gget elm</a></li><li class="chapter-item expanded "><a href="../en/enrichr.html">gget enrichr</a></li><li class="chapter-item expanded "><a href="../en/gpt.html">gget gpt</a></li><li class="chapter-item expanded "><a href="../en/info.html">gget info</a></li><li class="chapter-item expanded "><a href="../en/muscle.html">gget muscle</a></li><li class="chapter-item expanded "><a href="../en/mutate.html">gget mutate</a></li><li class="chapter-item expanded "><a href="../en/opentargets.html">gget opentargets</a></li><li class="chapter-item expanded "><a href="../en/pdb.html">gget pdb</a></li><li class="chapter-item expanded "><a href="../en/ref.html">gget ref</a></li><li class="chapter-item expanded "><a href="../en/search.html">gget search</a></li><li class="chapter-item expanded "><a href="../en/setup.html">gget setup</a></li><li class="chapter-item expanded "><a href="../en/seq.html">gget seq</a></li><li class="chapter-item expanded "><a href="../en/virus.html">gget virus</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../en/contributing.html">Contributing Guide</a></li><li class="chapter-item expanded "><a href="../en/code_of_conduct.html">Code of Conduct</a></li><li class="chapter-item expanded "><a href="../en/cite.html">Citation Guidelines</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Español</li><li class="chapter-item expanded "><a href="../es/introduction.html">Introdución</a></li><li class="chapter-item expanded "><a href="../es/updates.html">¡Lo más reciente!</a></li><li class="chapter-item expanded "><a href="../es/dependents.html">Dependientes y Noticias</a></li><li class="chapter-item expanded affix "><li class="part-title">Guía del usario</li><li class="chapter-item expanded "><a href="../es/installation.html">Instalación</a></li><li class="chapter-item expanded "><a href="../es/quick_start_guide.html">Guía de inicio rápido</a></li><li class="chapter-item expanded affix "><li class="part-title">Manuál</li><li class="chapter-item expanded "><a href="../es/8cube.html">gget 8cube</a></li><li class="chapter-item expanded "><a href="../es/alphafold.html">gget alphafold</a></li><li class="chapter-item expanded "><a href="../es/archs4.html">gget archs4</a></li><li class="chapter-item expanded "><a href="../es/bgee.html">gget bgee</a></li><li class="chapter-item expanded "><a href="../es/blast.html">gget blast</a></li><li class="chapter-item expanded "><a href="../es/blat.html">gget blat</a></li><li class="chapter-item expanded "><a href="../es/cbio.html">gget cbio</a></li><li class="chapter-item expanded "><a href="../es/cellxgene.html">gget cellxgene</a></li><li class="chapter-item expanded "><a href="../es/cosmic.html">gget cosmic</a></li><li class="chapter-item expanded "><a href="../es/diamond.html">gget diamond</a></li><li class="chapter-item expanded "><a href="../es/elm.html">gget elm</a></li><li class="chapter-item expanded "><a href="../es/enrichr.html">gget enrichr</a></li><li class="chapter-item expanded "><a href="../es/gpt.html">gget gpt</a></li><li class="chapter-item expanded "><a href="../es/info.html">gget info</a></li><li class="chapter-item expanded "><a href="../es/muscle.html">gget muscle</a></li><li class="chapter-item expanded "><a href="../es/mutate.html">gget mutate</a></li><li class="chapter-item expanded "><a href="../es/opentargets.html">gget opentargets</a></li><li class="chapter-item expanded "><a href="../es/pdb.html">gget pdb</a></li><li class="chapter-item expanded "><a href="../es/ref.html">gget ref</a></li><li class="chapter-item expanded "><a href="../es/search.html">gget search</a></li><li class="chapter-item expanded "><a href="../es/setup.html">gget setup</a></li><li class="chapter-item expanded "><a href="../es/seq.html">gget seq</a></li><li class="chapter-item expanded "><a href="../es/virus.html">gget virus</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../es/contributing.html">Guía de contribución</a></li><li class="chapter-item expanded "><a href="../es/code_of_conduct.html">Codigo de conducto</a></li><li class="chapter-item expanded "><a href="../es/cite.html">Cómo citar</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">gget</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <p><a href="https://github.com/pachterlab/gget/blob/main/docs/src/en/dependents.md"><kbd> View page source on GitHub </kbd></a></p>
+<h1 id="-active-users-of-this-documentation-website"><a class="header" href="#-active-users-of-this-documentation-website">💡 Active users of this documentation website</a></h1>
+<p><a href="https://github.com/lauraluebbert/lauraluebbert"><img src="https://github.com/lauraluebbert/lauraluebbert/raw/main/gget_user_map.png" alt="Heatmap in the form of a world map showing the number of active users of the gget website per country." /></a></p>
+<p>Automatically updates every day at 16:00 UTC.</p>
+<hr />
+<h1 id="-daily-gget-downloads"><a class="header" href="#-daily-gget-downloads">⬇️ Daily <code>gget</code> downloads</a></h1>
+<p><a href="https://github.com/lauraluebbert/gget_downloads/tree/main"><img src="https://github.com/lauraluebbert/gget_downloads/raw/main/plots/downloads_gget_daily.png" alt="gget PyPI downloads over the last year" /></a><br />
+Automatically updates every Sunday at 23:55 UTC.</p>
+<hr />
+<h1 id="-dependent-software"><a class="header" href="#-dependent-software">🧑‍🤝‍🧑 Dependent software</a></h1>
+<p>The following applications build on <code>gget</code>:</p>
+<ul>
+<li><a href="https://mcpindex.net/en/mcpserver/longevity-genie-gget-mcp">gget-mcp</a>
+<blockquote>
+<p>&quot;MCP server providing a powerful bioinformatics toolkit for genomics queries and analysis, wrapping the popular <strong>gget</strong> library.&quot;</p>
+</blockquote>
+<ul>
+<li>Other tools using this or other <code>gget</code> MCP servers:
+<ul>
+<li><a href="https://mcpservers.org/servers/longevity-genie/holy-bio-mcp">https://mcpservers.org/servers/longevity-genie/holy-bio-mcp</a></li>
+<li><a href="https://biocontext.ai/registry/longevity-genie/gget-mcp">https://biocontext.ai</a></li>
+<li><a href="https://mcpmarket.com/zh/tools/skills/gget-bioinformatics-tool">https://mcpmarket.com/zh/tools/skills/gget-bioinformatics-tool</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="https://pantheonos.stanford.edu/">PantheonOS</a><br />
+An evolvable multi-agent biological agent system designed to reconcile generality with domain specificity being developed at Stanford.
+<blockquote>
+<p>&quot;Database access: using the skills of <strong>gget</strong>, iSeq, and cellxgene to access a variety of databases, including SRA, GEO, Ensembl, UniProt, UCSC, Enrichr, and CZI cellxgene.&quot;</p>
+</blockquote>
+</li>
+<li><a href="https://biomni.stanford.edu/environment">Biomni</a><br />
+A General-Purpose Biomedical AI Scientist being developed at Stanford and Genentech.</li>
+<li><a href="https://arxiv.org/pdf/2603.14312">SCIENCECLAW + INFINITE</a><br />
+A framework for autonomous scientific investigation developed at MIT.
+<blockquote>
+<p>&quot;Tools are grouped into families such as literature [...], genomics (biopython, <strong>gget</strong>), and machine learning (rdkit, pymol).&quot;</p>
+</blockquote>
+</li>
+<li><a href="https://www.biorxiv.org/content/10.1101/2025.05.25.656020v1">PerTurboAgent</a><br />
+A Self-Planning Agent for Boosting Sequential Perturb-seq Experiments.
+<blockquote>
+<p>&quot;We [...] use packages <strong>gget</strong> and blitzgsea for data enrichment analysis&quot; </p>
+</blockquote>
+</li>
+<li><a href="https://github.com/K-Dense-AI/claude-scientific-skills">Scientific skills for Claude</a> by K-Dense-AI
+<blockquote>
+<p>&quot; This repository contains 138 scientific skills organized across multiple domains. Each skill provides comprehensive documentation, code examples, and best practices for working with scientific libraries, databases, and tools.<br />
+🧬 Bioinformatics &amp; Genomics<br />
+Genomic tools: <strong>gget</strong>, ...&quot;</p>
+</blockquote>
+</li>
+<li><a href="https://tdcommons.ai/">Therapeutics Data Commons (TDC)</a><br />
+Artificial intelligence foundation for therapeutic science (<a href="https://github.com/mims-harvard/TDC">source code</a>, <a href="https://www.nature.com/articles/s41589-022-01131-2">Nat Chem Bio paper</a>) by Harvard's Artificial Intelligence for Medicine and Science lab.</li>
+<li><a href="https://github.com/snap-stanford/BioDiscoveryAgent">BioDiscoveryAgent</a><br />
+BioDiscoveryAgent is an LLM-based AI agent for closed-loop design of genetic perturbation experiments (<a href="https://arxiv.org/abs/2405.17631">preprint</a>) by the Stanford Network Analysis Project.</li>
+<li><a href="https://ylab-hi.github.io/DeepChopper/">DeepChopper</a><br />
+Language models to identify chimeric artificial reads in NanoPore direct-RNA sequencing data by the Yang lab at Northwestern.</li>
+<li><a href="https://github.com/Jpickard1/BRAD">BRAD</a><br />
+A LLM powered chatbot for bioinformatics (<a href="https://brad-bioinformatics-retrieval-augmented-data.readthedocs.io/en/latest/index.html">documentation</a>, <a href="https://brad-bioinformatics-retrieval-augmented-data.readthedocs.io/_/downloads/en/latest/pdf/">project main page</a>).</li>
+<li><a href="https://www.jkobject.com/scPRINT/">scPRINT</a><br />
+scPRINT is a large transformer model built for the inference of gene networks (connections between genes explaining the cell's expression profile) from scRNAseq data (<a href="https://www.biorxiv.org/content/10.1101/2024.07.29.605556v1">preprint</a>).</li>
+<li><a href="https://sanjaynagi.github.io/AnoPrimer/landing-page.html">AnoPrimer</a><br />
+AnoPrimer is a Python package for primer design in <em>An. gambiae</em> and <em>An. funestus</em>, whilst considering genetic variation in wild whole-genome sequenced specimens in malariagen_data.</li>
+<li><a href="https://github.com/zou-group/avatar">AvaTaR</a><br />
+Optimizing LLM Agents for Tool-Assisted Knowledge Retrieval (NeurIPS 2024) by James Zou Lab at Stanford University.</li>
+<li><a href="https://github.com/Madscba/GRLDrugProp">GRLDrugProp</a><br />
+Graph representation learning for modelling drug properties.</li>
+<li><a href="https://github.com/korcsmarosgroup/MicrobioLink2">MicrobioLink2</a><br />
+A computational tool that analyzes the impact of host-microbe interaction on downstream signaling in human cells and tissues.</li>
+<li>Rust implementation of <em>gget</em>: <a href="https://github.com/noamteyssier/ggetrs">https://github.com/noamteyssier/ggetrs</a></li>
+<li><a href="https://github.com/Superbio-ai/getbio">https://github.com/Superbio-ai/getbio</a></li>
+<li><a href="https://github.com/yonniejon/AchillesPrediction">https://github.com/yonniejon/AchillesPrediction</a></li>
+<li><a href="https://github.com/ELELAB/cancermuts">https://github.com/ELELAB/cancermuts</a></li>
+<li><a href="https://github.com/Benoitdw/SNPrimer">https://github.com/Benoitdw/SNPrimer</a></li>
+<li><a href="https://github.com/louisjoecodes/a16z-hackathon-project">https://github.com/louisjoecodes/a16z-hackathon-project</a></li>
+<li><a href="https://github.com/EvX57/BACE1-Drug-Discovery">https://github.com/EvX57/BACE1-Drug-Discovery</a></li>
+<li><a href="https://github.com/vecerkovakaterina/hidden-genes-msc">https://github.com/vecerkovakaterina/hidden-genes-msc</a></li>
+<li><a href="https://github.com/vecerkovakaterina/llm_bioinfo_agent">https://github.com/vecerkovakaterina/llm_bioinfo_agent</a></li>
+<li><a href="https://github.com/greedjar74/upstage_AI_Lab">https://github.com/greedjar74/upstage_AI_Lab</a></li>
+<li><a href="https://github.com/alphavector/all">https://github.com/alphavector/all</a></li>
+</ul>
+<p>See more: <a href="https://github.com/pachterlab/gget/network/dependents">https://github.com/pachterlab/gget/network/dependents</a></p>
+<hr />
+<h1 id="-selected-publications-using-gget"><a class="header" href="#-selected-publications-using-gget">📃 Selected publications using <code>gget</code></a></h1>
+<ul>
+<li>Macrina Lobo et al., <a href="https://www.biorxiv.org/content/10.64898/2026.03.11.710917v1.full.pdf">Resolving thyroid lineage cell trajectories merging into a dual endocrine
+2 gland in mammals.</a> <em>bioRxiv</em> (2026). DOI: 10.64898/2026.03.11.710917
+<blockquote>
+<p>&quot;Enrichment analysis of differentially expressed genes [...] was performed using <strong>gget enrichr</strong>&quot;</p>
+</blockquote>
+</li>
+<li>David Bradley et al., <a href="https://doi.org/10.1038/s44318-024-00200-7">The fitness cost of spurious phosphorylation.</a> <em>The EMBO Journal</em> (2024). DOI: 10.1038/s44318-024-00200-7
+<blockquote>
+<p>&quot;Phosphosites matching to putative short linear motifs (SLiMs) were extracted using the <strong>gget elm</strong> resource&quot;</p>
+</blockquote>
+</li>
+<li>Mikael Nilsson et al., <a href="https://doi.org/10.21203/rs.3.rs-5278325/v1">Resolving thyroid lineage cell trajectories merging into a dual endocrine gland in mammals.</a> <em>Nature Portfolio (under review)</em> (2024). DOI: 10.21203/rs.3.rs-5278325/v1
+<blockquote>
+<p>&quot;Enrichment analysis of differentially expressed genes [...] was performed using <strong>gget enrichr</strong>&quot;</p>
+</blockquote>
+</li>
+<li>Avasthi P et al., <a href="https://doi.org/10.57844/arcadia-e367-8b55">Repeat expansions associated with human disease are present in diverse organisms.</a> <em>Arcadia</em> (2024). DOI: 10.57844/arcadia-e367-8b55
+<blockquote>
+<p>&quot;We used the gget package using the <strong>gget.blast</strong> command [...] to BLAST our proteins of interest against the non-redundant NCBI protein database&quot;</p>
+</blockquote>
+</li>
+<li>Ibrahim Al Rayyes et al., <a href="https://doi.org/10.1101/2024.04.26.591400">Single-Cell Transcriptomics Reveals the Molecular Logic Underlying Ca2+ Signaling Diversity in Human and Mouse Brain.</a> <em>bioRxiv</em> (2024). DOI: 10.1101/2024.04.26.591400
+<blockquote>
+<p>&quot;The <strong>gget</strong> package was used to perform the gene set enrichment analyses with databases Reactome_2022 and KEGG_2021_Mouse.&quot;</p>
+</blockquote>
+</li>
+<li>Beatriz Beamud et al., <a href="https://doi.org/10.1016/j.celrep.2023.112048">Genetic determinants of host tropism in Klebsiella phages.</a> <em>Cell Reports</em> (2023). DOI: 10.1016/j.celrep.2023.112048
+<blockquote>
+<p>&quot;Proteins with seemingly enzymatic activity were confirmed to have the characteristic β-helical domain using <strong>gget AlphaFold2</strong>&quot;</p>
+</blockquote>
+</li>
+<li>Kimberly Siletti et al., <a href="https://doi.org/10.1126/science.add7046">Transcriptomic diversity of cell types across the adult human brain.</a> <em>Science</em> (2023). DOI: 10.1126/science.add7046
+<blockquote>
+<p>&quot;The <strong>gget</strong> package (https://github.com/pachterlab/gget) was used to perform all gene ontology enrichment analysis&quot;</p>
+</blockquote>
+</li>
+<li>David R. Blair &amp; Neil Risch. <a href="https://doi.org/10.1101/2024.09.23.24314008">Dissecting the Reduced Penetrance of Putative Loss-of-Function Variants in Population-Scale Biobanks.</a> <em>medRxiv</em> (2024). DOI: 10.1101/2024.09.23.24314008
+<blockquote>
+<p>&quot;Additional gene and transcript information (exon-intron boundaries, 5' and 3' UTRs, full coding and amino acid sequences) was downloaded using <strong>gget</strong>&quot;</p>
+</blockquote>
+</li>
+<li>Shanmugampillai Jeyarajaguru Kabilan et al., <a href="https://doi.org/10.21203/rs.3.rs-4520611/v1">Molecular modelling approaches for the identification of potent Sodium-Glucose Cotransporter 2 inhibitors from Boerhavia diffusa for the potential treatment of chronic kidney disease.</a> <em>Journal of Computer-Aided Molecular Design (under review)</em> (2024). DOI: 10.21203/rs.3.rs-4520611/v1</li>
+<li>Joseph M Rich et al., <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11014608/#:~:text=10.1101/2024.04.04.588111">The impact of package selection and versioning on single-cell RNA-seq analysis.</a> <em>bioRxiv</em> (2024). DOI: 10.1101/2024.04.04.588111</li>
+<li>Sanjay C. Nagi et al., <a href="https://wellcomeopenresearch.org/articles/9-255/v1">AnoPrimer: Primer Design in malaria vectors informed by range-wide genomic variation.</a> <em>Wellcome Open Research</em> (2024).</li>
+<li>Yasmin Makki Mohialden et al., <a href="http://dx.doi.org/10.48047/NQ.2023.21.2.NQ23029">A survey of the most recent Python packages for use in biology.</a> <em>NeuroQuantology</em> (2023). DOI: 10.48047/NQ.2023.21.2.NQ23029 </li>
+<li>Nicola A. Kearns et al., <a href="https://doi.org/10.1016/j.devcel.2023.08.024">Generation and molecular characterization of human pluripotent stem cell-derived pharyngeal foregut endoderm.</a> <em>Cell Reports</em> (2023). DOI: 10.1016/j.devcel.2023.08.024</li>
+<li>Jonathan Rosenski et al., <a href="https://link.springer.com/article/10.1186/s12920-023-01446-6">Predicting gene knockout effects from expression data.</a> <em>BMC Medical Genomics</em> (2023). DOI: 10.1186/s12920-023-01446-6</li>
+<li>Peter Overby et al., <a href="https://doi.org/10.1101/2023.06.11.544521">Pharmacological or genetic inhibition of Scn9a protects beta-cells while reducing insulin secretion in type 1 diabetes.</a> <em>bioRxiv</em> (2023). DOI: 10.1101/2023.06.11.544521</li>
+<li>Mingze Dong et al., <a href="https://doi.org/10.1101/2023.11.11.566161">Deep identifiable modeling of single-cell atlases enables zero-shot query of cellular states.</a> <em>bioRxiv</em> (2023). DOI: 10.1101/2023.11.11.566161</li>
+</ul>
+<p>See more: <a href="https://scholar.google.com/scholar?oi=bibs&amp;hl=en&amp;cites=16153159346512067296,12232900429638659102">Google Scholar</a></p>
+<hr />
+<h1 id="-gget-in-the-news"><a class="header" href="#-gget-in-the-news">📰 <code>gget</code> in the news</a></h1>
+<ul>
+<li><a href="https://www.oreateai.com/blog/exploring-alphafold2-a-guide-to-github-repositories-and-colab-resources/e9a4355bf08a6cdfe061cb93d3ff61dd">Oreate AI blog post</a>: &quot;Exploring AlphaFold2: A Guide to GitHub Repositories and Colab Resources&quot;</li>
+<li><code>gget opentargets</code> release <a href="https://blog.opentargets.org/case-study-gget/">blog post</a> by the Open Targets platform</li>
+<li>Documentary short film about <em>gget</em>: <a href="https://youtu.be/cVR0k6Mt97o">https://youtu.be/cVR0k6Mt97o</a></li>
+<li>Podcast episode for the Prototype Fund Public Interest Podcast about the importance of open-source software and its role in academic research (in German): <a href="https://public-interest-podcast.podigee.io/33-pips4e4">https://public-interest-podcast.podigee.io/33-pips4e4</a></li>
+<li>Prototype Fund announcement: <a href="https://prototypefund.de/project/gget-genomische-datenbanken/">https://prototypefund.de/project/gget-genomische-datenbanken</a></li>
+</ul>
+<hr />
+<h1 id="-gget-code-repository-traffic"><a class="header" href="#-gget-code-repository-traffic">🚂 <a href="https://github.com/pachterlab/gget/">gget code repository</a> traffic</a></h1>
+<p><img src="https://raw.githubusercontent.com/pachterlab/gget/traffic/plots/gget_cumulative_clones_views.png" alt="Plots showing the cumulative clones and views of the gget GitHub repository." />
+Updates automatically every week on Sunday at 23:55 (UTC).</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../en/updates.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../en/installation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../en/updates.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../en/installation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

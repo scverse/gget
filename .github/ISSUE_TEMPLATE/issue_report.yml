@@ -1,0 +1,73 @@
+name: Issue / Bug Report
+description: Create a report to help us improve
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to fill out this report and help us improve! :)
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Please provide a clear and concise description of what the issue is.
+    validations:
+      required: true
+  - type: textarea
+    id: version
+    attributes:
+      label: gget version
+      description: Which version of gget are you using? (Run `gget -v` to see your version.)
+      placeholder: 0.27.2
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System (OS)
+      description: Which Operating System (OS) did you use?
+      multiple: true
+      options:
+        - Linux
+        - macOS
+        - Windows
+        - Other (please specify above)
+        - Not applicable
+    validations:
+      required: true
+  - type: dropdown
+    id: interface
+    attributes:
+      label: User interface
+      description: Did the problem occur when calling gget from the command-line or Python? (Select all that apply.)
+      multiple: true
+      options:
+        - Command-line
+        - Python
+        - Google Colab (please include a shareable link above)
+        - R (please specify Python wrapper above)
+        - Not applicable
+    validations:
+      required: true
+  - type: dropdown
+    id: m1
+    attributes:
+      label: Are you using a computer with an Apple M1 chip?
+      description: We are asking this because the M1 chip has been causing [problems](https://github.com/pachterlab/gget/issues/30) for some `gget alphafold` dependencies.
+      options:
+        - Not M1
+        - M1
+        - Not applicable
+    validations:
+      required: false
+  - type: textarea
+    id: command
+    attributes:
+      label: What is the exact command that was run?
+      description: Please copy-paste the gget command that caused the problem.
+      render: shell
+  - type: textarea
+    id: command-output
+    attributes:
+      label: Which output/error did you get?
+      description: Please copy-paste the complete output/error returned by the command entered above.
+      render: shell

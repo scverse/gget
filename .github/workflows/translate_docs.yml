@@ -1,0 +1,54 @@
+name: Translate Docs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/src/en/**'
+  workflow_dispatch:
+
+# Only one translation run at a time; new pushes cancel in-progress runs.
+concurrency:
+  group: translate-docs
+  cancel-in-progress: true
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    # Skip commits made by this workflow to avoid loops.
+    if: "!contains(github.event.head_commit.message, '[skip translate]')"
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # full history so git diff works
+          token: ${{ secrets.TRAFFIC_ACTION_TOKEN }}  # PAT so the push triggers deploy.yml
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install anthropic
+
+      - name: Run translation
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          BEFORE_SHA: ${{ github.event.before }}
+          AFTER_SHA: ${{ github.sha }}
+        run: python .github/scripts/translate_docs.py
+
+      - name: Commit and push translations
+        run: |
+          if [ -z "$(git status --porcelain docs/src/es/)" ]; then
+            echo "No Spanish doc changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/src/es/
+          git commit -m "Auto-translate Spanish docs [skip translate]"
+          git pull --rebase origin main
+          git push

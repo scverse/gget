@@ -1,0 +1,307 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Introduction - gget</title>
+
+
+        <!-- Custom HTML head -->
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZM4N3XBEW7"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-ZM4N3XBEW7');
+        </script>
+
+        <meta name="description" content="gget enables efficient querying of genomic reference databases">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="en/introduction.html" class="active">Introduction</a></li><li class="chapter-item expanded affix "><a href="en/updates.html">What's New?</a></li><li class="chapter-item expanded affix "><a href="en/dependents.html">Dependents & News</a></li><li class="chapter-item expanded affix "><li class="part-title">User Guide</li><li class="chapter-item expanded "><a href="en/installation.html">Installation</a></li><li class="chapter-item expanded "><a href="en/quick_start_guide.html">Quick Start Guide</a></li><li class="chapter-item expanded affix "><li class="part-title">Manual</li><li class="chapter-item expanded "><a href="en/8cube.html">gget 8cube</a></li><li class="chapter-item expanded "><a href="en/alphafold.html">gget alphafold</a></li><li class="chapter-item expanded "><a href="en/archs4.html">gget archs4</a></li><li class="chapter-item expanded "><a href="en/bgee.html">gget bgee</a></li><li class="chapter-item expanded "><a href="en/blast.html">gget blast</a></li><li class="chapter-item expanded "><a href="en/blat.html">gget blat</a></li><li class="chapter-item expanded "><a href="en/cbio.html">gget cbio</a></li><li class="chapter-item expanded "><a href="en/cellxgene.html">gget cellxgene</a></li><li class="chapter-item expanded "><a href="en/cosmic.html">gget cosmic</a></li><li class="chapter-item expanded "><a href="en/diamond.html">gget diamond</a></li><li class="chapter-item expanded "><a href="en/elm.html">gget elm</a></li><li class="chapter-item expanded "><a href="en/enrichr.html">gget enrichr</a></li><li class="chapter-item expanded "><a href="en/gpt.html">gget gpt</a></li><li class="chapter-item expanded "><a href="en/info.html">gget info</a></li><li class="chapter-item expanded "><a href="en/muscle.html">gget muscle</a></li><li class="chapter-item expanded "><a href="en/mutate.html">gget mutate</a></li><li class="chapter-item expanded "><a href="en/opentargets.html">gget opentargets</a></li><li class="chapter-item expanded "><a href="en/pdb.html">gget pdb</a></li><li class="chapter-item expanded "><a href="en/ref.html">gget ref</a></li><li class="chapter-item expanded "><a href="en/search.html">gget search</a></li><li class="chapter-item expanded "><a href="en/setup.html">gget setup</a></li><li class="chapter-item expanded "><a href="en/seq.html">gget seq</a></li><li class="chapter-item expanded "><a href="en/virus.html">gget virus</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="en/contributing.html">Contributing Guide</a></li><li class="chapter-item expanded "><a href="en/code_of_conduct.html">Code of Conduct</a></li><li class="chapter-item expanded "><a href="en/cite.html">Citation Guidelines</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Español</li><li class="chapter-item expanded "><a href="es/introduction.html">Introdución</a></li><li class="chapter-item expanded "><a href="es/updates.html">¡Lo más reciente!</a></li><li class="chapter-item expanded "><a href="es/dependents.html">Dependientes y Noticias</a></li><li class="chapter-item expanded affix "><li class="part-title">Guía del usario</li><li class="chapter-item expanded "><a href="es/installation.html">Instalación</a></li><li class="chapter-item expanded "><a href="es/quick_start_guide.html">Guía de inicio rápido</a></li><li class="chapter-item expanded affix "><li class="part-title">Manuál</li><li class="chapter-item expanded "><a href="es/8cube.html">gget 8cube</a></li><li class="chapter-item expanded "><a href="es/alphafold.html">gget alphafold</a></li><li class="chapter-item expanded "><a href="es/archs4.html">gget archs4</a></li><li class="chapter-item expanded "><a href="es/bgee.html">gget bgee</a></li><li class="chapter-item expanded "><a href="es/blast.html">gget blast</a></li><li class="chapter-item expanded "><a href="es/blat.html">gget blat</a></li><li class="chapter-item expanded "><a href="es/cbio.html">gget cbio</a></li><li class="chapter-item expanded "><a href="es/cellxgene.html">gget cellxgene</a></li><li class="chapter-item expanded "><a href="es/cosmic.html">gget cosmic</a></li><li class="chapter-item expanded "><a href="es/diamond.html">gget diamond</a></li><li class="chapter-item expanded "><a href="es/elm.html">gget elm</a></li><li class="chapter-item expanded "><a href="es/enrichr.html">gget enrichr</a></li><li class="chapter-item expanded "><a href="es/gpt.html">gget gpt</a></li><li class="chapter-item expanded "><a href="es/info.html">gget info</a></li><li class="chapter-item expanded "><a href="es/muscle.html">gget muscle</a></li><li class="chapter-item expanded "><a href="es/mutate.html">gget mutate</a></li><li class="chapter-item expanded "><a href="es/opentargets.html">gget opentargets</a></li><li class="chapter-item expanded "><a href="es/pdb.html">gget pdb</a></li><li class="chapter-item expanded "><a href="es/ref.html">gget ref</a></li><li class="chapter-item expanded "><a href="es/search.html">gget search</a></li><li class="chapter-item expanded "><a href="es/setup.html">gget setup</a></li><li class="chapter-item expanded "><a href="es/seq.html">gget seq</a></li><li class="chapter-item expanded "><a href="es/virus.html">gget virus</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="es/contributing.html">Guía de contribución</a></li><li class="chapter-item expanded "><a href="es/code_of_conduct.html">Codigo de conducto</a></li><li class="chapter-item expanded "><a href="es/cite.html">Cómo citar</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">gget</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <p><a href="https://pypi.org/project/gget"><img src="https://img.shields.io/pypi/v/gget" alt="pypi version" /></a>
+<a href="https://pepy.tech/project/gget"><img src="https://static.pepy.tech/personalized-badge/gget?period=total&amp;units=international_system&amp;left_color=grey&amp;right_color=brightgreen&amp;left_text=Downloads" alt="Downloads" /></a>
+<a href="https://github.com/pachterlab/gget/blob/main/LICENSE"><img src="https://img.shields.io/pypi/l/gget" alt="license" /></a>
+<a href="https://github.com/pachterlab/gget/blob/main/tests/pytest_results_py3.12.txt"><img src="https://github.com/pachterlab/gget/actions/workflows/ci.yml/badge.svg" alt="status" /></a>
+<a href="https://numfocus.org/"><img src="https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat&amp;colorA=E1523D&amp;colorB=007D8A" alt="Powered by NumFOCUS" /></a>
+<a href="https://github.com/scverse/gget"><img src="https://img.shields.io/github/stars/scverse/gget?style=social" alt="GitHub stars" /></a></p>
+<h1 id="welcome"><a class="header" href="#welcome">Welcome!</a></h1>
+<p><a href="https://raw.githubusercontent.com/pachterlab/gget/main/figures/gget_overview.png"><img align="right" width="65%" height="65%" src="https://github.com/pachterlab/gget/blob/main/docs/assets/website_v2_gget_overview.png?raw=true" /></a></p>
+<p><code>gget</code> is a free, open-source command-line tool and Python package that enables efficient querying of genomic databases.<br />
+<br>
+<code>gget</code> consists of a collection of separate but interoperable modules, each designed to facilitate one type of database querying in a single line of code.<br />
+<br>
+<code>gget</code> is part of the <a href="https://scverse.org">scverse®</a> project and is fiscally sponsored by <a href="https://numfocus.org/">NumFOCUS</a>. If you like <code>gget</code> and want to support our mission, please consider making a tax-deductible <a href="https://opencollective.com/scverse/projects/scverse-gget/donate?interval=oneTime&amp;amount=20&amp;contributeAs=me">donation</a>.</p>
+<blockquote>
+<p>Note: The databases queried by <code>gget</code> are continuously updated and may change structure. <code>gget</code> modules are <a href="https://github.com/pachterlab/gget/blob/main/tests/pytest_results_py3.12.txt">automatically tested</a> twice weekly and updated as needed. If you encounter an issue, first upgrade to the latest version with pip install --upgrade gget. If the issue persists, please <a href="https://github.com/pachterlab/gget/issues/new/choose">report it</a>.</p>
+</blockquote>
+<p>Missing a database or functionality you’d love to see? <a href="https://github.com/pachterlab/gget/issues/new/choose"><kbd> <br> Request new feature <br> </kbd></a></p>
+<h1 id="gget-modules"><a class="header" href="#gget-modules">gget modules</a></h1>
+<p>These are the <code>gget</code> core modules. Click on any module to access detailed documentation.</p>
+<table style="width:100%; table-layout:fixed;">
+  <tr>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/8cube.html"><strong>gget 8cube</strong></a><br><span style="font-size:0.85em;">What is the expression of gene X across 8 different mouse strains and tissues?</span></td>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/alphafold.html"><strong>gget alphafold</strong></a><br><span style="font-size:0.85em;">Predict 3D protein structure from an amino acid sequence.</span></td>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/archs4.html"><strong>gget archs4</strong></a><br><span style="font-size:0.85em;">What is the expression of my gene in tissue X?</span></td>
+  </tr>
+  <tr>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/bgee.html"><strong>gget bgee</strong></a><br><span style="font-size:0.85em;">Find all orthologs of a gene.</span></td>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/blast.html"><strong>gget blast</strong></a><br><span style="font-size:0.85em;">BLAST a nucleotide or amino acid sequence.</span></td>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/blat.html"><strong>gget blat</strong></a><br><span style="font-size:0.85em;">Find the genomic location of a nucleotide or amino acid sequence.</span></td>
+  </tr>
+  <tr>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/cbio.html"><strong>gget cbio</strong></a><br><span style="font-size:0.85em;">Explore a gene's expression in the specified cancers.</span></td>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/cellxgene.html"><strong>gget cellxgene</strong></a><br><span style="font-size:0.85em;">Get ready-to-use single-cell RNA seq count matrices from certain tissues/ diseases/ etc.</span></td>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/cosmic.html"><strong>gget cosmic</strong></a><br><span style="font-size:0.85em;">Search for genes, mutations, and other factors associated with certain cancers.</span></td>
+  </tr>
+  <tr>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/diamond.html"><strong>gget diamond</strong></a><br><span style="font-size:0.85em;">Align amino acid sequences to a reference.</span></td>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/elm.html"><strong>gget elm</strong></a><br><span style="font-size:0.85em;">Find protein interaction domains and functions in an amino acid sequence.</span></td>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/enrichr.html"><strong>gget enrichr</strong></a><br><span style="font-size:0.85em;">Check if a list of genes is associated with a specific celltype/ pathway/ disease/ etc.</span></td>
+  </tr>
+  <tr>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/info.html"><strong>gget info</strong></a><br><span style="font-size:0.85em;">Fetch all of the information associated with an Ensembl ID.</span></td>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/muscle.html"><strong>gget muscle</strong></a><br><span style="font-size:0.85em;">Align multiple nucleotide or amino acid sequences to each other.</span></td>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/mutate.html"><strong>gget mutate</strong></a><br><span style="font-size:0.85em;">Mutate nucleotide sequences based on specified mutations.</span></td>
+  </tr>
+  <tr>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/opentargets.html"><strong>gget opentargets</strong></a><br><span style="font-size:0.85em;">Explore which diseases and drugs a gene is associated with.</span></td>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/pdb.html"><strong>gget pdb</strong></a><br><span style="font-size:0.85em;">Fetch data from the Protein Data Bank (PDB) based on a PDB ID.</span></td>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/ref.html"><strong>gget ref</strong></a><br><span style="font-size:0.85em;">Get reference genomes from Ensembl.</span></td>
+  </tr>
+  <tr>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/search.html"><strong>gget search</strong></a><br><span style="font-size:0.85em;">Find Ensembl IDs associated with the specified search word.</span></td>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/seq.html"><strong>gget seq</strong></a><br><span style="font-size:0.85em;">Fetch the nucleotide or amino acid sequence of a gene.</span></td>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/virus.html"><strong>gget virus</strong></a><br><span style="font-size:0.85em;">Filter and fetch global viral sequences and extensive metadata.</span></td>
+  </tr>
+</table>
+<br>  
+<p>If you use <code>gget</code> in a publication, please <a href="/gget/en/cite.html">cite*</a>:</p>
+<pre><code>Luebbert, L., &amp; Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. https://doi.org/10.1093/bioinformatics/btac836
+</code></pre>
+<p>Read the article here: <a href="https://doi.org/10.1093/bioinformatics/btac836">https://doi.org/10.1093/bioinformatics/btac836</a></p>
+<br>  
+<br>  
+<p><a href="https://github.com/lauraluebbert/gget_downloads/tree/main"><img src="https://github.com/lauraluebbert/gget_downloads/raw/main/plots/downloads_gget_daily.png" alt="gget PyPI downloads over the last year" /></a></p>
+<br>  
+<br>  
+<div style="display: flex; justify-content: center;">
+  <iframe
+    width="560"
+    height="315"
+    src="https://www.youtube.com/embed/cVR0k6Mt97o?si=BJwRyaymmxF9w65f"
+    title="YouTube video player"
+    frameborder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+    allowfullscreen>
+  </iframe>
+</div>
+<br>  
+<p align="center">
+  <img height="100" alt="scverse_symbol" src="https://github.com/user-attachments/assets/d672bd36-4749-427e-9f08-d807d3bde8fa" />
+  &nbsp;&nbsp;&nbsp;
+  <img height="100" alt="numfocus" src="https://github.com/user-attachments/assets/a12369cf-e6ae-4b4b-9a30-669aa3d80b5c" />
+  &nbsp;&nbsp;&nbsp;
+  <img height="100" alt="logo-okfn" src="https://github.com/user-attachments/assets/452ae8d8-69f0-4d0d-848c-ddfb40357eb2" />
+</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+                            <a rel="next" href="en/updates.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+                    <a rel="next" href="en/updates.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

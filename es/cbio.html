@@ -1,0 +1,422 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>gget cbio - gget</title>
+
+
+        <!-- Custom HTML head -->
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZM4N3XBEW7"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-ZM4N3XBEW7');
+        </script>
+
+        <meta name="description" content="gget enables efficient querying of genomic reference databases">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../en/introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="../en/updates.html">What's New?</a></li><li class="chapter-item expanded affix "><a href="../en/dependents.html">Dependents & News</a></li><li class="chapter-item expanded affix "><li class="part-title">User Guide</li><li class="chapter-item expanded "><a href="../en/installation.html">Installation</a></li><li class="chapter-item expanded "><a href="../en/quick_start_guide.html">Quick Start Guide</a></li><li class="chapter-item expanded affix "><li class="part-title">Manual</li><li class="chapter-item expanded "><a href="../en/8cube.html">gget 8cube</a></li><li class="chapter-item expanded "><a href="../en/alphafold.html">gget alphafold</a></li><li class="chapter-item expanded "><a href="../en/archs4.html">gget archs4</a></li><li class="chapter-item expanded "><a href="../en/bgee.html">gget bgee</a></li><li class="chapter-item expanded "><a href="../en/blast.html">gget blast</a></li><li class="chapter-item expanded "><a href="../en/blat.html">gget blat</a></li><li class="chapter-item expanded "><a href="../en/cbio.html">gget cbio</a></li><li class="chapter-item expanded "><a href="../en/cellxgene.html">gget cellxgene</a></li><li class="chapter-item expanded "><a href="../en/cosmic.html">gget cosmic</a></li><li class="chapter-item expanded "><a href="../en/diamond.html">gget diamond</a></li><li class="chapter-item expanded "><a href="../en/elm.html">gget elm</a></li><li class="chapter-item expanded "><a href="../en/enrichr.html">gget enrichr</a></li><li class="chapter-item expanded "><a href="../en/gpt.html">gget gpt</a></li><li class="chapter-item expanded "><a href="../en/info.html">gget info</a></li><li class="chapter-item expanded "><a href="../en/muscle.html">gget muscle</a></li><li class="chapter-item expanded "><a href="../en/mutate.html">gget mutate</a></li><li class="chapter-item expanded "><a href="../en/opentargets.html">gget opentargets</a></li><li class="chapter-item expanded "><a href="../en/pdb.html">gget pdb</a></li><li class="chapter-item expanded "><a href="../en/ref.html">gget ref</a></li><li class="chapter-item expanded "><a href="../en/search.html">gget search</a></li><li class="chapter-item expanded "><a href="../en/setup.html">gget setup</a></li><li class="chapter-item expanded "><a href="../en/seq.html">gget seq</a></li><li class="chapter-item expanded "><a href="../en/virus.html">gget virus</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../en/contributing.html">Contributing Guide</a></li><li class="chapter-item expanded "><a href="../en/code_of_conduct.html">Code of Conduct</a></li><li class="chapter-item expanded "><a href="../en/cite.html">Citation Guidelines</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Español</li><li class="chapter-item expanded "><a href="../es/introduction.html">Introdución</a></li><li class="chapter-item expanded "><a href="../es/updates.html">¡Lo más reciente!</a></li><li class="chapter-item expanded "><a href="../es/dependents.html">Dependientes y Noticias</a></li><li class="chapter-item expanded affix "><li class="part-title">Guía del usario</li><li class="chapter-item expanded "><a href="../es/installation.html">Instalación</a></li><li class="chapter-item expanded "><a href="../es/quick_start_guide.html">Guía de inicio rápido</a></li><li class="chapter-item expanded affix "><li class="part-title">Manuál</li><li class="chapter-item expanded "><a href="../es/8cube.html">gget 8cube</a></li><li class="chapter-item expanded "><a href="../es/alphafold.html">gget alphafold</a></li><li class="chapter-item expanded "><a href="../es/archs4.html">gget archs4</a></li><li class="chapter-item expanded "><a href="../es/bgee.html">gget bgee</a></li><li class="chapter-item expanded "><a href="../es/blast.html">gget blast</a></li><li class="chapter-item expanded "><a href="../es/blat.html">gget blat</a></li><li class="chapter-item expanded "><a href="../es/cbio.html" class="active">gget cbio</a></li><li class="chapter-item expanded "><a href="../es/cellxgene.html">gget cellxgene</a></li><li class="chapter-item expanded "><a href="../es/cosmic.html">gget cosmic</a></li><li class="chapter-item expanded "><a href="../es/diamond.html">gget diamond</a></li><li class="chapter-item expanded "><a href="../es/elm.html">gget elm</a></li><li class="chapter-item expanded "><a href="../es/enrichr.html">gget enrichr</a></li><li class="chapter-item expanded "><a href="../es/gpt.html">gget gpt</a></li><li class="chapter-item expanded "><a href="../es/info.html">gget info</a></li><li class="chapter-item expanded "><a href="../es/muscle.html">gget muscle</a></li><li class="chapter-item expanded "><a href="../es/mutate.html">gget mutate</a></li><li class="chapter-item expanded "><a href="../es/opentargets.html">gget opentargets</a></li><li class="chapter-item expanded "><a href="../es/pdb.html">gget pdb</a></li><li class="chapter-item expanded "><a href="../es/ref.html">gget ref</a></li><li class="chapter-item expanded "><a href="../es/search.html">gget search</a></li><li class="chapter-item expanded "><a href="../es/setup.html">gget setup</a></li><li class="chapter-item expanded "><a href="../es/seq.html">gget seq</a></li><li class="chapter-item expanded "><a href="../es/virus.html">gget virus</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../es/contributing.html">Guía de contribución</a></li><li class="chapter-item expanded "><a href="../es/code_of_conduct.html">Codigo de conducto</a></li><li class="chapter-item expanded "><a href="../es/cite.html">Cómo citar</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">gget</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <p><a href="https://github.com/pachterlab/gget/blob/main/docs/src/es/cbio.md"><kbd> Ver el codigo fuente de la pagina en GitHub </kbd></a></p>
+<blockquote>
+<p>Parámetros de Python són iguales a los parámetros largos (<code>--parámetro</code>) de Terminal, si no especificado de otra manera. Banderas son parámetros de verdadero o falso (True/False) en Python. El manuál para cualquier modulo de gget se puede llamar desde la Terminal con la bandera <code>-h</code> <code>--help</code>.</p>
+</blockquote>
+<h1 id="gget-cbio-"><a class="header" href="#gget-cbio-">gget cbio 📖</a></h1>
+<p>Trazar mapas de calor de la genómica del cáncer utilizando datos de <a href="https://www.cbioportal.org/">cBioPortal</a> con IDs de Ensembl o nombres de genes.</p>
+<p>Este módulo fue escrito por <a href="https://github.com/techno-sam">Sam Wagenaar</a>.</p>
+<p><strong>Argumento posicional</strong><br />
+<code>subcommand</code><br />
+O bien <code>search</code> o <code>plot</code></p>
+<h3 id="subcomando-search-python-ggetcbio_search"><a class="header" href="#subcomando-search-python-ggetcbio_search">Subcomando <code>search</code> (Python: <code>gget.cbio_search</code>)</a></h3>
+<p>Buscar IDs de estudios de cBioPortal por palabra clave.<br />
+Formato de retorno: JSON (línea de comandos) o lista de cadenas (Python).<br />
+<strong>Nota: Esto no devuelve estudios con tipos de cáncer mixtos.</strong></p>
+<p><strong>Argumento posicional</strong><br />
+<code>keywords</code><br />
+Lista de palabras clave separadas por espacios para buscar, por ejemplo <code>breast lung</code>.<br />
+Python: Pasa palabras clave como una lista de cadenas.</p>
+<h3 id="subcomando-plot-python-ggetcbio_plot"><a class="header" href="#subcomando-plot-python-ggetcbio_plot">Subcomando <code>plot</code> (Python: <code>gget.cbio_plot</code>)</a></h3>
+<p>Graficar mapas de calor de genómica del cáncer utilizando datos de cBioPortal.<br />
+Formato de retorno: PNG (línea de comandos y Python).</p>
+<p><strong>Argumentos requeridos</strong><br />
+<code>-s</code> <code>--study_ids</code><br />
+Lista separada por espacios de IDs de estudios de cBioPortal, por ejemplo, <code>msk_impact_2017 egc_msk_2023</code>.</p>
+<p><code>-g</code> <code>--genes</code><br />
+Lista separada por espacios de nombres de genes o IDs de Ensembl, por ejemplo, <code>NOTCH3 ENSG00000108375</code>.</p>
+<p><strong>Argumentos opcionales</strong><br />
+<code>-st</code> <code>--stratification</code><br />
+Columna por la cual estratificar los datos. Predeterminado: <code>tissue</code>.<br />
+Opciones:</p>
+<ul>
+<li>tissue</li>
+<li>cancer_type</li>
+<li>cancer_type_detailed</li>
+<li>study_id</li>
+<li>sample</li>
+</ul>
+<p><code>-vt</code> <code>--variation_type</code><br />
+Tipo de variación a graficar. Predeterminado: <code>mutation_occurrences</code>.<br />
+Opciones:</p>
+<ul>
+<li>mutation_occurrences</li>
+<li>cna_nonbinary (Nota: la <code>stratification</code> debe ser 'sample' para esta opción)</li>
+<li>sv_occurrences</li>
+<li>cna_occurrences</li>
+<li>Consequence (Nota: la <code>stratification</code> debe ser 'sample' para esta opción)</li>
+</ul>
+<p><code>-f</code> <code>--filter</code><br />
+Filtrar los datos por un valor específico en una columna específica, por ejemplo, <code>study_id:msk_impact_2017</code>.<br />
+Python: <code>filter=(column, value)</code></p>
+<p><code>-dd</code> <code>--data_dir</code><br />
+Directorio para almacenar los archivos de datos. Predeterminado: <code>./gget_cbio_cache</code>.</p>
+<p><code>-fd</code> <code>--figure_dir</code><br />
+Directorio para las figuras de salida. Predeterminado: <code>./gget_cbio_figures</code>.</p>
+<p><code>-fn</code> <code>--filename</code><br />
+Nombre del archivo de salida, relativo a <code>figure_dir</code>. Predeterminado: auto-generado.<br />
+Python: <code>figure_filename</code>.</p>
+<p><code>-t</code> <code>--title</code><br />
+Título para la figura de salida. Predeterminado: auto-generado.<br />
+Python: <code>figure_title</code>.</p>
+<p><code>-dpi</code> <code>--dpi</code><br />
+DPI de la figura de salida. Predeterminado: 100.</p>
+<p><strong>Banderas</strong></p>
+<p><code>-q</code> <code>--quiet</code><br />
+Solo en línea de comandos. Evita que se muestre la información de progreso.<br />
+Python: Usa <code>verbose=False</code> para evitar que se muestre la información de progreso.</p>
+<p><code>-nc</code> <code>--no_confirm</code><br />
+Solo en línea de comandos. Omitir las confirmaciones de descarga.<br />
+Python: Usa <code>confirm_download=True</code> para habilitar las confirmaciones de descarga.</p>
+<p><code>-sh</code> <code>--show</code><br />
+Mostrar la gráfica en una ventana (automático en notebooks de Jupyter).</p>
+<h3 id="ejemplos"><a class="header" href="#ejemplos">Ejemplos</a></h3>
+<p><strong>Encontrar todos los estudios de cBioPortal con tipos de cáncer que coinciden con palabras clave específicas:</strong></p>
+<pre><code class="language-bash">gget cbio search esophag ovary ovarian
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+gget.cbio_search(['esophag', 'ovary', 'ovarian'])
+</code></pre>
+<p>→ Devuelve una lista de estudios con tipos de cáncer que coinciden con las palabras clave <code>esophag</code>, <code>ovary</code>, o <code>ovarian</code>.</p>
+<pre><code>['egc_tmucih_2015', 'egc_msk_2017', ..., 'msk_spectrum_tme_2022']
+</code></pre>
+<p><br/><br/></p>
+<p><strong>Graficar un mapa de calor de ocurrencias de mutaciones para genes específicos en un estudio específico:</strong></p>
+<pre><code class="language-bash">gget cbio plot \
+    -s msk_impact_2017 \
+    -g AKT1 ALK FLT4 MAP3K1 MLL2 MLL3 NOTCH3 NOTCH4 PDCD1 RNF43 \
+    -st tissue \
+    -vt mutation_occurrences \
+    -dpi 200
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+gget.cbio_plot(
+    ['msk_impact_2017'],
+    ['AKT1', 'ALK', 'FLT4', 'MAP3K1', 'MLL2', 'MLL3', 'NOTCH3', 'NOTCH4', 'PDCD1', 'RNF43'],
+    stratification='tissue',
+    variation_type='mutation_occurrences',
+    dpi=200
+)
+</code></pre>
+<p>→ Guarda un mapa de calor de ocurrencias de mutaciones para los genes especificados en el estudio especificado en ./gget_cbio_figures/Heatmap_tissue.png.</p>
+<p><img src="https://raw.githubusercontent.com/pachterlab/gget/f6b4465eecae0f07c71558f8f6e7b60d36c8d41a/docs/assets/gget_cbio_figure_1.png" alt="Heatmap" /></p>
+<p><br/><br/></p>
+<p><strong>Graficar un mapa de calor de tipos de mutaciones para genes específicos en un estudio específico:</strong></p>
+<pre><code class="language-bash">gget cbio plot \
+    -s msk_impact_2017 \
+    -g AKT1 ALK FLT4 MAP3K1 MLL2 MLL3 NOTCH3 NOTCH4 PDCD1 RNF43 \
+    -st sample \
+    -vt Consequence \
+    -dpi 200
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+gget.cbio_plot(
+    ['msk_impact_2017'],
+    ['AKT1', 'ALK', 'FLT4', 'MAP3K1', 'MLL2', 'MLL3', 'NOTCH3', 'NOTCH4', 'PDCD1', 'RNF43'],
+    stratification='sample',
+    variation_type='Consequence',
+    dpi=200,
+)
+</code></pre>
+<p>→ Guarda un mapa de calor de tipos de mutaciones para los genes especificados en el estudio especificado en ./gget_cbio_figures/Heatmap_sample.png.</p>
+<p><img src="https://raw.githubusercontent.com/pachterlab/gget/f6b4465eecae0f07c71558f8f6e7b60d36c8d41a/docs/assets/gget_cbio_figure_2.png" alt="Heatmap" /></p>
+<p><br/><br/></p>
+<p><strong>Graficar un mapa de calor de tipos de mutaciones para genes específicos en un estudio específico, filtrando por tejido::</strong></p>
+<pre><code class="language-bash">gget cbio plot \
+    -s msk_impact_2017 \
+    -g AKT1 ALK FLT4 MAP3K1 MLL2 MLL3 NOTCH3 NOTCH4 PDCD1 RNF43 \
+    -st sample \
+    -vt Consequence \
+    -f tissue:intestine \
+    -dpi 200
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+gget.cbio_plot(
+    ['msk_impact_2017'],
+    ['AKT1', 'ALK', 'FLT4', 'MAP3K1', 'MLL2', 'MLL3', 'NOTCH3', 'NOTCH4', 'PDCD1', 'RNF43'],
+    stratification='sample',
+    variation_type='Consequence',
+    filter=('tissue', 'intestine'),
+    dpi=200,
+)
+</code></pre>
+<p>→  Guarda un mapa de calor de tipos de mutaciones para los genes especificados en el estudio especificado, filtrado por tejido, en ./gget_cbio_figures/Heatmap_sample_intestine.png.</p>
+<p><img src="https://raw.githubusercontent.com/pachterlab/gget/ef0e8334d87214c17cbac70713028e7b823bba49/docs/assets/gget_cbio_figure_3.png" alt="Heatmap" /></p>
+<p><br/><br/></p>
+<p><strong>Graficar un mapa de calor con un título y nombre de archivo personalizados::</strong></p>
+<pre><code class="language-bash">gget cbio plot \
+    -s msk_impact_2017 \
+    -g AKT1 ALK FLT4 MAP3K1 MLL2 MLL3 NOTCH3 NOTCH4 PDCD1 RNF43 \
+    -st sample \
+    -vt Consequence \
+    -f tissue:intestine \
+    -dpi 200 \
+    -t &quot;Intestinal Mutations&quot; \
+    -fn intestinal_mutations.png
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+gget.cbio_plot(
+    ['msk_impact_2017'],
+    ['AKT1', 'ALK', 'FLT4', 'MAP3K1', 'MLL2', 'MLL3', 'NOTCH3', 'NOTCH4', 'PDCD1', 'RNF43'],
+    stratification='sample',
+    variation_type='Consequence',
+    filter=('tissue', 'intestine'),
+    dpi=200,
+    figure_title='Intestinal Mutations',
+    figure_filename='intestinal_mutations.png'
+)
+</code></pre>
+<p>→ Guarda un mapa de calor de los tipos de mutaciones para los genes especificados en el estudio especificado, filtrado por tejido, con el título &quot;Mutaciones intestinales&quot; en ./gget_cbio_figures/intestinal_mutations.png.</p>
+<p><img src="https://raw.githubusercontent.com/pachterlab/gget/b32c01efefd55d37c19034ce96a86826e30ae3e5/docs/assets/gget_cbio_figure_4.png" alt="Heatmap" /></p>
+<h4 id="más-ejemplos"><a class="header" href="#más-ejemplos"><a href="https://github.com/pachterlab/gget_examples">Más ejemplos</a></a></h4>
+<h1 id="citar"><a class="header" href="#citar">Citar</a></h1>
+<p>Si utiliza <code>gget cbio</code> en una publicación, favor de citar los siguientes artículos:</p>
+<ul>
+<li>
+<p>Luebbert, L., &amp; Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. <a href="https://doi.org/10.1093/bioinformatics/btac836">https://doi.org/10.1093/bioinformatics/btac836</a></p>
+</li>
+<li>
+<p>Cerami E, Gao J, Dogrusoz U, Gross BE, Sumer SO, Aksoy BA, Jacobsen A, Byrne CJ, Heuer ML, Larsson E, Antipin Y, Reva B, Goldberg AP, Sander C, Schultz N. The cBio cancer genomics portal: an open platform for exploring multidimensional cancer genomics data. Cancer Discov. 2012 May;2(5):401-4. doi: <a href="https://doi.org/10.1158/2159-8290.cd-12-0095">10.1158/2159-8290.CD-12-0095</a>. Erratum in: Cancer Discov. 2012 Oct;2(10):960. PMID: 22588877; PMCID: PMC3956037.</p>
+</li>
+<li>
+<p>Gao J, Aksoy BA, Dogrusoz U, Dresdner G, Gross B, Sumer SO, Sun Y, Jacobsen A, Sinha R, Larsson E, Cerami E, Sander C, Schultz N. Integrative analysis of complex cancer genomics and clinical profiles using the cBioPortal. Sci Signal. 2013 Apr 2;6(269):pl1. doi: <a href="https://doi.org/10.1126/scisignal.2004088">10.1126/scisignal.2004088</a>. PMID: 23550210; PMCID: PMC4160307.</p>
+</li>
+<li>
+<p>de Bruijn I, Kundra R, Mastrogiacomo B, Tran TN, Sikina L, Mazor T, Li X, Ochoa A, Zhao G, Lai B, Abeshouse A, Baiceanu D, Ciftci E, Dogrusoz U, Dufilie A, Erkoc Z, Garcia Lara E, Fu Z, Gross B, Haynes C, Heath A, Higgins D, Jagannathan P, Kalletla K, Kumari P, Lindsay J, Lisman A, Leenknegt B, Lukasse P, Madela D, Madupuri R, van Nierop P, Plantalech O, Quach J, Resnick AC, Rodenburg SYA, Satravada BA, Schaeffer F, Sheridan R, Singh J, Sirohi R, Sumer SO, van Hagen S, Wang A, Wilson M, Zhang H, Zhu K, Rusk N, Brown S, Lavery JA, Panageas KS, Rudolph JE, LeNoue-Newton ML, Warner JL, Guo X, Hunter-Zinck H, Yu TV, Pilai S, Nichols C, Gardos SM, Philip J; AACR Project GENIE BPC Core Team, AACR Project GENIE Consortium; Kehl KL, Riely GJ, Schrag D, Lee J, Fiandalo MV, Sweeney SM, Pugh TJ, Sander C, Cerami E, Gao J, Schultz N. Analysis and Visualization of Longitudinal Genomic and Clinical Data from the AACR Project GENIE Biopharma Collaborative in cBioPortal. Cancer Res. 2023 Dec 1;83(23):3861-3867. doi: <a href="https://doi.org/10.1158/0008-5472.CAN-23-0816">10.1158/0008-5472.CAN-23-0816</a>. PMID: 37668528; PMCID: PMC10690089.</p>
+</li>
+<li>
+<p>Please also cite the source of the data if you are using a publicly available dataset.</p>
+</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../es/blat.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../es/cellxgene.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../es/blat.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../es/cellxgene.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

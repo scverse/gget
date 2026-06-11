@@ -1,0 +1,420 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>gget opentargets - gget</title>
+
+
+        <!-- Custom HTML head -->
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZM4N3XBEW7"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-ZM4N3XBEW7');
+        </script>
+
+        <meta name="description" content="gget enables efficient querying of genomic reference databases">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../en/introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="../en/updates.html">What's New?</a></li><li class="chapter-item expanded affix "><a href="../en/dependents.html">Dependents & News</a></li><li class="chapter-item expanded affix "><li class="part-title">User Guide</li><li class="chapter-item expanded "><a href="../en/installation.html">Installation</a></li><li class="chapter-item expanded "><a href="../en/quick_start_guide.html">Quick Start Guide</a></li><li class="chapter-item expanded affix "><li class="part-title">Manual</li><li class="chapter-item expanded "><a href="../en/8cube.html">gget 8cube</a></li><li class="chapter-item expanded "><a href="../en/alphafold.html">gget alphafold</a></li><li class="chapter-item expanded "><a href="../en/archs4.html">gget archs4</a></li><li class="chapter-item expanded "><a href="../en/bgee.html">gget bgee</a></li><li class="chapter-item expanded "><a href="../en/blast.html">gget blast</a></li><li class="chapter-item expanded "><a href="../en/blat.html">gget blat</a></li><li class="chapter-item expanded "><a href="../en/cbio.html">gget cbio</a></li><li class="chapter-item expanded "><a href="../en/cellxgene.html">gget cellxgene</a></li><li class="chapter-item expanded "><a href="../en/cosmic.html">gget cosmic</a></li><li class="chapter-item expanded "><a href="../en/diamond.html">gget diamond</a></li><li class="chapter-item expanded "><a href="../en/elm.html">gget elm</a></li><li class="chapter-item expanded "><a href="../en/enrichr.html">gget enrichr</a></li><li class="chapter-item expanded "><a href="../en/gpt.html">gget gpt</a></li><li class="chapter-item expanded "><a href="../en/info.html">gget info</a></li><li class="chapter-item expanded "><a href="../en/muscle.html">gget muscle</a></li><li class="chapter-item expanded "><a href="../en/mutate.html">gget mutate</a></li><li class="chapter-item expanded "><a href="../en/opentargets.html" class="active">gget opentargets</a></li><li class="chapter-item expanded "><a href="../en/pdb.html">gget pdb</a></li><li class="chapter-item expanded "><a href="../en/ref.html">gget ref</a></li><li class="chapter-item expanded "><a href="../en/search.html">gget search</a></li><li class="chapter-item expanded "><a href="../en/setup.html">gget setup</a></li><li class="chapter-item expanded "><a href="../en/seq.html">gget seq</a></li><li class="chapter-item expanded "><a href="../en/virus.html">gget virus</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../en/contributing.html">Contributing Guide</a></li><li class="chapter-item expanded "><a href="../en/code_of_conduct.html">Code of Conduct</a></li><li class="chapter-item expanded "><a href="../en/cite.html">Citation Guidelines</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Español</li><li class="chapter-item expanded "><a href="../es/introduction.html">Introdución</a></li><li class="chapter-item expanded "><a href="../es/updates.html">¡Lo más reciente!</a></li><li class="chapter-item expanded "><a href="../es/dependents.html">Dependientes y Noticias</a></li><li class="chapter-item expanded affix "><li class="part-title">Guía del usario</li><li class="chapter-item expanded "><a href="../es/installation.html">Instalación</a></li><li class="chapter-item expanded "><a href="../es/quick_start_guide.html">Guía de inicio rápido</a></li><li class="chapter-item expanded affix "><li class="part-title">Manuál</li><li class="chapter-item expanded "><a href="../es/8cube.html">gget 8cube</a></li><li class="chapter-item expanded "><a href="../es/alphafold.html">gget alphafold</a></li><li class="chapter-item expanded "><a href="../es/archs4.html">gget archs4</a></li><li class="chapter-item expanded "><a href="../es/bgee.html">gget bgee</a></li><li class="chapter-item expanded "><a href="../es/blast.html">gget blast</a></li><li class="chapter-item expanded "><a href="../es/blat.html">gget blat</a></li><li class="chapter-item expanded "><a href="../es/cbio.html">gget cbio</a></li><li class="chapter-item expanded "><a href="../es/cellxgene.html">gget cellxgene</a></li><li class="chapter-item expanded "><a href="../es/cosmic.html">gget cosmic</a></li><li class="chapter-item expanded "><a href="../es/diamond.html">gget diamond</a></li><li class="chapter-item expanded "><a href="../es/elm.html">gget elm</a></li><li class="chapter-item expanded "><a href="../es/enrichr.html">gget enrichr</a></li><li class="chapter-item expanded "><a href="../es/gpt.html">gget gpt</a></li><li class="chapter-item expanded "><a href="../es/info.html">gget info</a></li><li class="chapter-item expanded "><a href="../es/muscle.html">gget muscle</a></li><li class="chapter-item expanded "><a href="../es/mutate.html">gget mutate</a></li><li class="chapter-item expanded "><a href="../es/opentargets.html">gget opentargets</a></li><li class="chapter-item expanded "><a href="../es/pdb.html">gget pdb</a></li><li class="chapter-item expanded "><a href="../es/ref.html">gget ref</a></li><li class="chapter-item expanded "><a href="../es/search.html">gget search</a></li><li class="chapter-item expanded "><a href="../es/setup.html">gget setup</a></li><li class="chapter-item expanded "><a href="../es/seq.html">gget seq</a></li><li class="chapter-item expanded "><a href="../es/virus.html">gget virus</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../es/contributing.html">Guía de contribución</a></li><li class="chapter-item expanded "><a href="../es/code_of_conduct.html">Codigo de conducto</a></li><li class="chapter-item expanded "><a href="../es/cite.html">Cómo citar</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">gget</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <p><a href="https://github.com/pachterlab/gget/blob/main/docs/src/en/opentargets.md"><kbd> View page source on GitHub </kbd></a></p>
+<blockquote>
+<p>Python arguments are equivalent to long-option arguments (<code>--arg</code>), unless otherwise specified. Flags are True/False arguments in Python. The manual for any gget tool can be called from the command-line using the <code>-h</code> <code>--help</code> flag.</p>
+</blockquote>
+<h1 id="gget-opentargets-"><a class="header" href="#gget-opentargets-">gget opentargets 🎯</a></h1>
+<p>Fetch associated diseases or drugs from <a href="https://platform.opentargets.org/">OpenTargets</a> using Ensembl IDs.<br />
+Return format: JSON/CSV (command-line) or data frame (Python).</p>
+<p>This module was written by <a href="https://github.com/techno-sam">Sam Wagenaar</a>.</p>
+<p><strong>Positional argument</strong><br />
+<code>ens_id</code><br />
+Ensembl gene ID, e.g ENSG00000169194.</p>
+<p><strong>Optional arguments</strong><br />
+<code>-r</code> <code>--resource</code><br />
+Defines the type of information to return in the output. Default: 'diseases'.<br />
+Possible resources are:</p>
+<div class="table-wrapper"><table><thead><tr><th>Resource</th><th>Return Value</th><th>Valid Filters</th><th>Sources</th></tr></thead><tbody>
+<tr><td><code>diseases</code></td><td>Associated diseases</td><td>None</td><td>Various:<ul><li><a href="https://genetics.opentargets.org/">Open Targets</a></li><li><a href="https://www.ebi.ac.uk/chembl/">ChEMBL</a></li><li><a href="http://europepmc.org/">Europe PMC</a></li></ul>etc.</td></tr>
+<tr><td><code>drugs</code></td><td>Associated drugs</td><td><code>disease_id</code></td><td><a href="https://www.ebi.ac.uk/chembl/">ChEMBL</a></td></tr>
+<tr><td><code>tractability</code></td><td>Tractability data</td><td>None</td><td><a href="https://platform-docs.opentargets.org/target/tractability">Open Targets</a></td></tr>
+<tr><td><code>pharmacogenetics</code></td><td>Pharmacogenetic responses</td><td><code>drug_id</code></td><td><a href="https://www.pharmgkb.org/">PharmGKB</a></td></tr>
+<tr><td><code>expression</code></td><td>Gene expression data (by tissues, organs, and anatomical systems)</td><td><code>tissue_id</code><br/><code>anatomical_system</code><br/><code>organ</code></td><td><ul><li><a href="https://www.ebi.ac.uk/gxa/home">ExpressionAtlas</a></li><li><a href="https://www.proteinatlas.org/">HPA</a></li><li><a href="https://www.gtexportal.org/home/">GTEx</a></li></ul></td></tr>
+<tr><td><code>depmap</code></td><td>DepMap gene→disease-effect data.</td><td><code>tissue_id</code></td><td><a href="https://depmap.org/portal/">DepMap Portal</a></td></tr>
+<tr><td><code>interactions</code></td><td>Protein⇄protein interactions</td><td><code>protein_a_id</code><br/><code>protein_b_id</code><br/><code>gene_b_id</code></td><td><ul><li><a href="https://platform-docs.opentargets.org/target/molecular-interactions">Open Targets</a></li><li><a href="https://platform-docs.opentargets.org/target/molecular-interactions#intact">IntAct</a></li><li><a href="https://platform-docs.opentargets.org/target/molecular-interactions#signor">Signor</a></li><li><a href="https://platform-docs.opentargets.org/target/molecular-interactions#reactome">Reactome</a></li><li><a href="https://platform-docs.opentargets.org/target/molecular-interactions#string">String</a></li></ul></td></tr>
+</tbody></table>
+</div>
+<p><code>-l</code> <code>--limit</code><br />
+Limit the number of results, e.g 10. Default: No limit.<br />
+Note: Not compatible with the <code>tractability</code> and <code>depmap</code> resources.</p>
+<p><code>-o</code> <code>--out</code><br />
+Path to the JSON file the results will be saved in, e.g. path/to/directory/results.json. Default: Standard out.<br />
+Python: <code>save=True</code> will save the output in the current working directory.</p>
+<p><code>--filters</code><br />
+Filter results by exact equality using returned OpenTargets column names. Pass multiple filters by repeating the flag, e.g. '--filter disease.id=EFO_0000274 --filter drug.id=CHEMBL1743081'. Nested fields use dot notation, matching the column names returned by the API.</p>
+<p><strong>Flags</strong><br />
+<code>-csv</code> <code>--csv</code><br />
+Command-line only. Returns the output in CSV format, instead of JSON format.
+Python: Use <code>json=True</code> to return output in JSON format.</p>
+<p><code>-q</code> <code>--quiet</code><br />
+Command-line only. Prevents progress information from being displayed.<br />
+Python: Use <code>verbose=False</code> to prevent progress information from being displayed. </p>
+<p><code>-or</code> <code>--or</code><br />
+Command-line only. Filters are combined with OR logic. Default: AND logic.</p>
+<p><code>wrap_text</code><br />
+Python only. <code>wrap_text=True</code> displays data frame with wrapped text for easy reading (default: False).</p>
+<h3 id="examples"><a class="header" href="#examples">Examples</a></h3>
+<p><strong>Get associated diseases for a specific gene:</strong></p>
+<pre><code class="language-bash">gget opentargets ENSG00000169194 -r diseases -l 1
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+gget.opentargets('ENSG00000169194', resource='diseases', limit=1)
+</code></pre>
+<p>→ Returns the top disease associated with the gene ENSG00000169194.</p>
+<div class="table-wrapper"><table><thead><tr><th>id</th><th>name</th><th>description</th><th>score</th></tr></thead><tbody>
+<tr><td>EFO_0000274</td><td>atopic eczema</td><td>A chronic inflammatory genetically determined disease of the skin ...</td><td>0.66364347241831</td></tr>
+</tbody></table>
+</div>
+<p><br/><br/></p>
+<p><strong>Get associated drugs for a specific gene:</strong></p>
+<pre><code class="language-bash">gget opentargets ENSG00000169194 -r drugs -l 2
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+gget.opentargets('ENSG00000169194', resource='drugs', limit=2)
+</code></pre>
+<p>→ Returns the top 2 drugs associated with the gene ENSG00000169194.</p>
+<div class="table-wrapper"><table><thead><tr><th>id</th><th>name</th><th>type</th><th>action_mechanism</th><th>description</th><th>synonyms</th><th>trade_names</th><th>disease_id</th><th>disease_name</th><th>trial_phase</th><th>trial_status</th><th>trial_ids</th><th>approved</th></tr></thead><tbody>
+<tr><td>CHEMBL1743081</td><td>TRALOKINUMAB</td><td>Antibody</td><td>Interleukin‑13 inhibitor</td><td>Antibody drug with a maximum clinical trial phase of IV ...</td><td>['CAT-354', 'Tralokinumab']</td><td>['Adbry', 'Adtralza']</td><td>EFO_0000274</td><td>atopic eczema</td><td>4</td><td></td><td>[]</td><td>True</td></tr>
+<tr><td>CHEMBL4297864</td><td>CENDAKIMAB</td><td>Antibody</td><td>Interleukin‑13 inhibitor</td><td>Antibody drug with a maximum clinical trial phase of III ...</td><td>[ABT-308, Abt-308, CC-93538, Cendakimab, RPC-4046]</td><td>[]</td><td>EFO_0004232</td><td>eosinophilic esophagitis</td><td>3</td><td>Recruiting</td><td>[NCT04991935]</td><td>False</td></tr>
+</tbody></table>
+</div>
+<p><em>Note: Returned <code>trial_ids</code> are <a href="https://clinicaltrials.gov">ClinicalTrials.gov</a> identifiers</em></p>
+<p><br/><br/></p>
+<p><strong>Get tractability data for a specific gene:</strong></p>
+<pre><code class="language-bash">gget opentargets ENSG00000169194 -r tractability
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+gget.opentargets('ENSG00000169194', resource='tractability')
+</code></pre>
+<p>→ Returns tractability data for the gene ENSG00000169194.</p>
+<div class="table-wrapper"><table><thead><tr><th>label</th><th>modality</th></tr></thead><tbody>
+<tr><td>High-Quality Pocket</td><td>Small molecule</td></tr>
+<tr><td>Approved Drug</td><td>Antibody</td></tr>
+<tr><td>GO CC high conf</td><td>Antibody</td></tr>
+<tr><td>UniProt loc med conf</td><td>Antibody</td></tr>
+<tr><td>UniProt SigP or TMHMM</td><td>Antibody</td></tr>
+</tbody></table>
+</div>
+<p><br/><br/></p>
+<p><strong>Get pharmacogenetic responses for a specific gene:</strong></p>
+<pre><code class="language-bash">gget opentargets ENSG00000169194 -r pharmacogenetics -l 1
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+gget.opentargets('ENSG00000169194', resource='pharmacogenetics', limit=1)
+</code></pre>
+<p>→ Returns pharmacogenetic responses for the gene ENSG00000169194.</p>
+<div class="table-wrapper"><table><thead><tr><th>rs_id</th><th>genotype_id</th><th>genotype</th><th>variant_consequence_id</th><th>variant_consequence_label</th><th>drugs</th><th>phenotype</th><th>genotype_annotation</th><th>response_category</th><th>direct_target</th><th>evidence_level</th><th>source</th><th>literature</th></tr></thead><tbody>
+<tr><td>rs1295686</td><td>5_132660151_T_T,T</td><td>TT</td><td>SO:0002073</td><td>no_sequence_alteration</td><td>    id        name<br/>0  None  hepatitis vaccines</td><td>increased risk for non‑immune response to the hepatitis B vaccine</td><td>Patients with the TT genotype may be at increased risk for non-immune response to the hepatitis B vaccine...</td><td>efficacy</td><td>False</td><td>3</td><td>pharmgkb</td><td>[21111021]</td></tr>
+</tbody></table>
+</div>
+<p><em>Note: Returned <code>literature</code> ids are <a href="https://europepmc.org/article/med/">Europe PMC</a> identifiers</em></p>
+<p><br/><br/></p>
+<p><strong>Get tissues where a gene is most expressed:</strong></p>
+<pre><code class="language-bash">gget opentargets ENSG00000169194 -r expression -l 2
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+gget.opentargets('ENSG00000169194', resource='expression', limit=2)
+</code></pre>
+<p>→ Returns the top 2 tissues where the gene ENSG00000169194 is most expressed.</p>
+<div class="table-wrapper"><table><thead><tr><th>tissue_id</th><th>tissue_name</th><th>rna_zscore</th><th>rna_value</th><th>rna_unit</th><th>rna_level</th><th>anatomical_systems</th><th>organs</th></tr></thead><tbody>
+<tr><td>UBERON_0000473</td><td>testis</td><td>5</td><td>1026</td><td></td><td>3</td><td>[reproductive system]</td><td>[reproductive organ, reproductive structure]</td></tr>
+<tr><td>CL_0000542</td><td>EBV‑transformed lymphocyte</td><td>1</td><td>54</td><td></td><td>2</td><td>[hemolymphoid system, immune system, lymphoid system]</td><td>[immune organ]</td></tr>
+</tbody></table>
+</div>
+<p><br/><br/></p>
+<p><strong>Get DepMap gene-disease effect data for a specific gene:</strong></p>
+<pre><code class="language-bash">gget opentargets ENSG00000169194 -r depmap
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+gget.opentargets('ENSG00000169194', resource='depmap')
+</code></pre>
+<p>→ Returns DepMap gene-disease effect data for the gene ENSG00000169194.</p>
+<div class="table-wrapper"><table><thead><tr><th>depmap_id</th><th>expression</th><th>effect</th><th>tissue_id</th><th>tissue_name</th><th>cell_line_name</th><th>disease_cell_line_id</th><th>disease_name</th><th>mutation</th></tr></thead><tbody>
+<tr><td>ACH‑001532</td><td>0.176323</td><td>0.054950</td><td>UBERON_0002113</td><td>kidney</td><td>JMU-RTK-2</td><td>None</td><td>Rhabdoid Cancer</td><td>None</td></tr>
+</tbody></table>
+</div>
+<p><br/><br/></p>
+<p><strong>Get protein-protein interactions for a specific gene:</strong></p>
+<pre><code class="language-bash">gget opentargets ENSG00000169194 -r interactions -l 2
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+gget.opentargets('ENSG00000169194', resource='interactions', limit=2)
+</code></pre>
+<p>→ Returns the top 2 protein-protein interactions for the gene ENSG00000169194.</p>
+<div class="table-wrapper"><table><thead><tr><th>evidence_score</th><th>evidence_count</th><th>source_db</th><th>protein_a_id</th><th>gene_a_id</th><th>gene_a_symbol</th><th>role_a</th><th>taxon_a</th><th>protein_b_id</th><th>gene_b_id</th><th>gene_b_symbol</th><th>role_b</th><th>taxon_b</th></tr></thead><tbody>
+<tr><td>0.999</td><td>3</td><td>string</td><td>ENSP00000304915</td><td>ENSG00000169194</td><td>IL13</td><td>unspecified role</td><td>9606</td><td>ENSP00000379111</td><td>ENSG00000077238</td><td>IL4R</td><td>unspecified role</td><td>9606</td></tr>
+<tr><td>0.999</td><td>3</td><td>string</td><td>ENSP00000304915</td><td>ENSG00000169194</td><td>IL13</td><td>unspecified role</td><td>9606</td><td>ENSP00000360730</td><td>ENSG00000131724</td><td>IL13RA1</td><td>unspecified role</td><td>9606</td></tr>
+</tbody></table>
+</div>
+<p><br/><br/></p>
+<p><strong>Get protein-protein interactions for a specific gene, filtering by protein and gene IDs:</strong></p>
+<pre><code class="language-bash">gget opentargets ENSG00000169194 -r interactions -fpa P35225 --filter_gene_b ENSG00000077238
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+gget.opentargets('ENSG00000169194', resource='interactions', filters={'protein_a_id': 'P35225', 'gene_b_id': 'ENSG00000077238'})
+</code></pre>
+<p>→ Returns protein-protein interactions for the gene ENSG00000169194, where the first protein is P35225 <strong>and</strong> the second gene is ENSG00000077238.</p>
+<div class="table-wrapper"><table><thead><tr><th>evidence_score</th><th>evidence_count</th><th>source_db</th><th>protein_a_id</th><th>gene_a_id</th><th>gene_a_symbol</th><th>role_a</th><th>taxon_a</th><th>protein_b_id</th><th>gene_b_id</th><th>gene_b_symbol</th><th>role_b</th><th>taxon_b</th></tr></thead><tbody>
+<tr><td>None</td><td>3</td><td>reactome</td><td>P35225</td><td>ENSG00000169194</td><td>IL13</td><td>unspecified role</td><td>9606</td><td>P24394</td><td>ENSG00000077238</td><td>IL4R</td><td>unspecified role</td><td>9606</td></tr>
+<tr><td>None</td><td>2</td><td>signor</td><td>P35225</td><td>ENSG00000169194</td><td>IL13</td><td>regulator</td><td>9606</td><td>P24394</td><td>ENSG00000077238</td><td>IL4R</td><td>regulator target</td><td>9606</td></tr>
+</tbody></table>
+</div>
+<p><br/><br/></p>
+<p><strong>Get protein-protein interactions for a specific gene, filtering by protein or gene IDs:</strong></p>
+<pre><code class="language-bash">gget opentargets ENSG00000169194 -r interactions -fpa P35225 --filter_gene_b ENSG00000077238 ENSG00000111537 --or -l 5
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+gget.opentargets(
+    'ENSG00000169194',
+    resource='interactions',
+    filters={'protein_a_id': 'P35225', 'gene_b_id': ['ENSG00000077238', 'ENSG00000111537']},
+    filter_mode='or',
+    limit=5
+)
+</code></pre>
+<p>→ Returns protein-protein interactions for the gene ENSG00000169194, where the first protein is P35225 <strong>or</strong> the second gene is either ENSG00000077238 or ENSG00000111537.</p>
+<div class="table-wrapper"><table><thead><tr><th>evidence_score</th><th>evidence_count</th><th>source_db</th><th>protein_a_id</th><th>gene_a_id</th><th>gene_a_symbol</th><th>role_a</th><th>taxon_a</th><th>protein_b_id</th><th>gene_b_id</th><th>gene_b_symbol</th><th>role_b</th><th>taxon_b</th></tr></thead><tbody>
+<tr><td>0.999</td><td>3</td><td>string</td><td>ENSP00000304915</td><td>ENSG00000169194</td><td>IL13</td><td>unspecified role</td><td>9606</td><td>ENSP00000379111</td><td>ENSG00000077238</td><td>IL4R</td><td>unspecified role</td><td>9606</td></tr>
+<tr><td>0.961</td><td>2</td><td>string</td><td>ENSP00000304915</td><td>ENSG00000169194</td><td>IL13</td><td>unspecified role</td><td>9606</td><td>ENSP00000229135</td><td>ENSG00000111537</td><td>IFNG</td><td>unspecified role</td><td>9606</td></tr>
+<tr><td>0.800</td><td>9</td><td>intact</td><td>P35225</td><td>ENSG00000169194</td><td>IL13</td><td>unspecified role</td><td>9606</td><td>Q14627</td><td>ENSG00000123496</td><td>IL13RA2</td><td>unspecified role</td><td>9606</td></tr>
+<tr><td>0.740</td><td>6</td><td>intact</td><td>P35225</td><td>ENSG00000169194</td><td>IL13</td><td>unspecified role</td><td>9606</td><td>P78552</td><td>ENSG00000131724</td><td>IL13RA1</td><td>unspecified role</td><td>9606</td></tr>
+<tr><td>0.400</td><td>1</td><td>intact</td><td>P35225</td><td>ENSG00000169194</td><td>IL13</td><td>unspecified role</td><td>9606</td><td>Q86XT9</td><td>ENSG00000149932</td><td>TMEM219</td><td>stimulator</td><td>9606</td></tr>
+</tbody></table>
+</div>
+<h4 id="more-examples"><a class="header" href="#more-examples"><a href="https://github.com/pachterlab/gget_examples">More examples</a></a></h4>
+<h1 id="references"><a class="header" href="#references">References</a></h1>
+<p>If you use <code>gget opentargets</code> in a publication, please cite the following articles:</p>
+<ul>
+<li>
+<p>Luebbert, L., &amp; Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. <a href="https://doi.org/10.1093/bioinformatics/btac836">https://doi.org/10.1093/bioinformatics/btac836</a></p>
+</li>
+<li>
+<p>Ochoa D, Hercules A, Carmona M, Suveges D, Baker J, Malangone C, Lopez I, Miranda A, Cruz-Castillo C, Fumis L, Bernal-Llinares M, Tsukanov K, Cornu H, Tsirigos K, Razuvayevskaya O, Buniello A, Schwartzentruber J, Karim M, Ariano B, Martinez Osorio RE, Ferrer J, Ge X, Machlitt-Northen S, Gonzalez-Uriarte A, Saha S, Tirunagari S, Mehta C, Roldán-Romero JM, Horswell S, Young S, Ghoussaini M, Hulcoop DG, Dunham I, McDonagh EM. The next-generation Open Targets Platform: reimagined, redesigned, rebuilt. Nucleic Acids Res. 2023 Jan 6;51(D1):D1353-D1359. doi: <a href="https://doi.org/10.1093/nar/gkac1046">10.1093/nar/gkac1046</a>. PMID: 36399499; PMCID: PMC9825572.</p>
+</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../en/mutate.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../en/pdb.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../en/mutate.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../en/pdb.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,556 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>What&#x27;s New? - gget</title>
+
+
+        <!-- Custom HTML head -->
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZM4N3XBEW7"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-ZM4N3XBEW7');
+        </script>
+
+        <meta name="description" content="gget enables efficient querying of genomic reference databases">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../en/introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="../en/updates.html" class="active">What's New?</a></li><li class="chapter-item expanded affix "><a href="../en/dependents.html">Dependents & News</a></li><li class="chapter-item expanded affix "><li class="part-title">User Guide</li><li class="chapter-item expanded "><a href="../en/installation.html">Installation</a></li><li class="chapter-item expanded "><a href="../en/quick_start_guide.html">Quick Start Guide</a></li><li class="chapter-item expanded affix "><li class="part-title">Manual</li><li class="chapter-item expanded "><a href="../en/8cube.html">gget 8cube</a></li><li class="chapter-item expanded "><a href="../en/alphafold.html">gget alphafold</a></li><li class="chapter-item expanded "><a href="../en/archs4.html">gget archs4</a></li><li class="chapter-item expanded "><a href="../en/bgee.html">gget bgee</a></li><li class="chapter-item expanded "><a href="../en/blast.html">gget blast</a></li><li class="chapter-item expanded "><a href="../en/blat.html">gget blat</a></li><li class="chapter-item expanded "><a href="../en/cbio.html">gget cbio</a></li><li class="chapter-item expanded "><a href="../en/cellxgene.html">gget cellxgene</a></li><li class="chapter-item expanded "><a href="../en/cosmic.html">gget cosmic</a></li><li class="chapter-item expanded "><a href="../en/diamond.html">gget diamond</a></li><li class="chapter-item expanded "><a href="../en/elm.html">gget elm</a></li><li class="chapter-item expanded "><a href="../en/enrichr.html">gget enrichr</a></li><li class="chapter-item expanded "><a href="../en/gpt.html">gget gpt</a></li><li class="chapter-item expanded "><a href="../en/info.html">gget info</a></li><li class="chapter-item expanded "><a href="../en/muscle.html">gget muscle</a></li><li class="chapter-item expanded "><a href="../en/mutate.html">gget mutate</a></li><li class="chapter-item expanded "><a href="../en/opentargets.html">gget opentargets</a></li><li class="chapter-item expanded "><a href="../en/pdb.html">gget pdb</a></li><li class="chapter-item expanded "><a href="../en/ref.html">gget ref</a></li><li class="chapter-item expanded "><a href="../en/search.html">gget search</a></li><li class="chapter-item expanded "><a href="../en/setup.html">gget setup</a></li><li class="chapter-item expanded "><a href="../en/seq.html">gget seq</a></li><li class="chapter-item expanded "><a href="../en/virus.html">gget virus</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../en/contributing.html">Contributing Guide</a></li><li class="chapter-item expanded "><a href="../en/code_of_conduct.html">Code of Conduct</a></li><li class="chapter-item expanded "><a href="../en/cite.html">Citation Guidelines</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Español</li><li class="chapter-item expanded "><a href="../es/introduction.html">Introdución</a></li><li class="chapter-item expanded "><a href="../es/updates.html">¡Lo más reciente!</a></li><li class="chapter-item expanded "><a href="../es/dependents.html">Dependientes y Noticias</a></li><li class="chapter-item expanded affix "><li class="part-title">Guía del usario</li><li class="chapter-item expanded "><a href="../es/installation.html">Instalación</a></li><li class="chapter-item expanded "><a href="../es/quick_start_guide.html">Guía de inicio rápido</a></li><li class="chapter-item expanded affix "><li class="part-title">Manuál</li><li class="chapter-item expanded "><a href="../es/8cube.html">gget 8cube</a></li><li class="chapter-item expanded "><a href="../es/alphafold.html">gget alphafold</a></li><li class="chapter-item expanded "><a href="../es/archs4.html">gget archs4</a></li><li class="chapter-item expanded "><a href="../es/bgee.html">gget bgee</a></li><li class="chapter-item expanded "><a href="../es/blast.html">gget blast</a></li><li class="chapter-item expanded "><a href="../es/blat.html">gget blat</a></li><li class="chapter-item expanded "><a href="../es/cbio.html">gget cbio</a></li><li class="chapter-item expanded "><a href="../es/cellxgene.html">gget cellxgene</a></li><li class="chapter-item expanded "><a href="../es/cosmic.html">gget cosmic</a></li><li class="chapter-item expanded "><a href="../es/diamond.html">gget diamond</a></li><li class="chapter-item expanded "><a href="../es/elm.html">gget elm</a></li><li class="chapter-item expanded "><a href="../es/enrichr.html">gget enrichr</a></li><li class="chapter-item expanded "><a href="../es/gpt.html">gget gpt</a></li><li class="chapter-item expanded "><a href="../es/info.html">gget info</a></li><li class="chapter-item expanded "><a href="../es/muscle.html">gget muscle</a></li><li class="chapter-item expanded "><a href="../es/mutate.html">gget mutate</a></li><li class="chapter-item expanded "><a href="../es/opentargets.html">gget opentargets</a></li><li class="chapter-item expanded "><a href="../es/pdb.html">gget pdb</a></li><li class="chapter-item expanded "><a href="../es/ref.html">gget ref</a></li><li class="chapter-item expanded "><a href="../es/search.html">gget search</a></li><li class="chapter-item expanded "><a href="../es/setup.html">gget setup</a></li><li class="chapter-item expanded "><a href="../es/seq.html">gget seq</a></li><li class="chapter-item expanded "><a href="../es/virus.html">gget virus</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../es/contributing.html">Guía de contribución</a></li><li class="chapter-item expanded "><a href="../es/code_of_conduct.html">Codigo de conducto</a></li><li class="chapter-item expanded "><a href="../es/cite.html">Cómo citar</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">gget</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <p><a href="https://github.com/pachterlab/gget/blob/main/docs/src/en/updates.md"><kbd> View page source on GitHub </kbd></a></p>
+<h2 id="-whats-new"><a class="header" href="#-whats-new">✨ What's new</a></h2>
+<p><strong>Version ≥ 0.30.6</strong> (Jun 10, 2026):</p>
+<ul>
+<li><a href="blat.html"><code>gget blat</code></a>: Improved resilience against UCSC BLAT endpoint failures (fixes intermittently failing tests).
+<ul>
+<li>Added retry-with-exponential-backoff for transient failures (HTTP 429/5xx, network errors, and non-JSON 200 responses caused by UCSC rate-limiting or HTML error pages). Up to 4 attempts with 1.5s → 3s → 6s backoff.</li>
+<li>Replaced the misleading &quot;sequence too short or assembly invalid&quot; message with the actual server response (status code, response preview) so failures are diagnosable.</li>
+<li><code>HTTPError</code> and <code>URLError</code> are now caught explicitly instead of bubbling up as unhandled exceptions.</li>
+</ul>
+</li>
+<li>Bug fixes:
+<ul>
+<li><a href="cosmic.html"><code>gget cosmic</code></a>: Fixed misleading error message when the download step fails — was reporting the previous command's return code/stderr instead of the failing command's.</li>
+<li><a href="cosmic.html"><code>gget cosmic</code></a>: Narrowed the JSON parse exception handler to <code>json.JSONDecodeError</code> so unrelated <code>ValueError</code>s are no longer masked by the &quot;Failed to download file&quot; message.</li>
+<li><code>gget --version</code>, <code>gget --help</code>, <code>gget</code> invoked with no arguments, and <code>gget &lt;module&gt;</code> with no further arguments now all exit with status 0 instead of 1, so CI scripts and shell pipelines no longer treat these informational outputs as failures.</li>
+<li>Added request timeouts to previously-unguarded <code>requests</code> calls in <a href="ref.html"><code>gget ref</code></a>, <a href="info.html"><code>gget info</code></a>, <a href="8cube.html"><code>gget 8cube</code></a>, <a href="enrichr.html"><code>gget enrichr</code></a>, and <a href="opentargets.html"><code>gget opentargets</code></a>. Default is 10s connect / 60s read; configurable via the new <code>DEFAULT_REQUESTS_TIMEOUT</code> constant.</li>
+<li>Narrowed a bare <code>except:</code> in <code>utils.get_uniprot_seqs</code> to <code>(KeyError, IndexError, TypeError)</code> so unrelated errors (including <code>KeyboardInterrupt</code>) are no longer swallowed.</li>
+<li>Added <code>utils.http_json()</code> and <code>utils.dig()</code> helpers that issue a request and parse JSON / walk a nested response path with consistent error reporting. Migrated <a href="bgee.html"><code>gget bgee</code></a>, <a href="opentargets.html"><code>gget opentargets</code></a>, and one <code>.json()</code> callsite in <a href="virus.html"><code>gget virus</code></a> to use them; remaining modules will migrate opportunistically. Upstream HTML error pages, malformed JSON, and missing response keys now surface as clear <code>RuntimeError</code>s naming the failing service instead of cryptic <code>JSONDecodeError</code> / <code>KeyError</code> tracebacks.</li>
+<li><code>utils.http_json()</code> now retries transient failures (connection errors, read timeouts, HTTP 5xx) up to 3 times with exponential backoff. Smooths over short upstream blips (e.g. bgee.org read timeouts) without affecting 4xx errors, which still raise immediately.</li>
+<li><a href="virus.html"><code>gget virus</code></a>: Replaced 11 bare <code>except: pass</code> blocks around <code>file.close()</code> / <code>os.remove()</code> cleanup calls with narrowed <code>except OSError</code> handlers that log the failure at <code>DEBUG</code>. Previously, real I/O issues during cleanup (disk full, permissions) were silently dropped and the cleanup path also swallowed <code>KeyboardInterrupt</code>.</li>
+<li><a href="cbio.html"><code>gget cbio</code></a>: Fixed a code path in <code>cbio_plot</code> that called the removed-in-pandas-2.0 <code>DataFrame.append()</code> inside a loop when filling missing CNA genes — the entire branch crashed on modern pandas. It now builds a single DataFrame of missing rows and concatenates once.</li>
+</ul>
+</li>
+<li>Performance:
+<ul>
+<li><code>utils.get_uniprot_seqs</code>: Collect per-ID DataFrames in a list and <code>pd.concat(..., ignore_index=True)</code> once at the end, avoiding the O(n²) cost of growing a DataFrame inside the request loop.</li>
+<li>Cached <code>utils.find_latest_ens_rel</code>, <code>utils.search_species_options</code>, <code>utils.ref_species_options</code>, and <code>utils.find_nv_kingdom</code> with <code>functools.lru_cache</code>. These hit Ensembl FTP listings that are stable for a release; repeated calls within one Python process are now free.</li>
+<li>Added <code>utils.parallel_map</code>, a thin <code>ThreadPoolExecutor</code> wrapper for I/O-bound work. Used to fan out <code>utils.get_uniprot_seqs</code> across the input ID list — looking up N IDs is now bounded by ~<code>N / pool_size</code> UniProt round-trips instead of <code>N</code>. Pool size defaults to 8 and can be overridden via the <code>GGET_MAX_WORKERS</code> environment variable.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Version ≥ 0.30.5</strong> (May 23, 2026):</p>
+<ul>
+<li><a href="opentargets.html"><code>gget opentargets</code></a>: Rewrote this module to reflect the new Open Targets API structure
+<ul>
+<li>some output column/key names may differ to reflect the new API structure</li>
+<li>Removed the <code>--filter_mode</code> argument</li>
+</ul>
+</li>
+<li><a href="blast.html"><code>gget blast</code></a>: Fixed compatibility with newer pandas versions (≥ 2.0) where <code>pd.read_html()</code> no longer accepts raw HTML strings directly, causing a <code>FileNotFoundError</code> / <code>OSError: Filename too long</code> error when parsing BLAST results</li>
+<li><a href="cosmic.html"><code>gget cosmic</code></a>: Added overwrite and gzip arguments to internals.</li>
+</ul>
+<p><strong>Version ≥ 0.30.3</strong> (Feb 26, 2026):</p>
+<ul>
+<li><a href="virus.html"><code>gget virus</code></a>: New filtering options, quiet mode, and improved download reliability
+<ul>
+<li>Added <code>--segment</code> filter for segmented viruses (e.g., Influenza A segments like 'HA', 'NA', 'PB1')</li>
+<li>Added <code>--vaccine_strain</code> filter to include or exclude vaccine strain sequences</li>
+<li>Added <code>--source_database</code> filter to select sequences from 'genbank' or 'refseq' (replaces <code>refseqOnly</code>)</li>
+<li>Added <code>-q</code> / <code>--quiet</code> flag to suppress progress information</li>
+<li>Extended fallback strategies for improved download reliability on large datasets</li>
+<li>Command summary file now includes software version</li>
+</ul>
+</li>
+</ul>
+<p><strong>Version ≥ 0.30.2</strong> (Feb 08, 2026):</p>
+<ul>
+<li><a href="virus.html"><code>gget virus</code></a>: Metadata streaming optimization, improved protein filtering, and enhanced error handling and retry logic
+<ul>
+<li>Metadata now streams to disk during fetch to prevent memory exhaustion on large datasets (100,000+ records)</li>
+<li>Fixed metadata CSV mapping (camelCase → snake_case) for organism name, host, and collection date</li>
+<li>Enhanced protein filtering for segmented viruses with improved FASTA header parsing</li>
+<li>Added <code>annotated=False</code> option for filtering unannotated sequences</li>
+<li>Added progress bars to batched sequence downloads</li>
+<li>Fixed collection date naming bug</li>
+<li>Improved error messages for invalid filter dates</li>
+<li>Added enhanced retry attempts for virus name resolution</li>
+<li>Added verbosity to influenza A and COVID-19 checking steps</li>
+</ul>
+</li>
+</ul>
+<p><strong>Version ≥ 0.30.0</strong> (Jan 19, 2026):</p>
+<ul>
+<li>NEW MODULES:
+<ul>
+<li><a href="8cube.html"><code>gget 8cube</code></a></li>
+<li><a href="virus.html"><code>gget virus</code></a></li>
+</ul>
+</li>
+<li>SECURITY IMPROVEMENTS:
+<ul>
+<li>Replaced <code>os.system()</code> with f-strings containing URLs from external APIs in <code>gget/main.py</code></li>
+<li>Replaced <code>exec()</code> with <code>importlib.import_module()</code> in <a href="setup.html"><code>gget setup</code></a> for safer dynamic imports</li>
+<li>Replaced <code>shell=True</code> subprocess calls with list-based arguments in <a href="muscle.html"><code>gget muscle</code></a>, <a href="diamond.html"><code>gget diamond</code></a>, and <a href="setup.html"><code>gget setup</code></a> to prevent command injection</li>
+</ul>
+</li>
+</ul>
+<p><strong>Version ≥ 0.29.3</strong> (Sep 11, 2025):</p>
+<ul>
+<li><a href="blat.html"><code>gget blat</code></a>: Updated API request to new permissions.</li>
+<li><a href="pdb.html"><code>gget pdb</code></a>: Added wwpdb mirror; falls back to rcsb if wwpdb fails.</li>
+<li><a href="cellxgene.html"><code>gget cellxgene</code></a>: Improved argument handling; frontend unchanged. Fixes <a href="https://github.com/pachterlab/gget/issues/181">issue 181</a>.</li>
+<li><a href="setup.html"><code>gget setup</code></a>/<a href="alphafold.html"><code>gget alphafold</code></a>: Fixed pip_cmd bug in gget.setup(&quot;alphafold&quot;)</li>
+</ul>
+<p><strong>Version ≥ 0.29.2</strong> (Jul 03, 2025):</p>
+<ul>
+<li>gget can now be installed using <code>uv pip install gget</code>
+<ul>
+<li>All package metadata (version, author, description, etc.) is now managed in setup.cfg for full compatibility with modern tools like uv, pip, and PyPI</li>
+<li>gget now uses a minimal setup.py and is fully PEP 517/518 compatible</li>
+</ul>
+</li>
+<li><a href="setup.html"><code>gget setup</code></a> will now try to use <code>uv pip install</code> first for speed and modern dependency resolution, and fall back onto <code>pip install</code> if uv fails or is not available
+<ul>
+<li>Users are informed at each step which installer is being used and if a retry is happening</li>
+<li>Note: Some scientific dependencies (e.g., cellxgene-census) may not yet support Python 3.12. If you encounter installation errors, try using Python 3.9 or 3.10. (The pip installation might also still succeed in these cases.)</li>
+</ul>
+</li>
+<li>All required dependencies are now listed in setup.cfg under install_requires -&gt; Installing gget with <code>pip install .</code> or <code>uv pip install .</code> will automatically install all dependencies</li>
+</ul>
+<p><strong>Version ≥ 0.29.1</strong> (Apr 21, 2025):</p>
+<ul>
+<li><a href="mutate.html"><code>gget mutate</code></a>:
+<ul>
+<li>gget mutate has been simplified to focus on taking as input a list of mutations and associated reference genome with corresponding annotation information, and produce as output the sequences with the mutation incorporated and a short region of surrounding context. For the full functionality of the previous version and how it integrates in the context of a novel variant screening pipeline, visit the varseek repository being developed by members of the gget team at https://github.com/pachterlab/varseek.git.</li>
+<li>Added additional information to returned data frames as described here: https://github.com/pachterlab/gget/pull/169</li>
+</ul>
+</li>
+<li><a href="cosmic.html"><code>gget cosmic</code></a>:
+<ul>
+<li>Major restructuring of the <code>gget cosmic</code> module to adhere to new login requirements set by COSMIC</li>
+<li>New arguments <code>email</code> and <code>password</code> were added to allow the user to manually enter their login credentials without required input for data download</li>
+<li>Default changed: <code>gget_mutate=False</code></li>
+<li>Deprecated argument: <code>entity</code></li>
+<li>Argument <code>mutation_class</code> is now <code>cosmic_project</code></li>
+</ul>
+</li>
+<li><a href="bgee.html"><code>gget bgee</code></a>:
+<ul>
+<li><code>type=&quot;orthologs&quot;</code> is now the default, removing the need to specify the <code>type</code> argument when calling orthologs</li>
+<li>Allow querying multiple genes at once.</li>
+</ul>
+</li>
+<li><a href="diamond.html"><code>gget diamond</code></a>:
+<ul>
+<li>Now supports translated alignment of nucleotide sequences to amino acid reference sequences using the <code>--translated</code> flag.</li>
+</ul>
+</li>
+<li><a href="elm.html"><code>gget elm</code></a>:
+<ul>
+<li>Improved server error handling.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Version ≥ 0.29.0</strong> (Sep 25, 2024):</p>
+<ul>
+<li><strong>New modules:</strong>
+<ul>
+<li><a href="cbio.html"><code>gget cbio</code></a></li>
+<li><a href="opentargets.html"><code>gget opentargets</code></a></li>
+<li><a href="bgee.html"><code>gget bgee</code></a></li>
+</ul>
+</li>
+<li><strong><a href="./enrichr.html"><code>gget enrichr</code></a> now also supports species other than human and mouse (fly, yeast, worm, and fish) via <a href="https://maayanlab.cloud/modEnrichr/">modEnrichR</a></strong></li>
+<li><a href="./mutate.html"><code>gget mutate</code></a>:<br />
+<code>gget mutate</code> will now merge identical sequences in the final file by default. Mutation creation was vectorized to decrease runtime. Improved flanking sequence check for non-substitution mutations to make sure no wildtype kmer is retained in the mutation-containing sequence. Addition of several new arguments to customize sequence generation and output.</li>
+<li><a href="./cosmic.html"><code>gget cosmic</code></a>:<br />
+Added support for targeted as well as gene screens. The CSV file created for gget mutate now also contains protein mutation info.</li>
+<li><a href="./ref.html"><code>gget ref</code></a>:<br />
+Added out file option.</li>
+<li><a href="./info.html"><code>gget info</code></a> and <a href="./seq.html"><code>gget seq</code></a>:<br />
+Switched to Ensembl POST API to increase speed (nothing changes in front end).</li>
+<li>Other &quot;behind the scenes&quot; changes:
+<ul>
+<li>Unit tests reorganized to increase speed and decrease code</li>
+<li>Requirements updated to <a href="https://github.com/pachterlab/gget/pull/159">allow newer mysql-connector versions</a></li>
+<li><a href="https://github.com/pachterlab/gget/issues/157">Support Numpy&gt;= 2.0</a></li>
+</ul>
+</li>
+</ul>
+<p><strong>Version ≥ 0.28.6</strong> (Jun 2, 2024):</p>
+<ul>
+<li><strong>New module: <a href="./mutate.html"><code>gget mutate</code></a></strong></li>
+<li><a href="./cosmic.html"><code>gget cosmic</code></a>: You can now download entire COSMIC databases using the argument <code>download_cosmic</code> argument</li>
+<li><a href="./ref.html"><code>gget ref</code></a>: Can now fetch the GRCh37 genome assembly using <code>species='human_grch37'</code></li>
+<li><a href="./search.html"><code>gget search</code></a>: Adjust access of human data to the structure of Ensembl release 112 (fixes <a href="https://github.com/pachterlab/gget/issues/129">issue 129</a>)</li>
+</ul>
+<p><del><strong>Version ≥ 0.28.5</strong> (May 29, 2024):</del> </p>
+<ul>
+<li>Yanked due to logging bug in <code>gget.setup(&quot;alphafold&quot;)</code> + inversion mutations in <code>gget mutate</code> only reverse the string instead of also computing the complementary strand</li>
+</ul>
+<p><strong>Version ≥ 0.28.4</strong> (January 31, 2024):</p>
+<ul>
+<li><a href="./setup.html"><code>gget setup</code></a>: Fix bug with filepath when running <code>gget.setup(&quot;elm&quot;)</code> on Windows OS.</li>
+</ul>
+<p><strong>Version ≥ 0.28.3</strong> (January 22, 2024):</p>
+<ul>
+<li><strong><a href="./search.html"><code>gget search</code></a> and <a href="./ref.html"><code>gget ref</code></a> now also support fungi 🍄, protists 🌝, and invertebrate metazoa 🐝 🐜 🐌 🐙 (in addition to vertebrates and plants)</strong></li>
+<li><strong>New module: <a href="./cosmic.html"><code>gget cosmic</code></a></strong></li>
+<li><a href="./enrichr.html"><code>gget enrichr</code></a>: Fix duplicate scatter dots in plot when pathway names are duplicated</li>
+<li><a href="./elm.html"><code>gget elm</code></a>:
+<ul>
+<li>Changed ortho results column name 'Ortholog_UniProt_ID' to 'Ortholog_UniProt_Acc' to correctly reflect the column contents, which are UniProt Accessions. 'UniProt ID' was changed to 'UniProt Acc' in the documentation for all <code>gget</code> modules.</li>
+<li>Changed ortho results column name 'motif_in_query' to 'motif_inside_subject_query_overlap'.</li>
+<li>Added interaction domain information to results (new columns: &quot;InteractionDomainId&quot;, &quot;InteractionDomainDescription&quot;, &quot;InteractionDomainName&quot;).</li>
+<li>The regex string for regular expression matches was encapsulated as follows: &quot;(?=(regex))&quot; (instead of directly passing the regex string &quot;regex&quot;) to enable capturing all occurrences of a motif when the motif length is variable and there are repeats in the sequence (<a href="https://regex101.com/r/HUWLlZ/1">https://regex101.com/r/HUWLlZ/1</a>).</li>
+</ul>
+</li>
+<li><a href="./setup.html"><code>gget setup</code></a>: Use the <code>out</code> argument to specify a directory the ELM database will be downloaded into. Completes <a href="https://github.com/pachterlab/gget/issues/119">this feature request</a>.</li>
+<li><a href="./diamond.html"><code>gget diamond</code></a>: The DIAMOND command is now run with <code>--ignore-warnings</code> flag, allowing niche sequences such as amino acid sequences that only contain nucleotide characters and repeated sequences. This is also true for DIAMOND alignments performed within <a href="./elm.html"><code>gget elm</code></a>.</li>
+<li><strong><a href="./ref.html"><code>gget ref</code></a> and <a href="./search.html"><code>gget search</code></a> back-end change: the current Ensembl release is fetched from the new <a href="https://ftp.ensembl.org/pub/VERSION">release file</a> on the Ensembl FTP site to avoid errors during uploads of new releases.</strong></li>
+<li><a href="./search.html"><code>gget search</code></a>: 
+<ul>
+<li>FTP link results (<code>--ftp</code>) are saved in txt file format instead of json.</li>
+<li>Fix URL links to Ensembl gene summary for species with a subspecies name and invertebrates.</li>
+</ul>
+</li>
+<li><a href="./ref.html"><code>gget ref</code></a>:
+<ul>
+<li>Back-end changes to increase speed</li>
+<li>New argument: <code>list_iv_species</code> to list all available invertebrate species (can be combined with the <code>release</code> argument to fetch all species available from a specific Ensembl release)</li>
+</ul>
+</li>
+</ul>
+<p><strong>Version ≥ 0.28.2</strong> (November 15, 2023):</p>
+<ul>
+<li><a href="./info.html"><code>gget info</code></a>: Return a logging error message when the NCBI server fails for a reason other than a fetch fail (this is an error on the server side rather than an error with <code>gget</code>)</li>
+<li>Replace deprecated 'text' argument to find()-type methods whenever used with dependency <code>BeautifulSoup</code></li>
+<li><a href="elm.html"><code>gget elm</code></a>: Remove false positive and true negative instances from returned results</li>
+<li><a href="elm.html"><code>gget elm</code></a>: Add <code>expand</code> argument</li>
+</ul>
+<p><strong>Version ≥ 0.28.0</strong> (November 5, 2023):</p>
+<ul>
+<li>Updated documentation of <a href="./muscle.html"><code>gget muscle</code></a> to add a tutorial on how to visualize sequences with varying sequence name lengths + slight change to returned visualization so it's a bit more robust to varying sequence names</li>
+<li><a href="./muscle.html"><code>gget muscle</code></a> now also allows a list of sequences as input (as an alternative to providing the path to a FASTA file)</li>
+<li>Allow missing gene filter for <a href="cellxgene.html"><code>gget cellxgene</code></a>  (fixes <a href="https://github.com/pachterlab/gget/issues/110">bug</a>)</li>
+<li><a href="./seq.html"><code>gget seq</code></a>: Allow missing gene names (fixes <a href="https://github.com/pachterlab/gget/issues/107">https://github.com/pachterlab/gget/issues/107</a>)</li>
+<li><strong><a href="enrichr.html"><code>gget enrichr</code></a>: Use new arguments <code>kegg_out</code> and <code>kegg_rank</code> to create an image of the KEGG pathway with the genes from the enrichment analysis highlighted (thanks to <a href="https://github.com/pachterlab/gget/pull/106">this PR</a> by <a href="https://github.com/noriakis">Noriaki Sato</a>)</strong></li>
+<li><strong>New modules: <a href="elm.html"><code>gget elm</code></a> and <a href="diamond.html"><code>gget diamond</code></a></strong></li>
+</ul>
+<p><strong>Version ≥ 0.27.9</strong> (August 7, 2023):</p>
+<ul>
+<li><strong><a href="enrichr.html"><code>gget enrichr</code></a>: Use new argument <code>background_list</code> to provide a list of background genes</strong></li>
+<li><a href="search.html"><code>gget search</code></a> now also searches <a href="https://ensembl.org/">Ensembl</a> synonyms (in addition to gene descriptions and names) to return more comprehensive search results (thanks to <a href="https://github.com/KleinSamuel">Samuel Klein</a> for the <a href="https://github.com/pachterlab/gget/issues/90">suggestion</a>)</li>
+</ul>
+<p><strong>Version ≥ 0.27.8</strong> (July 12, 2023):</p>
+<ul>
+<li><strong><a href="search.html"><code>gget search</code></a>: Specify the Ensembl release from which information is fetched with new argument <code>-r</code> <code>--release</code></strong></li>
+<li>Fixed <a href="https://github.com/pachterlab/gget/issues/91">bug</a> in <a href="pdb.html"><code>gget pdb</code></a> (this bug was introduced in version 0.27.5)</li>
+</ul>
+<p><strong>Version ≥ 0.27.7</strong> (May 15, 2023):</p>
+<ul>
+<li>Moved dependencies for modules <a href="gpt.html"><code>gget gpt</code></a> and <a href="cellxgene.html"><code>gget cellxgene</code></a> from automatically installed requirements to <a href="setup.html"><code>gget setup</code></a>.</li>
+<li>Updated <a href="alphafold.html"><code>gget alphafold</code></a> dependencies for compatibility with Python &gt;= 3.10.</li>
+<li>Added <code>census_version</code> argument to <a href="cellxgene.html"><code>gget cellxgene</code></a>.</li>
+</ul>
+<p><strong>Version ≥ 0.27.6</strong> (May 1, 2023) (YANKED due to problems with dependencies -&gt; replaced with version 0.27.7):</p>
+<ul>
+<li><strong>Thanks to PR by <a href="https://github.com/tdido">Tomás Di Domenico</a>: <a href="search.html"><code>gget search</code></a> can now also query plant 🌱 Ensembl IDs.</strong></li>
+<li><strong>New module: <a href="cellxgene.html"><code>gget cellxgene</code></a></strong></li>
+</ul>
+<p><strong>Version ≥ 0.27.5</strong> (April 6, 2023):</p>
+<ul>
+<li>Updated <a href="search.html"><code>gget search</code></a> to function correctly with new <a href="https://pypi.org/project/pandas/2.0.0/">Pandas</a> version 2.0.0 (released on April 3rd, 2023) as well as older versions of Pandas</li>
+<li>Updated <a href="info.html"><code>gget info</code></a> with new flags <code>uniprot</code> and <code>ncbi</code> which allow turning off results from these databases independently to save runtime (note: flag <code>ensembl_only</code> was deprecated)</li>
+<li>All gget modules now feature a <code>-q / --quiet</code> (Python: <code>verbose=False</code>) flag to turn off progress information</li>
+</ul>
+<p><strong>Version ≥ 0.27.4</strong> (March 19, 2023):</p>
+<ul>
+<li><strong>New module: <a href="gpt.html"><code>gget gpt</code></a></strong></li>
+</ul>
+<p><strong>Version ≥ 0.27.3</strong> (March 11, 2023):</p>
+<ul>
+<li><a href="info.html"><code>gget info</code></a> excludes PDB IDs by default to increase speed (PDB results can be included using flag <code>--pdb</code> / <code>pdb=True</code>).</li>
+</ul>
+<p><strong>Version ≥ 0.27.2</strong> (January 1, 2023):</p>
+<ul>
+<li>Updated <a href="alphafold.html"><code>gget alphafold</code></a> to <a href="https://github.com/deepmind/alphafold/releases/tag/v2.3.0">DeepMind's AlphaFold v2.3.0</a> (including new arguments <code>multimer_for_monomer</code> and <code>multimer_recycles</code>)</li>
+</ul>
+<p><strong>Version ≥ 0.27.0</strong> (December 10, 2022):</p>
+<ul>
+<li>Updated <a href="alphafold.html"><code>gget alphafold</code></a> to match recent changes by DeepMind</li>
+<li>Updated version number to match <a href="https://github.com/lauraluebbert">gget's creator</a>'s age following a long-standing Pachter lab tradition</li>
+</ul>
+<p><strong>Version ≥ 0.3.13</strong> (November 11, 2022):</p>
+<ul>
+<li>Reduced runtime for <a href="enrichr.html"><code>gget enrichr</code></a> and <a href="archs4.html"><code>gget archs4</code></a> when used with Ensembl IDs</li>
+</ul>
+<p><strong>Version ≥ 0.3.12</strong> (November 10, 2022):</p>
+<ul>
+<li><a href="info.html"><code>gget info</code></a> now also returns subcellular localisation data from UniProt</li>
+<li>New <a href="info.html"><code>gget info</code></a> flag <code>ensembl_only</code> returns only Ensembl results</li>
+<li>Reduced runtime for <a href="info.html"><code>gget info</code></a> and <a href="seq.html"><code>gget seq</code></a></li>
+</ul>
+<p><strong>Version ≥ 0.3.11</strong> (September 7, 2022):</p>
+<ul>
+<li><strong>New module: <a href="pdb.html"><code>gget pdb</code></a></strong></li>
+</ul>
+<p><strong>Version ≥ 0.3.10</strong> (September 2, 2022):</p>
+<ul>
+<li><a href="alphafold.html"><code>gget alphafold</code></a> now also returns pLDDT values for generating plots from output without rerunning the program (also see the <a href="https://github.com/pachterlab/gget/discussions/39">gget alphafold FAQ</a>)</li>
+</ul>
+<p><strong>Version ≥ 0.3.9</strong> (August 25, 2022):</p>
+<ul>
+<li>Updated openmm installation instructions for <a href="alphafold.html"><code>gget alphafold</code></a></li>
+</ul>
+<p><strong>Version ≥ 0.3.8</strong> (August 12, 2022):</p>
+<ul>
+<li>Fixed mysql-connector-python version requirements</li>
+</ul>
+<p><strong>Version ≥ 0.3.7</strong> (August 9, 2022):</p>
+<ul>
+<li><strong>NOTE:</strong> The <a href="http://ftp.ensembl.org/pub/">Ensembl FTP site</a> changed its structure on August 8, 2022. Please upgrade to <code>gget</code> version ≥ 0.3.7 if you use <a href="ref.html"><code>gget ref</code></a></li>
+</ul>
+<p><strong>Version ≥ 0.3.5</strong> (August 6, 2022):</p>
+<ul>
+<li><strong>New module: <a href="alphafold.html"><code>gget alphafold</code></a></strong></li>
+</ul>
+<p><strong>Version ≥ 0.2.6</strong> (July 7, 2022):</p>
+<ul>
+<li><strong><a href="ref.html"><code>gget ref</code></a> now supports plant genomes! 🌱</strong></li>
+</ul>
+<p><strong>Version ≥ 0.2.5</strong> (June 30, 2022):</p>
+<ul>
+<li><strong>NOTE:</strong> <a href="https://www.uniprot.org/">UniProt</a> changed the structure of their API on June 28, 2022. Please upgrade to <code>gget</code> version ≥ 0.2.5 if you use any of the modules querying data from UniProt (<a href="info.html"><code>gget info</code></a> and <a href="seq.html"><code>gget seq</code></a>).</li>
+</ul>
+<p><strong>Version ≥ 0.2.3:</strong> (June 26, 2022):</p>
+<ul>
+<li>JSON is now the default output format for the command-line interface for modules that previously returned data frame (CSV) format by default (the output can be converted to data frame/CSV using flag <code>[-csv][--csv]</code>). Data frame/CSV remains the default output for Jupyter Lab / Google Colab (and can be converted to JSON with <code>json=True</code>).</li>
+<li>For all modules, the first required argument was converted to a positional argument and should not be named anymore in the command-line, e.g. <code>gget ref -s human</code> → <code>gget ref human</code>.</li>
+<li><code>gget info</code>: <code>[--expand]</code> is deprecated. The module will now always return all of the available information.</li>
+<li>Slight changes to the output returned by <code>gget info</code>, including the return of versioned Ensembl IDs.</li>
+<li><code>gget info</code> and <code>gget seq</code> now support 🪱 WormBase and 🪰 FlyBase IDs.</li>
+<li><code>gget archs4</code> and <code>gget enrichr</code> now also take Ensembl IDs as input with added flag <code>[-e][--ensembl]</code> (<code>ensembl=True</code> in Jupyter Lab / Google Colab).</li>
+<li><code>gget seq</code> argument <code>seqtype</code> was replaced by flag <code>[-t][--translate]</code> (<code>translate=True/False</code> in Jupyter Lab / Google Colab) which will return either nucleotide (<code>False</code>) or amino acid (<code>True</code>) sequences.</li>
+<li><code>gget search</code> argument <code>seqtype</code> was renamed to <code>id_type</code> for clarity (still taking the same arguments 'gene' or 'transcript').</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../en/introduction.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../en/dependents.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../en/introduction.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../en/dependents.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

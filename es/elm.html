@@ -1,0 +1,308 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>gget elm - gget</title>
+
+
+        <!-- Custom HTML head -->
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZM4N3XBEW7"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-ZM4N3XBEW7');
+        </script>
+
+        <meta name="description" content="gget enables efficient querying of genomic reference databases">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../en/introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="../en/updates.html">What's New?</a></li><li class="chapter-item expanded affix "><a href="../en/dependents.html">Dependents & News</a></li><li class="chapter-item expanded affix "><li class="part-title">User Guide</li><li class="chapter-item expanded "><a href="../en/installation.html">Installation</a></li><li class="chapter-item expanded "><a href="../en/quick_start_guide.html">Quick Start Guide</a></li><li class="chapter-item expanded affix "><li class="part-title">Manual</li><li class="chapter-item expanded "><a href="../en/8cube.html">gget 8cube</a></li><li class="chapter-item expanded "><a href="../en/alphafold.html">gget alphafold</a></li><li class="chapter-item expanded "><a href="../en/archs4.html">gget archs4</a></li><li class="chapter-item expanded "><a href="../en/bgee.html">gget bgee</a></li><li class="chapter-item expanded "><a href="../en/blast.html">gget blast</a></li><li class="chapter-item expanded "><a href="../en/blat.html">gget blat</a></li><li class="chapter-item expanded "><a href="../en/cbio.html">gget cbio</a></li><li class="chapter-item expanded "><a href="../en/cellxgene.html">gget cellxgene</a></li><li class="chapter-item expanded "><a href="../en/cosmic.html">gget cosmic</a></li><li class="chapter-item expanded "><a href="../en/diamond.html">gget diamond</a></li><li class="chapter-item expanded "><a href="../en/elm.html">gget elm</a></li><li class="chapter-item expanded "><a href="../en/enrichr.html">gget enrichr</a></li><li class="chapter-item expanded "><a href="../en/gpt.html">gget gpt</a></li><li class="chapter-item expanded "><a href="../en/info.html">gget info</a></li><li class="chapter-item expanded "><a href="../en/muscle.html">gget muscle</a></li><li class="chapter-item expanded "><a href="../en/mutate.html">gget mutate</a></li><li class="chapter-item expanded "><a href="../en/opentargets.html">gget opentargets</a></li><li class="chapter-item expanded "><a href="../en/pdb.html">gget pdb</a></li><li class="chapter-item expanded "><a href="../en/ref.html">gget ref</a></li><li class="chapter-item expanded "><a href="../en/search.html">gget search</a></li><li class="chapter-item expanded "><a href="../en/setup.html">gget setup</a></li><li class="chapter-item expanded "><a href="../en/seq.html">gget seq</a></li><li class="chapter-item expanded "><a href="../en/virus.html">gget virus</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../en/contributing.html">Contributing Guide</a></li><li class="chapter-item expanded "><a href="../en/code_of_conduct.html">Code of Conduct</a></li><li class="chapter-item expanded "><a href="../en/cite.html">Citation Guidelines</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Español</li><li class="chapter-item expanded "><a href="../es/introduction.html">Introdución</a></li><li class="chapter-item expanded "><a href="../es/updates.html">¡Lo más reciente!</a></li><li class="chapter-item expanded "><a href="../es/dependents.html">Dependientes y Noticias</a></li><li class="chapter-item expanded affix "><li class="part-title">Guía del usario</li><li class="chapter-item expanded "><a href="../es/installation.html">Instalación</a></li><li class="chapter-item expanded "><a href="../es/quick_start_guide.html">Guía de inicio rápido</a></li><li class="chapter-item expanded affix "><li class="part-title">Manuál</li><li class="chapter-item expanded "><a href="../es/8cube.html">gget 8cube</a></li><li class="chapter-item expanded "><a href="../es/alphafold.html">gget alphafold</a></li><li class="chapter-item expanded "><a href="../es/archs4.html">gget archs4</a></li><li class="chapter-item expanded "><a href="../es/bgee.html">gget bgee</a></li><li class="chapter-item expanded "><a href="../es/blast.html">gget blast</a></li><li class="chapter-item expanded "><a href="../es/blat.html">gget blat</a></li><li class="chapter-item expanded "><a href="../es/cbio.html">gget cbio</a></li><li class="chapter-item expanded "><a href="../es/cellxgene.html">gget cellxgene</a></li><li class="chapter-item expanded "><a href="../es/cosmic.html">gget cosmic</a></li><li class="chapter-item expanded "><a href="../es/diamond.html">gget diamond</a></li><li class="chapter-item expanded "><a href="../es/elm.html" class="active">gget elm</a></li><li class="chapter-item expanded "><a href="../es/enrichr.html">gget enrichr</a></li><li class="chapter-item expanded "><a href="../es/gpt.html">gget gpt</a></li><li class="chapter-item expanded "><a href="../es/info.html">gget info</a></li><li class="chapter-item expanded "><a href="../es/muscle.html">gget muscle</a></li><li class="chapter-item expanded "><a href="../es/mutate.html">gget mutate</a></li><li class="chapter-item expanded "><a href="../es/opentargets.html">gget opentargets</a></li><li class="chapter-item expanded "><a href="../es/pdb.html">gget pdb</a></li><li class="chapter-item expanded "><a href="../es/ref.html">gget ref</a></li><li class="chapter-item expanded "><a href="../es/search.html">gget search</a></li><li class="chapter-item expanded "><a href="../es/setup.html">gget setup</a></li><li class="chapter-item expanded "><a href="../es/seq.html">gget seq</a></li><li class="chapter-item expanded "><a href="../es/virus.html">gget virus</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../es/contributing.html">Guía de contribución</a></li><li class="chapter-item expanded "><a href="../es/code_of_conduct.html">Codigo de conducto</a></li><li class="chapter-item expanded "><a href="../es/cite.html">Cómo citar</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">gget</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <p><a href="https://github.com/pachterlab/gget/blob/main/docs/src/es/elm.md"><kbd> Ver el codigo fuente de la pagina en GitHub </kbd></a></p>
+<blockquote>
+<p>Parámetros de Python són iguales a los parámetros largos (<code>--parámetro</code>) de Terminal, si no especificado de otra manera. Banderas son parámetros de verdadero o falso (True/False) en Python. El manuál para cualquier modulo de gget se puede llamar desde la Terminal con la bandera <code>-h</code> <code>--help</code>.</p>
+</blockquote>
+<h1 id="gget-elm-"><a class="header" href="#gget-elm-">gget elm 🎭</a></h1>
+<p>Prediga localmente motivos lineales eucarióticos (ELMs) a partir de una secuencia de aminoácidos o UniProt Acc utilizando datos de la <a href="http://elm.eu.org/">base de datos ELM</a>.<br />
+Produce: Resultados en formato JSON (Terminal) o Dataframe/CSV (Python). Este módulo devuelve dos tipos de resultados (ver ejemplos).</p>
+<p><strong>Los datos de ELM se pueden descargar y distribuir para uso no comercial de acuerdo con el <a href="http://elm.eu.org/media/Elm_academic_license.pdf">acuerdo de licencia de software de ELM</a>.</strong></p>
+<p>Antes de usar <code>gget elm</code> por primera vez, ejecute <code>gget setup elm</code> / <code>gget.setup(&quot;elm&quot;)</code> una vez (consulte también <a href="setup.html"><code>gget setup</code></a>).</p>
+<p><strong>Parámetro posicional</strong><br />
+<code>sequence</code><br />
+Secuencia de aminoácidos o Uniprot Acc (str).<br />
+Al proporcionar una Uniprot Acc, use la bandera <code>--uniprot</code> (Python: <code>uniprot=True</code>).</p>
+<p><strong>Parámetros optionales</strong><br />
+<code>-s</code> <code>sensitivity</code><br />
+Sensibilidad de la alineación DIAMOND (str). Por defecto: &quot;very-sensitive&quot; (muy sensible).<br />
+Uno de los siguientes: fast, mid-sensitive, sensitive, more-sensitive, very-sensitive, or ultra-sensitive.</p>
+<p><code>-t</code> <code>threads</code><br />
+Número de hilos de procesamiento utilizados en la alineación de secuencias con DIAMOND (int). Por defecto: 1.</p>
+<p><code>-bin</code> <code>diamond_binary</code><br />
+Ruta al binario DIAMOND (str). Por defecto: None -&gt; Utiliza el binario DIAMOND instalado automáticamente con <code>gget</code>.</p>
+<p><code>-o</code> <code>--out</code><br />
+Ruta al archivo en el que se guardarán los resultados (str), p. ej. &quot;ruta/al/directorio&quot;. Por defecto: salida estándar (STDOUT); los archivos temporales se eliminan.</p>
+<p><strong>Banderas</strong><br />
+<code>-u</code> <code>--uniprot</code><br />
+Use esta bandera cuando <code>sequence</code> es una Uniprot Acc en lugar de una secuencia de aminoácidos.</p>
+<p><code>-e</code> <code>--expand</code><br />
+Amplíe la información devuelta en el marco de datos de expresiones regulares para incluir los nombres de proteínas, los organismos y las referencias en las que se validó originalmente el motivo.</p>
+<p><code>-csv</code> <code>--csv</code><br />
+Solo para Terminal. Produce los resultados en formato CSV.<br />
+Para Python, usa <code>json=True</code> para producir los resultados en formato JSON.</p>
+<p><code>-q</code> <code>--quiet</code><br />
+Solo para Terminal. Impide la información de progreso de ser exhibida durante la ejecución del programa.<br />
+Para Python, usa <code>verbose=False</code> para impedir la información de progreso de ser exhibida durante la ejecución del programa.</p>
+<h3 id="ejemplo"><a class="header" href="#ejemplo">Ejemplo</a></h3>
+<p>Encuentre ELM en una secuencia de aminoácidos:</p>
+<pre><code class="language-bash">gget setup elm          # Descarga/actualiza la base de datos ELM local
+gget elm -o gget_elm_results LIAQSIGQASFV
+</code></pre>
+<pre><code class="language-python"># Python
+gget.setup(“elm”)      # Descarga/actualiza la base de datos ELM local
+ortholog_df, regex_df = gget.elm(&quot;LIAQSIGQASFV&quot;)
+</code></pre>
+<p>Encuentre ELM que proporcionen a una UniProt Acc: </p>
+<pre><code class="language-bash">gget setup elm          # Descarga/actualiza la base de datos ELM local
+gget elm -o gget_elm_results --uniprot Q02410 -e
+</code></pre>
+<pre><code class="language-python"># Python
+gget.setup(“elm”)      # Descarga/actualiza la base de datos ELM local
+ortholog_df, regex_df = gget.elm(&quot;Q02410&quot;, uniprot=True, expand=True)
+</code></pre>
+<p>→ Produce dos resultados con información extensa sobre ELMs asociados con proteínas ortólogas y motivos encontrados en la secuencia de entrada directamente en función de sus expresiones regex:</p>
+<p>ortholog_df:</p>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Ortholog_UniProt_Acc</th><th style="text-align: center">ProteinName</th><th style="text-align: center">class_accession</th><th style="text-align: center">ELMIdentifier</th><th style="text-align: center">FunctionalSiteName</th><th style="text-align: center">Description</th><th style="text-align: center">Organism</th><th style="text-align: center">…</th></tr></thead><tbody>
+<tr><td style="text-align: center">Q02410</td><td style="text-align: center">APBA1_HUMAN</td><td style="text-align: center">ELME000357</td><td style="text-align: center">LIG_CaMK_CASK_1</td><td style="text-align: center">CASK CaMK domain binding ligand motif</td><td style="text-align: center">Motif that mediates binding to the calmodulin-dependent protein kinase (CaMK) domain of the peripheral plasma membrane protein CASK/Lin2.</td><td style="text-align: center">Homo sapiens</td><td style="text-align: center">…</td></tr>
+<tr><td style="text-align: center">Q02410</td><td style="text-align: center">APBA1_HUMAN</td><td style="text-align: center">ELME000091</td><td style="text-align: center">LIG_PDZ_Class_2</td><td style="text-align: center">PDZ domain ligands</td><td style="text-align: center">The C-terminal class 2 PDZ-binding motif is classically represented by a pattern such as</td><td style="text-align: center">Homo sapiens</td><td style="text-align: center">…</td></tr>
+</tbody></table>
+</div>
+<p>regex_df:</p>
+<div class="table-wrapper"><table><thead><tr><th style="text-align: center">Instance_accession</th><th style="text-align: center">ELMIdentifier</th><th style="text-align: center">FunctionalSiteName</th><th style="text-align: center">ELMType</th><th style="text-align: center">Description</th><th style="text-align: center">Instances (Matched Sequence)</th><th style="text-align: center">Organism</th><th style="text-align: center">…</th></tr></thead><tbody>
+<tr><td style="text-align: center">ELME000321</td><td style="text-align: center">CLV_C14_Caspase3-7</td><td style="text-align: center">Caspase cleavage motif</td><td style="text-align: center">CLV</td><td style="text-align: center">Caspase-3 and Caspase-7 cleavage site.</td><td style="text-align: center">ERSDG</td><td style="text-align: center">Mus musculus</td><td style="text-align: center">…</td></tr>
+<tr><td style="text-align: center">ELME000102</td><td style="text-align: center">CLV_NRD_NRD_1</td><td style="text-align: center">NRD cleavage site</td><td style="text-align: center">CLV</td><td style="text-align: center">N-Arg dibasic convertase (NRD/Nardilysin) cleavage site.</td><td style="text-align: center">RRA</td><td style="text-align: center">Rattus norvegicus</td><td style="text-align: center">…</td></tr>
+<tr><td style="text-align: center">ELME000100</td><td style="text-align: center">CLV_PCSK_PC1ET2_1</td><td style="text-align: center">PCSK cleavage site</td><td style="text-align: center">CLV</td><td style="text-align: center">NEC1/NEC2 cleavage site.</td><td style="text-align: center">KRD</td><td style="text-align: center">Mus musculus</td><td style="text-align: center">…</td></tr>
+<tr><td style="text-align: center">ELME000146</td><td style="text-align: center">CLV_PCSK_SKI1_1</td><td style="text-align: center">PCSK cleavage site</td><td style="text-align: center">CLV</td><td style="text-align: center">Subtilisin/kexin isozyme-1 (SKI1) cleavage site.</td><td style="text-align: center">RLLTA</td><td style="text-align: center">Homo sapiens</td><td style="text-align: center">…</td></tr>
+<tr><td style="text-align: center">ELME000231</td><td style="text-align: center">DEG_APCC_DBOX_1</td><td style="text-align: center">APCC-binding Destruction motifs</td><td style="text-align: center">DEG</td><td style="text-align: center">An RxxL-based motif that binds to the Cdh1 and Cdc20 components of APC/C thereby targeting the protein for destruction in a cell cycle dependent manner</td><td style="text-align: center">SRVKLNIVR</td><td style="text-align: center">Saccharomyces cerevisiae S288c</td><td style="text-align: center">…</td></tr>
+<tr><td style="text-align: center">…</td><td style="text-align: center">…</td><td style="text-align: center">…</td><td style="text-align: center">…</td><td style="text-align: center">…</td><td style="text-align: center">…</td><td style="text-align: center">…</td><td style="text-align: center">…</td></tr>
+</tbody></table>
+</div>
+<p>(Los motivos que aparecen en muchas especies diferentes pueden parecer repetidos, pero todas las filas deben ser únicas.)</p>
+<h4 id="màs-ejemplos"><a class="header" href="#màs-ejemplos"><a href="https://github.com/pachterlab/gget_examples">Màs ejemplos</a></a></h4>
+<h1 id="citar"><a class="header" href="#citar">Citar</a></h1>
+<p>Si utiliza <code>gget elm</code> en una publicación, favor de citar los siguientes artículos:</p>
+<ul>
+<li>
+<p>Laura Luebbert, Chi Hoang, Manjeet Kumar, Lior Pachter, Fast and scalable querying of eukaryotic linear motifs with gget elm, <em>Bioinformatics</em>, 2024, btae095, <a href="https://doi.org/10.1093/bioinformatics/btae095">https://doi.org/10.1093/bioinformatics/btae095</a></p>
+</li>
+<li>
+<p>Manjeet Kumar, Sushama Michael, Jesús Alvarado-Valverde, Bálint Mészáros, Hugo Sámano‐Sánchez, András Zeke, Laszlo Dobson, Tamas Lazar, Mihkel Örd, Anurag Nagpal, Nazanin Farahi, Melanie Käser, Ramya Kraleti, Norman E Davey, Rita Pancsa, Lucía B Chemes, Toby J Gibson, The Eukaryotic Linear Motif resource: 2022 release, Nucleic Acids Research, Volume 50, Issue D1, 7 January 2022, Pages D497–D508, <a href="https://doi.org/10.1093/nar/gkab975">https://doi.org/10.1093/nar/gkab975</a></p>
+</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../es/diamond.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../es/enrichr.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../es/diamond.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../es/enrichr.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
