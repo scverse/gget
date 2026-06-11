@@ -1558,9 +1558,19 @@ def main():
         "--species",
         default="homo_sapiens",
         type=str,
-        choices=["homo_sapiens", "mus_musculus"],
+        choices=[
+            "homo_sapiens",
+            "mus_musculus",
+            "macaca_mulatta",
+            "callithrix_jacchus",
+            "pan_troglodytes",
+        ],
         required=False,
-        help="Choice of 'homo_sapiens' or 'mus_musculus'.",
+        help=(
+            "Choice of 'homo_sapiens', 'mus_musculus', 'macaca_mulatta', "
+            "'callithrix_jacchus', or 'pan_troglodytes'. "
+            "Non-human primates require --census_version 2025-11-08 (LTS) or newer."
+        ),
     )
     parser_cellxgene.add_argument(
         "-g",
