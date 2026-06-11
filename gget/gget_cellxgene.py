@@ -2,6 +2,18 @@ from .utils import set_up_logger
 
 logger = set_up_logger()
 
+# Organisms available in the CZ CELLxGENE Discover Census.
+# As of Census LTS 2025-11-08 this includes non-human primates in addition to
+# human and mouse. These strings correspond to the `organism` experiment keys
+# expected by cellxgene_census (census["census_data"][organism]).
+SUPPORTED_SPECIES = [
+    "homo_sapiens",
+    "mus_musculus",
+    "macaca_mulatta",
+    "callithrix_jacchus",
+    "pan_troglodytes",
+]
+
 
 def _listify(x):
     """
@@ -78,7 +90,10 @@ def cellxgene(
     The CZ CELLxGENE Discover Census recommends >16 GB of memory and a >5 Mbps internet connection.
 
     General args:
-        - species        Choice of 'homo_sapiens' or 'mus_musculus'. Default: 'homo_sapiens'.
+        - species        Choice of 'homo_sapiens', 'mus_musculus', 'macaca_mulatta', 'callithrix_jacchus',
+                         or 'pan_troglodytes'. Default: 'homo_sapiens'.
+                         NOTE: Non-human primates ('macaca_mulatta', 'callithrix_jacchus', 'pan_troglodytes')
+                         require census_version='2025-11-08' (LTS) or newer.
         - gene           Str or list of gene name(s) or Ensembl ID(s), e.g. ['ACE2', 'SLC5A1'] or ['ENSG00000130234', 'ENSG00000100170']. Default: None.
                          NOTE: Set ensembl=True when providing Ensembl ID(s) instead of gene name(s).
                          NOTE: Gene symbols are case sensitive! Use canonical casing, e.g., 'PAX7' (human), 'Pax7' (mouse).
@@ -121,6 +136,14 @@ def cellxgene(
 
     Returns AnnData object (when meta_only=False) or dataframe (when meta_only=True).
     """
+    # Validate species early (before any network access) for a friendly error
+    if species not in SUPPORTED_SPECIES:
+        raise ValueError(
+            f"Species '{species}' is not supported. "
+            f"Choose one of: {', '.join(SUPPORTED_SPECIES)}. "
+            "Note: non-human primates require census_version='2025-11-08' (LTS) or newer."
+        )
+
     # Defaults for column_names
     if column_names is None:
         column_names = [

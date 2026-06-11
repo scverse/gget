@@ -10,7 +10,8 @@ Before using `gget cellxgene` for the first time, run `gget setup cellxgene` / `
 
 **Optional arguments**  
 `-s` `--species`  
-Choice of 'homo_sapiens' or 'mus_musculus'. Default: 'homo_sapiens'.  
+Choice of 'homo_sapiens', 'mus_musculus', 'macaca_mulatta', 'callithrix_jacchus', or 'pan_troglodytes'. Default: 'homo_sapiens'.  
+Non-human primates ('macaca_mulatta', 'callithrix_jacchus', 'pan_troglodytes') require `--census_version 2025-11-08` (LTS) or newer.  
 
 `-g` `--gene`  
  Str or list of gene name(s) or Ensembl ID(s). Default: None.  
