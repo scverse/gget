@@ -1,8 +1,9 @@
-import unittest
 import json
 import os
+import unittest
 
-from gget.gget_8cube import specificity, psi_block, gene_expression
+from gget.gget_8cube import gene_expression, psi_block, specificity
+
 from .from_json import from_json
 
 # Load JSON fixture
@@ -19,9 +20,7 @@ psi_block_tests = {k: v for k, v in fixture.items() if "psi_block" in k}
 gene_expression_tests = {k: v for k, v in fixture.items() if "gene_expression" in k}
 
 
-class TestSpecificity(
-    unittest.TestCase, metaclass=from_json(specificity_tests, specificity)
-):
+class TestSpecificity(unittest.TestCase, metaclass=from_json(specificity_tests, specificity)):
     """Tests for specificity()"""
 
     pass
@@ -33,9 +32,7 @@ class TestPsiBlock(unittest.TestCase, metaclass=from_json(psi_block_tests, psi_b
     pass
 
 
-class TestGeneExpression(
-    unittest.TestCase, metaclass=from_json(gene_expression_tests, gene_expression)
-):
+class TestGeneExpression(unittest.TestCase, metaclass=from_json(gene_expression_tests, gene_expression)):
     """Tests for gene_expression()"""
 
     pass

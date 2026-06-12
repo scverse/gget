@@ -27,33 +27,33 @@ Su clave API de OpenAI (str) ([obtenga su clave API](https://platform.openai.com
 El nombre del algoritmo GPT que se usará para generar el texto (str). Por defecto: "gpt-3.5-turbo".  
 See https://platform.openai.com/docs/models/gpt-4 for more information on the available models.  
 
-`-temp` `--temperature`   
+`-temp` `--temperature`  
 Valor entre 0 y 2 que controla el nivel de aleatoriedad y creatividad en el texto generado (float).  
 Los valores más altos resultan en un texto más creativo y variado. Por defecto: 1.  
 
-`-tp` `--top_p`   
+`-tp` `--top_p`  
 Controla la diversidad del texto generado como alternativa al muestreo con `--temperature` (float).  
 Los valores más altos resultan en un texto más diverso e inesperado. Por defecto: 1.  
 Tenga en cuenta que OpenAI recomienda modificar `--top_p` o el parámetro `--temperature`, pero no ambas.  
 
-`-s` `--stop`   
+`-s` `--stop`  
 Una secuencia de tokens para marcar el final del texto generado (str). Por defecto: None.  
 
-`-mt` `--max_tokens`   
+`-mt` `--max_tokens`  
 Controla la longitud máxima del texto generado, en tokens (int). Por defecto: 200.  
 
-`-pp` `--presence_penalty`   
+`-pp` `--presence_penalty`  
 Número entre -2.0 y 2.0. Los valores más altos aumentan la probabilidad de que el modelo hable sobre temas nuevos (float). Por defecto: 0.  
 
-`-fp` `--frequency_penalty`   
+`-fp` `--frequency_penalty`  
 Número entre -2.0 y 2.0. Los valores más altos reducen la probabilidad de que el modelo repita la misma línea palabra por palabra (float). Por defecto: 0.  
 
-`-lb` `--logit_bias`   
+`-lb` `--logit_bias`  
 Un diccionario que especifica un sesgo hacia ciertos tokens en el texto generado (dict). Por defecto: None.  
 
-`-o` `--out`   
+`-o` `--out`  
 Ruta al archivo en el que se guardarán los resultados, p. ej. ruta/al/directorio/resultados.txt. Por defecto: salida estándar (STDOUT).  
-  
+
 ### Por ejemplo
 ```bash
 gget gpt "Cómo estás hoy GPT?" su_clave_api

@@ -6,7 +6,7 @@
   - The `species` argument (both Python and command line) now accepts all five supported organisms; the CLI `choices`, help text, and docstrings list them.
   - Added early validation of the `species` argument that raises a clear `ValueError` listing the supported species, instead of failing later inside the Census API call.
   - Note: the new primate species require `census_version="2025-11-08"` (LTS) or newer.
-    
+
 **Version ≥ 0.30.6** (Jun 10, 2026):
 - [`gget blat`](blat.md): Improved resilience against UCSC BLAT endpoint failures (fixes intermittently failing tests).
   - Added retry-with-exponential-backoff for transient failures (HTTP 429/5xx, network errors, and non-JSON 200 responses caused by UCSC rate-limiting or HTML error pages). Up to 4 attempts with 1.5s → 3s → 6s backoff.
@@ -26,6 +26,11 @@
   - `utils.get_uniprot_seqs`: Collect per-ID DataFrames in a list and `pd.concat(..., ignore_index=True)` once at the end, avoiding the O(n²) cost of growing a DataFrame inside the request loop.
   - Cached `utils.find_latest_ens_rel`, `utils.search_species_options`, `utils.ref_species_options`, and `utils.find_nv_kingdom` with `functools.lru_cache`. These hit Ensembl FTP listings that are stable for a release; repeated calls within one Python process are now free.
   - Added `utils.parallel_map`, a thin `ThreadPoolExecutor` wrapper for I/O-bound work. Used to fan out `utils.get_uniprot_seqs` across the input ID list — looking up N IDs is now bounded by ~`N / pool_size` UniProt round-trips instead of `N`. Pool size defaults to 8 and can be overridden via the `GGET_MAX_WORKERS` environment variable.
+- Developer tooling / packaging:
+  - Migrated packaging to a single `pyproject.toml` (the [hatchling](https://hatch.pypa.io/) build backend); removed `setup.py`, `setup.cfg`, `requirements.txt`, `dev-requirements.txt`, and `MANIFEST.in`. Runtime dependencies and the `test` dependency group are now declared in `pyproject.toml`.
+  - The minimum supported Python version is now **3.12**.
+  - Added a [pre-commit](https://pre-commit.com/) configuration (lint + format via [ruff](https://docs.astral.sh/ruff/), plus standard hygiene hooks). Run `prek run --all-files` (or `pre-commit run --all-files`) before opening a PR.
+  - Modernized the test CI to use [uv](https://docs.astral.sh/uv/) and run on pull requests, and added package-build-check and PyPI trusted-publishing workflows.
 
 **Version ≥ 0.30.5** (May 23, 2026):
 - [`gget opentargets`](opentargets.md): Rewrote this module to reflect the new Open Targets API structure
@@ -69,7 +74,7 @@
 - [`gget pdb`](pdb.md): Added wwpdb mirror; falls back to rcsb if wwpdb fails.
 - [`gget cellxgene`](cellxgene.md): Improved argument handling; frontend unchanged. Fixes [issue 181](https://github.com/pachterlab/gget/issues/181).
 - [`gget setup`](setup.md)/[`gget alphafold`](alphafold.md): Fixed pip_cmd bug in gget.setup("alphafold")
-  
+
 **Version ≥ 0.29.2** (Jul 03, 2025):  
 - gget can now be installed using `uv pip install gget`
   - All package metadata (version, author, description, etc.) is now managed in setup.cfg for full compatibility with modern tools like uv, pip, and PyPI
@@ -94,7 +99,7 @@
   - Allow querying multiple genes at once.
 - [`gget diamond`](diamond.md):  
   - Now supports translated alignment of nucleotide sequences to amino acid reference sequences using the `--translated` flag.
-- [`gget elm`](elm.md):   
+- [`gget elm`](elm.md):  
   - Improved server error handling.
 
 **Version ≥ 0.29.0** (Sep 25, 2024):  
@@ -122,12 +127,12 @@
 - [`gget ref`](./ref.md): Can now fetch the GRCh37 genome assembly using `species='human_grch37'`
 - [`gget search`](./search.md): Adjust access of human data to the structure of Ensembl release 112 (fixes [issue 129](https://github.com/pachterlab/gget/issues/129))
 
-~~**Version ≥ 0.28.5** (May 29, 2024):~~ 
+~~**Version ≥ 0.28.5** (May 29, 2024):~~
 - Yanked due to logging bug in `gget.setup("alphafold")` + inversion mutations in `gget mutate` only reverse the string instead of also computing the complementary strand
-  
+
 **Version ≥ 0.28.4** (January 31, 2024):  
 - [`gget setup`](./setup.md): Fix bug with filepath when running `gget.setup("elm")` on Windows OS.  
-  
+
 **Version ≥ 0.28.3** (January 22, 2024):  
 - **[`gget search`](./search.md) and [`gget ref`](./ref.md) now also support fungi 🍄, protists 🌝, and invertebrate metazoa 🐝 🐜 🐌 🐙 (in addition to vertebrates and plants)**
 - **New module: [`gget cosmic`](./cosmic.md)**
@@ -140,7 +145,7 @@
 - [`gget setup`](./setup.md): Use the `out` argument to specify a directory the ELM database will be downloaded into. Completes [this feature request](https://github.com/pachterlab/gget/issues/119).
 - [`gget diamond`](./diamond.md): The DIAMOND command is now run with `--ignore-warnings` flag, allowing niche sequences such as amino acid sequences that only contain nucleotide characters and repeated sequences. This is also true for DIAMOND alignments performed within [`gget elm`](./elm.md).
 - **[`gget ref`](./ref.md) and [`gget search`](./search.md) back-end change: the current Ensembl release is fetched from the new [release file](https://ftp.ensembl.org/pub/VERSION) on the Ensembl FTP site to avoid errors during uploads of new releases.**
-- [`gget search`](./search.md): 
+- [`gget search`](./search.md):
   - FTP link results (`--ftp`) are saved in txt file format instead of json.
   - Fix URL links to Ensembl gene summary for species with a subspecies name and invertebrates.
 - [`gget ref`](./ref.md):
@@ -152,7 +157,7 @@
 - Replace deprecated 'text' argument to find()-type methods whenever used with dependency `BeautifulSoup`
 - [`gget elm`](elm.md): Remove false positive and true negative instances from returned results
 - [`gget elm`](elm.md): Add `expand` argument
-  
+
 **Version ≥ 0.28.0** (November 5, 2023):  
 - Updated documentation of [`gget muscle`](./muscle.md) to add a tutorial on how to visualize sequences with varying sequence name lengths + slight change to returned visualization so it's a bit more robust to varying sequence names
 - [`gget muscle`](./muscle.md) now also allows a list of sequences as input (as an alternative to providing the path to a FASTA file)
@@ -160,7 +165,7 @@
 - [`gget seq`](./seq.md): Allow missing gene names (fixes [https://github.com/pachterlab/gget/issues/107](https://github.com/pachterlab/gget/issues/107))
 - **[`gget enrichr`](enrichr.md): Use new arguments `kegg_out` and `kegg_rank` to create an image of the KEGG pathway with the genes from the enrichment analysis highlighted (thanks to [this PR](https://github.com/pachterlab/gget/pull/106) by [Noriaki Sato](https://github.com/noriakis))**  
 - **New modules: [`gget elm`](elm.md) and [`gget diamond`](diamond.md)**
-  
+
 **Version ≥ 0.27.9** (August 7, 2023):  
 - **[`gget enrichr`](enrichr.md): Use new argument `background_list` to provide a list of background genes**  
 - [`gget search`](search.md) now also searches [Ensembl](https://ensembl.org/) synonyms (in addition to gene descriptions and names) to return more comprehensive search results (thanks to [Samuel Klein](https://github.com/KleinSamuel) for the [suggestion](https://github.com/pachterlab/gget/issues/90))
@@ -185,11 +190,11 @@
 
 **Version ≥ 0.27.4** (March 19, 2023):  
 - **New module: [`gget gpt`](gpt.md)**
- 
+
 **Version ≥ 0.27.3** (March 11, 2023):  
 - [`gget info`](info.md) excludes PDB IDs by default to increase speed (PDB results can be included using flag `--pdb` / `pdb=True`).  
 
-**Version ≥ 0.27.2** (January 1, 2023):    
+**Version ≥ 0.27.2** (January 1, 2023):  
 - Updated [`gget alphafold`](alphafold.md) to [DeepMind's AlphaFold v2.3.0](https://github.com/deepmind/alphafold/releases/tag/v2.3.0) (including new arguments `multimer_for_monomer` and `multimer_recycles`)  
 
 **Version ≥ 0.27.0** (December 10, 2022):  

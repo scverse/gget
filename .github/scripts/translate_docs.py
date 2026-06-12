@@ -12,13 +12,21 @@ consistent terminology across all translated documents.
 
 import os
 import subprocess
-import sys
 from pathlib import Path
 
 from anthropic import Anthropic
 
 EN_DIR = "docs/src/en"
 ES_DIR = "docs/src/es"
+
+# Source files outside EN_DIR whose Spanish translation lives in ES_DIR. The
+# English docs page for these is an mdbook {{#include}} of the source file, so
+# the source file is the single source of truth and drives its es/ translation.
+EXTERNAL_SOURCES = {"CONTRIBUTING.md": f"{ES_DIR}/contributing.md"}
+
+# English doc files that must not be translated directly — e.g. pages that are
+# just an mdbook {{#include}} of a source handled via EXTERNAL_SOURCES above.
+SKIP_EN_FILES = {f"{EN_DIR}/contributing.md"}
 
 # Files to use as style/terminology reference (picked for breadth of patterns)
 REFERENCE_FILES = ["archs4.md", "blast.md", "info.md"]
@@ -80,31 +88,46 @@ GLOSSARY = """\
 """
 
 
+def es_target(filepath):
+    """Map an English/source doc path to its Spanish counterpart path."""
+    if filepath in EXTERNAL_SOURCES:
+        return EXTERNAL_SOURCES[filepath]
+    return filepath.replace(EN_DIR, ES_DIR, 1)
+
+
 def get_changed_files(before_sha, after_sha):
-    """Return dict of added/modified/deleted English doc files."""
+    """Return dict of added/modified/deleted documentation source files.
+
+    Watches the English docs directory plus any external source files
+    (e.g. the root CONTRIBUTING.md, which the English docs page includes).
+    """
+    watched = [EN_DIR, *EXTERNAL_SOURCES]
     # Check if before_sha is a valid commit
-    is_valid = subprocess.run(
-        ["git", "cat-file", "-t", before_sha],
-        capture_output=True,
-        text=True,
-    ).returncode == 0
+    is_valid = (
+        subprocess.run(
+            ["git", "cat-file", "-t", before_sha],
+            capture_output=True,
+            text=True,
+        ).returncode
+        == 0
+    )
 
     if not is_valid:
         # Initial push or invalid ref — treat all current files as new
         result = subprocess.run(
-            ["git", "ls-tree", "-r", "--name-only", after_sha, "--", EN_DIR],
+            ["git", "ls-tree", "-r", "--name-only", after_sha, "--", *watched],
             capture_output=True,
             text=True,
             check=True,
         )
         return {
-            "added": [f for f in result.stdout.strip().split("\n") if f],
+            "added": [f for f in result.stdout.strip().split("\n") if f and f not in SKIP_EN_FILES],
             "modified": [],
             "deleted": [],
         }
 
     result = subprocess.run(
-        ["git", "diff", "--name-status", before_sha, after_sha, "--", EN_DIR],
+        ["git", "diff", "--name-status", before_sha, after_sha, "--", *watched],
         capture_output=True,
         text=True,
         check=True,
@@ -125,6 +148,10 @@ def get_changed_files(before_sha, after_sha):
         elif status == "R":
             files["deleted"].append(parts[1])
             files["added"].append(parts[2])
+
+    # Drop English pages that must not be translated directly (handled elsewhere).
+    for key in files:
+        files[key] = [f for f in files[key] if f not in SKIP_EN_FILES]
     return files
 
 
@@ -151,9 +178,7 @@ def load_reference_files():
 
 def build_reference_block(references):
     """Format reference files into a single text block."""
-    return "\n\n---\n\n".join(
-        f"=== {name} ===\n{content}" for name, content in references.items()
-    )
+    return "\n\n---\n\n".join(f"=== {name} ===\n{content}" for name, content in references.items())
 
 
 def clean_model_output(text):
@@ -231,6 +256,7 @@ def translate_diff(client, diff_text, en_content, es_content, filename, ref_bloc
 
 
 def main():
+    """Translate English docs changed between two commits into Spanish."""
     before_sha = os.environ.get("BEFORE_SHA", "").strip()
     after_sha = os.environ.get("AFTER_SHA", "HEAD").strip()
 
@@ -259,7 +285,7 @@ def main():
 
     # --- Deletions ---
     for filepath in changed["deleted"]:
-        es_path = filepath.replace(EN_DIR, ES_DIR, 1)
+        es_path = es_target(filepath)
         if Path(es_path).exists():
             Path(es_path).unlink()
             print(f"Deleted: {es_path}")
@@ -270,7 +296,7 @@ def main():
         filename = Path(filepath).name
         print(f"Translating new file: {filename} ...")
         translated = translate_new_file(client, en_content, filename, ref_block)
-        es_path = filepath.replace(EN_DIR, ES_DIR, 1)
+        es_path = es_target(filepath)
         Path(es_path).parent.mkdir(parents=True, exist_ok=True)
         Path(es_path).write_text(translated)
         print(f"  -> Created: {es_path}")
@@ -278,7 +304,7 @@ def main():
     # --- Modified files ---
     for filepath in changed["modified"]:
         filename = Path(filepath).name
-        es_path = filepath.replace(EN_DIR, ES_DIR, 1)
+        es_path = es_target(filepath)
         en_content = Path(filepath).read_text()
 
         if not Path(es_path).exists():
@@ -292,9 +318,7 @@ def main():
                 continue
             es_content = Path(es_path).read_text()
             print(f"Applying edits to {filename} ...")
-            translated = translate_diff(
-                client, diff_text, en_content, es_content, filename, ref_block
-            )
+            translated = translate_diff(client, diff_text, en_content, es_content, filename, ref_block)
 
         Path(es_path).parent.mkdir(parents=True, exist_ok=True)
         Path(es_path).write_text(translated)

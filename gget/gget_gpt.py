@@ -17,10 +17,10 @@ def gpt(
     out=None,
     verbose=True,
 ):
-    """
-    Generates natural language text based on a given prompt using the OpenAI API's 'openai.ChatCompletion.create' endpoint.
+    """Generates natural language text based on a given prompt using the OpenAI API's 'openai.ChatCompletion.create' endpoint.
 
-    Parameters:
+    Parameters
+    ----------
     - prompt (str):             The input prompt to generate text from.
     - api_key (str):            Your OpenAI API key (see: https://platform.openai.com/account/api-keys).
     - model (str):              The name of the GPT model to use for generating the text. Default is "gpt-3.5-turbo".
@@ -40,7 +40,8 @@ def gpt(
     - out (str)                 If provided, saves the generated text to a file with the specified path. Default is None.
     - verbose                   True/False whether to print progress information. Default True.
 
-    Returns:
+    Returns
+    -------
     - A string containing the generated text.
 
     NOTE: OpenAI API calls are only 'free' for the first three months after generating your OpenAI Account
@@ -49,6 +50,7 @@ def gpt(
     See their pricing and FAQ here: https://openai.com/pricing
 
     This module, including its source code, documentation and unittests, were partly written by OpenAI's Chat-GTP3.
+
     """
     # Check if cellxgene_census is installed
     try:
@@ -56,7 +58,7 @@ def gpt(
     except ImportError:
         logger.error(
             """
-            Some third-party dependencies are missing. Please run the following command: 
+            Some third-party dependencies are missing. Please run the following command:
             >>> gget.setup('gpt') or $ gget setup gpt
 
             Alternative: Install the openai package using pip (https://pypi.org/project/openai).
@@ -100,9 +102,7 @@ def gpt(
         )
 
     if verbose:
-        logger.info(
-            f"Total tokens used for API call to model '{model}': {response['usage']['total_tokens']}"
-        )
+        logger.info(f"Total tokens used for API call to model '{model}': {response['usage']['total_tokens']}")
 
     texts = response["choices"][0]["message"]["content"]
 

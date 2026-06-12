@@ -47,13 +47,11 @@ POST_BACKGROUND_ID_ENRICHR_URL = "https://maayanlab.cloud/speedrichr/api/addback
 GET_BACKGROUND_ENRICHR_URL = "https://maayanlab.cloud/speedrichr/api/backgroundenrich"
 
 POST_ENRICHR_URLS = {
-    f"{typ}": f"https://maayanlab.cloud/{typ.capitalize()}Enrichr/addList"
-    for typ in ["fly", "yeast", "worm", "fish"]
+    f"{typ}": f"https://maayanlab.cloud/{typ.capitalize()}Enrichr/addList" for typ in ["fly", "yeast", "worm", "fish"]
 }
 POST_ENRICHR_URLS["human"] = POST_ENRICHR_URL
 GET_ENRICHR_URLS = {
-    f"{typ}": f"https://maayanlab.cloud/{typ.capitalize()}Enrichr/enrich"
-    for typ in ["fly", "yeast", "worm", "fish"]
+    f"{typ}": f"https://maayanlab.cloud/{typ.capitalize()}Enrichr/enrich" for typ in ["fly", "yeast", "worm", "fish"]
 }
 GET_ENRICHR_URLS["human"] = GET_ENRICHR_URL
 
@@ -62,12 +60,8 @@ GENECORR_URL = "https://maayanlab.cloud/matrixapi/coltop"
 EXPRESSION_URL = "https://maayanlab.cloud/archs4/search/loadExpressionTissue.php?"
 
 # Download links for ELM database
-ELM_INSTANCES_FASTA_DOWNLOAD = (
-    "http://elm.eu.org/instances.fasta?q=*&taxon=&instance_logic="
-)
-ELM_INSTANCES_TSV_DOWNLOAD = (
-    "http://elm.eu.org/instances.tsv?q=*&taxon=&instance_logic="
-)
+ELM_INSTANCES_FASTA_DOWNLOAD = "http://elm.eu.org/instances.fasta?q=*&taxon=&instance_logic="
+ELM_INSTANCES_TSV_DOWNLOAD = "http://elm.eu.org/instances.tsv?q=*&taxon=&instance_logic="
 ELM_CLASSES_TSV_DOWNLOAD = "http://elm.eu.org/elms/elms_index.tsv"
 ELM_INTDOMAINS_TSV_DOWNLOAD = "http://elm.eu.org/interactiondomains.tsv"
 

@@ -1,22 +1,22 @@
-import os
-import logging
-import shutil
-import sys
-import subprocess
-import platform
-import uuid
-import tempfile
-import pathlib
 import importlib
+import logging
+import os
+import pathlib
+import platform
+import shutil
+import subprocess
+import sys
+import tempfile
+import uuid
 
-from .utils import set_up_logger, check_file_for_error_message
+from .utils import check_file_for_error_message, set_up_logger
 
 logger = set_up_logger()
 
-from .compile import PACKAGE_PATH
-from .constants import (
-    ELM_INSTANCES_FASTA_DOWNLOAD,
+from .compile import PACKAGE_PATH  # noqa: E402
+from .constants import (  # noqa: E402
     ELM_CLASSES_TSV_DOWNLOAD,
+    ELM_INSTANCES_FASTA_DOWNLOAD,
     ELM_INSTANCES_TSV_DOWNLOAD,
     ELM_INTDOMAINS_TSV_DOWNLOAD,
 )
@@ -37,9 +37,7 @@ UUID = "fcb45c67-8b27-4156-bbd8-9d11512babf2"
 # # Path to temporary mounted disk (global)
 # TMP_DISK = ""
 # Model parameters
-PARAMS_URL = (
-    "https://storage.googleapis.com/alphafold/alphafold_params_colab_2022-12-06.tar"
-)
+PARAMS_URL = "https://storage.googleapis.com/alphafold/alphafold_params_colab_2022-12-06.tar"
 PARAMS_DIR = os.path.join(PACKAGE_PATH, "bins/alphafold/")
 PARAMS_PATH = os.path.join(PARAMS_DIR, "params_temp.tar")
 
@@ -60,11 +58,11 @@ def _install(package: str, import_name: str, verbose: bool = True):
         if process.wait() != 0:
             if stderr:
                 sys.stderr.write(stderr)
-            logger.error(
-                f"{package} installation with '{cmd_str}' (https://pypi.org/project/{package}) failed."
-            )
+            logger.error(f"{package} installation with '{cmd_str}' (https://pypi.org/project/{package}) failed.")
             if cmd == pip_cmds[-1]:
-                logger.error(f"All installation attempts for {package} have failed. Note: Some dependencies (e.g., cellxgene-census) may not support the latest Python versions. If you encounter installation errors, try using an earlier Python version.")
+                logger.error(
+                    f"All installation attempts for {package} have failed. Note: Some dependencies (e.g., cellxgene-census) may not support the latest Python versions. If you encounter installation errors, try using an earlier Python version."
+                )
                 return
             else:
                 if verbose:
@@ -82,7 +80,9 @@ def _install(package: str, import_name: str, verbose: bool = True):
             )
             # Retry with pip if import after uv installation failed
             if cmd == pip_cmds[-1]:
-                logger.error(f"All installation attempts for {package} have failed. Note: Some dependencies (e.g., cellxgene-census) may not support the latest Python versions. If you encounter installation errors, try using an earlier Python version.")
+                logger.error(
+                    f"All installation attempts for {package} have failed. Note: Some dependencies (e.g., cellxgene-census) may not support the latest Python versions. If you encounter installation errors, try using an earlier Python version."
+                )
                 return
             else:
                 if verbose:
@@ -91,8 +91,8 @@ def _install(package: str, import_name: str, verbose: bool = True):
 
 
 def setup(module, verbose=True, out=None):
-    """
-    Function to install third-party dependencies for a specified gget module.
+    """Function to install third-party dependencies for a specified gget module.
+
     Some modules require pip to be installed (https://pip.pypa.io/en/stable/installation).
     Some modules require curl to be installed (https://everything.curl.dev/get).
 
@@ -105,9 +105,7 @@ def setup(module, verbose=True, out=None):
     """
     supported_modules = ["alphafold", "cellxgene", "elm", "gpt", "cbio"]
     if module not in supported_modules:
-        raise ValueError(
-            f"'module' argument specified as {module}. Expected one of: {', '.join(supported_modules)}"
-        )
+        raise ValueError(f"'module' argument specified as {module}. Expected one of: {', '.join(supported_modules)}")
 
     if module == "gpt":
         _install("openai<=0.28.1", "openai", verbose=verbose)
@@ -120,18 +118,14 @@ def setup(module, verbose=True, out=None):
             logger.info(
                 "ELM data can be downloaded & distributed for non-commercial use according to the following license: http://elm.eu.org/media/Elm_academic_license.pdf"
             )
-            logger.info(
-                "Downloading ELM database files (requires curl to be installed)..."
-            )
+            logger.info("Downloading ELM database files (requires curl to be installed)...")
 
         if out is not None:
             elm_files_out = os.path.abspath(out)
             elm_instances_fasta = os.path.join(elm_files_out, "elm_instances.fasta")
             elm_classes_tsv = os.path.join(elm_files_out, "elms_classes.tsv")
             elm_instances_tsv = os.path.join(elm_files_out, "elm_instances.tsv")
-            elm_intdomains_tsv = os.path.join(
-                elm_files_out, "elm_interaction_domains.tsv"
-            )
+            elm_intdomains_tsv = os.path.join(elm_files_out, "elm_interaction_domains.tsv")
 
             # Create folder for ELM files (if it does not exist)
             if not os.path.exists(elm_files_out):
@@ -199,16 +193,11 @@ def setup(module, verbose=True, out=None):
                 missing.append(label)
 
         if missing:
-            raise RuntimeError(
-                "ELM database files download failed; missing files: "
-                + ", ".join(missing)
-            )
+            raise RuntimeError("ELM database files download failed; missing files: " + ", ".join(missing))
 
     elif module == "alphafold":
         if platform.system() == "Windows":
-            logger.error(
-                "gget setup alphafold and gget alphafold are not supported on Windows OS."
-            )
+            logger.error("gget setup alphafold and gget alphafold are not supported on Windows OS.")
             return
 
         ## Ask user to install openmm if not already installed
@@ -229,19 +218,19 @@ def setup(module, verbose=True, out=None):
         except ImportError as e:
             raise ImportError(
                 f"""
-                Trying to import openmm resulted in the following error: 
+                Trying to import openmm resulted in the following error:
                 {e}
 
-                Please install AlphaFold third-party dependency openmm by running the following command from the command line: 
-                For Python version < 3.10: 
-                'conda install -qy conda==4.13.0 && conda install -qy -c conda-forge openmm=7.5.1' 
-                For Python version 3.10: 
-                'conda install -qy conda==24.1.2 && conda install -qy -c conda-forge openmm=7.7.0' 
-                For Python version 3.11: 
-                'conda install -qy conda==24.11.1 && conda install -qy -c conda-forge openmm=8.0.0' 
+                Please install AlphaFold third-party dependency openmm by running the following command from the command line:
+                For Python version < 3.10:
+                'conda install -qy conda==4.13.0 && conda install -qy -c conda-forge openmm=7.5.1'
+                For Python version 3.10:
+                'conda install -qy conda==24.1.2 && conda install -qy -c conda-forge openmm=7.7.0'
+                For Python version 3.11:
+                'conda install -qy conda==24.11.1 && conda install -qy -c conda-forge openmm=8.0.0'
                 (Recommendation: Follow with 'conda update -qy conda' to update conda to the latest version afterwards.)
                 """
-            )
+            ) from e
 
         ## Install py3Dmol
         _install("py3Dmol", "py3Dmol", verbose=verbose)
@@ -257,9 +246,7 @@ def setup(module, verbose=True, out=None):
         os.environ.setdefault("UV_HTTP_TIMEOUT", "300")
 
         # Define AlphaFold folder name and location
-        alphafold_folder = os.path.join(
-            tempfile.gettempdir(), f"tmp_alphafold_{uuid.uuid4()}"
-        )
+        alphafold_folder = os.path.join(tempfile.gettempdir(), f"tmp_alphafold_{uuid.uuid4()}")
         pathlib.Path(alphafold_folder).mkdir(parents=True, exist_ok=True)
 
         # Clean (unescaped) jackhmmer cache dir; we’ll patch file contents via Python
@@ -268,7 +255,7 @@ def setup(module, verbose=True, out=None):
         # Core AlphaFold dependencies (Colab/CPU friendly set)
         alphafold_deps = [
             "absl-py>=2.1,<3",
-            "dm-haiku<=0.0.12",          # dont upgrade to avoid clash with jax
+            "dm-haiku<=0.0.12",  # dont upgrade to avoid clash with jax
             "dm-tree>=0.1.8",
             "filelock>=3.12",
             "jax==0.4.26",
@@ -278,7 +265,7 @@ def setup(module, verbose=True, out=None):
             "jmp>=0.0.4",
             "ml-collections>=0.1,<1",
             "ml-dtypes>=0.3.1,<0.6",
-            "numpy>=1.26,<2",            # keeps TF 2.17 CPU happy
+            "numpy>=1.26,<2",  # keeps TF 2.17 CPU happy
             "opt-einsum>=3.4,<4",
             "pillow>=10,<12",
             "protobuf<4",
@@ -300,7 +287,7 @@ def setup(module, verbose=True, out=None):
 
             # Patch jackhmmer.py
             jack_py = os.path.join(alphafold_folder, "alphafold", "data", "tools", "jackhmmer.py")
-            with open(jack_py, "r", encoding="utf-8") as f:
+            with open(jack_py, encoding="utf-8") as f:
                 txt = f.read()
 
             txt = txt.replace("/tmp/ramdisk", jack_dir)
@@ -315,16 +302,10 @@ def setup(module, verbose=True, out=None):
                 f.write(txt)
 
             # Base deps first (NumPy/TF/JAX in a known good combo)
-            subprocess.run(
-                [*pip_upgrade.split(), "numpy>=1.26,<2", "tensorflow-cpu>=2.17,<2.18"],
-                check=True
-            )
+            subprocess.run([*pip_upgrade.split(), "numpy>=1.26,<2", "tensorflow-cpu>=2.17,<2.18"], check=True)
 
             # The rest of the deps
-            subprocess.run(
-                [*pip_upgrade.split(), *alphafold_deps],
-                check=True
-            )
+            subprocess.run([*pip_upgrade.split(), *alphafold_deps], check=True)
 
             # Install AF itself without bringing in its pinned requirements
             subprocess.run(f'{pip_nodeps} "{alphafold_folder}"', check=True, shell=True)
@@ -334,7 +315,7 @@ def setup(module, verbose=True, out=None):
             # Show any captured stderr from our last step, if available
             try:
                 sys.stderr.write(str(e) + "\n")
-            except Exception:
+            except Exception:  # noqa: BLE001
                 pass
             shutil.rmtree(alphafold_folder, ignore_errors=True)
             return
@@ -344,6 +325,7 @@ def setup(module, verbose=True, out=None):
 
         try:
             import alphafold as AlphaFold
+
             if verbose:
                 logger.info("AlphaFold installed succesfully.")
         except ImportError as e:
@@ -359,9 +341,7 @@ def setup(module, verbose=True, out=None):
         if verbose:
             logger.info("Installing pdbfixer from source (requires pip and git).")
 
-        pdbfixer_folder = os.path.join(
-            tempfile.gettempdir(), f"tmp_pdbfixer_{uuid.uuid4()}"
-        )
+        pdbfixer_folder = os.path.join(tempfile.gettempdir(), f"tmp_pdbfixer_{uuid.uuid4()}")
 
         try:
             if openmm.__version__ == "7.5.1":
@@ -369,7 +349,7 @@ def setup(module, verbose=True, out=None):
                 PDBFIXER_VERSION = "v1.7"
             else:
                 PDBFIXER_VERSION = "v1.8.1"
-        except:
+        except Exception:  # noqa: BLE001
             PDBFIXER_VERSION = "v1.8.1"
 
         pip_cmd = "uv pip install" if shutil.which("uv") else "pip install -q"
@@ -398,7 +378,7 @@ def setup(module, verbose=True, out=None):
         pdb_out, err = process.communicate()
 
         if pdb_out.decode() != "":
-            logger.info(f"pdbfixer installed succesfully.")
+            logger.info("pdbfixer installed succesfully.")
         else:
             logger.error("pdbfixer installation failed.")
             return
@@ -418,19 +398,17 @@ def setup(module, verbose=True, out=None):
                 # The double-quotation marks allow white spaces in the path, but this does not work for Windows
                 command = f"""
                     curl -# -o {PARAMS_PATH} {PARAMS_URL} \\
-                    && tar --extract --file={PARAMS_PATH} --directory={PARAMS_DIR+'params/'} --preserve-permissions \\
+                    && tar --extract --file={PARAMS_PATH} --directory={PARAMS_DIR + "params/"} --preserve-permissions \\
                     && rm {PARAMS_PATH}
                     """
             else:
                 command = f"""
                     curl -# -o '{PARAMS_PATH}' '{PARAMS_URL}' \\
-                    && tar --extract --file='{PARAMS_PATH}' --directory='{PARAMS_DIR+'params/'}' --preserve-permissions \\
+                    && tar --extract --file='{PARAMS_PATH}' --directory='{PARAMS_DIR + "params/"}' --preserve-permissions \\
                     && rm '{PARAMS_PATH}'
                     """
 
-            with subprocess.Popen(
-                command, shell=True, stderr=subprocess.PIPE
-            ) as process:
+            with subprocess.Popen(command, shell=True, stderr=subprocess.PIPE) as process:
                 stderr = process.stderr.read().decode("utf-8")
                 # Log the standard error if it is not empty
                 if stderr:

@@ -1,8 +1,8 @@
-import unittest
-import pandas as pd
-import json
 import filecmp
+import json
 import os
+import unittest
+
 from gget.gget_pdb import pdb
 
 # Load dictionary containing arguments and expected results
@@ -79,7 +79,7 @@ class TestPDB(unittest.TestCase):
         )
 
     def tearDown(self):
-        super(TestPDB, self).tearDown()
+        super().tearDown()
         # Delete temporary result file
         try:
             os.remove("4ACQ.pdb")

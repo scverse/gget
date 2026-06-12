@@ -4,19 +4,18 @@ import json
 import math
 import os
 import subprocess
-import pandas as pd
-import numpy as np
-import requests
-from requests.adapters import HTTPAdapter
-from urllib3.util.retry import Retry
-from collections import defaultdict, OrderedDict
-
-from .utils import set_up_logger
+from collections import OrderedDict, defaultdict
 
 import matplotlib.pyplot as plt
-from matplotlib.colors import ListedColormap, BoundaryNorm, TwoSlopeNorm
+import numpy as np
+import pandas as pd
+import requests
+from matplotlib.colors import BoundaryNorm, ListedColormap, TwoSlopeNorm
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 
 from .constants import CBIO_CANCER_TYPE_TO_TISSUE_DICTIONARY
+from .utils import set_up_logger
 
 logger = set_up_logger()
 
@@ -29,8 +28,8 @@ if not hasattr(pd.DataFrame, "map"):
 
 
 def _ints_between(start, end, max_count, min_count, verbose=False):
-    """
-    Generate a list of integers between start and end (inclusive) with a maximum count of max_count and a minimum count min_count.
+    """Generate a list of integers between start and end (inclusive) with a maximum count of max_count and a minimum count min_count.
+
     The list is guaranteed to contain start and end, and the spacing between the numbers will be as even as possible.
     If a perfect spacing is not possible, the spacing will omit a number rather than overcrowding.
 
@@ -68,12 +67,10 @@ def _ints_between(start, end, max_count, min_count, verbose=False):
 
 
 def _describe_bytes(size):
-    """
-    Describe a size in bytes in human-readable format.
+    """Describe a size in bytes in human-readable format.
 
     :param size:    size in bytes
     """
-
     steps = ["bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
 
     unit = steps.pop(0)
@@ -88,8 +85,7 @@ def _describe_bytes(size):
 
 
 def _download_file_from_git_lfs(target_path: str, oid: str, size: int, verbose=False):
-    """
-    Download a single object from Git LFS.
+    """Download a single object from Git LFS.
 
     :param target_path:  path to save the downloaded object
     :param oid:          object ID
@@ -105,7 +101,7 @@ def _download_file_from_git_lfs(target_path: str, oid: str, size: int, verbose=F
     lfs_metadata_json = json.dumps(lfs_metadata)
 
     try:
-        github_url = f"https://github.com/cBioPortal/datahub.git/info/lfs/objects/batch"
+        github_url = "https://github.com/cBioPortal/datahub.git/info/lfs/objects/batch"
 
         curl_command = [
             "curl",
@@ -142,7 +138,7 @@ def _download_file_from_git_lfs(target_path: str, oid: str, size: int, verbose=F
         if verbose:
             logger.info(f"Downloaded object {oid} to {target_path}")
 
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         logger.error(f"Error downloading object {oid} to {target_path}: {e}")
         return False
 
@@ -164,8 +160,7 @@ class _LFSDownloadPlan:
         self.objects.append((target_path, (oid, size)))
 
     def download(self) -> bool:
-        """
-        Download all objects in the plan.
+        """Download all objects in the plan.
 
         :return:    True if all objects were downloaded successfully, False otherwise
         """
@@ -183,8 +178,7 @@ def download_cbioportal_data(
     out_dir=None,
     confirm_download=False,
 ) -> bool:
-    """
-    Download data from cBioPortal studies.
+    """Download data from cBioPortal studies.
 
     Args:
 
@@ -197,7 +191,6 @@ def download_cbioportal_data(
 
     :return:            True if successfully downloaded all needed data, False otherwise
     """
-
     actual_out_dir = os.path.abspath(out_dir or "gget_cbio_cache")
 
     os.makedirs(actual_out_dir, exist_ok=True)
@@ -237,9 +230,7 @@ def download_cbioportal_data(
                 response = session.get(url, timeout=30)
 
                 if not response.ok:
-                    logger.error(
-                        f"Failed to download {file_type} data for study {study_id}"
-                    )
+                    logger.error(f"Failed to download {file_type} data for study {study_id}")
                     if file_type not in optional_file_types:
                         success = False
                     continue
@@ -254,9 +245,9 @@ def download_cbioportal_data(
                     v = v.strip()
                     fields[k] = v
 
-                assert (
-                    fields["version"] == "https://git-lfs.github.com/spec/v1"
-                ), f"Cannot handle git-lfs version {fields['version']}"
+                assert fields["version"] == "https://git-lfs.github.com/spec/v1", (
+                    f"Cannot handle git-lfs version {fields['version']}"
+                )
 
                 oid: str = fields["oid"].split(":")[1].strip()
                 size: int = int(fields["size"])
@@ -264,14 +255,10 @@ def download_cbioportal_data(
                 if plan:
                     plan.add(filename, oid, size)
                 else:
-                    success &= _download_file_from_git_lfs(
-                        filename, oid, size, verbose=verbose
-                    )
+                    success &= _download_file_from_git_lfs(filename, oid, size, verbose=verbose)
 
-            except Exception as e:
-                logger.error(
-                    f"Error downloading {file_type} data for study {study_id}: {e}"
-                )
+            except Exception as e:  # noqa: BLE001
+                logger.error(f"Error downloading {file_type} data for study {study_id}: {e}")
                 success = False
 
         if verbose and not confirm_download:
@@ -280,9 +267,7 @@ def download_cbioportal_data(
     # If using a download plan AND there are actually objects to download, ask for confirmation
     if plan and plan.objects:
         do_download = (
-            input(
-                f"Do you want to download {_describe_bytes(plan.total_size)} to {actual_out_dir}? (y/n) "
-            )
+            input(f"Do you want to download {_describe_bytes(plan.total_size)} to {actual_out_dir}? (y/n) ")
             .lower()
             .strip()
             == "y"
@@ -306,8 +291,7 @@ def _extract_study_name(name: str) -> str:
 
 
 def cbio_search(key_words):
-    """
-    Find cBioPortal study IDs by keyword.
+    """Find cBioPortal study IDs by keyword.
 
     Args:
     key_words           list of keywords to search for - use tissues related to tissue or cancer type of interest (e.g., esophag, ovarian, etc)
@@ -316,13 +300,12 @@ def cbio_search(key_words):
 
     :return:            list of study IDs that match the keywords
     """
-
     try:
         from bravado.client import SwaggerClient
     except ImportError:
         logger.error(
             """
-            Some third-party dependencies are missing. Please run the following command: 
+            Some third-party dependencies are missing. Please run the following command:
             >>> gget.setup('cbio') or $ gget setup cbio
 
             Alternative: Install the bravado package using pip (https://pypi.org/project/bravado).
@@ -348,18 +331,14 @@ def cbio_search(key_words):
     studies = api.Studies.getAllStudiesUsingGET().result()
 
     cancer_type_acronym_dict = {
-        _extract_study_name(individual_study["name"]): individual_study["cancerTypeId"]
-        for individual_study in studies
+        _extract_study_name(individual_study["name"]): individual_study["cancerTypeId"] for individual_study in studies
     }
     cancer_type_acronym_dict = OrderedDict(sorted(cancer_type_acronym_dict.items()))
 
     cancer_id_list = [
         cancer_type_acronym
         for cancer_type, cancer_type_acronym in cancer_type_acronym_dict.items()
-        if any(
-            key_word in cancer_type.lower() or key_word in cancer_type_acronym.lower()
-            for key_word in key_words
-        )
+        if any(key_word in cancer_type.lower() or key_word in cancer_type_acronym.lower() for key_word in key_words)
         and cancer_type_acronym.lower() != "mixed"
     ]
 
@@ -383,7 +362,7 @@ def _get_ensembl_gene_id(transcript_id: str, verbose=False):
         data = response.json()
 
         return data.get("Parent")
-    except Exception as e:
+    except Exception:  # noqa: BLE001
         if verbose:
             print(f"Error for: {transcript_id}")
         return "Unknown"
@@ -394,7 +373,7 @@ def _get_ensembl_gene_id_bulk(transcript_ids):
         return {}
 
     try:
-        url = f"https://rest.ensembl.org/lookup/id/"
+        url = "https://rest.ensembl.org/lookup/id/"
         response = requests.post(
             url,
             json={"ids": transcript_ids},
@@ -407,9 +386,7 @@ def _get_ensembl_gene_id_bulk(transcript_ids):
         data = response.json()
 
         return {
-            transcript_id: data[transcript_id].get("Parent")
-            for transcript_id in transcript_ids
-            if data[transcript_id]
+            transcript_id: data[transcript_id].get("Parent") for transcript_id in transcript_ids if data[transcript_id]
         }
     except Exception as e:
         logger.error(f"Failed to fetch gene IDs from Ensembl: {e}")
@@ -421,29 +398,21 @@ def _get_ensembl_gene_name_bulk(gene_ids):
         return {}
 
     try:
-        url = f"https://rest.ensembl.org/lookup/id/"
-        response = requests.post(
-            url, json={"ids": gene_ids}, headers={"Content-Type": "application/json"}
-        )
+        url = "https://rest.ensembl.org/lookup/id/"
+        response = requests.post(url, json={"ids": gene_ids}, headers={"Content-Type": "application/json"})
 
         if not response.ok:
             response.raise_for_status()
 
         data = response.json()
 
-        return {
-            gene_id: data[gene_id].get("display_name")
-            for gene_id in gene_ids
-            if data[gene_id]
-        }
+        return {gene_id: data[gene_id].get("display_name") for gene_id in gene_ids if data[gene_id]}
     except Exception as e:
         logger.error(f"Failed to fetch gene names from Ensembl: {e}")
         raise e
 
 
-def _get_valid_ensembl_gene_id(
-    row, transcript_column: str = "seq_ID", gene_column: str = "gene_name"
-):
+def _get_valid_ensembl_gene_id(row, transcript_column: str = "seq_ID", gene_column: str = "gene_name"):
     ensembl_gene_id = _get_ensembl_gene_id(row[transcript_column])
     if ensembl_gene_id == "Unknown":
         return row[gene_column]
@@ -451,7 +420,7 @@ def _get_valid_ensembl_gene_id(
 
 
 def _get_valid_ensembl_gene_id_bulk(df: pd.DataFrame):
-    map_: Optional[dict[str, str]] = None
+    map_: dict[str, str] | None = None
 
     def f(
         row: pd.Series,
@@ -495,17 +464,13 @@ class _GeneAnalysis:
 
         ensembl_transcripts = [gene for gene in genes if gene.startswith("ENST")]
         map_ = {
-            k: v
-            for k, v in _get_ensembl_gene_id_bulk(ensembl_transcripts).items()
-            if v != "Unknown" and v is not None
+            k: v for k, v in _get_ensembl_gene_id_bulk(ensembl_transcripts).items() if v != "Unknown" and v is not None
         }
         genes = [map_.get(gene, gene) for gene in genes]
 
         ensembl_gene_ids = [gene for gene in genes if gene.startswith("ENSG")]
         map_ = {
-            k: v
-            for k, v in _get_ensembl_gene_name_bulk(ensembl_gene_ids).items()
-            if v != "Unknown" and v is not None
+            k: v for k, v in _get_ensembl_gene_name_bulk(ensembl_gene_ids).items() if v != "Unknown" and v is not None
         }
         self.genes = [map_.get(gene, gene) for gene in genes]
 
@@ -529,9 +494,7 @@ class _GeneAnalysis:
             "Entrez_Gene_Id",
             "Consequence",
         ]
-        self.column_for_merging: str = (
-            "Hugo_Symbol" if self.merge_type == _SYMBOL else "Ensembl_Gene_ID"
-        )
+        self.column_for_merging: str = "Hugo_Symbol" if self.merge_type == _SYMBOL else "Ensembl_Gene_ID"
 
         self.df_collection = {}
         self.big_combined_df = self._create_study_dataframes()
@@ -540,9 +503,7 @@ class _GeneAnalysis:
         data_folder = os.path.join(self.data_dir, study_id)
 
         mutation_df = pd.read_csv(os.path.join(data_folder, "mutations.txt"), sep="\t")
-        sample_df = pd.read_csv(
-            os.path.join(data_folder, "clinical_sample.txt"), sep="\t"
-        )
+        sample_df = pd.read_csv(os.path.join(data_folder, "clinical_sample.txt"), sep="\t")
 
         self.df_collection[study_id]["mutations"] = mutation_df
         self.df_collection[study_id]["samples"] = sample_df
@@ -556,13 +517,8 @@ class _GeneAnalysis:
             ):
                 mutation_df.rename(columns={"Gene": "Ensembl_Gene_ID"}, inplace=True)
                 if self.remove_non_ensembl_genes:
-                    mutation_df = mutation_df[
-                        mutation_df["Ensembl_Gene_ID"].str.startswith("ENSG")
-                    ]
-            elif (
-                "Transcript_ID" in mutation_df.columns
-                and mutation_df["Transcript_ID"].str.startswith("ENST").any()
-            ):
+                    mutation_df = mutation_df[mutation_df["Ensembl_Gene_ID"].str.startswith("ENSG")]
+            elif "Transcript_ID" in mutation_df.columns and mutation_df["Transcript_ID"].str.startswith("ENST").any():
                 logger.info("Fetching gene IDs from Ensembl")
                 mutation_df["Ensembl_Gene_ID"] = mutation_df.progress_apply(
                     _get_valid_ensembl_gene_id_bulk(mutation_df),
@@ -571,14 +527,10 @@ class _GeneAnalysis:
                     gene_column="Hugo_Symbol",
                 )
                 if self.remove_non_ensembl_genes:
-                    mutation_df = mutation_df[
-                        mutation_df["Ensembl_Gene_ID"].str.startswith("ENSG")
-                    ]
+                    mutation_df = mutation_df[mutation_df["Ensembl_Gene_ID"].str.startswith("ENSG")]
             else:
                 self.merge_type = _SYMBOL
-                logger.warn(
-                    "No Ensembl gene IDs found in the mutation data. Merging on gene symbol instead."
-                )
+                logger.warn("No Ensembl gene IDs found in the mutation data. Merging on gene symbol instead.")
 
         def join_unique_string_values(series):
             if series.isnull().all():
@@ -613,9 +565,7 @@ class _GeneAnalysis:
                 self.columns_to_keep.remove("Entrez_Gene_Id")
 
         aggregated_df = (
-            mutation_df.groupby(["Tumor_Sample_Barcode", self.column_for_merging])
-            .agg(aggregation_dict)
-            .reset_index()
+            mutation_df.groupby(["Tumor_Sample_Barcode", self.column_for_merging]).agg(aggregation_dict).reset_index()
         )
 
         if self.column_for_merging not in self.columns_to_keep:
@@ -643,9 +593,7 @@ class _GeneAnalysis:
             self.df_collection[study_id]["cna"] = cna_df
 
             # Exclude 'Hugo_Symbol' column
-            columns_to_transform = self.df_collection[study_id][
-                "cna"
-            ].columns.difference(["Hugo_Symbol"])
+            columns_to_transform = self.df_collection[study_id]["cna"].columns.difference(["Hugo_Symbol"])
 
             # Apply binary transformation to the selected columns
             df_binary = self.df_collection[study_id]["cna"][columns_to_transform].map(
@@ -653,9 +601,7 @@ class _GeneAnalysis:
             )
 
             # Add 'Hugo_Symbol' column back to the DataFrame
-            df_binary.insert(
-                0, "Hugo_Symbol", self.df_collection[study_id]["cna"]["Hugo_Symbol"]
-            )
+            df_binary.insert(0, "Hugo_Symbol", self.df_collection[study_id]["cna"]["Hugo_Symbol"])
 
             # Reassign the transformed DataFrame to the collection
             self.df_collection[study_id]["cna_binary"] = df_binary
@@ -690,22 +636,14 @@ class _GeneAnalysis:
             melted_sv = melted_sv.drop_duplicates(subset=["Sample_Id", "Hugo_Symbol"])
 
             # Count the occurrences of each Hugo_Symbol in each Sample_Id
-            sv_occurrences = (
-                melted_sv.groupby(["Hugo_Symbol", "Sample_Id"])
-                .size()
-                .reset_index(name="sv_occurrences")
-            )
+            sv_occurrences = melted_sv.groupby(["Hugo_Symbol", "Sample_Id"]).size().reset_index(name="sv_occurrences")
 
             # Rename columns to match the desired output
-            sv_occurrences = sv_occurrences.rename(
-                columns={"Sample_Id": "Tumor_Sample_Barcode"}
-            )
+            sv_occurrences = sv_occurrences.rename(columns={"Sample_Id": "Tumor_Sample_Barcode"})
 
             final_df = pd.merge(
                 final_df,
-                sv_occurrences[
-                    ["Hugo_Symbol", "Tumor_Sample_Barcode", "sv_occurrences"]
-                ],
+                sv_occurrences[["Hugo_Symbol", "Tumor_Sample_Barcode", "sv_occurrences"]],
                 on=["Hugo_Symbol", "Tumor_Sample_Barcode"],
                 how="outer",
             )
@@ -719,15 +657,13 @@ class _GeneAnalysis:
         elif "SAMPLE_ID" in sample_df.columns:
             sample_identifier_column = "SAMPLE_ID"
         else:
-            raise AssertionError(
-                "Sample Identifier column not found in the sample dataframe"
-            )
+            raise AssertionError("Sample Identifier column not found in the sample dataframe")
 
         columns_to_merge = [sample_identifier_column, "Cancer Type", "Cancer Type Detailed"]
         for column in columns_to_merge:
             if column not in sample_df.columns:
                 columns_to_merge.remove(column)
-        
+
         final_df = pd.merge(
             final_df,
             sample_df[columns_to_merge],
@@ -746,9 +682,7 @@ class _GeneAnalysis:
             )
 
             final_df["tissue"] = (
-                final_df["cancer_type"]
-                .map(CBIO_CANCER_TYPE_TO_TISSUE_DICTIONARY)
-                .fillna("unclassified")
+                final_df["cancer_type"].map(CBIO_CANCER_TYPE_TO_TISSUE_DICTIONARY).fillna("unclassified")
             )
 
         # Drop the redundant SAMPLE_ID column
@@ -766,7 +700,7 @@ class _GeneAnalysis:
                 # clean up data just in case (cut out comments)
                 filename = f"{self.data_dir}/{study_id}/mutations.txt"
 
-                with open(filename, "r") as file:
+                with open(filename) as file:
                     lines = file.readlines()
 
                 changed = False
@@ -782,7 +716,7 @@ class _GeneAnalysis:
 
                 final_df = self._create_single_study_dataframe(study_id=study_id)
                 dataframes.append(final_df)
-            except Exception as e:
+            except Exception as e:  # noqa: BLE001
                 logger.error(f"Error processing study {study_id}: {e}")
                 continue
 
@@ -800,9 +734,9 @@ class _GeneAnalysis:
         figure_title=None,
     ):
         if variation_type == "cna_nonbinary" or variation_type == "Consequence":
-            assert (
-                stratification == "sample"
-            ), "Stratification must be 'sample' for cna_nonbinary and Consequence variations"
+            assert stratification == "sample", (
+                "Stratification must be 'sample' for cna_nonbinary and Consequence variations"
+            )
 
         if variation_type != "cna_nonbinary":
             simple_merge_by_stratification: dict[str, list[str]] = {
@@ -823,9 +757,7 @@ class _GeneAnalysis:
                 if filter_category is None:  # no filtering
                     final_df = self.big_combined_df
                 else:
-                    final_df = self.big_combined_df[
-                        self.big_combined_df[filter_category] == filter_value
-                    ]
+                    final_df = self.big_combined_df[self.big_combined_df[filter_category] == filter_value]
 
                 merge_on = list(set(merge_on).intersection(final_df.columns))
 
@@ -843,9 +775,7 @@ class _GeneAnalysis:
 
                 unique_samples_info = final_df[available_cols].drop_duplicates()
 
-                hugo_mask = final_df["Hugo_Symbol"].isin(
-                    [gene for gene in (self.genes) if not gene.startswith("ENSG")]
-                )
+                hugo_mask = final_df["Hugo_Symbol"].isin([gene for gene in (self.genes) if not gene.startswith("ENSG")])
 
                 if self.merge_type == _ENSEMBL:
                     ensg_mask = final_df["Ensembl_Gene_ID"].isin(
@@ -868,16 +798,12 @@ class _GeneAnalysis:
                 else:
                     raise AssertionError(f"Invalid merge type: {self.merge_type}")
 
-                unexpressed_genes = [
-                    gene for gene in (self.genes) if gene not in existing_genes
-                ]
+                unexpressed_genes = [gene for gene in (self.genes) if gene not in existing_genes]
 
                 # Get all unique Tumor_Sample_Barcode from the original DataFrame
                 all_samples = final_df[merge_on].drop_duplicates()
 
-                all_samples = pd.merge(
-                    all_samples, unique_samples_info, on=merge_on, how="left"
-                )
+                all_samples = pd.merge(all_samples, unique_samples_info, on=merge_on, how="left")
 
                 if variation_type not in columns_to_keep_copy:
                     columns_to_keep_copy.append(variation_type)
@@ -889,10 +815,7 @@ class _GeneAnalysis:
                     "cancer_type_detailed",
                 ]
                 for column_name in must_keep:
-                    if (
-                        column_name in merge_on
-                        and column_name not in columns_to_keep_copy
-                    ):
+                    if column_name in merge_on and column_name not in columns_to_keep_copy:
                         columns_to_keep_copy.append(column_name)
 
                 # Merge the filtered genes DataFrame with all samples to ensure all samples are included
@@ -906,11 +829,7 @@ class _GeneAnalysis:
 
                 if stratification != "sample":  # no filtering
                     df_for_heatmap_very_final: pd.DataFrame = (
-                        merged_df.groupby([self.column_for_merging, stratification])[
-                            variation_type
-                        ]
-                        .sum()
-                        .reset_index()
+                        merged_df.groupby([self.column_for_merging, stratification])[variation_type].sum().reset_index()
                     )
                 else:
                     df_for_heatmap_very_final: pd.DataFrame = merged_df
@@ -951,9 +870,7 @@ class _GeneAnalysis:
             pivot_df1 = pivot_df1[sorted_columns]
 
             if unexpressed_genes:
-                new_rows = pd.DataFrame(
-                    np.nan, index=unexpressed_genes, columns=pivot_df1.columns
-                )
+                new_rows = pd.DataFrame(np.nan, index=unexpressed_genes, columns=pivot_df1.columns)
                 pivot_df1 = pd.concat([pivot_df1, new_rows])
             title = f"Heatmap of Gene mutations per gene across {stratification}"
 
@@ -967,12 +884,8 @@ class _GeneAnalysis:
                 pivot_df1.rename(index=map_, inplace=True)
 
         else:  # variation_type == "cna_nonbinary"
-            assert (
-                stratification == "sample"
-            ), "stratification must be 'sample' for CNA data"
-            assert (
-                filter_category == "study_id"
-            ), "filter_category must be 'study_id' for CNA data"
+            assert stratification == "sample", "stratification must be 'sample' for CNA data"
+            assert filter_category == "study_id", "filter_category must be 'study_id' for CNA data"
             pivot_df1 = self.df_collection[filter_value]["cna"].copy()
             pivot_df1.set_index("Hugo_Symbol", inplace=True)
             pivot_df1 = pivot_df1[pivot_df1.index.isin(self.genes)]
@@ -990,13 +903,11 @@ class _GeneAnalysis:
             missing_genes = [g for g in self.genes if g not in existing]
             if missing_genes:
                 new_rows = pd.DataFrame(
-                    {col: np.nan for col in pivot_df1.columns},
+                    dict.fromkeys(pivot_df1.columns, np.nan),
                     index=missing_genes,
                 )
                 new_rows["Hugo_Symbol"] = missing_genes
-                pivot_df1 = pd.concat(
-                    [pivot_df1, new_rows], ignore_index=True
-                )
+                pivot_df1 = pd.concat([pivot_df1, new_rows], ignore_index=True)
 
             # Set 'Hugo_Symbol' back as index if needed
             pivot_df1 = pivot_df1.set_index("Hugo_Symbol")
@@ -1016,9 +927,7 @@ class _GeneAnalysis:
         # limit to first 500 columns
         render_divider_lines = True
         render_column_ids = pivot_df1.shape[1] < 100
-        if (
-            pivot_df1.shape[1] > 372
-        ):  # 372 is fine, 373 is not. There's something wrong with pyplot...
+        if pivot_df1.shape[1] > 372:  # 372 is fine, 373 is not. There's something wrong with pyplot...
             print("Warning: Too many columns to plot. Limiting to first 372 columns")
             pivot_df1 = pivot_df1.iloc[:, :372]
             render_divider_lines = False
@@ -1030,12 +939,8 @@ class _GeneAnalysis:
             levels = list(range(min_value + 1, max_value + 1))
             pivot_df1 = pivot_df1.fillna(min_value)
 
-            colors_list = plt.get_cmap("RdBu_r", max_value - min_value + 1)(
-                range(max_value - min_value + 1)
-            )
-            colors_list = np.vstack(
-                ([[0.5, 0.5, 0.5, 0.3]], colors_list[1:])
-            )  # Grey color for -3
+            colors_list = plt.get_cmap("RdBu_r", max_value - min_value + 1)(range(max_value - min_value + 1))
+            colors_list = np.vstack(([[0.5, 0.5, 0.5, 0.3]], colors_list[1:]))  # Grey color for -3
             cmap = ListedColormap(colors_list)
 
             # Define the norm with the diverging palette centered at 0
@@ -1044,16 +949,12 @@ class _GeneAnalysis:
         elif variation_type == "Consequence":
             consequences = list(self.big_combined_df["Consequence"].unique())
 
-            colors_list = plt.get_cmap("tab20", len(consequences))(
-                range(len(consequences))
-            )
+            colors_list = plt.get_cmap("tab20", len(consequences))(range(len(consequences)))
 
             # if consequences contains nan, ensure the nan value is at the beginning
             if np.nan in consequences:
                 colors_list = np.vstack(([[1.0, 1.0, 1.0, 0.3]], colors_list[:-1]))
-                consequences = [np.nan] + sorted(
-                    v for v in consequences if not isinstance(v, float)
-                )
+                consequences = [np.nan] + sorted(v for v in consequences if not isinstance(v, float))
             else:
                 consequences.sort()
                 nas_present = False
@@ -1068,9 +969,7 @@ class _GeneAnalysis:
             )
             levels = list(range(min_value, max_value))
 
-            string_to_int = {
-                consequence: i for i, consequence in enumerate(consequences)
-            }
+            string_to_int = {consequence: i for i, consequence in enumerate(consequences)}
 
             pivot_df1 = pivot_df1.map(lambda x: string_to_int[x])
 
@@ -1090,9 +989,7 @@ class _GeneAnalysis:
             # Create a custom colormap
             colors_list = plt.get_cmap("Reds", len(levels))(range(len(levels)))
             if nas_present:
-                colors_list = np.vstack(
-                    ([[0.5, 0.5, 0.5, 0.3]], colors_list)
-                )  # Grey color for -1
+                colors_list = np.vstack(([[0.5, 0.5, 0.5, 0.3]], colors_list))  # Grey color for -1
             cmap = ListedColormap(colors_list)
 
             # Define the norm, with vmin set to -1 and vmax to max_value
@@ -1197,8 +1094,7 @@ def cbio_plot(
     show=False,
     figure_title=None,
 ):
-    """
-    Plot a heatmap of given genes in the given studies.
+    """Plot a heatmap of given genes in the given studies.
 
     Args:
     study_ids                   list of cBioPortal study IDs
@@ -1226,9 +1122,7 @@ def cbio_plot(
     if verbose:
         logger.info("Downloading data")
 
-    if not download_cbioportal_data(
-        study_ids, verbose=verbose, out_dir=data_dir, confirm_download=confirm_download
-    ):
+    if not download_cbioportal_data(study_ids, verbose=verbose, out_dir=data_dir, confirm_download=confirm_download):
         logger.error("Failed to download data. Continuing with available studies")
         # return False
 

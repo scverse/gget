@@ -1,19 +1,17 @@
-import pandas as pd
 import json as json_
 
-from .utils import set_up_logger, json_list_to_df, http_json, dig
+from .utils import dig, http_json, json_list_to_df, set_up_logger
 
 logger = set_up_logger()
 
 
 def _bgee_species(gene_id: str, verbose=True):
-    """
-    Get species ID from Bgee
+    """Get species ID from Bgee.
+
     :param gene_id: Ensembl gene ID
     :param verbose: log progress
-    :return: species ID
+    :return: species ID.
     """
-
     if verbose:
         logger.info(f"Getting species ID for gene {gene_id} from Bgee")
 
@@ -38,8 +36,7 @@ def _bgee_species(gene_id: str, verbose=True):
 
 
 def _bgee_orthologs(gene_id, json=False, verbose=True):
-    """
-    Get orthologs for a gene from Bgee
+    """Get orthologs for a gene from Bgee.
 
     Args:
 
@@ -51,9 +48,7 @@ def _bgee_orthologs(gene_id, json=False, verbose=True):
     """
     # if single Ensembl ID passed as string, convert to list
     if isinstance(gene_id, list):
-        raise ValueError(
-            "One a single gene ID can be passed at a time for ortholog searches."
-        )
+        raise ValueError("One a single gene ID can be passed at a time for ortholog searches.")
 
     # must first obtain species
     species = _bgee_species(gene_id, verbose=verbose)
@@ -96,8 +91,7 @@ def _bgee_orthologs(gene_id, json=False, verbose=True):
 
 
 def _bgee_expression(gene_id, json=False, verbose=True):
-    """
-    Get expression data from Bgee
+    """Get expression data from Bgee.
 
     Args:
 
@@ -143,7 +137,10 @@ def _bgee_expression(gene_id, json=False, verbose=True):
     )
 
     expression_data = dig(
-        payload, "data", "expressionData", "expressionCalls",
+        payload,
+        "data",
+        "expressionData",
+        "expressionCalls",
         context="Bgee API (expression)",
     )
 
@@ -173,8 +170,7 @@ def bgee(
     json=False,
     verbose=True,
 ):
-    """
-    Get orthologs/expression data for a gene from Bgee (https://www.bgee.org/).
+    """Get orthologs/expression data for a gene from Bgee (https://www.bgee.org/).
 
     Args:
     type        type of data to retrieve ('expression' or 'orthologs')
@@ -189,6 +185,4 @@ def bgee(
     elif type == "orthologs":
         return _bgee_orthologs(gene_id, json=json, verbose=verbose)
     else:
-        raise ValueError(
-            f"Argument type should be 'expression' or 'orthologs', not '{type}'"
-        )
+        raise ValueError(f"Argument type should be 'expression' or 'orthologs', not '{type}'")

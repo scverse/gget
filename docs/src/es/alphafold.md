@@ -13,9 +13,9 @@ Antes de usar `gget alphafold` por primera vez:
    `conda install -qy conda==24.1.2 && conda install -qy -c conda-forge openmm=7.7.0`  
    Para Python versión 3.11:  
    `conda install -qy conda==24.11.1 && conda install -qy -c conda-forge openmm=8.0.0`  
-  
+
    Recomendación: siga con `conda update -qy conda` para actualizar _conda_ a la última versión.  
-3. Corre `gget setup alphafold` / `gget.setup("alphafold")` (ver también [`gget setup`](setup.md)). Al ejecutar `gget setup alphafold` / `gget.setup("alphafold")` se descargará e instalará la última versión de AlphaFold2 alojada en el [AlphaFold GitHub Repo](https://github.com/deepmind/alphafold). Puede volver a ejecutar este comando en cualquier momento para actualizar el software cuando hay una nueva versión de AlphaFold.    
+3. Corre `gget setup alphafold` / `gget.setup("alphafold")` (ver también [`gget setup`](setup.md)). Al ejecutar `gget setup alphafold` / `gget.setup("alphafold")` se descargará e instalará la última versión de AlphaFold2 alojada en el [AlphaFold GitHub Repo](https://github.com/deepmind/alphafold). Puede volver a ejecutar este comando en cualquier momento para actualizar el software cuando hay una nueva versión de AlphaFold.  
 
 **Parámetro posicional**  
 `sequence`  
@@ -26,17 +26,17 @@ Secuencia de aminoácidos (str), o una lista de secuencias (*gget alphafold auto
 El algoritmo de multímero se reciclara hasta que las predicciones dejen de cambiar, el limite de ciclos esta indicado aqui. Por defecto: 3  
 Para obtener más exactitud, ajusta este limite a 20 (al costo de ejecuciones mas tardadas).  
 
-`-o` `--out`   
+`-o` `--out`  
 Ruta a la carpeta para guardar los resultados de la predicción (str). Por defecto: "./[fecha_tiempo]_gget_alphafold_prediction".  
-   
-**Banderas**   
+
+**Banderas**  
 `-mfm` `--multimer_for_monomer`  
 Usa el algoritmo de multímero para un monómero.  
 
-`-r` `--relax`   
+`-r` `--relax`  
 Relaja el mejor modelo con el algoritmo AMBER.  
 
-`-q` `--quiet`   
+`-q` `--quiet`  
 Uso limitado para Terminal. Impide la información de progreso de ser exhibida durante la ejecución del programa.  
 Para Python, usa `verbose=False`.  
 
@@ -45,8 +45,8 @@ Solo para Python. `plot=True` provée una visualización interactiva de la predi
 
 `show_sidechains`  
 Solo para Python. `show_sidechains=True` incluye las cadenas laterales de proteínas en el esquema (por defecto: True).  
-  
-  
+
+
 ### Ejemplo
 ```bash
 # Predice la estructura de una proteína derivada de su secuencia de aminoácidos
@@ -82,12 +82,12 @@ gget.pdb("2K42", save=True)
 
 ### [🔗 gget alphafold - preguntas más frecuentes](https://github.com/pachterlab/gget/discussions/39)
 
-# Citar    
+# Citar  
 Si utiliza `gget alphafold` en una publicación, favor de citar los siguientes artículos:
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
 
 - Jumper, J., Evans, R., Pritzel, A. et al. Highly accurate protein structure prediction with AlphaFold. Nature 596, 583–589 (2021). [https://doi.org/10.1038/s41586-021-03819-2](https://doi.org/10.1038/s41586-021-03819-2)
 
-Y, si corresponde:   
+Y, si corresponde:  
 - Evans, R. et al. Protein complex prediction with AlphaFold-Multimer. bioRxiv 2021.10.04.463034; [https://doi.org/10.1101/2021.10.04.463034](https://doi.org/10.1101/2021.10.04.463034)

@@ -1,24 +1,24 @@
-from io import StringIO
-
-import pandas as pd
 import json as json_package
 import time
-from bs4 import BeautifulSoup
+from io import StringIO
+from urllib.parse import urlencode
 
 # Using urllib instead of requests here because requests does not
 # support long queries (queries very long here due to input sequence)
-from urllib.request import urlopen, Request
-from urllib.parse import urlencode
+from urllib.request import Request, urlopen
+
+import pandas as pd
+from bs4 import BeautifulSoup
 
 # Custom functions
-from .utils import parse_blast_ref_page, wrap_cols_func, read_fasta, set_up_logger
+from .utils import parse_blast_ref_page, read_fasta, set_up_logger, wrap_cols_func
 
 logger = set_up_logger()
 
 # Constants
-from .constants import (
-    BLAST_URL,
+from .constants import (  # noqa: E402
     BLAST_CLIENT,
+    BLAST_URL,
 )
 
 
@@ -35,8 +35,8 @@ def blast(
     json=False,
     save=False,
 ):
-    """
-    BLAST a nucleotide or amino acid sequence against any BLAST DB.
+    """BLAST a nucleotide or amino acid sequence against any BLAST DB.
+
     Args:
      - sequence       Sequence (str) or path to FASTA file.
                       (If more than one sequence in FASTA file, only the first will be submitted to BLAST.)
@@ -91,16 +91,12 @@ def blast(
             _, seqs = read_fasta(sequence)
 
         else:
-            raise ValueError(
-                "File format not recognized. gget BLAST currently only supports '.txt' or '.fa' files. "
-            )
+            raise ValueError("File format not recognized. gget BLAST currently only supports '.txt' or '.fa' files. ")
 
         # Set the first sequence from the fasta file as 'sequence'
         sequence = seqs[0]
         if len(seqs) > 1:
-            logger.warning(
-                "File contains more than one sequence. Only the first sequence will be submitted to BLAST."
-            )
+            logger.warning("File contains more than one sequence. Only the first sequence will be submitted to BLAST.")
 
     # Convert sequence to upper case
     sequence = sequence.upper()
@@ -134,16 +130,12 @@ def blast(
             else:
                 # Check if the user specified database is valid
                 if database not in dbs:
-                    raise ValueError(
-                        f"Database specified is {database}. Expected one of: {', '.join(dbs)}"
-                    )
+                    raise ValueError(f"Database specified is {database}. Expected one of: {', '.join(dbs)}")
 
                 else:
                     if verbose:
                         logger.info("Sequence recognized as nucleotide sequence.")
-                        logger.info(
-                            "BLAST will use program 'blastn' with user-specified database."
-                        )
+                        logger.info("BLAST will use program 'blastn' with user-specified database.")
         # If sequence is an amino acid sequence, set program to blastp
         elif set(sequence) <= amino_acids:
             program = "blastp"
@@ -157,47 +149,39 @@ def blast(
             else:
                 # Check if the user specified database is valid
                 if database not in dbs:
-                    raise ValueError(
-                        f"Database specified is {database}. Expected one of: {', '.join(dbs)}"
-                    )
+                    raise ValueError(f"Database specified is {database}. Expected one of: {', '.join(dbs)}")
 
                 else:
                     if verbose:
                         logger.info("Sequence recognized as amino acid sequence.")
-                        logger.info(
-                            "BLAST will use program 'blastp' with user-specified database."
-                        )
+                        logger.info("BLAST will use program 'blastp' with user-specified database.")
         else:
             raise ValueError(
                 f"""
                 Sequence not automatically recognized as a nucleotide or amino acid sequence.
                 Please specify 'program' and 'database'.
-                Program options: {', '.join(programs)} 
-                Database options:  {', '.join(dbs)} 
+                Program options: {", ".join(programs)}
+                Database options:  {", ".join(dbs)}
                 """
             )
 
     else:
         # Check if the user specified program is valid
         if program not in programs:
-            raise ValueError(
-                f"Program specified is {program}. Expected one of: {', '.join(programs)}"
-            )
+            raise ValueError(f"Program specified is {program}. Expected one of: {', '.join(programs)}")
 
         # Ask user to also specify database
         if database == "default":
             raise ValueError(
                 f"""
-                User-specified program requires user-specified database. Please also specify argument 'database'. 
-                Database options:  {', '.join(dbs)}
+                User-specified program requires user-specified database. Please also specify argument 'database'.
+                Database options:  {", ".join(dbs)}
                 """
             )
         else:
             # Check if the user specified database is valid
             if database not in dbs:
-                raise ValueError(
-                    f"Database specified is {database}. Expected one of: {', '.join(dbs)}"
-                )
+                raise ValueError(f"Database specified is {database}. Expected one of: {', '.join(dbs)}")
 
     ## Translate filter arguments
     if low_comp_filt is False:
@@ -246,14 +230,12 @@ def blast(
     if RTOE < 11:
         # Communicate RTOE
         if verbose:
-            logger.info(f"BLAST initiated. Estimated time to completion: 11 seconds.")
+            logger.info("BLAST initiated. Estimated time to completion: 11 seconds.")
         time.sleep(11)
     else:
         # Communicate RTOE
         if verbose:
-            logger.info(
-                f"BLAST initiated with search ID {RID}. Estimated time to completion: {RTOE} seconds."
-            )
+            logger.info(f"BLAST initiated with search ID {RID}. Estimated time to completion: {RTOE} seconds.")
         time.sleep(int(RTOE))
 
     ## Poll server for status and fetch search results
@@ -295,9 +277,7 @@ def blast(
             continue
 
         elif status == "FAILED":
-            logger.error(
-                f"Search {RID} failed; please try again and/or report to blast-help@ncbi.nlm.nih.gov."
-            )
+            logger.error(f"Search {RID} failed; please try again and/or report to blast-help@ncbi.nlm.nih.gov.")
             return
 
         elif status == "UNKNOWN":
@@ -314,11 +294,7 @@ def blast(
             # Parse HTML results
             soup = BeautifulSoup(results, "html.parser")
             # Get the descriptions table
-            dsc_table = soup.find(
-                lambda tag: tag.name == "table"
-                and tag.has_attr("id")
-                and tag["id"] == "dscTable"
-            )
+            dsc_table = soup.find(lambda tag: tag.name == "table" and tag.has_attr("id") and tag["id"] == "dscTable")
 
             if dsc_table is None:
                 logger.error(

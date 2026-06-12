@@ -13,7 +13,7 @@ Antes de usar `gget cellxgene` por primera vez, corre `gget setup cellxgene` / `
 
 `-g` `--gene`  
 Str o lista de genes de interés o ID(s) tipo Ensembl. Por defecto: None (ninguno).  
-Atención: Utilice la bandera `-e / --ensembl` (Python: `ensembl=True`) cuando ingrese ID(s) tipo Ensembl.   
+Atención: Utilice la bandera `-e / --ensembl` (Python: `ensembl=True`) cuando ingrese ID(s) tipo Ensembl.  
 Atención: ¡Los símbolos de genes distinguen mayúsculas y minúsculas! Usa la capitalización canónica al pasar símbolos de genes; p. ej., ‘PAX7’ (humano), ‘Pax7’ (ratón).  
 Ver https://cellxgene.cziscience.com/gene-expression para ejemplos de genes.  
 
@@ -22,21 +22,21 @@ Versión del CZ CELLxGENE Discover Census (str), p. ej. "2023-05-15", o "latest"
 
 `-cn` `--column_names`  
 Lista de columnas de metadatos a obtener (almacenadas en AnnData.obs).  
-Por defecto: ['dataset_id', 'assay', 'suspension_type', 'sex', 'tissue_general', 'tissue', 'cell_type']   
+Por defecto: ['dataset_id', 'assay', 'suspension_type', 'sex', 'tissue_general', 'tissue', 'cell_type']  
 Para más opciones, ver: https://api.cellxgene.cziscience.com/curation/ui/#/ -> 'Schemas' -> 'dataset'  
 
-`-o` `--out`   
+`-o` `--out`  
 Ruta al archivo para guardar el objeto AnnData formato .h5ad (o .csv con bandera `-mo / --meta_only`).  
 ¡Requerido cuando se usa desde Terminal!  
 
 **Banderas**  
 `-e` `--ensembl`  
-Usa esta bandera si `gene` se ingresa como ID tipo Ensembl.    
+Usa esta bandera si `gene` se ingresa como ID tipo Ensembl.  
 
 `-mo` `--meta_only`  
 Solo produce la tabla (Dataframe) con metadatos (corresponde a AnnData.obs).  
 
-`-q` `--quiet`   
+`-q` `--quiet`  
 Solo para Terminal. Impide la información de progreso de ser exhibida durante la ejecución del programa.  
 Para Python, usa `verbose=False` para impedir la información de progreso de ser exhibida durante la ejecución del programa.  
 
@@ -70,7 +70,7 @@ Str o lista de tejido(s) del tipo high-level. Por defecto: None.
 Tejidos y sus IDs de UBERON se enumeran [aquí](https://github.com/chanzuckerberg/single-cell-data-portal/blob/9b94ccb0a2e0a8f6182b213aa4852c491f6f6aff/backend/wmg/data/tissue_mapper.py).  
 
 `--tissue_ontology_term_id`  
-Str o lista de ID(s) de 'tissue ontology term' como están definidos en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.   
+Str o lista de ID(s) de 'tissue ontology term' como están definidos en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.  
 
 `--assay_ontology_term_id`  
 Str o lista de ID(s) de 'assay ontology term' como están definidos en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.  
@@ -81,7 +81,7 @@ Str o lista de 'assays' (métodos) como están definidos en el [esquema de datos
 `--cell_type_ontology_term_id`  
 Str o lista de ID(s) de 'celltype ontology term' como están definidos en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.  
 
-`--development_stage_ontology_term_id`   
+`--development_stage_ontology_term_id`  
 Str o lista de ID(s) de 'development stage ontology term' como están definidos en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.  
 
 `--disease_ontology_term_id`  
@@ -102,7 +102,7 @@ Str o lista de ID(s) de 'sex ontology' como están definidos en el [esquema de d
 `--suspension_type`  
 Str o lista de tipo(s) de suspensión como están definidos en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.  
 
-  
+
 ### Ejemplo
 ```bash
 gget cellxgene --gene ACE2 ABCA1 SLC5A1 --tissue lung --cell_type 'mucus secreting cell' 'neuroendocrine cell' -o example_adata.h5ad
@@ -139,7 +139,7 @@ df
 
 Ver también: [https://chanzuckerberg.github.io/cellxgene-census/notebooks/api_demo/census_gget_demo.html](https://chanzuckerberg.github.io/cellxgene-census/notebooks/api_demo/census_gget_demo.html)
 
-# Citar    
+# Citar  
 Si utiliza `gget cellxgene` en una publicación, favor de citar los siguientes artículos:
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)

@@ -1,33 +1,30 @@
 import unittest
-import numpy as np
+
+from gget.constants import ENSEMBL_FTP_URL_NV, ENSEMBL_REST_API, UNIPROT_REST_API
 from gget.utils import (
-    n_colors,
     aa_colors,
-    get_uniprot_seqs,
-    get_uniprot_info,
-    rest_query,
     find_latest_ens_rel,
-    search_species_options,
-    ref_species_options,
+    get_uniprot_info,
+    get_uniprot_seqs,
+    n_colors,
     read_fasta,
+    ref_species_options,
+    rest_query,
+    search_species_options,
 )
 
-from gget.constants import UNIPROT_REST_API, ENSEMBL_REST_API, ENSEMBL_FTP_URL_NV
-
 from .fixtures import (
-    LATEST_ENS_RELEASE,
-    SPECIES_OPTIONS,
     IV_SPECIES_OPTIONS,
-    REF_SPECIES_OPTIONS,
+    LATEST_ENS_RELEASE,
     REF_IV_SPECIES_OPTIONS,
+    REF_SPECIES_OPTIONS,
+    SPECIES_OPTIONS,
 )
 
 
 class TestUtils(unittest.TestCase):
     def test_read_fasta(self):
-        result_to_test1, result_to_test2 = read_fasta(
-            "tests/fixtures/muscle_nt_test.fa"
-        )
+        result_to_test1, result_to_test2 = read_fasta("tests/fixtures/muscle_nt_test.fa")
         result_to_test = result_to_test1 + result_to_test2
 
         expected_result1 = [
@@ -55,9 +52,7 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(result_to_test, expected_result)
 
     def test_get_uniprot_seqs(self):
-        df = get_uniprot_seqs(
-            UNIPROT_REST_API, ["ENST00000392653.3", "ENST00000392657.7"]
-        )
+        df = get_uniprot_seqs(UNIPROT_REST_API, ["ENST00000392653.3", "ENST00000392657.7"])
         result_to_test = df.values.tolist()
         expected_result = [
             [
@@ -179,9 +174,7 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(result_to_test, expected_result)
 
     def test_ref_iv_species_options(self):
-        result_to_test = ref_species_options(
-            database=ENSEMBL_FTP_URL_NV, which="dna", release=55
-        )
+        result_to_test = ref_species_options(database=ENSEMBL_FTP_URL_NV, which="dna", release=55)
         expected_result = REF_IV_SPECIES_OPTIONS
 
         self.assertEqual(result_to_test, expected_result)

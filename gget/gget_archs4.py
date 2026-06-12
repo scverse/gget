@@ -1,17 +1,17 @@
-import requests
-import pandas as pd
-import json as json_package
 import io
+import json as json_package
+
+import pandas as pd
+import requests
 
 from .utils import set_up_logger
 
 logger = set_up_logger()
 
 # Custom functions
-from .gget_info import info
-
 # Constants
-from .constants import GENECORR_URL, EXPRESSION_URL
+from .constants import EXPRESSION_URL, GENECORR_URL  # noqa: E402
+from .gget_info import info  # noqa: E402
 
 
 def archs4(
@@ -24,9 +24,9 @@ def archs4(
     save=False,
     verbose=True,
 ):
-    """
-    Find the most correlated genes or the tissue expression atlas
-    of a gene of interest using data from the human and mouse RNA-seq
+    """Find the most correlated genes or the tissue expression atlas of a gene of interest.
+
+    Uses data from the human and mouse RNA-seq
     database ARCHS4 (https://maayanlab.cloud/archs4/).
 
     Args:
@@ -52,16 +52,12 @@ def archs4(
     # Check if 'which' argument is valid
     whichs = ["correlation", "tissue"]
     if which not in whichs:
-        raise ValueError(
-            f"'which' argument specified as {which}. Expected one of: {', '.join(whichs)}"
-        )
+        raise ValueError(f"'which' argument specified as {which}. Expected one of: {', '.join(whichs)}")
 
     # Check if 'species' argument is valid
     sps = ["human", "mouse"]
     if species not in sps:
-        raise ValueError(
-            f"'species' argument specified as {species}. Expected one of: {', '.join(sps)}"
-        )
+        raise ValueError(f"'species' argument specified as {species}. Expected one of: {', '.join(sps)}")
 
     ## Transform Ensembl IDs to gene symbols
     if ensembl:
@@ -72,9 +68,7 @@ def archs4(
 
         # Check if Ensembl ID was found
         if isinstance(info_df, type(None)):
-            logger.error(
-                f"ID '{gene}' not found. Please double-check spelling/arguments and try again."
-            )
+            logger.error(f"ID '{gene}' not found. Please double-check spelling/arguments and try again.")
             return
 
         gene_symbol = info_df.loc[gene]["ensembl_gene_name"]
@@ -90,9 +84,7 @@ def archs4(
 
     if which == "correlation":
         if verbose:
-            logger.info(
-                f"Fetching the {gene_count} most correlated genes to {gene} from ARCHS4."
-            )
+            logger.info(f"Fetching the {gene_count} most correlated genes to {gene} from ARCHS4.")
 
         ## Find most similar genes based on co-expression
         # Define number of correlated genes to return (+1 to account for Python indexing)
@@ -120,9 +112,7 @@ def archs4(
                 )
                 return
             else:
-                logger.error(
-                    f"Gene correlation request for search term '{gene}' returned error: {corr_data['error']}"
-                )
+                logger.error(f"Gene correlation request for search term '{gene}' returned error: {corr_data['error']}")
                 return
 
         else:
@@ -136,9 +126,7 @@ def archs4(
         if json:
             results_dict = json_package.loads(corr_df.to_json(orient="records"))
             if save:
-                with open(
-                    f"gget_archs4_gene-correlation_{gene}.json", "w", encoding="utf-8"
-                ) as f:
+                with open(f"gget_archs4_gene-correlation_{gene}.json", "w", encoding="utf-8") as f:
                     json_package.dump(results_dict, f, ensure_ascii=False, indent=4)
 
             return results_dict
@@ -151,9 +139,7 @@ def archs4(
 
     if which == "tissue":
         if verbose:
-            logger.info(
-                f"Fetching the tissue expression atlas of {gene} from {species} ARCHS4 data."
-            )
+            logger.info(f"Fetching the tissue expression atlas of {gene} from {species} ARCHS4 data.")
 
         ## Find tissue expression data
         ## Define API query
@@ -195,17 +181,13 @@ def archs4(
         if json:
             results_dict = json_package.loads(tissue_exp_df.to_json(orient="records"))
             if save:
-                with open(
-                    f"gget_archs4_tissue-expression_{gene}.json", "w", encoding="utf-8"
-                ) as f:
+                with open(f"gget_archs4_tissue-expression_{gene}.json", "w", encoding="utf-8") as f:
                     json_package.dump(results_dict, f, ensure_ascii=False, indent=4)
 
             return results_dict
 
         else:
             if save:
-                tissue_exp_df.to_csv(
-                    f"gget_archs4_tissue-expression_{gene}.csv", index=False
-                )
+                tissue_exp_df.to_csv(f"gget_archs4_tissue-expression_{gene}.csv", index=False)
 
             return tissue_exp_df

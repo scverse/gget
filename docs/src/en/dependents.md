@@ -32,7 +32,7 @@ The following applications build on `gget`:
   > "Tools are grouped into families such as literature [...], genomics (biopython, **gget**), and machine learning (rdkit, pymol)."
 - [PerTurboAgent](https://www.biorxiv.org/content/10.1101/2025.05.25.656020v1)  
   A Self-Planning Agent for Boosting Sequential Perturb-seq Experiments.  
-  > "We [...] use packages **gget** and blitzgsea for data enrichment analysis" 
+  > "We [...] use packages **gget** and blitzgsea for data enrichment analysis"
 - [Scientific skills for Claude](https://github.com/K-Dense-AI/claude-scientific-skills) by K-Dense-AI  
   > " This repository contains 138 scientific skills organized across multiple domains. Each skill provides comprehensive documentation, code examples, and best practices for working with scientific libraries, databases, and tools.  
   > 🧬 Bioinformatics & Genomics  
@@ -92,7 +92,7 @@ ____
 - Shanmugampillai Jeyarajaguru Kabilan et al., [Molecular modelling approaches for the identification of potent Sodium-Glucose Cotransporter 2 inhibitors from Boerhavia diffusa for the potential treatment of chronic kidney disease.](https://doi.org/10.21203/rs.3.rs-4520611/v1) *Journal of Computer-Aided Molecular Design (under review)* (2024). DOI: 10.21203/rs.3.rs-4520611/v1
 - Joseph M Rich et al., [The impact of package selection and versioning on single-cell RNA-seq analysis.](https://pmc.ncbi.nlm.nih.gov/articles/PMC11014608/#:~:text=10.1101/2024.04.04.588111) *bioRxiv* (2024). DOI: 10.1101/2024.04.04.588111
 - Sanjay C. Nagi et al., [AnoPrimer: Primer Design in malaria vectors informed by range-wide genomic variation.](https://wellcomeopenresearch.org/articles/9-255/v1) *Wellcome Open Research* (2024).
-- Yasmin Makki Mohialden et al., [A survey of the most recent Python packages for use in biology.](http://dx.doi.org/10.48047/NQ.2023.21.2.NQ23029) *NeuroQuantology* (2023). DOI: 10.48047/NQ.2023.21.2.NQ23029 
+- Yasmin Makki Mohialden et al., [A survey of the most recent Python packages for use in biology.](http://dx.doi.org/10.48047/NQ.2023.21.2.NQ23029) *NeuroQuantology* (2023). DOI: 10.48047/NQ.2023.21.2.NQ23029
 - Nicola A. Kearns et al., [Generation and molecular characterization of human pluripotent stem cell-derived pharyngeal foregut endoderm.](https://doi.org/10.1016/j.devcel.2023.08.024) *Cell Reports* (2023). DOI: 10.1016/j.devcel.2023.08.024
 - Jonathan Rosenski et al., [Predicting gene knockout effects from expression data.](https://link.springer.com/article/10.1186/s12920-023-01446-6) *BMC Medical Genomics* (2023). DOI: 10.1186/s12920-023-01446-6
 - Peter Overby et al., [Pharmacological or genetic inhibition of Scn9a protects beta-cells while reducing insulin secretion in type 1 diabetes.](https://doi.org/10.1101/2023.06.11.544521) *bioRxiv* (2023). DOI: 10.1101/2023.06.11.544521
@@ -113,4 +113,3 @@ ___
 # 🚂 [gget code repository](https://github.com/pachterlab/gget/) traffic
 ![Plots showing the cumulative clones and views of the gget GitHub repository.](https://raw.githubusercontent.com/pachterlab/gget/traffic/plots/gget_cumulative_clones_views.png)
 Updates automatically every week on Sunday at 23:55 (UTC).
-

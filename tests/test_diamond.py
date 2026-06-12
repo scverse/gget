@@ -1,7 +1,8 @@
-import unittest
 import json
+import unittest
 
 from gget.gget_diamond import diamond
+
 from .from_json import from_json
 
 # Load dictionary containing arguments and expected results

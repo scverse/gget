@@ -74,4 +74,3 @@ pip install .
   ```
   o elimina el ejecutable de tu `PATH` del sistema.
 - Si sigues teniendo problemas, por favor [contáctanos](https://github.com/pachterlab/gget/issues).
-

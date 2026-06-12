@@ -1,13 +1,10 @@
-import numpy as np
-
 # Custom functions
-from .utils import rest_query, get_uniprot_seqs, set_up_logger, post_query
+from .utils import get_uniprot_seqs, post_query, rest_query, set_up_logger
 
 logger = set_up_logger()
-from .gget_info import info
-
 # Constants
-from .constants import ENSEMBL_REST_API, UNIPROT_REST_API
+from .constants import ENSEMBL_REST_API, UNIPROT_REST_API  # noqa: E402
+from .gget_info import info  # noqa: E402
 
 
 def seq(
@@ -19,9 +16,9 @@ def seq(
     seqtype=None,
     verbose=True,
 ):
-    """
-    Fetch nucleotide or amino acid sequence (FASTA) of a gene
-    (and all its isoforms) or transcript by Ensembl, WormBase or FlyBase ID.
+    """Fetch nucleotide or amino acid sequence (FASTA) of a gene or transcript.
+
+    Fetches the gene (and all its isoforms) or transcript by Ensembl, WormBase or FlyBase ID.
 
     Args:
     - ens_ids       One or more Ensembl IDs (passed as string or list of strings).
@@ -41,9 +38,7 @@ def seq(
     """
     # Handle deprecated arguments
     if seqtype:
-        logger.error(
-            "'seqtype' argument deprecated! Please use True/False argument 'translate' instead."
-        )
+        logger.error("'seqtype' argument deprecated! Please use True/False argument 'translate' instead.")
         return
     if transcribe:
         translate = transcribe
@@ -51,7 +46,7 @@ def seq(
     ## Clean up arguments
     # Clean up Ensembl IDs
     # If single Ensembl ID passed as string, convert to list
-    if type(ens_ids) == str:
+    if isinstance(ens_ids, str):
         ens_ids = [ens_ids]
     # Remove Ensembl ID version if passed
     ens_ids_clean = []
@@ -109,16 +104,12 @@ def seq(
                 actual_results_dict[ensembl_ID] = {"seq": df_temp}
 
                 if verbose:
-                    logger.info(
-                        f"Requesting nucleotide sequence of {ensembl_ID} from Ensembl."
-                    )
+                    logger.info(f"Requesting nucleotide sequence of {ensembl_ID} from Ensembl.")
 
             missing_ids = set(ens_ids_clean) - set(actual_results_dict.keys())
 
             for missing in missing_ids:
-                logger.error(
-                    f"ID {missing} not found. Please double-check spelling/arguments and try again."
-                )
+                logger.error(f"ID {missing} not found. Please double-check spelling/arguments and try again.")
 
             # Add results to master dict
             master_dict.update(actual_results_dict)
@@ -131,9 +122,7 @@ def seq(
                 results_dict = {ensembl_ID: {}}
 
                 # Get ID type (gene, transcript, ...) using gget info
-                info_df = info(
-                    ensembl_ID, verbose=False, pdb=False, ncbi=False, uniprot=False
-                )
+                info_df = info(ensembl_ID, verbose=False, pdb=False, ncbi=False, uniprot=False)
 
                 # Check if Ensembl ID was found
                 if isinstance(info_df, type(None)):
@@ -147,9 +136,7 @@ def seq(
                 # If the ID is a gene, get the IDs of all its transcripts
                 if ens_ID_type == "Gene":
                     if verbose:
-                        logger.info(
-                            f"Requesting nucleotide sequences of all transcripts of {ensembl_ID} from Ensembl."
-                        )
+                        logger.info(f"Requesting nucleotide sequences of all transcripts of {ensembl_ID} from Ensembl.")
 
                     for transcipt_id in info_df.loc[ensembl_ID]["all_transcripts"]:
                         # Remove version number for Ensembl IDs (not for flybase/wormbase IDs)
@@ -170,14 +157,11 @@ def seq(
                                 df_temp.pop(key, None)
 
                             # Add results to main dict
-                            results_dict[ensembl_ID].update(
-                                {f"{transcipt_id}": df_temp}
-                            )
+                            results_dict[ensembl_ID].update({f"{transcipt_id}": df_temp})
 
                         except RuntimeError:
                             logger.error(
-                                f"ID {transcipt_id} not found. "
-                                "Please double-check spelling/arguments and try again."
+                                f"ID {transcipt_id} not found. Please double-check spelling/arguments and try again."
                             )
 
                 # If isoform true, but ID is not a gene; ignore the isoform parameter
@@ -199,15 +183,12 @@ def seq(
                         # Add results to main dict
                         results_dict[ensembl_ID].update({"seq": df_temp})
 
-                        logger.info(
-                            f"Requesting nucleotide sequence of {ensembl_ID} from Ensembl."
-                        )
+                        logger.info(f"Requesting nucleotide sequence of {ensembl_ID} from Ensembl.")
                         logger.warning("The isoform option only applies to gene IDs.")
 
                     except RuntimeError:
                         logger.error(
-                            f"ID {ensembl_ID} not found. "
-                            "Please double-check spelling/arguments and try again."
+                            f"ID {ensembl_ID} not found. Please double-check spelling/arguments and try again."
                         )
 
                 # Add results to master dict
@@ -220,12 +201,7 @@ def seq(
                     fasta.append(">" + ens_ID + " " + master_dict[ens_ID][key]["desc"])
                     fasta.append(master_dict[ens_ID][key]["seq"])
                 else:
-                    fasta.append(
-                        ">"
-                        + master_dict[ens_ID][key]["id"]
-                        + " "
-                        + master_dict[ens_ID][key]["desc"]
-                    )
+                    fasta.append(">" + master_dict[ens_ID][key]["id"] + " " + master_dict[ens_ID][key]["desc"])
                     fasta.append(master_dict[ens_ID][key]["seq"])
 
     ## Fetch amino acid sequences from UniProt
@@ -236,15 +212,11 @@ def seq(
 
             for ensembl_ID in ens_ids_clean:
                 # Get ID type (gene, transcript, ...) using gget info
-                info_df = info(
-                    ensembl_ID, verbose=False, pdb=False, ncbi=False, uniprot=False
-                )
+                info_df = info(ensembl_ID, verbose=False, pdb=False, ncbi=False, uniprot=False)
 
                 # Check that Ensembl ID was found
                 if isinstance(info_df, type(None)):
-                    logger.warning(
-                        f"ID '{ensembl_ID}' not found. Please double-check spelling/arguments."
-                    )
+                    logger.warning(f"ID '{ensembl_ID}' not found. Please double-check spelling/arguments.")
                     continue
 
                 ens_ID_type = info_df.loc[ensembl_ID]["object_type"]
@@ -285,9 +257,7 @@ def seq(
                     trans_ids.append(ensembl_ID)
 
                     if verbose:
-                        logger.info(
-                            f"Requesting amino acid sequence of {ensembl_ID} from UniProt."
-                        )
+                        logger.info(f"Requesting amino acid sequence of {ensembl_ID} from UniProt.")
 
                 else:
                     logger.warning(
@@ -303,15 +273,11 @@ def seq(
 
             for ensembl_ID in ens_ids_clean:
                 # Get ID type (gene, transcript, ...) using gget info
-                info_df = info(
-                    ensembl_ID, verbose=False, pdb=False, ncbi=False, uniprot=False
-                )
+                info_df = info(ensembl_ID, verbose=False, pdb=False, ncbi=False, uniprot=False)
 
                 # Check that Ensembl ID was found
                 if isinstance(info_df, type(None)):
-                    logger.warning(
-                        f"ID '{ensembl_ID}' not found. Please double-check spelling/arguments."
-                    )
+                    logger.warning(f"ID '{ensembl_ID}' not found. Please double-check spelling/arguments.")
                     continue
 
                 ens_ID_type = info_df.loc[ensembl_ID]["object_type"]
@@ -347,9 +313,7 @@ def seq(
                     trans_ids.append(ensembl_ID)
 
                     if verbose:
-                        logger.info(
-                            f"Requesting amino acid sequence of {ensembl_ID} from UniProt."
-                        )
+                        logger.info(f"Requesting amino acid sequence of {ensembl_ID} from UniProt.")
                     logger.warning("The isoform option only applies to gene IDs.")
 
                 else:
@@ -380,6 +344,7 @@ def seq(
                 df_uniprot["organism"].values,
                 df_uniprot["sequence_length"].values,
                 df_uniprot["sequence"].values,
+                strict=False,
             ):
                 fasta.append(
                     ">"

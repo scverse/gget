@@ -1,9 +1,11 @@
-import unittest
 # import unittest.mock
 # import pandas as pd
 import json
+import unittest
+
 # import time
 from gget.gget_info import info
+
 from .from_json import from_json
 
 # Load dictionary containing arguments and expected results
@@ -13,8 +15,10 @@ with open("./tests/fixtures/test_info.json") as json_file:
 # Sleep time in seconds (wait [sleep_time] seconds between server requests to avoid 502 errors for WB and FB IDs)
 # sleep_time = 15
 
+
 class TestInfo(unittest.TestCase, metaclass=from_json(info_dict, info)):
     pass  # all tests are loaded from json
+
 
 # # todo convert to json loading once wormbase & flybase IDs are fixed. At that point, the json test framework will need a way to handle the ANY values
 # class TestInfo(unittest.TestCase):

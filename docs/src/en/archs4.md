@@ -17,15 +17,15 @@ Alternatively: use flag `--ensembl` to input an Ensembl gene IDs, e.g. ENSG00000
 'tissue' returns a tissue expression atlas calculated from human or mouse samples (as defined by 'species') in [ARCHS4](https://maayanlab.cloud/archs4/).  
 
 `-s` `--species`  
-'human' (default) or 'mouse'.   
+'human' (default) or 'mouse'.  
 Defines whether to use human or mouse samples from [ARCHS4](https://maayanlab.cloud/archs4/).  
 (Only for tissue expression atlas.)
 
-`-o` `--out`   
-Path to the file the results will be saved in, e.g. path/to/directory/results.csv (or .json). Default: Standard out.   
+`-o` `--out`  
+Path to the file the results will be saved in, e.g. path/to/directory/results.csv (or .json). Default: Standard out.  
 Python: `save=True` will save the output in the current working directory.  
-  
-**Flags**   
+
+**Flags**  
 `-e` `--ensembl`  
 Add this flag if `gene` is given as an Ensembl gene ID.  
 
@@ -33,11 +33,11 @@ Add this flag if `gene` is given as an Ensembl gene ID.
 Command-line only. Returns results in CSV format.  
 Python: Use `json=True` to return output in JSON format.
 
-`-q` `--quiet`   
+`-q` `--quiet`  
 Command-line only. Prevents progress information from being displayed.  
-Python: Use `verbose=False` to prevent progress information from being displayed. 
-  
-  
+Python: Use `verbose=False` to prevent progress information from being displayed.
+
+
 ### Examples
 ```bash
 gget archs4 ACE2
@@ -49,10 +49,10 @@ gget.archs4("ACE2")
 &rarr; Returns the 100 most correlated genes to ACE2:  
 
 | gene_symbol     | pearson_correlation     |
-| -------------- |-------------------------| 
-| SLC5A1 | 0.579634 | 	
-| CYP2C18 | 0.576577 | 	
-| . . . | . . . | 	
+| -------------- |-------------------------|
+| SLC5A1 | 0.579634 |
+| CYP2C18 | 0.576577 |
+| . . . | . . . |
 
 <br/><br/>
 
@@ -66,9 +66,9 @@ gget.archs4("ACE2", which="tissue")
 &rarr; Returns the tissue expression of ACE2 (by default, human data is used):
 
 | id     | min     | q1 |  median | q3 | max |
-| ------ |--------| ------ |--------| ------ |--------| 
+| ------ |--------| ------ |--------| ------ |--------|
 | System.Urogenital/Reproductive System.Kidney.RENAL CORTEX | 0.113644 | 8.274060 | 9.695840 | 10.51670 | 11.21970 |
-| System.Digestive System.Intestine.INTESTINAL EPITHELIAL CELL | 0.113644 | 	5.905560 | 9.570450 | 13.26470 | 13.83590 | 
+| System.Digestive System.Intestine.INTESTINAL EPITHELIAL CELL | 0.113644 | 	5.905560 | 9.570450 | 13.26470 | 13.83590 |
 | . . . | . . . | . . . | . . . | . . . | . . . |
 
 <br/><br/>
@@ -80,7 +80,7 @@ Check out [this tutorial](https://davetang.org/muse/2023/05/16/check-where-a-gen
 #### [More examples](https://github.com/pachterlab/gget_examples)
 
 # References
-If you use `gget archs4` in a publication, please cite the following articles:   
+If you use `gget archs4` in a publication, please cite the following articles:  
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
 

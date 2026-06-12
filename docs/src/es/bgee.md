@@ -34,7 +34,7 @@ Python: Usa `json=True` para devolver la salida en formato JSON.
 `-q` `--quiet`  
 Solo en línea de comandos. Evita que se muestre la información de progreso.  
 Python: Usa `verbose=False` para evitar que se muestre la información de progreso.
-  
+
 ### Ejemplos
 
 **Obtener ortólogos para un gen**
@@ -93,7 +93,7 @@ import gget
 gget.bgee(["ENSBTAG00000047356", "ENSBTAG00000018317"], type="expression")
 ```
 
-&rarr; Devuelve datos de expresión génica para los genes ENSBTAG00000047356 y ENSBTAG00000018317:   
+&rarr; Devuelve datos de expresión génica para los genes ENSBTAG00000047356 y ENSBTAG00000018317:  
 
 | anat_entity_id | anat_entity_name            | score | score_confidence | expression_state |
 |----------------|-----------------------------|-------|------------------|------------------|
@@ -102,10 +102,10 @@ gget.bgee(["ENSBTAG00000047356", "ENSBTAG00000018317"], type="expression")
 | BGEE:0000000   | anatomical entity and cellular component | 89.12 | high             | expressed        |
 | ...            | ...                         | ...   | ...              | ...              |
 
-    
+
 #### [Más ejemplos](https://github.com/pachterlab/gget_examples)
 
-# Citar    
+# Citar  
 Si utiliza `gget bgee` en una publicación, favor de citar los siguientes artículos:
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)

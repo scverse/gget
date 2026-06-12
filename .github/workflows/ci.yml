@@ -1,37 +1,72 @@
 name: CI - tests
 
 on:
-  # Scheduled runs twice weekly.
-  # These runs execute tests on both Python versions, save the pytest output to a file,
-  # upload the file as an artifact, and commit the 3.12 report back to main.
+  # Scheduled runs twice weekly: save the pytest output to a file, upload it as
+  # an artifact, and commit the 3.12 report back to the branch.
   schedule:
     - cron: "0 16 * * 1,4"
 
-  # Push runs only when package code or tests change.
-  # These runs execute tests normally and fail immediately on test failure.
+  # Run post-merge on the integration branches only — pushes to a PR's feature
+  # branch are already covered by the pull_request event below, so scoping push
+  # to main/dev avoids running the suite twice for the same commit.
   push:
+    branches: [main, dev]
     paths:
       - "gget/**"
       - "tests/**"
-      # Avoid recursively triggering on committed pytest result files.
+      - "pyproject.toml"
+      # Avoid recursively triggering on the bot-committed pytest result files.
       - "!tests/pytest_results_py*.txt"
+  # Run on every pull request into the integration branches.
+  pull_request:
+    branches: [main, dev]
+    paths:
+      - "gget/**"
+      - "tests/**"
+      - "pyproject.toml"
 
   # Manual runs behave like scheduled runs:
-  # save output, upload artifact, and optionally commit report back to main.
+  # save output, upload artifact, and commit report back.
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  build:
-    name: Test on Python ${{ matrix.python }}
-    runs-on: ubuntu-22.04
+  # Derive the test matrix from pyproject.toml ([tool.hatch.envs.hatch-test]),
+  # so the tested environments are defined in a single place and stay identical
+  # locally (`hatch test`) and in CI.
+  get-environments:
+    runs-on: ubuntu-latest
+    outputs:
+      envs: ${{ steps.get-envs.outputs.envs }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+      - name: Get test environments from hatch
+        id: get-envs
+        run: |
+          ENVS_JSON=$(uvx hatch env show --json | jq -c 'to_entries
+            | map(select(.key | startswith("hatch-test")) | { name: .key, python: .value.python })')
+          echo "envs=${ENVS_JSON}" | tee "$GITHUB_OUTPUT"
+
+  test:
+    needs: get-environments
+    name: ${{ matrix.env.name }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # commit pytest report back on scheduled/manual runs
+      id-token: write # codecov OIDC
 
     strategy:
       fail-fast: false
       matrix:
-        python: ["3.11", "3.12"]
+        env: ${{ fromJSON(needs.get-environments.outputs.envs) }}
 
     steps:
       - name: Checkout branch
@@ -39,64 +74,74 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup python
-        uses: actions/setup-python@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
         with:
-          python-version: ${{ matrix.python }}
+          python-version: ${{ matrix.env.python }}
 
-      - name: Install dependencies
-        run: |
-          python -m pip install -r requirements.txt
-          python -m pip install -r dev-requirements.txt
+      # Builds the environment (project + test dependency-group, plus the
+      # cellxgene extra only where pyproject says it is available).
+      - name: Create hatch test environment
+        run: uvx hatch env create ${{ matrix.env.name }}
 
-      # Push behavior:
-      # run pytest normally and let this step fail the job immediately if tests fail.
-      - name: Run tests on push
-        if: github.event_name == 'push'
-        run: |
-          pytest -ra -v --tb=long --durations=10 \
-            --cov=gget --cov-report=term-missing tests
+      # Push/PR: run tests and fail the job immediately on test failure.
+      - name: Run tests (push / pull_request)
+        if: github.event_name == 'push' || github.event_name == 'pull_request'
+        env:
+          MPLBACKEND: agg
+        run: uvx hatch run ${{ matrix.env.name }}:run-cov -ra -v --durations=10
 
-      # Scheduled/manual behavior:
-      # run pytest, save full output to a file, and capture the real pytest exit code.
-      #
-      # Important:
-      # - GitHub bash shells may stop on non-zero commands before later lines run.
-      # - We temporarily disable errexit with "set +e" so failed tests do not prevent
-      #   us from recording PIPESTATUS[0] and writing it to GITHUB_OUTPUT.
-      # - continue-on-error keeps later artifact/commit steps running.
-      - name: Run tests and save output for scheduled/manual runs
+      # Scheduled/manual: save full output to a file and capture the real pytest
+      # exit code. "set +e" keeps a test failure from preventing the exit-code /
+      # artifact / report-commit handling below; continue-on-error does the same
+      # at the step level.
+      - name: Run tests and save output (schedule / workflow_dispatch)
         id: pytest_saved
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         continue-on-error: true
         shell: bash
+        env:
+          MPLBACKEND: agg
         run: |
           set -o pipefail
 
-          OUT="tests/pytest_results_py${{ matrix.python }}.txt"
-          echo "Pytest results (Python ${{ matrix.python }}) - $(date -u +"%Y-%m-%dT%H:%M:%SZ")" > "$OUT"
+          OUT="tests/pytest_results_py${{ matrix.env.python }}.txt"
+          echo "Pytest results (Python ${{ matrix.env.python }}) - $(date -u +"%Y-%m-%dT%H:%M:%SZ")" > "$OUT"
           echo "" >> "$OUT"
 
           set +e
-          pytest -ra -v --tb=long --durations=10 \
-            --cov=gget --cov-report=term-missing tests 2>&1 | tee -a "$OUT"
+          uvx hatch run ${{ matrix.env.name }}:run-cov -ra -v --durations=10 2>&1 | tee -a "$OUT"
           code=${PIPESTATUS[0]}
           set -e
 
           echo "exit_code=$code" >> "$GITHUB_OUTPUT"
           echo "pytest exit code: $code"
-
-          # Do not fail here; a later step fails the job after artifacts/report handling.
           exit 0
 
+      # Coverage upload is best-effort: a failure here must not mask the test
+      # result (which is handled by the steps above/below).
+      - name: Generate coverage report
+        if: always()
+        continue-on-error: true
+        run: |
+          test -f .coverage || uvx hatch run ${{ matrix.env.name }}:cov-combine
+          uvx hatch run ${{ matrix.env.name }}:coverage xml
+
+      - name: Upload coverage to Codecov
+        if: always()
+        uses: codecov/codecov-action@v6
+        with:
+          use_oidc: true
+          fail_ci_if_error: false
+
       # Upload the saved pytest report as an artifact.
-      # Only do this once (3.12) to avoid duplicate artifacts from the matrix.
+      # Only once (3.12) to avoid duplicate artifacts from the matrix.
       - name: Upload pytest results artifact
-        if: always() && matrix.python == '3.12' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        if: always() && matrix.env.python == '3.12' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
         uses: actions/upload-artifact@v4
         with:
-          name: pytest-results-py${{ matrix.python }}
-          path: tests/pytest_results_py${{ matrix.python }}.txt
+          name: pytest-results-py${{ matrix.env.python }}
+          path: tests/pytest_results_py${{ matrix.env.python }}.txt
 
       # Commit the saved pytest report back to the repository.
       # Safety guards:
@@ -107,27 +152,27 @@ jobs:
       - name: Commit and push pytest results
         if: >
           always() &&
-          matrix.python == '3.12' &&
+          matrix.env.python == '3.12' &&
           (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
         shell: bash
         run: |
           set -euo pipefail
-      
+
           BRANCH="${GITHUB_REF#refs/heads/}"
           echo "Current branch: $BRANCH"
-      
+
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-      
+
           git add tests/pytest_results_py*.txt
-      
+
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
           fi
-      
+
           git commit -m "CI: update pytest results ($BRANCH)"
-      
+
           for attempt in 1 2 3 4 5; do
             echo "Push attempt $attempt..."
             git pull --rebase --autostash origin "$BRANCH" || true
@@ -136,13 +181,12 @@ jobs:
             fi
             sleep $((attempt * 5))
           done
-      
+
           echo "Push failed after retries."
           exit 1
 
       # After scheduled/manual runs, explicitly fail the job if pytest failed.
-      # This step is separate so that artifact upload and report commit can still happen
-      # even when tests fail.
+      # Separate so that artifact upload and report commit still happen on failure.
       - name: Fail job if pytest failed
         if: always() && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
         shell: bash
@@ -150,7 +194,6 @@ jobs:
           code="${{ steps.pytest_saved.outputs.exit_code }}"
           echo "Captured pytest exit code: ${code:-<missing>}"
 
-          # Missing output means something went wrong before exit code capture.
           if [ -z "${code:-}" ]; then
             echo "pytest exit code was not captured"
             exit 1
@@ -159,3 +202,17 @@ jobs:
           if [ "$code" != "0" ]; then
             exit "$code"
           fi
+
+  # Single gate job so branch protection can require one stable check name
+  # instead of every matrix entry. See https://github.com/re-actors/alls-green.
+  check:
+    name: Tests pass
+    if: always()
+    needs:
+      - get-environments
+      - test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}
