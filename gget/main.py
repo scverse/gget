@@ -1065,7 +1065,7 @@ def main():
         default=False,
         action="store_true",
         required=False,
-        help="If True, use set of >20,000 default background genes listed here: https://github.com/pachterlab/gget/blob/main/gget/constants/enrichr_bkg_genes.txt. ONLY SUPPORTED FOR HUMAN/MOUSE SPECIES",
+        help="If True, use set of >20,000 default background genes listed here: https://github.com/scverse/gget/blob/main/gget/constants/enrichr_bkg_genes.txt. ONLY SUPPORTED FOR HUMAN/MOUSE SPECIES",
     )
     parser_enrichr.add_argument(
         "-e",

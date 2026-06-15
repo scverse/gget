@@ -1,4 +1,4 @@
-[<kbd> View page source on GitHub </kbd>](https://github.com/pachterlab/gget/blob/main/docs/src/en/enrichr.md)
+[<kbd> View page source on GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/en/enrichr.md)
 
 > Python arguments are equivalent to long-option arguments (`--arg`), unless otherwise specified. Flags are True/False arguments in Python. The manual for any gget tool can be called from the command-line using the `-h` `--help` flag.  
 # gget enrichr 💰
@@ -67,7 +67,7 @@ Add this flag if `genes` are given as Ensembl gene IDs.
 Add this flag if `background_list` are given as Ensembl gene IDs.
 
 `-bkg` `--background`  
-If True, use set of > 20,000 default background genes listed [here](https://github.com/pachterlab/gget/blob/main/gget/constants/enrichr_bkg_genes.txt).  
+If True, use set of > 20,000 default background genes listed [here](https://github.com/scverse/gget/blob/main/gget/constants/enrichr_bkg_genes.txt).  
  
 `-csv` `--csv`  
 Command-line only. Returns results in CSV format.  
@@ -91,7 +91,7 @@ gget.enrichr(["ACE2", "AGT", "AGTR1"], database="ontology", plot=True)
 ```
 &rarr; Returns pathways/functions involving genes ACE2, AGT, and AGTR1 from the *GO Biological Process 2021* database. In Python, `plot=True` returns a graphical overview of the results:
 
-![alt text](https://github.com/pachterlab/gget/blob/main/figures/gget_enrichr_results.png?raw=true)
+![alt text](https://github.com/scverse/gget/blob/main/figures/gget_enrichr_results.png?raw=true)
 
 <br/><br/>
 
@@ -144,12 +144,12 @@ gget.enrichr(
 ```
 &rarr; Returns hits of the input gene list given the background gene list from the transcription factor/target library *ChEA 2022*. In Python, `plot=True` returns a graphical overview of the results:
 
-![alt text](https://github.com/pachterlab/gget/blob/main/figures/gget_enrichr_results_2.png?raw=true)
+![alt text](https://github.com/scverse/gget/blob/main/figures/gget_enrichr_results_2.png?raw=true)
 
 <br/><br/>
 
 **Generate a KEGG pathway image with the genes from the enrichment analysis highlighted:**  
-This feature is available thanks to a [PR](https://github.com/pachterlab/gget/pull/106) by [Noriaki Sato](https://github.com/noriakis).  
+This feature is available thanks to a [PR](https://github.com/scverse/gget/pull/106) by [Noriaki Sato](https://github.com/noriakis).  
 
 ```bash
 gget enrichr -db pathway --kegg_out kegg.png --kegg_rank 1 ZBP1 IRF3 RIPK1
@@ -161,11 +161,11 @@ gget.enrichr(["ZBP1", "IRF3", "RIPK1"], database="pathway", kegg_out="kegg.png",
 
 &rarr; In addition to the standard `gget enrichr` output, the `kegg_out` argument saves an image with the genes from the enrichment analysis highlighted in the KEGG pathway:
 
-![kegg](https://github.com/pachterlab/gget/assets/56094636/b0aa5a64-69d0-4a6a-85db-3e7baf9cb2a4)
+![kegg](https://github.com/scverse/gget/assets/56094636/b0aa5a64-69d0-4a6a-85db-3e7baf9cb2a4)
 
 <br/><br/>
 
-The following example was submitted by [Dylan Lawless](https://github.com/DylanLawless) via [PR](https://github.com/pachterlab/gget/pull/54):  
+The following example was submitted by [Dylan Lawless](https://github.com/DylanLawless) via [PR](https://github.com/scverse/gget/pull/54):  
 **Use `gget enrichr` in R and create a similar plot using [ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html).**  
 NOTE the switch of axes compared to the Python plot.  
 ```r

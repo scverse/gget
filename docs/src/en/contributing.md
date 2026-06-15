@@ -1,8 +1,8 @@
-[<kbd> View page source on GitHub </kbd>](https://github.com/pachterlab/gget/blob/main/docs/src/en/contributing.md)
+[<kbd> View page source on GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/en/contributing.md)
 
 # Welcome to gget's contributing guide
 
-Thank you for investing your time in contributing to our project! Any contribution you make will be reflected on the [gget repo](https://github.com/pachterlab/gget). ✨
+Thank you for investing your time in contributing to our project! Any contribution you make will be reflected on the [gget repo](https://github.com/scverse/gget). ✨
 
 Read our [Code of Conduct](./code_of_conduct.md) to keep our community approachable and respectable.
 
@@ -12,11 +12,11 @@ In this guide you will get an overview of the contribution workflow from opening
 
 ### Create a new issue
 
-If you spot a problem with gget or you have an idea for a new feature, [check if an issue already exists](https://github.com/pachterlab/gget/issues). If a related issue doesn't exist, you can open a new issue using the relevant [issue form](https://github.com/pachterlab/gget/issues/new/choose).
+If you spot a problem with gget or you have an idea for a new feature, [check if an issue already exists](https://github.com/scverse/gget/issues). If a related issue doesn't exist, you can open a new issue using the relevant [issue form](https://github.com/scverse/gget/issues/new/choose).
 
 ### Solve an issue
 
-Scan through our [existing issues](https://github.com/pachterlab/gget/issues) to find one that interests you. You can narrow down the search using `labels` as filters. If you find an issue to work on, you are welcome to open a PR with a fix.
+Scan through our [existing issues](https://github.com/scverse/gget/issues) to find one that interests you. You can narrow down the search using `labels` as filters. If you find an issue to work on, you are welcome to open a PR with a fix.
 
 ## Contribute through pull requests
 
@@ -52,7 +52,7 @@ Commit the changes once you are happy with them.
 8.  Add new modules/arguments to the documentation if applicable:
     - The manual for each module can be added/edited in `./docs/src/en/*.md` (the Spanish version of the docs in `./docs/src/es/*.md` is automatically generated/updated, and does not need to be edited manually)
 
-If you have any questions, feel free to start a [discussion](https://github.com/pachterlab/gget/discussions) or create an issue as described above.
+If you have any questions, feel free to start a [discussion](https://github.com/scverse/gget/discussions) or create an issue as described above.
 
 ### Pull Request
 
@@ -70,4 +70,4 @@ Once you submit your PR, a gget team member will review your proposal. We may as
 
 Congratulations! 🎉	 The gget team thanks you. ✨
 
-Once your PR is merged, your contributions will be publicly visible on the [gget repo](https://github.com/pachterlab/gget).
+Once your PR is merged, your contributions will be publicly visible on the [gget repo](https://github.com/scverse/gget).

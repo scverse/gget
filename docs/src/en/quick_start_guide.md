@@ -1,4 +1,4 @@
-[<kbd> View page source on GitHub </kbd>](https://github.com/pachterlab/gget/blob/main/docs/src/en/quick_start_guide.md)
+[<kbd> View page source on GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/en/quick_start_guide.md)
 
 # 🪄 Quick start guide
 Command line:

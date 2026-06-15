@@ -1,4 +1,4 @@
-[<kbd> View page source on GitHub </kbd>](https://github.com/pachterlab/gget/blob/main/docs/src/en/archs4.md)
+[<kbd> View page source on GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/en/archs4.md)
 
 > Python arguments are equivalent to long-option arguments (`--arg`), unless otherwise specified. Flags are True/False arguments in Python. The manual for any gget tool can be called from the command-line using the `-h` `--help` flag.  
 # gget archs4 🐁
@@ -74,7 +74,7 @@ gget.archs4("ACE2", which="tissue")
 <br/><br/>
 Check out [this tutorial](https://davetang.org/muse/2023/05/16/check-where-a-gene-is-expressed-from-the-command-line/) by Dave Tang who wrote an R script to create this figure from the `gget archs4` JSON output:  
 
-![image](https://github.com/pachterlab/gget/assets/56094636/f2a34a9e-beaa-45a5-a678-d38399dd3017)
+![image](https://github.com/scverse/gget/assets/56094636/f2a34a9e-beaa-45a5-a678-d38399dd3017)
 
 
 #### [More examples](https://github.com/pachterlab/gget_examples)

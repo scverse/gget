@@ -1,4 +1,4 @@
-[<kbd> View page source on GitHub </kbd>](https://github.com/pachterlab/gget/blob/main/docs/src/en/dependents.md)
+[<kbd> View page source on GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/en/dependents.md)
 
 # 💡 Active users of this documentation website
 
@@ -67,7 +67,7 @@ The following applications build on `gget`:
 - [https://github.com/greedjar74/upstage_AI_Lab](https://github.com/greedjar74/upstage_AI_Lab)
 - [https://github.com/alphavector/all](https://github.com/alphavector/all)
 
-See more: [https://github.com/pachterlab/gget/network/dependents](https://github.com/pachterlab/gget/network/dependents)
+See more: [https://github.com/scverse/gget/network/dependents](https://github.com/scverse/gget/network/dependents)
 
 ____
 
@@ -86,7 +86,7 @@ ____
 - Beatriz Beamud et al., [Genetic determinants of host tropism in Klebsiella phages.](https://doi.org/10.1016/j.celrep.2023.112048) *Cell Reports* (2023). DOI: 10.1016/j.celrep.2023.112048
   > "Proteins with seemingly enzymatic activity were confirmed to have the characteristic β-helical domain using **gget AlphaFold2**"
 - Kimberly Siletti et al., [Transcriptomic diversity of cell types across the adult human brain.](https://doi.org/10.1126/science.add7046) *Science* (2023). DOI: 10.1126/science.add7046
-  > "The **gget** package (https://github.com/pachterlab/gget) was used to perform all gene ontology enrichment analysis"
+  > "The **gget** package (https://github.com/scverse/gget) was used to perform all gene ontology enrichment analysis"
 - David R. Blair & Neil Risch. [Dissecting the Reduced Penetrance of Putative Loss-of-Function Variants in Population-Scale Biobanks.](https://doi.org/10.1101/2024.09.23.24314008) *medRxiv* (2024). DOI: 10.1101/2024.09.23.24314008
   > "Additional gene and transcript information (exon-intron boundaries, 5' and 3' UTRs, full coding and amino acid sequences) was downloaded using **gget**"
 - Shanmugampillai Jeyarajaguru Kabilan et al., [Molecular modelling approaches for the identification of potent Sodium-Glucose Cotransporter 2 inhibitors from Boerhavia diffusa for the potential treatment of chronic kidney disease.](https://doi.org/10.21203/rs.3.rs-4520611/v1) *Journal of Computer-Aided Molecular Design (under review)* (2024). DOI: 10.21203/rs.3.rs-4520611/v1
@@ -110,7 +110,7 @@ ___
 
 ___
 
-# 🚂 [gget code repository](https://github.com/pachterlab/gget/) traffic
-![Plots showing the cumulative clones and views of the gget GitHub repository.](https://raw.githubusercontent.com/pachterlab/gget/traffic/plots/gget_cumulative_clones_views.png)
+# 🚂 [gget code repository](https://github.com/scverse/gget/) traffic
+![Plots showing the cumulative clones and views of the gget GitHub repository.](https://raw.githubusercontent.com/scverse/gget/traffic/plots/gget_cumulative_clones_views.png)
 Updates automatically every week on Sunday at 23:55 (UTC).
 
