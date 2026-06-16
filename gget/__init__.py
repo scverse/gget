@@ -10,6 +10,7 @@ from .gget_archs4 import archs4
 from .gget_alphafold import alphafold
 from .gget_setup import setup
 from .gget_pdb import pdb
+from .gget_g2p import g2p
 from .gget_gpt import gpt
 from .gget_cellxgene import cellxgene
 from .gget_elm import elm

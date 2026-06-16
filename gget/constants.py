@@ -29,6 +29,9 @@ UNIPROT_IDMAPPING_API = "https://rest.uniprot.org/idmapping"
 # RCSB PDB API for gget pdb
 RCSB_PDB_API = "https://data.rcsb.org/rest/v1/core/"
 
+# Genomics 2 Proteins (G2P) portal REST API for gget g2p
+G2P_API = "https://g2p.broadinstitute.org/api"
+
 # API to get PDB entries from Ensembl IDs
 ENS_TO_PDB_API = "https://www.ebi.ac.uk/pdbe/aggregated-api/mappings/ensembl_to_pdb/"
 
