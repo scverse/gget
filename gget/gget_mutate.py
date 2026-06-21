@@ -915,12 +915,17 @@ def mutate(
         mutations["updated_left_flank_start"] = 0
         mutations["updated_right_flank_end"] = 0
 
-    # Create WT substitution k-mer sequences
-    mutations.loc[substitution_mask, "wt_sequence"] = (
-        mutations.loc[substitution_mask, "left_flank_region"]
-        + mutations.loc[substitution_mask, "wt_nucleotides_ensembl"]
-        + mutations.loc[substitution_mask, "right_flank_region"]
-    )
+    # Create WT substitution k-mer sequences.
+    # Guarded because pandas-backed arrow string columns raise
+    # ArrowNotImplementedError on `large_string + null + large_string` when the
+    # selection is empty (pyarrow < the kernel-coverage fix). When there are no
+    # substitution rows, the loc-assignment is a no-op anyway.
+    if substitution_mask.any():
+        mutations.loc[substitution_mask, "wt_sequence"] = (
+            mutations.loc[substitution_mask, "left_flank_region"]
+            + mutations.loc[substitution_mask, "wt_nucleotides_ensembl"]
+            + mutations.loc[substitution_mask, "right_flank_region"]
+        )
 
     # Create WT non-substitution k-mer sequences
     mutations.loc[non_substitution_mask, "wt_sequence"] = mutations.loc[non_substitution_mask].apply(
@@ -932,12 +937,13 @@ def mutate(
         axis=1,
     )
 
-    # Create mutant substitution k-mer sequences
-    mutations.loc[substitution_mask, "mutant_sequence"] = (
-        mutations.loc[substitution_mask, "left_flank_region"]
-        + mutations.loc[substitution_mask, "mut_nucleotides"]
-        + mutations.loc[substitution_mask, "right_flank_region"]
-    )
+    # Create mutant substitution k-mer sequences (see substitution_mask guard above).
+    if substitution_mask.any():
+        mutations.loc[substitution_mask, "mutant_sequence"] = (
+            mutations.loc[substitution_mask, "left_flank_region"]
+            + mutations.loc[substitution_mask, "mut_nucleotides"]
+            + mutations.loc[substitution_mask, "right_flank_region"]
+        )
 
     # Create mutant non-substitution k-mer sequences
     mutations.loc[non_substitution_mask, "mutant_sequence"] = mutations.loc[non_substitution_mask].apply(

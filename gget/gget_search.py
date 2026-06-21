@@ -308,6 +308,23 @@ def search(
         np.sort(syn).tolist() if isinstance(syn, list) else np.sort([syn]).tolist() for syn in df["synonym"].values
     ]
 
+    # Normalize missing values to None across the frame so output is stable:
+    # SQL LEFT JOINs surface unmatched rows as NaN in pandas, which then leaks
+    # into both scalar cells and the synonym lists ([nan] instead of [None]).
+    # Callers (and the JSON path) expect None.
+    def _nan_to_none(value):
+        if isinstance(value, list):
+            return [None if pd.isna(item) else item for item in value]
+        try:
+            return None if pd.isna(value) else value
+        except (TypeError, ValueError):
+            return value
+
+    try:
+        df = df.map(_nan_to_none)
+    except AttributeError:
+        df = df.applymap(_nan_to_none)
+
     # If limit is not None, keep only the first {limit} rows
     if limit is not None:
         # Print number of genes/transcripts found versus fetched
