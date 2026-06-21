@@ -1,7 +1,0 @@
-coverage>=5.1
-pytest>=7.0.0
-pytest-cov>=6.2.1
-openai<=0.28.1
-cellxgene-census
-parameterized==0.9.0
-bravado==11.0.3

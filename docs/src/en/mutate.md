@@ -10,7 +10,7 @@ This module was written by [Joseph Rich](https://github.com/josephrich98).
 ** Update: The more complex functionality of gget mutate has been ported to https://github.com/pachterlab/kvar. kvar expands on this functionality in the context of screening for variants/mutations in sequencing data. If this sounds interesting to you, please check it out! **
 
 **Positional argument**  
-`sequences`   
+`sequences`  
 Path to the FASTA file containing the sequences to be mutated, e.g., 'path/to/seqs.fa'.  
 Sequence identifiers following the '>' character must correspond to the identifiers in the seq_ID column of `mutations`.  
 
@@ -57,20 +57,20 @@ Name of the column containing the IDs of the sequences to be mutated in `mutatio
 
 `-mic` `--mut_id_column`  
 Name of the column containing the IDs of each mutation in `mutations`. Default: Same as `mut_column`.
-  
+
 **Optional mutant sequence generation/filtering arguments**  
 `-k` `--k`  
 Length of sequences flanking the mutation. Default: 30.  
 If k > total length of the sequence, the entire sequence will be kept.  
-                                  
+
 **Optional general arguments**  
-`-o` `--out`   
+`-o` `--out`  
 Path to output FASTA file containing the mutated sequences, e.g., 'path/to/output_fasta.fa'.  
-Default: None -> returns a list of the mutated sequences to standard out.    
-The identifiers (following the '>') of the mutated sequences in the output FASTA will be '>[seq_ID]_[mut_ID]'. 
+Default: None -> returns a list of the mutated sequences to standard out.  
+The identifiers (following the '>') of the mutated sequences in the output FASTA will be '>[seq_ID]_[mut_ID]'.
 
 **Optional general flags**  
-`-q` `--quiet`   
+`-q` `--quiet`  
 Command-line only. Prevents progress information from being displayed.  
 Python: Use `verbose=False` to prevent progress information from being displayed.  
 
@@ -94,7 +94,7 @@ gget mutate ATCGCTAAGCT TAGCTA -m 'c.4G>T' 'c.1_3inv' -o mut_fasta.fa
 # Python
 gget.mutate(["ATCGCTAAGCT", "TAGCTA"], ["c.4G>T", "c.1_3inv"], out="mut_fasta.fa")
 ```
-&rarr; Saves 'mut_fasta.fa' file containing: 
+&rarr; Saves 'mut_fasta.fa' file containing:
 ```
 >seq1_mut1  
 ATCTCTAAGCT  
@@ -116,7 +116,6 @@ gget.mutate(["ATCGCTAAGCT", "TAGCTA"], "c.1_3inv", k=3)
 
 
 # References
-If you use `gget mutate` in a publication, please cite the following articles:   
+If you use `gget mutate` in a publication, please cite the following articles:  
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
-

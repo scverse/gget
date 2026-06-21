@@ -1,10 +1,11 @@
-import requests
-import pandas as pd
-import json as json_package
 import io
+import json as json_package
 
-from .utils import set_up_logger
+import pandas as pd
+import requests
+
 from .constants import DEFAULT_REQUESTS_TIMEOUT
+from .utils import set_up_logger
 
 logger = set_up_logger()
 
@@ -25,9 +26,7 @@ def _convert_to_df(response_text, endpoint_name):
     try:
         return pd.read_csv(io.StringIO(response_text))
     except Exception as e:
-        raise RuntimeError(
-            f"API '{endpoint_name}' returned non-CSV data: {e}\nResponse:\n{response_text}"
-        )
+        raise RuntimeError(f"API '{endpoint_name}' returned non-CSV data: {e}\nResponse:\n{response_text}") from e
 
 
 def _save_output(df_or_json, name, json=False, verbose=True):
@@ -58,8 +57,8 @@ def specificity(
     save=False,
     verbose=True,
 ):
-    """
-    Retrieve gene-level specificity statistics from the 8cubeDB
+    """Retrieve gene-level specificity statistics from the 8cubeDB.
+
     (https://eightcubedb.onrender.com/).
 
     This endpoint returns ψ (psi) and ζ (zeta) specificity metrics for one
@@ -76,7 +75,8 @@ def specificity(
                      gget_8cube_specificity.csv (or .json if json=True).
     - verbose        If True, print progress information. Default: True.
 
-    Returns:
+    Returns
+    -------
     A pandas DataFrame or JSON list containing:
     - gene_name
     - ensembl_id
@@ -85,11 +85,12 @@ def specificity(
     - Psi_mean, Psi_std
     - Zeta_mean, Zeta_std
 
-    Raises:
+    Raises
+    ------
     - ValueError     If gene_list is not a list.
     - RuntimeError   If the API request fails or returns invalid data.
-    """
 
+    """
     if not isinstance(gene_list, (list, tuple)):
         raise ValueError("`gene_list` must be a list.")
 
@@ -130,8 +131,7 @@ def psi_block(
     save=False,
     verbose=True,
 ):
-    """
-    Retrieve ψ_block (psi-block) specificity scores from the 8cubeDB.
+    """Retrieve ψ_block (psi-block) specificity scores from the 8cubeDB.
 
     ψ_block quantifies the specificity of a gene to a particular block
     within a partition. This endpoint supports block-wise
@@ -146,15 +146,17 @@ def psi_block(
                      or .json if json=True.
     - verbose        If True, print progress information. Default: True.
 
-    Returns:
+    Returns
+    -------
     A pandas DataFrame or JSON list containing ψ_block scores for each block
     label in the partition (e.g., "Male:NZOJ", "Female:B6J", etc.).
 
-    Raises:
+    Raises
+    ------
     - ValueError     If gene_list is not a list.
     - RuntimeError   If the API request fails.
-    """
 
+    """
     if not isinstance(gene_list, (list, tuple)):
         raise ValueError("`gene_list` must be a list.")
 
@@ -166,10 +168,7 @@ def psi_block(
     ] + [("gene_list", g) for g in processed]
 
     if verbose:
-        logger.info(
-            f"Fetching ψ-block scores for {len(processed)} genes "
-            f"({analysis_level}, {analysis_type})…"
-        )
+        logger.info(f"Fetching ψ-block scores for {len(processed)} genes ({analysis_level}, {analysis_type})…")
 
     r = requests.get(PSI_BLOCK_URL, params=params, timeout=DEFAULT_REQUESTS_TIMEOUT)
     if not r.ok:
@@ -200,8 +199,7 @@ def gene_expression(
     save=False,
     verbose=True,
 ):
-    """
-    Retrieve normalized gene expression values from 8cubeDB.
+    """Retrieve normalized gene expression values from 8cubeDB.
 
     This endpoint returns mean and variance of normalized expression for the
     specified gene(s), computed over the selected partition. For example:
@@ -217,15 +215,17 @@ def gene_expression(
                      or .json if json=True.
     - verbose        If True, print progress information.
 
-    Returns:
+    Returns
+    -------
     A pandas DataFrame or JSON list with expression values and metadata for
     each partition block (columns vary depending on analysis_type).
 
-    Raises:
+    Raises
+    ------
     - ValueError     If gene_list is not a list.
     - RuntimeError   If the API request fails or returns invalid/empty data.
-    """
 
+    """
     if not isinstance(gene_list, (list, tuple)):
         raise ValueError("`gene_list` must be a list.")
 
@@ -237,16 +237,11 @@ def gene_expression(
     ] + [("gene_list", g) for g in processed]
 
     if verbose:
-        logger.info(
-            f"Fetching expression data for {len(processed)} genes "
-            f"({analysis_level}, {analysis_type})…"
-        )
+        logger.info(f"Fetching expression data for {len(processed)} genes ({analysis_level}, {analysis_type})…")
 
     r = requests.get(GENE_EXPR_URL, params=params, timeout=DEFAULT_REQUESTS_TIMEOUT)
     if not r.ok:
-        raise RuntimeError(
-            f"Gene expression request failed ({r.status_code}): {r.text}"
-        )
+        raise RuntimeError(f"Gene expression request failed ({r.status_code}): {r.text}")
 
     df = _convert_to_df(r.text, "gene_expression")
 

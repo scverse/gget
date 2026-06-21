@@ -1,3 +1,128 @@
 [build-system]
-requires = ["setuptools>=42", "wheel"]
-build-backend = "setuptools.build_meta"
+build-backend = "hatchling.build"
+requires = [ "hatchling" ]
+
+[project]
+name = "gget"
+version = "0.30.6"
+description = "Efficient querying of genomic databases."
+readme = "README.md"
+keywords = [ "gget" ]
+license = "BSD-2-Clause"
+license-files = [ "LICENSE" ]
+maintainers = [
+  { name = "Laura Luebbert", email = "lauralubbert@gmail.com" },
+]
+authors = [
+  { name = "Laura Luebbert", email = "lauralubbert@gmail.com" },
+]
+requires-python = ">=3.12"
+classifiers = [
+  "Environment :: Console",
+  "Framework :: Jupyter",
+  "Intended Audience :: Science/Research",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Topic :: Scientific/Engineering :: Bio-Informatics",
+  "Topic :: Utilities",
+]
+dependencies = [
+  "beautifulsoup4>=4.10",
+  "ipython",
+  "ipywidgets",
+  "lxml",
+  "matplotlib",
+  "mysql-connector-python>=8.0.32",
+  "numpy>=1.17.2",
+  "pandas>=1",
+  "requests>=2.22",
+  "tqdm",
+]
+# Optional feature dependency for `gget cellxgene` (install: pip install gget[cellxgene]).
+# No wheels for the newest Python versions yet (e.g. 3.14 via tiledbsoma).
+optional-dependencies.cellxgene = [ "cellxgene-census" ]
+# https://docs.pypi.org/project_metadata/#project-urls
+urls.Documentation = "https://pachterlab.github.io/gget"
+urls.Homepage = "https://github.com/pachterlab/gget"
+urls.Source = "https://github.com/pachterlab/gget"
+scripts.gget = "gget.main:main"
+
+[dependency-groups]
+dev = [ "pre-commit" ]
+test = [
+  "bravado==11.0.3",
+  "coverage>=7",
+  "openai<=0.28.1",
+  "parameterized==0.9",
+  "pytest>=7",
+  "pytest-cov>=6.2.1",
+]
+
+[tool.hatch]
+build.targets.wheel.packages = [ "gget" ]
+envs.default.installer = "uv"
+envs.hatch-test.matrix = [
+  { python = [ "3.12", "3.13", "3.14" ] },
+]
+# cellxgene-census (the `cellxgene` extra) has no wheels for the newest Python
+# versions yet (e.g. 3.14 via tiledbsoma), so install it only where available;
+# the gget cellxgene test skips itself when the dependency is absent.
+envs.hatch-test.overrides.matrix.python.features = [
+  { value = "cellxgene", if = [ "3.12", "3.13" ] },
+]
+# pyproject.toml is the single source of truth for the environments CI tests:
+# the workflow reads this matrix via `hatch env show --json`.
+envs.hatch-test.default-args = [ "tests" ]
+envs.hatch-test.dependency-groups = [ "test" ]
+
+[tool.ruff]
+line-length = 120
+src = [ "gget" ]
+extend-include = [ "*.ipynb" ]
+format.docstring-code-format = true
+lint.select = [
+  "B",      # flake8-bugbear
+  "BLE",    # flake8-blind-except
+  "C4",     # flake8-comprehensions
+  "D",      # pydocstyle
+  "E",      # Error detected by Pycodestyle
+  "F",      # Errors detected by Pyflakes
+  "I",      # isort
+  "RUF100", # Report unused noqa directives
+  "TID",    # flake8-tidy-imports
+  "UP",     # pyupgrade
+  "W",      # Warning detected by Pycodestyle
+]
+lint.ignore = [
+  "B008", # Errors from function calls in argument defaults. These are fine when the result is immutable.
+  "D100", # Missing docstring in public module
+  "D104", # Missing docstring in public package
+  "D105", # __magic__ methods are often self-explanatory, allow missing docstrings
+  "D107", # Missing docstring in __init__
+  # Disable one in each pair of mutually incompatible rules
+  "D203", # We don’t want a blank line before a class docstring
+  "D213", # <> We want docstrings to start immediately after the opening triple quote
+  "D400", # first line should end with a period [Bug: doesn’t work with single-line docstrings]
+  "D401", # First line should be in imperative mood; try rephrasing
+  "E501", # line too long -> we accept long comment lines; formatter gets rid of long code lines
+  "E731", # Do not assign a lambda expression, use a def -> lambda expression assignments are convenient
+  "E741", # allow I, O, l as variable names -> I is the identity matrix
+]
+lint.per-file-ignores."*/__init__.py" = [ "F401" ]
+lint.per-file-ignores."docs/*" = [ "I" ]
+lint.per-file-ignores."tests/*" = [ "D" ]
+lint.pydocstyle.convention = "numpy"
+
+[tool.pytest]
+ini_options.testpaths = [ "tests" ]
+ini_options.addopts = [ "-ra" ]
+
+[tool.coverage]
+run.omit = [
+  "**/test_*.py",
+  "gget/main.py",
+]
+run.source = [ "gget" ]

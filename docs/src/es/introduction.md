@@ -8,7 +8,7 @@
 [<img align="right" width="65%" height="65%" src="https://github.com/pachterlab/gget/blob/main/docs/assets/website_v2_gget_overview.png?raw=true" />](https://raw.githubusercontent.com/pachterlab/gget/main/figures/gget_overview.png)
 
 # ¡Bienvenidos!
-  
+
 `gget` es un programa gratuito de código fuente abierta de Terminal y Python que permite la consulta eficiente de bases de datos genómicas.  
 <br>
 `gget` consiste en un conjunto de módulos separados pero interoperables, cada uno diseñado para facilitar un tipo de consulta de base de datos en una sola línea de código.  
@@ -65,7 +65,7 @@ Estos son los módulos principales de `gget`. Haga clic en cualquier módulo par
 
 <br>  
 
-Si usa `gget` en una publicación, por favor [cite*](cite.md):    
+Si usa `gget` en una publicación, por favor [cite*](cite.md):  
 ```
 Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. https://doi.org/10.1093/bioinformatics/btac836
 ```

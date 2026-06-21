@@ -1,51 +1,51 @@
 import argparse
 import sys
 from datetime import datetime
-from typing import Optional
 
 import pandas as pd
 
 # Get current date and time for alphafold default foldername
 dt_string = datetime.now().strftime("%Y_%m_%d-%H_%M")
 
-import os
-import json
-import subprocess
+import json  # noqa: E402
+import os  # noqa: E402
+import subprocess  # noqa: E402
 
-from .utils import set_up_logger
+from .utils import set_up_logger  # noqa: E402
 
 logger = set_up_logger()
 
-from .__init__ import __version__
+from .__init__ import __version__  # noqa: E402
+from .gget_alphafold import alphafold  # noqa: E402
+from .gget_archs4 import archs4  # noqa: E402
+from .gget_bgee import bgee  # noqa: E402
+from .gget_blast import blast  # noqa: E402
+from .gget_blat import blat  # noqa: E402
+from .gget_cbio import cbio_plot, cbio_search  # noqa: E402
+from .gget_cellxgene import cellxgene  # noqa: E402
+from .gget_cosmic import cosmic  # noqa: E402
+from .gget_diamond import diamond  # noqa: E402
+from .gget_elm import elm  # noqa: E402
+from .gget_enrichr import enrichr  # noqa: E402
+from .gget_gpt import gpt  # noqa: E402
+from .gget_info import info  # noqa: E402
+from .gget_muscle import muscle  # noqa: E402
+from .gget_mutate import mutate  # noqa: E402
+from .gget_opentargets import OPENTARGETS_RESOURCES, opentargets  # noqa: E402
+from .gget_pdb import pdb  # noqa: E402
 
 # Module functions
-from .gget_ref import ref
-from .gget_search import search
-from .gget_info import info
-from .gget_seq import seq
-from .gget_muscle import muscle
-from .gget_blast import blast
-from .gget_blat import blat
-from .gget_enrichr import enrichr
-from .gget_archs4 import archs4
-from .gget_alphafold import alphafold
-from .gget_setup import setup
-from .gget_pdb import pdb
-from .gget_gpt import gpt
-from .gget_cellxgene import cellxgene
-from .gget_elm import elm
-from .gget_diamond import diamond
-from .gget_cosmic import cosmic
-from .gget_mutate import mutate
-from .gget_opentargets import opentargets, OPENTARGETS_RESOURCES
-from .gget_cbio import cbio_plot, cbio_search
-from .gget_bgee import bgee
-from .gget_8cube import specificity, psi_block, gene_expression
-from .gget_virus import virus
+from .gget_ref import ref  # noqa: E402
+from .gget_search import search  # noqa: E402
+from .gget_seq import seq  # noqa: E402
+from .gget_setup import setup  # noqa: E402
+from .gget_virus import virus  # noqa: E402
 
 
 # Custom formatter for help messages that preserved the text formatting and adds the default value to the end of the help message
 class CustomHelpFormatter(argparse.RawTextHelpFormatter):
+    """Help formatter that preserves text formatting and appends default values to help messages."""
+
     def _get_help_string(self, action):
         help_str = action.help if action.help else ""
         if (
@@ -63,28 +63,33 @@ class CustomHelpFormatter(argparse.RawTextHelpFormatter):
 
 
 def convert_to_list(*args):
+    """Return the given arguments as a list."""
     args_list = list(args)
     return args_list
 
 
 def int_or_str(value):
+    """Return value as an int if possible, otherwise return it unchanged."""
     try:
         return int(value)
     except ValueError:
         return value
-    
+
+
 def str_to_bool_or_none(value):
-    if value is None or value.lower() in ('none', 'null', ''):
+    """Convert a string to None, True, False, or return it unchanged."""
+    if value is None or value.lower() in ("none", "null", ""):
         return None
-    if value.lower() in ('true', 'yes', 't', '1'):
+    if value.lower() in ("true", "yes", "t", "1"):
         return True
-    if value.lower() in ('false', 'no', 'f', '0'):
+    if value.lower() in ("false", "no", "f", "0"):
         return False
     # If it's not a clear boolean/None, treat as a string or raise error
-    return value 
+    return value
 
 
 def parse_opentargets_filter(filter_arg):
+    """Parse a COLUMN=VALUE OpenTargets filter argument into a (key, value) tuple."""
     if "=" not in filter_arg:
         raise argparse.ArgumentTypeError(
             "OpenTargets filters must be passed as COLUMN=VALUE, e.g. 'disease.id=EFO_0000274'."
@@ -95,34 +100,24 @@ def parse_opentargets_filter(filter_arg):
     filter_value = filter_value.strip()
 
     if not filter_key:
-        raise argparse.ArgumentTypeError(
-            "OpenTargets filter column name cannot be empty."
-        )
+        raise argparse.ArgumentTypeError("OpenTargets filter column name cannot be empty.")
 
     return filter_key, int_or_str(str_to_bool_or_none(filter_value))
 
 
 def main():
-    """
-    Function containing argparse parsers and arguments to allow the use of gget from the terminal.
-    """
+    """Function containing argparse parsers and arguments to allow the use of gget from the terminal."""
     # Define parent parser
-    parent_parser = argparse.ArgumentParser(
-        description=f"gget v{__version__}", add_help=False
-    )
+    parent_parser = argparse.ArgumentParser(description=f"gget v{__version__}", add_help=False)
     # Initiate subparsers
     parent_subparsers = parent_parser.add_subparsers(dest="command")
     # Define parent (not sure why I need both parent parser and parent, but otherwise it does not work)
     parent = argparse.ArgumentParser(add_help=False)
 
     # Add custom help argument to parent parser
-    parent_parser.add_argument(
-        "-h", "--help", action="store_true", help="Print manual."
-    )
+    parent_parser.add_argument("-h", "--help", action="store_true", help="Print manual.")
     # Add custom version argument to parent parser
-    parent_parser.add_argument(
-        "-v", "--version", action="store_true", help="Print version."
-    )
+    parent_parser.add_argument("-v", "--version", action="store_true", help="Print version.")
 
     ## gget ref subparser
     ref_desc = "Fetch FTPs for reference genomes and annotations by species."
@@ -248,9 +243,7 @@ def main():
     )
 
     ## gget search subparser
-    search_desc = (
-        "Fetch gene and transcript IDs from Ensembl using free-form search terms."
-    )
+    search_desc = "Fetch gene and transcript IDs from Ensembl using free-form search terms."
     parser_gget = parent_subparsers.add_parser(
         "search",
         parents=[parent],
@@ -460,10 +453,7 @@ def main():
         "--out",
         type=str,
         required=False,
-        help=(
-            "Path to folder to save results in, e.g. path/to/directory.\n"
-            "Default: Standard out."
-        ),
+        help=("Path to folder to save results in, e.g. path/to/directory.\nDefault: Standard out."),
     )
     # gget diamond parser
     diamond_desc = "Align multiple protein or translated DNA sequences using DIAMOND."
@@ -636,8 +626,7 @@ def main():
         type=str,
         required=False,
         help=(
-            "Path to file the results will be saved as, e.g. path/to/directory/results.json.\n"
-            "Default: Standard out."
+            "Path to file the results will be saved as, e.g. path/to/directory/results.json.\nDefault: Standard out."
         ),
     )
     parser_info.add_argument(
@@ -697,9 +686,7 @@ def main():
         default=False,
         action="store_true",
         required=False,
-        help=(
-            "Returns amino acid sequences from UniProt. (Otherwise returns nucleotide sequences from Ensembl.)"
-        ),
+        help=("Returns amino acid sequences from UniProt. (Otherwise returns nucleotide sequences from Ensembl.)"),
     )
     parser_seq.add_argument(
         "-iso",
@@ -752,7 +739,9 @@ def main():
     )
 
     ## gget muscle subparser
-    muscle_desc = "Align multiple nucleotide or amino acid sequences against each other (using the Muscle v5 algorithm)."
+    muscle_desc = (
+        "Align multiple nucleotide or amino acid sequences against each other (using the Muscle v5 algorithm)."
+    )
     parser_muscle = parent_subparsers.add_parser(
         "muscle",
         parents=[parent],
@@ -929,9 +918,7 @@ def main():
     )
 
     ## gget blat subparser
-    blat_desc = (
-        "BLAT a nucleotide or amino acid sequence against any BLAT UCSC assembly."
-    )
+    blat_desc = "BLAT a nucleotide or amino acid sequence against any BLAT UCSC assembly."
     parser_blat = parent_subparsers.add_parser(
         "blat",
         parents=[parent],
@@ -1190,10 +1177,7 @@ def main():
         default=100,
         type=int,
         required=False,
-        help=(
-            "Number of correlated genes to return (default: 100).\n"
-            "(Only for gene correlation.)"
-        ),
+        help=("Number of correlated genes to return (default: 100).\n(Only for gene correlation.)"),
     )
     parser_archs4.add_argument(
         "-s",
@@ -1527,9 +1511,7 @@ def main():
     )
 
     # cellxgene parser arguments
-    cellxgene_desc = (
-        "Query data from CZ CELLxGENE Discover (https://cellxgene.cziscience.com/)."
-    )
+    cellxgene_desc = "Query data from CZ CELLxGENE Discover (https://cellxgene.cziscience.com/)."
     parser_cellxgene = parent_subparsers.add_parser(
         "cellxgene",
         parents=[parent],
@@ -2156,9 +2138,7 @@ def main():
         add_help=True,
         formatter_class=CustomHelpFormatter,
     )
-    parser_cbio_subparsers = parser_cbio.add_subparsers(
-        dest="subcommand", help="Subcommand to execute."
-    )
+    parser_cbio_subparsers = parser_cbio.add_subparsers(dest="subcommand", help="Subcommand to execute.")
     parser_cbio_search = parser_cbio_subparsers.add_parser(
         "search",
         description="Search for genes in cBioPortal.",
@@ -2367,9 +2347,7 @@ def main():
         formatter_class=CustomHelpFormatter,
     )
 
-    parser_cube_spec.add_argument(
-        "genes", nargs="+", help="Gene symbols or Ensembl IDs."
-    )
+    parser_cube_spec.add_argument("genes", nargs="+", help="Gene symbols or Ensembl IDs.")
 
     parser_cube_spec.add_argument(
         "-csv",
@@ -2398,9 +2376,7 @@ def main():
         formatter_class=CustomHelpFormatter,
     )
 
-    parser_cube_psib.add_argument(
-        "genes", nargs="+", help="Gene symbols or Ensembl IDs."
-    )
+    parser_cube_psib.add_argument("genes", nargs="+", help="Gene symbols or Ensembl IDs.")
 
     parser_cube_psib.add_argument(
         "-al",
@@ -2443,13 +2419,9 @@ def main():
         formatter_class=CustomHelpFormatter,
     )
 
-    parser_cube_expr.add_argument(
-        "genes", nargs="+", help="Gene symbols or Ensembl IDs."
-    )
+    parser_cube_expr.add_argument("genes", nargs="+", help="Gene symbols or Ensembl IDs.")
 
-    parser_cube_expr.add_argument(
-        "-al", "--analysis_level", required=True, help="Analysis level, e.g. 'Kidney'."
-    )
+    parser_cube_expr.add_argument("-al", "--analysis_level", required=True, help="Analysis level, e.g. 'Kidney'.")
 
     parser_cube_expr.add_argument(
         "-at",
@@ -2475,7 +2447,7 @@ def main():
         action="store_false",
         help="Does not print progress information.",
     )
-        
+
     ## gget virus subparser
     virus_desc = "Download virus genome datasets and associated GenBank metadata from the NCBI Virus database."
     parser_virus = parent_subparsers.add_parser(
@@ -2493,11 +2465,11 @@ def main():
         nargs="?",
         default=None,
         help="Virus taxon name/ID to query, e.g. 'SARS-CoV-2', 'zika virus', or taxon ID '1335626'.\n"
-             "When using --is_accession flag, can also be:\n"
-             "  - Single accession: 'NC_038294.1'\n"
-             "  - Space-separated accessions: 'NC_038294.1 NC_045512.2'\n"
-             "  - Path to text file: 'accessions.txt' (one accession per line)\n"
-             "For SARS-CoV-2 and Alphainfluenza cached downloads, multiple accessions are fully supported.",
+        "When using --is_accession flag, can also be:\n"
+        "  - Single accession: 'NC_038294.1'\n"
+        "  - Space-separated accessions: 'NC_038294.1 NC_045512.2'\n"
+        "  - Path to text file: 'accessions.txt' (one accession per line)\n"
+        "For SARS-CoV-2 and Alphainfluenza cached downloads, multiple accessions are fully supported.",
     )
     parser_virus.add_argument(
         "-a",
@@ -2506,8 +2478,8 @@ def main():
         action="store_true",
         required=False,
         help="Treat the virus argument as an accession number (single, space-separated list, or text file path with one accession per line).\n"
-             "Single: 'NC_038294.1' | List: 'NC_038294.1 NC_045512.2' | File: 'accessions.txt'\n"
-             "For SARS-CoV-2 and Alphainfluenza cached downloads, multiple accessions are fully supported.",
+        "Single: 'NC_038294.1' | List: 'NC_038294.1 NC_045512.2' | File: 'accessions.txt'\n"
+        "For SARS-CoV-2 and Alphainfluenza cached downloads, multiple accessions are fully supported.",
     )
     parser_virus.add_argument(
         "-o",
@@ -2577,7 +2549,7 @@ def main():
     parser_virus.add_argument(
         "--annotated",
         type=str_to_bool_or_none,
-        nargs='?',
+        nargs="?",
         const=True,
         required=False,
         default=None,
@@ -2685,7 +2657,7 @@ def main():
         "--vaccine_strain",
         default=None,
         type=str_to_bool_or_none,
-        nargs='?',
+        nargs="?",
         const=True,
         required=False,
         help="Vaccine strain filter: 'true' or 'false' or None. True will only keep sequences marked as vaccine strains. False filters out vaccine strains. and None (Default) will not filter based on vaccine strain status.",
@@ -2693,7 +2665,7 @@ def main():
     parser_virus.add_argument(
         "--lab_passaged",
         type=str_to_bool_or_none,
-        nargs='?',
+        nargs="?",
         const=True,
         required=False,
         default=None,
@@ -2702,7 +2674,7 @@ def main():
     parser_virus.add_argument(
         "--provirus",
         type=str_to_bool_or_none,
-        nargs='?',
+        nargs="?",
         const=True,
         required=False,
         default=None,
@@ -2797,9 +2769,9 @@ def main():
         default=None,
         dest="baseline_metadata",
         help="Path to a baseline metadata file (CSV/JSONL/JSON/text) containing accessions to skip.\n"
-             "Only new accessions (not in baseline) will be downloaded.\n"
-             "Useful for incremental updates or resuming after API failures.\n"
-             "CSV files must have an 'accession' column. Text files: one accession per line.",
+        "Only new accessions (not in baseline) will be downloaded.\n"
+        "Useful for incremental updates or resuming after API failures.\n"
+        "CSV files must have an 'accession' column. Text files: one accession per line.",
     )
     parser_virus.add_argument(
         "--merge-results",
@@ -2816,7 +2788,7 @@ def main():
         dest="no_merge",
         required=False,
         help="When using --baseline, output new results separately from baseline.\n"
-             "Creates {virus}_new.csv (new sequences only) and {virus}_baseline_provided.csv (reference).",
+        "Creates {virus}_new.csv (new sequences only) and {virus}_baseline_provided.csv (reference).",
     )
     parser_virus.add_argument(
         "--api_key",
@@ -2824,9 +2796,9 @@ def main():
         required=False,
         default=None,
         help="NCBI API key for higher E-utilities rate limits (10 requests/sec vs 3/sec without).\n"
-             "Obtain a free key from https://www.ncbi.nlm.nih.gov/account/settings/\n"
-             "Can also be set via the NCBI_API_KEY environment variable.\n"
-             "If not provided, requests continue at the lower default rate limit.",
+        "Obtain a free key from https://www.ncbi.nlm.nih.gov/account/settings/\n"
+        "Can also be set via the NCBI_API_KEY environment variable.\n"
+        "If not provided, requests continue at the lower default rate limit.",
     )
     parser_virus.add_argument(
         "-q",
@@ -2844,14 +2816,12 @@ def main():
     if args.help:
         # Retrieve all subparsers from the parent parser
         subparsers_actions = [
-            action
-            for action in parent_parser._actions
-            if isinstance(action, argparse._SubParsersAction)
+            action for action in parent_parser._actions if isinstance(action, argparse._SubParsersAction)
         ]
         for subparsers_action in subparsers_actions:
             # Get all subparsers and print help
             for choice, subparser in subparsers_action.choices.items():
-                print("Subparser '{}'".format(choice))
+                print(f"Subparser '{choice}'")
                 print(subparser.format_help())
         sys.exit(0)
 
@@ -3139,14 +3109,10 @@ def main():
     if args.command == "archs4":
         # Handle deprecated flags for backwards compatibility
         if args.gene_deprecated and args.gene:
-            logger.warning(
-                "The [-g][--gene] argument is deprecated, using positional argument [gene] instead."
-            )
+            logger.warning("The [-g][--gene] argument is deprecated, using positional argument [gene] instead.")
         if args.gene_deprecated and not args.gene:
             args.gene = args.gene_deprecated
-            logger.warning(
-                "The [-g][--gene] argument is deprecated, please use positional argument [gene] instead."
-            )
+            logger.warning("The [-g][--gene] argument is deprecated, please use positional argument [gene] instead.")
         if not args.gene_deprecated and not args.gene:
             parser_archs4.error("the following arguments are required: gene")
 
@@ -3191,14 +3157,10 @@ def main():
     if args.command == "muscle":
         # Handle deprecated flags for backwards compatibility
         if args.fasta_deprecated and args.fasta:
-            logger.warning(
-                "The [-fa][--fasta] argument is deprecated, using positional argument [fasta] instead."
-            )
+            logger.warning("The [-fa][--fasta] argument is deprecated, using positional argument [fasta] instead.")
         if args.fasta_deprecated and not args.fasta:
             args.fasta = args.fasta_deprecated
-            logger.warning(
-                "The [-fa][--fasta] argument is deprecated, please use positional argument [fasta] instead."
-            )
+            logger.warning("The [-fa][--fasta] argument is deprecated, please use positional argument [fasta] instead.")
         if not args.fasta_deprecated and not args.fasta:
             parser_muscle.error("the following arguments are required: fasta")
 
@@ -3250,9 +3212,7 @@ def main():
     if args.command == "ref":
         # Return all vertebrate available species
         if args.list_species:
-            species_list = ref(
-                species=None, release=args.release, list_species=args.list_species
-            )
+            species_list = ref(species=None, release=args.release, list_species=args.list_species)
             # Save in specified directory if -o specified
             if args.out:
                 directory = "/".join(args.out.split("/")[:-1])
@@ -3266,9 +3226,7 @@ def main():
 
         # Return all invertebrate available species
         elif args.list_iv_species:
-            species_list = ref(
-                species=None, release=args.release, list_iv_species=args.list_iv_species
-            )
+            species_list = ref(species=None, release=args.release, list_iv_species=args.list_iv_species)
             # Save in specified directory if -o specified
             if args.out:
                 directory = "/".join(args.out.split("/")[:-1])
@@ -3282,9 +3240,7 @@ def main():
 
         # Handle deprecated flags for backwards compatibility
         if args.species_deprecated and args.species:
-            logger.warning(
-                "The [-s][--species] argument is deprecated, using positional argument [species] instead."
-            )
+            logger.warning("The [-s][--species] argument is deprecated, using positional argument [species] instead.")
         if args.species_deprecated and not args.species:
             args.species = args.species_deprecated
             logger.warning(
@@ -3292,11 +3248,7 @@ def main():
             )
 
         # Raise error if neither species nor list flag passed
-        if (
-            args.species is None
-            and args.list_species is False
-            and args.list_iv_species is False
-        ):
+        if args.species is None and args.list_species is False and args.list_iv_species is False:
             parser_ref.error(
                 "the following arguments are required: species \n"
                 "'gget ref --list_species' -> lists out all available vertebrate species. \n"
@@ -3441,14 +3393,10 @@ def main():
     if args.command == "enrichr":
         # Handle deprecated flags for backwards compatibility
         if args.genes_deprecated and args.genes:
-            logger.warning(
-                "The [-g][--genes] argument is deprecated, using positional argument [genes] instead."
-            )
+            logger.warning("The [-g][--genes] argument is deprecated, using positional argument [genes] instead.")
         if args.genes_deprecated and not args.genes:
             args.genes = args.genes_deprecated
-            logger.warning(
-                "The [-g][--genes] argument is deprecated, please use positional argument [genes] instead."
-            )
+            logger.warning("The [-g][--genes] argument is deprecated, please use positional argument [genes] instead.")
         if not args.genes_deprecated and not args.genes:
             parser_enrichr.error("the following arguments are required: genes")
 
@@ -3471,9 +3419,7 @@ def main():
             for gene in args.background_list:
                 bkg_genes_clean.append(gene.split(","))
             # Flatten bkg_genes_clean
-            bkg_genes_clean_final = [
-                item for sublist in bkg_genes_clean for item in sublist
-            ]
+            bkg_genes_clean_final = [item for sublist in bkg_genes_clean for item in sublist]
             # Remove empty strings resulting from split
             while "" in genes_clean_final:
                 bkg_genes_clean_final.remove("")
@@ -3523,14 +3469,10 @@ def main():
     if args.command == "info":
         # Handle deprecated flags for backwards compatibility
         if args.id_deprecated and args.ens_ids:
-            logger.warning(
-                "The [-id][--ens_ids] argument is deprecated, using positional argument [ens_ids] instead."
-            )
+            logger.warning("The [-id][--ens_ids] argument is deprecated, using positional argument [ens_ids] instead.")
         if args.id_deprecated and not args.ens_ids:
             args.ens_ids = args.id_deprecated
-            logger.warning(
-                "The [-id][--genes] argument is deprecated, please use arguments [ens_ids] instead."
-            )
+            logger.warning("The [-id][--genes] argument is deprecated, please use arguments [ens_ids] instead.")
         if args.ensembl_only:
             logger.warning(
                 "The [-eo][--ensembl_only] argument is deprecated, please use arguments [ncbi] and [uniprot] instead."
@@ -3591,9 +3533,7 @@ def main():
     if args.command == "seq":
         # Handle deprecated flags for backwards compatibility
         if args.id_deprecated and args.ens_ids:
-            logger.warning(
-                "The [-id][--ens_ids] argument is deprecated, using positional argument [ens_ids] instead."
-            )
+            logger.warning("The [-id][--ens_ids] argument is deprecated, using positional argument [ens_ids] instead.")
         if args.id_deprecated and not args.ens_ids:
             args.ens_ids = args.id_deprecated
             logger.warning(
@@ -3624,7 +3564,7 @@ def main():
         )
 
         # Save in specified directory if -o specified
-        if args.out and seq_results != None:
+        if args.out and seq_results is not None:
             directory = "/".join(args.out.split("/")[:-1])
             if directory != "":
                 os.makedirs(directory, exist_ok=True)
@@ -3635,7 +3575,7 @@ def main():
 
         # Print results if no directory specified
         else:
-            if seq_results != None:
+            if seq_results is not None:
                 for seq_res in seq_results:
                     print(seq_res)
 
@@ -3722,18 +3662,12 @@ def main():
                 if args.csv:
                     opentargets_results.to_csv(f, index=False)
                 else:
-                    opentargets_results.to_json(
-                        f, orient="records", force_ascii=False, indent=4
-                    )
+                    opentargets_results.to_json(f, orient="records", force_ascii=False, indent=4)
         else:
             if args.csv:
                 opentargets_results.to_csv(sys.stdout, index=False)
             else:
-                print(
-                    opentargets_results.to_json(
-                        orient="records", force_ascii=False, indent=4
-                    )
-                )
+                print(opentargets_results.to_json(orient="records", force_ascii=False, indent=4))
 
     ## cbio return
     if args.command == "cbio":
@@ -3776,25 +3710,19 @@ def main():
                 if args.csv:
                     bgee_results.to_csv(f, index=False)
                 else:
-                    bgee_results.to_json(
-                        f, orient="records", force_ascii=False, indent=4
-                    )
+                    bgee_results.to_json(f, orient="records", force_ascii=False, indent=4)
         else:
             if args.csv:
                 bgee_results.to_csv(sys.stdout, index=False)
             else:
-                print(
-                    bgee_results.to_json(orient="records", force_ascii=False, indent=4)
-                )
+                print(bgee_results.to_json(orient="records", force_ascii=False, indent=4))
 
     ## 8cube return
     if args.command == "8cube":
-        from .gget_8cube import specificity, psi_block, gene_expression
+        from .gget_8cube import gene_expression, psi_block, specificity
 
         if args.cube_command is None:
-            parser_8cube.error(
-                "Please specify a subcommand: specificity, psi_block, or expression"
-            )
+            parser_8cube.error("Please specify a subcommand: specificity, psi_block, or expression")
 
         # SPECIFICITY
         if args.cube_command == "specificity":
@@ -3811,7 +3739,7 @@ def main():
                 if directory:
                     os.makedirs(directory, exist_ok=True)
 
-                if not args.csv: # args.csv stores False
+                if not args.csv:  # args.csv stores False
                     pd.DataFrame(results).to_csv(args.out, index=False)
                 else:
                     with open(args.out, "w", encoding="utf-8") as f:
@@ -3819,7 +3747,7 @@ def main():
                 return
 
             # Print to STDOUT
-            if not args.csv: # args.csv stores False
+            if not args.csv:  # args.csv stores False
                 pd.DataFrame(results).to_csv(sys.stdout, index=False)
             else:
                 print(json.dumps(results, ensure_ascii=False, indent=4))
@@ -3841,14 +3769,14 @@ def main():
                 if directory:
                     os.makedirs(directory, exist_ok=True)
 
-                if not args.csv: # args.csv stores False
+                if not args.csv:  # args.csv stores False
                     pd.DataFrame(results).to_csv(args.out, index=False)
                 else:
                     with open(args.out, "w", encoding="utf-8") as f:
                         json.dump(results, f, ensure_ascii=False, indent=4)
                 return
 
-            if not args.csv: # args.csv stores False
+            if not args.csv:  # args.csv stores False
                 pd.DataFrame(results).to_csv(sys.stdout, index=False)
             else:
                 print(json.dumps(results, ensure_ascii=False, indent=4))
@@ -3870,14 +3798,14 @@ def main():
                 if directory:
                     os.makedirs(directory, exist_ok=True)
 
-                if not args.csv: # args.csv stores False
+                if not args.csv:  # args.csv stores False
                     pd.DataFrame(results).to_csv(args.out, index=False)
                 else:
                     with open(args.out, "w", encoding="utf-8") as f:
                         json.dump(results, f, ensure_ascii=False, indent=4)
                 return
 
-            if not args.csv: # args.csv stores False
+            if not args.csv:  # args.csv stores False
                 pd.DataFrame(results).to_csv(sys.stdout, index=False)
             else:
                 print(json.dumps(results, ensure_ascii=False, indent=4))
@@ -3887,48 +3815,48 @@ def main():
     if args.command == "virus":
         # Parse has_proteins argument - convert comma-separated string to list
         has_proteins_arg = args.has_proteins
-        if has_proteins_arg and ',' in has_proteins_arg:
-            has_proteins_arg = [p.strip() for p in has_proteins_arg.split(',')]
-        
+        if has_proteins_arg and "," in has_proteins_arg:
+            has_proteins_arg = [p.strip() for p in has_proteins_arg.split(",")]
+
         segment_arg = args.segment
-        if segment_arg and ',' in segment_arg:
-            segment_arg = [s.strip() for s in segment_arg.split(',')]
+        if segment_arg and "," in segment_arg:
+            segment_arg = [s.strip() for s in segment_arg.split(",")]
 
         isolate_arg = args.isolate
-        if isolate_arg and ',' in isolate_arg:
-            isolate_arg = [i.strip() for i in isolate_arg.split(',')]
+        if isolate_arg and "," in isolate_arg:
+            isolate_arg = [i.strip() for i in isolate_arg.split(",")]
 
         submitter_name_arg = args.submitter_name
-        if submitter_name_arg and ',' in submitter_name_arg:
-            submitter_name_arg = [a.strip() for a in submitter_name_arg.split(',')]
+        if submitter_name_arg and "," in submitter_name_arg:
+            submitter_name_arg = [a.strip() for a in submitter_name_arg.split(",")]
 
         submitter_institution_arg = args.submitter_institution
-        if submitter_institution_arg and ',' in submitter_institution_arg:
-            submitter_institution_arg = [i.strip() for i in submitter_institution_arg.split(',')]
+        if submitter_institution_arg and "," in submitter_institution_arg:
+            submitter_institution_arg = [i.strip() for i in submitter_institution_arg.split(",")]
 
         submitter_country_arg = args.submitter_country
-        if submitter_country_arg and ',' in submitter_country_arg:
-            submitter_country_arg = [c.strip() for c in submitter_country_arg.split(',')]
-        
+        if submitter_country_arg and "," in submitter_country_arg:
+            submitter_country_arg = [c.strip() for c in submitter_country_arg.split(",")]
+
         env_source_arg = args.env_source
-        if env_source_arg and ',' in env_source_arg:
-            env_source_arg = [e.strip() for e in env_source_arg.split(',')]
+        if env_source_arg and "," in env_source_arg:
+            env_source_arg = [e.strip() for e in env_source_arg.split(",")]
 
         lineage_arg = args.lineage
-        if lineage_arg and ',' in lineage_arg:
-            lineage_arg = [l.strip() for l in lineage_arg.split(',')]
+        if lineage_arg and "," in lineage_arg:
+            lineage_arg = [l.strip() for l in lineage_arg.split(",")]
 
         genotype_arg = args.genotype
-        if genotype_arg and ',' in genotype_arg:
-            genotype_arg = [g.strip() for g in genotype_arg.split(',')]
+        if genotype_arg and "," in genotype_arg:
+            genotype_arg = [g.strip() for g in genotype_arg.split(",")]
 
         isolation_source_arg = args.isolation_source
-        if isolation_source_arg and ',' in isolation_source_arg:
-            isolation_source_arg = [i.strip() for i in isolation_source_arg.split(',')]
+        if isolation_source_arg and "," in isolation_source_arg:
+            isolation_source_arg = [i.strip() for i in isolation_source_arg.split(",")]
 
         gen_mol_type_arg = args.gen_mol_type
-        if gen_mol_type_arg and ',' in gen_mol_type_arg:
-            gen_mol_type_arg = [g.strip() for g in gen_mol_type_arg.split(',')]
+        if gen_mol_type_arg and "," in gen_mol_type_arg:
+            gen_mol_type_arg = [g.strip() for g in gen_mol_type_arg.split(",")]
 
         # Determine merge_results: --no-merge overrides --merge-results
         merge_results_arg = True  # default

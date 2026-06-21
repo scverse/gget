@@ -6,7 +6,7 @@ BLAST a nucleotide or amino acid sequence to any [BLAST](https://blast.ncbi.nlm.
 Return format: JSON (command-line) or data frame/CSV (Python).
 
 **Positional argument**  
-`sequence`   
+`sequence`  
 Nucleotide or amino acid sequence, or path to FASTA or .txt file.
 
 **Optional arguments**  
@@ -25,8 +25,8 @@ Limits number of hits to return. Default: 50.
 `-e` `--expect`  
 Defines the [expect value](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=FAQ#expect) cutoff. Default: 10.0.  
 
-`-o` `--out`   
-Path to the file the results will be saved in, e.g. path/to/directory/results.csv (or .json). Default: Standard out.   
+`-o` `--out`  
+Path to the file the results will be saved in, e.g. path/to/directory/results.csv (or .json). Default: Standard out.  
 Python: `save=True` will save the output in the current working directory.
 
 **Flags**  
@@ -40,13 +40,13 @@ Turns off MegaBLAST algorithm. Default: MegaBLAST on (blastn only).
 Command-line only. Returns results in CSV format.  
 Python: Use `json=True` to return output in JSON format.
 
-`-q` `--quiet`   
+`-q` `--quiet`  
 Command-line only. Prevents progress information from being displayed.  
 Python: Use `verbose=False` to prevent progress information from being displayed.  
 
 `wrap_text`  
-Python only. `wrap_text=True` displays data frame with wrapped text for easy reading (default: False).   
-  
+Python only. `wrap_text=True` displays data frame with wrapped text for easy reading (default: False).  
+
 ### Example
 ```bash
 gget blast MKWMFKEDHSLEHRCVESAKIRAKYPDRVPVIVEKVSGSQIVDIDKRKYLVPSDITVAQFMWIIRKRIQLPSEKAIFLFVDKTVPQSR
@@ -60,7 +60,7 @@ gget.blast("MKWMFKEDHSLEHRCVESAKIRAKYPDRVPVIVEKVSGSQIVDIDKRKYLVPSDITVAQFMWIIRKRI
 | Description     | Scientific Name	     | Common Name     | Taxid        | Max Score | Total Score | Query Cover | ... |
 | -------------- |-------------------------| ------------------------| -------------- | ----------|-----|---|---|
 | PREDICTED: gamma-aminobutyric acid receptor-as...| Colobus angolensis palliatus	 | 	NaN | 336983 | 180	 | 180 | 100% | ... |
-| . . . | . . . | . . . | . . . | . . . | . . . | . . . | ... | 
+| . . . | . . . | . . . | . . . | . . . | . . . | . . . | ... |
 
 <br/><br/>
 **BLAST from .fa or .txt file:**  
@@ -71,12 +71,12 @@ gget blast fasta.fa
 # Python
 gget.blast("fasta.fa")
 ```
-&rarr; Returns the BLAST results of the first sequence contained in the fasta.fa file. 
+&rarr; Returns the BLAST results of the first sequence contained in the fasta.fa file.
 
 #### [More examples](https://github.com/pachterlab/gget_examples)
 
 # References
-If you use `gget blast` in a publication, please cite the following articles:   
+If you use `gget blast` in a publication, please cite the following articles:  
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
 

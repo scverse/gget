@@ -2,34 +2,34 @@
 
 > Python arguments are equivalent to long-option arguments (`--arg`), unless otherwise specified. Flags are True/False arguments in Python. The manual for any gget tool can be called from the command-line using the `-h` `--help` flag.  
 # gget blat 🎯
-Find the genomic location of a nucleotide or amino acid sequence using [BLAT](https://genome.ucsc.edu/cgi-bin/hgBlat).   
+Find the genomic location of a nucleotide or amino acid sequence using [BLAT](https://genome.ucsc.edu/cgi-bin/hgBlat).  
 Return format: JSON (command-line) or data frame/CSV (Python).
 
 **Positional argument**  
-`sequence`   
+`sequence`  
 Nucleotide or amino acid sequence, or path to FASTA or .txt file.
 
 **Optional arguments**  
-`-st` `--seqtype`    
-'DNA', 'protein', 'translated%20RNA', or 'translated%20DNA'.   
+`-st` `--seqtype`  
+'DNA', 'protein', 'translated%20RNA', or 'translated%20DNA'.  
 Default: 'DNA' for nucleotide sequences; 'protein' for amino acid sequences.  
 
 `-a` `--assembly`  
-'human' (hg38) (default), 'mouse' (mm39), 'zebrafinch' (taeGut2),   
+'human' (hg38) (default), 'mouse' (mm39), 'zebrafinch' (taeGut2),  
 or any of the species assemblies available [here](https://genome.ucsc.edu/cgi-bin/hgBlat) (use short assembly name).
 
-`-o` `--out`   
-Path to the file the results will be saved in, e.g. path/to/directory/results.csv (or .json). Default: Standard out.   
+`-o` `--out`  
+Path to the file the results will be saved in, e.g. path/to/directory/results.csv (or .json). Default: Standard out.  
 Python: `save=True` will save the output in the current working directory.  
-  
+
 **Flags**  
 `-csv` `--csv`  
 Command-line only. Returns results in CSV format.  
 Python: Use `json=True` to return output in JSON format.
 
-`-q` `--quiet`   
+`-q` `--quiet`  
 Command-line only. Prevents progress information from being displayed.  
-Python: Use `verbose=False` to prevent progress information from being displayed. 
+Python: Use `verbose=False` to prevent progress information from being displayed.
 
 
 ### Example
@@ -49,9 +49,8 @@ gget.blat("MKWMFKEDHSLEHRCVESAKIRAKYPDRVPVIVEKVSGSQIVDIDKRKYLVPSDITVAQFMWIIRKRIQ
 #### [More examples](https://github.com/pachterlab/gget_examples)
 
 # References
-If you use `gget blat` in a publication, please cite the following articles:   
+If you use `gget blat` in a publication, please cite the following articles:  
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
 
 - Kent WJ. BLAT--the BLAST-like alignment tool. Genome Res. 2002 Apr;12(4):656-64. doi: 10.1101/gr.229202. PMID: 11932250; PMCID: PMC187518.
-

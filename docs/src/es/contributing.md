@@ -51,7 +51,7 @@ Confirme sus cambios una vez que esté satisfecho con ellos.
     - Los parámetros para la Terminal se definen en ./gget/main.py
 8. Agregue módulos/argumentos nuevos a la documentación, si corresponde:
     - El manual de cada módulo se puede agregar/editar en `./docs/src/en/*.md` (la versión en español de la documentación en `./docs/src/es/*.md` se genera/actualiza automáticamente, y no necesita ser editada manualmente)
-   
+
 Si tiene alguna pregunta, no dude en iniciar una [discusión](https://github.com/pachterlab/gget/discussions) o crear un Issue como se describe anteriormente.
 
 ### Crear un Pull Request (PR)

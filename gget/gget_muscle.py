@@ -1,31 +1,26 @@
+import itertools
 import os
 import platform
 import subprocess
-import itertools
 import sys
 import time
 import uuid
 
 # Custom functions
-from .compile import compile_muscle, MUSCLE_PATH, PACKAGE_PATH
-from .utils import aa_colors, n_colors, create_tmp_fasta, set_up_logger
+from .compile import MUSCLE_PATH, PACKAGE_PATH, compile_muscle
+from .utils import aa_colors, create_tmp_fasta, n_colors, set_up_logger
 
 logger = set_up_logger()
 
 # Path to precompiled muscle binary
 if platform.system() == "Windows":
-    PRECOMPILED_MUSCLE_PATH = os.path.join(
-        PACKAGE_PATH, f"bins/{platform.system()}/muscle.win64.exe"
-    )
+    PRECOMPILED_MUSCLE_PATH = os.path.join(PACKAGE_PATH, f"bins/{platform.system()}/muscle.win64.exe")
 else:
-    PRECOMPILED_MUSCLE_PATH = os.path.join(
-        PACKAGE_PATH, f"bins/{platform.system()}/muscle"
-    )
+    PRECOMPILED_MUSCLE_PATH = os.path.join(PACKAGE_PATH, f"bins/{platform.system()}/muscle")
 
 
 def muscle(fasta, super5=False, out=None, verbose=True):
-    """
-    Align multiple nucleotide or amino acid sequences against each other (using the Muscle v5 algorithm).
+    """Align multiple nucleotide or amino acid sequences against each other (using the Muscle v5 algorithm).
 
     Args:
     - fasta     List of sequences or path to fasta file containing the sequences to be aligned.
@@ -63,7 +58,7 @@ def muscle(fasta, super5=False, out=None, verbose=True):
         abs_out_path = os.path.abspath(out)
 
     # Compile muscle if it is not already compiled
-    if os.path.isfile(PRECOMPILED_MUSCLE_PATH) == False:
+    if not os.path.isfile(PRECOMPILED_MUSCLE_PATH):
         # Compile muscle
         compile_muscle()
         muscle_path = MUSCLE_PATH
@@ -115,15 +110,14 @@ def muscle(fasta, super5=False, out=None, verbose=True):
         return
     else:
         if verbose:
-            logger.info(
-                f"MUSCLE alignment complete. Alignment time: {round(time.time() - start_time, 2)} seconds"
-            )
+            logger.info(f"MUSCLE alignment complete. Alignment time: {round(time.time() - start_time, 2)} seconds")
 
     if out is None:
         ## Print cleaned up muscle output
         # Get the titles and sequences from the generated .afa file
         titles = []
         seqs_master = []
+        seqs = []
         with open(abs_out_path) as aln_file:
             for i, line in enumerate(aln_file):
                 # Recognize title lines by the '>' character

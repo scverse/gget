@@ -40,10 +40,10 @@ Commit the changes once you are happy with them.
 
 1. Review the content for technical accuracy.
 2. Copy-edit the changes/comments for grammar, spelling, and adherence to the general style of existing gget code.
-3. Format your code using [black](https://black.readthedocs.io/en/stable/getting_started.html).
+3. Format and lint your code with [pre-commit](https://pre-commit.com/) (powered by [ruff](https://docs.astral.sh/ruff/)). Install the hooks once with `prek install` (or `pre-commit install`) so they run automatically on every commit, or run them on demand with `prek run --all-files` (or `pre-commit run --all-files`).
 4. Make sure the unit tests pass:
-    - Developer dependencies can be installed with `pip install -r dev-requirements.txt`
-    - Run existing unit tests from the gget repository root with `coverage run -m pytest -ra -v tests && coverage report --omit=main.py,tests*`
+    - The tested environments are defined in `pyproject.toml` under `[tool.hatch.envs.hatch-test]` (the single source of truth used by CI). Run the full matrix with `uvx hatch test`.
+    - For a quick single-environment run, install the test dependencies with `uv sync --group test` and run `uv run pytest -ra -v --cov=gget --cov-report=term-missing tests`. To also exercise the `gget cellxgene` module, install its extra (`uv sync --group test --extra cellxgene`) on Python 3.12/3.13 — its dependency has no wheels for newer Python versions yet, and that test skips itself when the dependency is absent.
 5. Add new unit tests if applicable:
     - Arguments and expected results are stored in json files in ./tests/fixtures/
     - Unit tests can be added to ./tests/test_*.py and will be automatically detected
@@ -59,7 +59,7 @@ If you have any questions, feel free to start a [discussion](https://github.com/
 
 When you're finished with the changes, [create a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request), also known as a PR.
 
-‼️ Please make all PRs against the `dev` branch of the gget repository. 
+‼️ Please make all PRs against the `dev` branch of the gget repository.
 
 - Don't forget to [link PR to issue](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue) if you are solving one.
 - Enable the checkbox to [allow maintainer edits](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/allowing-changes-to-a-pull-request-branch-created-from-a-fork) so the branch can be updated for a merge.

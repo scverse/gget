@@ -9,7 +9,7 @@ Return format: dictionary/JSON.
 `species`  
 Species for which the FTPs will be fetched in the format genus_species, e.g. homo_sapiens.  
 Supports all available vertebrate and invertebrate (plants, fungi, protists, and invertebrate metazoa) genomes from Ensembl, except bacteria.  
-Note: Not required when using flags `--list_species` or `--list_iv_species`.   
+Note: Not required when using flags `--list_species` or `--list_iv_species`.  
 Supported shortcuts: 'human', 'mouse', 'human_grch37' (accesses the GRCh37 genome assembly)
 
 **Optional arguments**  
@@ -26,34 +26,34 @@ Possible entries are one or a combination (as comma-separated list) of the follo
 `-r` `--release`  
 Defines the Ensembl release number from which the files are fetched, e.g. 104. Default: latest Ensembl release.  
 
-`-od` `--out_dir`   
+`-od` `--out_dir`  
 Path to the directory where the FTPs will be saved, e.g. path/to/directory/. Default: Current working directory.
 
-`-o` `--out`    
+`-o` `--out`  
 Path to the JSON file the results will be saved in, e.g. path/to/directory/results.json. Default: Standard out.  
 Python: `save=True` will save the output in the current working directory.
 
 **Flags**  
-`-l` `--list_species`   
+`-l` `--list_species`  
 Lists all available vertebrate species. (Python: combine with `species=None`.)  
 
-`-liv` `--list_iv_species`   
+`-liv` `--list_iv_species`  
 Lists all available invertebrate species. (Python: combine with `species=None`.)  
 
-`-ftp` `--ftp`   
+`-ftp` `--ftp`  
 Returns only the requested FTP links.  
 
-`-d` `--download`   
+`-d` `--download`  
 Command-line only. Downloads the requested FTPs to the directory specified by `out_dir` (requires [curl](https://curl.se/docs/) to be installed).
 
-`-q` `--quiet`   
+`-q` `--quiet`  
 Command-line only. Prevents progress information from being displayed.  
-Python: Use `verbose=False` to prevent progress information from being displayed. 
-  
-  
+Python: Use `verbose=False` to prevent progress information from being displayed.
+
+
 ### Examples
 
-**Get the genome reference for a specific species:**   
+**Get the genome reference for a specific species:**  
 ```bash
 gget ref -w gtf,dna homo_sapiens
 ```
@@ -93,7 +93,7 @@ gget ref --list_species -r 103
 # Python
 gget.ref(species=None, list_species=True, release=103)
 ```
-&rarr; Returns a list with all available genomes (checks if GTF and FASTAs are available) from Ensembl release 103.   
+&rarr; Returns a list with all available genomes (checks if GTF and FASTAs are available) from Ensembl release 103.  
 (If no release is specified, `gget ref` will always return information from the latest Ensembl release.)  
 
 <br/><br/>
@@ -111,7 +111,7 @@ kb ref \
 #### [More examples](https://github.com/pachterlab/gget_examples)
 
 # References
-If you use `gget ref` in a publication, please cite the following articles:   
+If you use `gget ref` in a publication, please cite the following articles:  
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
 

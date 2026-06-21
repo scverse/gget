@@ -1,27 +1,27 @@
+import json as json_package
+
 import numpy as np
 import pandas as pd
-import json as json_package
 import requests
 from bs4 import BeautifulSoup
 
 # Custom functions
 from .utils import (
-    rest_query,
-    get_uniprot_info,
-    wrap_cols_func,
     get_pdb_ids,
-    set_up_logger,
+    get_uniprot_info,
     post_query,
+    set_up_logger,
+    wrap_cols_func,
 )
 
 logger = set_up_logger()
 
 # Constants
-from .constants import (
-    ENSEMBL_REST_API,
-    UNIPROT_REST_API,
-    NCBI_URL,
+from .constants import (  # noqa: E402
     DEFAULT_REQUESTS_TIMEOUT,
+    ENSEMBL_REST_API,
+    NCBI_URL,
+    UNIPROT_REST_API,
 )
 
 
@@ -38,8 +38,7 @@ def info(
     expand=False,
     ensembl_only=False,
 ):
-    """
-    Fetch gene and transcript metadata using Ensembl IDs.
+    """Fetch gene and transcript metadata using Ensembl IDs.
 
     Args:
     - ens_ids       One or more Ensembl IDs to look up (string or list of strings).
@@ -66,9 +65,7 @@ def info(
             )
     if ensembl_only:
         if verbose:
-            logger.warning(
-                "'ensembl_only' argument deprecated! Please use arguments 'ncbi=False' and 'uniprot=False'."
-            )
+            logger.warning("'ensembl_only' argument deprecated! Please use arguments 'ncbi=False' and 'uniprot=False'.")
 
     # Set synonyms found by each database initially to none
     ncbi_synonyms = None
@@ -84,11 +81,10 @@ def info(
     # Define Ensembl REST API server
     server = ENSEMBL_REST_API
     # Define type of returned content from REST
-    content_type = "application/json"
 
     ## Clean up Ensembl IDs
     # If single Ensembl ID passed as string, convert to list
-    if type(ens_ids) == str:
+    if isinstance(ens_ids, str):
         ens_ids = [ens_ids]
     # Remove Ensembl ID version if passed
     ens_ids_clean = []
@@ -124,7 +120,7 @@ def info(
     results_dict = post_query(server, endpoint, query)
     results_dict = {k: v for k, v in results_dict.items() if v is not None}
 
-    for ensembl_ID, df_temp in results_dict.items():
+    for ensembl_ID, df_temp in results_dict.items():  # noqa: B007
         try:
             # Add Ensembl ID with latest version number to df_temp
             df_temp["ensembl_id"] = str(df_temp["id"]) + "." + str(df_temp["version"])
@@ -133,11 +129,7 @@ def info(
             df_temp["ensembl_id"] = str(df_temp["id"])
 
     # second pass for ids that were not found in the initial query
-    ens_ids_clean_tmp = [
-        ensembl_ID
-        for ensembl_ID in ens_ids_clean
-        if ensembl_ID not in results_dict.keys()
-    ]
+    ens_ids_clean_tmp = [ensembl_ID for ensembl_ID in ens_ids_clean if ensembl_ID not in results_dict.keys()]
 
     if len(ens_ids_clean_tmp) > 0:
         # print(f"Second pass for ids: {ens_ids_clean_tmp}")
@@ -146,12 +138,10 @@ def info(
         results_dict_new = post_query(server, endpoint, query)
         results_dict_new = {k: v for k, v in results_dict_new.items() if v is not None}
 
-        for ensembl_ID, df_temp in results_dict_new.items():
+        for ensembl_ID, df_temp in results_dict_new.items():  # noqa: B007
             try:
                 # Add Ensembl ID with latest version number to df_temp
-                df_temp["ensembl_id"] = (
-                    str(df_temp["id"]) + "." + str(df_temp["version"])
-                )
+                df_temp["ensembl_id"] = str(df_temp["id"]) + "." + str(df_temp["version"])
             except KeyError:
                 # Just add Ensembl ID if no version found
                 df_temp["ensembl_id"] = str(df_temp["id"])
@@ -164,14 +154,10 @@ def info(
             ens_ids_clean_2.append(ensembl_ID)
         else:
             if verbose:
-                logger.warning(
-                    f"ID '{ensembl_ID}' not found. Please double-check spelling/arguments and try again."
-                )
+                logger.warning(f"ID '{ensembl_ID}' not found. Please double-check spelling/arguments and try again.")
 
     # rewrite results to be in the input order
-    results_dict = {
-        ensembl_ID: results_dict[ensembl_ID] for ensembl_ID in ens_ids_clean_2
-    }
+    results_dict = {ensembl_ID: results_dict[ensembl_ID] for ensembl_ID in ens_ids_clean_2}
 
     master_dict.update(results_dict)
 
@@ -199,15 +185,11 @@ def info(
             if fetch_uniprot is True:
                 try:
                     # Get gene names and descriptions from UniProt
-                    df_uniprot = get_uniprot_info(
-                        UNIPROT_REST_API, ens_id, verbose=verbose
-                    )
+                    df_uniprot = get_uniprot_info(UNIPROT_REST_API, ens_id, verbose=verbose)
 
-                except Exception as e:
+                except Exception as e:  # noqa: BLE001
                     if verbose:
-                        logger.warning(
-                            f"UniProt server request for ID '{ens_id}' returned the following error:\n{e}"
-                        )
+                        logger.warning(f"UniProt server request for ID '{ens_id}' returned the following error:\n{e}")
                     continue
 
                 if not isinstance(df_uniprot, type(None)):
@@ -224,9 +206,7 @@ def info(
 
                     # Get uniprot synonyms and remove NaN values
                     uni_synonyms = df_uniprot["uni_synonyms"].values[0]
-                    uni_synonyms = [
-                        item for item in uni_synonyms if not (pd.isnull(item)) == True
-                    ]
+                    uni_synonyms = [item for item in uni_synonyms if not (pd.isnull(item))]
 
                     # Transpose UniProt data frame and add Ensembl ID as column name
                     df_uniprot = df_uniprot.T
@@ -254,12 +234,9 @@ def info(
                     # Check for error message in NCBI return
                     if (
                         soup.find("li", class_="error icon") is not None
-                        and "An error has occured"
-                        in soup.find("li", class_="error icon").text.strip()
+                        and "An error has occured" in soup.find("li", class_="error icon").text.strip()
                     ):
-                        error_message = soup.find(
-                            "li", class_="error icon"
-                        ).text.strip()
+                        error_message = soup.find("li", class_="error icon").text.strip()
 
                         logger.error(
                             f"The NCBI server request for Ensembl ID '{ens_id}' returned the following error:\n{error_message}"
@@ -272,9 +249,7 @@ def info(
 
                     # Check if NCBI gene ID is available
                     try:
-                        ncbi_gene_id = soup.find("input", {"id": "gene-id-value"}).get(
-                            "value"
-                        )
+                        ncbi_gene_id = soup.find("input", {"id": "gene-id-value"}).get("value")
                     except AttributeError:
                         ncbi_gene_id = np.nan
 
@@ -302,7 +277,7 @@ def info(
                     except AttributeError:
                         ncbi_synonyms = None
 
-                except Exception as e:
+                except Exception as e:  # noqa: BLE001
                     logger.error(
                         f"The NCBI server request for Ensembl ID '{ens_id}' returned the following error:\n{e}"
                     )
@@ -329,7 +304,7 @@ def info(
                 try:
                     pdb_ids = get_pdb_ids(ens_id)
 
-                except Exception as e:
+                except Exception as e:  # noqa: BLE001
                     if verbose:
                         logger.warning(
                             f"The PDBe server request for Ensembl ID '{ens_id}' returned the following error:\n{e}"
@@ -352,7 +327,7 @@ def info(
             if ncbi_synonyms is not None and not isinstance(df_uniprot, type(None)):
                 synonyms = list(set().union(uni_synonyms, ncbi_synonyms))
                 # Remove nan values
-                synonyms = [item for item in synonyms if not (pd.isnull(item)) == True]
+                synonyms = [item for item in synonyms if not (pd.isnull(item))]
 
             # Add only UniProt synonyms if NCBI syns not available
             elif ncbi_synonyms is None and not isinstance(df_uniprot, type(None)):
@@ -370,7 +345,7 @@ def info(
             # Sort synonyms alphabetically (if sortable)
             try:
                 synonyms = sorted(synonyms)
-            except:
+            except Exception:  # noqa: BLE001
                 pass
 
             # Append dataframes with data from NCBI, UniProt and PDB from ens_id to df_temp
@@ -448,34 +423,32 @@ def info(
                 try:
                     try:
                         # Add Transcript ID with latest version if available
-                        versioned_trans_id = (
-                            str(trans_dict["id"]) + "." + str(trans_dict["version"])
-                        )
+                        versioned_trans_id = str(trans_dict["id"]) + "." + str(trans_dict["version"])
                         all_transcripts.append(versioned_trans_id)
                     except KeyError:
                         # Just add ID if no version found
                         all_transcripts.append(trans_dict["id"])
-                except:
+                except Exception:  # noqa: BLE001
                     all_transcripts.append(np.nan)
                 try:
                     transcript_names.append(trans_dict["display_name"])
-                except:
+                except Exception:  # noqa: BLE001
                     transcript_names.append(np.nan)
                 try:
                     transcript_biotypes.append(trans_dict["biotype"])
-                except:
+                except Exception:  # noqa: BLE001
                     transcript_biotypes.append(np.nan)
                 try:
                     transcript_starts.append(trans_dict["start"])
-                except:
+                except Exception:  # noqa: BLE001
                     transcript_starts.append(np.nan)
                 try:
                     transcript_ends.append(trans_dict["end"])
-                except:
+                except Exception:  # noqa: BLE001
                     transcript_ends.append(np.nan)
                 try:
                     transcript_strands.append(trans_dict["strand"])
-                except:
+                except Exception:  # noqa: BLE001
                     transcript_strands.append(np.nan)
 
             data["all_transcripts"].append(all_transcripts)
@@ -485,7 +458,7 @@ def info(
             data["transcript_starts"].append(transcript_starts)
             data["transcript_ends"].append(transcript_ends)
 
-        except:
+        except Exception:  # noqa: BLE001
             data["all_transcripts"].append(np.nan)
             data["transcript_biotypes"].append(np.nan)
             data["transcript_names"].append(np.nan)
@@ -502,29 +475,27 @@ def info(
                 try:
                     try:
                         # Add ID with latest version if available
-                        versioned_id = (
-                            str(exon_dict["id"]) + "." + str(exon_dict["version"])
-                        )
+                        versioned_id = str(exon_dict["id"]) + "." + str(exon_dict["version"])
                         all_exons.append(versioned_id)
                     except KeyError:
                         # Just add ID if no version found
                         all_exons.append(exon_dict["id"])
-                except:
+                except Exception:  # noqa: BLE001
                     all_exons.append(np.nan)
                 try:
                     exon_starts.append(exon_dict["start"])
-                except:
+                except Exception:  # noqa: BLE001
                     exon_starts.append(np.nan)
                 try:
                     exon_ends.append(exon_dict["end"])
-                except:
+                except Exception:  # noqa: BLE001
                     exon_ends.append(np.nan)
 
             data["all_exons"].append(all_exons)
             data["exon_starts"].append(exon_starts)
             data["exon_ends"].append(exon_ends)
 
-        except:
+        except Exception:  # noqa: BLE001
             data["all_exons"].append(np.nan)
             data["exon_starts"].append(np.nan)
             data["exon_ends"].append(np.nan)
@@ -538,37 +509,33 @@ def info(
                 try:
                     try:
                         # Add ID with latest version if available
-                        versioned_id = (
-                            str(transl_dict["id"]) + "." + str(transl_dict["version"])
-                        )
+                        versioned_id = str(transl_dict["id"]) + "." + str(transl_dict["version"])
                         all_translations.append(versioned_id)
                     except KeyError:
                         # Just add ID if no version found
                         all_translations.append(transl_dict["id"])
-                except:
+                except Exception:  # noqa: BLE001
                     all_translations.append(np.nan)
                 try:
                     translation_starts.append(transl_dict["start"])
-                except:
+                except Exception:  # noqa: BLE001
                     translation_starts.append(np.nan)
                 try:
                     translation_ends.append(transl_dict["end"])
-                except:
+                except Exception:  # noqa: BLE001
                     translation_ends.append(np.nan)
 
             data["all_translations"].append(all_translations)
             data["translation_starts"].append(translation_starts)
             data["translation_ends"].append(translation_ends)
 
-        except:
+        except Exception:  # noqa: BLE001
             data["all_translations"].append(np.nan)
             data["translation_starts"].append(np.nan)
             data["translation_ends"].append(np.nan)
 
     # Append cleaned up info to df_final
-    df_final = pd.concat(
-        [df_final, pd.DataFrame.from_dict(data, orient="index", columns=ens_ids)]
-    )
+    df_final = pd.concat([df_final, pd.DataFrame.from_dict(data, orient="index", columns=ens_ids)])
 
     ## Transpose data frame so each row corresponds to one Ensembl ID
     df_final = df_final.T
@@ -617,6 +584,7 @@ def info(
                 transcript_strands or [],
                 transcript_starts or [],
                 transcript_ends or [],
+                strict=False,
             ):
                 results_dict[ens_id]["all_transcripts"].append(
                     {
@@ -641,9 +609,7 @@ def info(
 
             # Build new dictionary entries
             results_dict[ens_id].update({"all_exons": []})
-            for exon_id, exon_start, exon_end in zip(
-                exon_ids or [], exon_starts or [], exon_ends or []
-            ):
+            for exon_id, exon_start, exon_end in zip(exon_ids or [], exon_starts or [], exon_ends or [], strict=False):
                 results_dict[ens_id]["all_exons"].append(
                     {"exon_id": exon_id, "exon_start": exon_start, "exon_end": exon_end}
                 )
@@ -661,7 +627,7 @@ def info(
             # Build new dictionary entries
             results_dict[ens_id].update({"all_translations": []})
             for translation_id, translation_start, translation_end in zip(
-                translation_ids or [], translation_starts or [], translation_ends or []
+                translation_ids or [], translation_starts or [], translation_ends or [], strict=False
             ):
                 results_dict[ens_id]["all_translations"].append(
                     {
