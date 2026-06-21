@@ -12,8 +12,14 @@ jobs:
     steps:
       # Stable filename (no date suffix) so each monthly run overwrites the
       # previous Google Drive object instead of stacking up new ones.
+      # NOTE: avoid the `echo \"...\"` form the original used — those literal
+      # backslash-escaped quotes ended up in the filename itself, so every
+      # historic backup was uploaded as `"owner-repo-backup-DATE.tar.gz"`
+      # (with literal " characters as part of the name).
       - name: Set backup filename
-        run: echo "BACKUP_FILE=$(echo \"${{ github.repository }}-backup.tar.gz\" | sed 's/\//-/g')" >> $GITHUB_ENV
+        run: |
+          REPO="${{ github.repository }}"
+          echo "BACKUP_FILE=${REPO//\//-}-backup.tar.gz" >> $GITHUB_ENV
 
       - name: Clone the repository (mirror all branches and history)
         run: |
