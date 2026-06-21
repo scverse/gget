@@ -303,27 +303,21 @@ def search(
     except AttributeError:
         df = df.applymap(clean_cols)
 
-    # Keep synonyms always of type list for consistency
+    # Keep synonyms always of type list for consistency, and normalize NaN
+    # inside the list to None so an empty-synonym row is [None] rather than
+    # [nan]. (SQL LEFT JOIN on external_synonym surfaces missing rows as NaN.)
     df["synonym"] = [
-        np.sort(syn).tolist() if isinstance(syn, list) else np.sort([syn]).tolist() for syn in df["synonym"].values
+        [None if pd.isna(item) else item
+         for item in np.sort(syn if isinstance(syn, list) else [syn]).tolist()]
+        for syn in df["synonym"].values
     ]
 
-    # Normalize missing values to None across the frame so output is stable:
-    # SQL LEFT JOINs surface unmatched rows as NaN in pandas, which then leaks
-    # into both scalar cells and the synonym lists ([nan] instead of [None]).
-    # Callers (and the JSON path) expect None.
-    def _nan_to_none(value):
-        if isinstance(value, list):
-            return [None if pd.isna(item) else item for item in value]
-        try:
-            return None if pd.isna(value) else value
-        except (TypeError, ValueError):
-            return value
-
-    try:
-        df = df.map(_nan_to_none)
-    except AttributeError:
-        df = df.applymap(_nan_to_none)
+    # Normalize scalar NaN -> None across the frame so output is stable.
+    # `astype(object)` first defeats pandas 2.1+ arrow-backed `str` columns,
+    # which would otherwise coerce assigned None back to NaN; list cells
+    # (synonym) are left untouched by .where since they are "not NA".
+    df = df.astype(object)
+    df = df.where(df.notna(), None)
 
     # If limit is not None, keep only the first {limit} rows
     if limit is not None:
