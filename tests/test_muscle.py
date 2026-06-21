@@ -1,10 +1,10 @@
+import contextlib
+import filecmp
+import os
 import unittest
 
 # Library to test functions that have calls to print()
 from unittest import mock
-import os
-import contextlib
-import filecmp
 
 from gget.gget_muscle import muscle
 
@@ -28,7 +28,7 @@ class TestMuscle(unittest.TestCase):
         )
 
     def tearDown(self):
-        super(TestMuscle, self).tearDown()
+        super().tearDown()
         # Delete temporary result file
         os.remove("tests/fixtures/tmp.afa")
 
@@ -48,11 +48,6 @@ class TestMuscle(unittest.TestCase):
             filecmp.cmp(out, ref_path, shallow=False),
             "The reference and muscle nucleotide alignment are not the same.",
         )
-
-    def tearDown(self):
-        super(TestMuscle, self).tearDown()
-        # Delete temporary result file
-        os.remove("tests/fixtures/tmp.afa")
 
 
 class TestMuscleSuper(unittest.TestCase):
@@ -74,7 +69,7 @@ class TestMuscleSuper(unittest.TestCase):
         )
 
     def tearDown(self):
-        super(TestMuscleSuper, self).tearDown()
+        super().tearDown()
         # Delete temporary result file
         os.remove("tests/fixtures/tmp.afa")
 
@@ -98,7 +93,7 @@ class TestMuscleAA(unittest.TestCase):
         )
 
     def tearDown(self):
-        super(TestMuscleAA, self).tearDown()
+        super().tearDown()
         # Delete temporary result file
         os.remove("tests/fixtures/tmp.afa")
 
@@ -127,7 +122,7 @@ class TestMuscleSeqsInput(unittest.TestCase):
         )
 
     def tearDown(self):
-        super(TestMuscleSeqsInput, self).tearDown()
+        super().tearDown()
         # Delete temporary result file
         os.remove("tests/fixtures/tmp.afa")
 
@@ -151,7 +146,7 @@ class TestMuscleAASuper(unittest.TestCase):
         )
 
     def tearDown(self):
-        super(TestMuscleAASuper, self).tearDown()
+        super().tearDown()
         # Delete temporary result file
         os.remove("tests/fixtures/tmp.afa")
 
@@ -167,6 +162,4 @@ class TestMusclePrints(unittest.TestCase):
             muscle(fasta)
             # print_mock.assert_called_with("\n")
             # print_mock.assert_called_with("test1\n", "\x1b[38;5;15m\x1b[48;5;9mA\x1b[0;0m")
-            print_mock.assert_called_with(
-                "test2\n", "\t", "\x1b[38;5;15m\x1b[48;5;9mA\x1b[0;0m"
-            )
+            print_mock.assert_called_with("test2\n", "\t", "\x1b[38;5;15m\x1b[48;5;9mA\x1b[0;0m")

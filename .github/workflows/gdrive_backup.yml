@@ -10,8 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Stable filename (no date suffix) so each monthly run overwrites the
+      # previous Google Drive object instead of stacking up new ones.
       - name: Set backup filename
-        run: echo "BACKUP_FILE=$(echo \"${{ github.repository }}-backup-$(date +%F).tar.gz\" | sed 's/\//-/g')" >> $GITHUB_ENV
+        run: echo "BACKUP_FILE=$(echo \"${{ github.repository }}-backup.tar.gz\" | sed 's/\//-/g')" >> $GITHUB_ENV
 
       - name: Clone the repository (mirror all branches and history)
         run: |
@@ -49,9 +51,16 @@ jobs:
             --config ~/.config/rclone/rclone.conf \
             service_account_file credentials.json || exit 1
 
-      - name: Upload archive to Google Drive
+      # `copyto` overwrites the file at the exact destination path. With
+      # --drive-use-trash=true the replaced version goes to Drive's trash
+      # (auto-purged after ~30 days), so we effectively keep the current
+      # backup plus the previous one as a safety net.
+      - name: Upload archive to Google Drive (overwriting previous backup)
         run: |
-          rclone copy "$BACKUP_FILE" gdrive:/GitHub_backups --drive-shared-with-me --verbose || exit 1
+          rclone copyto "$BACKUP_FILE" "gdrive:/GitHub_backups/$BACKUP_FILE" \
+            --drive-shared-with-me \
+            --drive-use-trash=true \
+            --verbose || exit 1
 
       - name: Clean up
         run: |

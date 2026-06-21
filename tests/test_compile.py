@@ -1,12 +1,9 @@
+import contextlib
+import os
 import unittest
 
 # Used here to mock different operating systems
-from unittest.mock import patch
-from unittest.mock import MagicMock
-
-import os
-import shutil
-import contextlib
+from unittest.mock import MagicMock, patch
 
 from gget.compile import compile_muscle
 
@@ -22,6 +19,7 @@ class TestCompilerWindows(unittest.TestCase):
                 # Using contextlib to silence stdout
                 with contextlib.redirect_stdout(open(os.devnull, "w")):
                     compile_muscle()
+
 
 ## The make command requires different programs for each OS, so these tests do not work universally
 # class TestCompilerLinux(unittest.TestCase):

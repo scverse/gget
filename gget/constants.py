@@ -29,6 +29,9 @@ UNIPROT_IDMAPPING_API = "https://rest.uniprot.org/idmapping"
 # RCSB PDB API for gget pdb
 RCSB_PDB_API = "https://data.rcsb.org/rest/v1/core/"
 
+# Genomics 2 Proteins (G2P) portal REST API for gget g2p
+G2P_API = "https://g2p.broadinstitute.org/api"
+
 # API to get PDB entries from Ensembl IDs
 ENS_TO_PDB_API = "https://www.ebi.ac.uk/pdbe/aggregated-api/mappings/ensembl_to_pdb/"
 
@@ -47,13 +50,11 @@ POST_BACKGROUND_ID_ENRICHR_URL = "https://maayanlab.cloud/speedrichr/api/addback
 GET_BACKGROUND_ENRICHR_URL = "https://maayanlab.cloud/speedrichr/api/backgroundenrich"
 
 POST_ENRICHR_URLS = {
-    f"{typ}": f"https://maayanlab.cloud/{typ.capitalize()}Enrichr/addList"
-    for typ in ["fly", "yeast", "worm", "fish"]
+    f"{typ}": f"https://maayanlab.cloud/{typ.capitalize()}Enrichr/addList" for typ in ["fly", "yeast", "worm", "fish"]
 }
 POST_ENRICHR_URLS["human"] = POST_ENRICHR_URL
 GET_ENRICHR_URLS = {
-    f"{typ}": f"https://maayanlab.cloud/{typ.capitalize()}Enrichr/enrich"
-    for typ in ["fly", "yeast", "worm", "fish"]
+    f"{typ}": f"https://maayanlab.cloud/{typ.capitalize()}Enrichr/enrich" for typ in ["fly", "yeast", "worm", "fish"]
 }
 GET_ENRICHR_URLS["human"] = GET_ENRICHR_URL
 
@@ -62,12 +63,8 @@ GENECORR_URL = "https://maayanlab.cloud/matrixapi/coltop"
 EXPRESSION_URL = "https://maayanlab.cloud/archs4/search/loadExpressionTissue.php?"
 
 # Download links for ELM database
-ELM_INSTANCES_FASTA_DOWNLOAD = (
-    "http://elm.eu.org/instances.fasta?q=*&taxon=&instance_logic="
-)
-ELM_INSTANCES_TSV_DOWNLOAD = (
-    "http://elm.eu.org/instances.tsv?q=*&taxon=&instance_logic="
-)
+ELM_INSTANCES_FASTA_DOWNLOAD = "http://elm.eu.org/instances.fasta?q=*&taxon=&instance_logic="
+ELM_INSTANCES_TSV_DOWNLOAD = "http://elm.eu.org/instances.tsv?q=*&taxon=&instance_logic="
 ELM_CLASSES_TSV_DOWNLOAD = "http://elm.eu.org/elms/elms_index.tsv"
 ELM_INTDOMAINS_TSV_DOWNLOAD = "http://elm.eu.org/interactiondomains.tsv"
 

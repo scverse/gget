@@ -1,37 +1,81 @@
 name: CI - tests
 
 on:
-  # Scheduled runs twice weekly.
-  # These runs execute tests on both Python versions, save the pytest output to a file,
-  # upload the file as an artifact, and commit the 3.12 report back to main.
+  # Scheduled twice weekly so the test report and badge stay fresh even when
+  # there is no recent activity.
   schedule:
     - cron: "0 16 * * 1,4"
 
-  # Push runs only when package code or tests change.
-  # These runs execute tests normally and fail immediately on test failure.
+  # Run post-merge on the integration branches only — pushes to a PR's feature
+  # branch are already covered by the pull_request event below, so scoping push
+  # to main/dev avoids running the suite twice for the same commit.
   push:
+    branches: [main, dev]
     paths:
       - "gget/**"
       - "tests/**"
-      # Avoid recursively triggering on committed pytest result files.
-      - "!tests/pytest_results_py*.txt"
+      - "pyproject.toml"
+      # Avoid recursively triggering on the bot-committed pytest report
+      # and tests badge JSON.
+      - "!tests/pytest_results.txt"
+      - "!.github/badges/tests.json"
+  # Run on every pull request into the integration branches.
+  pull_request:
+    branches: [main, dev]
+    paths:
+      - "gget/**"
+      - "tests/**"
+      - "pyproject.toml"
 
   # Manual runs behave like scheduled runs:
-  # save output, upload artifact, and optionally commit report back to main.
+  # save output, upload artifact, and commit report back.
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  build:
-    name: Test on Python ${{ matrix.python }}
-    runs-on: ubuntu-22.04
+  # Derive the test matrix from pyproject.toml ([tool.hatch.envs.hatch-test]),
+  # so the tested environments are defined in a single place and stay identical
+  # locally (`hatch test`) and in CI.
+  get-environments:
+    runs-on: ubuntu-latest
+    outputs:
+      envs: ${{ steps.get-envs.outputs.envs }}
+      # Highest Python version in the matrix. Used to gate the "canonical"
+      # per-run artifacts (pytest report commit, badge, fail-job) so they
+      # automatically follow the newest tested interpreter without hardcoding.
+      latest_python: ${{ steps.get-envs.outputs.latest_python }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+      - name: Get test environments from hatch
+        id: get-envs
+        run: |
+          ENVS_JSON=$(uvx hatch env show --json | jq -c 'to_entries
+            | map(select(.key | startswith("hatch-test")) | { name: .key, python: .value.python })')
+          # Version-aware max so 3.10 sorts after 3.9, not before.
+          LATEST_PY=$(echo "$ENVS_JSON" | jq -r '[.[].python] | sort_by(split(".") | map(tonumber)) | last')
+          echo "envs=${ENVS_JSON}" | tee "$GITHUB_OUTPUT"
+          echo "latest_python=${LATEST_PY}" | tee -a "$GITHUB_OUTPUT"
+
+  test:
+    needs: get-environments
+    name: ${{ matrix.env.name }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # commit pytest report back on scheduled/manual runs
+      id-token: write # codecov OIDC
 
     strategy:
       fail-fast: false
       matrix:
-        python: ["3.11", "3.12"]
+        env: ${{ fromJSON(needs.get-environments.outputs.envs) }}
 
     steps:
       - name: Checkout branch
@@ -39,95 +83,148 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup python
-        uses: actions/setup-python@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
         with:
-          python-version: ${{ matrix.python }}
+          python-version: ${{ matrix.env.python }}
 
-      - name: Install dependencies
-        run: |
-          python -m pip install -r requirements.txt
-          python -m pip install -r dev-requirements.txt
+      # Builds the environment (project + test dependency-group, plus the
+      # cellxgene extra only where pyproject says it is available).
+      - name: Create hatch test environment
+        run: uvx hatch env create ${{ matrix.env.name }}
 
-      # Push behavior:
-      # run pytest normally and let this step fail the job immediately if tests fail.
-      - name: Run tests on push
-        if: github.event_name == 'push'
-        run: |
-          pytest -ra -v --tb=long --durations=10 \
-            --cov=gget --cov-report=term-missing tests
-
-      # Scheduled/manual behavior:
-      # run pytest, save full output to a file, and capture the real pytest exit code.
-      #
-      # Important:
-      # - GitHub bash shells may stop on non-zero commands before later lines run.
-      # - We temporarily disable errexit with "set +e" so failed tests do not prevent
-      #   us from recording PIPESTATUS[0] and writing it to GITHUB_OUTPUT.
-      # - continue-on-error keeps later artifact/commit steps running.
-      - name: Run tests and save output for scheduled/manual runs
-        id: pytest_saved
-        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+      # Run tests on every event. The latest-Python leg additionally tees its
+      # output to tests/pytest_results.txt — the single canonical report that
+      # README/docs link to and the tests badge is generated from.
+      # continue-on-error + explicit exit code capture lets the badge / artifact
+      # / commit steps run even on test failure; the "Fail job if pytest failed"
+      # step at the bottom enforces the real outcome.
+      - name: Run tests
+        id: pytest_run
         continue-on-error: true
         shell: bash
+        env:
+          MPLBACKEND: agg
+          PY_VERSION: ${{ matrix.env.python }}
+          LATEST_PY: ${{ needs.get-environments.outputs.latest_python }}
+          HATCH_ENV: ${{ matrix.env.name }}
         run: |
           set -o pipefail
 
-          OUT="tests/pytest_results_py${{ matrix.python }}.txt"
-          echo "Pytest results (Python ${{ matrix.python }}) - $(date -u +"%Y-%m-%dT%H:%M:%SZ")" > "$OUT"
-          echo "" >> "$OUT"
-
-          set +e
-          pytest -ra -v --tb=long --durations=10 \
-            --cov=gget --cov-report=term-missing tests 2>&1 | tee -a "$OUT"
-          code=${PIPESTATUS[0]}
-          set -e
+          if [ "$PY_VERSION" = "$LATEST_PY" ]; then
+            OUT="tests/pytest_results.txt"
+            mkdir -p tests
+            {
+              echo "Pytest results (Python ${PY_VERSION}) - $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+              echo ""
+            } > "$OUT"
+            set +e
+            uvx hatch run "${HATCH_ENV}":run-cov -ra -v --durations=10 2>&1 | tee -a "$OUT"
+            code=${PIPESTATUS[0]}
+            set -e
+          else
+            set +e
+            uvx hatch run "${HATCH_ENV}":run-cov -ra -v --durations=10
+            code=$?
+            set -e
+          fi
 
           echo "exit_code=$code" >> "$GITHUB_OUTPUT"
           echo "pytest exit code: $code"
-
-          # Do not fail here; a later step fails the job after artifacts/report handling.
           exit 0
 
-      # Upload the saved pytest report as an artifact.
-      # Only do this once (3.12) to avoid duplicate artifacts from the matrix.
+      # Coverage upload is best-effort: a failure here must not mask the test
+      # result (which is handled by the steps above/below).
+      - name: Generate coverage report
+        if: always()
+        continue-on-error: true
+        run: |
+          test -f .coverage || uvx hatch run ${{ matrix.env.name }}:cov-combine
+          uvx hatch run ${{ matrix.env.name }}:coverage xml
+
+      - name: Upload coverage to Codecov
+        if: always()
+        uses: codecov/codecov-action@v6
+        with:
+          use_oidc: true
+          fail_ci_if_error: false
+
+      # Parse the saved pytest summary into a shields.io endpoint JSON so the
+      # README "tests" badge can render "<passed>/<total> passing". Runs on
+      # every event for the latest-Python leg; commit-back below is what
+      # actually publishes the JSON to main.
+      - name: Generate tests badge JSON
+        if: always() && matrix.env.python == needs.get-environments.outputs.latest_python
+        shell: bash
+        run: |
+          mkdir -p .github/badges
+          python - <<'PY'
+          import json, pathlib, re
+          txt = pathlib.Path("tests/pytest_results.txt").read_text()
+          # Final pytest summary line, e.g. "==== 150 passed, 2 failed in 45.67s ===="
+          summary = next(
+              (l for l in reversed(txt.splitlines()) if re.match(r"=+ .+ in [\d.]+s.* =+", l)),
+              "",
+          )
+          counts = {"passed": 0, "failed": 0, "error": 0, "skipped": 0, "xfailed": 0, "xpassed": 0}
+          for n, k in re.findall(r"(\d+) (passed|failed|errors?|skipped|xfailed|xpassed)", summary):
+              counts["error" if k.startswith("error") else k] = int(n)
+          total = sum(counts.values())
+          passed = counts["passed"]
+          bad = counts["failed"] + counts["error"]
+          if not total:
+              msg, color = "no results", "lightgrey"
+          elif bad == 0:
+              msg, color = f"{passed}/{total} passing", "brightgreen"
+          else:
+              msg = f"{passed}/{total} passing"
+              color = "yellow" if passed >= 0.9 * total else "red"
+          pathlib.Path(".github/badges/tests.json").write_text(
+              json.dumps({"schemaVersion": 1, "label": "tests", "message": msg, "color": color}) + "\n"
+          )
+          print(msg, color)
+          PY
+
+      # Upload the saved pytest report as an artifact on every event.
+      # Only once (latest Python) to avoid duplicate artifacts from the matrix.
       - name: Upload pytest results artifact
-        if: always() && matrix.python == '3.12' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        if: always() && matrix.env.python == needs.get-environments.outputs.latest_python
         uses: actions/upload-artifact@v4
         with:
-          name: pytest-results-py${{ matrix.python }}
-          path: tests/pytest_results_py${{ matrix.python }}.txt
+          name: pytest-results
+          path: tests/pytest_results.txt
 
-      # Commit the saved pytest report back to the repository.
+      # Commit the saved pytest report + badge JSON back to the repository.
       # Safety guards:
-      # - only on scheduled/manual runs
-      # - only once (3.12) to avoid matrix push races
+      # - skipped on pull_request: forks have a read-only token, and we don't
+      #   want bot commits churning PR branches anyway
+      # - only once (latest Python) to avoid matrix push races
       # - commits back to the branch that the run was triggered from
       # Retry logic helps if the branch moved while this job was running.
       - name: Commit and push pytest results
         if: >
           always() &&
-          matrix.python == '3.12' &&
-          (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+          matrix.env.python == needs.get-environments.outputs.latest_python &&
+          github.event_name != 'pull_request'
         shell: bash
         run: |
           set -euo pipefail
-      
+
           BRANCH="${GITHUB_REF#refs/heads/}"
           echo "Current branch: $BRANCH"
-      
+
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-      
-          git add tests/pytest_results_py*.txt
-      
+
+          git add tests/pytest_results.txt .github/badges/tests.json
+
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
           fi
-      
+
           git commit -m "CI: update pytest results ($BRANCH)"
-      
+
           for attempt in 1 2 3 4 5; do
             echo "Push attempt $attempt..."
             git pull --rebase --autostash origin "$BRANCH" || true
@@ -136,21 +233,19 @@ jobs:
             fi
             sleep $((attempt * 5))
           done
-      
+
           echo "Push failed after retries."
           exit 1
 
-      # After scheduled/manual runs, explicitly fail the job if pytest failed.
-      # This step is separate so that artifact upload and report commit can still happen
-      # even when tests fail.
+      # Explicitly fail the job if pytest failed. Separated from the pytest
+      # step itself so that badge / artifact / commit steps still run on failure.
       - name: Fail job if pytest failed
-        if: always() && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        if: always()
         shell: bash
         run: |
-          code="${{ steps.pytest_saved.outputs.exit_code }}"
+          code="${{ steps.pytest_run.outputs.exit_code }}"
           echo "Captured pytest exit code: ${code:-<missing>}"
 
-          # Missing output means something went wrong before exit code capture.
           if [ -z "${code:-}" ]; then
             echo "pytest exit code was not captured"
             exit 1
@@ -159,3 +254,17 @@ jobs:
           if [ "$code" != "0" ]; then
             exit "$code"
           fi
+
+  # Single gate job so branch protection can require one stable check name
+  # instead of every matrix entry. See https://github.com/re-actors/alls-green.
+  check:
+    name: Tests pass
+    if: always()
+    needs:
+      - get-environments
+      - test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}

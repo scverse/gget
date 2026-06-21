@@ -52,7 +52,7 @@ body:
     id: m1
     attributes:
       label: Are you using a computer with an Apple M1 chip?
-      description: We are asking this because the M1 chip has been causing [problems](https://github.com/pachterlab/gget/issues/30) for some `gget alphafold` dependencies.
+      description: We are asking this because the M1 chip has been causing [problems](https://github.com/scverse/gget/issues/30) for some `gget alphafold` dependencies.
       options:
         - Not M1
         - M1

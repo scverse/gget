@@ -1,32 +1,30 @@
-import requests
-import pandas as pd
-import subprocess
+import base64
+import getpass
+import gzip
+import json as json_package
 import os
 import re
-import json as json_package
-import base64
 import shutil
+import subprocess
 import tarfile
-import gzip
-import getpass
+
+import pandas as pd
 
 # Constants
-from .constants import COSMIC_GET_URL
-from .utils import set_up_logger, get_latest_cosmic
+from .utils import get_latest_cosmic, set_up_logger
 
 logger = set_up_logger()
 
 
 def is_valid_email(email):
-    """
-    Check if an e-mail address is valid.
-    """
+    """Check if an e-mail address is valid."""
     email_pattern = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
 
     return re.match(email_pattern, email) is not None
 
 
-def download_reference(download_link, tar_folder_path, file_path, verbose, email = None, password = None, unzip = False):
+def download_reference(download_link, tar_folder_path, file_path, verbose, email=None, password=None, unzip=False):
+    """Download a COSMIC reference file using email/password authentication, extract the tar, and optionally unzip it."""
     if not email:
         email = input("Please enter your COSMIC email: ")
     if not is_valid_email(email):
@@ -56,19 +54,17 @@ def download_reference(download_link, tar_folder_path, file_path, verbose, email
     except json_package.JSONDecodeError:
         raise RuntimeError(
             "Failed to download file. Please double-check arguments (especially cosmic_version) and try again."
-        )
+        ) from None
     try:
         true_download_url = response_data.get("url")
     except AttributeError:
-        raise AttributeError("Invalid username or password.")
+        raise AttributeError("Invalid username or password.") from None
 
     curl_command2 = ["curl", true_download_url, "--output", f"{tar_folder_path}.tar"]
     result2 = subprocess.run(curl_command2, capture_output=True, text=True)
 
     if result2.returncode != 0:
-        raise RuntimeError(
-            f"Failed to download file. Return code: {result2.returncode}\n{result2.stderr}"
-        )
+        raise RuntimeError(f"Failed to download file. Return code: {result2.returncode}\n{result2.stderr}")
 
     with tarfile.open(f"{tar_folder_path}.tar", "r") as tar:
         tar.extractall(path=tar_folder_path)
@@ -84,8 +80,17 @@ def download_reference(download_link, tar_folder_path, file_path, verbose, email
 
 
 def select_reference(
-    cosmic_project, reference_dir, grch_version, cosmic_version, verbose, email = None, password = None, unzip = True, overwrite = None
+    cosmic_project,
+    reference_dir,
+    grch_version,
+    cosmic_version,
+    verbose,
+    email=None,
+    password=None,
+    unzip=True,
+    overwrite=None,
 ):
+    """Resolve the download link and paths for the requested COSMIC project, then download and extract the database, returning the file path and overwrite flag."""
     # if cosmic_project == "transcriptome":
     #     download_link = f"https://cancer.sanger.ac.uk/api/mono/products/v1/downloads/scripted?path=grch{grch_version}/cosmic/v{cosmic_version}/Cosmic_Genes_Fasta_v{cosmic_version}_GRCh{grch_version}.tar&bucket=downloads"
     #     tarred_folder = f"Cosmic_Genes_Fasta_v{cosmic_version}_GRCh{grch_version}"
@@ -93,20 +98,16 @@ def select_reference(
 
     if cosmic_project == "cancer":
         if grch_version == 38:
-            logger.error(
-                "CancerMutationCensus data is only available for GRCh37. Define grch_version=37."
-            )
+            logger.error("CancerMutationCensus data is only available for GRCh37. Define grch_version=37.")
         download_link = f"https://cancer.sanger.ac.uk/api/mono/products/v1/downloads/scripted?path=grch{grch_version}/cmc/v{cosmic_version}/CancerMutationCensus_AllData_Tsv_v{cosmic_version}_GRCh{grch_version}.tar&bucket=downloads"
-        tarred_folder = (
-            f"CancerMutationCensus_AllData_Tsv_v{cosmic_version}_GRCh{grch_version}"
-        )
-        contained_file = (
-            f"CancerMutationCensus_AllData_v{cosmic_version}_GRCh{grch_version}.tsv"
-        )
+        tarred_folder = f"CancerMutationCensus_AllData_Tsv_v{cosmic_version}_GRCh{grch_version}"
+        contained_file = f"CancerMutationCensus_AllData_v{cosmic_version}_GRCh{grch_version}.tsv"
         if str(cosmic_version) == "100":  # special treatment due to v2
             download_link = download_link.replace(".tar&bucket=downloads", "_v2.tar&bucket=downloads")
             tarred_folder += "_v2"
-        if str(cosmic_version) == "99" or str(cosmic_version) == "100":  # special treatment due to link difference - path=GRCh37 instead of path=grch37
+        if (
+            str(cosmic_version) == "99" or str(cosmic_version) == "100"
+        ):  # special treatment due to link difference - path=GRCh37 instead of path=grch37
             download_link = download_link.replace(f"path=grch{grch_version}", f"path=GRCh{grch_version}")
 
     elif cosmic_project == "cell_line":
@@ -121,21 +122,13 @@ def select_reference(
 
     elif cosmic_project == "resistance":
         download_link = f"https://cancer.sanger.ac.uk/api/mono/products/v1/downloads/scripted?path=grch{grch_version}/cosmic/v{cosmic_version}/Cosmic_ResistanceMutations_Tsv_v{cosmic_version}_GRCh{grch_version}.tar&bucket=downloads"
-        tarred_folder = (
-            f"Cosmic_ResistanceMutations_Tsv_v{cosmic_version}_GRCh{grch_version}"
-        )
-        contained_file = (
-            f"Cosmic_ResistanceMutations_v{cosmic_version}_GRCh{grch_version}.tsv"
-        )
+        tarred_folder = f"Cosmic_ResistanceMutations_Tsv_v{cosmic_version}_GRCh{grch_version}"
+        contained_file = f"Cosmic_ResistanceMutations_v{cosmic_version}_GRCh{grch_version}.tsv"
 
     elif cosmic_project == "genome_screen":
         download_link = f"https://cancer.sanger.ac.uk/api/mono/products/v1/downloads/scripted?path=grch{grch_version}/cosmic/v{cosmic_version}/Cosmic_GenomeScreensMutant_Tsv_v{cosmic_version}_GRCh{grch_version}.tar&bucket=downloads"
-        tarred_folder = (
-            f"Cosmic_GenomeScreensMutant_Tsv_v{cosmic_version}_GRCh{grch_version}"
-        )
-        contained_file = (
-            f"Cosmic_GenomeScreensMutant_v{cosmic_version}_GRCh{grch_version}.tsv"
-        )
+        tarred_folder = f"Cosmic_GenomeScreensMutant_Tsv_v{cosmic_version}_GRCh{grch_version}"
+        contained_file = f"Cosmic_GenomeScreensMutant_v{cosmic_version}_GRCh{grch_version}.tsv"
 
     elif cosmic_project == "targeted_screen":
         download_link = f"https://cancer.sanger.ac.uk/api/mono/products/v1/downloads/scripted?path=grch{grch_version}/cosmic/v{cosmic_version}/Cosmic_CompleteTargetedScreensMutant_Tsv_v{cosmic_version}_GRCh{grch_version}.tar&bucket=downloads"
@@ -178,7 +171,7 @@ def select_reference(
             f"{tar_folder_path}.tar",
             download_link,
         ]
-        result = subprocess.run(curl_command, capture_output=True, text=True)
+        subprocess.run(curl_command, capture_output=True, text=True)
 
         with tarfile.open(f"{tar_folder_path}.tar", "r") as tar:
             tar.extractall(path=tar_folder_path)
@@ -198,18 +191,20 @@ def select_reference(
                 .lower()
             )
         if proceed in ["yes", "y"]:
-            download_reference(download_link, tar_folder_path, file_path, verbose, email = email, password = password, unzip = unzip)
+            download_reference(
+                download_link, tar_folder_path, file_path, verbose, email=email, password=password, unzip=unzip
+            )
         else:
             raise KeyboardInterrupt(
-                f"Database download canceled. Learn more about COSMIC at https://cancer.sanger.ac.uk/cosmic/download/cosmic."
+                "Database download canceled. Learn more about COSMIC at https://cancer.sanger.ac.uk/cosmic/download/cosmic."
             )
 
     return file_path, overwrite
 
 
 def make_exact_match_mask(df, searchterm_lower, cols_to_check):
-    """
-    Build a boolean mask for rows where any of the specified columns match the search term exactly.
+    """Build a boolean mask for rows where any of the specified columns match the search term exactly.
+
     Handles special case for ACCESSION_NUMBER to match both with and without version.
     Allows for columns in cols_to_check to be missing from the DataFrame.
     """
@@ -251,9 +246,7 @@ def make_exact_match_mask(df, searchterm_lower, cols_to_check):
 
 
 def query_local_cosmic(cosmic_tsv_path, cosmic_project, searchterm, limit):
-    """
-    Search the local COSMIC mutation census file for matching entries.
-    """
+    """Search the local COSMIC mutation census file for matching entries."""
     df = pd.read_csv(cosmic_tsv_path, sep="\t", low_memory=False)
     searchterm_lower = searchterm.lower()
     results = []
@@ -261,25 +254,22 @@ def query_local_cosmic(cosmic_tsv_path, cosmic_project, searchterm, limit):
     def match_and_limit(mask, extract_fn):
         for _, row in df[mask].head(limit).iterrows():
             results.append(extract_fn(row))
-    
-    if cosmic_project in ["cancer", "cancer_example"]:
 
+    if cosmic_project in ["cancer", "cancer_example"]:
         # Columns to check for search term
         cols_to_check = [
-            "GENE_NAME", 
-            "ACCESSION_NUMBER", 
-            "LEGACY_MUTATION_ID", 
-            "Mutation CDS", 
+            "GENE_NAME",
+            "ACCESSION_NUMBER",
+            "LEGACY_MUTATION_ID",
+            "Mutation CDS",
             "Mutation AA",
-            "GENOMIC_MUTATION_ID"
-            ]
+            "GENOMIC_MUTATION_ID",
+        ]
         mask = make_exact_match_mask(df, searchterm_lower, cols_to_check)
 
-        match_and_limit(mask, lambda row: {
-            col.replace(" ", "_"): row[col]
-            for col in row.index
-            if not col.startswith("__")
-        })
+        match_and_limit(
+            mask, lambda row: {col.replace(" ", "_"): row[col] for col in row.index if not col.startswith("__")}
+        )
 
     elif cosmic_project in ["census", "resistance", "cell_line", "genome_screen", "targeted_screen", "other"]:
         # Columns to check for search term
@@ -292,24 +282,24 @@ def query_local_cosmic(cosmic_tsv_path, cosmic_project, searchterm, limit):
             "GENOMIC_MUTATION_ID",
             "LEGACY_MUTATION_ID",
             "SAMPLE_NAME",
-            "MUTATION_CDS", 
-            "MUTATION_AA", 
+            "MUTATION_CDS",
+            "MUTATION_AA",
             "MUTATION_ID",
-            "COSMIC_STUDY_ID"
-            ]
+            "COSMIC_STUDY_ID",
+        ]
         mask = make_exact_match_mask(df, searchterm_lower, cols_to_check)
 
-        match_and_limit(mask, lambda row: {
-            col.replace(" ", "_"): row[col]
-            for col in row.index
-            if not col.startswith("__")
-        })
+        match_and_limit(
+            mask, lambda row: {col.replace(" ", "_"): row[col] for col in row.index if not col.startswith("__")}
+        )
 
     else:
         raise ValueError(f"Unsupported cosmic_project: {cosmic_project}")
-    
+
     if len(results) == 0:
-        raise ValueError(f"No results were found for searchterm '{searchterm}' and cosmic_project '{cosmic_project}' in COSMIC database file (cosmic_tsv_path) '{cosmic_tsv_path}'.")
+        raise ValueError(
+            f"No results were found for searchterm '{searchterm}' and cosmic_project '{cosmic_project}' in COSMIC database file (cosmic_tsv_path) '{cosmic_tsv_path}'."
+        )
 
     return results
 
@@ -332,10 +322,10 @@ def cosmic(
     mutation_column="mutation",
     mut_id_column="mutation_id",
     out=None,
-    verbose=True
+    verbose=True,
 ):
-    """
-    Search for genes, mutations, etc associated with cancers using the COSMIC
+    """Search for genes, mutations, etc associated with cancers using the COSMIC database.
+
     (Catalogue Of Somatic Mutations In Cancer) database
     (https://cancer.sanger.ac.uk/cosmic).
     NOTE: Licence fees apply for the commercial use of COSMIC (https://www.cosmickb.org/licensing).
@@ -373,7 +363,7 @@ def cosmic(
                         Examples: EGFR, ENST00000275493, c.650A>T, p.Q217L, COSV51765119, BT2012100223LNCTB (sample ID)
                         NOTE: Set to None when downloading COSMIC databases with download_cosmic=True.
     - cosmic_tsv_path   (str) Path to the COSMIC mutation tsv file, e.g. 'path/to/CancerMutationCensus_AllData_v101_GRCh37.tsv'.
-                        This file is downloaded when downloading COSMIC databases using the arguments described above. 
+                        This file is downloaded when downloading COSMIC databases using the arguments described above.
                         NOTE: This is a required argument when download_cosmic=False.
     - limit             (int) Number of hits to return. Default: 100
     - json              (True/False) If True, returns results in json format instead of data frame. Default: False
@@ -387,7 +377,6 @@ def cosmic(
                       - When download_cosmic=True: Database will be downloaded into current working directory
     - verbose         (True/False) whether to print progress information. Default: True
     """
-
     if verbose:
         logger.info("NOTE: Licence fees apply for the commercial use of COSMIC (https://www.cosmickb.org/licensing).")
 
@@ -396,7 +385,9 @@ def cosmic(
         if not cosmic_project:
             cosmic_project = "cancer"
             if verbose:
-                logger.info(f"No cosmic_project provided. Defaulting to cosmic_project '{cosmic_project}' (also works for 'cancer_example').")
+                logger.info(
+                    f"No cosmic_project provided. Defaulting to cosmic_project '{cosmic_project}' (also works for 'cancer_example')."
+                )
 
         mut_class_allowed = [
             "cancer",
@@ -412,11 +403,9 @@ def cosmic(
                 f"Parameter 'cosmic_project' must be one of the following: {', '.join(mut_class_allowed)}.\n"
             )
 
-        grch_allowed = ['37', '38']
+        grch_allowed = ["37", "38"]
         if str(grch_version) not in grch_allowed:
-            raise ValueError(
-                f"Parameter 'grch_version' must be one of the following: {', '.join(grch_allowed)}.\n"
-            )
+            raise ValueError(f"Parameter 'grch_version' must be one of the following: {', '.join(grch_allowed)}.\n")
 
         if not out:
             out = os.getcwd()
@@ -427,21 +416,17 @@ def cosmic(
         if not cosmic_version:
             cosmic_version = get_latest_cosmic()
             if verbose:
-                logger.info(
-                    f"Downloading data from latest COSMIC version (v{cosmic_version})."
-                )
+                logger.info(f"Downloading data from latest COSMIC version (v{cosmic_version}).")
 
         ## Download requested database
         mutation_tsv_file, overwrite = select_reference(
-            cosmic_project, out, grch_version, cosmic_version, verbose, email = email, password = password
+            cosmic_project, out, grch_version, cosmic_version, verbose, email=email, password=password
         )
 
         if gget_mutate and overwrite is not False:
             ## Create copy of results formatted for further use by gget mutate
             if verbose:
-                logger.info(
-                    "Creating modified mutations file for use with gget mutate..."
-                )
+                logger.info("Creating modified mutations file for use with gget mutate...")
 
             if cosmic_project == "cancer" or cosmic_project == "cancer_example":
                 relevant_cols = [
@@ -494,23 +479,16 @@ def cosmic(
                     #     }
                     # )
 
-                    from gget.gget_mutate import mutation_pattern, convert_chromosome_value_to_int_when_possible
                     import numpy as np
 
-                    # * uncomment to include strand information (tested not to be accurate for CMC)
-                    df[["chromosome", "GENOME_POS"]] = df[
-                        "Mutation genome position GRCh37"
-                    ].str.split(":", expand=True)
-                    df["chromosome"] = df["chromosome"].apply(
-                        convert_chromosome_value_to_int_when_possible
-                    )
-                    df[["GENOME_START", "GENOME_STOP"]] = df["GENOME_POS"].str.split(
-                        "-", expand=True
-                    )
+                    from gget.gget_mutate import convert_chromosome_value_to_int_when_possible, mutation_pattern
 
-                    df[["nucleotide_positions", "actual_mutation"]] = df[
-                        "mutation"
-                    ].str.extract(mutation_pattern)
+                    # * uncomment to include strand information (tested not to be accurate for CMC)
+                    df[["chromosome", "GENOME_POS"]] = df["Mutation genome position GRCh37"].str.split(":", expand=True)
+                    df["chromosome"] = df["chromosome"].apply(convert_chromosome_value_to_int_when_possible)
+                    df[["GENOME_START", "GENOME_STOP"]] = df["GENOME_POS"].str.split("-", expand=True)
+
+                    df[["nucleotide_positions", "actual_mutation"]] = df["mutation"].str.extract(mutation_pattern)
 
                     sub_mask = df["actual_mutation"].str.contains(">")
                     ins_mask = (df["actual_mutation"].str.contains("ins")) & (
@@ -520,16 +498,12 @@ def cosmic(
                     ins_delins_mask = ins_mask | delins_mask
                     sub_ins_delins_mask = sub_mask | ins_delins_mask
 
-                    df.loc[sub_mask, "wt_allele_cds"] = (
-                        df.loc[sub_mask, "actual_mutation"].str.split(">").str[0]
-                    )
-                    df.loc[sub_mask, "mut_allele_cds"] = (
-                        df.loc[sub_mask, "actual_mutation"].str.split(">").str[1]
-                    )
+                    df.loc[sub_mask, "wt_allele_cds"] = df.loc[sub_mask, "actual_mutation"].str.split(">").str[0]
+                    df.loc[sub_mask, "mut_allele_cds"] = df.loc[sub_mask, "actual_mutation"].str.split(">").str[1]
 
-                    df.loc[ins_delins_mask, "mut_allele_cds"] = df.loc[
-                        ins_delins_mask, "actual_mutation"
-                    ].str.extract(r"ins(.+)")[0]
+                    df.loc[ins_delins_mask, "mut_allele_cds"] = df.loc[ins_delins_mask, "actual_mutation"].str.extract(
+                        r"ins(.+)"
+                    )[0]
 
                     df["strand"] = np.nan
 
@@ -545,13 +519,9 @@ def cosmic(
                     )
 
                     df.loc[sub_mask, "actual_mutation_updated"] = (
-                        df.loc[sub_mask, "GENOMIC_WT_ALLELE_SEQ"]
-                        + ">"
-                        + df.loc[sub_mask, "GENOMIC_MUT_ALLELE_SEQ"]
+                        df.loc[sub_mask, "GENOMIC_WT_ALLELE_SEQ"] + ">" + df.loc[sub_mask, "GENOMIC_MUT_ALLELE_SEQ"]
                     )
-                    df.loc[ins_mask, "actual_mutation_updated"] = (
-                        "ins" + df.loc[ins_mask, "GENOMIC_MUT_ALLELE_SEQ"]
-                    )
+                    df.loc[ins_mask, "actual_mutation_updated"] = "ins" + df.loc[ins_mask, "GENOMIC_MUT_ALLELE_SEQ"]
                     df.loc[delins_mask, "actual_mutation_updated"] = (
                         "delins" + df.loc[delins_mask, "GENOMIC_MUT_ALLELE_SEQ"]
                     )
@@ -577,14 +547,10 @@ def cosmic(
                         + "_"
                         + df["GENOME_STOP"].astype(str)
                         + df["actual_mutation_final"],
-                        "g."
-                        + df["GENOME_START"].astype(str)
-                        + df["actual_mutation_final"],
+                        "g." + df["GENOME_START"].astype(str) + df["actual_mutation_final"],
                     )
 
-                    df.loc[
-                        df["Mutation genome position GRCh37"].isna(), "mutation_genome"
-                    ] = np.nan
+                    df.loc[df["Mutation genome position GRCh37"].isna(), "mutation_genome"] = np.nan
 
                     df.drop(
                         columns=[
@@ -635,9 +601,7 @@ def cosmic(
             df = df.drop(columns=["GENE_NAME", "MUTATION_ID"])
 
             if remove_duplicates:
-                duplicate_count = (
-                    df.duplicated(subset=["seq_ID", "mutation"], keep=False).sum() // 2
-                )
+                duplicate_count = df.duplicated(subset=["seq_ID", "mutation"], keep=False).sum() // 2
                 print(
                     f"Removing {duplicate_count} duplicate entries from the COSMIC csv for gget mutate: {duplicate_count}"
                 )
@@ -657,9 +621,7 @@ def cosmic(
             df.to_csv(mutate_csv_out, index=False)
 
             if verbose:
-                logger.info(
-                    f"Modified mutations file for use with gget mutate created at {mutate_csv_out}"
-                )
+                logger.info(f"Modified mutations file for use with gget mutate created at {mutate_csv_out}")
 
     else:
         # Old code from when COSMIC was acccessible without an account:
@@ -677,7 +639,7 @@ def cosmic(
         #     raise ValueError(
         #         f"'entity' argument specified as {entity}. Expected one of: {', '.join(sps)}"
         #     )
-        
+
         # # Translate categories to match COSMIC data table IDs
         # if entity == "cancer":
         #     entity = "disease"
@@ -847,7 +809,7 @@ def cosmic(
         #             counter = counter + 1
         #             if limit < counter:
         #                 break
-        
+
         # Check if cosmic_tsv_path exists
         if not cosmic_tsv_path or not os.path.exists(cosmic_tsv_path):
             example_call_python = f"gget.cosmic(download_cosmic=True, searchterm=None, cosmic_project='{cosmic_project}', grch_version={grch_version}, cosmic_version={cosmic_version or get_latest_cosmic()})"
@@ -868,7 +830,9 @@ def cosmic(
             else:
                 cosmic_project = "other"
                 if verbose:
-                    logger.info(f"No cosmic_project provided. Defaulting to cosmic_project '{cosmic_project}' (incapsulates all mutation classes except 'cancer' and 'cancer_example').")
+                    logger.info(
+                        f"No cosmic_project provided. Defaulting to cosmic_project '{cosmic_project}' (incapsulates all mutation classes except 'cancer' and 'cancer_example')."
+                    )
 
         # Query local COSMIC database
         dicts = query_local_cosmic(cosmic_tsv_path, cosmic_project, searchterm, limit)

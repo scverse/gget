@@ -27,7 +27,7 @@ Para descargas en caché de SARS-CoV-2 y Alphainfluenza, se admite:
 
 Use la opción `--download_all_accessions` para aplicar filtros sin buscar un virus específico.
 
-**Argumentos opcionales**   
+**Argumentos opcionales**  
 
 _Filtros de hospedador_  
 
@@ -279,8 +279,8 @@ gget virus "SARS-CoV-2" --host human --nuc_completeness complete --min_seq_lengt
 import gget
 
 gget.virus(
-  "SARS-CoV-2", 
-  host="human", 
+  "SARS-CoV-2",
+  host="human",
   nuc_completeness="complete",
   min_seq_length=29000,
   genbank_metadata=True,
@@ -303,8 +303,8 @@ gget virus "Influenza A virus" --host human --nuc_completeness complete --max_se
 import gget
 
 gget.virus(
-  "Influenza A virus", 
-  host="human", 
+  "Influenza A virus",
+  host="human",
   nuc_completeness="complete",
   max_seq_length=15000,
   genbank_metadata=True,

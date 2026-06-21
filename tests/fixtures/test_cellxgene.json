@@ -323,5 +323,42 @@
                 true
             ]
         ]
+    },
+    "test_cellxgene_metadata_macaca_mulatta": {
+        "type": "assert_equal",
+        "args": {
+            "species": "macaca_mulatta",
+            "tissue": "midbrain",
+            "cell_type": "oligodendrocyte",
+            "meta_only": true,
+            "census_version": "2025-11-08"
+        },
+        "expected_result": [
+            ["d87ba7ec-fddf-4141-abfd-1d69e8427a42", "sci-RNA-seq3", "nucleus", "female", "brain", "midbrain", "oligodendrocyte", "normal", true],
+            ["d87ba7ec-fddf-4141-abfd-1d69e8427a42", "sci-RNA-seq3", "nucleus", "female", "brain", "midbrain", "oligodendrocyte", "normal", true],
+            ["d87ba7ec-fddf-4141-abfd-1d69e8427a42", "sci-RNA-seq3", "nucleus", "female", "brain", "midbrain", "oligodendrocyte", "normal", true],
+            ["d87ba7ec-fddf-4141-abfd-1d69e8427a42", "sci-RNA-seq3", "nucleus", "female", "brain", "midbrain", "oligodendrocyte", "normal", true],
+            ["d87ba7ec-fddf-4141-abfd-1d69e8427a42", "sci-RNA-seq3", "nucleus", "female", "brain", "midbrain", "oligodendrocyte", "normal", true],
+            ["d87ba7ec-fddf-4141-abfd-1d69e8427a42", "sci-RNA-seq3", "nucleus", "female", "brain", "midbrain", "oligodendrocyte", "normal", true],
+            ["d87ba7ec-fddf-4141-abfd-1d69e8427a42", "sci-RNA-seq3", "nucleus", "female", "brain", "midbrain", "oligodendrocyte", "normal", true],
+            ["d87ba7ec-fddf-4141-abfd-1d69e8427a42", "sci-RNA-seq3", "nucleus", "female", "brain", "midbrain", "oligodendrocyte", "normal", true],
+            ["d87ba7ec-fddf-4141-abfd-1d69e8427a42", "sci-RNA-seq3", "nucleus", "female", "brain", "midbrain", "oligodendrocyte", "normal", true],
+            ["d87ba7ec-fddf-4141-abfd-1d69e8427a42", "sci-RNA-seq3", "nucleus", "female", "brain", "midbrain", "oligodendrocyte", "normal", true],
+            ["d87ba7ec-fddf-4141-abfd-1d69e8427a42", "sci-RNA-seq3", "nucleus", "female", "brain", "midbrain", "oligodendrocyte", "normal", true],
+            ["d87ba7ec-fddf-4141-abfd-1d69e8427a42", "sci-RNA-seq3", "nucleus", "female", "brain", "midbrain", "oligodendrocyte", "normal", true],
+            ["d87ba7ec-fddf-4141-abfd-1d69e8427a42", "sci-RNA-seq3", "nucleus", "female", "brain", "midbrain", "oligodendrocyte", "normal", true],
+            ["d87ba7ec-fddf-4141-abfd-1d69e8427a42", "sci-RNA-seq3", "nucleus", "female", "brain", "midbrain", "oligodendrocyte", "normal", true],
+            ["d87ba7ec-fddf-4141-abfd-1d69e8427a42", "sci-RNA-seq3", "nucleus", "female", "brain", "midbrain", "oligodendrocyte", "normal", true],
+            ["d87ba7ec-fddf-4141-abfd-1d69e8427a42", "sci-RNA-seq3", "nucleus", "female", "brain", "midbrain", "oligodendrocyte", "normal", true],
+            ["d87ba7ec-fddf-4141-abfd-1d69e8427a42", "sci-RNA-seq3", "nucleus", "female", "brain", "midbrain", "oligodendrocyte", "normal", true],
+            ["d87ba7ec-fddf-4141-abfd-1d69e8427a42", "sci-RNA-seq3", "nucleus", "female", "brain", "midbrain", "oligodendrocyte", "normal", true],
+            ["d87ba7ec-fddf-4141-abfd-1d69e8427a42", "sci-RNA-seq3", "nucleus", "female", "brain", "midbrain", "oligodendrocyte", "normal", true],
+            ["d87ba7ec-fddf-4141-abfd-1d69e8427a42", "sci-RNA-seq3", "nucleus", "female", "brain", "midbrain", "oligodendrocyte", "normal", true],
+            ["d87ba7ec-fddf-4141-abfd-1d69e8427a42", "sci-RNA-seq3", "nucleus", "female", "brain", "midbrain", "oligodendrocyte", "normal", true],
+            ["d87ba7ec-fddf-4141-abfd-1d69e8427a42", "sci-RNA-seq3", "nucleus", "female", "brain", "midbrain", "oligodendrocyte", "normal", true],
+            ["d87ba7ec-fddf-4141-abfd-1d69e8427a42", "sci-RNA-seq3", "nucleus", "female", "brain", "midbrain", "oligodendrocyte", "normal", true],
+            ["d87ba7ec-fddf-4141-abfd-1d69e8427a42", "sci-RNA-seq3", "nucleus", "female", "brain", "midbrain", "oligodendrocyte", "normal", true],
+            ["d87ba7ec-fddf-4141-abfd-1d69e8427a42", "sci-RNA-seq3", "nucleus", "female", "brain", "midbrain", "oligodendrocyte", "normal", true]
+        ]
     }
 }

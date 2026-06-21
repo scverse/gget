@@ -1,14 +1,16 @@
 from __future__ import annotations
 
 import unittest
+
 unittest.TestCase.maxDiff = 10_000
 
 # from typing import Callable, Any, Optional, Union
-import logging
-import pandas as pd
-import sys
-import json
-import hashlib
+import hashlib  # noqa: E402
+import json  # noqa: E402
+import logging  # noqa: E402
+import sys  # noqa: E402
+
+import pandas as pd  # noqa: E402
 
 # Here's a question: how many errors does Copilot know? Answer: see below.
 _KNOWN_ERRORS = {
@@ -66,16 +68,17 @@ def _assert_equal(name, td, func):
         result_to_test = do_call(func, td[test]["args"])
         if test == "test_cosmic_defaults":  # special case for cosmic
             import numpy as np
+
             expected_result = pd.DataFrame(expected_result[0])
             expected_result = expected_result.replace({None: np.nan})
             # result_to_test.equals(expected_result)
             pd.testing.assert_frame_equal(result_to_test, expected_result, check_dtype=False)
             return
-        
+
         # If result is a DataFrame, convert to list
         if isinstance(result_to_test, pd.DataFrame):
             result_to_test = result_to_test.dropna(axis=1).values.tolist()
-        
+
         self.assertEqual(result_to_test, expected_result)
 
     return assert_equal
@@ -117,10 +120,7 @@ def _assert_none(name, td, func):
             self.assertIn(
                 expected_log,
                 joined,
-                msg=(
-                    f"Expected log substring {expected_log!r} not found. "
-                    f"Captured: {joined}"
-                ),
+                msg=(f"Expected log substring {expected_log!r} not found. Captured: {joined}"),
             )
         else:
             result_to_test = do_call(func, td[test]["args"])
@@ -154,9 +154,7 @@ def _assert_equal_nested(name, td, func):
         result_to_test = do_call(func, td[test]["args"])
         # If result is a DataFrame, convert to json (nested dataframes prevent easy listification)
         if isinstance(result_to_test, pd.DataFrame):
-            result_to_test = json.loads(
-                result_to_test.to_json(orient="records", force_ascii=False)
-            )
+            result_to_test = json.loads(result_to_test.to_json(orient="records", force_ascii=False))
 
         self.assertEqual(result_to_test, expected_result)
 
@@ -170,9 +168,7 @@ def _assert_equal_json_hash_nested(name, td, func):
         result_to_test = do_call(func, td[test]["args"])
         # If result is a DataFrame, convert to json (nested dataframes prevent easy listification)
         if isinstance(result_to_test, pd.DataFrame):
-            result_to_test = json.loads(
-                result_to_test.to_json(orient="records", force_ascii=False)
-            )
+            result_to_test = json.loads(result_to_test.to_json(orient="records", force_ascii=False))
 
         result_to_test = json.dumps(result_to_test)
         result_to_test = hashlib.md5(result_to_test.encode()).hexdigest()
@@ -180,6 +176,7 @@ def _assert_equal_json_hash_nested(name, td, func):
         self.assertEqual(result_to_test, expected_result)
 
     return assert_equal_json_hash_nested
+
 
 def _assert_equal_json_with_keys(name, td, func):
     def assert_equal_json_with_keys(self: unittest.TestCase):
@@ -194,10 +191,10 @@ def _assert_equal_json_with_keys(name, td, func):
                 if all(isinstance(i, list) and len(i) == 2 for i in x):
                     try:
                         x = {i[0]: i[1] for i in x}
-                    except Exception:
+                    except Exception:  # noqa: BLE001
                         try:
                             x = {i[1]: i[0] for i in x}
-                        except Exception:
+                        except Exception:  # noqa: BLE001
                             pass
 
                 # Collapse singleton wrappers such as:
@@ -218,16 +215,14 @@ def _assert_equal_json_with_keys(name, td, func):
                 return x
 
             return x
-        
+
         test = name
-        
+
         expected_result = td[test]["expected_result"]
         result_to_test = do_call(func, td[test]["args"])
         if isinstance(result_to_test, pd.DataFrame):
             result_to_test = json.loads(
-                result_to_test.dropna(axis=1, how="all").to_json(
-                    orient="records", force_ascii=False
-                )
+                result_to_test.dropna(axis=1, how="all").to_json(orient="records", force_ascii=False)
             )
 
         result_to_test = normalize(result_to_test)
@@ -240,19 +235,12 @@ def _assert_equal_json_with_keys(name, td, func):
         keys = list(expected_result[0].keys())
 
         # Convert list-of-lists → list-of-dicts
-        if (
-            isinstance(result_to_test, list)
-            and len(result_to_test) > 0
-            and isinstance(result_to_test[0], list)
-        ):
-            result_to_test = [dict(zip(keys, row)) for row in result_to_test]
+        if isinstance(result_to_test, list) and len(result_to_test) > 0 and isinstance(result_to_test[0], list):
+            result_to_test = [dict(zip(keys, row, strict=False)) for row in result_to_test]
 
         # Optional: float rounding
         def round_dict(d, ndigits=10):
-            return {
-                k: round(v, ndigits) if isinstance(v, float) else v
-                for k, v in d.items()
-            }
+            return {k: round(v, ndigits) if isinstance(v, float) else v for k, v in d.items()}
 
         result_to_test = [round_dict(r) for r in result_to_test]
         expected_result = [round_dict(r) for r in expected_result]
@@ -261,12 +249,13 @@ def _assert_equal_json_with_keys(name, td, func):
 
     return assert_equal_json_with_keys
 
+
 def _error(name, td, func):
     try:
         # noinspection PyPep8Naming
         Error = td[name]["expected_result"]
     except KeyError:
-        raise ValueError("Error test must have an 'expected_result' key.")
+        raise ValueError("Error test must have an 'expected_result' key.") from None
 
     if Error not in _KNOWN_ERRORS:
         raise ValueError(f"Unknown error type: {Error}")
@@ -275,9 +264,7 @@ def _error(name, td, func):
     Error = _KNOWN_ERRORS[Error]
 
     if "expected_msg" not in td[name]:
-        print(
-            f"^ Warning: 'error' test should have an 'expected_msg' key, but test '{name}' lacks one."
-        )
+        print(f"^ Warning: 'error' test should have an 'expected_msg' key, but test '{name}' lacks one.")
 
     def error(self: unittest.TestCase):
         test = name
@@ -286,9 +273,7 @@ def _error(name, td, func):
         the_exception = cm.exception
 
         if "expected_msg" in td[test]:
-            self.assertEqual(
-                td[test]["expected_msg"], str(the_exception), f"Error message mismatch"
-            )
+            self.assertEqual(td[test]["expected_msg"], str(the_exception), "Error message mismatch")
 
     return error
 
@@ -329,9 +314,7 @@ def from_json(
                 type_ = v["type"]
                 if type_ == "code_defined":
                     if k not in dct:
-                        raise ValueError(
-                            f"Test {k} is not defined in code, despite being of type 'code_defined'."
-                        )
+                        raise ValueError(f"Test {k} is not defined in code, despite being of type 'code_defined'.")
                     continue
                 if type_ in local_types:
                     if not k.startswith("test_"):
@@ -360,9 +343,7 @@ def from_json(
                     print(f"Loaded test {k} of type {type_} from json.")
                 else:
                     if k not in dct:
-                        raise ValueError(
-                            f"Unknown test type: {type_} and no test method defined."
-                        )
+                        raise ValueError(f"Unknown test type: {type_} and no test method defined.")
                     print(f"Unknown test type: {type_}", file=sys.stderr)
 
             return super().__new__(cls, name, bases, dct)
