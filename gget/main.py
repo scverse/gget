@@ -35,11 +35,30 @@ from .gget_opentargets import OPENTARGETS_RESOURCES, opentargets  # noqa: E402
 from .gget_pdb import pdb  # noqa: E402
 
 # Module functions
-from .gget_ref import ref  # noqa: E402
-from .gget_search import search  # noqa: E402
-from .gget_seq import seq  # noqa: E402
-from .gget_setup import setup  # noqa: E402
-from .gget_virus import virus  # noqa: E402
+from .gget_ref import ref
+from .gget_search import search
+from .gget_info import info
+from .gget_seq import seq
+from .gget_muscle import muscle
+from .gget_blast import blast
+from .gget_blat import blat
+from .gget_enrichr import enrichr
+from .gget_archs4 import archs4
+from .gget_alphafold import alphafold
+from .gget_setup import setup
+from .gget_pdb import pdb
+from .gget_gpt import gpt
+from .gget_cellxgene import cellxgene
+from .gget_elm import elm
+from .gget_diamond import diamond
+from .gget_cosmic import cosmic
+from .gget_mutate import mutate
+from .gget_opentargets import opentargets, OPENTARGETS_RESOURCES
+from .gget_cbio import cbio_plot, cbio_search
+from .gget_bgee import bgee
+from .gget_g2p import g2p
+from .gget_8cube import specificity, psi_block, gene_expression
+from .gget_virus import virus
 
 
 # Custom formatter for help messages that preserved the text formatting and adds the default value to the end of the help message
@@ -2324,6 +2343,77 @@ def main():
         help="Does not print progress information.",
     )
 
+    ## g2p parser arguments
+    g2p_desc = "Query the Genomics 2 Proteins (G2P) portal for residue-level protein structure/function annotations."
+    parser_g2p = parent_subparsers.add_parser(
+        "g2p",
+        parents=[parent],
+        description=g2p_desc,
+        help=g2p_desc,
+        add_help=True,
+        formatter_class=CustomHelpFormatter,
+    )
+    parser_g2p.add_argument(
+        "gene",
+        type=str,
+        help="Gene symbol, e.g. BRCA1.",
+    )
+    parser_g2p.add_argument(
+        "-u",
+        "--uniprot_id",
+        type=str,
+        required=True,
+        help="UniProt accession, e.g. P38398. For '--resource alignment' this is the canonical isoform (e.g. P01130-1). Find it with `gget info`.",
+    )
+    parser_g2p.add_argument(
+        "-r",
+        "--resource",
+        type=str,
+        choices=["features", "map", "alignment"],
+        default="features",
+        required=False,
+        help=(
+            "Type of information to return (default: features):\n"
+            "'features': per-residue feature table (AlphaFold pLDDT, UniProt sites, etc.).\n"
+            "'map': gene -> transcript -> protein isoform -> structure map.\n"
+            "'alignment': residue-level alignment between two isoforms (requires --isoform)."
+        ),
+    )
+    parser_g2p.add_argument(
+        "-i",
+        "--isoform",
+        type=str,
+        default=None,
+        required=False,
+        help="Alternative isoform UniProt accession (e.g. P01130-2). Required for '--resource alignment'.",
+    )
+    parser_g2p.add_argument(
+        "-o",
+        "--out",
+        type=str,
+        required=False,
+        help=(
+            "Path to the file the results will be saved in, e.g. path/to/directory/results.json.\n"
+            "Default: Standard out."
+        ),
+    )
+    parser_g2p.add_argument(
+        "-csv",
+        "--csv",
+        default=False,
+        action="store_true",
+        required=False,
+        help="Returns results in csv format instead of json.",
+    )
+    parser_g2p.add_argument(
+        "-q",
+        "--quiet",
+        default=True,
+        action="store_false",
+        required=False,
+        help="Does not print progress information.",
+    )
+
     ## gget 8cube subparser
     cube_desc = "Query 8cubeDB (https://eightcubedb.onrender.com/)."
     parser_8cube = parent_subparsers.add_parser(
@@ -2849,6 +2939,7 @@ def main():
         "setup": parser_setup,
         "alphafold": parser_alphafold,
         "pdb": parser_pdb,
+        "g2p": parser_g2p,
         "gpt": parser_gpt,
         "cellxgene": parser_cellxgene,
         "elm": parser_elm,
@@ -3716,6 +3807,40 @@ def main():
                 bgee_results.to_csv(sys.stdout, index=False)
             else:
                 print(bgee_results.to_json(orient="records", force_ascii=False, indent=4))
+
+    ## g2p return
+    if args.command == "g2p":
+        g2p_results: pd.DataFrame = g2p(
+            args.gene,
+            uniprot_id=args.uniprot_id,
+            resource=args.resource,
+            isoform=args.isoform,
+            verbose=args.quiet,
+        )
+
+        if g2p_results is None:
+            return
+
+        if args.out is not None and args.out != "":
+            # Make saving directory
+            directory = os.path.dirname(args.out)
+            if directory != "":
+                os.makedirs(directory, exist_ok=True)
+
+            with open(args.out, "w", encoding="utf-8") as f:
+                if args.csv:
+                    g2p_results.to_csv(f, index=False)
+                else:
+                    g2p_results.to_json(
+                        f, orient="records", force_ascii=False, indent=4
+                    )
+        else:
+            if args.csv:
+                g2p_results.to_csv(sys.stdout, index=False)
+            else:
+                print(
+                    g2p_results.to_json(orient="records", force_ascii=False, indent=4)
+                )
 
     ## 8cube return
     if args.command == "8cube":

@@ -8,6 +8,8 @@
   - Note: the new primate species require `census_version="2025-11-08"` (LTS) or newer.
 - Docs/README: updated `gget` repository and manual URLs from `pachterlab` to `scverse` (`github.com/scverse/gget`, `scverse.org/gget`) to reflect the project's move under the scverse organization. Links to separate resources (`pachterlab/gget_examples`, `pachterlab/kvar`, `pachterlab/varseek`, and the Pachter Lab homepage) were left unchanged. Resolves [issue 217](https://github.com/scverse/gget/issues/217).
     
+- [`gget g2p`](g2p.md): **New module** to query the [Genomics 2 Proteins (G2P) portal](https://g2p.broadinstitute.org/) for residue-level protein structure/function annotations — per-residue features (AlphaFold pLDDT, UniProt sites, predicted pockets, PTMs), the gene–transcript–protein–isoform–structure map, and isoform alignments. Resolves [issue 138](https://github.com/scverse/gget/issues/138).
+
 **Version ≥ 0.30.6** (Jun 10, 2026):
 - [`gget blat`](blat.md): Improved resilience against UCSC BLAT endpoint failures (fixes intermittently failing tests).
   - Added retry-with-exponential-backoff for transient failures (HTTP 429/5xx, network errors, and non-JSON 200 responses caused by UCSC rate-limiting or HTML error pages). Up to 4 attempts with 1.5s → 3s → 6s backoff.
