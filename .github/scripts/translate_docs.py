@@ -16,6 +16,8 @@ from pathlib import Path
 
 from anthropic import Anthropic
 
+MODEL = "claude-sonnet-4-6"
+
 EN_DIR = "docs/src/en"
 ES_DIR = "docs/src/es"
 
@@ -196,7 +198,7 @@ def clean_model_output(text):
 def translate_new_file(client, en_content, filename, ref_block):
     """Translate a complete English file to Spanish."""
     response = client.messages.create(
-        model="claude-sonnet-4-20250514",
+        model=MODEL,
         max_tokens=16384,
         messages=[
             {
@@ -221,7 +223,7 @@ def translate_new_file(client, en_content, filename, ref_block):
 def translate_diff(client, diff_text, en_content, es_content, filename, ref_block):
     """Apply only the changed parts of an English file to its Spanish counterpart."""
     response = client.messages.create(
-        model="claude-sonnet-4-20250514",
+        model=MODEL,
         max_tokens=16384,
         messages=[
             {
