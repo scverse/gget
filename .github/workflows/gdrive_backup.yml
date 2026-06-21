@@ -51,15 +51,16 @@ jobs:
             --config ~/.config/rclone/rclone.conf \
             service_account_file credentials.json || exit 1
 
-      # `copyto` overwrites the file at the exact destination path. With
-      # --drive-use-trash=true the replaced version goes to Drive's trash
-      # (auto-purged after ~30 days), so we effectively keep the current
-      # backup plus the previous one as a safety net.
+      # `copyto` overwrites the file at the exact destination path.
+      # --drive-use-trash=false permanently deletes the replaced version
+      # instead of moving it to the service account's trash, which is what
+      # we want here because service accounts have a 0-byte storage quota
+      # and trashed files still count against it.
       - name: Upload archive to Google Drive (overwriting previous backup)
         run: |
           rclone copyto "$BACKUP_FILE" "gdrive:/GitHub_backups/$BACKUP_FILE" \
             --drive-shared-with-me \
-            --drive-use-trash=true \
+            --drive-use-trash=false \
             --verbose || exit 1
 
       - name: Clean up
