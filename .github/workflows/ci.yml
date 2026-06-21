@@ -1,8 +1,8 @@
 name: CI - tests
 
 on:
-  # Scheduled runs twice weekly: save the pytest output to a file, upload it as
-  # an artifact, and commit the 3.12 report back to the branch.
+  # Scheduled twice weekly so the test report and badge stay fresh even when
+  # there is no recent activity.
   schedule:
     - cron: "0 16 * * 1,4"
 
@@ -15,11 +15,9 @@ on:
       - "gget/**"
       - "tests/**"
       - "pyproject.toml"
-      # Avoid recursively triggering on the bot-committed pytest result files
-      # (versioned per-Python report + the stable "latest" mirror).
-      - "!tests/pytest_results_py*.txt"
-      - "!tests/pytest_results_latest.txt"
-      # Avoid recursively triggering on the bot-committed tests badge JSON.
+      # Avoid recursively triggering on the bot-committed pytest report
+      # and tests badge JSON.
+      - "!tests/pytest_results.txt"
       - "!.github/badges/tests.json"
   # Run on every pull request into the integration branches.
   pull_request:
@@ -95,35 +93,41 @@ jobs:
       - name: Create hatch test environment
         run: uvx hatch env create ${{ matrix.env.name }}
 
-      # Push/PR: run tests and fail the job immediately on test failure.
-      - name: Run tests (push / pull_request)
-        if: github.event_name == 'push' || github.event_name == 'pull_request'
-        env:
-          MPLBACKEND: agg
-        run: uvx hatch run ${{ matrix.env.name }}:run-cov -ra -v --durations=10
-
-      # Scheduled/manual: save full output to a file and capture the real pytest
-      # exit code. "set +e" keeps a test failure from preventing the exit-code /
-      # artifact / report-commit handling below; continue-on-error does the same
-      # at the step level.
-      - name: Run tests and save output (schedule / workflow_dispatch)
-        id: pytest_saved
-        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+      # Run tests on every event. The latest-Python leg additionally tees its
+      # output to tests/pytest_results.txt — the single canonical report that
+      # README/docs link to and the tests badge is generated from.
+      # continue-on-error + explicit exit code capture lets the badge / artifact
+      # / commit steps run even on test failure; the "Fail job if pytest failed"
+      # step at the bottom enforces the real outcome.
+      - name: Run tests
+        id: pytest_run
         continue-on-error: true
         shell: bash
         env:
           MPLBACKEND: agg
+          PY_VERSION: ${{ matrix.env.python }}
+          LATEST_PY: ${{ needs.get-environments.outputs.latest_python }}
+          HATCH_ENV: ${{ matrix.env.name }}
         run: |
           set -o pipefail
 
-          OUT="tests/pytest_results_py${{ matrix.env.python }}.txt"
-          echo "Pytest results (Python ${{ matrix.env.python }}) - $(date -u +"%Y-%m-%dT%H:%M:%SZ")" > "$OUT"
-          echo "" >> "$OUT"
-
-          set +e
-          uvx hatch run ${{ matrix.env.name }}:run-cov -ra -v --durations=10 2>&1 | tee -a "$OUT"
-          code=${PIPESTATUS[0]}
-          set -e
+          if [ "$PY_VERSION" = "$LATEST_PY" ]; then
+            OUT="tests/pytest_results.txt"
+            mkdir -p tests
+            {
+              echo "Pytest results (Python ${PY_VERSION}) - $(date -u +"%Y-%m-%dT%H:%M:%SZ")"
+              echo ""
+            } > "$OUT"
+            set +e
+            uvx hatch run "${HATCH_ENV}":run-cov -ra -v --durations=10 2>&1 | tee -a "$OUT"
+            code=${PIPESTATUS[0]}
+            set -e
+          else
+            set +e
+            uvx hatch run "${HATCH_ENV}":run-cov -ra -v --durations=10
+            code=$?
+            set -e
+          fi
 
           echo "exit_code=$code" >> "$GITHUB_OUTPUT"
           echo "pytest exit code: $code"
@@ -146,18 +150,17 @@ jobs:
           fail_ci_if_error: false
 
       # Parse the saved pytest summary into a shields.io endpoint JSON so the
-      # README "tests" badge can render "<passed>/<total> passing". Same guards
-      # as the pytest-results commit step below (latest Python only, schedule/manual).
+      # README "tests" badge can render "<passed>/<total> passing". Runs on
+      # every event for the latest-Python leg; commit-back below is what
+      # actually publishes the JSON to main.
       - name: Generate tests badge JSON
-        if: always() && matrix.env.python == needs.get-environments.outputs.latest_python && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        if: always() && matrix.env.python == needs.get-environments.outputs.latest_python
         shell: bash
-        env:
-          PY_VERSION: ${{ matrix.env.python }}
         run: |
           mkdir -p .github/badges
           python - <<'PY'
-          import json, os, pathlib, re
-          txt = pathlib.Path(f"tests/pytest_results_py{os.environ['PY_VERSION']}.txt").read_text()
+          import json, pathlib, re
+          txt = pathlib.Path("tests/pytest_results.txt").read_text()
           # Final pytest summary line, e.g. "==== 150 passed, 2 failed in 45.67s ===="
           summary = next(
               (l for l in reversed(txt.splitlines()) if re.match(r"=+ .+ in [\d.]+s.* =+", l)),
@@ -182,25 +185,19 @@ jobs:
           print(msg, color)
           PY
 
-      # Upload the saved pytest report as an artifact.
+      # Upload the saved pytest report as an artifact on every event.
       # Only once (latest Python) to avoid duplicate artifacts from the matrix.
       - name: Upload pytest results artifact
-        if: always() && matrix.env.python == needs.get-environments.outputs.latest_python && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        if: always() && matrix.env.python == needs.get-environments.outputs.latest_python
         uses: actions/upload-artifact@v4
         with:
-          name: pytest-results-py${{ matrix.env.python }}
-          path: tests/pytest_results_py${{ matrix.env.python }}.txt
+          name: pytest-results
+          path: tests/pytest_results.txt
 
-      # Mirror the latest-Python report to a stable filename so README/docs
-      # links don't need updating each time the matrix's newest entry bumps.
-      - name: Mirror latest pytest report to stable filename
-        if: always() && matrix.env.python == needs.get-environments.outputs.latest_python && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
-        shell: bash
-        run: cp "tests/pytest_results_py${{ matrix.env.python }}.txt" tests/pytest_results_latest.txt
-
-      # Commit the saved pytest report back to the repository.
+      # Commit the saved pytest report + badge JSON back to the repository.
       # Safety guards:
-      # - only on scheduled/manual runs
+      # - skipped on pull_request: forks have a read-only token, and we don't
+      #   want bot commits churning PR branches anyway
       # - only once (latest Python) to avoid matrix push races
       # - commits back to the branch that the run was triggered from
       # Retry logic helps if the branch moved while this job was running.
@@ -208,7 +205,7 @@ jobs:
         if: >
           always() &&
           matrix.env.python == needs.get-environments.outputs.latest_python &&
-          (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+          github.event_name != 'pull_request'
         shell: bash
         run: |
           set -euo pipefail
@@ -219,7 +216,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add tests/pytest_results_py*.txt tests/pytest_results_latest.txt .github/badges/tests.json
+          git add tests/pytest_results.txt .github/badges/tests.json
 
           if git diff --cached --quiet; then
             echo "No changes to commit."
@@ -240,13 +237,13 @@ jobs:
           echo "Push failed after retries."
           exit 1
 
-      # After scheduled/manual runs, explicitly fail the job if pytest failed.
-      # Separate so that artifact upload and report commit still happen on failure.
+      # Explicitly fail the job if pytest failed. Separated from the pytest
+      # step itself so that badge / artifact / commit steps still run on failure.
       - name: Fail job if pytest failed
-        if: always() && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        if: always()
         shell: bash
         run: |
-          code="${{ steps.pytest_saved.outputs.exit_code }}"
+          code="${{ steps.pytest_run.outputs.exit_code }}"
           echo "Captured pytest exit code: ${code:-<missing>}"
 
           if [ -z "${code:-}" ]; then

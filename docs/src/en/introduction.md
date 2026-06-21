@@ -1,7 +1,7 @@
 [![pypi version](https://img.shields.io/pypi/v/gget)](https://pypi.org/project/gget)
 [![Downloads](https://static.pepy.tech/personalized-badge/gget?period=total&units=international_system&left_color=grey&right_color=brightgreen&left_text=Downloads)](https://pepy.tech/project/gget)
 [![license](https://img.shields.io/pypi/l/gget)](https://github.com/scverse/gget/blob/main/LICENSE)
-[![tests](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/scverse/gget/main/.github/badges/tests.json)](https://github.com/scverse/gget/blob/main/tests/pytest_results_latest.txt)
+[![tests](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/scverse/gget/main/.github/badges/tests.json)](https://github.com/scverse/gget/blob/main/tests/pytest_results.txt)
 [![Powered by NumFOCUS](https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat&colorA=E1523D&colorB=007D8A)](https://numfocus.org/)
 [![GitHub stars](https://img.shields.io/github/stars/scverse/gget?style=social)](https://github.com/scverse/gget)
 
@@ -15,7 +15,7 @@
 <br>
 `gget` is part of the [scverse®](https://scverse.org) project and is fiscally sponsored by [NumFOCUS](https://numfocus.org/). If you like `gget` and want to support our mission, please consider making a tax-deductible [donation](https://opencollective.com/scverse/projects/scverse-gget/donate?interval=oneTime&amount=20&contributeAs=me).
 
-> Note: The databases queried by `gget` are continuously updated and may change structure. `gget` modules are [automatically tested](https://github.com/scverse/gget/blob/main/tests/pytest_results_latest.txt) twice weekly and updated as needed. If you encounter an issue, first upgrade to the latest version with pip install --upgrade gget. If the issue persists, please [report it](https://github.com/scverse/gget/issues/new/choose).
+> Note: The databases queried by `gget` are continuously updated and may change structure. `gget` modules are [automatically tested](https://github.com/scverse/gget/blob/main/tests/pytest_results.txt) twice weekly and updated as needed. If you encounter an issue, first upgrade to the latest version with pip install --upgrade gget. If the issue persists, please [report it](https://github.com/scverse/gget/issues/new/choose).
 
 Missing a database or functionality you’d love to see? [<kbd> <br> Request new feature <br> </kbd>](https://github.com/scverse/gget/issues/new/choose)
 
