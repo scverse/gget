@@ -43,12 +43,10 @@ dependencies = [
 ]
 # Optional feature dependency for `gget cellxgene` (install: pip install gget[cellxgene]).
 # No wheels for the newest Python versions yet (e.g. 3.14 via tiledbsoma).
-#
 # scanpy>=1.10 is pinned defensively, not because gget uses scanpy directly,
 # but because tiledbsoma (cellxgene-census's dep) declares only `scanpy>=1.9.2`.
 # Under certain resolver paths uv lands on scanpy 1.9.8, which transitively
-# pins numba 0.53.1 and llvmlite 0.36.x — both of which only support
-# Python 3.6-3.9.
+# pins numba 0.53.1 and llvmlite 0.36.x — both of which only support Python 3.6-3.9.
 optional-dependencies.cellxgene = [ "cellxgene-census", "scanpy>=1.10" ]
 # https://docs.pypi.org/project_metadata/#project-urls
 urls.Documentation = "https://pachterlab.github.io/gget"
