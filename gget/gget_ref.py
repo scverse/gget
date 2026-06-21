@@ -1,28 +1,28 @@
-from bs4 import BeautifulSoup
-import requests
 import json
+
+import requests
+from bs4 import BeautifulSoup
 
 # Custom functions
 from .utils import (
-    ref_species_options,
     find_latest_ens_rel,
     find_nv_kingdom,
+    ref_species_options,
     set_up_logger,
 )
 
 logger = set_up_logger()
 
-from .constants import (
-    ENSEMBL_FTP_URL,
-    ENSEMBL_FTP_URL_NV,
-    ENSEMBL_FTP_URL_GRCH37,
+from .constants import (  # noqa: E402
     DEFAULT_REQUESTS_TIMEOUT,
+    ENSEMBL_FTP_URL,
+    ENSEMBL_FTP_URL_GRCH37,
+    ENSEMBL_FTP_URL_NV,
 )
 
 
 def find_FTP_link(url, link_substring):
-    """
-    Helper function for gget ref to find an FTP link, its release date and size.
+    """Helper function for gget ref to find an FTP link, its release date and size.
 
     Args:
     url             - URL link to FTP subfolder (e.g. GTF) including species and release
@@ -34,9 +34,7 @@ def find_FTP_link(url, link_substring):
 
     # Raise error if status code not "OK" Response
     if html.status_code != 200:
-        raise RuntimeError(
-            f"HTTP response status code {html.status_code}. Please try again.\n"
-        )
+        raise RuntimeError(f"HTTP response status code {html.status_code}. Please try again.\n")
 
     soup = BeautifulSoup(html.text, "html.parser")
 
@@ -67,8 +65,7 @@ def ref(
     list_iv_species=False,
     verbose=True,
 ):
-    """
-    Fetch FTPs for reference genomes and annotations by species from Ensembl.
+    """Fetch FTPs for reference genomes and annotations by species from Ensembl.
 
     Args:
     - species         Defines the species for which the reference should be fetched in the format "<genus>_<species>",
@@ -138,13 +135,9 @@ def ref(
                 )
 
         # Find all available species for GTFs for this Ensembl release
-        species_list_gtf = ref_species_options(
-            "gtf", database=ENSEMBL_FTP_URL_NV, release=release
-        )
+        species_list_gtf = ref_species_options("gtf", database=ENSEMBL_FTP_URL_NV, release=release)
         # Find all available species for FASTAs for this Ensembl release
-        species_list_dna = ref_species_options(
-            "dna", database=ENSEMBL_FTP_URL_NV, release=release
-        )
+        species_list_dna = ref_species_options("dna", database=ENSEMBL_FTP_URL_NV, release=release)
 
         # Find intersection of the two lists
         # (Only species which have GTF and FASTAs available can continue)
@@ -158,7 +151,7 @@ def ref(
 
     ## Check 'which' parameter
     # If single which passed as string, convert to list
-    if type(which) == str:
+    if isinstance(which, str):
         which = [which]
 
     # Raise error if several values are passed and 'all' is included
@@ -170,7 +163,7 @@ def ref(
     which_allowed = ["all", "gtf", "cdna", "dna", "cds", "ncrna", "pep"]
     if any(x not in which_allowed for x in which):
         raise ValueError(
-            f"Parameter 'which' must be 'all', or any one or a combination of the following: 'gtf', 'cdna', 'dna', 'cds', 'ncrna', 'pep'.\n"
+            "Parameter 'which' must be 'all', or any one or a combination of the following: 'gtf', 'cdna', 'dna', 'cds', 'ncrna', 'pep'.\n"
         )
 
     # Species shortcuts
@@ -191,9 +184,7 @@ def ref(
         database = ENSEMBL_FTP_URL_GRCH37
         ENS_rel = find_latest_ens_rel(ENSEMBL_FTP_URL)
     # Standard database
-    elif species in ref_species_options(
-        "dna", database=ENSEMBL_FTP_URL, release=release
-    ):
+    elif species in ref_species_options("dna", database=ENSEMBL_FTP_URL, release=release):
         database = ENSEMBL_FTP_URL
         # Find latest vertebrate Ensembl release
         ENS_rel = find_latest_ens_rel(database)
@@ -204,24 +195,18 @@ def ref(
         ENS_rel = find_latest_ens_rel(database)
 
     # If release != None, use user-defined Ensembl release
-    if release != None:
+    if release is not None:
         # Warn user when release is higher than the latest release
         if release > ENS_rel:
-            logger.warning(
-                f"Provided Ensembl release number {release} is greater than the latest release ({ENS_rel})."
-            )
+            logger.warning(f"Provided Ensembl release number {release} is greater than the latest release ({ENS_rel}).")
         ENS_rel = release
 
     if not grch37:
         ## Raise error if species not found (both FASTA and GTF have to be available)
         # Find all available species for genome FASTAs for this Ensembl release
-        species_list_dna = ref_species_options(
-            "dna", database=database, release=ENS_rel
-        )
+        species_list_dna = ref_species_options("dna", database=database, release=ENS_rel)
         # Find all available species for GTFs for this Ensembl release
-        species_list_gtf = ref_species_options(
-            "gtf", database=database, release=ENS_rel
-        )
+        species_list_gtf = ref_species_options("gtf", database=database, release=ENS_rel)
         # Find intersection of the two lists
         # (Only species which have GTF and FASTAs available can continue)
         species_list = list(set(species_list_gtf) & set(species_list_dna))
@@ -251,9 +236,7 @@ def ref(
             link_substring = f"{ENS_rel}.gtf.gz"
 
         # Get link, release date and dataset size
-        gtf_str, gtf_date, gtf_size = find_FTP_link(
-            url=gtf_search_url, link_substring=link_substring
-        )
+        gtf_str, gtf_date, gtf_size = find_FTP_link(url=gtf_search_url, link_substring=link_substring)
         # Build the final download link
         if not isinstance(gtf_str, type(None)):
             gtf_url = gtf_search_url + gtf_str
@@ -266,17 +249,13 @@ def ref(
     if "all" in which or "cdna" in which:
         if database == ENSEMBL_FTP_URL_NV:
             # Define location of cdna links
-            cdna_search_url = (
-                database + f"release-{ENS_rel}/{kingdom}/fasta/{species}/cdna/"
-            )
+            cdna_search_url = database + f"release-{ENS_rel}/{kingdom}/fasta/{species}/cdna/"
         else:
             # Define location of cdna links
             cdna_search_url = database + f"release-{ENS_rel}/fasta/{species}/cdna/"
 
         # Get link, release date and dataset size
-        cdna_str, cdna_date, cdna_size = find_FTP_link(
-            url=cdna_search_url, link_substring="cdna.all.fa"
-        )
+        cdna_str, cdna_date, cdna_size = find_FTP_link(url=cdna_search_url, link_substring="cdna.all.fa")
         # Build the final download link
         if not isinstance(cdna_str, type(None)):
             cdna_url = cdna_search_url + cdna_str
@@ -289,22 +268,16 @@ def ref(
     if "all" in which or "dna" in which:
         # Define location of dna links
         if database == ENSEMBL_FTP_URL_NV:
-            dna_search_url = (
-                database + f"release-{ENS_rel}/{kingdom}/fasta/{species}/dna/"
-            )
+            dna_search_url = database + f"release-{ENS_rel}/{kingdom}/fasta/{species}/dna/"
         else:
             dna_search_url = database + f"release-{ENS_rel}/fasta/{species}/dna/"
         # Get link, release date and dataset size
-        dna_str, dna_date, dna_size = find_FTP_link(
-            url=dna_search_url, link_substring=".dna.primary_assembly.fa"
-        )
+        dna_str, dna_date, dna_size = find_FTP_link(url=dna_search_url, link_substring=".dna.primary_assembly.fa")
 
         # Get toplevel if primary assembly not available
         if dna_str is None:
             # Get link, release date and dataset size
-            dna_str, dna_date, dna_size = find_FTP_link(
-                url=dna_search_url, link_substring=".dna.toplevel.fa"
-            )
+            dna_str, dna_date, dna_size = find_FTP_link(url=dna_search_url, link_substring=".dna.toplevel.fa")
 
         # Build the final download link
         if not isinstance(dna_str, type(None)):
@@ -318,15 +291,11 @@ def ref(
     if "all" in which or "cds" in which:
         # Define location of cds links
         if database == ENSEMBL_FTP_URL_NV:
-            cds_search_url = (
-                database + f"release-{ENS_rel}/{kingdom}/fasta/{species}/cds/"
-            )
+            cds_search_url = database + f"release-{ENS_rel}/{kingdom}/fasta/{species}/cds/"
         else:
             cds_search_url = database + f"release-{ENS_rel}/fasta/{species}/cds/"
         # Get link, release date and dataset size
-        cds_str, cds_date, cds_size = find_FTP_link(
-            url=cds_search_url, link_substring="cds.all.fa"
-        )
+        cds_str, cds_date, cds_size = find_FTP_link(url=cds_search_url, link_substring="cds.all.fa")
         # Build the final download link
         if not isinstance(cds_str, type(None)):
             cds_url = cds_search_url + cds_str
@@ -339,9 +308,7 @@ def ref(
     if "all" in which or "ncrna" in which:
         # Define location of ncRNA links
         if database == ENSEMBL_FTP_URL_NV:
-            ncrna_search_url = (
-                database + f"release-{ENS_rel}/{kingdom}/fasta/{species}/ncrna/"
-            )
+            ncrna_search_url = database + f"release-{ENS_rel}/{kingdom}/fasta/{species}/ncrna/"
         else:
             ncrna_search_url = database + f"release-{ENS_rel}/fasta/{species}/ncrna/"
 
@@ -373,15 +340,11 @@ def ref(
     if "all" in which or "pep" in which:
         # Define location of pep links
         if database == ENSEMBL_FTP_URL_NV:
-            pep_search_url = (
-                database + f"release-{ENS_rel}/{kingdom}/fasta/{species}/pep/"
-            )
+            pep_search_url = database + f"release-{ENS_rel}/{kingdom}/fasta/{species}/pep/"
         else:
             pep_search_url = database + f"release-{ENS_rel}/fasta/{species}/pep/"
         # Get link, release date and dataset size
-        pep_str, pep_date, pep_size = find_FTP_link(
-            url=pep_search_url, link_substring=".pep.all.fa"
-        )
+        pep_str, pep_date, pep_size = find_FTP_link(url=pep_search_url, link_substring=".pep.all.fa")
         # Build the final download link
         if not isinstance(pep_str, type(None)):
             pep_url = pep_search_url + pep_str
@@ -517,17 +480,13 @@ def ref(
             with open("gget_ref_results.json", "w", encoding="utf-8") as file:
                 json.dump(ref_dict, file, ensure_ascii=False, indent=4)
         if verbose:
-            logger.info(
-                f"Fetching reference information for {species} from Ensembl release: {ENS_rel}."
-            )
+            logger.info(f"Fetching reference information for {species} from Ensembl release: {ENS_rel}.")
         return ref_dict
 
     # If FTP==True, return only the specified URLs as a list
     if ftp:
         if verbose:
-            logger.info(
-                f"Fetching reference information for {species} from Ensembl release: {ENS_rel}."
-            )
+            logger.info(f"Fetching reference information for {species} from Ensembl release: {ENS_rel}.")
         results = []
         for return_val in which:
             if return_val == "all":

@@ -22,8 +22,8 @@ Las siguientes aplicaciones usan *gget*:
     - [https://mcpservers.org/servers/longevity-genie/holy-bio-mcp](https://mcpservers.org/servers/longevity-genie/holy-bio-mcp)
     - [https://biocontext.ai](https://biocontext.ai/registry/longevity-genie/gget-mcp)
     - [https://mcpmarket.com/zh/tools/skills/gget-bioinformatics-tool](https://mcpmarket.com/zh/tools/skills/gget-bioinformatics-tool)
-- [PantheonOS](https://pantheonos.stanford.edu/)   
-  Un sistema evolutivo de agentes biológicos multiagente diseñado para conciliar la generalidad con la especificidad de dominio, desarrollado en Stanford.   
+- [PantheonOS](https://pantheonos.stanford.edu/)  
+  Un sistema evolutivo de agentes biológicos multiagente diseñado para conciliar la generalidad con la especificidad de dominio, desarrollado en Stanford.  
   > "Acceso a bases de datos: utilizando las habilidades de **gget**, iSeq y cellxgene para acceder a una variedad de bases de datos, incluyendo SRA, GEO, Ensembl, UniProt, UCSC, Enrichr y CZI cellxgene."
 - [Biomni](https://biomni.stanford.edu/environment)  
   Un agente de inteligencia artificial biomédica de propósito general que se está desarrollando en Stanford y Genentech.
@@ -32,7 +32,7 @@ Las siguientes aplicaciones usan *gget*:
   > "Las herramientas se agrupan en familias como literatura [...], genómica (biopython, **gget**) y aprendizaje automático (rdkit, pymol)."
 - [PerTurboAgent](https://www.biorxiv.org/content/10.1101/2025.05.25.656020v1)  
   Un agente de auto-planificación para potenciar experimentos secuenciales de Perturb-seq.  
-  > "Nosotros [...] usamos los paquetes **gget** y blitzgsea para análisis de enriquecimiento de datos" 
+  > "Nosotros [...] usamos los paquetes **gget** y blitzgsea para análisis de enriquecimiento de datos"
 - [Habilidades científicas para Claude](https://github.com/K-Dense-AI/claude-scientific-skills), desarrolladas por K-Dense-AI
   > " Este repositorio contiene 138 habilidades científicas organizadas en múltiples dominios. Cada habilidad proporciona documentación completa, ejemplos de código y mejores prácticas para trabajar con librerías científicas, bases de datos y herramientas.  
   > 🧬 Bioinformática y Genómica  
@@ -92,7 +92,7 @@ ____
 - Shanmugampillai Jeyarajaguru Kabilan et al., [Molecular modelling approaches for the identification of potent Sodium-Glucose Cotransporter 2 inhibitors from Boerhavia diffusa for the potential treatment of chronic kidney disease.](https://doi.org/10.21203/rs.3.rs-4520611/v1) *Journal of Computer-Aided Molecular Design (en revisión)* (2024). DOI: 10.21203/rs.3.rs-4520611/v1
 - Joseph M Rich et al., [The impact of package selection and versioning on single-cell RNA-seq analysis.](https://pmc.ncbi.nlm.nih.gov/articles/PMC11014608/#:~:text=10.1101/2024.04.04.588111) *bioRxiv* (2024). DOI: 10.1101/2024.04.04.588111
 - Sanjay C. Nagi et al., [AnoPrimer: Primer Design in malaria vectors informed by range-wide genomic variation.](https://wellcomeopenresearch.org/articles/9-255/v1) *Wellcome Open Research* (2024).
-- Yasmin Makki Mohialden et al., [A survey of the most recent Python packages for use in biology.](http://dx.doi.org/10.48047/NQ.2023.21.2.NQ23029) *NeuroQuantology* (2023). DOI: 10.48047/NQ.2023.21.2.NQ23029 
+- Yasmin Makki Mohialden et al., [A survey of the most recent Python packages for use in biology.](http://dx.doi.org/10.48047/NQ.2023.21.2.NQ23029) *NeuroQuantology* (2023). DOI: 10.48047/NQ.2023.21.2.NQ23029
 - Nicola A. Kearns et al., [Generation and molecular characterization of human pluripotent stem cell-derived pharyngeal foregut endoderm.](https://doi.org/10.1016/j.devcel.2023.08.024) *Cell Reports* (2023). DOI: 10.1016/j.devcel.2023.08.024
 - Jonathan Rosenski et al., [Predicting gene knockout effects from expression data.](https://link.springer.com/article/10.1186/s12920-023-01446-6) *BMC Medical Genomics* (2023). DOI: 10.1186/s12920-023-01446-6
 - Peter Overby et al., [Pharmacological or genetic inhibition of Scn9a protects beta-cells while reducing insulin secretion in type 1 diabetes.](https://doi.org/10.1101/2023.06.11.544521) *bioRxiv* (2023). DOI: 10.1101/2023.06.11.544521

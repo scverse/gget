@@ -1,26 +1,26 @@
-import pandas as pd
-import numpy as np
-import os
 import json as json_package
+import os
 import re
 
-from .utils import get_uniprot_seqs, tsv_to_df, set_up_logger
+import numpy as np
+import pandas as pd
+
+from .utils import get_uniprot_seqs, set_up_logger, tsv_to_df
 
 logger = set_up_logger()
 
-from .constants import UNIPROT_REST_API
-from .gget_diamond import diamond
-from .gget_setup import (
-    ELM_INSTANCES_FASTA,
+from .constants import UNIPROT_REST_API  # noqa: E402
+from .gget_diamond import diamond  # noqa: E402
+from .gget_setup import (  # noqa: E402
     ELM_CLASSES_TSV,
+    ELM_INSTANCES_FASTA,
     ELM_INSTANCES_TSV,
     ELM_INTDOMAINS_TSV,
 )
 
 
 def motif_in_query(row):
-    """
-    Checks if motif is in the overlapping region with the query sequence
+    """Checks if motif is in the overlapping region with the query sequence.
 
     Args:
     row     - row in dataframe
@@ -29,15 +29,13 @@ def motif_in_query(row):
     """
     return (
         True
-        if (row["motif_start_in_subject"] >= row["subject_start"])
-        & (row["motif_end_in_subject"] <= row["subject_end"])
+        if (row["motif_start_in_subject"] >= row["subject_start"]) & (row["motif_end_in_subject"] <= row["subject_end"])
         else False
     )
 
 
 def get_elm_instances(UniProtID):
-    """
-    Get ELM instances and their information from local ELM tsv files.
+    """Get ELM instances and their information from local ELM tsv files.
 
     Args:
     - UniProtID   UniProt Acc to search for in the accession column of ELM tsv files.
@@ -47,9 +45,7 @@ def get_elm_instances(UniProtID):
     # Get matching rows from elm_instances.tsv
     # ELM Instances.tsv file contains 5 lines before headers and data
     df_full_instances = tsv_to_df(ELM_INSTANCES_TSV, skiprows=5)
-    df_instances_matching = df_full_instances[
-        df_full_instances["Primary_Acc"] == UniProtID
-    ]
+    df_instances_matching = df_full_instances[df_full_instances["Primary_Acc"] == UniProtID]
     # Rename columns
     df_instances_matching = df_instances_matching.rename(
         columns={
@@ -90,8 +86,8 @@ def seq_workflow(
     verbose,
     diamond_binary,
 ):
-    """
-    Alignment of sequence using DIAMOND to get UniProt Acc. Use the UniProt Acc to construct an ortholog dataframe similar to the UniProt workflow
+    """Alignment of sequence using DIAMOND to get UniProt Acc. Use the UniProt Acc to construct an ortholog dataframe similar to the UniProt workflow
+
     except for additional columns for start, end and whether the motif overlaps the subject sequence.
 
     Args:
@@ -133,10 +129,7 @@ def seq_workflow(
             # Construct df with elm instances from UniProt Acc returned from diamond
             # TODO double check that this gets info if more than one UniProt Acc matched
             if verbose:
-                uniprot_ids = [
-                    str(id).split("|")[1]
-                    for id in df_diamond["subject_accession"].values
-                ]
+                uniprot_ids = [str(id).split("|")[1] for id in df_diamond["subject_accession"].values]
                 logger.info(
                     f"ORTHO Sequence {seq_number}/{len(sequences)}: DIAMOND found the following orthologous proteins: {', '.join(uniprot_ids)}. Retrieving ELMs for each UniProt Acc..."
                 )
@@ -147,20 +140,14 @@ def seq_workflow(
                 # missing motifs other than the first one
                 # df_elm["query_cover"] = df_diamond["length"].values[i] / seq_len * 100
                 df_elm["query_seq_length"] = df_diamond["query_seq_length"].values[i]
-                df_elm["subject_seq_length"] = df_diamond["subject_seq_length"].values[
-                    i
-                ]
+                df_elm["subject_seq_length"] = df_diamond["subject_seq_length"].values[i]
                 df_elm["alignment_length"] = df_diamond["length"].values[i]
-                df_elm["identity_percentage"] = df_diamond[
-                    "identity_percentage"
-                ].values[i]
+                df_elm["identity_percentage"] = df_diamond["identity_percentage"].values[i]
                 df_elm["query_start"] = int(df_diamond["query_start"].values[i])
                 df_elm["query_end"] = int(df_diamond["query_end"].values[i])
                 df_elm["subject_start"] = int(df_diamond["subject_start"].values[i])
                 df_elm["subject_end"] = int(df_diamond["subject_end"].values[i])
-                df_elm["motif_inside_subject_query_overlap"] = df_elm.apply(
-                    motif_in_query, axis=1
-                )
+                df_elm["motif_inside_subject_query_overlap"] = df_elm.apply(motif_in_query, axis=1)
 
                 df = pd.concat([df, df_elm])
 
@@ -170,15 +157,16 @@ def seq_workflow(
 
 
 def regex_match(sequence):
-    """
-    Compare ELM regex with input sequence and return all matching elms
+    """Compare ELM regex with input sequence and return all matching elms.
 
     Args:
     sequence - user input sequence (can be either amino acid seq or UniProt Acc)
 
-    Returns:
+    Returns
+    -------
     df_final - dataframe containing regex matches
     TODO: Make sure this returns empty dataframe if no matches were found
+
     """
     # Get all motif regex patterns from elm db local file
     df_elm_classes = tsv_to_df(ELM_CLASSES_TSV, skiprows=5)
@@ -199,7 +187,7 @@ def regex_match(sequence):
     df_final = pd.DataFrame()
 
     # Compare ELM regex with input sequence and return all matching elms
-    for elm_id, pattern in zip(elm_ids, regex_patterns):
+    for elm_id, pattern in zip(elm_ids, regex_patterns, strict=False):
         regex_matches = re.finditer(f"(?=({pattern}))", sequence)
 
         for match_string in regex_matches:
@@ -214,7 +202,7 @@ def regex_match(sequence):
             elm_row.insert(loc=2, column="motif_start_in_query", value=int(start + 1))
             elm_row.insert(loc=3, column="motif_end_in_query", value=int(end))
 
-            elm_identifier = [str(x) for x in elm_row["ELMIdentifier"]][0]
+            [str(x) for x in elm_row["ELMIdentifier"]][0]
 
             # df_instances_matching = df_full_instances.loc[
             #     df_full_instances["ELMIdentifier"] == elm_identifier
@@ -243,8 +231,8 @@ def elm(
     json=False,
     out=None,
 ):
-    """
-    Locally predicts Eukaryotic Linear Motifs from an amino acid sequence or UniProt Acc using
+    """Locally predicts Eukaryotic Linear Motifs from an amino acid sequence or UniProt Acc using
+
     data from the ELM database (http://elm.eu.org/).
 
     Args:
@@ -276,7 +264,7 @@ def elm(
         or not os.path.exists(ELM_INTDOMAINS_TSV)
     ):
         raise FileNotFoundError(
-            f"Some or all ELM database files are missing. Please run 'gget setup elm' (Python: gget.setup('elm')) once to download the necessary files."
+            "Some or all ELM database files are missing. Please run 'gget setup elm' (Python: gget.setup('elm')) once to download the necessary files."
         )
 
     # Let users know when local ELM was last updated
@@ -299,12 +287,12 @@ def elm(
         # If sequence is not a valid amino sequence, raise error
         if not set(sequence) <= amino_acids:
             logger.warning(
-                f"Input amino acid sequence contains invalid characters. If the input is a UniProt Acc, please use flag --uniprot (Python: uniprot=True)."
+                "Input amino acid sequence contains invalid characters. If the input is a UniProt Acc, please use flag --uniprot (Python: uniprot=True)."
             )
 
     # Build ortholog dataframe
     if verbose:
-        logger.info(f"ORTHO Compiling ortholog information...")
+        logger.info("ORTHO Compiling ortholog information...")
     ortho_df = pd.DataFrame()
     if uniprot:
         ortho_df = get_elm_instances(sequence)
@@ -317,9 +305,7 @@ def elm(
 
             if len(df_uniprot) > 0:
                 # Only grab sequences where IDs match exactly
-                aa_seqs = df_uniprot[df_uniprot["uniprot_id"] == sequence][
-                    "sequence"
-                ].values
+                aa_seqs = df_uniprot[df_uniprot["uniprot_id"] == sequence]["sequence"].values
 
                 if len(aa_seqs) == 0:
                     raise ValueError(
@@ -350,9 +336,7 @@ def elm(
         )
 
         if len(ortho_df) == 0:
-            logger.warning(
-                "ORTHO No ELM database orthologs found for input sequence or UniProt Acc."
-            )
+            logger.warning("ORTHO No ELM database orthologs found for input sequence or UniProt Acc.")
 
     # Reorder columns of ortholog data frame
     ortho_cols = [
@@ -393,28 +377,25 @@ def elm(
     ortho_df = ortho_df[ortho_cols]
     # Remove false positives and true negatives
     ortho_df = ortho_df[
-        (ortho_df["InstanceLogic"] != "false positive")
-        & (ortho_df["InstanceLogic"] != "true negative")
+        (ortho_df["InstanceLogic"] != "false positive") & (ortho_df["InstanceLogic"] != "true negative")
     ]
     # Drop duplicate rows and reset the index
     ortho_df = ortho_df.drop_duplicates().reset_index(drop=True)
 
     # Build data frame containing regex motif matches
     if verbose:
-        logger.info(f"REGEX Finding regex motif matches...")
+        logger.info("REGEX Finding regex motif matches...")
     fetch_aa_failed = False
     if uniprot:
         # use amino acid sequence associated with UniProt Acc to do regex match
 
         # do not fetch sequence again if already done above
-        if not "df_uniprot" in locals():
+        if "df_uniprot" not in locals():
             df_uniprot = get_uniprot_seqs(UNIPROT_REST_API, sequence)
 
         if len(df_uniprot) > 0:
             # Only grab sequences where IDs match exactly
-            sequences = df_uniprot[df_uniprot["uniprot_id"] == sequence][
-                "sequence"
-            ].values
+            sequences = df_uniprot[df_uniprot["uniprot_id"] == sequence]["sequence"].values
 
             if len(sequences) == 0:
                 logger.warning(
@@ -433,9 +414,7 @@ def elm(
         df_regex_matches = regex_match(sequence)
 
     if len(df_regex_matches) == 0:
-        logger.warning(
-            "REGEX No regex matches found for input sequence or UniProt Acc."
-        )
+        logger.warning("REGEX No regex matches found for input sequence or UniProt Acc.")
 
     # Reorder regex columns
     if expand:
@@ -492,8 +471,7 @@ def elm(
     df_regex_matches = df_regex_matches[regex_cols]
     # Remove false positives and true negatives
     df_regex_matches = df_regex_matches[
-        (df_regex_matches["InstanceLogic"] != "false positive")
-        & (df_regex_matches["InstanceLogic"] != "true negative")
+        (df_regex_matches["InstanceLogic"] != "false positive") & (df_regex_matches["InstanceLogic"] != "true negative")
     ]
     # Drop duplicates and reset index
     df_regex_matches = df_regex_matches.drop_duplicates().reset_index(drop=True)

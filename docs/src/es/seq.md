@@ -6,11 +6,11 @@ Obtenga la(s) secuencia(s) nucleótidos o aminoácidos de un gen (y todas sus is
 Regresa: Archivo de tipo FASTA.  
 
 **Parámetro posicional**  
-`ens_ids`   
+`ens_ids`  
 One or more Ensembl IDs.
 
 **Parámetros optionales**  
-`-o` `--out`   
+`-o` `--out`  
 Ruta al archivo en el que se guardarán los resultados, p. ruta/al/directorio/resultados.fa. Por defecto: salida estándar (STDOUT).  
 Para Python, usa `save=True` para guardar los resultados en el directorio de trabajo actual.  
 
@@ -20,11 +20,11 @@ Regresa secuencias de aminoácidos (en lugar de nucleótidos).
 Las secuencias de nucleótidos se obtienen de [Ensembl](https://www.ensembl.org/).  
 Las secuencias de aminoácidos se obtienen de [UniProt](https://www.uniprot.org/).  
 
-`-iso` `--isoforms`   
+`-iso` `--isoforms`  
 Regresa las secuencias de todas las transcripciones conocidas.  
 (Solo para IDs de genes).  
 
-`-q` `--quiet`   
+`-q` `--quiet`  
 Solo para la Terminal. Impide la informacion de progreso de ser exhibida durante la corrida.  
 Para Python, usa `verbose=False` para imipidir la informacion de progreso de ser exhibida durante la corrida.  
 
@@ -52,7 +52,7 @@ gget.seq("ENSG00000034713", translate=True, isoforms=True)
 
 #### [Más ejemplos](https://github.com/pachterlab/gget_examples)
 
-# Citar    
+# Citar  
 Si utiliza `gget seq` en una publicación, favor de citar los siguientes artículos:
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)

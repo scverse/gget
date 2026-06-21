@@ -1,6 +1,8 @@
-import unittest
 import json
+import unittest
+
 from gget.gget_opentargets import opentargets
+
 from .from_json import from_json
 
 # Load dictionary containing arguments and expected results

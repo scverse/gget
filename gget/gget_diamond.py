@@ -1,25 +1,20 @@
+import json as json_package
+import os
+import platform
 import subprocess
 import sys
-import platform
-import os
-import pandas as pd
 import uuid
-import json as json_package
 
 from .compile import PACKAGE_PATH
-from .utils import tsv_to_df, create_tmp_fasta, remove_temp_files, set_up_logger
+from .utils import create_tmp_fasta, remove_temp_files, set_up_logger, tsv_to_df
 
 logger = set_up_logger()
 
 # Path to precompiled diamond binary
 if platform.system() == "Windows":
-    PRECOMPILED_DIAMOND_PATH = os.path.join(
-        PACKAGE_PATH, f"bins/{platform.system()}/diamond.exe"
-    )
+    PRECOMPILED_DIAMOND_PATH = os.path.join(PACKAGE_PATH, f"bins/{platform.system()}/diamond.exe")
 else:
-    PRECOMPILED_DIAMOND_PATH = os.path.join(
-        PACKAGE_PATH, f"bins/{platform.system()}/diamond"
-    )
+    PRECOMPILED_DIAMOND_PATH = os.path.join(PACKAGE_PATH, f"bins/{platform.system()}/diamond")
 
 
 def diamond(
@@ -34,8 +29,7 @@ def diamond(
     json=False,
     out=None,
 ):
-    """
-    Align multiple protein or translated DNA sequences using DIAMOND (https://www.nature.com/articles/nmeth.3176).
+    """Align multiple protein or translated DNA sequences using DIAMOND (https://www.nature.com/articles/nmeth.3176).
 
     Args:
     - query          Sequences (str or list) or path to FASTA file containing sequences to be aligned against the reference.
@@ -128,14 +122,14 @@ def diamond(
 
     if translated:
         if verbose:
-            logger.info(f"Aligning nucleotide query to amino acid reference (blastx mode).")
+            logger.info("Aligning nucleotide query to amino acid reference (blastx mode).")
         diamond_program = "blastx"
     else:
         diamond_program = "blastp"
 
     # Run DIAMOND commands as separate subprocess calls (avoids shell=True security issues)
     if verbose:
-        logger.info(f"Creating DIAMOND database and initiating alignment...")
+        logger.info("Creating DIAMOND database and initiating alignment...")
 
     # Step 1: Check diamond version
     version_cmd = [diamond_bin, "version"]
@@ -147,13 +141,7 @@ def diamond(
         raise RuntimeError("DIAMOND version check failed.")
 
     # Step 2: Create database
-    makedb_cmd = [
-        diamond_bin, "makedb",
-        "--quiet",
-        "--in", ref_file,
-        "--db", db_path,
-        "--threads", str(threads)
-    ]
+    makedb_cmd = [diamond_bin, "makedb", "--quiet", "--in", ref_file, "--db", db_path, "--threads", str(threads)]
     with subprocess.Popen(makedb_cmd, stderr=subprocess.PIPE) as process:
         stderr = process.stderr.read().decode("utf-8")
         if stderr:
@@ -163,17 +151,35 @@ def diamond(
 
     # Step 3: Run alignment
     align_cmd = [
-        diamond_bin, diamond_program,
-        "--outfmt", "6",
-        "qseqid", "sseqid", "pident", "qlen", "slen", "length",
-        "mismatch", "gapopen", "qstart", "qend", "sstart", "send", "evalue", "bitscore",
+        diamond_bin,
+        diamond_program,
+        "--outfmt",
+        "6",
+        "qseqid",
+        "sseqid",
+        "pident",
+        "qlen",
+        "slen",
+        "length",
+        "mismatch",
+        "gapopen",
+        "qstart",
+        "qend",
+        "sstart",
+        "send",
+        "evalue",
+        "bitscore",
         "--quiet",
-        "--query", in_file,
-        "--db", ref_file,
-        "--out", out_file,
+        "--query",
+        in_file,
+        "--db",
+        ref_file,
+        "--out",
+        out_file,
         f"--{sensitivity}",
-        "--threads", str(threads),
-        "--ignore-warnings"
+        "--threads",
+        str(threads),
+        "--ignore-warnings",
     ]
     with subprocess.Popen(align_cmd, stderr=subprocess.PIPE) as process:
         stderr = process.stderr.read().decode("utf-8")
@@ -184,7 +190,7 @@ def diamond(
         raise RuntimeError("DIAMOND alignment failed.")
     else:
         if verbose:
-            logger.info(f"DIAMOND alignment complete.")
+            logger.info("DIAMOND alignment complete.")
 
     df_diamond = tsv_to_df(
         output,

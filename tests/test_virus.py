@@ -129,75 +129,76 @@ validation) and code-defined tests (for functional, unit, and data quality check
 
 Total: 186 tests
 """
-import unittest
+
+import calendar
+import functools
 import json
 import os
-import re
 import shutil
 import subprocess
 import tempfile
 import time
-import functools
+import unittest
 import zipfile
-import calendar
 from datetime import datetime
 
 import pandas as pd
-
 from gget.gget_virus import (
-    virus,
-    _get_datasets_path,
+    _batch_accessions_for_url,
+    _calculate_max_accessions_per_batch,
+    _clean_xml_declarations,
     _clear_datasets_cache,
-    _get_modified_virus_name,
-    _track_failed_operation,
-    _validate_datasets_binary,
+    _deduplicate_metadata_against_baseline,
+    _force_garbage_collection,
+    _genbank_xml_to_csv,
+    _get_datasets_path,
     _get_datasets_version,
     _get_gget_version,
+    _get_memory_usage,
+    _get_modified_virus_name,
+    _local_name,
+    _merge_baseline_with_new,
     _parse_accession_input,
     _parse_baseline_file,
-    _deduplicate_metadata_against_baseline,
-    _save_partial_metadata,
-    _merge_baseline_with_new,
-    _calculate_max_accessions_per_batch,
-    _batch_accessions_for_url,
-    _retry_with_exponential_backoff,
     _parse_date,
-    _parse_partial_date_for_range_check,
-    _clean_xml_declarations,
-    _local_name,
-    _unzip_file,
-    _get_memory_usage,
-    _force_garbage_collection,
-    is_sars_cov2_query,
-    is_alphainfluenza_query,
-    load_metadata_from_api_reports,
-    check_min_max,
-    filter_metadata_only,
-    filter_genbank_metadata,
-    filter_cached_metadata_for_unused_filters,
-    _write_fasta_record,
-    _stream_copy_fasta,
-    filter_sequences,
-    save_command_summary,
-    merge_metadata_csvs,
-    save_metadata_to_csv,
-    _genbank_xml_to_csv,
     _parse_genbank_xml,
+    _parse_partial_date_for_range_check,
+    _retry_with_exponential_backoff,
+    _save_partial_metadata,
+    _stream_copy_fasta,
+    _track_failed_operation,
+    _unzip_file,
+    _validate_datasets_binary,
+    _write_fasta_record,
+    check_min_max,
+    filter_cached_metadata_for_unused_filters,
+    filter_genbank_metadata,
+    filter_metadata_only,
+    filter_sequences,
+    is_alphainfluenza_query,
+    is_sars_cov2_query,
+    load_metadata_from_api_reports,
+    merge_metadata_csvs,
+    save_command_summary,
     save_genbank_metadata_to_csv,
+    save_metadata_to_csv,
+    virus,
 )
+
 from .from_json import from_json
 
 
 def retry_on_network_error(max_retries=3, delay=5):
     """Decorator to retry tests that may fail due to network issues.
-    
+
     This is useful for tests that make real API calls to NCBI, which can
     occasionally time out or fail due to network flakiness.
-    
+
     Args:
         max_retries: Maximum number of retry attempts (default: 3)
         delay: Seconds to wait between retries (default: 5)
     """
+
     def decorator(test_func):
         @functools.wraps(test_func)
         def wrapper(*args, **kwargs):
@@ -208,7 +209,7 @@ def retry_on_network_error(max_retries=3, delay=5):
                 except Exception as e:
                     # Only retry on network-related errors
                     error_msg = str(e).lower()
-                    if any(keyword in error_msg for keyword in ['timeout', 'timed out', 'connection', 'network']):
+                    if any(keyword in error_msg for keyword in ["timeout", "timed out", "connection", "network"]):
                         last_exception = e
                         if attempt < max_retries - 1:
                             time.sleep(delay)
@@ -217,8 +218,11 @@ def retry_on_network_error(max_retries=3, delay=5):
                     raise
             # If all retries failed, raise the last exception
             raise last_exception
+
         return wrapper
+
     return decorator
+
 
 # Load dictionary containing arguments and expected results
 with open("./tests/fixtures/test_virus.json") as json_file:
@@ -227,14 +231,14 @@ with open("./tests/fixtures/test_virus.json") as json_file:
 
 class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
     """Test suite for gget.virus module.
-    
+
     This comprehensive test suite covers:
-    
+
     1. Input Validation (19 JSON-defined tests):
        - Type checking for boolean, string, and integer parameters
        - Value validation (completeness, batch sizes, virus names)
        - Range validation (min/max pairs for dates, lengths, counts)
-    
+
     2. Functional Tests (18 code-defined tests):
        - Basic file creation and accession downloads
        - Individual filter functionality (host, completeness, length, annotated, refseq)
@@ -245,172 +249,174 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
        - GenBank metadata retrieval
        - Multiple filter combinations
        - Integer virus ID handling
-    
+
     3. Data Quality & Verification Tests (6 code-defined tests):
        - Relationship checks: FASTA/CSV/JSONL count consistency
        - Filter verification: Host and release date filter effectiveness
        - Schema validation: Expected metadata columns exist
        - Completeness filter verification
        - Multi-filter relationship checks
-    
+
     Coverage: 85% of parameters tested (29/34), with 43 total test cases.
     See module docstring for detailed parameter coverage analysis.
     """
-    
+
     @classmethod
     def setUpClass(cls):
         """Set up test fixtures that are shared across all tests."""
         cls.test_output_dir = "test_virus_output"
-        
+
     @classmethod
     def tearDownClass(cls):
         """Clean up after all tests have run."""
         # Clean up test output directory if it exists
         if os.path.exists(cls.test_output_dir):
             shutil.rmtree(cls.test_output_dir)
-    
+
     def setUp(self):
         """Set up before each test method."""
         # Create a fresh test output directory
         if os.path.exists(self.test_output_dir):
             shutil.rmtree(self.test_output_dir)
         os.makedirs(self.test_output_dir, exist_ok=True)
-    
+
     def tearDown(self):
         """Clean up after each test method."""
         # Clean up test output directory
         if os.path.exists(self.test_output_dir):
             try:
                 shutil.rmtree(self.test_output_dir)
-            except Exception:
+            except Exception:  # noqa: BLE001
                 pass  # Ignore cleanup errors
-    
+
     def _check_output_files(self, virus_name, outfolder):
         """Helper method to check if expected output files were created.
-        
+
         Args:
             virus_name: Name of the virus (used in file naming)
             outfolder: Output folder where files should be created
-            
+
         Returns:
             dict: Dictionary with file paths and existence status
         """
         # Clean virus name for file naming (replace spaces with underscores)
         virus_clean = virus_name.replace(" ", "_")
-        
+
         expected_files = {
             "fasta": os.path.join(outfolder, f"{virus_clean}_sequences.fasta"),
             "csv": os.path.join(outfolder, f"{virus_clean}_metadata.csv"),
-            "jsonl": os.path.join(outfolder, f"{virus_clean}_metadata.jsonl")
+            "jsonl": os.path.join(outfolder, f"{virus_clean}_metadata.jsonl"),
         }
-        
+
         results = {}
         for file_type, file_path in expected_files.items():
             results[file_type] = {
                 "path": file_path,
                 "exists": os.path.exists(file_path),
-                "size": os.path.getsize(file_path) if os.path.exists(file_path) else 0
+                "size": os.path.getsize(file_path) if os.path.exists(file_path) else 0,
             }
-        
+
         return results
-    
+
     def _count_fasta_sequences(self, fasta_file):
         """Count the number of sequences in a FASTA file.
-        
+
         Args:
             fasta_file: Path to FASTA file
-            
+
         Returns:
             int: Number of sequences
         """
         count = 0
         if os.path.exists(fasta_file):
-            with open(fasta_file, 'r') as f:
+            with open(fasta_file) as f:
                 for line in f:
-                    if line.startswith('>'):
+                    if line.startswith(">"):
                         count += 1
         return count
-    
+
     def _count_jsonl_records(self, jsonl_file):
         """Count the number of records in a JSONL file.
-        
+
         Args:
             jsonl_file: Path to JSONL file
-            
+
         Returns:
             int: Number of records
         """
         count = 0
         if os.path.exists(jsonl_file):
-            with open(jsonl_file, 'r') as f:
+            with open(jsonl_file) as f:
                 for line in f:
                     if line.strip():
                         count += 1
         return count
-    
+
     def _count_csv_records(self, csv_file):
         """Count the number of records in a CSV file (excluding header).
-        
+
         Args:
             csv_file: Path to CSV file
-            
+
         Returns:
             int: Number of records (excluding header)
         """
         count = 0
         if os.path.exists(csv_file):
-            with open(csv_file, 'r') as f:
+            with open(csv_file) as f:
                 # Skip header
                 next(f, None)
                 for line in f:
                     if line.strip():
                         count += 1
         return count
-    
+
     def _parse_csv_metadata(self, csv_file):
         """Parse CSV metadata file and return records as list of dicts.
-        
+
         Args:
             csv_file: Path to CSV file
-            
+
         Returns:
             list: List of dictionaries containing metadata records
         """
         import csv
+
         records = []
         if os.path.exists(csv_file):
-            with open(csv_file, 'r', encoding='utf-8') as f:
+            with open(csv_file, encoding="utf-8") as f:
                 reader = csv.DictReader(f)
                 for row in reader:
                     records.append(row)
         return records
-    
+
     def _get_csv_columns(self, csv_file):
         """Get column names from CSV file.
-        
+
         Args:
             csv_file: Path to CSV file
-            
+
         Returns:
             list: List of column names
         """
         import csv
+
         if os.path.exists(csv_file):
-            with open(csv_file, 'r', encoding='utf-8') as f:
+            with open(csv_file, encoding="utf-8") as f:
                 reader = csv.DictReader(f)
                 return reader.fieldnames
         return []
-    
+
     # =========================================================================
     # FUNCTIONAL TESTS: Basic file creation and filter functionality
     # =========================================================================
     # These tests verify that the virus function creates output files
     # correctly and that individual filters work as expected.
-    
+
     @retry_on_network_error(max_retries=3, delay=5)
     def test_virus_specific_accession_file_creation(self):
         """Test that files are created when downloading a specific accession.
-        
+
         Downloads SARS-CoV-2 reference sequence (NC_045512.2) and verifies:
         - Function returns None (writes to disk)
         - All three output files created (FASTA, CSV, JSONL)
@@ -419,124 +425,100 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
         """
         virus_name = "NC_045512.2"
         outfolder = self.test_output_dir
-        
+
         # Run the function (should create files, returns None)
-        result = virus(
-            virus=virus_name,
-            is_accession=True,
-            outfolder=outfolder
-        )
-        
+        result = virus(virus=virus_name, is_accession=True, outfolder=outfolder)
+
         # Check that function returns None
         self.assertIsNone(result)
-        
+
         # Check that output files were created
         files = self._check_output_files(virus_name, outfolder)
-        
+
         # Assert all files exist
-        self.assertTrue(files["fasta"]["exists"], 
-                       f"FASTA file not created: {files['fasta']['path']}")
-        self.assertTrue(files["csv"]["exists"], 
-                       f"CSV file not created: {files['csv']['path']}")
-        self.assertTrue(files["jsonl"]["exists"], 
-                       f"JSONL file not created: {files['jsonl']['path']}")
-        
+        self.assertTrue(files["fasta"]["exists"], f"FASTA file not created: {files['fasta']['path']}")
+        self.assertTrue(files["csv"]["exists"], f"CSV file not created: {files['csv']['path']}")
+        self.assertTrue(files["jsonl"]["exists"], f"JSONL file not created: {files['jsonl']['path']}")
+
         # Assert files are not empty
         self.assertGreater(files["fasta"]["size"], 0, "FASTA file is empty")
         self.assertGreater(files["csv"]["size"], 0, "CSV file is empty")
         self.assertGreater(files["jsonl"]["size"], 0, "JSONL file is empty")
-        
+
         # Count sequences (should be 1 for a specific accession)
         seq_count = self._count_fasta_sequences(files["fasta"]["path"])
         self.assertGreaterEqual(seq_count, 1, "No sequences found in FASTA file")
-    
+
     @retry_on_network_error(max_retries=3, delay=5)
     def test_virus_with_host_filter(self):
         """Test that host filter works and creates appropriate files."""
         virus_name = "Zika virus"
         outfolder = self.test_output_dir
-        
-        result = virus(
-            virus=virus_name,
-            host="human",
-            outfolder=outfolder
-        )
-        
+
+        result = virus(virus=virus_name, host="human", outfolder=outfolder)
+
         self.assertIsNone(result)
-        
+
         files = self._check_output_files(virus_name, outfolder)
         self.assertTrue(files["fasta"]["exists"], "FASTA file not created with host filter")
         self.assertTrue(files["csv"]["exists"], "CSV file not created with host filter")
         self.assertTrue(files["jsonl"]["exists"], "JSONL file not created with host filter")
-        
+
         # Verify that files contain data
         self.assertGreater(files["fasta"]["size"], 0, "FASTA file is empty with host filter")
-    
+
     @retry_on_network_error(max_retries=3, delay=5)
     def test_virus_with_completeness_filter(self):
         """Test that completeness filter works correctly."""
         virus_name = "Zika virus"
         outfolder = self.test_output_dir
-        
-        result = virus(
-            virus=virus_name,
-            nuc_completeness="complete",
-            outfolder=outfolder
-        )
-        
+
+        result = virus(virus=virus_name, nuc_completeness="complete", outfolder=outfolder)
+
         self.assertIsNone(result)
-        
+
         files = self._check_output_files(virus_name, outfolder)
         self.assertTrue(files["fasta"]["exists"], "FASTA file not created with completeness filter")
         self.assertGreater(files["fasta"]["size"], 0, "FASTA file is empty with completeness filter")
-    
+
     @retry_on_network_error(max_retries=3, delay=5)
     def test_virus_with_length_filters(self):
         """Test that sequence length filters work correctly."""
         virus_name = "Zika virus"
         outfolder = self.test_output_dir
-        
-        result = virus(
-            virus=virus_name,
-            min_seq_length=10000,
-            max_seq_length=11000,
-            outfolder=outfolder
-        )
-        
+
+        result = virus(virus=virus_name, min_seq_length=10000, max_seq_length=11000, outfolder=outfolder)
+
         self.assertIsNone(result)
-        
+
         files = self._check_output_files(virus_name, outfolder)
         self.assertTrue(files["fasta"]["exists"], "FASTA file not created with length filters")
-        
+
         # Verify sequences are within expected length range
         # This would require parsing the FASTA file, which we do with count
         seq_count = self._count_fasta_sequences(files["fasta"]["path"])
         self.assertGreater(seq_count, 0, "No sequences passed length filters")
-    
+
     @retry_on_network_error(max_retries=3, delay=5)
     def test_virus_with_annotated_filter(self):
         """Test that annotated filter works correctly."""
         virus_name = "Zika virus"
         outfolder = self.test_output_dir
-        
-        result = virus(
-            virus=virus_name,
-            annotated=True,
-            outfolder=outfolder
-        )
-        
+
+        result = virus(virus=virus_name, annotated=True, outfolder=outfolder)
+
         self.assertIsNone(result)
-        
+
         files = self._check_output_files(virus_name, outfolder)
         self.assertTrue(files["fasta"]["exists"], "FASTA file not created with annotated filter")
         self.assertGreater(files["fasta"]["size"], 0, "FASTA file is empty with annotated filter")
-    
+
     @retry_on_network_error(max_retries=3, delay=5)
     def test_virus_with_multiple_filters(self):
         """Test that multiple filters can be combined correctly."""
         virus_name = "Zika virus"
         outfolder = self.test_output_dir
-        
+
         result = virus(
             virus=virus_name,
             host="human",
@@ -544,226 +526,215 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
             min_seq_length=10500,
             max_seq_length=11000,
             annotated=True,
-            outfolder=outfolder
+            outfolder=outfolder,
         )
-        
+
         self.assertIsNone(result)
-        
+
         files = self._check_output_files(virus_name, outfolder)
         self.assertTrue(files["fasta"]["exists"], "FASTA file not created with multiple filters")
         self.assertTrue(files["csv"]["exists"], "CSV file not created with multiple filters")
         self.assertTrue(files["jsonl"]["exists"], "JSONL file not created with multiple filters")
-        
+
         # Check that filters reduced the dataset (should have some sequences)
         seq_count = self._count_fasta_sequences(files["fasta"]["path"])
         self.assertGreater(seq_count, 0, "No sequences passed multiple filters")
-    
+
     @retry_on_network_error(max_retries=3, delay=5)
     def test_virus_integer_virus_id(self):
         """Test that integer virus IDs are handled correctly.
-        
+
         Tests using Zika virus taxon ID (64320) as integer input.
         Verifies that integer IDs are properly converted and files created.
         """
         virus_id = 64320  # Zika virus taxon ID
         outfolder = self.test_output_dir
-        
-        result = virus(
-            virus=virus_id,
-            outfolder=outfolder
-        )
-        
+
+        result = virus(virus=virus_id, outfolder=outfolder)
+
         self.assertIsNone(result)
-        
+
         # Check files with string version of virus ID
         virus_clean = str(virus_id)
         expected_fasta = os.path.join(outfolder, f"{virus_clean}_sequences.fasta")
-        self.assertTrue(os.path.exists(expected_fasta), 
-                       f"FASTA file not created for integer virus ID: {expected_fasta}")
-    
+        self.assertTrue(
+            os.path.exists(expected_fasta), f"FASTA file not created for integer virus ID: {expected_fasta}"
+        )
+
     # =========================================================================
     # DATA QUALITY & VERIFICATION TESTS
     # =========================================================================
     # These tests verify data consistency, filter effectiveness, and that
     # API/data source changes would be detected. They go beyond simple file
     # existence checks to validate actual data quality.
-    
+
     @retry_on_network_error(max_retries=3, delay=5)
     def test_virus_relationship_check_counts_match(self):
         """Test that FASTA sequence count matches CSV and JSONL record counts.
-        
+
         Downloads a specific accession and verifies:
         - Number of FASTA sequences = number of CSV records = number of JSONL records
         - No data loss between different output formats
         - At least one record in all files
-        
+
         This catches: Format conversion bugs, data loss, parsing errors.
         """
         virus_name = "NC_045512.2"
         outfolder = self.test_output_dir
-        
-        result = virus(
-            virus=virus_name,
-            is_accession=True,
-            outfolder=outfolder
-        )
-        
+
+        result = virus(virus=virus_name, is_accession=True, outfolder=outfolder)
+
         self.assertIsNone(result)
-        
+
         files = self._check_output_files(virus_name, outfolder)
-        
+
         # Count records in each file type
         fasta_count = self._count_fasta_sequences(files["fasta"]["path"])
         csv_count = self._count_csv_records(files["csv"]["path"])
         jsonl_count = self._count_jsonl_records(files["jsonl"]["path"])
-        
+
         # All counts should match
-        self.assertEqual(fasta_count, csv_count, 
-                        f"FASTA count ({fasta_count}) does not match CSV count ({csv_count})")
-        self.assertEqual(fasta_count, jsonl_count, 
-                        f"FASTA count ({fasta_count}) does not match JSONL count ({jsonl_count})")
-        self.assertEqual(csv_count, jsonl_count, 
-                        f"CSV count ({csv_count}) does not match JSONL count ({jsonl_count})")
-        
+        self.assertEqual(fasta_count, csv_count, f"FASTA count ({fasta_count}) does not match CSV count ({csv_count})")
+        self.assertEqual(
+            fasta_count, jsonl_count, f"FASTA count ({fasta_count}) does not match JSONL count ({jsonl_count})"
+        )
+        self.assertEqual(csv_count, jsonl_count, f"CSV count ({csv_count}) does not match JSONL count ({jsonl_count})")
+
         # Should have at least one record
         self.assertGreater(fasta_count, 0, "No records found in output files")
-    
+
     @retry_on_network_error(max_retries=3, delay=5)
     def test_virus_host_filter_verification(self):
         """Test that host filter actually filters by host in metadata.
-        
+
         Downloads Zika virus with host="human" filter and verifies:
         - Records are returned (filter doesn't break the query)
         - Host column exists in metadata
         - If host data is populated, it matches the filter criterion
-        
+
         Note: Host filter is applied server-side by NCBI API. The returned
         records should all match, but the Host field in CSV may be empty or
         have various formats (scientific names, common names).
-        
+
         This catches: Broken host filters, API changes in filtering behavior.
         """
         virus_name = "Zika virus"
         host = "human"
         outfolder = self.test_output_dir
-        
-        result = virus(
-            virus=virus_name,
-            host=host,
-            outfolder=outfolder
-        )
-        
+
+        result = virus(virus=virus_name, host=host, outfolder=outfolder)
+
         self.assertIsNone(result)
-        
+
         files = self._check_output_files(virus_name, outfolder)
-        
+
         # Parse CSV metadata
         records = self._parse_csv_metadata(files["csv"]["path"])
-        
+
         # Should have some records
         self.assertGreater(len(records), 0, "No records returned with host filter")
-        
+
         # Check that host column exists
         if records:
-            self.assertIn("Host", records[0].keys(), 
-                         "Host column not found in metadata")
-            
+            self.assertIn("Host", records[0].keys(), "Host column not found in metadata")
+
             # Note: Host filter is applied server-side by NCBI API
             # The returned records should all match, but the Host field in CSV
             # may be empty or have various formats (scientific names, common names)
             # We verify the filter worked by checking that records were returned
             # (if filter was broken, we'd get all hosts or an error)
-            
+
             # Count non-empty host values
-            non_empty_hosts = sum(1 for record in records 
-                                if record.get("Host", "").strip())
-            
+            non_empty_hosts = sum(1 for record in records if record.get("Host", "").strip())
+
             # If we have host data populated, verify it matches
             if non_empty_hosts > 0:
                 host_lower = host.lower()
                 # Also check for "Homo sapiens" which is scientific name for human
-                matching_hosts = sum(1 for record in records 
-                                   if host_lower in record.get("Host", "").lower() 
-                                   or "homo sapiens" in record.get("Host", "").lower())
-                
+                matching_hosts = sum(
+                    1
+                    for record in records
+                    if host_lower in record.get("Host", "").lower() or "homo sapiens" in record.get("Host", "").lower()
+                )
+
                 # If host data is populated, at least 50% should match
                 if non_empty_hosts > 0:
                     match_percentage = (matching_hosts / non_empty_hosts) * 100
-                    self.assertGreater(match_percentage, 50, 
-                                     f"Only {match_percentage:.1f}% of populated host fields match filter '{host}'")
-    
+                    self.assertGreater(
+                        match_percentage,
+                        50,
+                        f"Only {match_percentage:.1f}% of populated host fields match filter '{host}'",
+                    )
+
     @retry_on_network_error(max_retries=3, delay=5)
     def test_virus_release_date_filter_verification(self):
         """Test that release date filter is applied correctly in metadata.
-        
+
         Downloads Mumps virus with min_release_date="2024-12-31" and verifies:
         - Records are returned (API is working)
         - Release date field exists in metadata
         - All release dates are on or after 2024-12-31
         - Count matches expected API results
-        
+
         This test compares against the direct API call:
         curl -X GET "https://api.ncbi.nlm.nih.gov/datasets/v2/virus/taxon/mumps%20virus/dataset_report?filter.released_since=2024-12-31T00:00:00.000Z"
-        
+
         This catches: Release date filter bugs, date parsing errors, API filter issues.
         """
-        import requests
         from datetime import datetime
-        
+
+        import requests
+
         virus_name = "mumps virus"
         min_release_date = "2024-12-31"
         outfolder = self.test_output_dir
-        
+
         # First, get the expected count from direct API call using full timestamp format
         api_url = "https://api.ncbi.nlm.nih.gov/datasets/v2/virus/taxon/mumps%20virus/dataset_report"
         params = {"filter.released_since": "2024-12-31T00:00:00.000Z", "page_size": 1000}
-        
+
         try:
-            response = requests.get(api_url, params=params, headers={'accept': 'application/json'})
+            response = requests.get(api_url, params=params, headers={"accept": "application/json"})
             response.raise_for_status()
             api_data = response.json()
-            expected_count = len(api_data.get('reports', []))
-        except Exception as e:
+            expected_count = len(api_data.get("reports", []))
+        except Exception as e:  # noqa: BLE001
             self.skipTest(f"Could not fetch API data for comparison: {e}")
-        
+
         # Run virus function with same filter
-        result = virus(
-            virus=virus_name,
-            min_release_date=min_release_date,
-            outfolder=outfolder
-        )
-        
+        result = virus(virus=virus_name, min_release_date=min_release_date, outfolder=outfolder)
+
         self.assertIsNone(result)
-        
+
         files = self._check_output_files(virus_name, outfolder)
-        
+
         # Verify files were created
-        self.assertTrue(os.path.exists(files["csv"]["path"]), 
-                       "CSV file not created with release date filter")
-        self.assertTrue(os.path.exists(files["fasta"]["path"]), 
-                       "FASTA file not created with release date filter")
-        
+        self.assertTrue(os.path.exists(files["csv"]["path"]), "CSV file not created with release date filter")
+        self.assertTrue(os.path.exists(files["fasta"]["path"]), "FASTA file not created with release date filter")
+
         # Parse CSV metadata
         records = self._parse_csv_metadata(files["csv"]["path"])
-        
+
         # Should have records matching API count (allowing for small variance due to timing)
         self.assertGreater(len(records), 0, "No records returned with release date filter")
-        self.assertEqual(len(records), expected_count,
-                        f"Record count ({len(records)}) doesn't match API count ({expected_count})")
-        
+        self.assertEqual(
+            len(records), expected_count, f"Record count ({len(records)}) doesn't match API count ({expected_count})"
+        )
+
         # Check that release date column exists
         release_date_field = None
         for possible_field in ["Release date", "Release Date", "ReleaseDate", "release_date"]:
             if possible_field in records[0].keys():
                 release_date_field = possible_field
                 break
-        
-        self.assertIsNotNone(release_date_field, 
-                           f"Release date field not found. Available fields: {list(records[0].keys())}")
-        
+
+        self.assertIsNotNone(
+            release_date_field, f"Release date field not found. Available fields: {list(records[0].keys())}"
+        )
+
         # Parse filter date for comparison (inclusive - on or after this date)
         filter_date = datetime.strptime(min_release_date, "%Y-%m-%d")
-        
+
         # Verify all release dates are on or after the filter date (inclusive)
         invalid_dates = []
         for record in records:
@@ -773,117 +744,118 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
                     # Parse ISO date format (YYYY-MM-DD)
                     record_date = datetime.strptime(date_str, "%Y-%m-%d")
                     if record_date < filter_date:
-                        invalid_dates.append((record.get('Accession', 'unknown'), date_str))
+                        invalid_dates.append((record.get("Accession", "unknown"), date_str))
                 except ValueError as e:
                     # If date parsing fails, that's also a test failure
                     self.fail(f"Could not parse release date '{date_str}': {e}")
-        
-        self.assertEqual(len(invalid_dates), 0,
-                        f"Found {len(invalid_dates)} records with release dates before {min_release_date}: {invalid_dates[:5]}")
-    
+
+        self.assertEqual(
+            len(invalid_dates),
+            0,
+            f"Found {len(invalid_dates)} records with release dates before {min_release_date}: {invalid_dates[:5]}",
+        )
+
     @retry_on_network_error(max_retries=3, delay=5)
     def test_virus_metadata_schema_validation(self):
         """Test that expected metadata columns exist in CSV output.
-        
+
         Downloads a specific accession and verifies:
         - CSV contains expected essential columns (accession, length, host)
         - At least 5 columns present (reasonable metadata breadth)
         - Column names are properly formatted
-        
+
         This catches: API schema changes, missing metadata fields, field
         name changes that would break downstream analysis tools.
         """
         virus_name = "NC_045512.2"
         outfolder = self.test_output_dir
-        
-        result = virus(
-            virus=virus_name,
-            is_accession=True,
-            outfolder=outfolder
-        )
-        
+
+        result = virus(virus=virus_name, is_accession=True, outfolder=outfolder)
+
         self.assertIsNone(result)
-        
+
         files = self._check_output_files(virus_name, outfolder)
-        
+
         # Get column names from CSV
         columns = self._get_csv_columns(files["csv"]["path"])
-        
+
         # Check for expected essential columns (these should always be present)
         # Using case-insensitive checking since column names might vary
         columns_lower = [col.lower() for col in columns]
-        
+
         expected_columns = [
             "accession",  # Or GenBank Accession
-            "length",     # Or Sequence Length
-            "host",       # Host information
+            "length",  # Or Sequence Length
+            "host",  # Host information
         ]
-        
+
         missing_columns = []
         for expected in expected_columns:
             found = any(expected in col_lower for col_lower in columns_lower)
             if not found:
                 missing_columns.append(expected)
-        
-        self.assertEqual(len(missing_columns), 0, 
-                        f"Missing expected metadata columns: {missing_columns}. "
-                        f"Available columns: {columns}")
-        
+
+        self.assertEqual(
+            len(missing_columns),
+            0,
+            f"Missing expected metadata columns: {missing_columns}. Available columns: {columns}",
+        )
+
         # Verify we have a reasonable number of columns (at least 5)
-        self.assertGreaterEqual(len(columns), 5, 
-                               f"Only {len(columns)} columns found, expected at least 5")
-    
+        self.assertGreaterEqual(len(columns), 5, f"Only {len(columns)} columns found, expected at least 5")
+
     @retry_on_network_error(max_retries=3, delay=5)
     def test_virus_completeness_filter_verification(self):
         """Test that completeness filter returns appropriate sequences.
-        
+
         Downloads Zika virus with nuc_completeness="complete" and verifies:
         - Records are returned (filter works)
         - If completeness field exists, validates values
         - Falls back to checking length field exists
-        
+
         This catches: Broken completeness filters, metadata field changes,
         filter logic errors.
         """
         virus_name = "Zika virus"
         outfolder = self.test_output_dir
-        
-        result = virus(
-            virus=virus_name,
-            nuc_completeness="complete",
-            outfolder=outfolder
-        )
-        
+
+        result = virus(virus=virus_name, nuc_completeness="complete", outfolder=outfolder)
+
         self.assertIsNone(result)
-        
+
         files = self._check_output_files(virus_name, outfolder)
-        
+
         # Parse CSV metadata
         records = self._parse_csv_metadata(files["csv"]["path"])
-        
+
         # Should have some records
         self.assertGreater(len(records), 0, "No records returned with completeness filter")
-        
+
         # Check if there's a completeness or length field
         if records:
             # Look for completeness-related fields
             completeness_field = None
-            for possible_field in ["Completeness", "Nuc_Completeness", "Nucleotide Completeness", 
-                                  "Genome Coverage", "completeness"]:
+            for possible_field in [
+                "Completeness",
+                "Nuc_Completeness",
+                "Nucleotide Completeness",
+                "Genome Coverage",
+                "completeness",
+            ]:
                 if possible_field in records[0].keys():
                     completeness_field = possible_field
                     break
-            
+
             # If completeness field exists, verify values
             if completeness_field:
-                complete_count = sum(1 for record in records 
-                                   if "complete" in record.get(completeness_field, "").lower())
-                
+                complete_count = sum(
+                    1 for record in records if "complete" in record.get(completeness_field, "").lower()
+                )
+
                 # At least 50% should be marked as complete
                 if complete_count > 0:
                     complete_percentage = (complete_count / len(records)) * 100
-                    self.assertGreater(complete_percentage, 50,
-                                     f"Only {complete_percentage:.1f}% marked as complete")
+                    self.assertGreater(complete_percentage, 50, f"Only {complete_percentage:.1f}% marked as complete")
             else:
                 # If no explicit completeness field, check length field exists
                 # (complete genomes should have consistent lengths)
@@ -892,162 +864,154 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
                     if possible_field in records[0].keys():
                         length_field = possible_field
                         break
-                
-                self.assertIsNotNone(length_field, 
-                                    "Neither completeness nor length field found in metadata")
-    
+
+                self.assertIsNotNone(length_field, "Neither completeness nor length field found in metadata")
+
     @retry_on_network_error(max_retries=3, delay=5)
     def test_virus_multiple_filters_relationship_check(self):
         """Test relationship checks work correctly with multiple filters applied.
-        
+
         Downloads Zika virus with multiple filters (host, completeness, length) and verifies:
         - FASTA/CSV/JSONL counts still match with complex filtering
         - At least one record passes all filters
         - No data loss when multiple filters interact
-        
+
         This catches: Filter interaction bugs, data loss with complex queries,
         inconsistent filtering across output formats.
         """
         virus_name = "Zika virus"
         outfolder = self.test_output_dir
-        
+
         result = virus(
-            virus=virus_name,
-            host="human",
-            nuc_completeness="complete",
-            min_seq_length=10000,
-            outfolder=outfolder
+            virus=virus_name, host="human", nuc_completeness="complete", min_seq_length=10000, outfolder=outfolder
         )
-        
+
         self.assertIsNone(result)
-        
+
         files = self._check_output_files(virus_name, outfolder)
-        
+
         # Count records in each file type
         fasta_count = self._count_fasta_sequences(files["fasta"]["path"])
         csv_count = self._count_csv_records(files["csv"]["path"])
         jsonl_count = self._count_jsonl_records(files["jsonl"]["path"])
-        
+
         # All counts should match even with filters
-        self.assertEqual(fasta_count, csv_count, 
-                        f"FASTA count ({fasta_count}) does not match CSV count ({csv_count}) with multiple filters")
-        self.assertEqual(fasta_count, jsonl_count, 
-                        f"FASTA count ({fasta_count}) does not match JSONL count ({jsonl_count}) with multiple filters")
-        
+        self.assertEqual(
+            fasta_count,
+            csv_count,
+            f"FASTA count ({fasta_count}) does not match CSV count ({csv_count}) with multiple filters",
+        )
+        self.assertEqual(
+            fasta_count,
+            jsonl_count,
+            f"FASTA count ({fasta_count}) does not match JSONL count ({jsonl_count}) with multiple filters",
+        )
+
         # Should have at least one record
         self.assertGreater(fasta_count, 0, "No records found with multiple filters applied")
 
     # =========================================================================
     # ADDITIONAL FUNCTIONAL TESTS: Testing previously untested parameters
     # =========================================================================
-    
+
     @retry_on_network_error(max_retries=3, delay=5)
     def test_virus_with_geographic_location_filter(self):
         """Test that geographic location filter works correctly.
-        
+
         Downloads Zika virus sequences from Brazil and verifies:
         - Files are created successfully
         - Records are returned
         - Geographic location metadata field exists
-        
+
         This catches: Geographic location filter bugs, API parameter issues.
         """
         virus_name = "Zika virus"
         outfolder = self.test_output_dir
-        
-        result = virus(
-            virus=virus_name,
-            geographic_location="Brazil",
-            outfolder=outfolder
-        )
-        
+
+        result = virus(virus=virus_name, geographic_location="Brazil", outfolder=outfolder)
+
         self.assertIsNone(result)
-        
+
         files = self._check_output_files(virus_name, outfolder)
         self.assertTrue(files["fasta"]["exists"], "FASTA file not created with geographic location filter")
         self.assertTrue(files["csv"]["exists"], "CSV file not created with geographic location filter")
-        
+
         # Parse CSV metadata
         records = self._parse_csv_metadata(files["csv"]["path"])
-        
+
         # Should have some records (Brazil had Zika outbreak)
         self.assertGreater(len(records), 0, "No records returned with geographic location filter")
-        
+
         # Check that geographic location fields exist
         if records:
             geo_fields = ["Geographic Location", "Geographic Region", "Geo String"]
             has_geo_field = any(field in records[0].keys() for field in geo_fields)
-            self.assertTrue(has_geo_field, 
-                          f"No geographic location field found. Available fields: {list(records[0].keys())}")
-    
+            self.assertTrue(
+                has_geo_field, f"No geographic location field found. Available fields: {list(records[0].keys())}"
+            )
+
     @retry_on_network_error(max_retries=3, delay=5)
     def test_virus_with_protein_count_filters(self):
         """Test that protein count filters work correctly.
-        
+
         Downloads Zika virus with protein count filters and verifies:
         - Files are created successfully
         - Records are returned
         - Protein count field exists in metadata
-        
+
         This catches: Protein count filter bugs, metadata field issues.
         """
         virus_name = "Zika virus"
         outfolder = self.test_output_dir
-        
-        result = virus(
-            virus=virus_name,
-            min_protein_count=1,
-            max_protein_count=20,
-            outfolder=outfolder
-        )
-        
+
+        result = virus(virus=virus_name, min_protein_count=1, max_protein_count=20, outfolder=outfolder)
+
         self.assertIsNone(result)
-        
+
         files = self._check_output_files(virus_name, outfolder)
         self.assertTrue(files["fasta"]["exists"], "FASTA file not created with protein count filters")
-        
+
         # Parse CSV metadata
         records = self._parse_csv_metadata(files["csv"]["path"])
-        
+
         # Should have some records
         self.assertGreater(len(records), 0, "No records returned with protein count filters")
-        
+
         # Check that protein count field exists
         if records:
-            self.assertIn("Protein count", records[0].keys(), 
-                         f"Protein count field not found. Available fields: {list(records[0].keys())}")
-    
+            self.assertIn(
+                "Protein count",
+                records[0].keys(),
+                f"Protein count field not found. Available fields: {list(records[0].keys())}",
+            )
+
     @retry_on_network_error(max_retries=3, delay=5)
     def test_virus_with_source_database_filter(self):
         """Test that source database filter works correctly.
-        
+
         Downloads Zika virus from GenBank database and verifies:
         - Files are created successfully
         - Records are returned
         - Source database field exists in metadata
-        
+
         This catches: Source database filter bugs, API parameter issues.
         """
         virus_name = "Zika virus"
         outfolder = self.test_output_dir
-        
-        result = virus(
-            virus=virus_name,
-            source_database="GenBank",
-            outfolder=outfolder
-        )
-        
+
+        result = virus(virus=virus_name, source_database="GenBank", outfolder=outfolder)
+
         self.assertIsNone(result)
-        
+
         files = self._check_output_files(virus_name, outfolder)
         self.assertTrue(files["fasta"]["exists"], "FASTA file not created with source database filter")
-        
+
         # Parse CSV metadata
         records = self._parse_csv_metadata(files["csv"]["path"])
-        
+
         # Should have some records
         self.assertGreater(len(records), 0, "No records returned with source database filter")
-        
+
         # Check that source database field exists
         if records:
             db_field = None
@@ -1055,183 +1019,161 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
                 if possible_field in records[0].keys():
                     db_field = possible_field
                     break
-            
-            self.assertIsNotNone(db_field, 
-                               f"Source database field not found. Available fields: {list(records[0].keys())}")
-            
+
+            self.assertIsNotNone(
+                db_field, f"Source database field not found. Available fields: {list(records[0].keys())}"
+            )
 
     @retry_on_network_error(max_retries=3, delay=5)
     def test_virus_with_lab_passaged_filter(self):
         """Test that lab_passaged filter works correctly.
-        
+
         Downloads Zika virus with lab_passaged=False filter and verifies:
         - Files are created successfully
         - Records are returned
-        
+
         Note: Lab passaged data may be sparse, so we mainly verify the filter
         doesn't break the query.
-        
+
         This catches: Lab passaged filter bugs, API parameter issues.
         """
         virus_name = "Zika virus"
         outfolder = self.test_output_dir
-        
-        result = virus(
-            virus=virus_name,
-            lab_passaged=False,
-            outfolder=outfolder
-        )
-        
+
+        result = virus(virus=virus_name, lab_passaged=False, outfolder=outfolder)
+
         self.assertIsNone(result)
-        
+
         files = self._check_output_files(virus_name, outfolder)
         self.assertTrue(files["fasta"]["exists"], "FASTA file not created with lab_passaged filter")
-        
+
         # Should create files (even if no lab passaged field in results)
         self.assertGreater(files["fasta"]["size"], 0, "FASTA file is empty with lab_passaged filter")
-    
+
     @retry_on_network_error(max_retries=3, delay=5)
     def test_virus_with_collection_date_filters(self):
         """Test that collection date filters don't break the query.
-        
+
         Downloads Zika virus with collection date range and verifies:
         - Function completes without errors
-        
+
         Note: Collection date data is often sparse, filters may return no results.
         This test just ensures the filter doesn't cause errors.
         """
         virus_name = "Zika virus"
         outfolder = self.test_output_dir
-        
+
         # This will complete without error even if no results match
         result = virus(
-            virus=virus_name,
-            min_collection_date="2016-01-01",
-            max_collection_date="2016-12-31",
-            outfolder=outfolder
+            virus=virus_name, min_collection_date="2016-01-01", max_collection_date="2016-12-31", outfolder=outfolder
         )
-        
+
         # Function should complete successfully
         self.assertIsNone(result)
-    
+
     @retry_on_network_error(max_retries=3, delay=5)
     def test_virus_with_max_ambiguous_chars_filter(self):
         """Test that max_ambiguous_chars filter works correctly.
-        
+
         Downloads Zika virus with max_ambiguous_chars filter and verifies:
         - Files are created successfully
         - Records are returned
         - Filter doesn't break the query
-        
+
         This catches: Max ambiguous chars filter bugs, sequence quality filtering issues.
         """
         virus_name = "Zika virus"
         outfolder = self.test_output_dir
-        
-        result = virus(
-            virus=virus_name,
-            max_ambiguous_chars=100,
-            outfolder=outfolder
-        )
-        
+
+        result = virus(virus=virus_name, max_ambiguous_chars=100, outfolder=outfolder)
+
         self.assertIsNone(result)
-        
+
         files = self._check_output_files(virus_name, outfolder)
         self.assertTrue(files["fasta"]["exists"], "FASTA file not created with max_ambiguous_chars filter")
-        
+
         # Should have some records (most sequences have some ambiguous bases)
         seq_count = self._count_fasta_sequences(files["fasta"]["path"])
         self.assertGreater(seq_count, 0, "No sequences passed max_ambiguous_chars filter")
-    
+
     @retry_on_network_error(max_retries=3, delay=5)
     def test_virus_with_has_proteins_filter(self):
         """Test that has_proteins filter works correctly.
-        
+
         Downloads Zika virus requiring specific proteins and verifies:
         - Files are created successfully
         - Records are returned
         - Filter doesn't break the query
-        
+
         This catches: has_proteins filter bugs, protein filtering logic issues.
         """
         virus_name = "Zika virus"
         outfolder = self.test_output_dir
-        
+
         # Test with a common protein (polyprotein is typical for Zika)
-        result = virus(
-            virus=virus_name,
-            has_proteins="polyprotein",
-            outfolder=outfolder
-        )
-        
+        result = virus(virus=virus_name, has_proteins="polyprotein", outfolder=outfolder)
+
         self.assertIsNone(result)
-        
+
         files = self._check_output_files(virus_name, outfolder)
         self.assertTrue(files["fasta"]["exists"], "FASTA file not created with has_proteins filter")
-        
+
         # Should have some records (polyprotein is common in Zika)
         seq_count = self._count_fasta_sequences(files["fasta"]["path"])
         self.assertGreater(seq_count, 0, "No sequences passed has_proteins filter")
-    
+
     @retry_on_network_error(max_retries=3, delay=5)
     def test_virus_with_genbank_metadata_retrieval(self):
         """Test that GenBank metadata retrieval works correctly.
-        
+
         Downloads a single accession with genbank_metadata=True and verifies:
         - Function completes without errors
         - Standard files are created
         - GenBank metadata CSV file is created
-        
+
         This catches: GenBank metadata retrieval bugs, batch processing issues.
         """
         virus_name = "NC_045512.2"
         outfolder = self.test_output_dir
-        
+
         result = virus(
-            virus=virus_name,
-            is_accession=True,
-            genbank_metadata=True,
-            genbank_batch_size=10,
-            outfolder=outfolder
+            virus=virus_name, is_accession=True, genbank_metadata=True, genbank_batch_size=10, outfolder=outfolder
         )
-        
+
         self.assertIsNone(result)
-        
+
         files = self._check_output_files(virus_name, outfolder)
         self.assertTrue(files["fasta"]["exists"], "FASTA file not created with genbank_metadata")
-        
+
         # Check for GenBank metadata file
         genbank_csv = os.path.join(outfolder, f"{virus_name}_genbank_metadata.csv")
-        self.assertTrue(os.path.exists(genbank_csv), 
-                       f"GenBank metadata CSV not created: {genbank_csv}")
-        
+        self.assertTrue(os.path.exists(genbank_csv), f"GenBank metadata CSV not created: {genbank_csv}")
+
         # Verify GenBank CSV has data
-        self.assertGreater(os.path.getsize(genbank_csv), 0, 
-                         "GenBank metadata CSV is empty")
+        self.assertGreater(os.path.getsize(genbank_csv), 0, "GenBank metadata CSV is empty")
 
     # =========================================================================
     # DATASETS CLI TESTS: Testing NCBI datasets CLI check and setup
     # =========================================================================
     # These tests verify the datasets CLI detection and installation functionality
-    
+
     def test_get_datasets_path_returns_valid_path(self):
         """Test that _get_datasets_path returns a valid path to the datasets CLI.
-        
+
         The function should return a path to either:
         1. The system-installed datasets CLI (if available)
         2. The bundled datasets binary (fallback)
-        
+
         This catches: Detection logic bugs, path resolution issues.
         """
         # _get_datasets_path should always return a valid path
         # (either system CLI or bundled binary)
         datasets_path = _get_datasets_path()
-        
+
         # Should return a non-empty string
         self.assertIsInstance(datasets_path, str)
-        self.assertTrue(len(datasets_path) > 0, 
-                       "_get_datasets_path should return a non-empty path")
-        
+        self.assertTrue(len(datasets_path) > 0, "_get_datasets_path should return a non-empty path")
+
         # The returned path should be executable
         result = subprocess.run(
             [datasets_path, "--version"],
@@ -1239,57 +1181,54 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
             text=True,
             timeout=5,
         )
-        self.assertEqual(result.returncode, 0,
-                        f"datasets CLI at {datasets_path} should be executable")
-    
+        self.assertEqual(result.returncode, 0, f"datasets CLI at {datasets_path} should be executable")
+
     def test_get_datasets_path_uses_bundled_binary(self):
         """Test that _get_datasets_path falls back to bundled binary when system CLI is missing.
-        
+
         When the system-installed datasets CLI is not in PATH, the function
         should fall back to the bundled binary included with gget.
-        
+
         Note: _get_datasets_path caches its result, so this test clears the cache
         before testing the fallback behavior.
-        
+
         This catches: Bundled binary fallback logic, path resolution issues.
         """
         import gget.gget_virus as gget_virus_module
-        
+
         # Save original PATH and cache
         original_path = os.environ.get("PATH", "")
         original_cache = gget_virus_module._datasets_path_cache
-        
+
         try:
             # Clear the cache to force re-detection
             _clear_datasets_cache()
-            
+
             # Set PATH to empty to simulate system datasets not being found
             os.environ["PATH"] = ""
-            
+
             # Should still return a valid path (to bundled binary)
             datasets_path = _get_datasets_path()
-            
+
             # Should return a non-empty string path to bundled binary
             self.assertIsInstance(datasets_path, str)
-            self.assertTrue(len(datasets_path) > 0,
-                           "Should return path to bundled binary")
-            
+            self.assertTrue(len(datasets_path) > 0, "Should return path to bundled binary")
+
             # Path should contain 'bins' indicating bundled binary
-            self.assertIn("bins", datasets_path,
-                         f"Path should be bundled binary, got: {datasets_path}")
-            
+            self.assertIn("bins", datasets_path, f"Path should be bundled binary, got: {datasets_path}")
+
         finally:
             # Restore original PATH and cache
             os.environ["PATH"] = original_path
             gget_virus_module._datasets_path_cache = original_cache
-    
+
     def test_datasets_cli_version_output(self):
         """Test that the datasets CLI returns a valid version string.
-        
-        When available (system or bundled), the datasets CLI should return a 
-        version string that can be parsed. This helps ensure the CLI is properly 
+
+        When available (system or bundled), the datasets CLI should return a
+        version string that can be parsed. This helps ensure the CLI is properly
         functional.
-        
+
         This catches: Corrupted installations, version parsing issues.
         """
         # Use _get_datasets_path() to get either system or bundled binary
@@ -1304,71 +1243,67 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
             cli_available = result.returncode == 0
         except (FileNotFoundError, subprocess.TimeoutExpired, RuntimeError):
             cli_available = False
-        
+
         if not cli_available:
             self.skipTest("NCBI datasets CLI not available - skipping version test")
-        
+
         # Version output should not be empty and should contain version info
         version_output = result.stdout.strip()
-        self.assertTrue(len(version_output) > 0, 
-                       "Version output should not be empty")
+        self.assertTrue(len(version_output) > 0, "Version output should not be empty")
         # NCBI datasets typically outputs version like "datasets version: X.Y.Z" or just "X.Y.Z"
         self.assertTrue(
             any(char.isdigit() for char in version_output),
-            f"Version output should contain version numbers: {version_output}"
+            f"Version output should contain version numbers: {version_output}",
         )
 
-    
     # =========================================================================
     # MULTI-ACCESSION TESTS: Testing new multi-accession functionality
     # =========================================================================
     # These tests verify the new multi-accession support added in recent commits
-    
+
     def test_parse_accession_input_single(self):
         """Test parsing of single accession number.
-        
+
         Tests _parse_accession_input with a single accession identifier and verifies:
         - Returns correct type ('single')
         - Accession value is preserved
         - is_file flag is False
-        
+
         This catches: Single accession parsing bugs, input validation issues.
         """
-        from gget.gget_virus import _parse_accession_input
-        
-        result = _parse_accession_input('NC_045512.2')
-        
-        self.assertEqual(result['type'], 'single', "Should identify single accession")
-        self.assertEqual(result['accessions'], 'NC_045512.2', "Should preserve accession value")
-        self.assertFalse(result['is_file'], "Single accession should not be marked as file")
-        self.assertIsNone(result['file_path'], "Single accession should have no file_path")
-    
+
+        result = _parse_accession_input("NC_045512.2")
+
+        self.assertEqual(result["type"], "single", "Should identify single accession")
+        self.assertEqual(result["accessions"], "NC_045512.2", "Should preserve accession value")
+        self.assertFalse(result["is_file"], "Single accession should not be marked as file")
+        self.assertIsNone(result["file_path"], "Single accession should have no file_path")
+
     def test_parse_accession_input_space_separated(self):
         """Test parsing of space-separated accessions.
-        
+
         Tests _parse_accession_input with space-separated accessions and verifies:
         - Returns correct type ('list')
         - Accessions list is created with correct count
         - All accessions are preserved without whitespace
         - is_file flag is False
-        
+
         This catches: Space-separated parsing bugs, whitespace handling issues.
         """
-        from gget.gget_virus import _parse_accession_input
-        
-        result = _parse_accession_input('NC_045512.2 MN908947.3 MT020781.1')
-        
-        self.assertEqual(result['type'], 'list', "Should identify list of accessions")
-        self.assertIsInstance(result['accessions'], list, "Should return list type")
-        self.assertEqual(len(result['accessions']), 3, "Should parse 3 accessions")
-        self.assertEqual(result['accessions'][0], 'NC_045512.2', "First accession should match")
-        self.assertEqual(result['accessions'][1], 'MN908947.3', "Second accession should match")
-        self.assertEqual(result['accessions'][2], 'MT020781.1', "Third accession should match")
-        self.assertFalse(result['is_file'], "Space-separated should not be marked as file")
-    
+
+        result = _parse_accession_input("NC_045512.2 MN908947.3 MT020781.1")
+
+        self.assertEqual(result["type"], "list", "Should identify list of accessions")
+        self.assertIsInstance(result["accessions"], list, "Should return list type")
+        self.assertEqual(len(result["accessions"]), 3, "Should parse 3 accessions")
+        self.assertEqual(result["accessions"][0], "NC_045512.2", "First accession should match")
+        self.assertEqual(result["accessions"][1], "MN908947.3", "Second accession should match")
+        self.assertEqual(result["accessions"][2], "MT020781.1", "Third accession should match")
+        self.assertFalse(result["is_file"], "Space-separated should not be marked as file")
+
     def test_parse_accession_input_from_file(self):
         """Test parsing of accessions from a file.
-        
+
         Tests _parse_accession_input with a file path and verifies:
         - Returns correct type ('file')
         - Accessions list is created from file content
@@ -1376,214 +1311,204 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
         - is_file flag is True
         - file_path is preserved
         - Empty lines are skipped
-        
+
         This catches: File parsing bugs, whitespace/empty line issues, file I/O errors.
         """
-        from gget.gget_virus import _parse_accession_input
         import tempfile
-        
+
         # Create a temporary file with accessions
-        with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.txt') as f:
+        with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".txt") as f:
             f.write("NC_045512.2\n")
             f.write("  MN908947.3  \n")  # Test whitespace handling
             f.write("\n")  # Empty line
             f.write("MT020781.1\n")
             temp_file = f.name
-        
+
         try:
             result = _parse_accession_input(temp_file)
-            
-            self.assertEqual(result['type'], 'file', "Should identify file input")
-            self.assertIsInstance(result['accessions'], list, "Should return list type")
-            self.assertEqual(len(result['accessions']), 3, "Should parse 3 accessions (empty line skipped)")
-            self.assertEqual(result['accessions'][0], 'NC_045512.2', "First accession should match")
-            self.assertEqual(result['accessions'][1], 'MN908947.3', "Second accession should be stripped of whitespace")
-            self.assertEqual(result['accessions'][2], 'MT020781.1', "Third accession should match")
-            self.assertTrue(result['is_file'], "File input should be marked as file")
-            self.assertEqual(result['file_path'], temp_file, "File path should be preserved")
+
+            self.assertEqual(result["type"], "file", "Should identify file input")
+            self.assertIsInstance(result["accessions"], list, "Should return list type")
+            self.assertEqual(len(result["accessions"]), 3, "Should parse 3 accessions (empty line skipped)")
+            self.assertEqual(result["accessions"][0], "NC_045512.2", "First accession should match")
+            self.assertEqual(result["accessions"][1], "MN908947.3", "Second accession should be stripped of whitespace")
+            self.assertEqual(result["accessions"][2], "MT020781.1", "Third accession should match")
+            self.assertTrue(result["is_file"], "File input should be marked as file")
+            self.assertEqual(result["file_path"], temp_file, "File path should be preserved")
         finally:
             os.unlink(temp_file)
-    
+
     def test_parse_accession_input_empty_file_raises_error(self):
         """Test that parsing empty file raises ValueError.
-        
+
         Tests _parse_accession_input with an empty file and verifies:
         - Raises ValueError
         - Error message is informative
-        
+
         This catches: Empty file validation bugs, error handling issues.
         """
-        from gget.gget_virus import _parse_accession_input
         import tempfile
-        
+
         # Create an empty temporary file
-        with tempfile.NamedTemporaryFile(mode='w', delete=False, suffix='.txt') as f:
+        with tempfile.NamedTemporaryFile(mode="w", delete=False, suffix=".txt") as f:
             temp_file = f.name
-        
+
         try:
             with self.assertRaises(ValueError):
                 _parse_accession_input(temp_file)
         finally:
             os.unlink(temp_file)
-    
+
     def test_parse_accession_input_nonexistent_file_raises_error(self):
         """Test that parsing nonexistent file raises ValueError.
-        
+
         Tests _parse_accession_input with a nonexistent file path and verifies:
         - Raises ValueError (not FileNotFoundError - treated as single accession)
-        
+
         Note: A nonexistent file path will be treated as a single accession
         string since _parse_accession_input checks os.path.isfile() first.
         """
-        from gget.gget_virus import _parse_accession_input
-        
+
         # Nonexistent file path will be treated as single accession
-        result = _parse_accession_input('/nonexistent/file/path.txt')
-        
+        result = _parse_accession_input("/nonexistent/file/path.txt")
+
         # Should treat it as a single accession string since file doesn't exist
-        self.assertEqual(result['type'], 'single', "Nonexistent file treated as single accession")
-        self.assertEqual(result['accessions'], '/nonexistent/file/path.txt', "Should preserve path as accession")
-    
+        self.assertEqual(result["type"], "single", "Nonexistent file treated as single accession")
+        self.assertEqual(result["accessions"], "/nonexistent/file/path.txt", "Should preserve path as accession")
+
     def test_calculate_max_accessions_per_batch(self):
         """Test calculation of maximum accessions per batch.
-        
+
         Tests _calculate_max_accessions_per_batch and verifies:
         - Returns positive integer
         - At least 1 accession per batch
         - Respects URL length limit
         - Smaller base URL allows more accessions
-        
+
         This catches: Batch size calculation bugs, URL limit logic errors.
         """
-        from gget.gget_virus import _calculate_max_accessions_per_batch, MAX_URL_LENGTH, BUFFER_SIZE, ACCESSION_AVG_LENGTH
-        
+        from gget.gget_virus import ACCESSION_AVG_LENGTH, BUFFER_SIZE, MAX_URL_LENGTH
+
         # Test with different base URL lengths
         base_url_small = 50
         base_url_large = 500
-        
+
         max_acc_small = _calculate_max_accessions_per_batch(base_url_small)
         max_acc_large = _calculate_max_accessions_per_batch(base_url_large)
-        
+
         # Both should be positive integers
         self.assertIsInstance(max_acc_small, int, "Should return integer")
         self.assertIsInstance(max_acc_large, int, "Should return integer")
         self.assertGreater(max_acc_small, 0, "Should allow at least 1 accession")
         self.assertGreater(max_acc_large, 0, "Should allow at least 1 accession")
-        
+
         # Larger base URL should allow fewer accessions
-        self.assertGreater(max_acc_small, max_acc_large, 
-                         "Smaller base URL should allow more accessions")
-        
+        self.assertGreater(max_acc_small, max_acc_large, "Smaller base URL should allow more accessions")
+
         # Verify the calculation makes sense
         # With 2000 char limit, 200 char buffer, typical accession is 11 chars + 3 for %2C
         expected_rough = (MAX_URL_LENGTH - base_url_small - BUFFER_SIZE) // (ACCESSION_AVG_LENGTH + 3)
         self.assertEqual(max_acc_small, expected_rough, "Calculation should match expected formula")
-    
+
     def test_batch_accessions_for_url(self):
         """Test batching of accessions for URL length limits.
-        
+
         Tests _batch_accessions_for_url with large accession list and verifies:
         - Returns list of batches
         - All accessions are included
         - No duplicate accessions
         - Each batch respects URL limit
         - Batching is consistent
-        
+
         This catches: Batching algorithm bugs, URL limit violations, data loss.
         """
-        from gget.gget_virus import _batch_accessions_for_url, MAX_URL_LENGTH
-        
+        from gget.gget_virus import MAX_URL_LENGTH
+
         # Create large list of accessions that will need multiple batches
         accessions = [f"NC_{100000 + i}.1" for i in range(1000)]
         base_url_length = 100
-        
+
         batches = _batch_accessions_for_url(accessions, base_url_length)
-        
+
         # Should have multiple batches for 1000 accessions
         self.assertIsInstance(batches, list, "Should return list of batches")
         self.assertGreater(len(batches), 1, "Should split into multiple batches for 1000 accessions")
-        
+
         # All accessions should be included
         all_batched = [acc for batch in batches for acc in batch]
         self.assertEqual(len(all_batched), len(accessions), "All accessions should be included")
-        
+
         # No duplicates
         self.assertEqual(len(set(all_batched)), len(accessions), "Should not have duplicates")
-        
+
         # Verify order is preserved
         self.assertEqual(all_batched, accessions, "Accession order should be preserved")
-        
+
         # Verify each batch respects URL limit
         for batch_num, batch in enumerate(batches, 1):
             batch_url_length = base_url_length + sum(len(acc) + 3 for acc in batch)
-            self.assertLessEqual(batch_url_length, MAX_URL_LENGTH,
-                               f"Batch {batch_num} exceeds URL limit ({batch_url_length} > {MAX_URL_LENGTH})")
-    
+            self.assertLessEqual(
+                batch_url_length,
+                MAX_URL_LENGTH,
+                f"Batch {batch_num} exceeds URL limit ({batch_url_length} > {MAX_URL_LENGTH})",
+            )
+
     @retry_on_network_error(max_retries=3, delay=5)
     def test_virus_multi_accession_space_separated(self):
         """Test virus function with space-separated accessions.
-        
+
         Tests the virus() function with --is_accession flag and space-separated accessions and verifies:
         - Function completes without errors
         - Command summary is created (shows processing happened)
         - Function doesn't crash on multi-accession input
-        
+
         This catches: Multi-accession parsing bugs, integration issues with virus() function.
-        
+
         Note: API may return 0 results for some accession combinations, which is acceptable.
         The key is that the command processes without crashing.
         """
         outfolder = self.test_output_dir
-        
+
         # Test with space-separated accessions
-        result = virus(
-            virus='MN908947.3 NC_045512.2',
-            is_accession=True,
-            outfolder=outfolder
-        )
-        
+        result = virus(virus="MN908947.3 NC_045512.2", is_accession=True, outfolder=outfolder)
+
         # Function should complete successfully
         self.assertIsNone(result)
-        
+
         # Command summary should be created
-        summary_files = [f for f in os.listdir(outfolder) if f.startswith('command_summary')]
+        summary_files = [f for f in os.listdir(outfolder) if f.startswith("command_summary")]
         self.assertGreater(len(summary_files), 0, "Command summary should be created")
-    
+
     @retry_on_network_error(max_retries=3, delay=5)
     def test_virus_multi_accession_file_input(self):
         """Test virus function with file-based accessions.
-        
+
         Tests the virus() function with --is_accession flag and file input and verifies:
         - Function completes without errors
         - Command summary is created
         - Correctly reads accessions from file
-        
+
         This catches: File reading bugs, multi-accession file processing issues.
         """
-        import tempfile
-        
+
         outfolder = self.test_output_dir
-        
+
         # Create temporary accessions file
-        accessions_file = os.path.join(outfolder, 'test_accessions.txt')
-        with open(accessions_file, 'w') as f:
+        accessions_file = os.path.join(outfolder, "test_accessions.txt")
+        with open(accessions_file, "w") as f:
             f.write("MN908947.3\n")
             f.write("NC_045512.2\n")
-        
+
         # Test with file input
-        result = virus(
-            virus=accessions_file,
-            is_accession=True,
-            outfolder=outfolder
-        )
-        
+        result = virus(virus=accessions_file, is_accession=True, outfolder=outfolder)
+
         # Function should complete successfully
         self.assertIsNone(result)
-        
+
         # Command summary should be created
-        summary_files = [f for f in os.listdir(outfolder) if f.startswith('command_summary')]
+        summary_files = [f for f in os.listdir(outfolder) if f.startswith("command_summary")]
         self.assertGreater(len(summary_files), 0, "Command summary should be created for file input")
-        
+
         # Clean up
         if os.path.exists(accessions_file):
             os.unlink(accessions_file)
@@ -1592,36 +1517,34 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
     # EXPONENTIAL BACKOFF HELPER FUNCTION TESTS
     # =========================================================================
     # These tests verify the core retry logic without making real API calls
-    
+
     def test_retry_helper_successful_operation(self):
         """Test successful operation on first attempt (no retries needed)."""
-        from gget.gget_virus import _retry_with_exponential_backoff
-        
+
         def successful_op():
             return {"result": "success"}
-        
+
         success, result, error_info = _retry_with_exponential_backoff(
             operation_name="test_success",
             operation_func=successful_op,
         )
-        
+
         self.assertTrue(success, "Expected success=True")
         self.assertEqual(result, {"result": "success"}, "Expected correct result")
         self.assertIsNone(error_info, "Expected no error_info on success")
-    
+
     def test_retry_helper_success_after_retry(self):
         """Test operation that fails once then succeeds."""
         import requests
-        from gget.gget_virus import _retry_with_exponential_backoff
-        
+
         attempt_count = [0]  # Use list to allow modification in nested function
-        
+
         def flaky_op():
             attempt_count[0] += 1
             if attempt_count[0] == 1:
                 raise requests.exceptions.ConnectionError("Temporary connection issue")
             return {"result": "succeeded after retry"}
-        
+
         start_time = time.time()
         success, result, error_info = _retry_with_exponential_backoff(
             operation_name="test_flaky",
@@ -1632,27 +1555,26 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
             retryable_exceptions=(requests.exceptions.ConnectionError, requests.exceptions.HTTPError),
         )
         elapsed = time.time() - start_time
-        
+
         self.assertTrue(success, "Expected success=True after retry")
         self.assertEqual(result, {"result": "succeeded after retry"}, "Expected correct result")
         self.assertEqual(attempt_count[0], 2, f"Expected 2 attempts, got {attempt_count[0]}")
         self.assertGreaterEqual(elapsed, 0.05, f"Expected at least 0.05s delay, got {elapsed}s")
-    
+
     def test_retry_helper_exponential_backoff_timing(self):
         """Test that exponential backoff increases delays properly."""
         import requests
-        from gget.gget_virus import _retry_with_exponential_backoff
-        
+
         attempt_count = [0]
-        
+
         def always_fails():
             attempt_count[0] += 1
             raise requests.exceptions.ConnectionError("Persistent connection issue")
-        
+
         initial_delay = 0.05
         backoff_multiplier = 2.0
         max_retries = 3
-        
+
         start_time = time.time()
         success, result, error_info = _retry_with_exponential_backoff(
             operation_name="test_backoff",
@@ -1663,24 +1585,24 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
             retryable_exceptions=(requests.exceptions.ConnectionError, requests.exceptions.HTTPError),
         )
         elapsed = time.time() - start_time
-        
+
         # The loop runs max_retries times with delays between attempts
         expected_min_delay = initial_delay * (1 + backoff_multiplier)
-        
+
         self.assertFalse(success, "Expected success=False when all retries fail")
         self.assertEqual(attempt_count[0], max_retries, f"Expected {max_retries} attempts")
-        self.assertGreaterEqual(elapsed, expected_min_delay * 0.8, 
-                               f"Delay too short: {elapsed}s vs {expected_min_delay}s")
-    
+        self.assertGreaterEqual(
+            elapsed, expected_min_delay * 0.8, f"Delay too short: {elapsed}s vs {expected_min_delay}s"
+        )
+
     def test_retry_helper_failed_commands_tracking(self):
         """Test that failed_commands dict is properly populated."""
-        from gget.gget_virus import _retry_with_exponential_backoff
-        
+
         def failing_op():
             raise ConnectionError("Test error message")
-        
+
         failed_commands = {"custom_errors": []}
-        
+
         success, result, error_info = _retry_with_exponential_backoff(
             operation_name="test_tracking",
             operation_func=failing_op,
@@ -1688,23 +1610,22 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
             initial_delay=0.01,
             failed_commands=failed_commands,
         )
-        
+
         self.assertFalse(success, "Expected operation to fail")
         self.assertIsNotNone(error_info, "Expected error_info to be populated")
         self.assertIn("exception_type", error_info, "Expected exception_type in error_info")
         self.assertIn("error", error_info, "Expected error message in error_info")
-    
+
     def test_retry_helper_non_retryable_exception(self):
         """Test that non-retryable exceptions fail immediately."""
         import requests
-        from gget.gget_virus import _retry_with_exponential_backoff
-        
+
         attempt_count = [0]
-        
+
         def non_retryable_op():
             attempt_count[0] += 1
             raise ValueError("This exception is not retryable")
-        
+
         start_time = time.time()
         success, result, error_info = _retry_with_exponential_backoff(
             operation_name="test_non_retryable",
@@ -1714,24 +1635,23 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
             retryable_exceptions=(requests.exceptions.ConnectionError, requests.exceptions.HTTPError),
         )
         elapsed = time.time() - start_time
-        
+
         self.assertFalse(success, "Expected operation to fail")
         self.assertEqual(attempt_count[0], 1, f"Expected only 1 attempt, got {attempt_count[0]}")
         self.assertLess(elapsed, 0.1, f"Expected immediate failure, but took {elapsed:.2f}s")
-    
+
     def test_retry_helper_custom_retryable_exceptions(self):
         """Test with custom retryable exceptions."""
         import requests
-        from gget.gget_virus import _retry_with_exponential_backoff
-        
+
         attempt_count = [0]
-        
+
         def custom_failing_op():
             attempt_count[0] += 1
             if attempt_count[0] == 1:
                 raise requests.exceptions.Timeout("Request timed out")
             return {"result": "success"}
-        
+
         success, result, error_info = _retry_with_exponential_backoff(
             operation_name="test_custom_retryable",
             operation_func=custom_failing_op,
@@ -1739,7 +1659,7 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
             initial_delay=0.01,
             retryable_exceptions=(requests.exceptions.Timeout, requests.exceptions.ConnectionError),
         )
-        
+
         self.assertTrue(success, "Expected retry to succeed with Timeout in retryable_exceptions")
         self.assertEqual(attempt_count[0], 2, f"Expected 2 attempts, got {attempt_count[0]}")
 
@@ -1981,7 +1901,7 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
 
     def test_clean_xml_declarations_no_declarations(self):
         """Test _clean_xml_declarations with no declarations to remove."""
-        xml = '<GBSet><GBSeq>data</GBSeq></GBSet>'
+        xml = "<GBSet><GBSeq>data</GBSeq></GBSet>"
         result = _clean_xml_declarations(xml)
         self.assertEqual(result, xml)
 
@@ -2047,7 +1967,7 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
 
     def test_parse_baseline_file_csv(self):
         """Test _parse_baseline_file with CSV format."""
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".csv", delete=False) as f:
             f.write("accession,length,host\n")
             f.write("NC_045512.2,29903,human\n")
             f.write("MN908947.3,29903,human\n")
@@ -2063,7 +1983,7 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
 
     def test_parse_baseline_file_jsonl(self):
         """Test _parse_baseline_file with JSONL format."""
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.jsonl', delete=False) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".jsonl", delete=False) as f:
             f.write('{"accession": "NC_045512.2", "length": 29903}\n')
             f.write('{"accession": "MN908947.3", "length": 29903}\n')
             path = f.name
@@ -2076,12 +1996,10 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
 
     def test_parse_baseline_file_json(self):
         """Test _parse_baseline_file with JSON array format."""
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
             import json as json_mod
-            json_mod.dump([
-                {"accession": "NC_045512.2"},
-                {"accession": "MN908947.3"}
-            ], f)
+
+            json_mod.dump([{"accession": "NC_045512.2"}, {"accession": "MN908947.3"}], f)
             path = f.name
         try:
             result = _parse_baseline_file(path)
@@ -2091,7 +2009,7 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
 
     def test_parse_baseline_file_text(self):
         """Test _parse_baseline_file with plain text format."""
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
             f.write("NC_045512.2\n")
             f.write("MN908947.3\n")
             f.write("# comment line\n")
@@ -2112,7 +2030,7 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
 
     def test_parse_baseline_file_empty_raises(self):
         """Test _parse_baseline_file raises for empty file."""
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".csv", delete=False) as f:
             f.write("accession\n")  # header only, no data
             path = f.name
         try:
@@ -2196,10 +2114,12 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
             baseline_path = os.path.join(tmpdir, "baseline.csv")
             output_path = os.path.join(tmpdir, "merged.csv")
             # Create baseline CSV
-            pd.DataFrame([
-                {"accession": "ACC1", "length": 100},
-                {"accession": "ACC2", "length": 200},
-            ]).to_csv(baseline_path, index=False)
+            pd.DataFrame(
+                [
+                    {"accession": "ACC1", "length": 100},
+                    {"accession": "ACC2", "length": 200},
+                ]
+            ).to_csv(baseline_path, index=False)
             # New metadata
             new_records = [
                 {"accession": "ACC3", "length": 300},
@@ -2215,9 +2135,11 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
         with tempfile.TemporaryDirectory() as tmpdir:
             baseline_path = os.path.join(tmpdir, "baseline.csv")
             output_path = os.path.join(tmpdir, "merged.csv")
-            pd.DataFrame([
-                {"accession": "ACC1", "length": 100},
-            ]).to_csv(baseline_path, index=False)
+            pd.DataFrame(
+                [
+                    {"accession": "ACC1", "length": 100},
+                ]
+            ).to_csv(baseline_path, index=False)
             new_records = [{"accession": "ACC1", "length": 999}]
             _merge_baseline_with_new(baseline_path, new_records, output_path)
             df = pd.read_csv(output_path)
@@ -2286,10 +2208,24 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
     def test_load_metadata_from_api_reports_multiple(self):
         """Test load_metadata_from_api_reports with multiple reports."""
         api_reports = [
-            {"accession": "ACC1", "length": 100, "completeness": "COMPLETE",
-             "host": {}, "location": {}, "isolate": {}, "virus": {}},
-            {"accession": "ACC2", "length": 200, "completeness": "PARTIAL",
-             "host": {}, "location": {}, "isolate": {}, "virus": {}},
+            {
+                "accession": "ACC1",
+                "length": 100,
+                "completeness": "COMPLETE",
+                "host": {},
+                "location": {},
+                "isolate": {},
+                "virus": {},
+            },
+            {
+                "accession": "ACC2",
+                "length": 200,
+                "completeness": "PARTIAL",
+                "host": {},
+                "location": {},
+                "isolate": {},
+                "virus": {},
+            },
         ]
         result = load_metadata_from_api_reports(api_reports)
         self.assertEqual(len(result), 2)
@@ -2424,9 +2360,7 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
     def test_filter_metadata_only_collection_date_range(self):
         """Test filter_metadata_only with collection date range."""
         meta = self._make_test_metadata()
-        accs, metas, _ = filter_metadata_only(
-            meta, min_collection_date="2021-01-01", max_collection_date="2021-12-31"
-        )
+        accs, metas, _ = filter_metadata_only(meta, min_collection_date="2021-01-01", max_collection_date="2021-12-31")
         self.assertEqual(len(accs), 1)
         self.assertIn("ACC3", accs)
 
@@ -2670,9 +2604,7 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
     def test_filter_genbank_metadata_combined(self):
         """Test filter_genbank_metadata with multiple filters."""
         meta = self._make_genbank_metadata()
-        result, _ = filter_genbank_metadata(
-            meta, min_gene_count=5, genotype="H5N1", has_proteins="hemagglutinin"
-        )
+        result, _ = filter_genbank_metadata(meta, min_gene_count=5, genotype="H5N1", has_proteins="hemagglutinin")
         self.assertEqual(len(result), 2)
         self.assertIn("ACC1", result)
         self.assertIn("ACC3", result)
@@ -2690,9 +2622,7 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
     def test_filter_cached_host_not_in_strategy(self):
         """Test filter_cached_metadata_for_unused_filters applies host when not in strategy."""
         meta = self._make_test_metadata()
-        accs, metas = filter_cached_metadata_for_unused_filters(
-            meta, host="Homo sapiens", applied_strategy_filters=[]
-        )
+        accs, metas = filter_cached_metadata_for_unused_filters(meta, host="Homo sapiens", applied_strategy_filters=[])
         self.assertEqual(len(accs), 2)
         self.assertIn("ACC1", accs)
         self.assertIn("ACC3", accs)
@@ -2709,17 +2639,13 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
     def test_filter_cached_complete_only(self):
         """Test filter_cached_metadata_for_unused_filters with complete_only."""
         meta = self._make_test_metadata()
-        accs, metas = filter_cached_metadata_for_unused_filters(
-            meta, complete_only=True, applied_strategy_filters=[]
-        )
+        accs, metas = filter_cached_metadata_for_unused_filters(meta, complete_only=True, applied_strategy_filters=[])
         self.assertEqual(len(accs), 2)  # ACC1 and ACC3 are complete
 
     def test_filter_cached_annotated(self):
         """Test filter_cached_metadata_for_unused_filters with annotated."""
         meta = self._make_test_metadata()
-        accs, metas = filter_cached_metadata_for_unused_filters(
-            meta, annotated=True, applied_strategy_filters=[]
-        )
+        accs, metas = filter_cached_metadata_for_unused_filters(meta, annotated=True, applied_strategy_filters=[])
         self.assertEqual(len(accs), 2)
         self.assertNotIn("ACC2", accs)
 
@@ -2735,9 +2661,7 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
     def test_filter_cached_refseq_only(self):
         """Test filter_cached_metadata_for_unused_filters with refseq_only."""
         meta = self._make_test_metadata()
-        accs, metas = filter_cached_metadata_for_unused_filters(
-            meta, refseq_only=True, applied_strategy_filters=[]
-        )
+        accs, metas = filter_cached_metadata_for_unused_filters(meta, refseq_only=True, applied_strategy_filters=[])
         self.assertEqual(len(accs), 1)
         self.assertIn("ACC2", accs)
 
@@ -2764,7 +2688,7 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
 
     def test_filter_metadata_only_annotated_true(self):
         """Test filter_metadata_only with annotated=True passes all (handled server-side).
-        
+
         Note: annotated=True is handled server-side by the API, so the client-side
         filter_metadata_only does NOT filter on annotated=True. All records pass.
         """
@@ -2779,8 +2703,9 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
 
     def test_write_fasta_record_with_description(self):
         """Test _write_fasta_record writes correct FASTA format with description."""
-        from gget.utils import FastaRecord
         import io
+
+        from gget.utils import FastaRecord
 
         record = FastaRecord(seq="ATCGATCGATCG", id="ACC001", description="Test virus isolate")
         handle = io.StringIO()
@@ -2792,8 +2717,9 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
 
     def test_write_fasta_record_without_description(self):
         """Test _write_fasta_record writes correct FASTA format without description."""
-        from gget.utils import FastaRecord
         import io
+
+        from gget.utils import FastaRecord
 
         record = FastaRecord(seq="ATCG", id="ACC002", description="")
         handle = io.StringIO()
@@ -2805,15 +2731,16 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
 
     def test_write_fasta_record_long_sequence_wraps(self):
         """Test _write_fasta_record wraps long sequences at 70 characters."""
-        from gget.utils import FastaRecord
         import io
+
+        from gget.utils import FastaRecord
 
         # Create a sequence longer than 70 characters
         long_seq = "A" * 150
         record = FastaRecord(seq=long_seq, id="ACC003", description="")
         handle = io.StringIO()
         _write_fasta_record(handle, record)
-        lines = handle.getvalue().strip().split('\n')
+        lines = handle.getvalue().strip().split("\n")
 
         # First line is header, then sequence lines
         self.assertEqual(lines[0], ">ACC003")
@@ -2831,7 +2758,7 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
             input_path = os.path.join(tmpdir, "input.fasta")
             output_path = os.path.join(tmpdir, "output.fasta")
 
-            with open(input_path, 'w') as f:
+            with open(input_path, "w") as f:
                 f.write(">ACC1\nATCGATCG\n>ACC2\nGGGGAAAA\n>ACC3\nTTTTCCCC\n")
 
             count = _stream_copy_fasta(input_path, output_path)
@@ -2840,7 +2767,7 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
 
             # Verify output has all 3 records
             with open(output_path) as f:
-                headers = [l for l in f if l.startswith('>')]
+                headers = [l for l in f if l.startswith(">")]
             self.assertEqual(len(headers), 3)
 
     def test_stream_copy_fasta_with_accession_filter(self):
@@ -2849,7 +2776,7 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
             input_path = os.path.join(tmpdir, "input.fasta")
             output_path = os.path.join(tmpdir, "output.fasta")
 
-            with open(input_path, 'w') as f:
+            with open(input_path, "w") as f:
                 f.write(">ACC1\nATCGATCG\n>ACC2\nGGGGAAAA\n>ACC3\nTTTTCCCC\n")
 
             count = _stream_copy_fasta(input_path, output_path, accession_set={"ACC1", "ACC3"})
@@ -2872,7 +2799,7 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
             output_path = os.path.join(tmpdir, "filtered.fasta")
 
             # ACC1 has 0 N's, ACC2 has 5 N's, ACC3 has 20 N's
-            with open(fasta_path, 'w') as f:
+            with open(fasta_path, "w") as f:
                 f.write(">ACC1\nATCGATCGATCG\n")
                 f.write(">ACC2\nATNNNNNCG\n")
                 f.write(">ACC3\n" + "N" * 20 + "\n")
@@ -2884,13 +2811,14 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
             }
 
             count, filtered_meta, protein_headers, stats = filter_sequences(
-                fasta_path, metadata_dict,
+                fasta_path,
+                metadata_dict,
                 max_ambiguous_chars=10,
                 output_fasta_path=output_path,
             )
 
             self.assertEqual(count, 2)  # ACC1 and ACC2 pass
-            self.assertEqual(stats['ambiguous_chars'], 1)  # ACC3 filtered out
+            self.assertEqual(stats["ambiguous_chars"], 1)  # ACC3 filtered out
 
     def test_filter_sequences_no_filters(self):
         """Test filter_sequences passes all records when no filters applied."""
@@ -2898,7 +2826,7 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
             fasta_path = os.path.join(tmpdir, "test.fasta")
             output_path = os.path.join(tmpdir, "filtered.fasta")
 
-            with open(fasta_path, 'w') as f:
+            with open(fasta_path, "w") as f:
                 f.write(">ACC1\nATCGATCG\n>ACC2\nGGGGAAAA\n")
 
             metadata_dict = {
@@ -2907,7 +2835,8 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
             }
 
             count, filtered_meta, protein_headers, stats = filter_sequences(
-                fasta_path, metadata_dict,
+                fasta_path,
+                metadata_dict,
                 output_fasta_path=output_path,
             )
 
@@ -2919,7 +2848,7 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
             fasta_path = os.path.join(tmpdir, "test.fasta")
             output_path = os.path.join(tmpdir, "filtered.fasta")
 
-            with open(fasta_path, 'w') as f:
+            with open(fasta_path, "w") as f:
                 f.write(">ACC1\nATCGATCG\n>ACC2\nGGGGAAAA\n")
 
             metadata_dict = {
@@ -2928,13 +2857,14 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
             }
 
             count, filtered_meta, protein_headers, stats = filter_sequences(
-                fasta_path, metadata_dict,
+                fasta_path,
+                metadata_dict,
                 proteins_complete=True,
                 output_fasta_path=output_path,
             )
 
             self.assertEqual(count, 1)  # Only ACC1 has proteins
-            self.assertEqual(stats['proteins'], 1)  # ACC2 filtered out
+            self.assertEqual(stats["proteins"], 1)  # ACC2 filtered out
 
     # =========================================================================
     # SAVE COMMAND SUMMARY TESTS
@@ -2996,14 +2926,18 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
             standard_path = os.path.join(tmpdir, "standard.csv")
 
             # GenBank CSV with missing host
-            pd.DataFrame([
-                {"accession": "ACC1", "Host": "", "Length": "29903"},
-            ]).to_csv(genbank_path, index=False)
+            pd.DataFrame(
+                [
+                    {"accession": "ACC1", "Host": "", "Length": "29903"},
+                ]
+            ).to_csv(genbank_path, index=False)
 
             # Standard CSV with host data
-            pd.DataFrame([
-                {"accession": "ACC1", "Host": "Homo sapiens", "Length": "29903"},
-            ]).to_csv(standard_path, index=False)
+            pd.DataFrame(
+                [
+                    {"accession": "ACC1", "Host": "Homo sapiens", "Length": "29903"},
+                ]
+            ).to_csv(standard_path, index=False)
 
             result = merge_metadata_csvs(genbank_path, standard_path)
             self.assertTrue(result)
@@ -3027,13 +2961,17 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
             genbank_path = os.path.join(tmpdir, "genbank.csv")
             standard_path = os.path.join(tmpdir, "standard.csv")
 
-            pd.DataFrame([
-                {"accession": "ACC1", "Host": "chicken", "Length": "29903"},
-            ]).to_csv(genbank_path, index=False)
+            pd.DataFrame(
+                [
+                    {"accession": "ACC1", "Host": "chicken", "Length": "29903"},
+                ]
+            ).to_csv(genbank_path, index=False)
 
-            pd.DataFrame([
-                {"accession": "ACC1", "Host": "human", "Length": "29903"},
-            ]).to_csv(standard_path, index=False)
+            pd.DataFrame(
+                [
+                    {"accession": "ACC1", "Host": "human", "Length": "29903"},
+                ]
+            ).to_csv(standard_path, index=False)
 
             merge_metadata_csvs(genbank_path, standard_path)
 
@@ -3202,7 +3140,7 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
     </GBSeq_feature-table>
   </GBSeq>
 </GBSet>"""
-            with open(xml_path, 'w') as f:
+            with open(xml_path, "w") as f:
                 f.write(xml_content)
 
             _genbank_xml_to_csv(xml_path, csv_path)
@@ -3241,9 +3179,7 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
                         "assembly_name": "ASM985889v3",
                         "taxonomy": "Viruses; Riboviria",
                         "comment": "",
-                        "references": [
-                            {"title": "Paper", "authors": "Wu F", "journal": "Nature", "pubmed_id": "123"}
-                        ],
+                        "references": [{"title": "Paper", "authors": "Wu F", "journal": "Nature", "pubmed_id": "123"}],
                     },
                 },
             }
@@ -3267,5 +3203,5 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
             self.assertEqual(len(df), 0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()

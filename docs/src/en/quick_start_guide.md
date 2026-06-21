@@ -1,4 +1,4 @@
-[<kbd> View page source on GitHub </kbd>](https://github.com/pachterlab/gget/blob/main/docs/src/en/quick_start_guide.md)
+[<kbd> View page source on GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/en/quick_start_guide.md)
 
 # 🪄 Quick start guide
 Command line:
@@ -97,4 +97,3 @@ gget$pdb("1R42", save=TRUE)
 gget$virus("Zika virus", host="Homo sapiens", nuc_completeness="complete")
 ```
 #### [More examples](https://github.com/pachterlab/gget_examples)
-

@@ -3,7 +3,7 @@
 [![Downloads](https://static.pepy.tech/personalized-badge/gget?period=total&units=international_system&left_color=grey&right_color=brightgreen&left_text=downloads)](https://pepy.tech/project/gget)
 [![Conda](https://img.shields.io/conda/dn/bioconda/gget?logo=Anaconda)](https://anaconda.org/bioconda/gget)
 [![license](https://img.shields.io/pypi/l/gget)](LICENSE)
-[![status](https://github.com/pachterlab/gget/actions/workflows/ci.yml/badge.svg)](https://github.com/pachterlab/gget/blob/main/tests/pytest_results_py3.12.txt)
+[![status](https://github.com/scverse/gget/actions/workflows/ci.yml/badge.svg)](https://github.com/scverse/gget/blob/main/tests/pytest_results_py3.12.txt)
 [![status](https://github.com/lauraluebbert/test_gget_alphafold/actions/workflows/CI_alphafold.yml/badge.svg)](https://github.com/lauraluebbert/test_gget_alphafold)
 ![Code Coverage](https://img.shields.io/badge/Coverage-83%25-green.svg)  
 [![Powered by NumFOCUS](https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat&colorA=E1523D&colorB=007D8A)](https://numfocus.org/)
@@ -12,10 +12,10 @@
 
 `gget` is part of the [scverse®](https://scverse.org) project and is fiscally sponsored by [NumFOCUS](https://numfocus.org/). If you like `gget` and want to support our mission, please consider making a tax-deductible [donation](https://opencollective.com/scverse/projects/scverse-gget/donate?interval=oneTime&amount=20&contributeAs=me).
 <br>
-  
+
 ![alt text](https://github.com/pachterlab/gget/blob/main/figures/gget_overview.png?raw=true)
-    
-If you use `gget` in a publication, please [cite*](https://pachterlab.github.io/gget/en/cite.html):    
+
+If you use `gget` in a publication, please [cite*](https://pachterlab.github.io/gget/en/cite.html):  
 ```
 Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. https://doi.org/10.1093/bioinformatics/btac836
 ```
@@ -32,7 +32,7 @@ pip install --upgrade gget
 
 Install from source:
 ```bash
-git clone https://github.com/pachterlab/gget.git
+git clone https://github.com/scverse/gget.git
 cd gget
 uv pip install .
 ```
@@ -42,7 +42,7 @@ For use in Jupyter Lab / Google Colab:
 # Python
 import gget
 ```
-# [🔗 Manual](https://pachterlab.github.io/gget) 
+# [🔗 Manual](https://pachterlab.github.io/gget)
 
 # 🪄 Quick start guide
 Command line:
