@@ -97,7 +97,7 @@ def enrichr(
                         'worm' [C. elegans] - https://maayanlab.cloud/WormEnrichr/#stats
                         'fish' [D. rerio] - https://maayanlab.cloud/FishEnrichr/#stats
     - background_list   List of gene names/Ensembl IDs to be used as background genes. ONLY SUPPORTED FOR HUMAN/MOUSE SPECIES (Default: None)
-    - background        If True, use set of > 20,000 default background genes listed here: https://github.com/pachterlab/gget/blob/main/gget/constants/enrichr_bkg_genes.txt.
+    - background        If True, use set of > 20,000 default background genes listed here: https://github.com/scverse/gget/blob/main/gget/constants/enrichr_bkg_genes.txt.
                         ONLY SUPPORTED FOR HUMAN/MOUSE SPECIES (Default: False)
     - ensembl           Define as 'True' if 'genes' is a list of Ensembl gene IDs. (Default: False)
     - ensembl_bkg       Define as 'True' if 'background_list' is a list of Ensembl gene IDs. (Default: False)
@@ -290,7 +290,7 @@ def enrichr(
     elif background:
         if verbose:
             logger.info(
-                "Background genes set to > 20,000 default background genes listed here: https://github.com/pachterlab/gget/blob/main/gget/constants/enrichr_bkg_genes.txt."
+                "Background genes set to > 20,000 default background genes listed here: https://github.com/scverse/gget/blob/main/gget/constants/enrichr_bkg_genes.txt."
             )
         with open(f"{PACKAGE_PATH}/constants/enrichr_bkg_genes.txt") as f:
             lines = f.read().splitlines()

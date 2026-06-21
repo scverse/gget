@@ -1,4 +1,4 @@
-[<kbd> View page source on GitHub </kbd>](https://github.com/pachterlab/gget/blob/main/docs/src/en/muscle.md)
+[<kbd> View page source on GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/en/muscle.md)
 
 > Python arguments are equivalent to long-option arguments (`--arg`), unless otherwise specified. Flags are True/False arguments in Python. The manual for any gget tool can be called from the command-line using the `-h` `--help` flag.  
 # gget muscle 🦾
@@ -42,7 +42,7 @@ gget.muscle("fasta.fa")
 ```
 &rarr; Returns an overview of the aligned sequences with ClustalW coloring. (To return an aligned FASTA (.afa) file, use `--out` argument (or `save=True` in Jupyter Lab/Google Colab).) In the above example, the 'fasta.fa' includes several sequences to be aligned (e.g. isoforms returned from `gget seq`).
 
-![alt text](https://github.com/pachterlab/gget/blob/main/figures/example_muscle_return.png?raw=true)
+![alt text](https://github.com/scverse/gget/blob/main/figures/example_muscle_return.png?raw=true)
 
 You can also view aligned fasta files returned by `gget.muscle` using programs like [`alv`](https://github.com/arvestad/alv), as shown below:
 ```python

@@ -208,7 +208,7 @@ def check_file_for_error_message(filepath, filename, download_path):
             The {filename} downloaded from {download_path}
             contains an error message instead of valid data.\n
             Error message:\n{content}\n
-            Please try again. If the problem persists, please report it here: https://github.com/pachterlab/gget/issues/new?template=issue_report.yml
+            Please try again. If the problem persists, please report it here: https://github.com/scverse/gget/issues/new?template=issue_report.yml
             """
         )
 
