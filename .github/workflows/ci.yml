@@ -15,8 +15,10 @@ on:
       - "gget/**"
       - "tests/**"
       - "pyproject.toml"
-      # Avoid recursively triggering on the bot-committed pytest result files.
+      # Avoid recursively triggering on the bot-committed pytest result files
+      # (versioned per-Python report + the stable "latest" mirror).
       - "!tests/pytest_results_py*.txt"
+      - "!tests/pytest_results_latest.txt"
       # Avoid recursively triggering on the bot-committed tests badge JSON.
       - "!.github/badges/tests.json"
   # Run on every pull request into the integration branches.
@@ -46,6 +48,10 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       envs: ${{ steps.get-envs.outputs.envs }}
+      # Highest Python version in the matrix. Used to gate the "canonical"
+      # per-run artifacts (pytest report commit, badge, fail-job) so they
+      # automatically follow the newest tested interpreter without hardcoding.
+      latest_python: ${{ steps.get-envs.outputs.latest_python }}
     steps:
       - uses: actions/checkout@v4
       - name: Install uv
@@ -55,7 +61,10 @@ jobs:
         run: |
           ENVS_JSON=$(uvx hatch env show --json | jq -c 'to_entries
             | map(select(.key | startswith("hatch-test")) | { name: .key, python: .value.python })')
+          # Version-aware max so 3.10 sorts after 3.9, not before.
+          LATEST_PY=$(echo "$ENVS_JSON" | jq -r '[.[].python] | sort_by(split(".") | map(tonumber)) | last')
           echo "envs=${ENVS_JSON}" | tee "$GITHUB_OUTPUT"
+          echo "latest_python=${LATEST_PY}" | tee -a "$GITHUB_OUTPUT"
 
   test:
     needs: get-environments
@@ -138,15 +147,17 @@ jobs:
 
       # Parse the saved pytest summary into a shields.io endpoint JSON so the
       # README "tests" badge can render "<passed>/<total> passing". Same guards
-      # as the pytest-results commit step below (3.12 only, schedule/manual).
+      # as the pytest-results commit step below (latest Python only, schedule/manual).
       - name: Generate tests badge JSON
-        if: always() && matrix.env.python == '3.12' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        if: always() && matrix.env.python == needs.get-environments.outputs.latest_python && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
         shell: bash
+        env:
+          PY_VERSION: ${{ matrix.env.python }}
         run: |
           mkdir -p .github/badges
           python - <<'PY'
-          import json, pathlib, re
-          txt = pathlib.Path("tests/pytest_results_py3.12.txt").read_text()
+          import json, os, pathlib, re
+          txt = pathlib.Path(f"tests/pytest_results_py{os.environ['PY_VERSION']}.txt").read_text()
           # Final pytest summary line, e.g. "==== 150 passed, 2 failed in 45.67s ===="
           summary = next(
               (l for l in reversed(txt.splitlines()) if re.match(r"=+ .+ in [\d.]+s.* =+", l)),
@@ -172,24 +183,31 @@ jobs:
           PY
 
       # Upload the saved pytest report as an artifact.
-      # Only once (3.12) to avoid duplicate artifacts from the matrix.
+      # Only once (latest Python) to avoid duplicate artifacts from the matrix.
       - name: Upload pytest results artifact
-        if: always() && matrix.env.python == '3.12' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        if: always() && matrix.env.python == needs.get-environments.outputs.latest_python && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
         uses: actions/upload-artifact@v4
         with:
           name: pytest-results-py${{ matrix.env.python }}
           path: tests/pytest_results_py${{ matrix.env.python }}.txt
 
+      # Mirror the latest-Python report to a stable filename so README/docs
+      # links don't need updating each time the matrix's newest entry bumps.
+      - name: Mirror latest pytest report to stable filename
+        if: always() && matrix.env.python == needs.get-environments.outputs.latest_python && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        shell: bash
+        run: cp "tests/pytest_results_py${{ matrix.env.python }}.txt" tests/pytest_results_latest.txt
+
       # Commit the saved pytest report back to the repository.
       # Safety guards:
       # - only on scheduled/manual runs
-      # - only once (3.12) to avoid matrix push races
+      # - only once (latest Python) to avoid matrix push races
       # - commits back to the branch that the run was triggered from
       # Retry logic helps if the branch moved while this job was running.
       - name: Commit and push pytest results
         if: >
           always() &&
-          matrix.env.python == '3.12' &&
+          matrix.env.python == needs.get-environments.outputs.latest_python &&
           (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
         shell: bash
         run: |
@@ -201,7 +219,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add tests/pytest_results_py*.txt .github/badges/tests.json
+          git add tests/pytest_results_py*.txt tests/pytest_results_latest.txt .github/badges/tests.json
 
           if git diff --cached --quiet; then
             echo "No changes to commit."
