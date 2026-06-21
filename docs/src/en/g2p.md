@@ -6,6 +6,8 @@ Query the [Genomics 2 Proteins (G2P) portal](https://g2p.broadinstitute.org/) to
 
 Returns: A data frame with the requested G2P information.  
 
+This module was written by [Elarwei](https://github.com/Elarwei001).
+
 **Positional argument**  
 `gene`  
 Gene symbol, e.g. BRCA1.  

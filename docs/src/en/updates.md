@@ -1,16 +1,24 @@
 [<kbd> View page source on GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/en/updates.md)
 
 ## ✨ What's new
-**Version ≥ 0.30.7** (XXX XX, 2026):
+
+#### `gget` officially became part of `scverse` on June 9, 2026. 🥳🥳🥳
+
+**Version ≥ 0.30.7** (Jun 21, 2026):  
 - [`gget cellxgene`](cellxgene.md): Added support for the three non-human primate species available in the CZ CELLxGENE Census LTS `2025-11-08`: rhesus macaque (`macaca_mulatta`), common marmoset (`callithrix_jacchus`), and chimpanzee (`pan_troglodytes`).
   - The `species` argument (both Python and command line) now accepts all five supported organisms; the CLI `choices`, help text, and docstrings list them.
   - Added early validation of the `species` argument that raises a clear `ValueError` listing the supported species, instead of failing later inside the Census API call.
   - Note: the new primate species require `census_version="2025-11-08"` (LTS) or newer.
 - Docs/README: updated `gget` repository and manual URLs from `pachterlab` to `scverse` (`github.com/scverse/gget`, `scverse.org/gget`) to reflect the project's move under the scverse organization. Links to separate resources (`pachterlab/gget_examples`, `pachterlab/kvar`, `pachterlab/varseek`, and the Pachter Lab homepage) were left unchanged. Resolves [issue 217](https://github.com/scverse/gget/issues/217).
-    
 - [`gget g2p`](g2p.md): **New module** to query the [Genomics 2 Proteins (G2P) portal](https://g2p.broadinstitute.org/) for residue-level protein structure/function annotations — per-residue features (AlphaFold pLDDT, UniProt sites, predicted pockets, PTMs), the gene–transcript–protein–isoform–structure map, and isoform alignments. Resolves [issue 138](https://github.com/scverse/gget/issues/138).
+- Developer tooling / packaging:
+  - Migrated packaging to a single `pyproject.toml` (the [hatchling](https://hatch.pypa.io/) build backend); removed `setup.py`, `setup.cfg`, `requirements.txt`, `dev-requirements.txt`, and `MANIFEST.in`. Runtime dependencies and the `test` dependency group are now declared in `pyproject.toml`.
+  - The minimum supported Python version is now **3.12**; CI tests on 3.12, 3.13, and 3.14.
+  - `cellxgene-census` is now declared as an optional extra (`pip install gget[cellxgene]`) because it has no wheels for Python 3.14 yet. Users who install it via `gget setup cellxgene` are unaffected.
+  - Added a [pre-commit](https://pre-commit.com/) configuration (lint + format via [ruff](https://docs.astral.sh/ruff/), plus standard hygiene hooks). Run `prek run --all-files` (or `pre-commit run --all-files`) before opening a PR.
+  - Modernized the test CI to use [uv](https://docs.astral.sh/uv/) and run on pull requests, and added package-build-check and PyPI trusted-publishing workflows.
 
-**Version ≥ 0.30.6** (Jun 10, 2026):
+**Version ≥ 0.30.6** (Jun 10, 2026):  
 - [`gget blat`](blat.md): Improved resilience against UCSC BLAT endpoint failures (fixes intermittently failing tests).
   - Added retry-with-exponential-backoff for transient failures (HTTP 429/5xx, network errors, and non-JSON 200 responses caused by UCSC rate-limiting or HTML error pages). Up to 4 attempts with 1.5s → 3s → 6s backoff.
   - Replaced the misleading "sequence too short or assembly invalid" message with the actual server response (status code, response preview) so failures are diagnosable.
@@ -29,13 +37,8 @@
   - `utils.get_uniprot_seqs`: Collect per-ID DataFrames in a list and `pd.concat(..., ignore_index=True)` once at the end, avoiding the O(n²) cost of growing a DataFrame inside the request loop.
   - Cached `utils.find_latest_ens_rel`, `utils.search_species_options`, `utils.ref_species_options`, and `utils.find_nv_kingdom` with `functools.lru_cache`. These hit Ensembl FTP listings that are stable for a release; repeated calls within one Python process are now free.
   - Added `utils.parallel_map`, a thin `ThreadPoolExecutor` wrapper for I/O-bound work. Used to fan out `utils.get_uniprot_seqs` across the input ID list — looking up N IDs is now bounded by ~`N / pool_size` UniProt round-trips instead of `N`. Pool size defaults to 8 and can be overridden via the `GGET_MAX_WORKERS` environment variable.
-- Developer tooling / packaging:
-  - Migrated packaging to a single `pyproject.toml` (the [hatchling](https://hatch.pypa.io/) build backend); removed `setup.py`, `setup.cfg`, `requirements.txt`, `dev-requirements.txt`, and `MANIFEST.in`. Runtime dependencies and the `test` dependency group are now declared in `pyproject.toml`.
-  - The minimum supported Python version is now **3.12**.
-  - Added a [pre-commit](https://pre-commit.com/) configuration (lint + format via [ruff](https://docs.astral.sh/ruff/), plus standard hygiene hooks). Run `prek run --all-files` (or `pre-commit run --all-files`) before opening a PR.
-  - Modernized the test CI to use [uv](https://docs.astral.sh/uv/) and run on pull requests, and added package-build-check and PyPI trusted-publishing workflows.
 
-**Version ≥ 0.30.5** (May 23, 2026):
+**Version ≥ 0.30.5** (May 23, 2026):  
 - [`gget opentargets`](opentargets.md): Rewrote this module to reflect the new Open Targets API structure
   - some output column/key names may differ to reflect the new API structure
   - Removed the `--filter_mode` argument
