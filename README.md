@@ -12,10 +12,10 @@
 
 `gget` is part of the [scverse®](https://scverse.org) project and is fiscally sponsored by [NumFOCUS](https://numfocus.org/). If you like `gget` and want to support our mission, please consider making a tax-deductible [donation](https://opencollective.com/scverse/projects/scverse-gget/donate?interval=oneTime&amount=20&contributeAs=me).
 <br>
-  
+
 ![alt text](https://github.com/pachterlab/gget/blob/main/figures/gget_overview.png?raw=true)
-    
-If you use `gget` in a publication, please [cite*](https://pachterlab.github.io/gget/en/cite.html):    
+
+If you use `gget` in a publication, please [cite*](https://pachterlab.github.io/gget/en/cite.html):  
 ```
 Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. https://doi.org/10.1093/bioinformatics/btac836
 ```
@@ -42,7 +42,7 @@ For use in Jupyter Lab / Google Colab:
 # Python
 import gget
 ```
-# [🔗 Manual](https://pachterlab.github.io/gget) 
+# [🔗 Manual](https://pachterlab.github.io/gget)
 
 # 🪄 Quick start guide
 Command line:

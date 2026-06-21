@@ -1,6 +1,6 @@
 [<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/pachterlab/gget/blob/main/docs/src/es/mutate.md)
 
-> Parámetros de Python són iguales a los parámetros largos (`--parámetro`) de Terminal, si no especificado de otra manera. Banderas son parámetros de verdadero o falso (True/False) en Python. El manuál para cualquier modulo de gget se puede llamar desde la Terminal con la bandera `-h` `--help`.   
+> Parámetros de Python són iguales a los parámetros largos (`--parámetro`) de Terminal, si no especificado de otra manera. Banderas son parámetros de verdadero o falso (True/False) en Python. El manuál para cualquier modulo de gget se puede llamar desde la Terminal con la bandera `-h` `--help`.  
 # gget mutate 🧟
 Recibe secuencias de nucleótidos y mutaciones (en [anotación de mutación estándar](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1867422/)) y devuelve versiones mutadas de las secuencias según las mutaciones proporcionadas.  
 Resultado: Guarda las secuencias mutadas en formato FASTA (o devuelve una lista que contiene las secuencias mutadas si `out=None`).  
@@ -71,53 +71,53 @@ Si k > longitud total de la secuencia, se mantendrá toda la secuencia.
 `-msl` `--min_seq_len`  
 Longitud mínima de la secuencia de salida mutante, por ejemplo, 100. Las secuencias mutantes más pequeñas que esto serán descartadas. Predeterminado: Ninguno
 
-`-ma` `--max_ambiguous`                
+`-ma` `--max_ambiguous`  
 Número máximo de caracteres 'N' (o 'n') permitidos en la secuencia de salida, por ejemplo, 10. Predeterminado: Ninguno (no se aplicará filtro de caracteres ambiguos)
 
 **Banderas opcionales para la generación/filtrado de secuencias mutantes**  
 `-ofr` `--optimize_flanking_regions`  
-Elimina nucleótidos de cualquiera de los extremos de la secuencia mutante para asegurar (cuando sea posible) que la secuencia mutante no contenga ningún k-mer que también se encuentre en la secuencia de tipo salvaje/entrada. 
+Elimina nucleótidos de cualquiera de los extremos de la secuencia mutante para asegurar (cuando sea posible) que la secuencia mutante no contenga ningún k-mer que también se encuentre en la secuencia de tipo salvaje/entrada.
 
 `-rswk` `--remove_seqs_with_wt_kmers`  
 Elimina las secuencias de salida donde al menos un k-mer también está presente en la secuencia de tipo salvaje/entrada en la misma región.  
 Cuando se utiliza con `--optimize_flanking_regions`, solo se eliminarán las secuencias para las cuales un k-mer de tipo salvaje aún está presente después de la optimización.
 
-`-mio` `--merge_identical_off`          
+`-mio` `--merge_identical_off`  
 No fusionar secuencias mutantes idénticas en la salida (por defecto, las secuencias idénticas se fusionarán concatenando los encabezados de secuencia para todas las secuencias idénticas).
 
-**Argumentos opcionales para generar salida adicional**   
+**Argumentos opcionales para generar salida adicional**  
 Esta salida se activa utilizando la bandera `--update_df` y se almacenará en una copia del DataFrame `mutations`.  
 
-`-udf_o` `--update_df_out`               
+`-udf_o` `--update_df_out`  
 Ruta al archivo csv de salida que contiene el DataFrame actualizado, por ejemplo, 'path/to/mutations_updated.csv'. Solo válido cuando se usa con `--update_df`.  
 Predeterminado: Ninguno -> el nuevo archivo csv se guardará en el mismo directorio que el DataFrame `mutations` con el apéndice '_updated'  
 
-`-ts` `--translate_start`              
+`-ts` `--translate_start`  
 (int o str) La posición en la secuencia de nucleótidos de entrada para comenzar a traducir, por ejemplo, 5. Si se proporciona una cadena, debe corresponder a un nombre de columna en `mutations` que contenga las posiciones de inicio del marco de lectura abierto para cada secuencia/mutación. Solo válido cuando se usa con `--translate`.  
 Predeterminado: traduce desde el principio de cada secuencia  
 
-`-te` `--translate_end`                
+`-te` `--translate_end`  
 (int o str) La posición en la secuencia de nucleótidos de entrada para finalizar la traducción, por ejemplo, 35. Si se proporciona una cadena, debe corresponder a un nombre de columna en `mutations` que contenga las posiciones de fin del marco de lectura abierto para cada secuencia/mutación. Solo válido cuando se usa con `--translate`.  
 Predeterminado: traduce hasta el final de cada secuencia  
 
 **Banderas opcionales para modificar salida adicional**  
-`-udf` `--update_df`   
+`-udf` `--update_df`  
 Actualiza el DataFrame de entrada `mutations` para incluir columnas adicionales con el tipo de mutación, la secuencia de nucleótidos de tipo salvaje y la secuencia de nucleótidos mutante (solo válido si `mutations` es un archivo .csv o .tsv).  
 
-`-sfs` `--store_full_sequences`         
-Incluye las secuencias completas de tipo salvaje y mutantes en el DataFrame actualizado `mutations` (no solo la sub-secuencia con flancos de longitud k). Solo válido cuando se usa con `--update_df`.   
+`-sfs` `--store_full_sequences`  
+Incluye las secuencias completas de tipo salvaje y mutantes en el DataFrame actualizado `mutations` (no solo la sub-secuencia con flancos de longitud k). Solo válido cuando se usa con `--update_df`.  
 
-`-tr` `--translate`                  
-Agrega columnas adicionales al DataFrame actualizado `mutations` que contienen las secuencias de aminoácidos de tipo salvaje y mutantes. Solo válido cuando se usa con `--store_full_sequences`.   
-                                  
+`-tr` `--translate`  
+Agrega columnas adicionales al DataFrame actualizado `mutations` que contienen las secuencias de aminoácidos de tipo salvaje y mutantes. Solo válido cuando se usa con `--store_full_sequences`.  
+
 **Argumentos generales opcionales**  
-`-o` `--out`   
+`-o` `--out`  
 Ruta al archivo FASTA de salida que contiene las secuencias mutadas, por ejemplo, 'path/to/output_fasta.fa'.  
-Predeterminado: Ninguno -> devuelve una lista de las secuencias mutadas a la salida estándar.    
-Los identificadores (que siguen al '>') de las secuencias mutadas en el FASTA de salida serán '>[seq_ID]_[mut_ID]'. 
+Predeterminado: Ninguno -> devuelve una lista de las secuencias mutadas a la salida estándar.  
+Los identificadores (que siguen al '>') de las secuencias mutadas en el FASTA de salida serán '>[seq_ID]_[mut_ID]'.
 
 **Banderas generales opcionales**  
-`-q` `--quiet`   
+`-q` `--quiet`  
 Solo en línea de comandos. Previene que se muestre información de progreso.  
 Python: Usa `verbose=False` para prevenir que se muestre información de progreso.  
 
@@ -221,7 +221,7 @@ gget.mutate(
 | 1          | g.224411A>C       | ENST00000193812        | 0               | 100           |
 | 8          | g.25111del        | ENST00000174411        | 0               | 294           |
 | X          | g.1011_1012insAA  | ENST00000421914        | 9               | 1211          |
-``` 
+```
 &rarr; Guarda el archivo 'mut_fasta.fa' que contiene:  
 ```
 >1:g.224411A>C  
@@ -230,7 +230,7 @@ TGCTCTGCT
 GAGTCGAT
 >X:g.1011_1012insAA
 TTAGAACTT
-``` 
+```
 &rarr; Guarda el archivo 'mutations_updated.csv' que contiene:  
 ```
 
@@ -242,8 +242,7 @@ TTAGAACTT
 
 ```
 
-# Citar    
+# Citar  
 Si utiliza `gget mutate` en una publicación, favor de citar los siguientes artículos:
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
-

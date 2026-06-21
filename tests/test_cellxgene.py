@@ -1,7 +1,14 @@
-import unittest
-import pandas as pd
+import importlib.util
 import json
-from gget.gget_cellxgene import cellxgene, SUPPORTED_SPECIES
+import unittest
+
+from gget.gget_cellxgene import SUPPORTED_SPECIES, cellxgene
+
+# cellxgene-census has no wheels for some newer Python versions (e.g. 3.14, via
+# its tiledbsoma dependency). The live integration tests below need it, so they
+# skip when it is unavailable; the validation tests do not need it (the species
+# allowlist check raises before the optional dependency is imported) and always run.
+_HAS_CELLXGENE_CENSUS = importlib.util.find_spec("cellxgene_census") is not None
 
 # Load dictionary containing arguments and expected results
 with open("./tests/fixtures/test_cellxgene.json") as json_file:
@@ -9,9 +16,7 @@ with open("./tests/fixtures/test_cellxgene.json") as json_file:
 
 
 def repr_dict(adata):
-    """
-    Function to convert the items/structure of an AnnData object to a dictionary.
-    """
+    """Convert the items/structure of an AnnData object to a dictionary."""
     d = {}
     for attr in (
         "n_obs",
@@ -35,6 +40,7 @@ def repr_dict(adata):
     return d
 
 
+@unittest.skipUnless(_HAS_CELLXGENE_CENSUS, "cellxgene-census is not installed")
 class TestCellxgene(unittest.TestCase):
     def test_cellxgene_adata(self):
         test = "test_cellxgene_adata"

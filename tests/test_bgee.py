@@ -1,6 +1,8 @@
-import unittest
 import json
+import unittest
+
 from gget.gget_bgee import bgee
+
 from .from_json import from_json
 
 # Load dictionary containing arguments and expected results

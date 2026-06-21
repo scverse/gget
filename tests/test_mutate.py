@@ -1,16 +1,15 @@
 import json
-
-import pytest
-import unittest
-import gget
-import pandas as pd
 import os
 import tempfile
-from .from_json import from_json, do_call
+import unittest
 
-LONG_SEQUENCE = (
-    "CCCCGCCCCACCCCGCCCCTCCCCGCCCCACCCCGCCCCTCCCCGCCCCACCCCGCCCCTCCCCGCCCCACCCCG"
-)
+import gget
+import pandas as pd
+import pytest
+
+from .from_json import do_call, from_json
+
+LONG_SEQUENCE = "CCCCGCCCCACCCCGCCCCTCCCCGCCCCACCCCGCCCCTCCCCGCCCCACCCCGCCCCTCCCCGCCCCACCCCG"
 EXTRA_LONG_SEQUENCE = "CCCCGCCCCACCCCGCCCCTCCCCGCCCCACCCCGCCCCTCCCCGCCCCACCCCGCCCCTCCCCGCCCCACCCCGCCCCTCCCCGCCCCACCCCGCCCCTCCCCGCCCCACCCCGCCCCTCCCCGCCCCACCCCG"
 LONG_SEQUENCE_WITH_N = "CCCCGCCCCACCCCGCCCCTCCCCGCCCCACCCCGCCCCNCCCCGCCCCACCCCGCCCCTCCCCGCCCCACCCCGCCCCTCCCCGCCCCACCCCGCCCCTCCCCGCCCCACCCCGCCCCTCCCCGCCCCACCCCG"
 
@@ -46,7 +45,7 @@ def create_temp_files():
     temp_fasta_file = tempfile.NamedTemporaryFile(delete=False, suffix=".fasta")
 
     with open(temp_fasta_file.name, "w") as fasta_file:
-        for seq_id, sequence in zip(seq_ID_list, sequence_list):
+        for seq_id, sequence in zip(seq_ID_list, sequence_list, strict=False):
             fasta_file.write(f">{seq_id}\n")
             fasta_file.write(f"{sequence}\n")
 
@@ -65,15 +64,9 @@ def assert_global_variables_zero(
     number_index_errors=0,
 ):
     assert gget.gget_mutate.intronic_mutations == number_intronic_position_mutations
-    assert (
-        gget.gget_mutate.posttranslational_region_mutations
-        == number_posttranslational_region_mutations
-    )
+    assert gget.gget_mutate.posttranslational_region_mutations == number_posttranslational_region_mutations
     assert gget.gget_mutate.uncertain_mutations == number_uncertain_mutations
-    assert (
-        gget.gget_mutate.ambiguous_position_mutations
-        == number_ambiguous_position_mutations
-    )
+    assert gget.gget_mutate.ambiguous_position_mutations == number_ambiguous_position_mutations
     assert gget.gget_mutate.mut_idx_outside_seq == number_index_errors
 
 
@@ -88,9 +81,7 @@ def _recursive_replace(v, old: str, new: str, exact=False):
             return v.replace(old, new)
     elif isinstance(v, dict):
         return {
-            _recursive_replace(k, old, new, exact=exact): _recursive_replace(
-                v, old, new, exact=exact
-            )
+            _recursive_replace(k, old, new, exact=exact): _recursive_replace(v, old, new, exact=exact)
             for k, v in v.items()
         }
     elif isinstance(v, list):
@@ -212,9 +203,7 @@ class TestMutate(
 def test_csv_of_mutations(create_temp_files):
     mutation_temp_csv_file, sequence_temp_fasta_path = create_temp_files
 
-    result = gget.mutate(
-        sequences=sequence_temp_fasta_path, mutations=mutation_temp_csv_file
-    )
+    result = gget.mutate(sequences=sequence_temp_fasta_path, mutations=mutation_temp_csv_file)
 
     assert result == [
         "GCCCCACCCCGCCCCTCCCCGCCCCACCCCACCCCTCCCCGCCCCACCCCGCCCCTCCCCG",

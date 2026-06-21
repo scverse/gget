@@ -1,44 +1,42 @@
-from bs4 import BeautifulSoup
-import requests
-
 import concurrent.futures
+import functools
 import json
-import re
+import logging
 import os
 import time
 import uuid
-import functools
-import pandas as pd
+
 import numpy as np
-from IPython.display import display, HTML
-import logging
+import pandas as pd
+import requests
+from bs4 import BeautifulSoup
+from IPython.display import HTML, display
 
 # from datetime import datetime
 
 # Mute numexpr threads info
 logging.getLogger("numexpr").setLevel(logging.WARNING)
 
-from .constants import (
-    ENSEMBL_FTP_URL,
-    ENSEMBL_FTP_URL_NV,
-    ENS_TO_PDB_API,
+from .constants import (  # noqa: E402
     COSMIC_RELEASE_URL,
     DEFAULT_REQUESTS_TIMEOUT,
+    ENS_TO_PDB_API,
+    ENSEMBL_FTP_URL,
+    ENSEMBL_FTP_URL_NV,
 )
 
 
 def set_up_logger():
+    """Configure and return the module logger using the GGET_LOGLEVEL environment variable."""
     logging_level_name = os.getenv("GGET_LOGLEVEL", "INFO")
     logging_level = logging.getLevelName(logging_level_name)
-    if type(logging_level) != int:  # unknown log level
+    if not isinstance(logging_level, int):  # unknown log level
         logging_level = logging.INFO
     logger = logging.getLogger(__name__)
     logger.setLevel(logging_level)
 
     if not logger.hasHandlers():
-        formatter = logging.Formatter(
-            "%(asctime)s - %(levelname)s - %(message)s", "%H:%M:%S"
-        )
+        formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s", "%H:%M:%S")
 
         console_handler = logging.StreamHandler()
         console_handler.setFormatter(formatter)
@@ -63,15 +61,13 @@ logger = set_up_logger()
 
 
 def flatten(xss):
-    """
-    Function to flatten a list of lists.
-    """
+    """Function to flatten a list of lists."""
     return [x for xs in xss for x in xs]
 
 
 def parallel_map(fn, items, *, max_workers=None):
-    """
-    Apply `fn` to each item using a thread pool and return the results
+    """Apply `fn` to each item using a thread pool and return the results
+
     in input order. Designed for I/O-bound work — typically per-ID HTTP
     calls — where the per-call latency is dominated by network RTT.
 
@@ -105,8 +101,8 @@ def http_json(
     backoff=1.0,
     **kwargs,
 ):
-    """
-    Issue an HTTP request and return the parsed JSON body, raising a
+    """Issue an HTTP request and return the parsed JSON body, raising a
+
     RuntimeError with consistent context if the request fails or the body
     is not valid JSON.
 
@@ -142,15 +138,13 @@ def http_json(
             # to the caller without retry.
             if response.status_code < 500:
                 body = response.text[:200] if response.text else ""
-                raise RuntimeError(
-                    f"{label} returned HTTP {response.status_code}. Body: {body}"
-                )
+                raise RuntimeError(f"{label} returned HTTP {response.status_code}. Body: {body}")
             last_exc = None
             last_status = response.status_code
             last_body = response.text[:200] if response.text else ""
 
         if attempt < attempts - 1:
-            delay = backoff * (2 ** attempt)
+            delay = backoff * (2**attempt)
             logger.warning(
                 f"{label}: transient failure (%s); retrying in %.1fs (attempt %d/%d).",
                 last_exc or f"HTTP {last_status}",
@@ -161,17 +155,13 @@ def http_json(
             time.sleep(delay)
 
     if last_exc is not None:
-        raise RuntimeError(
-            f"{label} request failed after {attempts} attempts: {last_exc}"
-        ) from last_exc
-    raise RuntimeError(
-        f"{label} returned HTTP {last_status} after {attempts} attempts. Body: {last_body}"
-    )
+        raise RuntimeError(f"{label} request failed after {attempts} attempts: {last_exc}") from last_exc
+    raise RuntimeError(f"{label} returned HTTP {last_status} after {attempts} attempts. Body: {last_body}")
 
 
 def dig(obj, *path, context=""):
-    """
-    Walk a nested key path through `obj` and return the resulting value.
+    """Walk a nested key path through `obj` and return the resulting value.
+
     Raises RuntimeError with `context` if any intermediate key is missing
     or any intermediate value is not a dict. Use to make
     `response["data"]["target"]`-style access fail with a clear message
@@ -182,26 +172,24 @@ def dig(obj, *path, context=""):
         if not isinstance(cur, dict) or key not in cur:
             traversed = ".".join(path[:i]) or "<root>"
             label = f"{context}: " if context else ""
-            raise RuntimeError(
-                f"{label}expected key '{key}' under {traversed} in response."
-            )
+            raise RuntimeError(f"{label}expected key '{key}' under {traversed} in response.")
         cur = cur[key]
     return cur
 
 
 def get_latest_cosmic():
+    """Fetch and return the latest COSMIC release version number."""
     html = requests.get(COSMIC_RELEASE_URL)
     if html.status_code != 200:
-        raise RuntimeError(
-            f"The COSMIC server returned error status code {html.status_code}. Please try again."
-        )
+        raise RuntimeError(f"The COSMIC server returned error status code {html.status_code}. Please try again.")
     soup = BeautifulSoup(html.text, "html.parser")
 
     return int(soup.find("div", class_="news").get("id").split("v")[-1])
 
 
 def check_file_for_error_message(filepath, filename, download_path):
-    with open(filepath, "r", encoding="utf-8") as file:
+    """Raise a ValueError if the downloaded file contains a known server error message."""
+    with open(filepath, encoding="utf-8") as file:
         content = file.read().strip()
 
     # Define common error indicators
@@ -217,7 +205,7 @@ def check_file_for_error_message(filepath, filename, download_path):
     if any(keyword in content for keyword in error_keywords):
         raise ValueError(
             f"""
-            The {filename} downloaded from {download_path} 
+            The {filename} downloaded from {download_path}
             contains an error message instead of valid data.\n
             Error message:\n{content}\n
             Please try again. If the problem persists, please report it here: https://github.com/pachterlab/gget/issues/new?template=issue_report.yml
@@ -226,11 +214,10 @@ def check_file_for_error_message(filepath, filename, download_path):
 
 
 def read_fasta(fasta):
-    """
+    """Return titles and seqs from a fasta file as two list objects.
+
     Args:
     - fasta     (str) Path to fasta file.
-
-    Returns titles and seqs from fasta file as two list objects.
     """
     titles = []
     seqs = []
@@ -269,11 +256,10 @@ def read_fasta(fasta):
 
 
 def n_colors(nucleotide):
-    """
-    Returns a string format to print the nucleotide
+    """Returns a string format to print the nucleotide
+
     with its appropriate background color according to the Clustal Colour Scheme.
     """
-
     # Raw python background colors
     # References:
     # https://stackabuse.com/how-to-print-colored-text-in-python/
@@ -305,7 +291,7 @@ def n_colors(nucleotide):
 
     # If the nucleotide does not fall into the defined color categories,
     # make it white (e.g. "-")
-    if bkg_color == None:
+    if bkg_color is None:
         bkg_color = raw_colors["white"]
 
     if letter_color is not None and letter_color in ["blue", "red"]:
@@ -319,12 +305,11 @@ def n_colors(nucleotide):
 
 
 def aa_colors(amino_acid):
-    """
-    Returns a string format to print the amino acid
-    with its appropriate background color according to the Clustal Colour Scheme:
-    http://www.jalview.org/help/html/colourSchemes/clustal.html
-    """
+    """Returns a string format to print the amino acid
 
+    with its appropriate background color according to the Clustal Colour Scheme:
+    http://www.jalview.org/help/html/colourSchemes/clustal.html.
+    """
     # Raw python background colors
     # References:
     # https://stackabuse.com/how-to-print-colored-text-in-python/
@@ -364,7 +349,7 @@ def aa_colors(amino_acid):
 
     # If the amino acid does not fall into the defined color categories,
     # make it white (e.g. "-")
-    if bkg_color == None:
+    if bkg_color is None:
         bkg_color = raw_colors["white"]
 
     if letter_color is not None and letter_color in [
@@ -399,9 +384,7 @@ def _fetch_uniprot_for_id(server, id_):
             )
         payload = r.json()
         if len(payload["results"]) > 0:
-            logger.warning(
-                f"No reviewed UniProt results were found for ID {id_}. Returning all unreviewed results."
-            )
+            logger.warning(f"No reviewed UniProt results were found for ID {id_}. Returning all unreviewed results.")
 
     if not len(payload["results"]) > 0:
         logger.warning(f"No UniProt sequences were found for ID {id_}.")
@@ -435,8 +418,7 @@ def _fetch_uniprot_for_id(server, id_):
 
 
 def get_uniprot_seqs(server, ensembl_ids):
-    """
-    Retrieve UniProt sequences based on Ensemsbl, WormBase or FlyBase identifiers.
+    """Retrieve UniProt sequences based on Ensemsbl, WormBase or FlyBase identifiers.
 
     Args:
     - server        Link to UniProt REST API server.
@@ -444,17 +426,14 @@ def get_uniprot_seqs(server, ensembl_ids):
 
     Returns data frame with UniProt ID, gene name, organism, sequence, sequence length, and query ID.
     """
-
     # If a single UniProt ID is passed as string, convert to list
-    if type(ensembl_ids) == str:
+    if isinstance(ensembl_ids, str):
         ensembl_ids = [ensembl_ids]
 
     # Fan out per-ID requests across a thread pool. Each call is independent
     # and entirely I/O-bound, so the wall-clock saving on a list of IDs is
     # roughly the pool size. Override with GGET_MAX_WORKERS env var.
-    results = parallel_map(
-        lambda id_: _fetch_uniprot_for_id(server, id_), ensembl_ids
-    )
+    results = parallel_map(lambda id_: _fetch_uniprot_for_id(server, id_), ensembl_ids)
     per_id_dfs = [df for df in results if df is not None]
     if per_id_dfs:
         return pd.concat(per_id_dfs, ignore_index=True)
@@ -462,8 +441,7 @@ def get_uniprot_seqs(server, ensembl_ids):
 
 
 def get_uniprot_info(server, ensembl_id, verbose=True):
-    """
-    Retrieve UniProt synonyms and description based on Ensemsbl identifiers.
+    """Retrieve UniProt synonyms and description based on Ensemsbl identifiers.
 
     Args:
     - server          Link to UniProt REST API server.
@@ -520,7 +498,7 @@ def get_uniprot_info(server, ensembl_id, verbose=True):
         for i in np.arange(len(json["results"])):
             try:
                 gene_names.append(json["results"][i]["genes"][0]["geneName"]["value"])
-            except:
+            except Exception:  # noqa: BLE001
                 gene_names.append(np.nan)
         df["primary_gene_name"] = gene_names
 
@@ -531,7 +509,7 @@ def get_uniprot_info(server, ensembl_id, verbose=True):
             try:
                 for syn in json["results"][i]["genes"][0]["synonyms"]:
                     uni_syn_temp.append(syn["value"])
-            except:
+            except Exception:  # noqa: BLE001
                 uni_syn_temp.append(np.nan)
             uni_synonyms.append(uni_syn_temp)
         df["uni_synonyms"] = uni_synonyms
@@ -540,12 +518,8 @@ def get_uniprot_info(server, ensembl_id, verbose=True):
         protein_names = []
         for i in np.arange(len(json["results"])):
             try:
-                protein_names.append(
-                    json["results"][i]["proteinDescription"]["recommendedName"][
-                        "fullName"
-                    ]["value"]
-                )
-            except:
+                protein_names.append(json["results"][i]["proteinDescription"]["recommendedName"]["fullName"]["value"])
+            except Exception:  # noqa: BLE001
                 protein_names.append(np.nan)
         df["protein_names"] = protein_names
 
@@ -561,7 +535,7 @@ def get_uniprot_info(server, ensembl_id, verbose=True):
                 des_temp = np.unique(np.array(des_temp))
                 # Append all descriptions to a single string object
                 des_temp = " ".join(des_temp)
-            except:
+            except Exception:  # noqa: BLE001
                 des_temp.append(np.nan)
 
             descriptions.append(des_temp)
@@ -577,7 +551,7 @@ def get_uniprot_info(server, ensembl_id, verbose=True):
                     if comment_json["commentType"] == "SUBCELLULAR LOCATION":
                         for location_dict in comment_json["subcellularLocations"]:
                             subcel_locs.append(location_dict["location"]["value"])
-            except:
+            except Exception:  # noqa: BLE001
                 pass
             subcel_locs_final.append(subcel_locs)
 
@@ -601,16 +575,16 @@ def get_uniprot_info(server, ensembl_id, verbose=True):
                     syn_lists = df[column].values
                     try:
                         flat_list = [item for sublist in syn_lists for item in sublist]
-                        final_df[column] = [list({value: "" for value in flat_list})]
+                        final_df[column] = [list(dict.fromkeys(flat_list, ""))]
 
-                    except:
+                    except Exception:  # noqa: BLE001
                         final_df[column] = [syn_lists]
 
                 else:
                     val_list = df[column].values
                     try:
-                        final_df[column] = [list({value: "" for value in val_list})]
-                    except:
+                        final_df[column] = [list(dict.fromkeys(val_list, ""))]
+                    except Exception:  # noqa: BLE001
                         final_df[column] = [val_list]
 
                 # Try to clean up the entries (so they are not a bunch of lists of one item)
@@ -618,8 +592,8 @@ def get_uniprot_info(server, ensembl_id, verbose=True):
                 if len(final_df[column]) == 1 and column != "uni_synonyms":
                     try:
                         final_df[column] = final_df[column][0]
-                    except:
-                        None
+                    except Exception:  # noqa: BLE001
+                        pass
 
             return final_df
 
@@ -724,14 +698,13 @@ def get_uniprot_info(server, ensembl_id, verbose=True):
 
 
 def get_pdb_ids(ens_id):
-    """
-    Function to fetch all PDB IDs linked to an Ensembl ID.
-    using the PDBe API https://wwwdev.ebi.ac.uk/pdbe/aggregated-api/mappings/ensembl_to_pdb/[ens_id]
+    """Function to fetch all PDB IDs linked to an Ensembl ID.
+
+    using the PDBe API https://wwwdev.ebi.ac.uk/pdbe/aggregated-api/mappings/ensembl_to_pdb/[ens_id].
 
     API documentation:
     https://www.ebi.ac.uk/pdbe/aggregated-api/#/SIFTS/get_ensembl_to_pdb_mappings_api_mappings_ensembl_to_pdb__gene_id__get
     """
-
     res = requests.get(ENS_TO_PDB_API + ens_id)
 
     if not res.ok:
@@ -748,12 +721,12 @@ def get_pdb_ids(ens_id):
     for entry in pdb_dict:
         pdb_ids.append(entry["pdb_id"])
 
-    return sorted(list(set(pdb_ids)))
+    return sorted(set(pdb_ids))
 
 
 def wrap_cols_func(df, cols):
-    """
-    Function to wrap columns cols of a
+    """Function to wrap columns cols of a
+
     data frame df for easier reading.
     """
     for col in cols:
@@ -763,8 +736,7 @@ def wrap_cols_func(df, cols):
 
 
 def rest_query(server, query, content_type):
-    """
-    Function to perform a REST API query.
+    """Function to perform a REST API query.
 
     Args:
     - server        Server to query.
@@ -773,13 +745,11 @@ def rest_query(server, query, content_type):
 
     Returns server output.
     """
-
     r = requests.get(server + query, headers={"Content-Type": content_type})
 
     if not r.ok:
         raise RuntimeError(
-            f"{server} returned error status code {r.status_code}. "
-            "Please double-check arguments and try again.\n"
+            f"{server} returned error status code {r.status_code}. Please double-check arguments and try again.\n"
         )
 
     if content_type == "application/json":
@@ -789,8 +759,7 @@ def rest_query(server, query, content_type):
 
 
 def post_query(server, endpoint, query):
-    """
-    Function to perform a POST API query.
+    """Function to perform a POST API query.
 
     :param server:  Server to query .
     :param endpoint: Server endpoint
@@ -798,23 +767,18 @@ def post_query(server, endpoint, query):
 
     :return: server output
     """
-
-    r = requests.post(
-        server + endpoint, json=query, headers={"Content-Type": "application/json"}
-    )
+    r = requests.post(server + endpoint, json=query, headers={"Content-Type": "application/json"})
 
     if not r.ok:
         raise RuntimeError(
-            f"{server} returned error status code {r.status_code}. "
-            "Please double-check arguments and try again.\n"
+            f"{server} returned error status code {r.status_code}. Please double-check arguments and try again.\n"
         )
 
     return r.json()
 
 
 def graphql_query(server, query, variables):
-    """
-    Function to perform a GraphQL API query.
+    """Function to perform a GraphQL API query.
 
     Args:
     - server        Server to query.
@@ -823,25 +787,20 @@ def graphql_query(server, query, variables):
 
     Returns server output.
     """
-
     r = requests.post(server, json={"query": query, "variables": variables})
 
     if not r.ok:
-        logger.debug(
-            f"Server: {server}, Query: {query}, Variables: {variables}, Response: {r.text}"
-        )
+        logger.debug(f"Server: {server}, Query: {query}, Variables: {variables}, Response: {r.text}")
         raise RuntimeError(
-            f"{server} returned error status code {r.status_code}. "
-            "Please double-check arguments and try again.\n"
+            f"{server} returned error status code {r.status_code}. Please double-check arguments and try again.\n"
         )
 
     return r.json()
 
 
-@functools.lru_cache(maxsize=None)
+@functools.cache
 def find_latest_ens_rel(database=ENSEMBL_FTP_URL):
-    """
-    Returns the latest Ensembl release number.
+    """Returns the latest Ensembl release number.
 
     Args:
     - database    Link to Ensembl database.
@@ -870,18 +829,15 @@ def find_latest_ens_rel(database=ENSEMBL_FTP_URL):
 
     html = requests.get(database + "VERSION")
     if html.status_code != 200:
-        raise RuntimeError(
-            f"The Ensembl FTP server returned error status code {html.status_code}. Please try again."
-        )
+        raise RuntimeError(f"The Ensembl FTP server returned error status code {html.status_code}. Please try again.")
     ENS_rel = int(html.text)
 
     return ENS_rel
 
 
-@functools.lru_cache(maxsize=None)
+@functools.cache
 def search_species_options(database=ENSEMBL_FTP_URL, release=None):
-    """
-    Function to find all available species core databases for gget search.
+    """Function to find all available species core databases for gget search.
 
     Args:
     - release   Ensembl release for which the databases are fetched.
@@ -894,11 +850,9 @@ def search_species_options(database=ENSEMBL_FTP_URL, release=None):
     ENS_rel = find_latest_ens_rel(database)
 
     # If release != None, use user-defined Ensembl release
-    if release != None:
+    if release is not None:
         if release > ENS_rel:
-            logger.warning(
-                f"Provided Ensembl release number {release} is greater than the latest release ({ENS_rel})."
-            )
+            logger.warning(f"Provided Ensembl release number {release} is greater than the latest release ({ENS_rel}).")
         ENS_rel = release
 
     ## Find all available databases
@@ -929,9 +883,7 @@ def search_species_options(database=ENSEMBL_FTP_URL, release=None):
 
         # Raise error if status code not "OK" Response
         if html.status_code != 200:
-            raise RuntimeError(
-                f"The Ensembl server returned error status code {html.status_code}. Please try again."
-            )
+            raise RuntimeError(f"The Ensembl server returned error status code {html.status_code}. Please try again.")
 
         soup = BeautifulSoup(html.text, "html.parser")
 
@@ -944,8 +896,9 @@ def search_species_options(database=ENSEMBL_FTP_URL, release=None):
     return databases
 
 
-@functools.lru_cache(maxsize=None)
+@functools.cache
 def find_nv_kingdom(species, release):
+    """Return the Ensembl non-vertebrate kingdom that contains the given species for a release."""
     kds = ["plants", "protists", "metazoa", "fungi"]
     for kingdom in kds:
         url = ENSEMBL_FTP_URL_NV + f"release-{release}/{kingdom}/fasta/"
@@ -953,9 +906,7 @@ def find_nv_kingdom(species, release):
 
         # Raise error if status code not "OK" Response
         if html.status_code != 200:
-            raise RuntimeError(
-                f"The Ensembl server returned error status code {html.status_code}. Please try again."
-            )
+            raise RuntimeError(f"The Ensembl server returned error status code {html.status_code}. Please try again.")
 
         # Parse the html and generate a clean list of the available genomes
         soup = BeautifulSoup(html.text, "html.parser")
@@ -969,10 +920,9 @@ def find_nv_kingdom(species, release):
             return kingdom
 
 
-@functools.lru_cache(maxsize=None)
+@functools.cache
 def ref_species_options(which, database=ENSEMBL_FTP_URL, release=None):
-    """
-    Function to find all available species for gget ref.
+    """Function to find all available species for gget ref.
 
     Args:
     - which     Which type of file to check for.
@@ -987,12 +937,10 @@ def ref_species_options(which, database=ENSEMBL_FTP_URL, release=None):
     ENS_rel = find_latest_ens_rel(database)
 
     # If release != None, use user-defined Ensembl release
-    if release != None:
+    if release is not None:
         # Warn user if user-defined release is higher than the latest release
         if release > ENS_rel:
-            logger.warning(
-                f"Provided Ensembl release number {release} is greater than the latest release ({ENS_rel})."
-            )
+            logger.warning(f"Provided Ensembl release number {release} is greater than the latest release ({ENS_rel}).")
         ENS_rel = release
 
     # Handle structure of non-vertebrate database
@@ -1034,9 +982,7 @@ def ref_species_options(which, database=ENSEMBL_FTP_URL, release=None):
 
         # Raise error if status code not "OK" Response
         if html.status_code != 200:
-            raise RuntimeError(
-                f"The Ensembl server returned error status code {html.status_code}. Please try again."
-            )
+            raise RuntimeError(f"The Ensembl server returned error status code {html.status_code}. Please try again.")
 
         # Parse the html and generate a clean list of the available genomes
         soup = BeautifulSoup(html.text, "html.parser")
@@ -1052,8 +998,8 @@ def ref_species_options(which, database=ENSEMBL_FTP_URL, release=None):
 
 
 def parse_blast_ref_page(handle):
-    """
-    Extract RID and RTOE from the NCBI 'please wait' page (handle).
+    """Extract RID and RTOE from the NCBI 'please wait' page (handle).
+
     RTOE = 'Estimated time fo completion.'
     RID = 'Request ID'.
 
@@ -1064,7 +1010,6 @@ def parse_blast_ref_page(handle):
     Biopython License Agreement and BSD 3-Clause License
     https://github.com/biopython/biopython/blob/171697883aca6894f8367f8f20f1463ce7784d0c/LICENSE.rst
     """
-
     # Decode handle
     string = handle.read().decode()
 
@@ -1107,9 +1052,7 @@ def parse_blast_ref_page(handle):
             msg = string[i:].split("<", 1)[0].split("\n", 1)[0].strip()
             raise ValueError(f"Error message from NCBI: {msg}")
         # Raise general error, if the error layout was not recognized
-        raise ValueError(
-            "No request ID and no estimated time to completion were found in the NCBI 'please wait' page."
-        )
+        raise ValueError("No request ID and no estimated time to completion were found in the NCBI 'please wait' page.")
     # Raise error if RTOE was found but RID was not
     elif not rid:
         raise ValueError(
@@ -1126,12 +1069,11 @@ def parse_blast_ref_page(handle):
     except ValueError:
         raise ValueError(
             f"A non-integer estimated time to completion was found in the NCBI 'please wait' page: '{rtoe}'."
-        )
+        ) from None
 
 
 def tsv_to_df(tsv_file, headers=None, skiprows=None):
-    """
-    Convert tsv file to dataframe format.
+    """Convert tsv file to dataframe format.
 
     Args:
     - tsv_file      File to be converted
@@ -1143,12 +1085,11 @@ def tsv_to_df(tsv_file, headers=None, skiprows=None):
         return df
 
     except pd.errors.EmptyDataError:
-        raise RuntimeError(f"tsv to data frame reformatting failed.")
+        raise RuntimeError("tsv to data frame reformatting failed.") from None
 
 
 def create_tmp_fasta(sequences):
-    """
-    Create temporary FASTA file from str or list of sequences.
+    """Create temporary FASTA file from str or list of sequences.
 
     Args:
     - sequences     List of user input amino acid sequences
@@ -1158,7 +1099,7 @@ def create_tmp_fasta(sequences):
     # Generate random ID
     random_id = str(uuid.uuid4())
 
-    if type(sequences) == str:
+    if isinstance(sequences, str):
         sequences = [sequences]
 
     with open(f"tmp_{random_id}.fa", "w") as f:
@@ -1169,8 +1110,7 @@ def create_tmp_fasta(sequences):
 
 
 def remove_temp_files(files_to_delete):
-    """
-    Delete temporary files.
+    """Delete temporary files.
 
     Args:
     - files_to_delete   List of paths to files to delete.
@@ -1181,8 +1121,7 @@ def remove_temp_files(files_to_delete):
 
 
 def json_list_to_df(json_list, columns) -> pd.DataFrame:
-    """
-    Convert list of JSON objects to data frame.
+    """Convert list of JSON objects to data frame.
 
     Args:
 
@@ -1192,7 +1131,6 @@ def json_list_to_df(json_list, columns) -> pd.DataFrame:
 
     Returns data frame with columns as specified in keys.
     """
-
     tmp_columns = [[] for _ in range(len(columns))]
 
     for json_obj in json_list:
@@ -1206,7 +1144,7 @@ def json_list_to_df(json_list, columns) -> pd.DataFrame:
                 value = value[k]
             tmp_columns[i].append(value)
 
-    return pd.DataFrame({key[0]: value for key, value in zip(columns, tmp_columns)})
+    return pd.DataFrame({key[0]: value for key, value in zip(columns, tmp_columns, strict=False)})
 
 
 # FASTA parsing functionality
@@ -1219,8 +1157,10 @@ def json_list_to_df(json_list, columns) -> pd.DataFrame:
 # functionality specifically for FASTA files, maintaining compatibility with
 # the original BioPython API while removing the external dependency.
 
+
 class FastaRecord:
-    """Simple FASTA record class compatible with BioPython SeqIO.SeqRecord"""
+    """Simple FASTA record class compatible with BioPython SeqIO.SeqRecord."""
+
     def __init__(self, seq, id, description=""):
         self.seq = seq
         self.id = id
@@ -1228,35 +1168,35 @@ class FastaRecord:
 
 
 class FastaIO:
-    """Simple FASTA parser and writer, compatible with BioPython SeqIO interface"""
-    
+    """Simple FASTA parser and writer, compatible with BioPython SeqIO interface."""
+
     @staticmethod
     def parse(filename, format=None):
-        """Parse FASTA file and yield records. Compatible with SeqIO.parse()"""
+        """Parse FASTA file and yield records. Compatible with SeqIO.parse()."""
         if format and format.lower() != "fasta":
             raise ValueError(f"Unsupported format: {format}")
-        
-        with open(filename, 'r', encoding='utf-8') as handle:
+
+        with open(filename, encoding="utf-8") as handle:
             current_id = None
             current_description = ""
             current_seq = []
-            
+
             for line in handle:
                 line = line.strip()
                 if not line:
                     continue
-                    
-                if line.startswith('>'):
+
+                if line.startswith(">"):
                     # Yield previous record if exists
                     if current_id is not None:
-                        seq_str = ''.join(current_seq)
+                        seq_str = "".join(current_seq)
                         yield FastaRecord(seq_str, current_id, current_description)
-                    
+
                     # Start new record
                     header = line[1:]  # Remove '>'
-                    if ' ' in header:
-                        current_id = header.split(' ', 1)[0]
-                        current_description = header.split(' ', 1)[1]
+                    if " " in header:
+                        current_id = header.split(" ", 1)[0]
+                        current_description = header.split(" ", 1)[1]
                     else:
                         current_id = header
                         current_description = ""
@@ -1264,27 +1204,27 @@ class FastaIO:
                 else:
                     # Accumulate sequence
                     current_seq.append(line)
-            
+
             # Yield final record if exists
             if current_id is not None:
-                seq_str = ''.join(current_seq)
+                seq_str = "".join(current_seq)
                 yield FastaRecord(seq_str, current_id, current_description)
-    
+
     @staticmethod
     def write(records, filename, format=None):
-        """Write records to FASTA file. Compatible with SeqIO.write()"""
+        """Write records to FASTA file. Compatible with SeqIO.write()."""
         if format and format.lower() != "fasta":
             raise ValueError(f"Unsupported format: {format}")
-        
-        with open(filename, 'w', encoding='utf-8') as handle:
+
+        with open(filename, "w", encoding="utf-8") as handle:
             for record in records:
                 # Write header
-                if hasattr(record, 'description') and record.description:
+                if hasattr(record, "description") and record.description:
                     handle.write(f">{record.id} {record.description}\n")
                 else:
                     handle.write(f">{record.id}\n")
-                
+
                 # Write sequence (wrap at 70 characters)
                 seq_str = str(record.seq)
                 for i in range(0, len(seq_str), 70):
-                    handle.write(seq_str[i:i+70] + '\n')
+                    handle.write(seq_str[i : i + 70] + "\n")

@@ -8,10 +8,10 @@
 # Welcome!  
 
 [<img align="right" width="65%" height="65%" src="https://github.com/pachterlab/gget/blob/main/docs/assets/website_v2_gget_overview.png?raw=true" />](https://raw.githubusercontent.com/pachterlab/gget/main/figures/gget_overview.png)
-  
+
 `gget` is a free, open-source command-line tool and Python package that enables efficient querying of genomic databases.  
 <br>
-`gget` consists of a collection of separate but interoperable modules, each designed to facilitate one type of database querying in a single line of code.   
+`gget` consists of a collection of separate but interoperable modules, each designed to facilitate one type of database querying in a single line of code.  
 <br>
 `gget` is part of the [scverse®](https://scverse.org) project and is fiscally sponsored by [NumFOCUS](https://numfocus.org/). If you like `gget` and want to support our mission, please consider making a tax-deductible [donation](https://opencollective.com/scverse/projects/scverse-gget/donate?interval=oneTime&amount=20&contributeAs=me).
 
@@ -63,7 +63,7 @@ These are the `gget` core modules. Click on any module to access detailed docume
 
 <br>  
 
-If you use `gget` in a publication, please [cite*](/gget/en/cite.md):    
+If you use `gget` in a publication, please [cite*](/gget/en/cite.md):  
 ```
 Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. https://doi.org/10.1093/bioinformatics/btac836
 ```
@@ -73,7 +73,7 @@ Read the article here: [https://doi.org/10.1093/bioinformatics/btac836](https://
 <br>  
 
 [![gget PyPI downloads over the last year](https://github.com/lauraluebbert/gget_downloads/raw/main/plots/downloads_gget_daily.png)](https://github.com/lauraluebbert/gget_downloads/tree/main)  
-  
+
 <br>  
 <br>  
 
@@ -98,4 +98,3 @@ Read the article here: [https://doi.org/10.1093/bioinformatics/btac836](https://
   &nbsp;&nbsp;&nbsp;
   <img height="100" alt="logo-okfn" src="https://github.com/user-attachments/assets/452ae8d8-69f0-4d0d-848c-ddfb40357eb2" />
 </p>
-

@@ -8,7 +8,7 @@ Función para instalar/descargar dependencias de terceros para un módulo de gge
 > **Nota:** Algunas dependencias (por ejemplo, `cellxgene-census`) pueden no ser compatibles con las versiones más recientes de Python. Si encuentras errores durante la instalación, intenta usar un entorno con una versión anterior de Python.
 
 **Parámetro posicional**  
-`module`   
+`module`  
 Módulo gget para el que se deben instalar las dependencias.  
 
 ### Por ejemplo
@@ -20,4 +20,3 @@ gget setup alphafold
 gget.setup("alphafold")
 ```
 &rarr; Instala todas las dependencias de terceros (modificadas) y descarga los parámetros del algoritmo (~4 GB) necesarios para ejecutar [`gget alphafold`](alphafold.md).
-

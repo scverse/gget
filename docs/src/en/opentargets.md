@@ -2,7 +2,7 @@
 
 > Python arguments are equivalent to long-option arguments (`--arg`), unless otherwise specified. Flags are True/False arguments in Python. The manual for any gget tool can be called from the command-line using the `-h` `--help` flag.  
 # gget opentargets 🎯
-Fetch associated diseases or drugs from [OpenTargets](https://platform.opentargets.org/) using Ensembl IDs.   
+Fetch associated diseases or drugs from [OpenTargets](https://platform.opentargets.org/) using Ensembl IDs.  
 Return format: JSON/CSV (command-line) or data frame (Python).  
 
 This module was written by [Sam Wagenaar](https://github.com/techno-sam).  
@@ -12,8 +12,8 @@ This module was written by [Sam Wagenaar](https://github.com/techno-sam).
 Ensembl gene ID, e.g ENSG00000169194.
 
 **Optional arguments**  
-`-r` `--resource`   
-Defines the type of information to return in the output. Default: 'diseases'.   
+`-r` `--resource`  
+Defines the type of information to return in the output. Default: 'diseases'.  
 Possible resources are:
 
 | Resource           | Return Value                                                      | Valid Filters                                     | Sources                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
@@ -27,35 +27,35 @@ Possible resources are:
 | `interactions`     | Protein&rlarr;protein interactions                                | `protein_a_id`<br/>`protein_b_id`<br/>`gene_b_id` | <ul><li>[Open&nbsp;Targets](https://platform-docs.opentargets.org/target/molecular-interactions)</li><li>[IntAct](https://platform-docs.opentargets.org/target/molecular-interactions#intact)</li><li>[Signor](https://platform-docs.opentargets.org/target/molecular-interactions#signor)</li><li>[Reactome](https://platform-docs.opentargets.org/target/molecular-interactions#reactome)</li><li>[String](https://platform-docs.opentargets.org/target/molecular-interactions#string)</li></ul> |
 
 `-l` `--limit`  
-Limit the number of results, e.g 10. Default: No limit.     
+Limit the number of results, e.g 10. Default: No limit.  
 Note: Not compatible with the `tractability` and `depmap` resources.
 
-`-o` `--out`    
+`-o` `--out`  
 Path to the JSON file the results will be saved in, e.g. path/to/directory/results.json. Default: Standard out.  
 Python: `save=True` will save the output in the current working directory.
 
 `--filters`  
 Filter results by exact equality using returned OpenTargets column names. Pass multiple filters by repeating the flag, e.g. '--filter disease.id=EFO_0000274 --filter drug.id=CHEMBL1743081'. Nested fields use dot notation, matching the column names returned by the API.
 
-**Flags**   
+**Flags**  
 `-csv` `--csv`  
 Command-line only. Returns the output in CSV format, instead of JSON format.
 Python: Use `json=True` to return output in JSON format.
 
-`-q` `--quiet`   
+`-q` `--quiet`  
 Command-line only. Prevents progress information from being displayed.  
-Python: Use `verbose=False` to prevent progress information from being displayed. 
+Python: Use `verbose=False` to prevent progress information from being displayed.
 
 `-or` `--or`  
 Command-line only. Filters are combined with OR logic. Default: AND logic.
 
 `wrap_text`  
 Python only. `wrap_text=True` displays data frame with wrapped text for easy reading (default: False).  
-  
-  
+
+
 ### Examples
 
-**Get associated diseases for a specific gene:**   
+**Get associated diseases for a specific gene:**  
 ```bash
 gget opentargets ENSG00000169194 -r diseases -l 1
 ```
@@ -72,7 +72,7 @@ gget.opentargets('ENSG00000169194', resource='diseases', limit=1)
 
 <br/><br/>
 
-**Get associated drugs for a specific gene:**   
+**Get associated drugs for a specific gene:**  
 ```bash
 gget opentargets ENSG00000169194 -r drugs -l 2
 ```
@@ -93,7 +93,7 @@ gget.opentargets('ENSG00000169194', resource='drugs', limit=2)
 
 <br/><br/>
 
-**Get tractability data for a specific gene:**   
+**Get tractability data for a specific gene:**  
 ```bash
 gget opentargets ENSG00000169194 -r tractability
 ```
@@ -237,13 +237,12 @@ gget.opentargets(
 | 0.400          | 1              | intact    | P35225          | ENSG00000169194 | IL13          | unspecified&nbsp;role | 9606    | Q86XT9          | ENSG00000149932 | TMEM219       | stimulator            | 9606    |
 
 
-    
+
 #### [More examples](https://github.com/pachterlab/gget_examples)
 
 # References
-If you use `gget opentargets` in a publication, please cite the following articles:   
+If you use `gget opentargets` in a publication, please cite the following articles:  
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
 
 - Ochoa D, Hercules A, Carmona M, Suveges D, Baker J, Malangone C, Lopez I, Miranda A, Cruz-Castillo C, Fumis L, Bernal-Llinares M, Tsukanov K, Cornu H, Tsirigos K, Razuvayevskaya O, Buniello A, Schwartzentruber J, Karim M, Ariano B, Martinez Osorio RE, Ferrer J, Ge X, Machlitt-Northen S, Gonzalez-Uriarte A, Saha S, Tirunagari S, Mehta C, Roldán-Romero JM, Horswell S, Young S, Ghoussaini M, Hulcoop DG, Dunham I, McDonagh EM. The next-generation Open Targets Platform: reimagined, redesigned, rebuilt. Nucleic Acids Res. 2023 Jan 6;51(D1):D1353-D1359. doi: [10.1093/nar/gkac1046](https://doi.org/10.1093/nar/gkac1046). PMID: 36399499; PMCID: PMC9825572.
-

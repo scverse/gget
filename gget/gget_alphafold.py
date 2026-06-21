@@ -11,49 +11,43 @@ from datetime import datetime
 # Get current date and time for default foldername
 dt_string = datetime.now().strftime("%Y_%m_%d-%H%M")
 
-from tqdm import tqdm
-import os
-import shutil
-import sys
-import enum
-import glob
-import json
-import subprocess
-import platform
-import collections
-import copy
-from concurrent import futures
-import random
-from urllib import request
-import matplotlib.pyplot as plt
-import numpy as np
-from IPython import display
-from ipywidgets import GridspecLayout
-from ipywidgets import Output
+import collections  # noqa: E402
+import copy  # noqa: E402
+import enum  # noqa: E402
+import glob  # noqa: E402
+import json  # noqa: E402
+import os  # noqa: E402
+import platform  # noqa: E402
+import random  # noqa: E402
+import shutil  # noqa: E402
+import subprocess  # noqa: E402
+import sys  # noqa: E402
+from concurrent import futures  # noqa: E402
+from urllib import request  # noqa: E402
 
-from .utils import set_up_logger
+import matplotlib.pyplot as plt  # noqa: E402
+import numpy as np  # noqa: E402
+from IPython import display  # noqa: E402
+from ipywidgets import GridspecLayout, Output  # noqa: E402
+from tqdm import tqdm  # noqa: E402
+
+from .utils import set_up_logger  # noqa: E402
 
 logger = set_up_logger()
 
-TQDM_BAR_FORMAT = (
-    "{l_bar}{bar}| {n_fmt}/{total_fmt} [elapsed: {elapsed} remaining: {remaining}]"
-)
+TQDM_BAR_FORMAT = "{l_bar}{bar}| {n_fmt}/{total_fmt} [elapsed: {elapsed} remaining: {remaining}]"
 
-from .compile import PACKAGE_PATH
+from .compile import PACKAGE_PATH  # noqa: E402
 
 # from .gget_setup import TMP_DISK
-from .gget_setup import UUID, PARAMS_DIR
+from .gget_setup import PARAMS_DIR, UUID  # noqa: E402
 
 STEREO_CHEM_DIR = os.path.join(PARAMS_DIR, "stereo_chemical_props.txt")
 # Path to jackhmmer binary
-JACKHMMER_BINARY_PATH = os.path.join(
-    PACKAGE_PATH, f"bins/{platform.system()}/jackhmmer"
-)
+JACKHMMER_BINARY_PATH = os.path.join(PACKAGE_PATH, f"bins/{platform.system()}/jackhmmer")
 
 # Test pattern to find closest source
-test_url_pattern = (
-    "https://storage.googleapis.com/alphafold-colab{:s}/latest/uniref90_2022_01.fasta.1"
-)
+test_url_pattern = "https://storage.googleapis.com/alphafold-colab{:s}/latest/uniref90_2022_01.fasta.1"
 
 # Sequence validation parameters
 MIN_PER_SEQUENCE_LENGTH = 16
@@ -80,9 +74,7 @@ PLDDT_BANDS = [
 
 
 def plot_plddt_legend():
-    """
-    Function to plot the legend for pLDDT.
-    """
+    """Function to plot the legend for pLDDT."""
     thresh = [
         "Very low (pLDDT < 50)",
         "Low (70 > pLDDT > 50)",
@@ -109,17 +101,13 @@ def plot_plddt_legend():
 
 
 def fetch(source):
-    """
-    Support function for finding closest source.
-    """
+    """Support function for finding closest source."""
     request.urlretrieve(test_url_pattern.format(source))
     return source
 
 
 def get_msa(fasta_path, msa_databases, total_jackhmmer_chunks):
-    """
-    Function to search for MSA for the given sequence using chunked Jackhmmer search.
-    """
+    """Function to search for MSA for the given sequence using chunked Jackhmmer search."""
     from alphafold.data.tools import jackhmmer
 
     ## Run the search against chunks of genetic databases to save disk space
@@ -150,9 +138,7 @@ def get_msa(fasta_path, msa_databases, total_jackhmmer_chunks):
 
 
 def clean_up():
-    """
-    Function to clean up temporary files after running gget alphafold.
-    """
+    """Function to clean up temporary files after running gget alphafold."""
     # # Remove fasta files with input sequences
     # files = glob.glob("target_*.fasta")
     # for f in files:
@@ -196,8 +182,8 @@ def alphafold(
     show_sidechains=True,
     verbose=True,
 ):
-    """
-    Predicts the structure of a protein using a slightly simplified version of AlphaFold v2.3.0 (https://doi.org/10.1038/s41586-021-03819-2)
+    """Predicts the structure of a protein using a slightly simplified version of AlphaFold v2.3.0 (https://doi.org/10.1038/s41586-021-03819-2).
+
     published in the AlphaFold Colab notebook (https://colab.research.google.com/github/deepmind/alphafold/blob/main/notebooks/AlphaFold.ipynb).
 
     Args:
@@ -229,32 +215,29 @@ def alphafold(
     If you use this function, please cite the gget (https://doi.org/10.1101/2022.05.17.492392) and AphaFold (https://doi.org/10.1038/s41586-021-03819-2) papers
     and, if applicable, the AlphaFold-Multimer paper (https://www.biorxiv.org/content/10.1101/2021.10.04.463034v1).
     """
-
     if platform.system() == "Windows":
-        logger.warning(
-            "gget setup alphafold and gget alphafold are not supported on Windows OS."
-        )
+        logger.warning("gget setup alphafold and gget alphafold are not supported on Windows OS.")
 
     ## Check if third-party dependencies are installed
     # Check if openmm is installed
     try:
-        import simtk.openmm as openmm
+        import simtk.openmm as openmm  # noqa: F401
     except ImportError as e:
         raise ImportError(
             f"""
             Importing openmm resulted in the following error:
             {e}
 
-            Please install AlphaFold third-party dependency openmm by running the following command from the command line: 
-            For Python version < 3.10: 
-            'conda install -qy conda==4.13.0 && conda install -qy -c conda-forge openmm=7.5.1' 
-            For Python version 3.10: 
-            'conda install -qy conda==24.1.2 && conda install -qy -c conda-forge openmm=7.7.0' 
-            For Python version 3.11: 
-            'conda install -qy conda==24.11.1 && conda install -qy -c conda-forge openmm=8.0.0' 
+            Please install AlphaFold third-party dependency openmm by running the following command from the command line:
+            For Python version < 3.10:
+            'conda install -qy conda==4.13.0 && conda install -qy -c conda-forge openmm=7.5.1'
+            For Python version 3.10:
+            'conda install -qy conda==24.1.2 && conda install -qy -c conda-forge openmm=7.7.0'
+            For Python version 3.11:
+            'conda install -qy conda==24.11.1 && conda install -qy -c conda-forge openmm=8.0.0'
             (Recommendation: Follow with 'conda update -qy conda' to update conda to the latest version afterwards.)
             """
-        )
+        ) from e
 
     # Check if AlphaFold is installed
     try:
@@ -262,7 +245,7 @@ def alphafold(
     except ImportError:
         logger.error(
             """
-            Some third-party dependencies are missing. Please run the following command: 
+            Some third-party dependencies are missing. Please run the following command:
             >>> gget.setup('alphafold') or $ gget setup alphafold
             """
         )
@@ -276,7 +259,7 @@ def alphafold(
     if pdb_out.decode() == "":
         logger.error(
             """
-            Some third-party dependencies are missing. Please run the following command: 
+            Some third-party dependencies are missing. Please run the following command:
             >>> gget.setup('alphafold') or $ gget setup alphafold
             """
         )
@@ -286,7 +269,7 @@ def alphafold(
     if not os.path.exists(os.path.join(PARAMS_DIR, "params/")):
         logger.error(
             """
-            The AlphaFold model parameters are missing. Please run the following command: 
+            The AlphaFold model parameters are missing. Please run the following command:
             >>> gget.setup('alphafold') or $ gget setup alphafold
             """
         )
@@ -295,24 +278,17 @@ def alphafold(
     if len(os.listdir(os.path.join(PARAMS_DIR, "params/"))) < 12:
         logger.error(
             """
-            The AlphaFold model parameters are missing. Please run the following command: 
+            The AlphaFold model parameters are missing. Please run the following command:
             >>> gget.setup('alphafold') or $ gget setup alphafold
             """
         )
         return
 
     ## Import AlphaFold functions
-    from alphafold.notebooks import notebook_utils
-    from alphafold.model import model
-    from alphafold.model import config
-    from alphafold.model import data
-
-    from alphafold.data import feature_processing
-    from alphafold.data import msa_pairing
-    from alphafold.data import pipeline
-    from alphafold.data import pipeline_multimer
-
     from alphafold.common import protein
+    from alphafold.data import feature_processing, msa_pairing, pipeline, pipeline_multimer
+    from alphafold.model import config, data, model
+    from alphafold.notebooks import notebook_utils
 
     try:
         from alphafold.relax import utils
@@ -323,16 +299,16 @@ def alphafold(
                 Importing openmm resulted in the following error:
                 {e}
 
-                Please install AlphaFold third-party dependency openmm by running the following command from the command line: 
-                For Python version < 3.10: 
-                'conda install -qy conda==4.13.0 && conda install -qy -c conda-forge openmm=7.5.1' 
-                For Python version 3.10: 
-                'conda install -qy conda==24.1.2 && conda install -qy -c conda-forge openmm=7.7.0' 
-                For Python version 3.11: 
-                'conda install -qy conda==24.11.1 && conda install -qy -c conda-forge openmm=8.0.0' 
+                Please install AlphaFold third-party dependency openmm by running the following command from the command line:
+                For Python version < 3.10:
+                'conda install -qy conda==4.13.0 && conda install -qy -c conda-forge openmm=7.5.1'
+                For Python version 3.10:
+                'conda install -qy conda==24.1.2 && conda install -qy -c conda-forge openmm=7.7.0'
+                For Python version 3.11:
+                'conda install -qy conda==24.11.1 && conda install -qy -c conda-forge openmm=8.0.0'
                 (Recommendation: Follow with 'conda update -qy conda' to update conda to the latest version afterwards.)
                 """
-            )
+            ) from e
 
     if relax:
         # Import AlphaFold relax package
@@ -345,16 +321,16 @@ def alphafold(
                     Importing openmm resulted in the following error:
                     {e}
 
-                    Please install AlphaFold third-party dependency openmm by running the following command from the command line: 
-                    For Python version < 3.10: 
-                    'conda install -qy conda==4.13.0 && conda install -qy -c conda-forge openmm=7.5.1' 
-                    For Python version 3.10: 
-                    'conda install -qy conda==24.1.2 && conda install -qy -c conda-forge openmm=7.7.0' 
-                    For Python version 3.11: 
-                    'conda install -qy conda==24.11.1 && conda install -qy -c conda-forge openmm=8.0.0' 
+                    Please install AlphaFold third-party dependency openmm by running the following command from the command line:
+                    For Python version < 3.10:
+                    'conda install -qy conda==4.13.0 && conda install -qy -c conda-forge openmm=7.5.1'
+                    For Python version 3.10:
+                    'conda install -qy conda==24.1.2 && conda install -qy -c conda-forge openmm=7.7.0'
+                    For Python version 3.11:
+                    'conda install -qy conda==24.11.1 && conda install -qy -c conda-forge openmm=8.0.0'
                     (Recommendation: Follow with 'conda update -qy conda' to update conda to the latest version afterwards.)
                     """
-                )
+                ) from e
 
     ## Move stereo_chemical_props.txt from gget bins to Alphafold package so it can be found
     # logger.info("Locate files containing stereochemical properties.")
@@ -367,7 +343,7 @@ def alphafold(
 
     ## Validate input sequence(s)
     if verbose:
-        logger.info(f"Validating input sequence(s).")
+        logger.info("Validating input sequence(s).")
 
     # Handle command line passing path to FASTA as a list
     if isinstance(sequence, list) and len(sequence) == 1:
@@ -381,7 +357,7 @@ def alphafold(
             titles = []
             seqs = []
             with open(sequence) as text_file:
-                for i, line in enumerate(text_file):
+                for i, line in enumerate(text_file):  # noqa: B007
                     # Recognize a title line by the '>' character
                     if line[0] == ">":
                         # Append title line to titles list
@@ -398,9 +374,7 @@ def alphafold(
                     # Each second line will be a title line
                     if i % 2 == 0:
                         if line[0] != ">":
-                            raise ValueError(
-                                "Expected FASTA to start with a '>' character. "
-                            )
+                            raise ValueError("Expected FASTA to start with a '>' character. ")
                         else:
                             # Append title line to titles list
                             titles.append(line.strip())
@@ -413,10 +387,8 @@ def alphafold(
                         else:
                             seqs.append(line.strip())
         else:
-            raise ValueError(
-                "File format not recognized. gget alphafold only supports '.txt' or '.fa' files. "
-            )
-    elif type(sequence) == str and not "." in sequence:
+            raise ValueError("File format not recognized. gget alphafold only supports '.txt' or '.fa' files. ")
+    elif isinstance(sequence, str) and "." not in sequence:
         # Convert string to list
         seqs = [sequence]
     else:
@@ -435,9 +407,7 @@ def alphafold(
     if len(seqs) == 1:
         if multimer_for_monomer:
             if verbose:
-                logger.info(
-                    "Using the multimer model for a single chain, as requested."
-                )
+                logger.info("Using the multimer model for a single chain, as requested.")
             model_type_to_use = ModelType.MULTIMER
         else:
             if verbose:
@@ -460,7 +430,7 @@ def alphafold(
         if len(seqs[0]) > MAX_MONOMER_MODEL_LENGTH:
             raise ValueError(
                 f"""
-                Input sequence is too long: {len(sequences[0])} amino acids, while the maximum for the monomer model is {MAX_MONOMER_MODEL_LENGTH}. 
+                Input sequence is too long: {len(sequences[0])} amino acids, while the maximum for the monomer model is {MAX_MONOMER_MODEL_LENGTH}.
                 You can try to run this sequence with the multimer model by using the flag [-mfm] ('multimer_for_monomer=True').
                 """
             )
@@ -472,7 +442,7 @@ def alphafold(
 
     ## Find the closest source
     if verbose:
-        logger.info(f"Finding closest source for reference database.")
+        logger.info("Finding closest source for reference database.")
 
     ex = futures.ThreadPoolExecutor(3)
     fs = [ex.submit(fetch, source) for source in ["", "-europe", "-asia"]]
@@ -551,7 +521,7 @@ def alphafold(
 
         # Save the target sequence in a fasta file
         fasta_path = os.path.join(abs_out_path, f"target_{sequence_index}.fasta")
-        with open(fasta_path, "wt") as f:
+        with open(fasta_path, "w") as f:
             f.write(f">query\n{sequence}")
 
         # Don't do redundant work for multiple copies of the same chain in the multimer
@@ -570,45 +540,31 @@ def alphafold(
         single_chain_msas = []
         uniprot_msa = None
         for db_name, db_results in raw_msa_results.items():
-            merged_msa = notebook_utils.merge_chunked_msa(
-                results=db_results, max_hits=MAX_HITS.get(db_name)
-            )
+            merged_msa = notebook_utils.merge_chunked_msa(results=db_results, max_hits=MAX_HITS.get(db_name))
             if merged_msa.sequences and db_name != "uniprot":
                 single_chain_msas.append(merged_msa)
                 msa_size = len(set(merged_msa.sequences))
                 if verbose:
-                    logger.info(
-                        f"{msa_size} unique sequences found in {db_name} for sequence {sequence_index}."
-                    )
+                    logger.info(f"{msa_size} unique sequences found in {db_name} for sequence {sequence_index}.")
             elif merged_msa.sequences and db_name == "uniprot":
                 uniprot_msa = merged_msa
 
-        notebook_utils.show_msa_info(
-            single_chain_msas=single_chain_msas, sequence_index=sequence_index
-        )
+        notebook_utils.show_msa_info(single_chain_msas=single_chain_msas, sequence_index=sequence_index)
 
         # Turn the raw data into model features.
         feature_dict = {}
         feature_dict.update(
-            pipeline.make_sequence_features(
-                sequence=sequence, description="query", num_res=len(sequence)
-            )
+            pipeline.make_sequence_features(sequence=sequence, description="query", num_res=len(sequence))
         )
         feature_dict.update(pipeline.make_msa_features(msas=single_chain_msas))
         # Add empty placeholder features
-        feature_dict.update(
-            notebook_utils.empty_placeholder_template_features(
-                num_templates=0, num_res=len(sequence)
-            )
-        )
+        feature_dict.update(notebook_utils.empty_placeholder_template_features(num_templates=0, num_res=len(sequence)))
 
         # Construct the all_seq features only for heteromers, not homomers
         if model_type_to_use == ModelType.MULTIMER and len(set(sequences)) > 1:
             valid_feats = msa_pairing.MSA_FEATURES + ("msa_species_identifiers",)
             all_seq_features = {
-                f"{k}_all_seq": v
-                for k, v in pipeline.make_msa_features([uniprot_msa]).items()
-                if k in valid_feats
+                f"{k}_all_seq": v for k, v in pipeline.make_msa_features([uniprot_msa]).items() if k in valid_feats
             }
             feature_dict.update(all_seq_features)
 
@@ -621,15 +577,11 @@ def alphafold(
     elif model_type_to_use == ModelType.MULTIMER:
         all_chain_features = {}
         for chain_id, chain_features in features_for_chain.items():
-            all_chain_features[chain_id] = pipeline_multimer.convert_monomer_features(
-                chain_features, chain_id
-            )
+            all_chain_features[chain_id] = pipeline_multimer.convert_monomer_features(chain_features, chain_id)
 
         all_chain_features = pipeline_multimer.add_assembly_features(all_chain_features)
 
-        np_example = feature_processing.pair_and_merge(
-            all_chain_features=all_chain_features
-        )
+        np_example = feature_processing.pair_and_merge(all_chain_features=all_chain_features)
 
         # Pad MSA to avoid zero-sized extra_msa
         np_example = pipeline_multimer.pad_msa(np_example, min_num_seq=512)
@@ -663,12 +615,8 @@ def alphafold(
 
             params = data.get_model_haiku_params(model_name, PARAMS_DIR)
             model_runner = model.RunModel(cfg, params)
-            processed_feature_dict = model_runner.process_features(
-                np_example, random_seed=0
-            )
-            prediction = model_runner.predict(
-                processed_feature_dict, random_seed=random.randrange(sys.maxsize)
-            )
+            processed_feature_dict = model_runner.process_features(np_example, random_seed=0)
+            prediction = model_runner.predict(processed_feature_dict, random_seed=random.randrange(sys.maxsize))
 
             if model_type_to_use == ModelType.MONOMER:
                 if "predicted_aligned_error" in prediction:
@@ -697,9 +645,7 @@ def alphafold(
                 processed_feature_dict,
                 prediction,
                 b_factors=b_factors,
-                remove_leading_feature_dimension=(
-                    model_type_to_use == ModelType.MONOMER
-                ),
+                remove_leading_feature_dimension=(model_type_to_use == ModelType.MONOMER),
             )
             unrelaxed_proteins[model_name] = unrelaxed_protein
 
@@ -711,12 +657,10 @@ def alphafold(
 
         ## AMBER relax the best model
         # Find the best model according to the mean pLDDT.
-        best_model_name = max(
-            ranking_confidences.keys(), key=lambda x: ranking_confidences[x]
-        )
+        best_model_name = max(ranking_confidences.keys(), key=lambda x: ranking_confidences[x])
 
         if relax:
-            pbar.set_description(f"AMBER relaxation")
+            pbar.set_description("AMBER relaxation")
 
             amber_relaxer = run_relax.AmberRelaxation(
                 max_iterations=0,
@@ -726,9 +670,7 @@ def alphafold(
                 max_outer_iterations=3,
                 use_gpu=False,
             )
-            relaxed_pdb, _, _ = amber_relaxer.process(
-                prot=unrelaxed_proteins[best_model_name]
-            )
+            relaxed_pdb, _, _ = amber_relaxer.process(prot=unrelaxed_proteins[best_model_name])
         else:
             logger.warning(
                 "\nRunning model without relaxation stage. Use flag [--relax] ('relax=True') to include AMBER relaxation."

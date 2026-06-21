@@ -2,12 +2,12 @@
 
 > Python arguments are equivalent to long-option arguments (`--arg`), unless otherwise specified. Flags are True/False arguments in Python. The manual for any gget tool can be called from the command-line using the `-h` `--help` flag.  
 # gget elm 🎭
-Locally predict Eukaryotic Linear Motifs from an amino acid sequence or UniProt Acc using data from the [ELM database](http://elm.eu.org/).   
+Locally predict Eukaryotic Linear Motifs from an amino acid sequence or UniProt Acc using data from the [ELM database](http://elm.eu.org/).  
 Return format: JSON (command-line) or data frame/CSV (Python). This module returns two data frames (or JSON formatted files) (see examples).  
 
-**ELM data can be downloaded & distributed for non-commercial use according to the [ELM Software License Agreement](http://elm.eu.org/media/Elm_academic_license.pdf).** 
+**ELM data can be downloaded & distributed for non-commercial use according to the [ELM Software License Agreement](http://elm.eu.org/media/Elm_academic_license.pdf).**
 
-Before using `gget elm` for the first time, run `gget setup elm` (bash) / `gget.setup("elm")` (Python) once (also see [`gget setup`](setup.md)).   
+Before using `gget elm` for the first time, run `gget setup elm` (bash) / `gget.setup("elm")` (Python) once (also see [`gget setup`](setup.md)).  
 
 **Positional argument**  
 `sequence`  
@@ -16,7 +16,7 @@ When providing a Uniprot Acc, use flag `--uniprot` (Python: `uniprot=True`).
 
 **Optional arguments**  
 `-s` `--sensitivity`  
-Sensitivity of DIAMOND alignment (str). Default: "very-sensitive".   
+Sensitivity of DIAMOND alignment (str). Default: "very-sensitive".  
 One of the following: fast, mid-sensitive, sensitive, more-sensitive, very-sensitive, or ultra-sensitive.  
 
 `-t` `--threads`  
@@ -25,23 +25,23 @@ Number of threads used in DIAMOND alignment (int). Default: 1.
 `-bin` `--diamond_binary`  
 Path to DIAMOND binary (str). Default: None -> Uses DIAMOND binary installed with `gget`.  
 
-`-o` `--out`   
-Path to the folder to save results in (str), e.g. "path/to/directory". Default: Standard out; temporary files are deleted.   
+`-o` `--out`  
+Path to the folder to save results in (str), e.g. "path/to/directory". Default: Standard out; temporary files are deleted.  
 
 **Flags**  
 `-u` `--uniprot`  
 Set to True if `sequence` is a Uniprot Acc instead of an amino acid sequence.  
 
-`-e` `--expand`   
-Expand the information returned in the regex data frame to include the protein names, organisms, and references that the motif was orignally validated on. 
+`-e` `--expand`  
+Expand the information returned in the regex data frame to include the protein names, organisms, and references that the motif was orignally validated on.
 
 `-csv` `--csv`  
 Command-line only. Returns results in CSV format.  
 Python: Use `json=True` to return output in JSON format.
 
-`-q` `--quiet`   
+`-q` `--quiet`  
 Command-line only. Prevents progress information from being displayed.  
-Python: Use `verbose=False` to prevent progress information from being displayed.   
+Python: Use `verbose=False` to prevent progress information from being displayed.  
 
 ### Examples
 Find ELMs in an amino acid sequence:  
@@ -54,7 +54,7 @@ gget elm -o gget_elm_results LIAQSIGQASFV
 gget.setup(“elm”)      # Downloads/updates local ELM database
 ortholog_df, regex_df = gget.elm("LIAQSIGQASFV")
 ```
-  
+
 Find ELMs giving a UniProt Acc as input:  
 ```bash
 gget setup elm          # Downloads/updates local ELM database
@@ -68,14 +68,14 @@ ortholog_df, regex_df = gget.elm("Q02410", uniprot=True, expand=True)
 &rarr; Returns two data frames (or JSON formatted dictionaries for command line) containing extensive information about linear motifs associated with orthologous proteins and motifs found in the input sequence directly based on their regex expressions:  
 
 ortholog_df:  
-  
+
 |Ortholog_UniProt_Acc|ProteinName|class_accession|ELMIdentifier  |FunctionalSiteName                   |Description                                                                                                                              |Organism    |…  |
 |:-----------------:|:---------:|:-------------:|:-------------:|:-----------------------------------:|:---------------------------------------------------------------------------------------------------------------------------------------:|:----------:|:-:|
 |Q02410             |APBA1_HUMAN|ELME000357     |LIG_CaMK_CASK_1|CASK CaMK domain binding ligand motif|Motif that mediates binding to the calmodulin-dependent protein kinase (CaMK) domain of the peripheral plasma membrane protein CASK/Lin2.|Homo sapiens|…  |
 |Q02410             |APBA1_HUMAN|ELME000091     |LIG_PDZ_Class_2|PDZ domain ligands                   |The C-terminal class 2 PDZ-binding motif is classically represented by a pattern such as                                                 |Homo sapiens|…  |
 
 regex_df:  
-  
+
 |Instance_accession|ELMIdentifier     |FunctionalSiteName             |ELMType|Description                                                                                                                                            |Instances (Matched Sequence)|Organism                      |…  |
 |:----------------:|:----------------:|:-----------------------------:|:-----:|:-----------------------------------------------------------------------------------------------------------------------------------------------------:|:--------------------------:|:----------------------------:|:-:|
 |ELME000321        |CLV_C14_Caspase3-7|Caspase cleavage motif         |CLV    |Caspase-3 and Caspase-7 cleavage site.                                                                                                                 |ERSDG                       |Mus musculus                  |…  |
@@ -87,13 +87,13 @@ regex_df:
 
 # Tutorials
 ### [🔗 General `gget elm` demo](https://github.com/pachterlab/gget_examples/blob/main/gget_elm_demo.ipynb)  
-  
+
 ### [🔗 A point mutation in BRCA2 is carcinogenic due to the loss of a protein interaction motif](https://github.com/pachterlab/gget_examples/blob/main/gget_elm_BRCA2_example.ipynb)  
-  
+
 ### [🔗 Filter `gget elm` results based on disordered protein regions](https://github.com/pachterlab/gget_examples/blob/main/gget_elm_IUPred3_tutorial.ipynb)
 
 # References
-If you use `gget elm` in a publication, please cite the following articles:   
+If you use `gget elm` in a publication, please cite the following articles:  
 
 - Laura Luebbert, Chi Hoang, Manjeet Kumar, Lior Pachter, Fast and scalable querying of eukaryotic linear motifs with gget elm, _Bioinformatics_, 2024, btae095, [https://doi.org/10.1093/bioinformatics/btae095](https://doi.org/10.1093/bioinformatics/btae095)
 

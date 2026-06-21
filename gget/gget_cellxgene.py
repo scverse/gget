@@ -16,12 +16,12 @@ SUPPORTED_SPECIES = [
 
 
 def _listify(x):
-    """
-    Return x as a 1-D list suitable for SOMA `in [...]` filters.
+    """Return x as a 1-D list suitable for SOMA `in [...]` filters.
+
     - None -> None
     - "str" -> ["str"]
     - iterables -> list(iterable)
-    - scalars -> [scalar]
+    - scalars -> [scalar].
     """
     if x is None:
         return None
@@ -35,8 +35,8 @@ def _listify(x):
 
 
 def _build_obs_filter(filters: dict, is_primary_data: bool):
-    """
-    Build a SOMA obs value_filter string like:
+    """Build a SOMA obs value_filter string like:
+
         "is_primary_data == True and tissue in ['lung'] and cell_type in ['muscle cell']"
     Only includes keys with non-empty values.
     """
@@ -81,8 +81,8 @@ def cellxgene(
     verbose=True,
     out=None,
 ):
-    """
-    Query data from CZ CELLxGENE Discover (https://cellxgene.cziscience.com/) using the
+    """Query data from CZ CELLxGENE Discover (https://cellxgene.cziscience.com/) using the
+
     CZ CELLxGENE Discover Census (https://github.com/chanzuckerberg/cellxgene-census).
 
     NOTE: Querying large datasets requires a large amount of RAM. Use the cell metadata attributes
@@ -154,7 +154,7 @@ def cellxgene(
             "tissue_general",
             "tissue",
             "cell_type",
-            "disease"
+            "disease",
         ]
 
     # Check dependency
@@ -163,7 +163,7 @@ def cellxgene(
     except ImportError:
         logger.error(
             """
-            Some third-party dependencies are missing. Please run the following command: 
+            Some third-party dependencies are missing. Please run the following command:
             >>> gget.setup('cellxgene') or $ gget setup cellxgene
 
             Alternative: Install the cellxgene-census package using pip (https://pypi.org/project/cellxgene-census).
@@ -238,9 +238,7 @@ def cellxgene(
             var_value_filter = None
 
         if verbose:
-            logger.info(
-                "Fetching AnnData object from CZ CELLxGENE Discover. This might take a few minutes..."
-            )
+            logger.info("Fetching AnnData object from CZ CELLxGENE Discover. This might take a few minutes...")
         with cellxgene_census.open_soma(census_version=census_version) as census:
             adata = cellxgene_census.get_anndata(
                 census=census,

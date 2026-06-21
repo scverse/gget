@@ -5,6 +5,9 @@ on:
     branches: [main]
     paths:
       - 'docs/src/en/**'
+      # The English contributing page is an mdbook include of this file, so a
+      # change here must regenerate docs/src/es/contributing.md (see translate_docs.py).
+      - 'CONTRIBUTING.md'
   workflow_dispatch:
 
 # Only one translation run at a time; new pushes cancel in-progress runs.
