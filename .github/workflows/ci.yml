@@ -17,6 +17,8 @@ on:
       - "pyproject.toml"
       # Avoid recursively triggering on the bot-committed pytest result files.
       - "!tests/pytest_results_py*.txt"
+      # Avoid recursively triggering on the bot-committed tests badge JSON.
+      - "!.github/badges/tests.json"
   # Run on every pull request into the integration branches.
   pull_request:
     branches: [main, dev]
@@ -134,6 +136,41 @@ jobs:
           use_oidc: true
           fail_ci_if_error: false
 
+      # Parse the saved pytest summary into a shields.io endpoint JSON so the
+      # README "tests" badge can render "<passed>/<total> passing". Same guards
+      # as the pytest-results commit step below (3.12 only, schedule/manual).
+      - name: Generate tests badge JSON
+        if: always() && matrix.env.python == '3.12' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch')
+        shell: bash
+        run: |
+          mkdir -p .github/badges
+          python - <<'PY'
+          import json, pathlib, re
+          txt = pathlib.Path("tests/pytest_results_py3.12.txt").read_text()
+          # Final pytest summary line, e.g. "==== 150 passed, 2 failed in 45.67s ===="
+          summary = next(
+              (l for l in reversed(txt.splitlines()) if re.match(r"=+ .+ in [\d.]+s.* =+", l)),
+              "",
+          )
+          counts = {"passed": 0, "failed": 0, "error": 0, "skipped": 0, "xfailed": 0, "xpassed": 0}
+          for n, k in re.findall(r"(\d+) (passed|failed|errors?|skipped|xfailed|xpassed)", summary):
+              counts["error" if k.startswith("error") else k] = int(n)
+          total = sum(counts.values())
+          passed = counts["passed"]
+          bad = counts["failed"] + counts["error"]
+          if not total:
+              msg, color = "no results", "lightgrey"
+          elif bad == 0:
+              msg, color = f"{passed}/{total} passing", "brightgreen"
+          else:
+              msg = f"{passed}/{total} passing"
+              color = "yellow" if passed >= 0.9 * total else "red"
+          pathlib.Path(".github/badges/tests.json").write_text(
+              json.dumps({"schemaVersion": 1, "label": "tests", "message": msg, "color": color}) + "\n"
+          )
+          print(msg, color)
+          PY
+
       # Upload the saved pytest report as an artifact.
       # Only once (3.12) to avoid duplicate artifacts from the matrix.
       - name: Upload pytest results artifact
@@ -164,7 +201,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add tests/pytest_results_py*.txt
+          git add tests/pytest_results_py*.txt .github/badges/tests.json
 
           if git diff --cached --quiet; then
             echo "No changes to commit."

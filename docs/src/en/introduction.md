@@ -1,7 +1,7 @@
 [![pypi version](https://img.shields.io/pypi/v/gget)](https://pypi.org/project/gget)
 [![Downloads](https://static.pepy.tech/personalized-badge/gget?period=total&units=international_system&left_color=grey&right_color=brightgreen&left_text=Downloads)](https://pepy.tech/project/gget)
 [![license](https://img.shields.io/pypi/l/gget)](https://github.com/scverse/gget/blob/main/LICENSE)
-[![status](https://github.com/scverse/gget/actions/workflows/ci.yml/badge.svg)](https://github.com/scverse/gget/blob/main/tests/pytest_results_py3.12.txt)
+[![tests](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/scverse/gget/main/.github/badges/tests.json)](https://github.com/scverse/gget/blob/main/tests/pytest_results_py3.12.txt)
 [![Powered by NumFOCUS](https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat&colorA=E1523D&colorB=007D8A)](https://numfocus.org/)
 [![GitHub stars](https://img.shields.io/github/stars/scverse/gget?style=social)](https://github.com/scverse/gget)
 
