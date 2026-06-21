@@ -1,4 +1,4 @@
-[<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/pachterlab/gget/blob/main/docs/src/es/muscle.md)
+[<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/es/muscle.md)
 
 > Parámetros de Python són iguales a los parámetros largos (`--parámetro`) de Terminal, si no especificado de otra manera. Banderas son parámetros de verdadero o falso (True/False) en Python. El manuál para cualquier modulo de gget se puede llamar desde la Terminal con la bandera `-h` `--help`.  
 # gget muscle 🦾
@@ -42,7 +42,7 @@ gget.muscle("fasta.fa")
 ```
 &rarr; Regresa las secuencias alineadas con coloración ClustalW. (Para devolver un archivo FASTA alineado (.afa), use el argumento `--out` (o `save=True` en Python).) En este ejemplo, el archivo 'fasta.fa' incluye varias secuencias para alineación (por ejemplo, isoformas devueltas desde `gget seq`).
 
-![alt text](https://github.com/pachterlab/gget/blob/main/figures/example_muscle_return.png?raw=true)
+![alt text](https://github.com/scverse/gget/blob/main/figures/example_muscle_return.png?raw=true)
 
 También puede ver archivos FASTA alineados devueltos por `gget.muscle` usando programas como [`alv`](https://github.com/arvestad/alv):
 ```python

@@ -1,4 +1,4 @@
-[<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/pachterlab/gget/blob/main/docs/src/es/alphafold.md)
+[<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/es/alphafold.md)
 
 > Parámetros de Python són iguales a los parámetros largos (`--parámetro`) de Terminal, si no especificado de otra manera. Banderas son parámetros de verdadero o falso (True/False) en Python. El manuál para cualquier modulo de gget se puede llamar desde la Terminal con la bandera `-h` `--help`.  
 # gget alphafold 🪢
@@ -71,7 +71,7 @@ gget.blast("MAAHKGAEHHHKAAEHHEQAAKHHHAAAEHHEKGEHEQAAHHADTAYAHHKHAEEHAAQAAKHDAEHH
 gget.pdb("3UQ3", save=True)
 gget.pdb("2K42", save=True)
 ```
-&rarr; `gget alphafold` produce la estructura predecida (en formato PDB) y el errór de alineación (en formato json) en una nueva carpeta ("./[fecha_tiempo]_gget_alphafold_prediction"). Este ejemplo demuestra como usar [`gget blast`](blast.md) y [`gget pdb`](pdb.md) para correr un análisis comparativo. Los archivos PDB se pueden ver en 3D con [RCSB 3D view](https://rcsb.org/3d-view), o usando programas como [PyMOL](https://pymol.org/) o [Blender](https://www.blender.org/). Para comparar múltiples archivos PDB, use [RCSB alignment](https://rcsb.org/alignment). Python también produce [esquemas interactivos](https://twitter.com/NeuroLuebbert/status/1555968042948915200), los cuales se pueden generar de los archivos PDB y JSON, como es describido en [gget alphafold FAQ](https://github.com/pachterlab/gget/discussions/39) Q4.
+&rarr; `gget alphafold` produce la estructura predecida (en formato PDB) y el errór de alineación (en formato json) en una nueva carpeta ("./[fecha_tiempo]_gget_alphafold_prediction"). Este ejemplo demuestra como usar [`gget blast`](blast.md) y [`gget pdb`](pdb.md) para correr un análisis comparativo. Los archivos PDB se pueden ver en 3D con [RCSB 3D view](https://rcsb.org/3d-view), o usando programas como [PyMOL](https://pymol.org/) o [Blender](https://www.blender.org/). Para comparar múltiples archivos PDB, use [RCSB alignment](https://rcsb.org/alignment). Python también produce [esquemas interactivos](https://twitter.com/NeuroLuebbert/status/1555968042948915200), los cuales se pueden generar de los archivos PDB y JSON, como es describido en [gget alphafold FAQ](https://github.com/scverse/gget/discussions/39) Q4.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/4qxGF1tbZ3I?si=mEqQ5oSnDYtg2OP7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
@@ -80,7 +80,7 @@ gget.pdb("2K42", save=True)
 
 ### [🔗 Predicción de la estructura de proteínas con comparación con estructuras cristalinas relacionadas](https://github.com/pachterlab/gget_examples/blob/main/protein_structure_prediction_comparison.ipynb)
 
-### [🔗 gget alphafold - preguntas más frecuentes](https://github.com/pachterlab/gget/discussions/39)
+### [🔗 gget alphafold - preguntas más frecuentes](https://github.com/scverse/gget/discussions/39)
 
 # Citar  
 Si utiliza `gget alphafold` en una publicación, favor de citar los siguientes artículos:

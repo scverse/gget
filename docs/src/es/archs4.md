@@ -1,4 +1,4 @@
-[<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/pachterlab/gget/blob/main/docs/src/es/archs4.md)
+[<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/es/archs4.md)
 
 > Parámetros de Python són iguales a los parámetros largos (`--parámetro`) de Terminal, si no es especificado de otra manera. Las banderas son designadas como cierto o falso (True/False) en Python. El manuál para cualquier modulo de gget se puede obtener desde Terminal con la bandera `-h` `--help`.  
 # gget archs4 🐁
@@ -74,7 +74,7 @@ gget.archs4("ACE2", which="tissue")
 <br/><br/>
 Consulte [este tutorial](https://davetang.org/muse/2023/05/16/check-where-a-gene-is-expressed-from-the-command-line/) de Dave Tang, quien escribió un script R para crear esta visualización con los resultados de `gget archs4` en formato JSON:  
 
-![image](https://github.com/pachterlab/gget/assets/56094636/f2a34a9e-beaa-45a5-a678-d38399dd3017)
+![image](https://github.com/scverse/gget/assets/56094636/f2a34a9e-beaa-45a5-a678-d38399dd3017)
 
 
 #### [Más ejemplos](https://github.com/pachterlab/gget_examples)  

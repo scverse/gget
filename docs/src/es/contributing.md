@@ -1,8 +1,8 @@
-[<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/pachterlab/gget/blob/main/docs/src/es/contributing.md)
+[<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/es/contributing.md)
 
 # Bienvenido a la guía de contribución de gget
 
-¡Gracias por invertir su tiempo en contribuir con nuestro proyecto! Cualquier contribución que hagas se verá reflejada en el [repositorio de GitHub de gget](https://github.com/pachterlab/gget). ✨
+¡Gracias por invertir su tiempo en contribuir con nuestro proyecto! Cualquier contribución que hagas se verá reflejada en el [repositorio de GitHub de gget](https://github.com/scverse/gget). ✨
 
 Lea nuestro [Código de conducta](./code_of_conduct.md) para mantener nuestra comunidad accesible y respetable.
 
@@ -12,17 +12,17 @@ En esta guía, obtendrá una descripción general del flujo de trabajo de contri
 
 ### Crear un nuevo Issue
 
-Si detecta un problema con gget o tiene una idea para una nueva función, [comproba si ya existe un Issue para este problema/sugerencia](https://github.com/pachterlab/gget/issues). Si no existe un Issue relacionado, puede abrir un nuevo Issue utilizando el [formulario correspondiente](https://github.com/pachterlab/gget/issues/new/choose).
+Si detecta un problema con gget o tiene una idea para una nueva función, [comproba si ya existe un Issue para este problema/sugerencia](https://github.com/scverse/gget/issues). Si no existe un Issue relacionado, puede abrir un nuevo Issue utilizando el [formulario correspondiente](https://github.com/scverse/gget/issues/new/choose).
 
 ### Resolver un Issue
 
-Explore nuestros [Issues existentes](https://github.com/pachterlab/gget/issues) para encontrar uno que le interese. Puede restringir la búsqueda utilizando "labels" como filtros. Si encuentra un Issue en el que desea trabajar, puede abrir un PR con una solución.
+Explore nuestros [Issues existentes](https://github.com/scverse/gget/issues) para encontrar uno que le interese. Puede restringir la búsqueda utilizando "labels" como filtros. Si encuentra un Issue en el que desea trabajar, puede abrir un PR con una solución.
 
 ## Contribuir a través de Pull Requests (PRs)
 
 ### Empezar
 
-1. Bifurcar ("fork") el [repositorio de GitHub de gget](https://github.com/pachterlab/gget).
+1. Bifurcar ("fork") el [repositorio de GitHub de gget](https://github.com/scverse/gget).
 - Usando GitHub Desktop:
   - ["Getting started with GitHub Desktop"](https://docs.github.com/en/desktop/installing-and-configuring-github-desktop/getting-started-with-github-desktop) lo guiará a través de la configuración de Desktop.
   - Una vez que GitHub Desktop está configurado, puede usarlo para [bifurcar el repositorio](https://docs.github.com/en/desktop/contributing-and-collaborating-using-github-desktop/cloning-and-forking-repositories-from-github-desktop)!
@@ -40,10 +40,10 @@ Confirme sus cambios una vez que esté satisfecho con ellos.
 
 1. Revise el contenido para mantener precisión técnica.
 2. Edite los cambios/comentarios de gramática, ortografía y adherencia al estilo general del código de gget existente.
-3. Formatee su código usando ["black"](https://black.readthedocs.io/en/stable/getting_started.html).
+3. Formatee y revise su código con [pre-commit](https://pre-commit.com/) (impulsado por [ruff](https://docs.astral.sh/ruff/)). Instale los hooks una vez con `prek install` (o `pre-commit install`) para que se ejecuten automáticamente en cada commit, o ejecútelos a demanda con `prek run --all-files` (o `pre-commit run --all-files`).
 4. Asegúrese de que las pruebas unitarias pasen:
-    - Las dependencias de desarrollador se pueden instalar con `pip install -r dev-requirements.txt`
-    - Ejecute pruebas unitarias existentes desde la carpeta de gget con `coverage run -m pytest -ra -v tests && coverage report --omit=main.py,tests*`
+    - Los entornos de prueba están definidos en `pyproject.toml` bajo `[tool.hatch.envs.hatch-test]` (la única fuente de verdad que usa CI). Ejecute la matriz completa con `uvx hatch test`.
+    - Para una ejecución rápida en un solo entorno, instale las dependencias de prueba con `uv sync --group test` y ejecute `uv run pytest -ra -v --cov=gget --cov-report=term-missing tests`. Para también ejercitar el módulo `gget cellxgene`, instale su extra (`uv sync --group test --extra cellxgene`) en Python 3.12/3.13 — su dependencia aún no tiene wheels para versiones más recientes de Python, y esa prueba se omite a sí misma cuando la dependencia está ausente.
 5. Agregue nuevas pruebas unitarias si corresponde:
     - Los parámetros y los resultados esperados se pueden encontrar en archivos json en ./tests/fixtures/
     - Las pruebas unitarias se pueden agregar a ./tests/test_*.py y serán detectado automáticamente
@@ -52,7 +52,7 @@ Confirme sus cambios una vez que esté satisfecho con ellos.
 8. Agregue módulos/argumentos nuevos a la documentación, si corresponde:
     - El manual de cada módulo se puede agregar/editar en `./docs/src/en/*.md` (la versión en español de la documentación en `./docs/src/es/*.md` se genera/actualiza automáticamente, y no necesita ser editada manualmente)
 
-Si tiene alguna pregunta, no dude en iniciar una [discusión](https://github.com/pachterlab/gget/discussions) o crear un Issue como se describe anteriormente.
+Si tiene alguna pregunta, no dude en iniciar una [discusión](https://github.com/scverse/gget/discussions) o crear un Issue como se describe anteriormente.
 
 ### Crear un Pull Request (PR)
 
@@ -70,4 +70,4 @@ Una vez que envíe su PR, un miembro del equipo gget revisará su propuesta. Pod
 
 ¡Felicidades! 🎉	 El equipo de gget te lo agradece. ✨
 
-Una vez que su PR se fusione, sus contribuciones serán visibles públicamente en el [repositorio de gget](https://github.com/pachterlab/gget).
+Una vez que su PR se fusione, sus contribuciones serán visibles públicamente en el [repositorio de gget](https://github.com/scverse/gget).

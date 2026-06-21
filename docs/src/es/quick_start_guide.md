@@ -1,4 +1,4 @@
-[<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/pachterlab/gget/blob/main/docs/src/es/quick_start_guide.md)
+[<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/es/quick_start_guide.md)
 
 # 🪄 Guía de inicio rápido
 Terminal:

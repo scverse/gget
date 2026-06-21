@@ -1,6 +1,26 @@
-[<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/pachterlab/gget/blob/main/docs/src/es/updates.md)
+[<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/es/updates.md)
 
 ## ✨ ¡Lo más reciente!  
+
+#### `gget` se unió oficialmente a `scverse` el 9 de junio de 2026. 🥳🥳🥳
+
+**Versión ≥ 0.30.7** (21 de junio de 2026):  
+- [`gget cellxgene`](cellxgene.md): Se añadió soporte para las tres especies de primates no humanos disponibles en el CZ CELLxGENE Census LTS `2025-11-08`: macaco rhesus (`macaca_mulatta`), tití común (`callithrix_jacchus`), y chimpancé (`pan_troglodytes`).
+  - El parámetro `species` (tanto en Python como en línea de comandos) ahora acepta los cinco organismos compatibles; los `choices` de la CLI, el texto de ayuda, y las docstrings los enumeran.
+  - Se agregó validación temprana del parámetro `species` que lanza un `ValueError` claro listando las especies compatibles, en lugar de fallar más tarde dentro de la llamada al API de Census.
+  - Nota: las nuevas especies de primates requieren `census_version="2025-11-08"` (LTS) o más reciente.
+- Docs/README: se actualizaron las URLs del repositorio y manual de `gget` de `pachterlab` a `scverse` (`github.com/scverse/gget`, `scverse.org/gget`) para reflejar la mudanza del proyecto a la organización scverse. Los enlaces a recursos separados (`pachterlab/gget_examples`, `pachterlab/kvar`, `pachterlab/varseek`, y la página de Pachter Lab) se mantuvieron sin cambios. Resuelve el [issue 217](https://github.com/scverse/gget/issues/217).
+- [`gget g2p`](g2p.md): **Nuevo módulo** para consultar el [portal Genomics 2 Proteins (G2P)](https://g2p.broadinstitute.org/) para anotaciones estructurales/funcionales de proteínas a nivel de residuo — características por residuo (pLDDT de AlphaFold, sitios de UniProt, bolsillos predichos, PTMs), el mapa gen–transcrito–proteína–isoforma–estructura, y alineamientos entre isoformas. Resuelve el [issue 138](https://github.com/scverse/gget/issues/138).
+- Correcciones de errores:
+  - [`gget search`](search.md): Los valores faltantes ahora se producen consistentemente como `None` en lugar de `NaN`, tanto en celdas escalares como dentro de las listas de sinónimos (`[None]` en lugar de `[nan]` para genes sin sinónimos). El resultado anterior era un artefacto de los `SQL LEFT JOIN` que aparecían como `NaN` de pandas; la salida JSON ya era `null` de cualquier manera, así que esto solo afecta la ruta de retorno DataFrame.
+  - [`gget mutate`](mutate.md): Se corrigió `pyarrow.lib.ArrowNotImplementedError: Function 'binary_join_element_wise' has no kernel matching input types (large_string, null, large_string)` cuando la entrada no contenía sustituciones (solo deleciones/inserciones/delins/duplicaciones/inversiones). Las ramas de construcción de secuencias específicas a sustituciones ahora se cortan en una selección vacía en lugar de activar un kernel arrow-string que las versiones antiguas de `pyarrow` no implementan.
+- Herramientas de desarrollo / empaquetado:
+  - Se migró el empaquetado a un solo `pyproject.toml` (el backend de construcción [hatchling](https://hatch.pypa.io/)); se eliminaron `setup.py`, `setup.cfg`, `requirements.txt`, `dev-requirements.txt`, y `MANIFEST.in`. Las dependencias de ejecución y el grupo de dependencias `test` ahora están declaradas en `pyproject.toml`.
+  - La versión mínima de Python soportada ahora es **3.12**; CI prueba en 3.12, 3.13, y 3.14.
+  - `cellxgene-census` ahora se declara como un extra opcional (`pip install gget[cellxgene]`) porque aún no tiene wheels para Python 3.14. Los usuarios que la instalan vía `gget setup cellxgene` no se ven afectados.
+  - Se añadió una configuración de [pre-commit](https://pre-commit.com/) (lint + formato vía [ruff](https://docs.astral.sh/ruff/), además de hooks estándar de higiene). Ejecuta `prek run --all-files` (o `pre-commit run --all-files`) antes de abrir un PR.
+  - Se modernizó el CI de pruebas para usar [uv](https://docs.astral.sh/uv/) y ejecutarse en pull requests, y se agregaron workflows de verificación de construcción de paquete y publicación confiable de PyPI.
+
 **Versión ≥ 0.30.6** (10 de junio de 2026):
 - [`gget blat`](blat.md): Mejora la resistencia contra fallas del endpoint UCSC BLAT (corrige pruebas que fallan de manera intermitente).
   - Se agregó reintento con backoff exponencial para fallas transitorias (HTTP 429/5xx, errores de red, y respuestas no-JSON 200 causadas por limitación de tasa de UCSC o páginas de error HTML). Hasta 4 intentos con backoff de 1.5s → 3s → 6s.
@@ -77,7 +97,7 @@
 **Versión ≥ 0.29.1** (21 de abril de 2025):  
 - [`gget mutate`](mutate.md):  
   - gget mutate se ha simplificado para enfocarse en recibir como entrada una lista de mutaciones y el genoma de referencia correspondiente con información de anotación asociada, y producir como salida las secuencias con la mutación incorporada y una región corta de contexto circundante. Para la funcionalidad completa de la versión anterior y cómo se integra en el contexto de un pipeline de análisis de variantes novedosas, visita el repositorio varseek que está siendo desarrollado por miembros del equipo de gget en https://github.com/pachterlab/varseek.git.
-  - Se añadió información adicional a los data frames retornados, como se describe aquí: https://github.com/pachterlab/gget/pull/169
+  - Se añadió información adicional a los data frames retornados, como se describe aquí: https://github.com/scverse/gget/pull/169
 - [`gget cosmic`](cosmic.md):  
   - Reestructuración importante del módulo `gget cosmic` para cumplir con los nuevos requisitos de inicio de sesión establecidos por COSMIC
   - Se añadieron nuevos argumentos `email` y `password` para permitir que el usuario introduzca manualmente sus credenciales sin necesidad de input adicional para la descarga de datos
@@ -108,14 +128,14 @@
   Se cambió a la API POST de Ensembl para aumentar la velocidad (nada cambia en el front end).
 - Otros cambios "detrás de escena":
     - Pruebas unitarias reorganizadas para aumentar la velocidad y disminuir el código
-    - Requisitos actualizados para [permitir versiones más nuevas de mysql-connector](https://github.com/pachterlab/gget/pull/159)
-    - [Soporte para Numpy>= 2.0](https://github.com/pachterlab/gget/issues/157)
+    - Requisitos actualizados para [permitir versiones más nuevas de mysql-connector](https://github.com/scverse/gget/pull/159)
+    - [Soporte para Numpy>= 2.0](https://github.com/scverse/gget/issues/157)
 
 **Versión ≥ 0.28.6 (2 de junio de 2024):**
 - **Nuevo módulo: [`gget mutate`](./mutate.md)**
 - [`gget cosmic`](./cosmic.md): Ahora puedes descargar bases de datos completas de COSMIC utilizando el argumento `download_cosmic`
 - [`gget ref`](./ref.md): Ahora puede obtener la ensambladura del genoma GRCh27 usando `species='human_grch37'`
-- [`gget search`](./search.md): Ajusta el acceso a los datos humanos a la estructura de la versión 112 de Ensembl (corrige [issue 129](https://github.com/pachterlab/gget/issues/129))
+- [`gget search`](./search.md): Ajusta el acceso a los datos humanos a la estructura de la versión 112 de Ensembl (corrige [issue 129](https://github.com/scverse/gget/issues/129))
 
 ~~**Version ≥ 0.28.5** (May 29, 2024):~~
 - Retirado debido a un error con 'logging' en `gget.setup("alphafold")` + mutaciones de inversión en `gget mutate` solo invierten la cadena en lugar de también calcular la hebra complementaria
@@ -132,7 +152,7 @@
   - Se cambió el nombre de la columna de resultados ortogonales 'motif_in_query' a 'motif_inside_subject_query_overlap'.
   - Se agregó información del dominio de interacción a los resultados (nuevas columnas: "InteractionDomainId", "InteractionDomainDescription", "InteractionDomainName").
   - La cadena de expresiones regulares para coincidencias de expresiones regulares se encapsuló de la siguiente manera: "(?=(regex))" (en lugar de pasar directamente la cadena de expresiones regulares "regex") para permitir capturar todas las apariciones de un motivo cuando la longitud del motivo es variable y hay son repeticiones en la secuencia ([https://regex101.com/r/HUWLlZ/1](https://regex101.com/r/HUWLlZ/1)).
-- [`gget setup`](./setup.md): utilice el argumento `out` para especificar un directorio en el que se descargará la base de datos ELM. Completa [esta solicitud de función](https://github.com/pachterlab/gget/issues/119).
+- [`gget setup`](./setup.md): utilice el argumento `out` para especificar un directorio en el que se descargará la base de datos ELM. Completa [esta solicitud de función](https://github.com/scverse/gget/issues/119).
 - [`gget Diamond`](./diamond.md): El comando DIAMOND ahora se ejecuta con el indicador `--ignore-warnings`, lo que permite secuencias de nicho, como secuencias de aminoácidos que solo contienen caracteres de nucleótidos y secuencias repetidas. Esto también es válido para las alineaciones DIAMOND realizadas dentro de [`gget elm`](./elm.md).
 - **Cambio de back-end de [`gget ref`](./ref.md) y [`gget search`](./search.md): la versión actual de Ensembl se obtiene del nuevo [archivo de versión](https://ftp.ensembl.org/pub/VERSION) en el sitio FTP de Ensembl para evitar errores durante la carga de nuevos lanzamientos.**
 - [`gget search`](./search.md):
@@ -151,18 +171,18 @@
 **Versión ≥ 0.28.0** (5 de noviembre de 2023):
 - Documentación actualizada de [`gget muscle`](./muscle.md) para agregar un tutorial sobre cómo visualizar secuencias con diferentes longitudes de nombres de secuencia + ligero cambio en la visualización devuelta para que sea un poco más sólida ante diferentes nombres de secuencia  
 - [`gget muscle`](./muscle.md) ahora también permite una lista de secuencias como entrada (como alternativa a proporcionar la ruta a un archivo FASTA)
-- Permitir filtro de genes faltante para [`gget cellxgene`](cellxgene.md) (corrige [error](https://github.com/pachterlab/gget/issues/110))
-- [`gget seq`](./seq.md): permite nombres de genes faltantes (correccione [https://github.com/pachterlab/gget/issues/107](https://github.com/pachterlab/gget /números/107))  
-- Nuevos argumentos para [`gget enrichr`](enrichr.md): use el argumento `kegg_out` y `kegg_rank` para crear una imagen de la vía KEGG con los genes del análisis de enriquecimiento resaltados (gracias a [este PR](https ://github.com/pachterlab/gget/pull/106) por [Noriaki Sato](https://github.com/noriakis))  
+- Permitir filtro de genes faltante para [`gget cellxgene`](cellxgene.md) (corrige [error](https://github.com/scverse/gget/issues/110))
+- [`gget seq`](./seq.md): permite nombres de genes faltantes (correccione [https://github.com/scverse/gget/issues/107](https://github.com/scverse/gget /números/107))  
+- Nuevos argumentos para [`gget enrichr`](enrichr.md): use el argumento `kegg_out` y `kegg_rank` para crear una imagen de la vía KEGG con los genes del análisis de enriquecimiento resaltados (gracias a [este PR](https ://github.com/scverse/gget/pull/106) por [Noriaki Sato](https://github.com/noriakis))  
 - Nuevos módulos: [`gget elm`](elm.md) y [`gget Diamond`](diamond.md)
 
 **Versión ≥ 0.27.9** (7 de agosto de 2023):
 - Nuevos argumentos para [`gget enrichr`](enrichr.md): use el argumento `background_list` para proporcionar una lista de genes 'background'
-- [`gget search`](search.md) ahora también busca sinónimos [Ensembl](https://ensembl.org/) (además de nombres y descripciones de genes) para obtener resultados de búsqueda más completos (gracias a [Samuel Klein](https://github.com/KleinSamuel) por la [sugerencia](https://github.com/pachterlab/gget/issu90))
+- [`gget search`](search.md) ahora también busca sinónimos [Ensembl](https://ensembl.org/) (además de nombres y descripciones de genes) para obtener resultados de búsqueda más completos (gracias a [Samuel Klein](https://github.com/KleinSamuel) por la [sugerencia](https://github.com/scverse/gget/issu90))
 
 **Versión ≥ 0.27.8** (12 de julio de 2023):
 - Nuevo argumento para [`gget search`](search.md): especifique la versión de Ensembl desde la cual se obtiene la información con `-r` `--release`
-- Se corrigió un [error](https://github.com/pachterlab/gget/issu91) en [`gget pdb`](pdb.md) (este error se introdujo en la versión 0.27.5)
+- Se corrigió un [error](https://github.com/scverse/gget/issu91) en [`gget pdb`](pdb.md) (este error se introdujo en la versión 0.27.5)
 
 **Versión ≥ 0.27.7** (15 de mayo de 2023):
 - Se movieron las dependencias para los módulos [`gget gpt`](gpt.md) y [`gget cellxgene`](cellxgene.md) de los requisitos instalados automáticamente a [`gget setup`](setup.md)
@@ -203,7 +223,7 @@
 - Nuevo módulo: [`gget pdb`](pdb.md)
 
 **Versión ≥ 0.3.10** (2 de septiembre de 2022):
-- [`gget alphafold`](alphafold.md) ahora también devuelve valores pLDDT para generar gráficos sin volver a ejecutar el programa (consulte también las [preguntas frecuentes de gget alphafold](https://github.com/pachterlab/gget/discusion39))
+- [`gget alphafold`](alphafold.md) ahora también devuelve valores pLDDT para generar gráficos sin volver a ejecutar el programa (consulte también las [preguntas frecuentes de gget alphafold](https://github.com/scverse/gget/discusion39))
 
 **Versión ≥ 0.3.9** (25 de agosto de 2022):
 - Instrucciones de instalación de openmm actualizadas para [`gget alphafold`](alphafold.md)

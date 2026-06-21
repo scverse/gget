@@ -1,4 +1,4 @@
-[<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/pachterlab/gget/blob/main/docs/src/es/enrichr.md)
+[<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/es/enrichr.md)
 
 > Parámetros de Python són iguales a los parámetros largos (`--parámetro`) de Terminal, si no especificado de otra manera. Las banderas son parámetros de verdadero o falso (True/False) en Python. El manuál para cualquier modulo de gget se puede llamar desde la Terminal con la bandera `-h` `--help`.  
 # gget enrichr 💰
@@ -65,7 +65,7 @@ Usa esta bandera si `background_list` se ingresa como una lista de IDs tipo Ense
 
 `-bkg` `--background`  
 Use un conjunto de 20,625 genes 'background'
-listados [aquí](https://github.com/pachterlab/gget/blob/main/gget/constants/enrichr_bkg_genes.txt).
+listados [aquí](https://github.com/scverse/gget/blob/main/gget/constants/enrichr_bkg_genes.txt).
 
 `-csv` `--csv`  
 Solo para Terminal. Produce los resultados en formato CSV.  
@@ -89,7 +89,7 @@ gget.enrichr(["ACE2", "AGT", "AGTR1"], database="ontology", plot=True)
 ```
 &rarr; Produce vías/funciones celulares relacionadas con los genes ACE2, AGT y AGTR1 de la base de datos *GO Biological Process 2021*. En Python, `plot=True` provee la visualización de resultados:
 
-![alt text](https://github.com/pachterlab/gget/blob/main/figures/gget_enrichr_results.png?raw=true)
+![alt text](https://github.com/scverse/gget/blob/main/figures/gget_enrichr_results.png?raw=true)
 
 <br/><br/>
 
@@ -141,12 +141,12 @@ gget.enrichr(
 ```
 &rarr; Provée factores de transcripción relacionados a los genes de interés y controlados con la lista de genes background de la base de datos *ChEA 2022*. En Python, `plot=True` permite la visualización de resultados:
 
-![alt text](https://github.com/pachterlab/gget/blob/main/figures/gget_enrichr_results_2.png?raw=true)
+![alt text](https://github.com/scverse/gget/blob/main/figures/gget_enrichr_results_2.png?raw=true)
 
 <br/><br/>
 
 **Genere una imagen de la vía de señalización de células KEGG con los genes del análisis de enriquecimiento resaltados:**  
-Esta función está disponible gracias a un [PR](https://github.com/pachterlab/gget/pull/106) de [Noriaki Sato](https://github.com/noriakis).  
+Esta función está disponible gracias a un [PR](https://github.com/scverse/gget/pull/106) de [Noriaki Sato](https://github.com/noriakis).  
 
 ```bash
 gget enrichr -db pathway --kegg_out kegg.png --kegg_rank 1 ZBP1 IRF3 RIPK1
@@ -158,11 +158,11 @@ gget.enrichr(["ZBP1", "IRF3", "RIPK1"], database="pathway", kegg_out="kegg.png",
 
 &rarr; Además de los resultados estándar `gget enrichr`, el argumento `kegg_out` guarda una imagen con los genes del análisis de enriquecimiento resaltados guardado como kegg.png:  
 
-![kegg](https://github.com/pachterlab/gget/assets/56094636/b0aa5a64-69d0-4a6a-85db-3e7baf9cb2a4)
+![kegg](https://github.com/scverse/gget/assets/56094636/b0aa5a64-69d0-4a6a-85db-3e7baf9cb2a4)
 
 <br/><br/>
 
-El siguiente ejemplo fue enviado por [Dylan Lawless](https://github.com/DylanLawless) a través de un [PR](https://github.com/pachterlab/gget/pull/54) (con ajustes de [Laura Luebbert](https://github.com/lauraluebbert)):  
+El siguiente ejemplo fue enviado por [Dylan Lawless](https://github.com/DylanLawless) a través de un [PR](https://github.com/scverse/gget/pull/54) (con ajustes de [Laura Luebbert](https://github.com/lauraluebbert)):  
 **Use `gget enrichr` en R y cree unq visualización similar usando [ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html).**  
 TENGA EN CUENTA el cambio de ejes en comparación con la visualización en Python.
 ```r

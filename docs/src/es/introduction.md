@@ -1,13 +1,13 @@
 [![pypi version](https://img.shields.io/pypi/v/gget)](https://pypi.org/project/gget)
 [![Downloads](https://static.pepy.tech/personalized-badge/gget?period=total&units=international_system&left_color=grey&right_color=brightgreen&left_text=Downloads)](https://pepy.tech/project/gget)
-[![license](https://img.shields.io/pypi/l/gget)](https://github.com/pachterlab/gget/blob/main/LICENSE)
-[![status](https://github.com/pachterlab/gget/actions/workflows/ci.yml/badge.svg)](https://github.com/pachterlab/gget/blob/main/tests/pytest_results_py3.12.txt)
+[![license](https://img.shields.io/pypi/l/gget)](https://github.com/scverse/gget/blob/main/LICENSE)
+[![tests](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/scverse/gget/main/.github/badges/tests.json)](https://github.com/scverse/gget/blob/main/tests/pytest_results.txt)
 [![Powered by NumFOCUS](https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat&colorA=E1523D&colorB=007D8A)](https://numfocus.org/)
 [![GitHub stars](https://img.shields.io/github/stars/scverse/gget?style=social)](https://github.com/scverse/gget)  
 
 # ¡Bienvenidos!  
 
-[<img align="right" width="65%" height="65%" src="https://github.com/pachterlab/gget/blob/main/docs/assets/website_v2_gget_overview.png?raw=true" />](https://raw.githubusercontent.com/pachterlab/gget/main/figures/gget_overview.png)
+[<img align="right" width="65%" height="65%" src="https://github.com/scverse/gget/blob/main/docs/assets/website_v2_gget_overview.png?raw=true" />](https://raw.githubusercontent.com/scverse/gget/main/figures/gget_overview.png)
 
 `gget` es un programa gratuito de código fuente abierta de Terminal y Python que permite la consulta eficiente de bases de datos genómicas.  
 <br>
@@ -15,10 +15,10 @@
 <br>
 `gget` es parte del proyecto [scverse®](https://scverse.org) y está patrocinado fiscalmente por [NumFOCUS](https://numfocus.org/). Si te gusta `gget` y quieres apoyar nuestra misión, por favor considera hacer una [donación](https://opencollective.com/scverse/projects/scverse-gget/donate?interval=oneTime&amount=20&contributeAs=me) deducible de impuestos.
 
-> Nota: Las bases de datos consultadas por `gget` se actualizan continuamente y pueden cambiar su estructura. Los módulos de `gget` se [prueban automáticamente](https://github.com/pachterlab/gget/blob/main/tests/pytest_results_py3.12.txt) dos veces por semana y se actualizan cuando es necesario. Si encuentras un problema, primero actualiza a la versión más reciente con `pip install --upgrade gget`. Si el problema persiste, por favor [repórtalo](https://github.com/pachterlab/gget/issues/new/choose).
+> Nota: Las bases de datos consultadas por `gget` se actualizan continuamente y pueden cambiar su estructura. Los módulos de `gget` se [prueban automáticamente](https://github.com/scverse/gget/blob/main/tests/pytest_results.txt) dos veces por semana y se actualizan cuando es necesario. Si encuentras un problema, primero actualiza a la versión más reciente con `pip install --upgrade gget`. Si el problema persiste, por favor [repórtalo](https://github.com/scverse/gget/issues/new/choose).
 
 ¿Falta alguna base de datos o funcionalidad que te gustaría ver?
-[<kbd> <br> Solicitar una nueva función <br> </kbd>](https://github.com/pachterlab/gget/issues/new/choose)
+[<kbd> <br> Solicitar una nueva función <br> </kbd>](https://github.com/scverse/gget/issues/new/choose)
 
 # Módulos gget
 

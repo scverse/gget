@@ -1,4 +1,4 @@
-[<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/pachterlab/gget/blob/main/docs/src/es/cbio.md)
+[<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/es/cbio.md)
 
 > Parámetros de Python són iguales a los parámetros largos (`--parámetro`) de Terminal, si no especificado de otra manera. Banderas son parámetros de verdadero o falso (True/False) en Python. El manuál para cualquier modulo de gget se puede llamar desde la Terminal con la bandera `-h` `--help`.  
 # gget cbio 📖
@@ -127,7 +127,7 @@ gget.cbio_plot(
 
 &rarr; Guarda un mapa de calor de ocurrencias de mutaciones para los genes especificados en el estudio especificado en ./gget_cbio_figures/Heatmap_tissue.png.
 
-![Heatmap](https://raw.githubusercontent.com/pachterlab/gget/f6b4465eecae0f07c71558f8f6e7b60d36c8d41a/docs/assets/gget_cbio_figure_1.png)
+![Heatmap](https://raw.githubusercontent.com/scverse/gget/f6b4465eecae0f07c71558f8f6e7b60d36c8d41a/docs/assets/gget_cbio_figure_1.png)
 
 <br/><br/>
 
@@ -154,7 +154,7 @@ gget.cbio_plot(
 
 &rarr; Guarda un mapa de calor de tipos de mutaciones para los genes especificados en el estudio especificado en ./gget_cbio_figures/Heatmap_sample.png.
 
-![Heatmap](https://raw.githubusercontent.com/pachterlab/gget/f6b4465eecae0f07c71558f8f6e7b60d36c8d41a/docs/assets/gget_cbio_figure_2.png)
+![Heatmap](https://raw.githubusercontent.com/scverse/gget/f6b4465eecae0f07c71558f8f6e7b60d36c8d41a/docs/assets/gget_cbio_figure_2.png)
 
 <br/><br/>
 
@@ -183,7 +183,7 @@ gget.cbio_plot(
 
 &rarr;  Guarda un mapa de calor de tipos de mutaciones para los genes especificados en el estudio especificado, filtrado por tejido, en ./gget_cbio_figures/Heatmap_sample_intestine.png.
 
-![Heatmap](https://raw.githubusercontent.com/pachterlab/gget/ef0e8334d87214c17cbac70713028e7b823bba49/docs/assets/gget_cbio_figure_3.png)
+![Heatmap](https://raw.githubusercontent.com/scverse/gget/ef0e8334d87214c17cbac70713028e7b823bba49/docs/assets/gget_cbio_figure_3.png)
 
 <br/><br/>
 
@@ -216,7 +216,7 @@ gget.cbio_plot(
 
 &rarr; Guarda un mapa de calor de los tipos de mutaciones para los genes especificados en el estudio especificado, filtrado por tejido, con el título "Mutaciones intestinales" en ./gget_cbio_figures/intestinal_mutations.png.
 
-![Heatmap](https://raw.githubusercontent.com/pachterlab/gget/b32c01efefd55d37c19034ce96a86826e30ae3e5/docs/assets/gget_cbio_figure_4.png)
+![Heatmap](https://raw.githubusercontent.com/scverse/gget/b32c01efefd55d37c19034ce96a86826e30ae3e5/docs/assets/gget_cbio_figure_4.png)
 
 #### [Más ejemplos](https://github.com/pachterlab/gget_examples)
 
