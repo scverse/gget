@@ -2,7 +2,7 @@
 
 > Parámetros de Python són iguales a los parámetros largos (`--parámetro`) de Terminal, si no especificado de otra manera. Banderas son parámetros de verdadero o falso (True/False) en Python. El manuál para cualquier modulo de gget se puede llamar desde la Terminal con la bandera `-h` `--help`.  
 
-> ⚠️ `gget gpt` ya no se mantiene activamente.**
+> ⚠️ **`gget gpt` ya no se mantiene activamente.**
 
 # gget gpt 💬
 Genera texto en lenguaje natural basado en mensaje de entrada. `gget gpt` use la API 'openai.ChatCompletion.create' de [OpenAI](https://openai.com/).
