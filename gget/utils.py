@@ -7,7 +7,8 @@ import logging
 import os
 import time
 import uuid
-from typing import TYPE_CHECKING, Any, Callable, Iterable
+from collections.abc import Callable, Iterable
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 import pandas as pd
@@ -1298,8 +1299,7 @@ def _shared_library_install_hint(lib_basename: str, system: str) -> str:
 
     if system == "Darwin":
         return (
-            "Install the package that provides this library via Homebrew (https://brew.sh) "
-            "or another package manager."
+            "Install the package that provides this library via Homebrew (https://brew.sh) or another package manager."
         )
     if system == "Linux":
         return "Install the package that provides this library via your system package manager."

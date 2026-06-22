@@ -310,8 +310,7 @@ def search(
     # inside the list to None so an empty-synonym row is [None] rather than
     # [nan]. (SQL LEFT JOIN on external_synonym surfaces missing rows as NaN.)
     df["synonym"] = [
-        [None if pd.isna(item) else item
-         for item in np.sort(syn if isinstance(syn, list) else [syn]).tolist()]
+        [None if pd.isna(item) else item for item in np.sort(syn if isinstance(syn, list) else [syn]).tolist()]
         for syn in df["synonym"].values
     ]
 

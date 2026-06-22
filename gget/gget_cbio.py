@@ -415,7 +415,9 @@ def _get_ensembl_gene_name_bulk(gene_ids: list[str]) -> dict[str, Any]:
         raise e
 
 
-def _get_valid_ensembl_gene_id(row: pd.Series, transcript_column: str = "seq_ID", gene_column: str = "gene_name") -> Any:
+def _get_valid_ensembl_gene_id(
+    row: pd.Series, transcript_column: str = "seq_ID", gene_column: str = "gene_name"
+) -> Any:
     ensembl_gene_id = _get_ensembl_gene_id(row[transcript_column])
     if ensembl_gene_id == "Unknown":
         return row[gene_column]

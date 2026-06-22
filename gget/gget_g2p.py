@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import io
+
 import pandas as pd
 import requests
 
 from .constants import G2P_API
-from .utils import set_up_logger, DEFAULT_REQUESTS_TIMEOUT
+from .utils import DEFAULT_REQUESTS_TIMEOUT, set_up_logger
 
 logger = set_up_logger()
 
@@ -43,9 +44,7 @@ def g2p(
     """
     resources = ["features", "map", "alignment"]
     if resource not in resources:
-        raise ValueError(
-            f"'resource' argument specified as {resource}. Expected one of: {', '.join(resources)}"
-        )
+        raise ValueError(f"'resource' argument specified as {resource}. Expected one of: {', '.join(resources)}")
 
     if not uniprot_id:
         raise ValueError(
@@ -69,9 +68,7 @@ def g2p(
         url = f"{base}/{isoform}/alignment"
 
     if verbose:
-        logger.info(
-            f"Querying the Genomics 2 Proteins portal ('{resource}') for {gene} / {uniprot_id}..."
-        )
+        logger.info(f"Querying the Genomics 2 Proteins portal ('{resource}') for {gene} / {uniprot_id}...")
 
     try:
         r = requests.get(
@@ -92,9 +89,7 @@ def g2p(
         return
 
     if not r.text.strip():
-        logger.warning(
-            "The Genomics 2 Proteins portal returned an empty result for this query."
-        )
+        logger.warning("The Genomics 2 Proteins portal returned an empty result for this query.")
         return pd.DataFrame()
 
     df = pd.read_csv(io.StringIO(r.text), sep="\t")

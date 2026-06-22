@@ -341,7 +341,10 @@ def _retry_with_exponential_backoff(
     initial_delay: float = API_INITIAL_RETRY_DELAY,
     backoff_multiplier: float = API_RETRY_BACKOFF_MULTIPLIER,
     max_delay: int = MAX_RETRY_DELAY,
-    retryable_exceptions: tuple[type[BaseException], ...] = (requests.exceptions.ConnectionError, requests.exceptions.HTTPError),
+    retryable_exceptions: tuple[type[BaseException], ...] = (
+        requests.exceptions.ConnectionError,
+        requests.exceptions.HTTPError,
+    ),
     failed_commands: dict[str, Any] | None = None,
 ) -> tuple[bool, Any, dict[str, Any] | None]:
     """Execute an operation with exponential backoff retry logic.
@@ -414,7 +417,9 @@ def _retry_with_exponential_backoff(
     return False, None, error_info
 
 
-def _track_failed_operation(failed_commands: dict[str, Any] | None, operation_type: str, batch_info: dict[str, Any], error_info: dict[str, Any]) -> None:
+def _track_failed_operation(
+    failed_commands: dict[str, Any] | None, operation_type: str, batch_info: dict[str, Any], error_info: dict[str, Any]
+) -> None:
     """Track a failed operation in the failed_commands dictionary.
 
     This ensures consistent error tracking across all operation types for
@@ -864,7 +869,9 @@ def _parse_baseline_file(baseline_path: str) -> set[str]:
     return baseline_accessions
 
 
-def _deduplicate_metadata_against_baseline(metadata_dict: dict[str, Any], baseline_accessions: set[str]) -> tuple[dict[str, Any], int]:
+def _deduplicate_metadata_against_baseline(
+    metadata_dict: dict[str, Any], baseline_accessions: set[str]
+) -> tuple[dict[str, Any], int]:
     """Remove metadata records whose accessions are already in the baseline set.
 
     Args:
@@ -889,7 +896,9 @@ def _deduplicate_metadata_against_baseline(metadata_dict: dict[str, Any], baseli
     return new_metadata, skipped_count
 
 
-def _save_partial_metadata(metadata_dict: dict[str, Any], outfolder: str, virus_clean: str, reason: str = "api_failure") -> str | None:
+def _save_partial_metadata(
+    metadata_dict: dict[str, Any], outfolder: str, virus_clean: str, reason: str = "api_failure"
+) -> str | None:
     """Save partial metadata to CSV for recovery via --baseline.
 
     Args:
@@ -2786,7 +2795,9 @@ def process_cached_download(zip_file: str, virus_type: str = "virus") -> tuple[s
     return cached_fasta_file, cached_metadata_jsonl_path, True
 
 
-def _monitor_subprocess_with_progress(process: subprocess.Popen[Any], cmd: list[str], timeout: int | None = None, progress_timeout: int | None = None) -> subprocess.CompletedProcess[Any]:
+def _monitor_subprocess_with_progress(
+    process: subprocess.Popen[Any], cmd: list[str], timeout: int | None = None, progress_timeout: int | None = None
+) -> subprocess.CompletedProcess[Any]:
     """Monitor a subprocess with progress tracking and timeout handling.
 
     This helper function monitors a running subprocess. When stdout/stderr are piped, it checks for progress indicators. When they're not piped (output goes to console), it simply polls for completion.
@@ -3463,7 +3474,13 @@ def download_alphainfluenza_optimized(
     )
 
 
-def download_sequences_by_accessions(accessions: list[str], outdir: str | None = None, batch_size: int = 200, failed_commands: dict[str, Any] | None = None, api_key: str | None = None) -> str:
+def download_sequences_by_accessions(
+    accessions: list[str],
+    outdir: str | None = None,
+    batch_size: int = 200,
+    failed_commands: dict[str, Any] | None = None,
+    api_key: str | None = None,
+) -> str:
     """Download virus genome sequences for a specific list of accession numbers.
 
     This function downloads sequences for a pre-filtered list of accessions,
@@ -3590,7 +3607,9 @@ def download_sequences_by_accessions(accessions: list[str], outdir: str | None =
     )
 
 
-def _download_sequences_epost_efetch(accessions: list[str], fasta_path: str, failed_commands: dict[str, Any] | None = None, api_key: str | None = None) -> str:
+def _download_sequences_epost_efetch(
+    accessions: list[str], fasta_path: str, failed_commands: dict[str, Any] | None = None, api_key: str | None = None
+) -> str:
     """Download FASTA sequences using NCBI EPost + EFetch History Server pipeline.
 
     This is NCBI's recommended approach for large datasets. It uploads accession
@@ -3756,7 +3775,11 @@ def _download_sequences_epost_efetch(accessions: list[str], fasta_path: str, fai
 
 
 def _download_sequences_single_batch(
-    accessions: list[str], NCBI_EUTILS_BASE_EFETCH: str, fasta_path: str, failed_commands: dict[str, Any] | None = None, api_key: str | None = None
+    accessions: list[str],
+    NCBI_EUTILS_BASE_EFETCH: str,
+    fasta_path: str,
+    failed_commands: dict[str, Any] | None = None,
+    api_key: str | None = None,
 ) -> str:
     """Download sequences in a single E-utilities request with exponential backoff retries.
 
@@ -3882,7 +3905,12 @@ def _download_sequences_single_batch(
 
 
 def _download_sequences_batched(
-    accessions: list[str], NCBI_EUTILS_BASE_EFETCH: str, fasta_path: str, batch_size: int, failed_commands: dict[str, Any] | None = None, api_key: str | None = None
+    accessions: list[str],
+    NCBI_EUTILS_BASE_EFETCH: str,
+    fasta_path: str,
+    batch_size: int,
+    failed_commands: dict[str, Any] | None = None,
+    api_key: str | None = None,
 ) -> str:
     """Download sequences using multiple batched E-utilities requests with incremental file writing.
 
@@ -4154,7 +4182,9 @@ def _parse_date(date_str: str, filtername: str = "") -> datetime:
         #     return None
 
 
-def _parse_partial_date_for_range_check(date_str: str, for_min_comparison: bool = True, filtername: str = "") -> datetime:
+def _parse_partial_date_for_range_check(
+    date_str: str, for_min_comparison: bool = True, filtername: str = ""
+) -> datetime:
     """Parse partial dates with range-aware handling for comparison.
 
     When comparing partial dates (year-only or year-month) against specific dates,
@@ -4749,7 +4779,9 @@ def load_metadata_from_api_reports(api_reports: list[dict[str, Any]]) -> dict[st
     return metadata_dict
 
 
-def _check_protein_requirements(record: Any, metadata: dict[str, Any], has_proteins: Any, proteins_complete: bool) -> bool:
+def _check_protein_requirements(
+    record: Any, metadata: dict[str, Any], has_proteins: Any, proteins_complete: bool
+) -> bool:
     """Check if a sequence meets protein/gene requirements based on FASTA header.
 
     This function validates whether a virus sequence contains required proteins
@@ -5491,7 +5523,9 @@ def merge_metadata_csvs(genbank_csv_path: str, standard_csv_path: str) -> bool:
         return False
 
 
-def save_metadata_to_csv(filtered_metadata: list[dict[str, Any]], protein_headers: list[Any], output_metadata_file: str) -> None:
+def save_metadata_to_csv(
+    filtered_metadata: list[dict[str, Any]], protein_headers: list[Any], output_metadata_file: str
+) -> None:
     """Save filtered metadata to a CSV file with a specific column order.
 
     This function creates a comprehensive CSV file containing all relevant metadata
@@ -5968,7 +6002,14 @@ def _epost_accessions(accessions: list[str], api_key: str | None = None) -> tupl
         return None, None
 
 
-def _efetch_with_history(web_env: str, query_key: str, retstart: int, retmax: int, api_key: str | None = None, failed_log_path: str | None = None) -> tuple[dict[str, Any], str]:
+def _efetch_with_history(
+    web_env: str,
+    query_key: str,
+    retstart: int,
+    retmax: int,
+    api_key: str | None = None,
+    failed_log_path: str | None = None,
+) -> tuple[dict[str, Any], str]:
     """Fetch GenBank records using History Server reference (WebEnv/query_key).
 
     This is the NCBI-recommended method for large datasets. After uploading UIDs
@@ -6609,7 +6650,9 @@ def fetch_genbank_metadata(
     return all_metadata, failed_log_path if os.path.exists(failed_log_path) else None
 
 
-def _fetch_genbank_batch(accessions: list[str], failed_log_path: str | None = None) -> tuple[dict[str, Any], str | None]:
+def _fetch_genbank_batch(
+    accessions: list[str], failed_log_path: str | None = None
+) -> tuple[dict[str, Any], str | None]:
     """Fetch GenBank metadata for a single batch of accessions.
 
     Includes retry logic with exponential backoff and automatic batch splitting
@@ -7188,7 +7231,9 @@ def _parse_genbank_xml(xml_content: str) -> dict[str, Any]:
     return metadata_dict
 
 
-def save_genbank_metadata_to_csv(genbank_metadata: dict[str, Any], output_file: str, virus_metadata: list[dict[str, Any]] | None = None) -> None:
+def save_genbank_metadata_to_csv(
+    genbank_metadata: dict[str, Any], output_file: str, virus_metadata: list[dict[str, Any]] | None = None
+) -> None:
     """Save GenBank metadata to a CSV file with the same column headers as the standard metadata CSV.
 
     Args:
