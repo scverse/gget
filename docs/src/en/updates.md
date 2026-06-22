@@ -2,7 +2,7 @@
 
 ## ✨ What's new
 
-#### *gget* officially became part of *scverse* on June 9, 2026. 🥳🥳🥳
+#### *gget* officially became part of [*scverse*](https://scverse.org/) on June 9, 2026. 🥳🥳🥳
 
 **Version ≥ 0.30.7** (Jun 21, 2026):  
 - [`gget cellxgene`](cellxgene.md): Added support for the three non-human primate species available in the CZ CELLxGENE Census LTS `2025-11-08`: rhesus macaque (`macaca_mulatta`), common marmoset (`callithrix_jacchus`), and chimpanzee (`pan_troglodytes`).
