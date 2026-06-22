@@ -10,6 +10,19 @@ Función para instalar/descargar dependencias de terceros para un módulo de gge
 **Parámetro posicional**  
 `module`  
 Módulo gget para el que se deben instalar las dependencias.  
+Elige entre: "alphafold", "gpt", "cellxgene", "elm", o "cbio"
+
+**Parámetros optionales**  
+`-o` `--out`  
+Solo aplica cuando `module='elm'`. Ruta a una carpeta donde se descargarán los archivos sin procesar de la base de datos ELM (`elm_instances.fasta`, `elms_classes.tsv`, `elm_instances.tsv`, `elm_interaction_domains.tsv`) — útil si deseas una copia local de los datos de ELM para tus propios scripts o inspección, de forma independiente a ejecutar [`gget elm`](elm.md).  
+NOTA: Para configurar los archivos de modo que [`gget elm`](elm.md) pueda usarlos, **omite este argumento** — [`gget elm`](elm.md) solo lee desde la ubicación predeterminada dentro de la carpeta de instalación del paquete `gget`. Los archivos descargados en una ruta `--out` personalizada no serán detectados por [`gget elm`](elm.md).  
+Por defecto: None (los archivos descargados se guardan dentro de la carpeta de instalación del paquete `gget` donde [`gget elm`](elm.md) puede encontrarlos).  
+
+**Banderas**  
+`-q` `--quiet`  
+Solo para Terminal. Impide la información de progreso de ser exhibida durante la ejecución del programa.  
+Para Python, usa `verbose=False` para impedir la información de progreso de ser exhibida durante la ejecución del programa.
+
 
 ### Por ejemplo
 ```bash
