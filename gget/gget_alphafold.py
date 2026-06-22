@@ -215,6 +215,12 @@ def alphafold(
     If you use this function, please cite the gget (https://doi.org/10.1101/2022.05.17.492392) and AphaFold (https://doi.org/10.1038/s41586-021-03819-2) papers
     and, if applicable, the AlphaFold-Multimer paper (https://www.biorxiv.org/content/10.1101/2021.10.04.463034v1).
     """
+    logger.warning(
+        "gget alphafold is no longer actively maintained. For up-to-date AlphaFold predictions, "
+        "we recommend ColabFold (https://github.com/sokrypton/ColabFold) for AlphaFold 2 "
+        "or the AlphaFold Server (https://alphafoldserver.com/) for AlphaFold 3."
+    )
+
     if platform.system() == "Windows":
         logger.warning("gget setup alphafold and gget alphafold are not supported on Windows OS.")
 

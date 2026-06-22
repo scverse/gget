@@ -1,6 +1,9 @@
 [<kbd> View page source on GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/en/gpt.md)
 
 > Python arguments are equivalent to long-option arguments (`--arg`), unless otherwise specified. Flags are True/False arguments in Python. The manual for any gget tool can be called from the command-line using the `-h` `--help` flag.  
+
+> ⚠️ `gget gpt` is no longer actively maintained.**
+
 # gget gpt 💬
 Generates natural language text based on a given prompt using the [OpenAI](https://openai.com/) API's 'openai.ChatCompletion.create' endpoint.
 This module, including its source code, documentation and unit tests, were partly written by OpenAI's Chat-GTP3.  

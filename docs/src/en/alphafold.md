@@ -1,6 +1,9 @@
 [<kbd> View page source on GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/en/alphafold.md)
 
 > Python arguments are equivalent to long-option arguments (`--arg`), unless otherwise specified. Flags are True/False arguments in Python. The manual for any gget tool can be called from the command-line using the `-h` `--help` flag.  
+
+> ⚠️ `gget alphafold` is no longer actively maintained.** For up-to-date AlphaFold predictions, we recommend [ColabFold](https://github.com/sokrypton/ColabFold) (for AlphaFold 2) or the [AlphaFold Server](https://alphafoldserver.com/) (for AlphaFold 3).
+
 # gget alphafold 🪢
 Predict the 3D structure of a protein from its amino acid sequence using a simplified version of [DeepMind](https://www.deepmind.com/)’s [AlphaFold2](https://github.com/deepmind/alphafold) originally released and benchmarked for [AlphaFold Colab](https://colab.research.google.com/github/deepmind/alphafold/blob/main/notebooks/AlphaFold.ipynb).  
 Returns: Predicted structure (PDB) and alignment error (json).  

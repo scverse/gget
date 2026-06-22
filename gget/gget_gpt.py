@@ -52,6 +52,8 @@ def gpt(
     This module, including its source code, documentation and unittests, were partly written by OpenAI's Chat-GTP3.
 
     """
+    logger.warning("gget gpt is no longer actively maintained.")
+
     # Check if cellxgene_census is installed
     try:
         import openai
