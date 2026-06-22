@@ -99,9 +99,14 @@ def setup(module, verbose=True, out=None):
     Args:
     - module    (str) gget module for which dependencies should be installed, e.g. "alphafold", "cellxgene", "elm", "gpt", or "cbio".
     - verbose   True/False whether to print progress information. Default True.
-    - out       (str) Path to directory to save downloaded files in (currently only applies when module='elm').
-                NOTE: Do not use this argument when downloading the files for use with 'gget.elm'.
-                Default None (files are saved in the gget installation directory).
+    - out       (str) Only applies when module='elm'. Path to a directory where the raw ELM database
+                files will be downloaded — useful if you want a local copy of the ELM data for your own
+                scripts or inspection, separately from running 'gget.elm'. NOTE: To set up the files so
+                that 'gget.elm' can use them, omit this argument — 'gget.elm' only reads from the default
+                location inside the gget installation directory; files downloaded to a custom path will
+                not be picked up by 'gget.elm'.
+                Default None (files are saved inside the gget installation directory where 'gget.elm'
+                can find them).
     """
     supported_modules = ["alphafold", "cellxgene", "elm", "gpt", "cbio"]
     if module not in supported_modules:

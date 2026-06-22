@@ -10,12 +10,13 @@ Function to install/download third-party dependencies for a specified gget modul
 **Positional argument**  
 `module`  
 gget module for which dependencies should be installed.  
+Choose from: "alphafold", "gpt", "cellxgene", "elm", or "cbio"
 
 **Optional arguments**  
 `-o` `--out`  
-Path to the folder downloaded files will be saved in (currently only applies to module = 'elm').  
-NOTE: Do NOT use this argument when downloading the files for use with `gget.elm`.  
-Default: None (downloaded files are saved inside the `gget` package installation folder).  
+Only applies when `module='elm'`. Path to a folder where the raw ELM database files (`elm_instances.fasta`, `elms_classes.tsv`, `elm_instances.tsv`, `elm_interaction_domains.tsv`) will be downloaded — useful if you want a local copy of the ELM data for your own scripts or inspection, separately from running [`gget elm`](elm.md).  
+NOTE: To set up the files so that [`gget elm`](elm.md) can use them, **omit this argument** — [`gget elm`](elm.md) only reads from the default location inside the `gget` package installation folder. Files downloaded to a custom `--out` path will not be picked up by [`gget elm`](elm.md).  
+Default: None (downloaded files are saved inside the `gget` package installation folder where [`gget elm`](elm.md) can find them).  
 
 **Flags**  
 `-q` `--quiet`  

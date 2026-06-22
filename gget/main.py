@@ -1289,7 +1289,7 @@ def main():
         type=str,
         default=None,
         required=False,
-        help="Path to folder where downloaded files are saved (currently only applies when module='elm'). Default: Files are saved inside the gget installation folder.",
+        help="Only applies when module='elm'. Path to a folder where the raw ELM database files will be downloaded — useful for getting a local copy of the ELM data for your own scripts, separately from running 'gget elm'. Omit when setting up files for use with 'gget elm' (it only reads from the default location inside the gget installation folder). Default: Files are saved inside the gget installation folder where 'gget elm' can find them.",
     )
 
     ## gget alphafold subparser
