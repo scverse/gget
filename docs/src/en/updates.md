@@ -2,7 +2,7 @@
 
 ## ✨ What's new
 
-#### `gget` officially became part of `scverse` on June 9, 2026. 🥳🥳🥳
+#### *gget* officially became part of *scverse* on June 9, 2026. 🥳🥳🥳
 
 **Version ≥ 0.30.7** (Jun 21, 2026):  
 - [`gget cellxgene`](cellxgene.md): Added support for the three non-human primate species available in the CZ CELLxGENE Census LTS `2025-11-08`: rhesus macaque (`macaca_mulatta`), common marmoset (`callithrix_jacchus`), and chimpanzee (`pan_troglodytes`).
@@ -12,7 +12,7 @@
 - Docs/README: updated `gget` repository and manual URLs from `pachterlab` to `scverse` (`github.com/scverse/gget`, `scverse.org/gget`) to reflect the project's move under the scverse organization. Links to separate resources (`pachterlab/gget_examples`, `pachterlab/kvar`, `pachterlab/varseek`, and the Pachter Lab homepage) were left unchanged. Resolves [issue 217](https://github.com/scverse/gget/issues/217).
 - [`gget g2p`](g2p.md): **New module** to query the [Genomics 2 Proteins (G2P) portal](https://g2p.broadinstitute.org/) for residue-level protein structure/function annotations — per-residue features (AlphaFold pLDDT, UniProt sites, predicted pockets, PTMs), the gene–transcript–protein–isoform–structure map, and isoform alignments. Resolves [issue 138](https://github.com/scverse/gget/issues/138).
 - Deprecations:
-  - [`gget alphafold`](alphafold.md) and [`gget gpt`](gpt.md) are no longer actively maintained. Both now emit a warning when invoked, and a deprecation notice was added to the top of each module's docs. For up-to-date AlphaFold predictions, use [ColabFold](https://github.com/sokrypton/ColabFold) (for AlphaFold 2) or the [AlphaFold Server](https://alphafoldserver.com/) (for AlphaFold 3).
+  - [`gget alphafold`](alphafold.md) and [`gget gpt`](gpt.md) are no longer actively maintained. Both now emit a warning when invoked, and a deprecation notice was added to the top of each module's docs.
 - Bug fixes:
   - [`gget search`](search.md): Missing values are now consistently returned as `None` instead of `NaN`, both in scalar cells and inside synonym lists (`[None]` rather than `[nan]` for genes with no synonyms). The previous output was an artifact of `SQL LEFT JOIN`s surfacing as pandas `NaN`s; the JSON output was already `null` either way, so this only affects the DataFrame return path.
   - [`gget mutate`](mutate.md): Fixed `pyarrow.lib.ArrowNotImplementedError: Function 'binary_join_element_wise' has no kernel matching input types (large_string, null, large_string)` when the input contained no substitutions (only deletions/insertions/delins/duplications/inversions). The substitution-only sequence-build branches now short-circuit on an empty selection instead of triggering an arrow-string kernel that older `pyarrow` versions don't implement.
