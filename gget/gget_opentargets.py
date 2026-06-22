@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json as json_
 import textwrap
-from typing import Any
+from typing import Any, Literal, overload
 
 import pandas as pd
 
@@ -255,6 +255,30 @@ def _unhash(x: Any) -> Any:
     return x
 
 
+@overload
+def opentargets(
+    ensembl_id: str,
+    resource: str = "diseases",
+    limit: int | None = None,
+    verbose: bool = True,
+    wrap_text: bool = False,
+    filters: dict[str, Any] | None = None,
+    json: Literal[False] = False,
+) -> pd.DataFrame: ...
+
+
+@overload
+def opentargets(
+    ensembl_id: str,
+    resource: str = "diseases",
+    limit: int | None = None,
+    verbose: bool = True,
+    wrap_text: bool = False,
+    filters: dict[str, Any] | None = None,
+    json: Literal[True] = ...,
+) -> list[dict[str, Any]]: ...
+
+
 def opentargets(
     ensembl_id: str,
     resource: str = "diseases",
@@ -263,7 +287,7 @@ def opentargets(
     wrap_text: bool = False,
     filters: dict[str, Any] | None = None,
     json: bool = False,
-) -> Any:
+) -> pd.DataFrame | list[dict[str, Any]]:
     """Query OpenTargets for data associated with a given Ensembl gene ID.
 
     Args:

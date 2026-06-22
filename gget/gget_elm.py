@@ -3,7 +3,7 @@ from __future__ import annotations
 import json as json_package
 import os
 import re
-from typing import Any
+from typing import Any, Literal, overload
 
 import numpy as np
 import pandas as pd
@@ -223,6 +223,34 @@ def regex_match(sequence: str) -> pd.DataFrame:
     return df_final
 
 
+@overload
+def elm(
+    sequence: str,
+    uniprot: bool = ...,
+    sensitivity: str = ...,
+    threads: int = ...,
+    diamond_binary: str | None = ...,
+    expand: bool = ...,
+    verbose: bool = ...,
+    json: Literal[True] = ...,
+    out: str | None = ...,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]: ...
+
+
+@overload
+def elm(
+    sequence: str,
+    uniprot: bool = ...,
+    sensitivity: str = ...,
+    threads: int = ...,
+    diamond_binary: str | None = ...,
+    expand: bool = ...,
+    verbose: bool = ...,
+    json: Literal[False] = ...,
+    out: str | None = ...,
+) -> tuple[pd.DataFrame, pd.DataFrame]: ...
+
+
 def elm(
     sequence: str,
     uniprot: bool = False,
@@ -233,7 +261,7 @@ def elm(
     verbose: bool = True,
     json: bool = False,
     out: str | None = None,
-) -> tuple[Any, Any]:
+) -> tuple[pd.DataFrame, pd.DataFrame] | tuple[list[dict[str, Any]], list[dict[str, Any]]]:
     """Locally predicts Eukaryotic Linear Motifs from an amino acid sequence or UniProt Acc using
 
     data from the ELM database (http://elm.eu.org/).

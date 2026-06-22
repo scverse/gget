@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json as json_
 from importlib.metadata import PackageNotFoundError, version
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Literal, overload
 
 from .utils import dig, http_json, json_list_to_df, set_up_logger
 
@@ -180,13 +180,41 @@ def _bgee_expression(gene_id: str | list[str], json: bool = False, verbose: bool
         return df
 
 
+@overload
+def bgee(
+    gene_id: str | list[str],
+    type: str,
+    json: Literal[True],
+    verbose: bool = ...,
+) -> list[dict[str, Any]]: ...
+
+
+@overload
+def bgee(
+    gene_id: str | list[str],
+    type: str = ...,
+    *,
+    json: Literal[True],
+    verbose: bool = ...,
+) -> list[dict[str, Any]]: ...
+
+
+@overload
+def bgee(
+    gene_id: str | list[str],
+    type: str = ...,
+    json: Literal[False] = False,
+    verbose: bool = ...,
+) -> pd.DataFrame: ...
+
+
 # noinspection PyShadowingBuiltins
 def bgee(
     gene_id: str | list[str],
     type: str = "orthologs",
     json: bool = False,
     verbose: bool = True,
-) -> pd.DataFrame | Any:
+) -> pd.DataFrame | list[dict[str, Any]]:
     """Get orthologs/expression data for a gene from Bgee (https://www.bgee.org/).
 
     Args:

@@ -26,6 +26,7 @@ exclude: |
     | gget/constants/
     | tests/fixtures/
     | tests/pytest_results.*\.txt
+    | \.github/badges/.*\.json
   )
 repos:
   - repo: https://github.com/biomejs/pre-commit

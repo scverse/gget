@@ -3,7 +3,7 @@ from __future__ import annotations
 import json as json_package
 import time
 import warnings
-from typing import Any
+from typing import Any, Literal, overload
 
 import mysql.connector as sql
 import numpy as np
@@ -37,6 +37,38 @@ def clean_cols(x: Any) -> Any:
         return x
 
 
+@overload
+def search(
+    searchwords: str | list[str],
+    species: str,
+    release: int | None = None,
+    id_type: str = "gene",
+    seqtype: str | None = None,
+    andor: str = "or",
+    limit: int | None = None,
+    wrap_text: bool = False,
+    json: Literal[True] = ...,
+    save: bool = False,
+    verbose: bool = True,
+) -> list[dict[str, Any]] | None: ...
+
+
+@overload
+def search(
+    searchwords: str | list[str],
+    species: str,
+    release: int | None = None,
+    id_type: str = "gene",
+    seqtype: str | None = None,
+    andor: str = "or",
+    limit: int | None = None,
+    wrap_text: bool = False,
+    json: Literal[False] = False,
+    save: bool = False,
+    verbose: bool = True,
+) -> pd.DataFrame | None: ...
+
+
 def search(
     searchwords: str | list[str],
     species: str,
@@ -49,7 +81,7 @@ def search(
     json: bool = False,
     save: bool = False,
     verbose: bool = True,
-) -> Any:
+) -> pd.DataFrame | list[dict[str, Any]] | None:
     """Function to query Ensembl for genes based on species and free form search terms.
 
     Automatically fetches results from latest Ensembl release, unless user specifies database (see 'species' argument)
