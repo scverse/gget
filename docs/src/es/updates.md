@@ -2,7 +2,7 @@
 
 ## ✨ ¡Lo más reciente!  
 
-#### `gget` se unió oficialmente a `scverse` el 9 de junio de 2026. 🥳🥳🥳
+#### *gget* se unió oficialmente a *scverse* el 9 de junio de 2026. 🥳🥳🥳
 
 **Versión ≥ 0.30.7** (21 de junio de 2026):  
 - [`gget cellxgene`](cellxgene.md): Se añadió soporte para las tres especies de primates no humanos disponibles en el CZ CELLxGENE Census LTS `2025-11-08`: macaco rhesus (`macaca_mulatta`), tití común (`callithrix_jacchus`), y chimpancé (`pan_troglodytes`).
@@ -11,6 +11,8 @@
   - Nota: las nuevas especies de primates requieren `census_version="2025-11-08"` (LTS) o más reciente.
 - Docs/README: se actualizaron las URLs del repositorio y manual de `gget` de `pachterlab` a `scverse` (`github.com/scverse/gget`, `scverse.org/gget`) para reflejar la mudanza del proyecto a la organización scverse. Los enlaces a recursos separados (`pachterlab/gget_examples`, `pachterlab/kvar`, `pachterlab/varseek`, y la página de Pachter Lab) se mantuvieron sin cambios. Resuelve el [issue 217](https://github.com/scverse/gget/issues/217).
 - [`gget g2p`](g2p.md): **Nuevo módulo** para consultar el [portal Genomics 2 Proteins (G2P)](https://g2p.broadinstitute.org/) para anotaciones estructurales/funcionales de proteínas a nivel de residuo — características por residuo (pLDDT de AlphaFold, sitios de UniProt, bolsillos predichos, PTMs), el mapa gen–transcrito–proteína–isoforma–estructura, y alineamientos entre isoformas. Resuelve el [issue 138](https://github.com/scverse/gget/issues/138).
+- Deprecaciones:
+  - [`gget alphafold`](alphafold.md) y [`gget gpt`](gpt.md) ya no se mantienen activamente. Ambos ahora emiten una advertencia al ser invocados, y se añadió un aviso de deprecación al inicio de la documentación de cada módulo.
 - Correcciones de errores:
   - [`gget search`](search.md): Los valores faltantes ahora se producen consistentemente como `None` en lugar de `NaN`, tanto en celdas escalares como dentro de las listas de sinónimos (`[None]` en lugar de `[nan]` para genes sin sinónimos). El resultado anterior era un artefacto de los `SQL LEFT JOIN` que aparecían como `NaN` de pandas; la salida JSON ya era `null` de cualquier manera, así que esto solo afecta la ruta de retorno DataFrame.
   - [`gget mutate`](mutate.md): Se corrigió `pyarrow.lib.ArrowNotImplementedError: Function 'binary_join_element_wise' has no kernel matching input types (large_string, null, large_string)` cuando la entrada no contenía sustituciones (solo deleciones/inserciones/delins/duplicaciones/inversiones). Las ramas de construcción de secuencias específicas a sustituciones ahora se cortan en una selección vacía en lugar de activar un kernel arrow-string que las versiones antiguas de `pyarrow` no implementan.
