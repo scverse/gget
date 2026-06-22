@@ -1,6 +1,9 @@
 [<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/es/alphafold.md)
 
 > Parámetros de Python són iguales a los parámetros largos (`--parámetro`) de Terminal, si no especificado de otra manera. Banderas son parámetros de verdadero o falso (True/False) en Python. El manuál para cualquier modulo de gget se puede llamar desde la Terminal con la bandera `-h` `--help`.  
+
+> ⚠️ `gget alphafold` ya no se mantiene activamente.** Para predicciones actualizadas de AlphaFold, recomendamos [ColabFold](https://github.com/sokrypton/ColabFold) (para AlphaFold 2) o el [AlphaFold Server](https://alphafoldserver.com/) (para AlphaFold 3).
+
 # gget alphafold 🪢
 Predice la estructura en 3D de cualquier proteína derivada de su secuencia de aminoácidos usando una versión simplificada del algoritmo [AlphaFold2](https://github.com/deepmind/alphafold) de [DeepMind](https://www.deepmind.com/), originalmente producido y publicado para [AlphaFold Colab](https://colab.research.google.com/github/deepmind/alphafold/blob/main/notebooks/AlphaFold.ipynb).  
 Resultado: Predicción de la estructura (en formato PDB) y el errór de alineación (en formato json).  
