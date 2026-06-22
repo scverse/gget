@@ -1,5 +1,4 @@
 [<kbd> View page source on GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/en/quick_start_guide.md)
-
 # 🪄 Quick start guide
 Command line:
 ```bash
@@ -46,10 +45,6 @@ $ gget elm -o results MSSSSWLLLSLVAVTAAQSTIEEQAKTFLDKFNHEAEDLFYQSSLAS
 # Fetch a scRNAseq count matrix (AnnData format) based on specified gene(s), tissue(s), and cell type(s) (default species: human)
 $ gget setup cellxgene # setup only needs to be run once
 $ gget cellxgene --gene ACE2 SLC5A1 --tissue lung --cell_type 'mucus secreting cell' -o example_adata.h5ad
-
-# Predict the protein structure of GFP from its amino acid sequence
-$ gget setup alphafold # setup only needs to be run once
-$ gget alphafold MSKGEELFTGVVPILVELDGDVNGHKFSVSGEGEGDATYGKLTLKFICTTGKLPVPWPTLVTTFSYGVQCFSRYPDHMKQHDFFKSAMPEGYVQERTIFFKDDGNYKTRAEVKFEGDTLVNRIELKGIDFKEDGNILGHKLEYNYNSHNVYIMADKQKNGIKVNFKIRHNIEDGSVQLADHYQQNTPIGDGPVLLPDNHYLSTQSALSKDPNEKRDHMVLLEFVTAAGITHGMDELYK
 ```
 Python (Jupyter Lab / Google Colab):
 ```python  
@@ -72,9 +67,6 @@ ortho_df, regex_df = gget.elm("MSSSSWLLLSLVAVTAAQSTIEEQAKTFLDKFNHEAEDLFYQSSLAS")
 
 gget.setup("cellxgene") # setup only needs to be run once
 gget.cellxgene(gene = ["ACE2", "SLC5A1"], tissue = "lung", cell_type = "mucus secreting cell")
-
-gget.setup("alphafold") # setup only needs to be run once
-gget.alphafold("MSKGEELFTGVVPILVELDGDVNGHKFSVSGEGEGDATYGKLTLKFICTTGKLPVPWPTLVTTFSYGVQCFSRYPDHMKQHDFFKSAMPEGYVQERTIFFKDDGNYKTRAEVKFEGDTLVNRIELKGIDFKEDGNILGHKLEYNYNSHNVYIMADKQKNGIKVNFKIRHNIEDGSVQLADHYQQNTPIGDGPVLLPDNHYLSTQSALSKDPNEKRDHMVLLEFVTAAGITHGMDELYK")
 ```
 Call `gget` from R using [reticulate](https://rstudio.github.io/reticulate/):
 ```r
