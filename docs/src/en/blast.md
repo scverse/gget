@@ -15,8 +15,9 @@ Nucleotide or amino acid sequence, or path to FASTA or .txt file.
 Default: 'blastn' for nucleotide sequences; 'blastp' for amino acid sequences.
 
 `-db` `--database`  
-'nt', 'nr', 'refseq_rna', 'refseq_protein', 'swissprot', 'pdbaa', or 'pdbnt'.  
+'nt', 'core_nt', 'nr', 'refseq_rna', 'refseq_protein', 'swissprot', 'pdbaa', or 'pdbnt'.  
 Default: 'nt' for nucleotide sequences; 'nr' for amino acid sequences.  
+('core_nt' is NCBI's curated "core nucleotide" collection and is now the default nucleotide database on NCBI web BLAST.)  
 [More info on BLAST databases](https://ncbi.github.io/blast-cloud/blastdb/available-blastdbs.html)
 
 `-l` `--limit`  

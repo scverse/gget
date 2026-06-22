@@ -8,6 +8,7 @@
 - [`gget pdb`](pdb.md): Added support for the PDBx/mmCIF structure format (fixes [issue 178](https://github.com/scverse/gget/issues/178) and [issue 177](https://github.com/scverse/gget/issues/177)).
   - New `resource="mmcif"` option downloads the structure in PDBx/mmCIF format (`.cif`).
   - The default `resource="pdb"` now automatically falls back to PDBx/mmCIF when the legacy PDB file is unavailable (e.g. for large structures), since the legacy PDB format is being phased out by RCSB. A warning is logged and saved files use the correct extension (`.cif`).
+- [`gget blast`](blast.md): Added support for NCBI's `core_nt` database (the curated "core nucleotide" collection that is now the default nucleotide database on NCBI web BLAST). `core_nt` can now be passed to `--database`/`database=` and is validated as a nucleotide database equivalently to `nt`; existing database choices (including `nt`) remain unchanged. Resolves [issue 188](https://github.com/scverse/gget/issues/188).
 
 
 **Version ≥ 0.30.7** (Jun 21, 2026):  

@@ -70,5 +70,8 @@
             "database": "banana"
         },
         "expected_result": "ValueError"
+    },
+    "test_blast_core_nt_accepted": {
+        "type": "code_defined"
     }
 }

@@ -828,6 +828,7 @@ def main() -> None:
         "--database",
         choices=[
             "nt",
+            "core_nt",
             "nr",
             "refseq_rna",
             "refseq_protein",
@@ -839,7 +840,7 @@ def main() -> None:
         type=str,
         required=False,
         help=(
-            "'nt', 'nr', 'refseq_rna', 'refseq_protein', 'swissprot', 'pdbaa', or 'pdbnt'. "
+            "'nt', 'core_nt', 'nr', 'refseq_rna', 'refseq_protein', 'swissprot', 'pdbaa', or 'pdbnt'. "
             "Default: 'nt' for nucleotide sequences; 'nr' for amino acid sequences. "
             "More info on BLAST databases: https://ncbi.github.io/blast-cloud/blastdb/available-blastdbs.html"
         ),

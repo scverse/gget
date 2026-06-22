@@ -78,7 +78,7 @@ def blast(
                       (If more than one sequence in FASTA file, only the first will be submitted to BLAST.)
      - program        'blastn', 'blastp', 'blastx', 'tblastn', or 'tblastx'.
                       Default: 'blastn' for nucleotide sequences; 'blastp' for amino acid sequences.
-     - database       'nt', 'nr', 'refseq_rna', 'refseq_protein', 'swissprot', 'pdbaa', or 'pdbnt'.
+     - database       'nt', 'core_nt', 'nr', 'refseq_rna', 'refseq_protein', 'swissprot', 'pdbaa', or 'pdbnt'.
                       Default: 'nt' for nucleotide sequences; 'nr' for amino acid sequences.
                       More info on BLAST databases: https://ncbi.github.io/blast-cloud/blastdb/available-blastdbs.html
      - limit          Limits number of hits to return. Default 50.
@@ -144,7 +144,7 @@ def blast(
     database = database.lower()
     # Valid program and database options
     programs = ["blastn", "blastp", "blastx", "tblastn", "tblastx"]
-    dbs = ["nt", "nr", "refseq_rna", "refseq_protein", "swissprot", "pdbaa", "pdbnt"]
+    dbs = ["nt", "core_nt", "nr", "refseq_rna", "refseq_protein", "swissprot", "pdbaa", "pdbnt"]
 
     # If user does not specify the program,
     # check if a nulceotide or amino acid sequence was passed
