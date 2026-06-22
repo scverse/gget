@@ -96,9 +96,15 @@ Gracias a [Victor Garcia-Ruiz](https://github.com/victorg775) y [Anna Karen Orta
 <br>  
 
 <p align="center">
-  <img height="100" alt="scverse_symbol" src="https://github.com/user-attachments/assets/d672bd36-4749-427e-9f08-d807d3bde8fa" />
+  <a href="https://scverse.org/">
+    <img height="100" alt="scverse_symbol" src="https://github.com/user-attachments/assets/d672bd36-4749-427e-9f08-d807d3bde8fa" />
+  </a>
   &nbsp;&nbsp;&nbsp;
-  <img height="100" alt="numfocus" src="https://github.com/user-attachments/assets/a12369cf-e6ae-4b4b-9a30-669aa3d80b5c" />
+  <a href="https://numfocus.org/">
+    <img height="100" alt="numfocus" src="https://github.com/user-attachments/assets/a12369cf-e6ae-4b4b-9a30-669aa3d80b5c" />
+  </a>
   &nbsp;&nbsp;&nbsp;
-  <img height="100" alt="logo-okfn" src="https://github.com/user-attachments/assets/452ae8d8-69f0-4d0d-848c-ddfb40357eb2" />
+  <a href="https://okfn.org/">
+    <img height="100" alt="logo-okfn" src="https://github.com/user-attachments/assets/452ae8d8-69f0-4d0d-848c-ddfb40357eb2" />
+  </a>
 </p>
