@@ -10,7 +10,7 @@ import uuid
 
 # Custom functions
 from .compile import MUSCLE_PATH, PACKAGE_PATH, compile_muscle
-from .utils import aa_colors, create_tmp_fasta, n_colors, set_up_logger
+from .utils import aa_colors, create_tmp_fasta, diagnose_binary_load_error, n_colors, set_up_logger
 
 logger = set_up_logger()
 
@@ -107,12 +107,17 @@ def muscle(fasta: str | list[str], super5: bool = False, out: str | None = None,
         # Log the standard error if it is not empty
         if stderr_2:
             sys.stderr.write(stderr_2)
-    # Exit system if the subprocess returned with an error
+    # Translate dynamic-linker failures into actionable instructions, otherwise
+    # raise so callers (CLI included) get a non-zero exit instead of silent exit 0.
     if process_2.wait() != 0:
-        return
-    else:
-        if verbose:
-            logger.info(f"MUSCLE alignment complete. Alignment time: {round(time.time() - start_time, 2)} seconds")
+        diagnosis = diagnose_binary_load_error(stderr_2, "muscle")
+        if diagnosis:
+            raise RuntimeError(diagnosis)
+        raise RuntimeError(
+            f"MUSCLE failed with exit code {process_2.returncode}. See stderr above for details."
+        )
+    if verbose:
+        logger.info(f"MUSCLE alignment complete. Alignment time: {round(time.time() - start_time, 2)} seconds")
 
     if out is None:
         ## Print cleaned up muscle output

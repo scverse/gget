@@ -9,7 +9,13 @@ import uuid
 from typing import Any
 
 from .compile import PACKAGE_PATH
-from .utils import create_tmp_fasta, remove_temp_files, set_up_logger, tsv_to_df
+from .utils import (
+    create_tmp_fasta,
+    diagnose_binary_load_error,
+    remove_temp_files,
+    set_up_logger,
+    tsv_to_df,
+)
 
 logger = set_up_logger()
 
@@ -141,6 +147,11 @@ def diamond(
         if stderr:
             sys.stderr.write(stderr)
     if process.wait() != 0:
+        # The version check is the first time we invoke the binary, so a missing
+        # shared library shows up here. Translate to actionable instructions.
+        diagnosis = diagnose_binary_load_error(stderr, "diamond")
+        if diagnosis:
+            raise RuntimeError(diagnosis)
         raise RuntimeError("DIAMOND version check failed.")
 
     # Step 2: Create database
@@ -150,6 +161,9 @@ def diamond(
         if stderr:
             sys.stderr.write(stderr)
     if process.wait() != 0:
+        diagnosis = diagnose_binary_load_error(stderr, "diamond")
+        if diagnosis:
+            raise RuntimeError(diagnosis)
         raise RuntimeError("DIAMOND database creation failed.")
 
     # Step 3: Run alignment
@@ -190,6 +204,9 @@ def diamond(
             sys.stderr.write(stderr)
 
     if process.wait() != 0:
+        diagnosis = diagnose_binary_load_error(stderr, "diamond")
+        if diagnosis:
+            raise RuntimeError(diagnosis)
         raise RuntimeError("DIAMOND alignment failed.")
     else:
         if verbose:

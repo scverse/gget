@@ -1234,3 +1234,71 @@ class FastaIO:
                 seq_str = str(record.seq)
                 for i in range(0, len(seq_str), 70):
                     handle.write(seq_str[i : i + 70] + "\n")
+
+
+def diagnose_binary_load_error(stderr_text: str, module_name: str) -> str | None:
+    """If stderr indicates a missing shared-library / dynamic-linker error, return a
+    human-friendly diagnostic + fix instructions. Otherwise return None.
+
+    Covers:
+    - macOS dyld: 'Library not loaded: <path>'
+    - Linux ld.so: 'error while loading shared libraries: <name>: cannot open shared object file'
+
+    `module_name` is the gget module name (e.g. 'muscle', 'diamond') used in the message.
+    """
+    import platform
+    import re
+
+    system = platform.system()
+    missing_lib: str | None = None
+
+    macos_match = re.search(r"Library not loaded:\s*(\S+)", stderr_text)
+    linux_match = re.search(r"error while loading shared libraries:\s*([^\s:]+)", stderr_text)
+
+    if macos_match:
+        missing_lib = macos_match.group(1)
+    elif linux_match:
+        missing_lib = linux_match.group(1)
+    else:
+        return None
+
+    lib_basename = os.path.basename(missing_lib)
+    install_hint = _shared_library_install_hint(lib_basename, system)
+
+    return (
+        f"gget {module_name} could not run its bundled binary because a required "
+        f"system library is missing:\n"
+        f"\n"
+        f"    {lib_basename}  (looked for: {missing_lib})\n"
+        f"\n"
+        f"{install_hint}"
+    )
+
+
+def _shared_library_install_hint(lib_basename: str, system: str) -> str:
+    """Return an install-command hint for libraries we know how to fix."""
+    # libgomp / libomp = OpenMP runtime — used by the bundled MUSCLE and DIAMOND binaries.
+    if "libgomp" in lib_basename or "libomp" in lib_basename:
+        if system == "Darwin":
+            return (
+                "This is the OpenMP runtime library. On macOS, install it via Homebrew:\n"
+                "    brew install libomp        # lightweight (recommended)\n"
+                "  OR\n"
+                "    brew install gcc           # also provides libgomp\n"
+            )
+        if system == "Linux":
+            return (
+                "This is the OpenMP runtime library. On Debian/Ubuntu:\n"
+                "    sudo apt-get install libgomp1\n"
+                "On RHEL/Fedora:\n"
+                "    sudo dnf install libgomp\n"
+            )
+
+    if system == "Darwin":
+        return (
+            "Install the package that provides this library via Homebrew (https://brew.sh) "
+            "or another package manager."
+        )
+    if system == "Linux":
+        return "Install the package that provides this library via your system package manager."
+    return "Install the package that provides this library on your system."
