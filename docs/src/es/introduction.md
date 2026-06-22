@@ -27,23 +27,23 @@ Estos son los módulos principales de `gget`. Haga clic en cualquier módulo par
 <table style="width:100%; table-layout:fixed;">
   <tr>
     <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/es/8cube.md"><strong>gget 8cube</strong></a><br><span style="font-size:0.85em;">¿Cuál es la expresión del gen X en 8 cepas y tejidos diferentes de ratón?.</span></td>
-    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/es/alphafold.md"><strong>gget alphafold</strong></a><br><span style="font-size:0.85em;">Predecir la estructura 3D de una proteína a partir de una secuencia de aminoácidos.</span></td>
     <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/es/archs4.md"><strong>gget archs4</strong></a><br><span style="font-size:0.85em;">¿Cuál es la expresión de mi gen en el tejido X?</span></td>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/es/bgee.md"><strong>gget bgee</strong></a><br><span style="font-size:0.85em;">Encontrar todos los ortólogos de un gen.</span></td>
   </tr>
   <tr>
-    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/es/bgee.md"><strong>gget bgee</strong></a><br><span style="font-size:0.85em;">Encontrar todos los ortólogos de un gen.</span></td>
     <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/es/blast.md"><strong>gget blast</strong></a><br><span style="font-size:0.85em;">Realizar un BLAST de una secuencia de nucleótidos o aminoácidos.</span></td>
     <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/es/blat.md"><strong>gget blat</strong></a><br><span style="font-size:0.85em;">Encontrar la ubicación genómica de una secuencia de nucleótidos o aminoácidos.</span></td>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/es/cbio.md"><strong>gget cbio</strong></a><br><span style="font-size:0.85em;">Explorar la expresión de un gen en los cánceres especificados.</span></td>
   </tr>
   <tr>
-    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/es/cbio.md"><strong>gget cbio</strong></a><br><span style="font-size:0.85em;">Explorar la expresión de un gen en los cánceres especificados.</span></td>
     <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/es/cellxgene.md"><strong>gget cellxgene</strong></a><br><span style="font-size:0.85em;">Obtener matrices de conteo de ARN de células individuales listas para usar para ciertos tejidos/enfermedades/etc.</span></td>
     <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/es/cosmic.md"><strong>gget cosmic</strong></a><br><span style="font-size:0.85em;">Buscar genes, mutaciones y otros factores asociados con ciertos cánceres.</span></td>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/es/diamond.md"><strong>gget diamond</strong></a><br><span style="font-size:0.85em;">Alinear secuencias de aminoácidos a una referencia.</span></td>
   </tr>
   <tr>
-    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/es/diamond.md"><strong>gget diamond</strong></a><br><span style="font-size:0.85em;">Alinear secuencias de aminoácidos a una referencia.</span></td>
     <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/es/elm.md"><strong>gget elm</strong></a><br><span style="font-size:0.85em;">Encontrar dominios y funciones de interacción de proteínas en una secuencia de aminoácidos.</span></td>
     <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/es/enrichr.md"><strong>gget enrichr</strong></a><br><span style="font-size:0.85em;">Verificar si una lista de genes está asociada con un tipo celular específico/ vía/ enfermedad/ etc.</span></td>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/es/g2p.md"><strong>gget g2p</strong></a><br><span style="font-size:0.85em;">Vincular genes/proteínas con anotaciones estructurales y funcionales a nivel de residuo.</span></td>
   </tr>
   <tr>
     <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/es/info.md"><strong>gget info</strong></a><br><span style="font-size:0.85em;">Recuperar toda la información asociada con un ID de Ensembl.</span></td>
