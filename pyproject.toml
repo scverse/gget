@@ -4,7 +4,7 @@ requires = [ "hatchling" ]
 
 [project]
 name = "gget"
-version = "0.30.7"
+version = "0.30.8"
 description = "Efficient querying of genomic databases."
 readme = "README.md"
 keywords = [ "gget" ]

@@ -4,6 +4,12 @@
 
 #### *gget* officially became part of [*scverse*](https://scverse.org/) on June 9, 2026. 🥳🥳🥳
 
+**Version ≥ 0.30.8** (XXX XX, 2026):  
+- [`gget pdb`](pdb.md): Added support for the PDBx/mmCIF structure format (fixes [issue 178](https://github.com/scverse/gget/issues/178) and [issue 177](https://github.com/scverse/gget/issues/177)).
+  - New `resource="mmcif"` option downloads the structure in PDBx/mmCIF format (`.cif`).
+  - The default `resource="pdb"` now automatically falls back to PDBx/mmCIF when the legacy PDB file is unavailable (e.g. for large structures), since the legacy PDB format is being phased out by RCSB. A warning is logged and saved files use the correct extension (`.cif`).
+
+
 **Version ≥ 0.30.7** (Jun 21, 2026):  
 - [`gget cellxgene`](cellxgene.md): Added support for the three non-human primate species available in the CZ CELLxGENE Census LTS `2025-11-08`: rhesus macaque (`macaca_mulatta`), common marmoset (`callithrix_jacchus`), and chimpanzee (`pan_troglodytes`).
   - The `species` argument (both Python and command line) now accepts all five supported organisms; the CLI `choices`, help text, and docstrings list them.

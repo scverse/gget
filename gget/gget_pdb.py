@@ -18,7 +18,11 @@ def pdb(pdb_id: str, resource: str = "pdb", identifier: str | int | None = None,
     Args:
     - pdb_id        PDB ID to be queried (str), e.g. "7S7U".
     - resource      Defines type of information to be returned.
-                    "pdb": Returns the protein structure in PDB format (default).
+                    "pdb": Returns the protein structure in legacy PDB format (default).
+                           Note: the legacy PDB format is being phased out by RCSB and is
+                           not available for large structures. When the legacy PDB file does
+                           not exist, gget automatically falls back to the PDBx/mmCIF format.
+                    "mmcif": Returns the protein structure in PDBx/mmCIF format (.cif).
                     "entry": Information about PDB structures at the top level of PDB structure hierarchical data organization.
                     "pubmed": Get PubMed annotations (data integrated from PubMed) for a given entry's primary citation.
                     "assembly": Information about PDB structures at the quaternary structure level.
@@ -33,11 +37,16 @@ def pdb(pdb_id: str, resource: str = "pdb", identifier: str | int | None = None,
                     Assembly/entity IDs are numbers (e.g. 1), and chain IDs are letters (e.g. "A").
     - save          True/False wether to save JSON/PDB with query results in the current working directory (default: False).
 
-    Returns requested information in JSON format (except for resource="pdb" which returns protein structure in PDB format).
+    Returns requested information in JSON format (except for resource="pdb"/"mmcif" which
+    return the protein structure in PDB/PDBx-mmCIF format).
     """
+    # Resources that download a structure file (text), not JSON
+    structure_resources = ["pdb", "mmcif"]
+
     # Check if resource argument is valid
     resources = [
         "pdb",
+        "mmcif",
         "entry",
         "pubmed",
         "assembly",
@@ -73,26 +82,34 @@ def pdb(pdb_id: str, resource: str = "pdb", identifier: str | int | None = None,
     if resource in need_chain_id and identifier is None:
         raise ValueError("Please define chain ID (e.g. 'A') as 'identifier'.")
 
-    # Define URLs for HTTP request
-    if resource != "pdb":
-        # URLs to request resources other than PDB file
+    # Define URLs for HTTP request.
+    # Each entry is (url, fetched_format) so we can track which structure format
+    # was actually returned ("pdb"/"mmcif"/None for JSON resources).
+    if resource not in structure_resources:
+        # URLs to request resources other than a structure file
         if identifier is not None:
             url = f"{RCSB_PDB_API}{resource}/{pdb_id}/{identifier}"
         else:
             url = f"{RCSB_PDB_API}{resource}/{pdb_id}"
 
-        urls = [url]  # only one option for JSON resources
+        urls = [(url, None)]  # only one option for JSON resources
+    elif resource == "mmcif":
+        # PDBx/mmCIF file
+        urls = [(f"https://files.rcsb.org/download/{pdb_id}.cif", "mmcif")]
     else:
-        # Try wwPDB first, then RCSB as fallback
+        # Legacy PDB format: try wwPDB first, then RCSB, then automatically
+        # fall back to PDBx/mmCIF (legacy PDB is unavailable for large structures).
         urls = [
-            f"https://files.wwpdb.org/download/{pdb_id}.pdb",
-            f"https://files.rcsb.org/download/{pdb_id}.pdb",
+            (f"https://files.wwpdb.org/download/{pdb_id}.pdb", "pdb"),
+            (f"https://files.rcsb.org/download/{pdb_id}.pdb", "pdb"),
+            (f"https://files.rcsb.org/download/{pdb_id}.cif", "mmcif"),
         ]
 
     # Submit URL request with fallback logic
     r = None
     code = None
-    for url in urls:
+    fetched_format = None
+    for url, fmt in urls:
         try:
             r = urlopen(url)
 
@@ -102,6 +119,7 @@ def pdb(pdb_id: str, resource: str = "pdb", identifier: str | int | None = None,
                 code = r.getcode()
 
             if code == 200:
+                fetched_format = fmt
                 break
         except HTTPError:
             continue
@@ -123,7 +141,7 @@ def pdb(pdb_id: str, resource: str = "pdb", identifier: str | int | None = None,
             logger.error(f"{resource} for {pdb_id} was not found. Please double-check arguments and try again.")
         return
 
-    if resource != "pdb":
+    if resource not in structure_resources:
         # Read json formatted results
         results = json.load(r)
 
@@ -132,11 +150,19 @@ def pdb(pdb_id: str, resource: str = "pdb", identifier: str | int | None = None,
         if ids is not None:
             ids.sort()
     else:
-        # Read PDB file
+        # Read structure file (PDB or PDBx/mmCIF)
         results = r.read().decode()
 
+        # Inform the user if a legacy PDB request was served as mmCIF instead
+        if resource == "pdb" and fetched_format == "mmcif":
+            logger.warning(
+                f"The legacy PDB format is not available for {pdb_id} (it is being phased out "
+                f"by RCSB). Returning the PDBx/mmCIF format instead. "
+                f"Use resource='mmcif' to request it directly and silence this warning."
+            )
+
     if save:
-        if resource != "pdb":
+        if resource not in structure_resources:
             # Save the results in json format
             if identifier is not None:
                 out_name = f"{pdb_id}_{identifier}_{resource}.json"
@@ -147,8 +173,9 @@ def pdb(pdb_id: str, resource: str = "pdb", identifier: str | int | None = None,
                 json.dump(results, f, ensure_ascii=False, indent=4)
 
         else:
-            # Save the PDB file
-            with open(f"{pdb_id}.pdb", "w") as f:
+            # Save the structure file using the extension of the format actually fetched
+            extension = "cif" if fetched_format == "mmcif" else "pdb"
+            with open(f"{pdb_id}.{extension}", "w") as f:
                 f.write(results)
 
     return results
