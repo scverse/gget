@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from typing import Any
-
 import json
+from typing import Any
 from urllib.error import HTTPError
 from urllib.request import urlopen
 
