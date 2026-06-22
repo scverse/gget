@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json as json_
 from importlib.metadata import PackageNotFoundError, version
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Literal, overload
 
 from .utils import dig, http_json, json_list_to_df, set_up_logger
 
