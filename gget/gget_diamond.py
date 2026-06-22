@@ -6,7 +6,9 @@ import platform
 import subprocess
 import sys
 import uuid
-from typing import Any
+from typing import Any, Literal, overload
+
+import pandas as pd
 
 from .compile import PACKAGE_PATH
 from .utils import (
@@ -26,6 +28,37 @@ else:
     PRECOMPILED_DIAMOND_PATH = os.path.join(PACKAGE_PATH, f"bins/{platform.system()}/diamond")
 
 
+@overload
+def diamond(
+    query: str | list[str],
+    reference: str | list[str],
+    translated: bool = ...,
+    diamond_db: str | None = ...,
+    sensitivity: str = ...,
+    threads: int = ...,
+    diamond_binary: str | None = ...,
+    verbose: bool = ...,
+    *,
+    json: Literal[True],
+    out: str | None = ...,
+) -> list[dict[str, Any]]: ...
+
+
+@overload
+def diamond(
+    query: str | list[str],
+    reference: str | list[str],
+    translated: bool = ...,
+    diamond_db: str | None = ...,
+    sensitivity: str = ...,
+    threads: int = ...,
+    diamond_binary: str | None = ...,
+    verbose: bool = ...,
+    json: Literal[False] = False,
+    out: str | None = ...,
+) -> pd.DataFrame: ...
+
+
 def diamond(
     query: str | list[str],
     reference: str | list[str],
@@ -37,7 +70,7 @@ def diamond(
     verbose: bool = True,
     json: bool = False,
     out: str | None = None,
-) -> Any:
+) -> pd.DataFrame | list[dict[str, Any]]:
     """Align multiple protein or translated DNA sequences using DIAMOND (https://www.nature.com/articles/nmeth.3176).
 
     Args:

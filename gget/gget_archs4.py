@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import io
 import json as json_package
-from typing import Any
+from typing import Any, Literal, overload
 
 import pandas as pd
 import requests
@@ -15,6 +15,32 @@ logger = set_up_logger()
 # Constants
 from .constants import EXPRESSION_URL, GENECORR_URL  # noqa: E402
 from .gget_info import info  # noqa: E402
+
+
+@overload
+def archs4(
+    gene: str,
+    ensembl: bool = False,
+    which: str = "correlation",
+    gene_count: int = 100,
+    species: str = "human",
+    json: Literal[True] = ...,
+    save: bool = False,
+    verbose: bool = True,
+) -> list[dict[str, Any]] | None: ...
+
+
+@overload
+def archs4(
+    gene: str,
+    ensembl: bool = False,
+    which: str = "correlation",
+    gene_count: int = 100,
+    species: str = "human",
+    json: Literal[False] = False,
+    save: bool = False,
+    verbose: bool = True,
+) -> pd.DataFrame | None: ...
 
 
 def archs4(

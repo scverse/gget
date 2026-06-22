@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import json as json_package
-from typing import Any
+from typing import Any, Literal, overload
 
 import numpy as np
 import pandas as pd
@@ -29,6 +29,37 @@ from .constants import (  # noqa: E402
 
 
 ## gget info
+@overload
+def info(
+    ens_ids: str | list[str],
+    wrap_text: bool = ...,
+    ncbi: bool = ...,
+    uniprot: bool = ...,
+    pdb: bool = ...,
+    *,
+    json: Literal[True],
+    verbose: bool = ...,
+    save: bool = ...,
+    expand: bool = ...,
+    ensembl_only: bool = ...,
+) -> dict[str, Any] | None: ...
+
+
+@overload
+def info(
+    ens_ids: str | list[str],
+    wrap_text: bool = ...,
+    ncbi: bool = ...,
+    uniprot: bool = ...,
+    pdb: bool = ...,
+    json: Literal[False] = ...,
+    verbose: bool = ...,
+    save: bool = ...,
+    expand: bool = ...,
+    ensembl_only: bool = ...,
+) -> pd.DataFrame | None: ...
+
+
 def info(
     ens_ids: str | list[str],
     wrap_text: bool = False,
@@ -393,7 +424,7 @@ def info(
 
     ens_ids = []
     # Dictionary to save clean info
-    data = {
+    data: dict[str, list[Any]] = {
         "all_transcripts": [],
         "transcript_biotypes": [],
         "transcript_names": [],
