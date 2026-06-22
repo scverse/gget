@@ -78,10 +78,28 @@ class TestPDB(unittest.TestCase):
             "The reference and fetched PDB are not the same.",
         )
 
+    def test_pdb_mmcif(self):
+        # Explicit PDBx/mmCIF download returns a CIF document (starts with "data_<ID>")
+        result = pdb("4ACQ", resource="mmcif")
+        self.assertTrue(
+            result.startswith("data_4ACQ"),
+            "resource='mmcif' did not return a PDBx/mmCIF document.",
+        )
+
+    def test_pdb_legacy_fallback_to_mmcif(self):
+        # Regression test for #177/#178: 6Q38 has no legacy PDB file, so a
+        # resource='pdb' request must transparently fall back to PDBx/mmCIF.
+        result = pdb("6Q38", resource="pdb")
+        self.assertTrue(
+            result.startswith("data_6Q38"),
+            "resource='pdb' did not fall back to PDBx/mmCIF when the legacy PDB file is missing.",
+        )
+
     def tearDown(self):
         super().tearDown()
-        # Delete temporary result file
-        try:
-            os.remove("4ACQ.pdb")
-        except OSError:
-            pass
+        # Delete temporary result files
+        for fname in ("4ACQ.pdb", "4ACQ.cif", "6Q38.cif"):
+            try:
+                os.remove(fname)
+            except OSError:
+                pass

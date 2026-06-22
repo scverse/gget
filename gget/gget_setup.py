@@ -115,9 +115,7 @@ def setup(module: str, verbose: bool = True, out: str | None = None) -> None:
         raise ValueError(f"'module' argument specified as {module}. Expected one of: {', '.join(supported_modules)}")
 
     if module == "gpt":
-        logger.warning(
-            "gget gpt is no longer actively maintained."
-        )
+        logger.warning("gget gpt is no longer actively maintained.")
         _install("openai<=0.28.1", "openai", verbose=verbose)
 
     elif module == "cellxgene":

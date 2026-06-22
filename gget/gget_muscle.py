@@ -113,9 +113,7 @@ def muscle(fasta: str | list[str], super5: bool = False, out: str | None = None,
         diagnosis = diagnose_binary_load_error(stderr_2, "muscle")
         if diagnosis:
             raise RuntimeError(diagnosis)
-        raise RuntimeError(
-            f"MUSCLE failed with exit code {process_2.returncode}. See stderr above for details."
-        )
+        raise RuntimeError(f"MUSCLE failed with exit code {process_2.returncode}. See stderr above for details.")
     if verbose:
         logger.info(f"MUSCLE alignment complete. Alignment time: {round(time.time() - start_time, 2)} seconds")
 

@@ -1,10 +1,9 @@
 from __future__ import annotations
 
-from typing import Any
-
 import argparse
 import sys
 from datetime import datetime
+from typing import Any
 
 import pandas as pd
 
@@ -31,38 +30,18 @@ from .gget_cosmic import cosmic  # noqa: E402
 from .gget_diamond import diamond  # noqa: E402
 from .gget_elm import elm  # noqa: E402
 from .gget_enrichr import enrichr  # noqa: E402
+from .gget_g2p import g2p  # noqa: E402
 from .gget_gpt import gpt  # noqa: E402
 from .gget_info import info  # noqa: E402
 from .gget_muscle import muscle  # noqa: E402
 from .gget_mutate import mutate  # noqa: E402
 from .gget_opentargets import OPENTARGETS_RESOURCES, opentargets  # noqa: E402
 from .gget_pdb import pdb  # noqa: E402
-
-# Module functions
-from .gget_ref import ref
-from .gget_search import search
-from .gget_info import info
-from .gget_seq import seq
-from .gget_muscle import muscle
-from .gget_blast import blast
-from .gget_blat import blat
-from .gget_enrichr import enrichr
-from .gget_archs4 import archs4
-from .gget_alphafold import alphafold
-from .gget_setup import setup
-from .gget_pdb import pdb
-from .gget_gpt import gpt
-from .gget_cellxgene import cellxgene
-from .gget_elm import elm
-from .gget_diamond import diamond
-from .gget_cosmic import cosmic
-from .gget_mutate import mutate
-from .gget_opentargets import opentargets, OPENTARGETS_RESOURCES
-from .gget_cbio import cbio_plot, cbio_search
-from .gget_bgee import bgee
-from .gget_g2p import g2p
-from .gget_8cube import specificity, psi_block, gene_expression
-from .gget_virus import virus
+from .gget_ref import ref  # noqa: E402
+from .gget_search import search  # noqa: E402
+from .gget_seq import seq  # noqa: E402
+from .gget_setup import setup  # noqa: E402
+from .gget_virus import virus  # noqa: E402
 
 
 # Custom formatter for help messages that preserved the text formatting and adds the default value to the end of the help message
@@ -1382,6 +1361,7 @@ def main() -> None:
         type=str,
         choices=[
             "pdb",
+            "mmcif",
             "entry",
             "pubmed",
             "assembly",
@@ -1396,7 +1376,10 @@ def main() -> None:
         required=False,
         help=(
             "Defines type of information to be returned.\n\n"
-            '"pdb": Returns the protein structure in PDB format.\n'
+            '"pdb": Returns the protein structure in legacy PDB format. Automatically falls\n'
+            "       back to PDBx/mmCIF when the legacy PDB file is unavailable (e.g. for\n"
+            "       large structures), since the legacy PDB format is being phased out by RCSB.\n"
+            '"mmcif": Returns the protein structure in PDBx/mmCIF format (.cif).\n'
             '"entry": Information about PDB structures at the top level of PDB structure hierarchical data organization.\n'
             '"pubmed": Get PubMed annotations (data integrated from PubMed) for a given entry\'s primary citation.\n'
             '"assembly": Information about PDB structures at the quaternary structure level.\n'
@@ -1427,7 +1410,7 @@ def main() -> None:
         required=False,
         help=(
             "Path to the file the results will be saved in, e.g. path/to/directory/7S7U.pdb or path/to/directory/7S7U_entry.json.\n"
-            "Resource 'pdb' is returned in PDB format. All other resources are returned in JSON format.\n"
+            "Resource 'pdb' is returned in PDB format (or PDBx/mmCIF if the legacy PDB file is unavailable), 'mmcif' in PDBx/mmCIF format. All other resources are returned in JSON format.\n"
             "Default: Standard out."
         ),
     )
@@ -3708,7 +3691,7 @@ def main() -> None:
         )
 
         if pdb_results:
-            if args.resource == "pdb":
+            if args.resource in ("pdb", "mmcif"):
                 if args.out:
                     # Create saving directory
                     directory = "/".join(args.out.split("/")[:-1])
@@ -3835,16 +3818,12 @@ def main() -> None:
                 if args.csv:
                     g2p_results.to_csv(f, index=False)
                 else:
-                    g2p_results.to_json(
-                        f, orient="records", force_ascii=False, indent=4
-                    )
+                    g2p_results.to_json(f, orient="records", force_ascii=False, indent=4)
         else:
             if args.csv:
                 g2p_results.to_csv(sys.stdout, index=False)
             else:
-                print(
-                    g2p_results.to_json(orient="records", force_ascii=False, indent=4)
-                )
+                print(g2p_results.to_json(orient="records", force_ascii=False, indent=4))
 
     ## 8cube return
     if args.command == "8cube":
