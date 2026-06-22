@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import io
 import pandas as pd
 import requests
@@ -9,13 +11,13 @@ logger = set_up_logger()
 
 
 def g2p(
-    gene,
-    uniprot_id,
-    resource="features",
-    isoform=None,
-    save=False,
-    verbose=True,
-):
+    gene: str,
+    uniprot_id: str,
+    resource: str = "features",
+    isoform: str | None = None,
+    save: bool = False,
+    verbose: bool = True,
+) -> pd.DataFrame | None:
     """
     Query the Genomics 2 Proteins (G2P) portal (https://g2p.broadinstitute.org/) to link
     genes/proteins to per-residue structural and functional annotations.

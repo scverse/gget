@@ -1,9 +1,12 @@
+from __future__ import annotations
+
 import json as json_package
 import os
 import platform
 import subprocess
 import sys
 import uuid
+from typing import Any
 
 from .compile import PACKAGE_PATH
 from .utils import create_tmp_fasta, remove_temp_files, set_up_logger, tsv_to_df
@@ -18,17 +21,17 @@ else:
 
 
 def diamond(
-    query,
-    reference,
-    translated=False,
-    diamond_db=None,
-    sensitivity="very-sensitive",
-    threads=1,
-    diamond_binary=None,
-    verbose=True,
-    json=False,
-    out=None,
-):
+    query: str | list[str],
+    reference: str | list[str],
+    translated: bool = False,
+    diamond_db: str | None = None,
+    sensitivity: str = "very-sensitive",
+    threads: int = 1,
+    diamond_binary: str | None = None,
+    verbose: bool = True,
+    json: bool = False,
+    out: str | None = None,
+) -> Any:
     """Align multiple protein or translated DNA sequences using DIAMOND (https://www.nature.com/articles/nmeth.3176).
 
     Args:

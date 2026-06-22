@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 import os
 import re
+from typing import Any
 
 import numpy as np
 import pandas as pd
@@ -111,7 +114,7 @@ codon_to_amino_acid = {
 }
 
 
-def convert_chromosome_value_to_int_when_possible(val):
+def convert_chromosome_value_to_int_when_possible(val: Any) -> str:
     """Convert a chromosome value to an integer string when possible, otherwise return it as a string."""
     try:
         # Try to convert the value to a float, then to an int, and finally to a string
@@ -121,7 +124,9 @@ def convert_chromosome_value_to_int_when_possible(val):
         return str(val)
 
 
-def merge_gtf_transcript_locations_into_cosmic_csv(mutations, gtf_path, gtf_transcript_id_column):
+def merge_gtf_transcript_locations_into_cosmic_csv(
+    mutations: pd.DataFrame, gtf_path: str, gtf_transcript_id_column: str
+) -> pd.DataFrame:
     """Merge transcript start/end positions and strand from a GTF file into the mutations DataFrame."""
     gtf_df = pd.read_csv(
         gtf_path,
@@ -171,12 +176,12 @@ def merge_gtf_transcript_locations_into_cosmic_csv(mutations, gtf_path, gtf_tran
     return merged_df
 
 
-def get_sequence_length(seq_id, seq_dict):
+def get_sequence_length(seq_id: str, seq_dict: dict[str, str]) -> int:
     """Return the length of the sequence stored under seq_id in seq_dict."""
     return len(seq_dict.get(seq_id, ""))
 
 
-def get_nucleotide_at_position(seq_id, pos, seq_dict):
+def get_nucleotide_at_position(seq_id: str, pos: int, seq_dict: dict[str, str]) -> str | None:
     """Return the nucleotide at the given position in the sequence for seq_id, or None if out of range."""
     full_seq = seq_dict.get(seq_id, "")
     if pos < len(full_seq):
@@ -184,7 +189,7 @@ def get_nucleotide_at_position(seq_id, pos, seq_dict):
     return None
 
 
-def translate_sequence(sequence, start, end):
+def translate_sequence(sequence: str, start: int, end: int) -> str:
     """Translate a nucleotide sequence into an amino acid sequence between start and end."""
     amino_acid_sequence = ""
     for i in range(start, end, 3):
@@ -199,7 +204,7 @@ def translate_sequence(sequence, start, end):
 #     return line[:1] + line[1:].replace(">", "")
 
 
-def remove_gt_after_semicolon(line):
+def remove_gt_after_semicolon(line: str) -> str:
     """Remove leading '>' characters from each semicolon-separated part except the first."""
     parts = line.split(";")
     # Remove '>' from the beginning of each part except the first part
@@ -223,7 +228,7 @@ def wt_fragment_and_mutant_fragment_share_kmer(mutated_fragment: str, wildtype_f
         return False
 
 
-def add_mutation_type(mutations, mut_column):
+def add_mutation_type(mutations: pd.DataFrame, mut_column: str) -> pd.DataFrame:
     """Add a 'mutation_type' column to the mutations DataFrame based on the mutation notation."""
     mutations["mutation_type_id"] = mutations[mut_column].str.extract(mutation_pattern)[1]
 
@@ -257,7 +262,7 @@ def add_mutation_type(mutations, mut_column):
     return mutations
 
 
-def extract_sequence(row, seq_dict, seq_id_column="seq_ID"):
+def extract_sequence(row: pd.Series, seq_dict: dict[str, str], seq_id_column: str = "seq_ID") -> str | None:
     """Extract the subsequence spanning the mutation positions for a row, or None if positions are missing."""
     if pd.isna(row["start_mutation_position"]) or pd.isna(row["end_mutation_position"]):
         return None
@@ -265,7 +270,7 @@ def extract_sequence(row, seq_dict, seq_id_column="seq_ID"):
     return seq
 
 
-def common_prefix_length(s1, s2):
+def common_prefix_length(s1: str, s2: str) -> int:
     """Return the length of the common prefix shared by s1 and s2."""
     min_len = min(len(s1), len(s2))
     for i in range(min_len):
@@ -275,7 +280,7 @@ def common_prefix_length(s1, s2):
 
 
 # Function to find the length of the common suffix with the prefix
-def common_suffix_length(s1, s2):
+def common_suffix_length(s1: str, s2: str) -> int:
     """Return the length of the common suffix shared by s1 and s2."""
     min_len = min(len(s1), len(s2))
     for i in range(min_len):
@@ -284,7 +289,7 @@ def common_suffix_length(s1, s2):
     return min_len
 
 
-def count_repeat_right_flank(mut_nucleotides, right_flank_region):
+def count_repeat_right_flank(mut_nucleotides: str, right_flank_region: str) -> int:
     """Count the total overlap length of repeated mut_nucleotides at the start of the right flank region."""
     total_overlap_len = 0
     while right_flank_region.startswith(mut_nucleotides):
@@ -294,7 +299,7 @@ def count_repeat_right_flank(mut_nucleotides, right_flank_region):
     return total_overlap_len
 
 
-def count_repeat_left_flank(mut_nucleotides, left_flank_region):
+def count_repeat_left_flank(mut_nucleotides: str, left_flank_region: str) -> int:
     """Count the total overlap length of repeated mut_nucleotides at the end of the left flank region."""
     total_overlap_len = 0
     while left_flank_region.endswith(mut_nucleotides):
@@ -304,7 +309,7 @@ def count_repeat_left_flank(mut_nucleotides, left_flank_region):
     return total_overlap_len
 
 
-def beginning_mut_nucleotides_with_right_flank(mut_nucleotides, right_flank_region):
+def beginning_mut_nucleotides_with_right_flank(mut_nucleotides: str, right_flank_region: str) -> int:
     """Return the overlap length between mut_nucleotides and the beginning of the right flank region."""
     if mut_nucleotides == right_flank_region[: len(mut_nucleotides)]:
         return count_repeat_right_flank(mut_nucleotides, right_flank_region)
@@ -313,7 +318,7 @@ def beginning_mut_nucleotides_with_right_flank(mut_nucleotides, right_flank_regi
 
 
 # Comparing end of mut_nucleotides to the end of left_flank_region
-def end_mut_nucleotides_with_left_flank(mut_nucleotides, left_flank_region):
+def end_mut_nucleotides_with_left_flank(mut_nucleotides: str, left_flank_region: str) -> int:
     """Return the overlap length between mut_nucleotides and the end of the left flank region."""
     if mut_nucleotides == left_flank_region[-len(mut_nucleotides) :]:
         return count_repeat_left_flank(mut_nucleotides, left_flank_region)
@@ -321,7 +326,7 @@ def end_mut_nucleotides_with_left_flank(mut_nucleotides, left_flank_region):
         return common_suffix_length(mut_nucleotides, left_flank_region)
 
 
-def calculate_beginning_mutation_overlap_with_right_flank(row):
+def calculate_beginning_mutation_overlap_with_right_flank(row: pd.Series) -> int:
     """Calculate the overlap between the beginning of a row's mutation and its right flank region."""
     if row["mutation_type"] == "deletion":
         sequence_to_check = row["wt_nucleotides_ensembl"]
@@ -336,7 +341,7 @@ def calculate_beginning_mutation_overlap_with_right_flank(row):
     return beginning_mut_nucleotides_with_right_flank(sequence_to_check, original_sequence)
 
 
-def calculate_end_mutation_overlap_with_left_flank(row):
+def calculate_end_mutation_overlap_with_left_flank(row: pd.Series) -> int:
     """Calculate the overlap between the end of a row's mutation and its left flank region."""
     if row["mutation_type"] == "deletion":
         sequence_to_check = row["wt_nucleotides_ensembl"]
@@ -373,7 +378,7 @@ def mutate(
     translate_end: int | str | None = None,
     out: str | None = None,
     verbose: bool = True,
-):
+) -> Any:
     """Takes in nucleotide sequences and mutations (in standard mutation annotation - see below)
 
     and returns mutated versions of the input sequences according to the provided mutations.

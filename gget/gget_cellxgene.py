@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import Any
+
 from .utils import set_up_logger
 
 logger = set_up_logger()
@@ -15,7 +19,7 @@ SUPPORTED_SPECIES = [
 ]
 
 
-def _listify(x):
+def _listify(x: Any) -> list[Any] | None:
     """Return x as a 1-D list suitable for SOMA `in [...]` filters.
 
     - None -> None
@@ -34,7 +38,7 @@ def _listify(x):
         return [x]
 
 
-def _build_obs_filter(filters: dict, is_primary_data: bool):
+def _build_obs_filter(filters: dict, is_primary_data: bool) -> str | None:
     """Build a SOMA obs value_filter string like:
 
         "is_primary_data == True and tissue in ['lung'] and cell_type in ['muscle cell']"
@@ -52,35 +56,35 @@ def _build_obs_filter(filters: dict, is_primary_data: bool):
 
 
 def cellxgene(
-    species="homo_sapiens",
-    gene=None,
-    ensembl=False,
-    column_names=None,
-    meta_only=False,
-    tissue=None,
-    cell_type=None,
-    development_stage=None,
-    disease=None,
-    sex=None,
-    is_primary_data=True,
-    dataset_id=None,
-    tissue_general_ontology_term_id=None,
-    tissue_general=None,
-    assay_ontology_term_id=None,
-    assay=None,
-    cell_type_ontology_term_id=None,
-    development_stage_ontology_term_id=None,
-    disease_ontology_term_id=None,
-    donor_id=None,
-    self_reported_ethnicity_ontology_term_id=None,
-    self_reported_ethnicity=None,
-    sex_ontology_term_id=None,
-    suspension_type=None,
-    tissue_ontology_term_id=None,
-    census_version="stable",
-    verbose=True,
-    out=None,
-):
+    species: str = "homo_sapiens",
+    gene: str | list[str] | None = None,
+    ensembl: bool = False,
+    column_names: list[str] | None = None,
+    meta_only: bool = False,
+    tissue: str | list[str] | None = None,
+    cell_type: str | list[str] | None = None,
+    development_stage: str | list[str] | None = None,
+    disease: str | list[str] | None = None,
+    sex: str | list[str] | None = None,
+    is_primary_data: bool = True,
+    dataset_id: str | list[str] | None = None,
+    tissue_general_ontology_term_id: str | list[str] | None = None,
+    tissue_general: str | list[str] | None = None,
+    assay_ontology_term_id: str | list[str] | None = None,
+    assay: str | list[str] | None = None,
+    cell_type_ontology_term_id: str | list[str] | None = None,
+    development_stage_ontology_term_id: str | list[str] | None = None,
+    disease_ontology_term_id: str | list[str] | None = None,
+    donor_id: str | list[str] | None = None,
+    self_reported_ethnicity_ontology_term_id: str | list[str] | None = None,
+    self_reported_ethnicity: str | list[str] | None = None,
+    sex_ontology_term_id: str | list[str] | None = None,
+    suspension_type: str | list[str] | None = None,
+    tissue_ontology_term_id: str | list[str] | None = None,
+    census_version: str = "stable",
+    verbose: bool = True,
+    out: str | None = None,
+) -> Any:
     """Query data from CZ CELLxGENE Discover (https://cellxgene.cziscience.com/) using the
 
     CZ CELLxGENE Discover Census (https://github.com/chanzuckerberg/cellxgene-census).

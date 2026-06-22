@@ -1,6 +1,9 @@
+from __future__ import annotations
+
 import json as json_package
 import time
 import warnings
+from typing import Any
 
 import mysql.connector as sql
 import numpy as np
@@ -22,7 +25,7 @@ logger = set_up_logger()
 from gget.constants import ENSEMBL_FTP_URL, ENSEMBL_FTP_URL_NV  # noqa: E402
 
 
-def clean_cols(x):
+def clean_cols(x: Any) -> Any:
     """Collapse a list to its single unique value, or return x unchanged if not a list."""
     if isinstance(x, list):
         unique_list = list(set(x))
@@ -35,18 +38,18 @@ def clean_cols(x):
 
 
 def search(
-    searchwords,
-    species,
-    release=None,
-    id_type="gene",
-    seqtype=None,
-    andor="or",
-    limit=None,
-    wrap_text=False,
-    json=False,
-    save=False,
-    verbose=True,
-):
+    searchwords: str | list[str],
+    species: str,
+    release: int | None = None,
+    id_type: str = "gene",
+    seqtype: str | None = None,
+    andor: str = "or",
+    limit: int | None = None,
+    wrap_text: bool = False,
+    json: bool = False,
+    save: bool = False,
+    verbose: bool = True,
+) -> Any:
     """Function to query Ensembl for genes based on species and free form search terms.
 
     Automatically fetches results from latest Ensembl release, unless user specifies database (see 'species' argument)

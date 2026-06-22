@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import itertools
 import os
 import platform
@@ -19,7 +21,7 @@ else:
     PRECOMPILED_MUSCLE_PATH = os.path.join(PACKAGE_PATH, f"bins/{platform.system()}/muscle")
 
 
-def muscle(fasta, super5=False, out=None, verbose=True):
+def muscle(fasta: str | list[str], super5: bool = False, out: str | None = None, verbose: bool = True) -> None:
     """Align multiple nucleotide or amino acid sequences against each other (using the Muscle v5 algorithm).
 
     Args:

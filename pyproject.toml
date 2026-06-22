@@ -59,10 +59,15 @@ dev = [ "pre-commit" ]
 test = [
   "bravado==11.0.3",
   "coverage>=7",
+  "mypy>=1.13",
   "openai<=0.28.1",
+  "pandas-stubs",
   "parameterized==0.9",
   "pytest>=7",
   "pytest-cov>=6.2.1",
+  "types-beautifulsoup4",
+  "types-requests",
+  "types-tqdm",
 ]
 
 [tool.hatch]
@@ -119,6 +124,23 @@ lint.per-file-ignores."*/__init__.py" = [ "F401" ]
 lint.per-file-ignores."docs/*" = [ "I" ]
 lint.per-file-ignores."tests/*" = [ "D" ]
 lint.pydocstyle.convention = "numpy"
+
+[tool.mypy]
+python_version = "3.12"
+files = [ "gget" ]
+# `gget/constants.py` (module) coexists with `gget/constants/` (data dir, no
+# __init__.py). Mypy's default namespace-package discovery treats the data dir
+# as a namespace package and clashes with the module of the same name, so we
+# disable namespace packages.
+namespace_packages = false
+ignore_missing_imports = true
+follow_imports = "silent"
+check_untyped_defs = false
+disallow_untyped_defs = false
+disallow_any_generics = false
+warn_unused_ignores = true
+warn_redundant_casts = true
+show_error_codes = true
 
 [tool.pytest]
 ini_options.testpaths = [ "tests" ]

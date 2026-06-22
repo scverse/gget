@@ -1,6 +1,9 @@
+from __future__ import annotations
+
 import json as json_package
 import time
 from io import StringIO
+from typing import Any
 from urllib.parse import urlencode
 
 # Using urllib instead of requests here because requests does not
@@ -23,18 +26,18 @@ from .constants import (  # noqa: E402
 
 
 def blast(
-    sequence,
-    program="default",
-    database="default",
-    limit=50,
-    expect=10.0,
-    low_comp_filt=False,
-    megablast=True,
-    verbose=True,
-    wrap_text=False,
-    json=False,
-    save=False,
-):
+    sequence: str,
+    program: str = "default",
+    database: str = "default",
+    limit: int = 50,
+    expect: float = 10.0,
+    low_comp_filt: bool = False,
+    megablast: bool = True,
+    verbose: bool = True,
+    wrap_text: bool = False,
+    json: bool = False,
+    save: bool = False,
+) -> pd.DataFrame | list[dict[str, Any]] | None:
     """BLAST a nucleotide or amino acid sequence against any BLAST DB.
 
     Args:

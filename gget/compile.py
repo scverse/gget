@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 import platform
 import subprocess
@@ -14,7 +16,7 @@ PACKAGE_PATH = os.path.abspath(os.path.dirname(__file__))
 MUSCLE_PATH = os.path.join(PACKAGE_PATH, f"bins/compiled/muscle/src/{platform.system()}/muscle")
 
 
-def compile_muscle():
+def compile_muscle() -> None:
     """Compiles MUSCLE from source.
 
     Currently only supports Linux and Darwin.

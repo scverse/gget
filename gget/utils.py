@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import concurrent.futures
 import functools
 import json
@@ -5,12 +7,16 @@ import logging
 import os
 import time
 import uuid
+from typing import TYPE_CHECKING, Any, Callable, Iterable
 
 import numpy as np
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 from IPython.display import HTML, display
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
 
 # from datetime import datetime
 
@@ -26,7 +32,7 @@ from .constants import (  # noqa: E402
 )
 
 
-def set_up_logger():
+def set_up_logger() -> logging.Logger:
     """Configure and return the module logger using the GGET_LOGLEVEL environment variable."""
     logging_level_name = os.getenv("GGET_LOGLEVEL", "INFO")
     logging_level = logging.getLevelName(logging_level_name)
@@ -60,12 +66,12 @@ def set_up_logger():
 logger = set_up_logger()
 
 
-def flatten(xss):
+def flatten(xss: Iterable[Iterable[Any]]) -> list[Any]:
     """Function to flatten a list of lists."""
     return [x for xs in xss for x in xs]
 
 
-def parallel_map(fn, items, *, max_workers=None):
+def parallel_map(fn: Callable[[Any], Any], items: Iterable[Any], *, max_workers: int | None = None) -> list[Any]:
     """Apply `fn` to each item using a thread pool and return the results
 
     in input order. Designed for I/O-bound work — typically per-ID HTTP
@@ -92,15 +98,15 @@ def parallel_map(fn, items, *, max_workers=None):
 
 
 def http_json(
-    method,
-    url,
+    method: str,
+    url: str,
     *,
-    context="",
-    timeout=DEFAULT_REQUESTS_TIMEOUT,
-    retries=3,
-    backoff=1.0,
-    **kwargs,
-):
+    context: str = "",
+    timeout: float = DEFAULT_REQUESTS_TIMEOUT,
+    retries: int = 3,
+    backoff: float = 1.0,
+    **kwargs: Any,
+) -> Any:
     """Issue an HTTP request and return the parsed JSON body, raising a
 
     RuntimeError with consistent context if the request fails or the body
@@ -159,7 +165,7 @@ def http_json(
     raise RuntimeError(f"{label} returned HTTP {last_status} after {attempts} attempts. Body: {last_body}")
 
 
-def dig(obj, *path, context=""):
+def dig(obj: Any, *path: str, context: str = "") -> Any:
     """Walk a nested key path through `obj` and return the resulting value.
 
     Raises RuntimeError with `context` if any intermediate key is missing
@@ -177,7 +183,7 @@ def dig(obj, *path, context=""):
     return cur
 
 
-def get_latest_cosmic():
+def get_latest_cosmic() -> int:
     """Fetch and return the latest COSMIC release version number."""
     html = requests.get(COSMIC_RELEASE_URL)
     if html.status_code != 200:
@@ -187,7 +193,7 @@ def get_latest_cosmic():
     return int(soup.find("div", class_="news").get("id").split("v")[-1])
 
 
-def check_file_for_error_message(filepath, filename, download_path):
+def check_file_for_error_message(filepath: str, filename: str, download_path: str) -> None:
     """Raise a ValueError if the downloaded file contains a known server error message."""
     with open(filepath, encoding="utf-8") as file:
         content = file.read().strip()
@@ -213,7 +219,7 @@ def check_file_for_error_message(filepath, filename, download_path):
         )
 
 
-def read_fasta(fasta):
+def read_fasta(fasta: str) -> tuple[list[str], list[str]]:
     """Return titles and seqs from a fasta file as two list objects.
 
     Args:
@@ -255,7 +261,7 @@ def read_fasta(fasta):
     return titles, seqs
 
 
-def n_colors(nucleotide):
+def n_colors(nucleotide: str) -> str:
     """Returns a string format to print the nucleotide
 
     with its appropriate background color according to the Clustal Colour Scheme.
@@ -304,7 +310,7 @@ def n_colors(nucleotide):
     return f"\033[38;5;{textcolor}m\033[48;5;{bkg_color}m{nucleotide}\033[0;0m"
 
 
-def aa_colors(amino_acid):
+def aa_colors(amino_acid: str) -> str:
     """Returns a string format to print the amino acid
 
     with its appropriate background color according to the Clustal Colour Scheme:
@@ -367,7 +373,7 @@ def aa_colors(amino_acid):
     return f"\033[38;5;{textcolor}m\033[48;5;{bkg_color}m{amino_acid}\033[0;0m"
 
 
-def _fetch_uniprot_for_id(server, id_):
+def _fetch_uniprot_for_id(server: str, id_: str) -> pd.DataFrame | None:
     """Per-ID body of get_uniprot_seqs. Returns a DataFrame or None."""
     r = requests.get(server + id_ + "+AND+reviewed:true")
     if not r.ok:
@@ -417,7 +423,7 @@ def _fetch_uniprot_for_id(server, id_):
     return df
 
 
-def get_uniprot_seqs(server, ensembl_ids):
+def get_uniprot_seqs(server: str, ensembl_ids: str | list[str]) -> pd.DataFrame:
     """Retrieve UniProt sequences based on Ensemsbl, WormBase or FlyBase identifiers.
 
     Args:
@@ -440,7 +446,7 @@ def get_uniprot_seqs(server, ensembl_ids):
     return pd.DataFrame()
 
 
-def get_uniprot_info(server, ensembl_id, verbose=True):
+def get_uniprot_info(server: str, ensembl_id: str, verbose: bool = True) -> pd.DataFrame | None:
     """Retrieve UniProt synonyms and description based on Ensemsbl identifiers.
 
     Args:
@@ -697,7 +703,7 @@ def get_uniprot_info(server, ensembl_id, verbose=True):
 #     return list(pdb_ids)
 
 
-def get_pdb_ids(ens_id):
+def get_pdb_ids(ens_id: str) -> list[str] | None:
     """Function to fetch all PDB IDs linked to an Ensembl ID.
 
     using the PDBe API https://wwwdev.ebi.ac.uk/pdbe/aggregated-api/mappings/ensembl_to_pdb/[ens_id].
@@ -724,7 +730,7 @@ def get_pdb_ids(ens_id):
     return sorted(set(pdb_ids))
 
 
-def wrap_cols_func(df, cols):
+def wrap_cols_func(df: pd.DataFrame, cols: list[str]) -> Any:
     """Function to wrap columns cols of a
 
     data frame df for easier reading.
@@ -735,7 +741,7 @@ def wrap_cols_func(df, cols):
     return display(HTML(df.to_html().replace("\\n", "<br>")))
 
 
-def rest_query(server, query, content_type):
+def rest_query(server: str, query: str, content_type: str) -> Any:
     """Function to perform a REST API query.
 
     Args:
@@ -758,7 +764,7 @@ def rest_query(server, query, content_type):
         return r.text
 
 
-def post_query(server, endpoint, query):
+def post_query(server: str, endpoint: str, query: Any) -> Any:
     """Function to perform a POST API query.
 
     :param server:  Server to query .
@@ -777,7 +783,7 @@ def post_query(server, endpoint, query):
     return r.json()
 
 
-def graphql_query(server, query, variables):
+def graphql_query(server: str, query: str, variables: Any) -> Any:
     """Function to perform a GraphQL API query.
 
     Args:
@@ -799,7 +805,7 @@ def graphql_query(server, query, variables):
 
 
 @functools.cache
-def find_latest_ens_rel(database=ENSEMBL_FTP_URL):
+def find_latest_ens_rel(database: str = ENSEMBL_FTP_URL) -> int:
     """Returns the latest Ensembl release number.
 
     Args:
@@ -836,7 +842,7 @@ def find_latest_ens_rel(database=ENSEMBL_FTP_URL):
 
 
 @functools.cache
-def search_species_options(database=ENSEMBL_FTP_URL, release=None):
+def search_species_options(database: str = ENSEMBL_FTP_URL, release: int | None = None) -> list[str]:
     """Function to find all available species core databases for gget search.
 
     Args:
@@ -897,7 +903,7 @@ def search_species_options(database=ENSEMBL_FTP_URL, release=None):
 
 
 @functools.cache
-def find_nv_kingdom(species, release):
+def find_nv_kingdom(species: str, release: int) -> str | None:
     """Return the Ensembl non-vertebrate kingdom that contains the given species for a release."""
     kds = ["plants", "protists", "metazoa", "fungi"]
     for kingdom in kds:
@@ -921,7 +927,7 @@ def find_nv_kingdom(species, release):
 
 
 @functools.cache
-def ref_species_options(which, database=ENSEMBL_FTP_URL, release=None):
+def ref_species_options(which: str, database: str = ENSEMBL_FTP_URL, release: int | None = None) -> list[str]:
     """Function to find all available species for gget ref.
 
     Args:
@@ -997,7 +1003,7 @@ def ref_species_options(which, database=ENSEMBL_FTP_URL, release=None):
     return sorted(species_list)
 
 
-def parse_blast_ref_page(handle):
+def parse_blast_ref_page(handle: Any) -> tuple[str, int]:
     """Extract RID and RTOE from the NCBI 'please wait' page (handle).
 
     RTOE = 'Estimated time fo completion.'
@@ -1072,7 +1078,7 @@ def parse_blast_ref_page(handle):
         ) from None
 
 
-def tsv_to_df(tsv_file, headers=None, skiprows=None):
+def tsv_to_df(tsv_file: str, headers: list[str] | None = None, skiprows: int | list[int] | None = None) -> pd.DataFrame:
     """Convert tsv file to dataframe format.
 
     Args:
@@ -1088,7 +1094,7 @@ def tsv_to_df(tsv_file, headers=None, skiprows=None):
         raise RuntimeError("tsv to data frame reformatting failed.") from None
 
 
-def create_tmp_fasta(sequences):
+def create_tmp_fasta(sequences: str | list[str]) -> str:
     """Create temporary FASTA file from str or list of sequences.
 
     Args:
@@ -1109,7 +1115,7 @@ def create_tmp_fasta(sequences):
     return os.path.abspath(f"tmp_{random_id}.fa")
 
 
-def remove_temp_files(files_to_delete):
+def remove_temp_files(files_to_delete: Iterable[str]) -> None:
     """Delete temporary files.
 
     Args:
@@ -1120,7 +1126,7 @@ def remove_temp_files(files_to_delete):
             os.remove(file)
 
 
-def json_list_to_df(json_list, columns) -> pd.DataFrame:
+def json_list_to_df(json_list: list[Any], columns: list[tuple[str, str]]) -> pd.DataFrame:
     """Convert list of JSON objects to data frame.
 
     Args:
@@ -1161,7 +1167,7 @@ def json_list_to_df(json_list, columns) -> pd.DataFrame:
 class FastaRecord:
     """Simple FASTA record class compatible with BioPython SeqIO.SeqRecord."""
 
-    def __init__(self, seq, id, description=""):
+    def __init__(self, seq: str, id: str, description: str = "") -> None:
         self.seq = seq
         self.id = id
         self.description = description
@@ -1171,7 +1177,7 @@ class FastaIO:
     """Simple FASTA parser and writer, compatible with BioPython SeqIO interface."""
 
     @staticmethod
-    def parse(filename, format=None):
+    def parse(filename: str, format: str | None = None) -> Iterator[FastaRecord]:
         """Parse FASTA file and yield records. Compatible with SeqIO.parse()."""
         if format and format.lower() != "fasta":
             raise ValueError(f"Unsupported format: {format}")
@@ -1211,7 +1217,7 @@ class FastaIO:
                 yield FastaRecord(seq_str, current_id, current_description)
 
     @staticmethod
-    def write(records, filename, format=None):
+    def write(records: Iterable[Any], filename: str, format: str | None = None) -> None:
         """Write records to FASTA file. Compatible with SeqIO.write()."""
         if format and format.lower() != "fasta":
             raise ValueError(f"Unsupported format: {format}")

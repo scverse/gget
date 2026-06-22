@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 import json as json_
 import textwrap
+from typing import Any
 
 import pandas as pd
 
@@ -182,7 +185,7 @@ OPENTARGETS_RESOURCES = {
 }
 
 
-def _collapse_singletons(obj):
+def _collapse_singletons(obj: Any) -> Any:
     """Recursively collapse nested single-element lists and single dicts with one key.
 
     - nested single-element lists
@@ -232,7 +235,7 @@ def _collapse_singletons(obj):
     return obj
 
 
-def _make_hashable(x):
+def _make_hashable(x: Any) -> Any:
     if isinstance(x, dict):
         return tuple(sorted((k, _make_hashable(v)) for k, v in x.items()))
     elif isinstance(x, list):
@@ -243,7 +246,7 @@ def _make_hashable(x):
         return x
 
 
-def _unhash(x):
+def _unhash(x: Any) -> Any:
     if isinstance(x, tuple):
         # detect dict-like tuples
         if all(isinstance(i, tuple) and len(i) == 2 for i in x):
@@ -253,14 +256,14 @@ def _unhash(x):
 
 
 def opentargets(
-    ensembl_id,
-    resource="diseases",
-    limit=None,
-    verbose=True,
-    wrap_text=False,
-    filters=None,
-    json=False,
-):
+    ensembl_id: str,
+    resource: str = "diseases",
+    limit: int | None = None,
+    verbose: bool = True,
+    wrap_text: bool = False,
+    filters: dict[str, Any] | None = None,
+    json: bool = False,
+) -> Any:
     """Query OpenTargets for data associated with a given Ensembl gene ID.
 
     Args:

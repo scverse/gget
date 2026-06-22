@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 import io
 import json as json_package
+from typing import Any
 
 import pandas as pd
 import requests
@@ -21,7 +24,7 @@ GENE_EXPR_URL = BASE + "gene_expression"
 # ------------------------------
 # Utility
 # ------------------------------
-def _convert_to_df(response_text, endpoint_name):
+def _convert_to_df(response_text: str, endpoint_name: str) -> pd.DataFrame:
     """Convert CSV response → DataFrame with error checking."""
     try:
         return pd.read_csv(io.StringIO(response_text))
@@ -29,7 +32,7 @@ def _convert_to_df(response_text, endpoint_name):
         raise RuntimeError(f"API '{endpoint_name}' returned non-CSV data: {e}\nResponse:\n{response_text}") from e
 
 
-def _save_output(df_or_json, name, json=False, verbose=True):
+def _save_output(df_or_json: Any, name: str, json: bool = False, verbose: bool = True) -> None:
     """Save to CSV or JSON."""
     if json:
         fname = name + ".json"
@@ -43,7 +46,7 @@ def _save_output(df_or_json, name, json=False, verbose=True):
         logger.info(f"Saved results to {fname}")
 
 
-def _normalize_gene_list(gene_list):
+def _normalize_gene_list(gene_list: list[str] | tuple[str, ...]) -> list[str]:
     """Normalize gene list (strip whitespace only; preserve Ensembl versions)."""
     return [g.strip() for g in gene_list]
 
@@ -52,11 +55,11 @@ def _normalize_gene_list(gene_list):
 # 1. SPECIFICITY
 # --------------------------------------------------------------------
 def specificity(
-    gene_list,
-    json=False,
-    save=False,
-    verbose=True,
-):
+    gene_list: list[str] | tuple[str, ...],
+    json: bool = False,
+    save: bool = False,
+    verbose: bool = True,
+) -> Any:
     """Retrieve gene-level specificity statistics from the 8cubeDB.
 
     (https://eightcubedb.onrender.com/).
@@ -124,13 +127,13 @@ def specificity(
 # 2. PSI BLOCK
 # --------------------------------------------------------------------
 def psi_block(
-    gene_list,
-    analysis_level,
-    analysis_type,
-    json=False,
-    save=False,
-    verbose=True,
-):
+    gene_list: list[str] | tuple[str, ...],
+    analysis_level: str,
+    analysis_type: str,
+    json: bool = False,
+    save: bool = False,
+    verbose: bool = True,
+) -> Any:
     """Retrieve ψ_block (psi-block) specificity scores from the 8cubeDB.
 
     ψ_block quantifies the specificity of a gene to a particular block
@@ -192,13 +195,13 @@ def psi_block(
 # 3. GENE EXPRESSION
 # --------------------------------------------------------------------
 def gene_expression(
-    gene_list,
-    analysis_level,
-    analysis_type,
-    json=False,
-    save=False,
-    verbose=True,
-):
+    gene_list: list[str] | tuple[str, ...],
+    analysis_level: str,
+    analysis_type: str,
+    json: bool = False,
+    save: bool = False,
+    verbose: bool = True,
+) -> Any:
     """Retrieve normalized gene expression values from 8cubeDB.
 
     This endpoint returns mean and variance of normalized expression for the

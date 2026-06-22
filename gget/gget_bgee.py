@@ -1,11 +1,17 @@
+from __future__ import annotations
+
 import json as json_
+from typing import TYPE_CHECKING, Any
 
 from .utils import dig, http_json, json_list_to_df, set_up_logger
+
+if TYPE_CHECKING:
+    import pandas as pd
 
 logger = set_up_logger()
 
 
-def _bgee_species(gene_id: str, verbose=True):
+def _bgee_species(gene_id: str, verbose: bool = True) -> int:
     """Get species ID from Bgee.
 
     :param gene_id: Ensembl gene ID
@@ -35,7 +41,7 @@ def _bgee_species(gene_id: str, verbose=True):
     return species
 
 
-def _bgee_orthologs(gene_id, json=False, verbose=True):
+def _bgee_orthologs(gene_id: str, json: bool = False, verbose: bool = True) -> pd.DataFrame | Any:
     """Get orthologs for a gene from Bgee.
 
     Args:
@@ -90,7 +96,7 @@ def _bgee_orthologs(gene_id, json=False, verbose=True):
         return df
 
 
-def _bgee_expression(gene_id, json=False, verbose=True):
+def _bgee_expression(gene_id: str | list[str], json: bool = False, verbose: bool = True) -> pd.DataFrame | Any:
     """Get expression data from Bgee.
 
     Args:
@@ -165,11 +171,11 @@ def _bgee_expression(gene_id, json=False, verbose=True):
 
 # noinspection PyShadowingBuiltins
 def bgee(
-    gene_id,
-    type="orthologs",
-    json=False,
-    verbose=True,
-):
+    gene_id: str | list[str],
+    type: str = "orthologs",
+    json: bool = False,
+    verbose: bool = True,
+) -> pd.DataFrame | Any:
     """Get orthologs/expression data for a gene from Bgee (https://www.bgee.org/).
 
     Args:

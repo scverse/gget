@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 import json as json_package
 import textwrap
+from typing import TYPE_CHECKING, Any
 
 # Plotting packages
 import matplotlib.pyplot as plt
@@ -7,6 +10,9 @@ import numpy as np
 import pandas as pd
 import requests
 from matplotlib.ticker import MaxNLocator
+
+if TYPE_CHECKING:
+    from matplotlib.axes import Axes
 
 from .compile import PACKAGE_PATH
 from .constants import (
@@ -22,7 +28,7 @@ from .utils import set_up_logger
 logger = set_up_logger()
 
 
-def ensembl_to_gene_names(ensembl_ids):
+def ensembl_to_gene_names(ensembl_ids: list[str]) -> list[str]:
     """Function to fetch gene names from a list of Ensembl IDs using gget info."""
     genes_v2 = []
 
@@ -48,7 +54,7 @@ def ensembl_to_gene_names(ensembl_ids):
     return genes_v2
 
 
-def clean_genes_list(genes_list):
+def clean_genes_list(genes_list: list[Any]) -> list[Any]:
     """Remove NaNs, Nones, and 'nan' strings from a list of genes."""
     # Remove any NaNs/Nones from the gene list
     genes_clean = []
@@ -59,22 +65,22 @@ def clean_genes_list(genes_list):
 
 
 def enrichr(
-    genes,
-    database,
-    species="human",
-    background_list=None,
-    background=False,
-    ensembl=False,
-    ensembl_bkg=False,
-    plot=False,
-    figsize=(10, 10),
-    ax=None,
-    kegg_out=None,
-    kegg_rank=1,
-    json=False,
-    save=False,
-    verbose=True,
-):
+    genes: str | list[str],
+    database: str,
+    species: str = "human",
+    background_list: list[str] | None = None,
+    background: bool = False,
+    ensembl: bool = False,
+    ensembl_bkg: bool = False,
+    plot: bool = False,
+    figsize: tuple[float, float] = (10, 10),
+    ax: Axes | None = None,
+    kegg_out: str | None = None,
+    kegg_rank: int = 1,
+    json: bool = False,
+    save: bool = False,
+    verbose: bool = True,
+) -> pd.DataFrame | list[dict[str, Any]] | None:
     """Perform an enrichment analysis on a list of genes using Enrichr (https://maayanlab.cloud/Enrichr/).
 
     Args:

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import importlib
 import logging
 import os
@@ -42,7 +44,7 @@ PARAMS_DIR = os.path.join(PACKAGE_PATH, "bins/alphafold/")
 PARAMS_PATH = os.path.join(PARAMS_DIR, "params_temp.tar")
 
 
-def _install(package: str, import_name: str, verbose: bool = True):
+def _install(package: str, import_name: str, verbose: bool = True) -> None:
     # Build list of installer commands to try (uv first if available, then pip)
     pip_cmds = []
     if shutil.which("uv"):
@@ -90,7 +92,7 @@ def _install(package: str, import_name: str, verbose: bool = True):
                 continue
 
 
-def setup(module, verbose=True, out=None):
+def setup(module: str, verbose: bool = True, out: str | None = None) -> None:
     """Function to install third-party dependencies for a specified gget module.
 
     Some modules require pip to be installed (https://pip.pypa.io/en/stable/installation).

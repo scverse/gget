@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import Any
+
 import argparse
 import sys
 from datetime import datetime
@@ -65,7 +69,7 @@ from .gget_virus import virus
 class CustomHelpFormatter(argparse.RawTextHelpFormatter):
     """Help formatter that preserves text formatting and appends default values to help messages."""
 
-    def _get_help_string(self, action):
+    def _get_help_string(self, action: argparse.Action) -> str:
         help_str = action.help if action.help else ""
         if (
             "%(default)" not in help_str
@@ -81,13 +85,13 @@ class CustomHelpFormatter(argparse.RawTextHelpFormatter):
         return help_str
 
 
-def convert_to_list(*args):
+def convert_to_list(*args: Any) -> list[Any]:
     """Return the given arguments as a list."""
     args_list = list(args)
     return args_list
 
 
-def int_or_str(value):
+def int_or_str(value: Any) -> Any:
     """Return value as an int if possible, otherwise return it unchanged."""
     try:
         return int(value)
@@ -95,7 +99,7 @@ def int_or_str(value):
         return value
 
 
-def str_to_bool_or_none(value):
+def str_to_bool_or_none(value: str | None) -> Any:
     """Convert a string to None, True, False, or return it unchanged."""
     if value is None or value.lower() in ("none", "null", ""):
         return None
@@ -107,7 +111,7 @@ def str_to_bool_or_none(value):
     return value
 
 
-def parse_opentargets_filter(filter_arg):
+def parse_opentargets_filter(filter_arg: str) -> tuple[str, Any]:
     """Parse a COLUMN=VALUE OpenTargets filter argument into a (key, value) tuple."""
     if "=" not in filter_arg:
         raise argparse.ArgumentTypeError(
@@ -124,7 +128,7 @@ def parse_opentargets_filter(filter_arg):
     return filter_key, int_or_str(str_to_bool_or_none(filter_value))
 
 
-def main():
+def main() -> None:
     """Function containing argparse parsers and arguments to allow the use of gget from the terminal."""
     # Define parent parser
     parent_parser = argparse.ArgumentParser(description=f"gget v{__version__}", add_help=False)

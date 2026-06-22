@@ -6,7 +6,10 @@
 # should cite the AlphaFold paper (https://www.nature.com/articles/s41586-021-03819-2) and, if applicable,
 # the AlphaFold-Multimer paper (https://www.biorxiv.org/content/10.1101/2021.10.04.463034v1).
 
+from __future__ import annotations
+
 from datetime import datetime
+from typing import Any
 
 # Get current date and time for default foldername
 dt_string = datetime.now().strftime("%Y_%m_%d-%H%M")
@@ -73,7 +76,7 @@ PLDDT_BANDS = [
 ]
 
 
-def plot_plddt_legend():
+def plot_plddt_legend() -> Any:
     """Function to plot the legend for pLDDT."""
     thresh = [
         "Very low (pLDDT < 50)",
@@ -100,13 +103,13 @@ def plot_plddt_legend():
     return plt
 
 
-def fetch(source):
+def fetch(source: str) -> str:
     """Support function for finding closest source."""
     request.urlretrieve(test_url_pattern.format(source))
     return source
 
 
-def get_msa(fasta_path, msa_databases, total_jackhmmer_chunks):
+def get_msa(fasta_path: str, msa_databases: list[dict[str, Any]], total_jackhmmer_chunks: int) -> dict[str, list[Any]]:
     """Function to search for MSA for the given sequence using chunked Jackhmmer search."""
     from alphafold.data.tools import jackhmmer
 
@@ -117,7 +120,7 @@ def get_msa(fasta_path, msa_databases, total_jackhmmer_chunks):
         # Set progress bar description
         pbar.set_description("Jackhmmer search")
 
-        def jackhmmer_chunk_callback(i):
+        def jackhmmer_chunk_callback(i: int) -> None:
             pbar.update(n=1)
 
         for db_config in msa_databases:
@@ -137,7 +140,7 @@ def get_msa(fasta_path, msa_databases, total_jackhmmer_chunks):
     return raw_msa_results
 
 
-def clean_up():
+def clean_up() -> None:
     """Function to clean up temporary files after running gget alphafold."""
     # # Remove fasta files with input sequences
     # files = glob.glob("target_*.fasta")
@@ -173,15 +176,15 @@ def clean_up():
 
 
 def alphafold(
-    sequence,
-    out=f"{dt_string}_gget_alphafold_prediction",
-    multimer_for_monomer=False,
-    relax=False,
-    multimer_recycles=3,
-    plot=True,
-    show_sidechains=True,
-    verbose=True,
-):
+    sequence: str | list[str],
+    out: str | None = f"{dt_string}_gget_alphafold_prediction",
+    multimer_for_monomer: bool = False,
+    relax: bool = False,
+    multimer_recycles: int = 3,
+    plot: bool = True,
+    show_sidechains: bool = True,
+    verbose: bool = True,
+) -> None:
     """Predicts the structure of a protein using a slightly simplified version of AlphaFold v2.3.0 (https://doi.org/10.1038/s41586-021-03819-2).
 
     published in the AlphaFold Colab notebook (https://colab.research.google.com/github/deepmind/alphafold/blob/main/notebooks/AlphaFold.ipynb).

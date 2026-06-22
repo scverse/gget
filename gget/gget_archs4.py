@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 import io
 import json as json_package
+from typing import Any
 
 import pandas as pd
 import requests
@@ -15,15 +18,15 @@ from .gget_info import info  # noqa: E402
 
 
 def archs4(
-    gene,
-    ensembl=False,
-    which="correlation",
-    gene_count=100,
-    species="human",
-    json=False,
-    save=False,
-    verbose=True,
-):
+    gene: str,
+    ensembl: bool = False,
+    which: str = "correlation",
+    gene_count: int = 100,
+    species: str = "human",
+    json: bool = False,
+    save: bool = False,
+    verbose: bool = True,
+) -> pd.DataFrame | list[dict[str, Any]] | None:
     """Find the most correlated genes or the tissue expression atlas of a gene of interest.
 
     Uses data from the human and mouse RNA-seq

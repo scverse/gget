@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 import json as json_package
+from typing import Any
 
 import numpy as np
 import pandas as pd
@@ -27,17 +30,17 @@ from .constants import (  # noqa: E402
 
 ## gget info
 def info(
-    ens_ids,
-    wrap_text=False,
-    ncbi=True,
-    uniprot=True,
-    pdb=False,
-    json=False,
-    verbose=True,
-    save=False,
-    expand=False,
-    ensembl_only=False,
-):
+    ens_ids: str | list[str],
+    wrap_text: bool = False,
+    ncbi: bool = True,
+    uniprot: bool = True,
+    pdb: bool = False,
+    json: bool = False,
+    verbose: bool = True,
+    save: bool = False,
+    expand: bool = False,
+    ensembl_only: bool = False,
+) -> pd.DataFrame | dict[str, Any] | None:
     """Fetch gene and transcript metadata using Ensembl IDs.
 
     Args:

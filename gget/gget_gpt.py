@@ -1,22 +1,24 @@
+from __future__ import annotations
+
 from .utils import set_up_logger
 
 logger = set_up_logger()
 
 
 def gpt(
-    prompt,
-    api_key,
-    model="gpt-3.5-turbo",
-    temperature=1,
-    top_p=1,
-    stop=None,
-    max_tokens=200,
-    presence_penalty=0,
-    frequency_penalty=0,
-    logit_bias=None,
-    out=None,
-    verbose=True,
-):
+    prompt: str,
+    api_key: str,
+    model: str = "gpt-3.5-turbo",
+    temperature: float = 1,
+    top_p: float = 1,
+    stop: str | None = None,
+    max_tokens: int = 200,
+    presence_penalty: float = 0,
+    frequency_penalty: float = 0,
+    logit_bias: dict | None = None,
+    out: str | None = None,
+    verbose: bool = True,
+) -> str | None:
     """Generates natural language text based on a given prompt using the OpenAI API's 'openai.ChatCompletion.create' endpoint.
 
     Parameters

@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 import json
+from typing import Any
 
 import requests
 from bs4 import BeautifulSoup
@@ -21,7 +24,7 @@ from .constants import (  # noqa: E402
 )
 
 
-def find_FTP_link(url, link_substring):
+def find_FTP_link(url: str, link_substring: str) -> tuple[str | None, str | None, str | None]:
     """Helper function for gget ref to find an FTP link, its release date and size.
 
     Args:
@@ -56,15 +59,15 @@ def find_FTP_link(url, link_substring):
 
 
 def ref(
-    species,
-    which="all",
-    release=None,
-    ftp=False,
-    save=False,
-    list_species=False,
-    list_iv_species=False,
-    verbose=True,
-):
+    species: str | None,
+    which: str | list[str] = "all",
+    release: int | None = None,
+    ftp: bool = False,
+    save: bool = False,
+    list_species: bool = False,
+    list_iv_species: bool = False,
+    verbose: bool = True,
+) -> Any:
     """Fetch FTPs for reference genomes and annotations by species from Ensembl.
 
     Args:

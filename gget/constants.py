@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import uuid
 
 # Default (connect, read) timeout in seconds for HTTP requests issued via the

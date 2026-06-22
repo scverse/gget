@@ -1,6 +1,9 @@
+from __future__ import annotations
+
 import json as json_package
 import os
 import re
+from typing import Any
 
 import numpy as np
 import pandas as pd
@@ -19,7 +22,7 @@ from .gget_setup import (  # noqa: E402
 )
 
 
-def motif_in_query(row):
+def motif_in_query(row: pd.Series) -> bool:
     """Checks if motif is in the overlapping region with the query sequence.
 
     Args:
@@ -34,7 +37,7 @@ def motif_in_query(row):
     )
 
 
-def get_elm_instances(UniProtID):
+def get_elm_instances(UniProtID: str) -> pd.DataFrame:
     """Get ELM instances and their information from local ELM tsv files.
 
     Args:
@@ -78,14 +81,14 @@ def get_elm_instances(UniProtID):
 
 
 def seq_workflow(
-    sequences,
+    sequences: list[str],
     # sequence_lengths,
-    reference,
-    sensitivity,
-    threads,
-    verbose,
-    diamond_binary,
-):
+    reference: str,
+    sensitivity: str,
+    threads: int,
+    verbose: bool,
+    diamond_binary: str | None,
+) -> pd.DataFrame:
     """Alignment of sequence using DIAMOND to get UniProt Acc. Use the UniProt Acc to construct an ortholog dataframe similar to the UniProt workflow
 
     except for additional columns for start, end and whether the motif overlaps the subject sequence.
@@ -156,7 +159,7 @@ def seq_workflow(
     return df
 
 
-def regex_match(sequence):
+def regex_match(sequence: str) -> pd.DataFrame:
     """Compare ELM regex with input sequence and return all matching elms.
 
     Args:
@@ -221,16 +224,16 @@ def regex_match(sequence):
 
 
 def elm(
-    sequence,
-    uniprot=False,
-    sensitivity="very-sensitive",
-    threads=1,
-    diamond_binary=None,
-    expand=False,
-    verbose=True,
-    json=False,
-    out=None,
-):
+    sequence: str,
+    uniprot: bool = False,
+    sensitivity: str = "very-sensitive",
+    threads: int = 1,
+    diamond_binary: str | None = None,
+    expand: bool = False,
+    verbose: bool = True,
+    json: bool = False,
+    out: str | None = None,
+) -> tuple[Any, Any]:
     """Locally predicts Eukaryotic Linear Motifs from an amino acid sequence or UniProt Acc using
 
     data from the ELM database (http://elm.eu.org/).

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import calendar
 import gc  # For garbage collection to manage memory
 import http.client
@@ -15,6 +17,7 @@ import traceback  # For error traceback logging
 import xml.etree.ElementTree as ET  # For XML parsing
 import zipfile  # For extracting downloaded ZIP files
 from datetime import datetime  # For date handling
+from typing import Any
 from urllib.parse import quote
 
 import pandas as pd  # For data manipulation and CSV output
@@ -189,7 +192,7 @@ FASTA_STREAM_LOG_INTERVAL = 100000  # Log progress every N sequences during FAST
 # =============================================================================
 
 
-def _get_memory_usage():
+def _get_memory_usage() -> dict[str, Any]:
     """Get current memory usage information for debugging.
 
     Returns
@@ -258,7 +261,7 @@ def _get_memory_usage():
     return result
 
 
-def _log_memory_usage(context=""):
+def _log_memory_usage(context: str = "") -> None:
     """Log current memory usage with context information.
 
     Args:
@@ -284,7 +287,7 @@ def _log_memory_usage(context=""):
         logger.debug("Memory monitoring: Unable to get memory info - %s", mem.get("error", "unknown error"))
 
 
-def _force_garbage_collection(context=""):
+def _force_garbage_collection(context: str = "") -> None:
     """Force garbage collection and log the results.
 
     Args:
@@ -332,15 +335,15 @@ _datasets_path_cache = None
 
 
 def _retry_with_exponential_backoff(
-    operation_name,
-    operation_func,
-    max_retries=API_MAX_RETRIES,
-    initial_delay=API_INITIAL_RETRY_DELAY,
-    backoff_multiplier=API_RETRY_BACKOFF_MULTIPLIER,
-    max_delay=MAX_RETRY_DELAY,
-    retryable_exceptions=(requests.exceptions.ConnectionError, requests.exceptions.HTTPError),
-    failed_commands=None,
-):
+    operation_name: str,
+    operation_func: Any,
+    max_retries: int = API_MAX_RETRIES,
+    initial_delay: float = API_INITIAL_RETRY_DELAY,
+    backoff_multiplier: float = API_RETRY_BACKOFF_MULTIPLIER,
+    max_delay: int = MAX_RETRY_DELAY,
+    retryable_exceptions: tuple[type[BaseException], ...] = (requests.exceptions.ConnectionError, requests.exceptions.HTTPError),
+    failed_commands: dict[str, Any] | None = None,
+) -> tuple[bool, Any, dict[str, Any] | None]:
     """Execute an operation with exponential backoff retry logic.
 
     This is a reusable helper that consolidates the exponential backoff retry
@@ -411,7 +414,7 @@ def _retry_with_exponential_backoff(
     return False, None, error_info
 
 
-def _track_failed_operation(failed_commands, operation_type, batch_info, error_info):
+def _track_failed_operation(failed_commands: dict[str, Any] | None, operation_type: str, batch_info: dict[str, Any], error_info: dict[str, Any]) -> None:
     """Track a failed operation in the failed_commands dictionary.
 
     This ensures consistent error tracking across all operation types for
@@ -434,7 +437,7 @@ def _track_failed_operation(failed_commands, operation_type, batch_info, error_i
     logger.debug("Tracked failed %s: %s", operation_type, failure_record)
 
 
-def _validate_datasets_binary(path):
+def _validate_datasets_binary(path: str | None) -> bool:
     """Validate that a datasets binary exists and is functional.
 
     Args:
@@ -465,7 +468,7 @@ def _validate_datasets_binary(path):
         return False
 
 
-def _clear_datasets_cache():
+def _clear_datasets_cache() -> None:
     """Clear the cached datasets path, forcing re-detection on next call.
 
     This is useful when the environment changes (e.g., user installs/uninstalls
@@ -476,7 +479,7 @@ def _clear_datasets_cache():
     logger.debug("Cleared datasets path cache")
 
 
-def _get_datasets_path():
+def _get_datasets_path() -> str:
     """Get the path to the NCBI datasets CLI binary.
 
     This helper first checks if datasets is available in the system PATH.
@@ -564,7 +567,7 @@ def _get_datasets_path():
     raise RuntimeError(f"NCBI datasets binary at {datasets_path} failed verification.")
 
 
-def _get_datasets_version():
+def _get_datasets_version() -> str | None:
     """Get the version of the NCBI datasets CLI if available.
 
     Attempts to retrieve the version string from the datasets binary.
@@ -594,7 +597,7 @@ def _get_datasets_version():
     return None
 
 
-def _get_gget_version():
+def _get_gget_version() -> str:
     """Get the version of gget.
 
     Returns
@@ -610,7 +613,7 @@ def _get_gget_version():
         return "unknown"
 
 
-def _get_modified_virus_name(virus_name, attempt=1):
+def _get_modified_virus_name(virus_name: str | None, attempt: int = 1) -> str | None:
     """Modify the virus name for retry attempts when the NCBI server is unreachable.
 
     This function generates alternative virus names to try when the initial
@@ -682,7 +685,7 @@ def _get_modified_virus_name(virus_name, attempt=1):
     return None
 
 
-def _parse_accession_input(accession_input):
+def _parse_accession_input(accession_input: str) -> dict[str, Any]:
     """Parse accession input which can be:
 
     1. Single accession: 'NC_045512.2'
@@ -743,7 +746,7 @@ def _parse_accession_input(accession_input):
     return {"type": "single", "accessions": accession_input, "file_path": None, "is_file": False}
 
 
-def _parse_baseline_file(baseline_path):
+def _parse_baseline_file(baseline_path: str) -> set[str]:
     """Parse a baseline metadata file to extract accession numbers for deduplication.
 
     Supports multiple file formats:
@@ -861,7 +864,7 @@ def _parse_baseline_file(baseline_path):
     return baseline_accessions
 
 
-def _deduplicate_metadata_against_baseline(metadata_dict, baseline_accessions):
+def _deduplicate_metadata_against_baseline(metadata_dict: dict[str, Any], baseline_accessions: set[str]) -> tuple[dict[str, Any], int]:
     """Remove metadata records whose accessions are already in the baseline set.
 
     Args:
@@ -886,7 +889,7 @@ def _deduplicate_metadata_against_baseline(metadata_dict, baseline_accessions):
     return new_metadata, skipped_count
 
 
-def _save_partial_metadata(metadata_dict, outfolder, virus_clean, reason="api_failure"):
+def _save_partial_metadata(metadata_dict: dict[str, Any], outfolder: str, virus_clean: str, reason: str = "api_failure") -> str | None:
     """Save partial metadata to CSV for recovery via --baseline.
 
     Args:
@@ -937,7 +940,7 @@ def _save_partial_metadata(metadata_dict, outfolder, virus_clean, reason="api_fa
         return None
 
 
-def _merge_baseline_with_new(baseline_path, new_metadata_list, output_path):
+def _merge_baseline_with_new(baseline_path: str, new_metadata_list: list[dict[str, Any]], output_path: str) -> bool:
     """Merge baseline metadata with newly fetched metadata into a single CSV.
 
     Args:
@@ -1013,7 +1016,7 @@ def _merge_baseline_with_new(baseline_path, new_metadata_list, output_path):
         return False
 
 
-def _calculate_max_accessions_per_batch(base_url_length):
+def _calculate_max_accessions_per_batch(base_url_length: int) -> int:
     """Calculate the maximum number of accessions that can fit in a single API URL.
 
     The NCBI API URL format for multiple accessions is:
@@ -1048,7 +1051,7 @@ def _calculate_max_accessions_per_batch(base_url_length):
     return max_accessions
 
 
-def _batch_accessions_for_url(accessions, base_url_length):
+def _batch_accessions_for_url(accessions: list[str], base_url_length: int) -> list[list[str]]:
     """Split a list of accessions into batches that fit within URL length limits.
 
     Args:
@@ -1078,16 +1081,16 @@ def _batch_accessions_for_url(accessions, base_url_length):
 
 
 def _fetch_metadata_for_accession_list(
-    accessions,
-    host=None,
-    geographic_location=None,
-    annotated=None,
-    complete_only=None,
-    min_release_date=None,
-    refseq_only=None,
-    failed_commands=None,
-    temp_output_dir=None,
-):
+    accessions: list[str],
+    host: str | None = None,
+    geographic_location: str | None = None,
+    annotated: bool | None = None,
+    complete_only: bool | None = None,
+    min_release_date: str | None = None,
+    refseq_only: bool | None = None,
+    failed_commands: dict[str, Any] | None = None,
+    temp_output_dir: str | None = None,
+) -> tuple[list[Any], dict[str, Any] | None]:
     """Fetch metadata for a list of accessions, handling URL length limits with retries.
 
     This function fetches metadata for multiple accessions by:
@@ -1303,19 +1306,19 @@ def _fetch_metadata_for_accession_list(
 
 
 def _try_modified_virus_names(
-    virus,
-    accession,
-    host,
-    geographic_location,
-    annotated,
-    complete_only,
-    min_release_date,
-    refseq_only,
-    failed_commands,
-    _retry_attempt,
-    error_type="Error",
-    temp_output_dir=None,
-):
+    virus: str,
+    accession: bool,
+    host: str | None,
+    geographic_location: str | None,
+    annotated: bool | None,
+    complete_only: bool | None,
+    min_release_date: str | None,
+    refseq_only: bool | None,
+    failed_commands: dict[str, Any] | None,
+    _retry_attempt: int,
+    error_type: str = "Error",
+    temp_output_dir: str | None = None,
+) -> Any:
     """Try fetching virus metadata with modified virus names.
 
     This helper function iterates through available retry strategies (modification
@@ -1378,18 +1381,18 @@ def _try_modified_virus_names(
 
 
 def fetch_virus_metadata(
-    virus,
-    accession=False,
-    host=None,
-    geographic_location=None,
-    annotated=None,
-    complete_only=None,
-    min_release_date=None,
-    refseq_only=None,
-    failed_commands=None,
-    _retry_attempt=0,
-    temp_output_dir=None,
-):
+    virus: str,
+    accession: bool = False,
+    host: str | None = None,
+    geographic_location: str | None = None,
+    annotated: bool | None = None,
+    complete_only: bool | None = None,
+    min_release_date: str | None = None,
+    refseq_only: bool | None = None,
+    failed_commands: dict[str, Any] | None = None,
+    _retry_attempt: int = 0,
+    temp_output_dir: str | None = None,
+) -> Any:
     """Fetch virus metadata using NCBI Datasets API.
 
     This function retrieves metadata for virus sequences from the NCBI Datasets API
@@ -2233,18 +2236,18 @@ def fetch_virus_metadata(
 
 
 def fetch_virus_metadata_chunked(
-    virus,
-    accession=False,
-    host=None,
-    geographic_location=None,
-    annotated=None,
-    complete_only=False,
-    min_release_date=None,
-    max_release_date=None,
-    refseq_only=False,
-    failed_commands=None,
-    temp_output_dir=None,
-):
+    virus: str,
+    accession: bool = False,
+    host: str | None = None,
+    geographic_location: str | None = None,
+    annotated: bool | None = None,
+    complete_only: bool = False,
+    min_release_date: str | None = None,
+    max_release_date: str | None = None,
+    refseq_only: bool = False,
+    failed_commands: dict[str, Any] | None = None,
+    temp_output_dir: str | None = None,
+) -> tuple[Any, dict[str, Any] | None]:
     """Fetch virus metadata using a chunked date-range strategy for very large datasets.
 
     This function is used as a fallback when the standard fetch_virus_metadata fails due to dataset size limitations. It breaks down the request into yearly chunks starting from a reasonable start date or user's min_release_date to the present.
@@ -2436,7 +2439,7 @@ def fetch_virus_metadata_chunked(
     return all_reports, deferred_filters if deferred_filters else None
 
 
-def is_sars_cov2_query(virus, accession=False):
+def is_sars_cov2_query(virus: str, accession: bool = False) -> bool:
     """Check if the query is for SARS-CoV-2 to enable optimized cached downloads.
 
     Args:
@@ -2466,7 +2469,7 @@ def is_sars_cov2_query(virus, accession=False):
     return False
 
 
-def is_alphainfluenza_query(virus, accession=False):
+def is_alphainfluenza_query(virus: str, accession: bool = False) -> bool:
     """Check if the query is for Alphainfluenza to enable optimized cached downloads.
 
     Cached packages are available for:
@@ -2501,7 +2504,7 @@ def is_alphainfluenza_query(virus, accession=False):
     return False
 
 
-def process_cached_download(zip_file, virus_type="virus"):
+def process_cached_download(zip_file: str, virus_type: str = "virus") -> tuple[str | None, str | None, bool]:
     """Process a cached download ZIP file and extract sequences with metadata.
 
     This helper function extracts sequences from a cached ZIP download and loads the rich metadata from data_report.jsonl (if available). The metadata is essential for post-download filtering operations.
@@ -2783,7 +2786,7 @@ def process_cached_download(zip_file, virus_type="virus"):
     return cached_fasta_file, cached_metadata_jsonl_path, True
 
 
-def _monitor_subprocess_with_progress(process, cmd, timeout=None, progress_timeout=None):
+def _monitor_subprocess_with_progress(process: subprocess.Popen[Any], cmd: list[str], timeout: int | None = None, progress_timeout: int | None = None) -> subprocess.CompletedProcess[Any]:
     """Monitor a subprocess with progress tracking and timeout handling.
 
     This helper function monitors a running subprocess. When stdout/stderr are piped, it checks for progress indicators. When they're not piped (output goes to console), it simply polls for completion.
@@ -2857,8 +2860,14 @@ def _monitor_subprocess_with_progress(process, cmd, timeout=None, progress_timeo
 
 
 def _download_optimized_cached(
-    virus_type, strategies, zip_path, outdir, use_accession=False, accession=None, requested_filters=None
-):
+    virus_type: str,
+    strategies: list[tuple[str, list[str], list[str]]],
+    zip_path: str,
+    outdir: str,
+    use_accession: bool = False,
+    accession: str | None = None,
+    requested_filters: dict[str, Any] | None = None,
+) -> tuple[str, list[str], list[str]]:
     """Execute optimized cached download strategies with fallback.
 
     This is a generic implementation of the hierarchical fallback download pattern
@@ -3058,14 +3067,14 @@ def _download_optimized_cached(
 
 
 def download_sars_cov2_optimized(
-    host=None,
-    complete_only=None,
-    annotated=None,
-    outdir=None,
-    lineage=None,
-    accession=None,
-    use_accession=False,
-):
+    host: str | None = None,
+    complete_only: bool | None = None,
+    annotated: bool | None = None,
+    outdir: str | None = None,
+    lineage: str | None = None,
+    accession: str | None = None,
+    use_accession: bool = False,
+) -> tuple[str, list[str], list[str]]:
     """Download SARS-CoV-2 sequences using NCBI's optimized cached data packages.
 
     NCBI provides pre-computed, highly compressed cached packages for SARS-CoV-2
@@ -3263,13 +3272,13 @@ def download_sars_cov2_optimized(
 
 
 def download_alphainfluenza_optimized(
-    host=None,
-    complete_only=None,
-    annotated=None,
-    outdir=None,
-    accession=None,
-    use_accession=False,
-):
+    host: str | None = None,
+    complete_only: bool | None = None,
+    annotated: bool | None = None,
+    outdir: str | None = None,
+    accession: str | None = None,
+    use_accession: bool = False,
+) -> tuple[str, list[str], list[str]]:
     """Download Alphainfluenza sequences using NCBI's optimized cached data packages.
 
     NCBI provides pre-computed, highly compressed cached packages for Alphainfluenza
@@ -3454,7 +3463,7 @@ def download_alphainfluenza_optimized(
     )
 
 
-def download_sequences_by_accessions(accessions, outdir=None, batch_size=200, failed_commands=None, api_key=None):
+def download_sequences_by_accessions(accessions: list[str], outdir: str | None = None, batch_size: int = 200, failed_commands: dict[str, Any] | None = None, api_key: str | None = None) -> str:
     """Download virus genome sequences for a specific list of accession numbers.
 
     This function downloads sequences for a pre-filtered list of accessions,
@@ -3581,7 +3590,7 @@ def download_sequences_by_accessions(accessions, outdir=None, batch_size=200, fa
     )
 
 
-def _download_sequences_epost_efetch(accessions, fasta_path, failed_commands=None, api_key=None):
+def _download_sequences_epost_efetch(accessions: list[str], fasta_path: str, failed_commands: dict[str, Any] | None = None, api_key: str | None = None) -> str:
     """Download FASTA sequences using NCBI EPost + EFetch History Server pipeline.
 
     This is NCBI's recommended approach for large datasets. It uploads accession
@@ -3747,8 +3756,8 @@ def _download_sequences_epost_efetch(accessions, fasta_path, failed_commands=Non
 
 
 def _download_sequences_single_batch(
-    accessions, NCBI_EUTILS_BASE_EFETCH, fasta_path, failed_commands=None, api_key=None
-):
+    accessions: list[str], NCBI_EUTILS_BASE_EFETCH: str, fasta_path: str, failed_commands: dict[str, Any] | None = None, api_key: str | None = None
+) -> str:
     """Download sequences in a single E-utilities request with exponential backoff retries.
 
     This function handles downloading virus sequences for a list of accessions
@@ -3873,8 +3882,8 @@ def _download_sequences_single_batch(
 
 
 def _download_sequences_batched(
-    accessions, NCBI_EUTILS_BASE_EFETCH, fasta_path, batch_size, failed_commands=None, api_key=None
-):
+    accessions: list[str], NCBI_EUTILS_BASE_EFETCH: str, fasta_path: str, batch_size: int, failed_commands: dict[str, Any] | None = None, api_key: str | None = None
+) -> str:
     """Download sequences using multiple batched E-utilities requests with incremental file writing.
 
     This function handles large sequence downloads by splitting them into smaller
@@ -4077,7 +4086,7 @@ def _download_sequences_batched(
         raise RuntimeError(f"❌ Failed to save downloaded sequences: {e}") from e
 
 
-def _unzip_file(zip_file_path, extract_to_path):
+def _unzip_file(zip_file_path: str, extract_to_path: str) -> None:
     """Extract a ZIP file to a specified directory.
 
     Args:
@@ -4101,7 +4110,7 @@ def _unzip_file(zip_file_path, extract_to_path):
         raise FileNotFoundError(f"ZIP file not found: {zip_file_path}") from e
 
 
-def _parse_date(date_str, filtername=""):
+def _parse_date(date_str: str, filtername: str = "") -> datetime:
     """Parse various date formats into a datetime object.
 
     Args:
@@ -4145,7 +4154,7 @@ def _parse_date(date_str, filtername=""):
         #     return None
 
 
-def _parse_partial_date_for_range_check(date_str, for_min_comparison=True, filtername=""):
+def _parse_partial_date_for_range_check(date_str: str, for_min_comparison: bool = True, filtername: str = "") -> datetime:
     """Parse partial dates with range-aware handling for comparison.
 
     When comparing partial dates (year-only or year-month) against specific dates,
@@ -4274,7 +4283,7 @@ def _parse_partial_date_for_range_check(date_str, for_min_comparison=True, filte
         raise ValueError(error_msg) from exc
 
 
-def _write_fasta_record(handle, record):
+def _write_fasta_record(handle: Any, record: Any) -> None:
     """Write a single FASTA record to an open file handle.
 
     Args:
@@ -4290,7 +4299,7 @@ def _write_fasta_record(handle, record):
         handle.write(seq_str[i : i + 70] + "\n")
 
 
-def _stream_copy_fasta(input_path, output_path, accession_set=None):
+def _stream_copy_fasta(input_path: str, output_path: str, accession_set: set[str] | None = None) -> int:
     """Stream-copy FASTA records from input to output, optionally filtering by accession set.
 
     This avoids loading all sequences into RAM — only one record at a time is in memory.
@@ -4325,7 +4334,7 @@ def _stream_copy_fasta(input_path, output_path, accession_set=None):
     return count
 
 
-def _load_metadata_dict_from_temp_jsonl(temp_file_path):
+def _load_metadata_dict_from_temp_jsonl(temp_file_path: str) -> dict[str, Any]:
     """Stream metadata records from a temporary JSONL file and build metadata_dict directly.
 
     This function reads the JSONL file line-by-line, converting each raw API report to the internal metadata format. This avoids loading the entire raw API response list into memory at once.
@@ -4419,7 +4428,7 @@ def _load_metadata_dict_from_temp_jsonl(temp_file_path):
     return metadata_dict
 
 
-def _load_cached_metadata_from_jsonl(jsonl_path):
+def _load_cached_metadata_from_jsonl(jsonl_path: str) -> dict[str, Any]:
     """Load cached metadata from a JSONL file where records are already in internal format.
 
     Unlike _load_metadata_dict_from_temp_jsonl (which transforms raw API format), this function loads records that are already transformed (from process_cached_download). Each line is a JSON object with 'accession' key and all metadata fields directly.
@@ -4466,16 +4475,16 @@ def _load_cached_metadata_from_jsonl(jsonl_path):
 
 
 def _stream_filter_cached_metadata_from_jsonl(
-    jsonl_path,
-    host=None,
-    complete_only=None,
-    annotated=None,
-    lineage=None,
-    geographic_location=None,
-    refseq_only=None,
-    min_release_date=None,
-    applied_strategy_filters=None,
-):
+    jsonl_path: str,
+    host: str | None = None,
+    complete_only: bool | None = None,
+    annotated: bool | None = None,
+    lineage: str | None = None,
+    geographic_location: str | None = None,
+    refseq_only: bool | None = None,
+    min_release_date: str | None = None,
+    applied_strategy_filters: list[str] | None = None,
+) -> tuple[dict[str, Any], int, dict[str, int]]:
     """Stream cached metadata from a JSONL file, applying filters on-the-fly.
 
     This is the memory-efficient equivalent of loading ALL records into a dict
@@ -4647,7 +4656,7 @@ def _stream_filter_cached_metadata_from_jsonl(
     return metadata_dict, total_records, filter_stats
 
 
-def load_metadata_from_api_reports(api_reports):
+def load_metadata_from_api_reports(api_reports: list[dict[str, Any]]) -> dict[str, Any]:
     """Load metadata from API response reports into a dictionary.
 
     This function transforms the raw API response format into a standardized
@@ -4740,7 +4749,7 @@ def load_metadata_from_api_reports(api_reports):
     return metadata_dict
 
 
-def _check_protein_requirements(record, metadata, has_proteins, proteins_complete):
+def _check_protein_requirements(record: Any, metadata: dict[str, Any], has_proteins: Any, proteins_complete: bool) -> bool:
     """Check if a sequence meets protein/gene requirements based on FASTA header.
 
     This function validates whether a virus sequence contains required proteins
@@ -4836,7 +4845,7 @@ def _check_protein_requirements(record, metadata, has_proteins, proteins_complet
         return False
 
 
-def _extract_protein_info_from_header(description, metadata=None):
+def _extract_protein_info_from_header(description: str, metadata: dict[str, Any] | None = None) -> Any:
     """Extract protein/segment information from FASTA header.
 
     This function extracts the protein/segment portion of the FASTA description
@@ -4882,13 +4891,13 @@ def _extract_protein_info_from_header(description, metadata=None):
 
 
 def filter_sequences(
-    fna_file,
-    metadata_dict,
-    max_ambiguous_chars=None,
+    fna_file: str,
+    metadata_dict: dict[str, Any],
+    max_ambiguous_chars: int | None = None,
     # has_proteins=None,
-    proteins_complete=False,
-    output_fasta_path=None,
-):
+    proteins_complete: bool = False,
+    output_fasta_path: str | None = None,
+) -> tuple[int, list[dict[str, Any]], list[Any], dict[str, int]]:
     """Apply sequence-dependent filters to downloaded sequences.
 
     Applies filters requiring actual sequence data (ambiguous character counting,
@@ -4997,32 +5006,32 @@ def filter_sequences(
 
 
 def save_command_summary(
-    outfolder,
-    command_line,
-    total_api_records,
-    total_after_metadata_filter,
-    total_final_sequences,
-    output_files,
-    filtered_metadata,
-    datasets_version,
-    success=True,
-    error_message=None,
-    failed_commands=None,
-    genbank_error=None,
-    gget_version=None,
-    baseline_file=None,
-    baseline_accession_count=None,
-    baseline_skipped_count=None,
-    partial_metadata_file=None,
-    recovery_command=None,
-    runtime_seconds=None,
-    memory_info=None,
-    metadata_filter_stats=None,
-    genbank_filter_stats=None,
-    sequence_filter_stats=None,
-    total_after_genbank_filter=None,
-    total_after_sequence_filter=None,
-):
+    outfolder: str,
+    command_line: str,
+    total_api_records: int,
+    total_after_metadata_filter: int,
+    total_final_sequences: int,
+    output_files: dict[str, str] | None,
+    filtered_metadata: list[dict[str, Any]],
+    datasets_version: str | None,
+    success: bool = True,
+    error_message: str | None = None,
+    failed_commands: dict[str, Any] | None = None,
+    genbank_error: str | None = None,
+    gget_version: str | None = None,
+    baseline_file: str | None = None,
+    baseline_accession_count: int | None = None,
+    baseline_skipped_count: int | None = None,
+    partial_metadata_file: str | None = None,
+    recovery_command: str | None = None,
+    runtime_seconds: float | None = None,
+    memory_info: dict[str, Any] | None = None,
+    metadata_filter_stats: dict[str, int] | None = None,
+    genbank_filter_stats: dict[str, int] | None = None,
+    sequence_filter_stats: dict[str, int] | None = None,
+    total_after_genbank_filter: int | None = None,
+    total_after_sequence_filter: int | None = None,
+) -> str | None:
     """Save a summary file documenting the command execution and results.
 
     Creates a comprehensive summary including command line, statistics,
@@ -5405,7 +5414,7 @@ def save_command_summary(
         return None
 
 
-def merge_metadata_csvs(genbank_csv_path, standard_csv_path):
+def merge_metadata_csvs(genbank_csv_path: str, standard_csv_path: str) -> bool:
     """Merge standard metadata CSV into GenBank metadata CSV.
 
     Where GenBank data is missing, fills in values from the standard metadata CSV.
@@ -5482,7 +5491,7 @@ def merge_metadata_csvs(genbank_csv_path, standard_csv_path):
         return False
 
 
-def save_metadata_to_csv(filtered_metadata, protein_headers, output_metadata_file):
+def save_metadata_to_csv(filtered_metadata: list[dict[str, Any]], protein_headers: list[Any], output_metadata_file: str) -> None:
     """Save filtered metadata to a CSV file with a specific column order.
 
     This function creates a comprehensive CSV file containing all relevant metadata
@@ -5654,7 +5663,7 @@ def save_metadata_to_csv(filtered_metadata, protein_headers, output_metadata_fil
         raise
 
 
-def check_min_max(min_val, max_val, filtername, date=False):
+def check_min_max(min_val: Any, max_val: Any, filtername: str, date: bool = False) -> None:
     """Validate that minimum and maximum values are in the correct order.
 
     Args:
@@ -5699,16 +5708,16 @@ def check_min_max(min_val, max_val, filtername, date=False):
 
 
 def _esearch_prefilter_genbank(
-    virus_taxid,
-    metadata_filtered_accessions,
-    provirus=None,
-    has_proteins=None,
-    genotype=None,
-    gen_mol_type=None,
-    min_seq_length=None,
-    max_seq_length=None,
-    api_key=None,
-):
+    virus_taxid: str | int,
+    metadata_filtered_accessions: list[str],
+    provirus: bool | None = None,
+    has_proteins: str | None = None,
+    genotype: str | None = None,
+    gen_mol_type: str | None = None,
+    min_seq_length: int | None = None,
+    max_seq_length: int | None = None,
+    api_key: str | None = None,
+) -> set[str] | None:
     """Use NCBI ESearch to pre-filter accessions BEFORE fetching full GenBank XML.
 
     Instead of fetching full GenBank XML for ALL metadata-filtered accessions, we use ESearch to find only the subset that might pass the GenBank-    dependent filters. This typically reduces the set from hundreds of thousands to a few hundred, making the GenBank fetch near-instant.
@@ -5879,7 +5888,7 @@ def _esearch_prefilter_genbank(
 # =============================================================================
 
 
-def _epost_accessions(accessions, api_key=None):
+def _epost_accessions(accessions: list[str], api_key: str | None = None) -> tuple[str | None, str | None]:
     """Upload accession numbers to NCBI History Server using EPost.
 
     EPost allows uploading large numbers of UIDs to the server, which assigns
@@ -5959,7 +5968,7 @@ def _epost_accessions(accessions, api_key=None):
         return None, None
 
 
-def _efetch_with_history(web_env, query_key, retstart, retmax, api_key=None, failed_log_path=None):
+def _efetch_with_history(web_env: str, query_key: str, retstart: int, retmax: int, api_key: str | None = None, failed_log_path: str | None = None) -> tuple[dict[str, Any], str]:
     """Fetch GenBank records using History Server reference (WebEnv/query_key).
 
     This is the NCBI-recommended method for large datasets. After uploading UIDs
@@ -6079,14 +6088,14 @@ def _efetch_with_history(web_env, query_key, retstart, retmax, api_key=None, fai
 
 
 def fetch_genbank_metadata(
-    accessions,
-    genbank_full_xml_path,
-    genbank_full_csv_path,
-    batch_size=200,
-    delay=0.5,
-    failed_log_path=None,
-    api_key=None,
-):
+    accessions: list[str],
+    genbank_full_xml_path: str,
+    genbank_full_csv_path: str,
+    batch_size: int = 200,
+    delay: float = 0.5,
+    failed_log_path: str | None = None,
+    api_key: str | None = None,
+) -> dict[str, Any]:
     """Fetch detailed GenBank metadata for a list of accession numbers using NCBI E-utilities.
 
     Uses the NCBI-recommended EPost + EFetch workflow for large datasets:
@@ -6600,7 +6609,7 @@ def fetch_genbank_metadata(
     return all_metadata, failed_log_path if os.path.exists(failed_log_path) else None
 
 
-def _fetch_genbank_batch(accessions, failed_log_path=None):
+def _fetch_genbank_batch(accessions: list[str], failed_log_path: str | None = None) -> tuple[dict[str, Any], str | None]:
     """Fetch GenBank metadata for a single batch of accessions.
 
     Includes retry logic with exponential backoff and automatic batch splitting
@@ -6761,7 +6770,7 @@ def _fetch_genbank_batch(accessions, failed_log_path=None):
     return {}, None
 
 
-def _clean_xml_declarations(xml_text):
+def _clean_xml_declarations(xml_text: str) -> str:
     r"""Remove XML and DOCTYPE declarations from XML text for concatenation.
 
     Args:
@@ -6786,7 +6795,7 @@ def _clean_xml_declarations(xml_text):
     return "\n".join(cleaned_lines)
 
 
-def _local_name(tag):
+def _local_name(tag: str) -> str:
     """Return the local name of an XML tag (strip namespace if present).
 
     XML tags may include namespace prefixes (e.g., '{http://namespace}TagName').
@@ -6809,7 +6818,7 @@ def _local_name(tag):
     return tag.split("}")[-1] if "}" in tag else tag
 
 
-def _genbank_xml_to_csv(xml_path, csv_path, chunk_size=None):
+def _genbank_xml_to_csv(xml_path: str, csv_path: str, chunk_size: int | None = None) -> None:
     """Convert GenBank XML to CSV with streaming and dynamic qualifier columns.
 
     Args:
@@ -6919,7 +6928,7 @@ def _genbank_xml_to_csv(xml_path, csv_path, chunk_size=None):
     logger.debug(f"✅ Finished writing {csv_path}")
 
 
-def _save_genbank_xml_and_csv(xml_content, xml_file_name, csv_file_name):
+def _save_genbank_xml_and_csv(xml_content: str, xml_file_name: str, csv_file_name: str) -> None:
     """Save GenBank XML content and convert to CSV.
 
     Args:
@@ -6947,7 +6956,7 @@ def _save_genbank_xml_and_csv(xml_content, xml_file_name, csv_file_name):
         raise RuntimeError(f"Invalid XML format in GenBank response: {e}") from e
 
 
-def _parse_genbank_xml(xml_content):
+def _parse_genbank_xml(xml_content: str) -> dict[str, Any]:
     """Parse GenBank XML response and extract high-level metadata fields.
 
     This function processes the GenBank XML format returned by E-utilities efetch
@@ -7179,7 +7188,7 @@ def _parse_genbank_xml(xml_content):
     return metadata_dict
 
 
-def save_genbank_metadata_to_csv(genbank_metadata, output_file, virus_metadata=None):
+def save_genbank_metadata_to_csv(genbank_metadata: dict[str, Any], output_file: str, virus_metadata: list[dict[str, Any]] | None = None) -> None:
     """Save GenBank metadata to a CSV file with the same column headers as the standard metadata CSV.
 
     Args:
@@ -7334,16 +7343,16 @@ def save_genbank_metadata_to_csv(genbank_metadata, output_file, virus_metadata=N
 
 
 def filter_cached_metadata_for_unused_filters(
-    metadata_dict,
-    host=None,
-    complete_only=None,
-    annotated=None,
-    lineage=None,
-    geographic_location=None,
-    refseq_only=None,
-    min_release_date=None,
-    applied_strategy_filters=None,
-):
+    metadata_dict: dict[str, Any],
+    host: str | None = None,
+    complete_only: bool | None = None,
+    annotated: bool | None = None,
+    lineage: str | None = None,
+    geographic_location: str | None = None,
+    refseq_only: bool | None = None,
+    min_release_date: str | None = None,
+    applied_strategy_filters: list[str] | None = None,
+) -> tuple[list[str], list[dict[str, Any]]]:
     """Apply filters that were not used in the cached download strategy.
 
     This is Step 3 of the cached download pipeline. It applies:
@@ -7550,32 +7559,32 @@ def filter_cached_metadata_for_unused_filters(
 
 
 def filter_metadata_only(
-    metadata_dict,
-    min_seq_length=None,
-    max_seq_length=None,
+    metadata_dict: dict[str, Any],
+    min_seq_length: int | None = None,
+    max_seq_length: int | None = None,
     # min_gene_count=None,
     # max_gene_count=None,
-    nuc_completeness=None,
-    lab_passaged=None,
-    submitter_country=None,
-    min_collection_date=None,
-    max_collection_date=None,
-    source_database=None,
-    max_release_date=None,
+    nuc_completeness: str | None = None,
+    lab_passaged: bool | None = None,
+    submitter_country: str | None = None,
+    min_collection_date: str | None = None,
+    max_collection_date: str | None = None,
+    source_database: str | None = None,
+    max_release_date: str | None = None,
     # min_mature_peptide_count=None,
     # max_mature_peptide_count=None,
-    min_protein_count=None,
-    max_protein_count=None,
-    annotated=None,
-    segment=None,
-    vaccine_strain=None,
-    submitter_name=None,
-    submitter_institution=None,
-    isolate=None,
-    isolation_source=None,
-    geographic_location=None,
-    host=None,
-):
+    min_protein_count: int | None = None,
+    max_protein_count: int | None = None,
+    annotated: bool | None = None,
+    segment: Any = None,
+    vaccine_strain: bool | None = None,
+    submitter_name: str | None = None,
+    submitter_institution: str | None = None,
+    isolate: str | None = None,
+    isolation_source: str | None = None,
+    geographic_location: str | None = None,
+    host: str | None = None,
+) -> tuple[list[str], list[dict[str, Any]], dict[str, int]]:
     """Filter metadata records based on metadata-only criteria.
 
     Applies filters that can be evaluated using only metadata, reducing the
@@ -8246,17 +8255,17 @@ def filter_metadata_only(
 
 
 def filter_genbank_metadata(
-    genbank_metadata,
-    min_gene_count=None,
-    max_gene_count=None,
-    min_mature_peptide_count=None,
-    max_mature_peptide_count=None,
-    provirus=None,
-    genotype=None,
-    has_proteins=None,
-    gen_mol_type=None,
-    env_source=None,
-):
+    genbank_metadata: dict[str, Any],
+    min_gene_count: int | None = None,
+    max_gene_count: int | None = None,
+    min_mature_peptide_count: int | None = None,
+    max_mature_peptide_count: int | None = None,
+    provirus: bool | None = None,
+    genotype: Any = None,
+    has_proteins: Any = None,
+    gen_mol_type: str | None = None,
+    env_source: Any = None,
+) -> tuple[list[str], dict[str, int]]:
     """Filter accessions based on GenBank-specific metadata fields.
 
     This function filters accessions using metadata extracted from GenBank XML
@@ -8588,56 +8597,56 @@ def filter_genbank_metadata(
 
 
 def virus(
-    virus,
-    is_accession=False,
-    outfolder=None,
-    host=None,
-    min_seq_length=None,
-    max_seq_length=None,
-    min_gene_count=None,
-    max_gene_count=None,
-    nuc_completeness=None,
-    has_proteins=None,
-    proteins_complete=False,
-    lab_passaged=None,
-    geographic_location=None,
-    submitter_country=None,
-    min_collection_date=None,
-    max_collection_date=None,
-    source_database=None,
-    annotated=None,
+    virus: str,
+    is_accession: bool = False,
+    outfolder: str | None = None,
+    host: str | None = None,
+    min_seq_length: int | None = None,
+    max_seq_length: int | None = None,
+    min_gene_count: int | None = None,
+    max_gene_count: int | None = None,
+    nuc_completeness: str | None = None,
+    has_proteins: Any = None,
+    proteins_complete: bool = False,
+    lab_passaged: bool | None = None,
+    geographic_location: str | None = None,
+    submitter_country: str | None = None,
+    min_collection_date: str | None = None,
+    max_collection_date: str | None = None,
+    source_database: str | None = None,
+    annotated: bool | None = None,
     # refseq_only=False,
-    keep_temp=False,
-    min_release_date=None,
-    max_release_date=None,
-    min_mature_peptide_count=None,
-    max_mature_peptide_count=None,
-    min_protein_count=None,
-    max_protein_count=None,
-    max_ambiguous_chars=None,
-    is_sars_cov2=False,
-    is_alphainfluenza=False,
-    segment=None,
-    vaccine_strain=None,
-    lineage=None,
-    genbank_metadata=False,
-    genbank_batch_size=GENBANK_DEFAULT_BATCH_SIZE,
-    download_all_accessions=False,
-    _skip_cache=False,
-    provirus=None,
-    isolate=None,
-    genotype=None,
-    isolation_source=None,
-    env_source=None,
-    submitter_name=None,
-    submitter_institution=None,
-    gen_mol_type=None,
+    keep_temp: bool = False,
+    min_release_date: str | None = None,
+    max_release_date: str | None = None,
+    min_mature_peptide_count: int | None = None,
+    max_mature_peptide_count: int | None = None,
+    min_protein_count: int | None = None,
+    max_protein_count: int | None = None,
+    max_ambiguous_chars: int | None = None,
+    is_sars_cov2: bool = False,
+    is_alphainfluenza: bool = False,
+    segment: Any = None,
+    vaccine_strain: bool | None = None,
+    lineage: str | None = None,
+    genbank_metadata: bool = False,
+    genbank_batch_size: int = GENBANK_DEFAULT_BATCH_SIZE,
+    download_all_accessions: bool = False,
+    _skip_cache: bool = False,
+    provirus: bool | None = None,
+    isolate: str | None = None,
+    genotype: Any = None,
+    isolation_source: str | None = None,
+    env_source: Any = None,
+    submitter_name: str | None = None,
+    submitter_institution: str | None = None,
+    gen_mol_type: str | None = None,
     # assembly_completeness=None,
-    api_key=None,
-    baseline_metadata=None,
-    merge_results=True,
-    verbose=True,
-):
+    api_key: str | None = None,
+    baseline_metadata: str | None = None,
+    merge_results: bool = True,
+    verbose: bool = True,
+) -> None:
     """Download a virus genome dataset from the NCBI Virus database (https://www.ncbi.nlm.nih.gov/labs/virus/).
 
     This is the main function that orchestrates the entire virus data retrieval process,

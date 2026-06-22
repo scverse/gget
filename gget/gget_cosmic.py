@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import base64
 import getpass
 import gzip
@@ -7,6 +9,7 @@ import re
 import shutil
 import subprocess
 import tarfile
+from typing import Any
 
 import pandas as pd
 
@@ -16,14 +19,22 @@ from .utils import get_latest_cosmic, set_up_logger
 logger = set_up_logger()
 
 
-def is_valid_email(email):
+def is_valid_email(email: str) -> bool:
     """Check if an e-mail address is valid."""
     email_pattern = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
 
     return re.match(email_pattern, email) is not None
 
 
-def download_reference(download_link, tar_folder_path, file_path, verbose, email=None, password=None, unzip=False):
+def download_reference(
+    download_link: str,
+    tar_folder_path: str,
+    file_path: str,
+    verbose: bool,
+    email: str | None = None,
+    password: str | None = None,
+    unzip: bool = False,
+) -> None:
     """Download a COSMIC reference file using email/password authentication, extract the tar, and optionally unzip it."""
     if not email:
         email = input("Please enter your COSMIC email: ")
@@ -80,16 +91,16 @@ def download_reference(download_link, tar_folder_path, file_path, verbose, email
 
 
 def select_reference(
-    cosmic_project,
-    reference_dir,
-    grch_version,
-    cosmic_version,
-    verbose,
-    email=None,
-    password=None,
-    unzip=True,
-    overwrite=None,
-):
+    cosmic_project: str,
+    reference_dir: str,
+    grch_version: int,
+    cosmic_version: int,
+    verbose: bool,
+    email: str | None = None,
+    password: str | None = None,
+    unzip: bool = True,
+    overwrite: bool | None = None,
+) -> tuple[str, bool | None]:
     """Resolve the download link and paths for the requested COSMIC project, then download and extract the database, returning the file path and overwrite flag."""
     # if cosmic_project == "transcriptome":
     #     download_link = f"https://cancer.sanger.ac.uk/api/mono/products/v1/downloads/scripted?path=grch{grch_version}/cosmic/v{cosmic_version}/Cosmic_Genes_Fasta_v{cosmic_version}_GRCh{grch_version}.tar&bucket=downloads"
@@ -202,7 +213,7 @@ def select_reference(
     return file_path, overwrite
 
 
-def make_exact_match_mask(df, searchterm_lower, cols_to_check):
+def make_exact_match_mask(df: pd.DataFrame, searchterm_lower: str, cols_to_check: list[str]) -> pd.Series:
     """Build a boolean mask for rows where any of the specified columns match the search term exactly.
 
     Handles special case for ACCESSION_NUMBER to match both with and without version.
@@ -245,7 +256,7 @@ def make_exact_match_mask(df, searchterm_lower, cols_to_check):
     return mask
 
 
-def query_local_cosmic(cosmic_tsv_path, cosmic_project, searchterm, limit):
+def query_local_cosmic(cosmic_tsv_path: str, cosmic_project: str, searchterm: str, limit: int) -> list[dict[str, Any]]:
     """Search the local COSMIC mutation census file for matching entries."""
     df = pd.read_csv(cosmic_tsv_path, sep="\t", low_memory=False)
     searchterm_lower = searchterm.lower()
@@ -305,25 +316,25 @@ def query_local_cosmic(cosmic_tsv_path, cosmic_project, searchterm, limit):
 
 
 def cosmic(
-    searchterm,
-    cosmic_tsv_path=None,
-    limit=100,
-    json=False,
-    download_cosmic=False,
-    cosmic_project=None,
-    cosmic_version=None,
-    grch_version=37,
-    email=None,
-    password=None,
-    gget_mutate=False,
-    keep_genome_info=False,
-    remove_duplicates=False,
-    seq_id_column="seq_ID",
-    mutation_column="mutation",
-    mut_id_column="mutation_id",
-    out=None,
-    verbose=True,
-):
+    searchterm: str | None,
+    cosmic_tsv_path: str | None = None,
+    limit: int = 100,
+    json: bool = False,
+    download_cosmic: bool = False,
+    cosmic_project: str | None = None,
+    cosmic_version: int | None = None,
+    grch_version: int = 37,
+    email: str | None = None,
+    password: str | None = None,
+    gget_mutate: bool = False,
+    keep_genome_info: bool = False,
+    remove_duplicates: bool = False,
+    seq_id_column: str = "seq_ID",
+    mutation_column: str = "mutation",
+    mut_id_column: str = "mutation_id",
+    out: str | None = None,
+    verbose: bool = True,
+) -> Any:
     """Search for genes, mutations, etc associated with cancers using the COSMIC database.
 
     (Catalogue Of Somatic Mutations In Cancer) database

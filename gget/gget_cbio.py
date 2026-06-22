@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __all__ = ["download_cbioportal_data", "cbio_search", "cbio_plot"]
 
 import json
@@ -5,6 +7,7 @@ import math
 import os
 import subprocess
 from collections import OrderedDict, defaultdict
+from typing import Any
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -27,7 +30,7 @@ if not hasattr(pd.DataFrame, "map"):
     pd.DataFrame.map = pd.DataFrame.applymap
 
 
-def _ints_between(start, end, max_count, min_count, verbose=False):
+def _ints_between(start: int, end: int, max_count: int, min_count: int, verbose: bool = False) -> list[int]:
     """Generate a list of integers between start and end (inclusive) with a maximum count of max_count and a minimum count min_count.
 
     The list is guaranteed to contain start and end, and the spacing between the numbers will be as even as possible.
@@ -66,7 +69,7 @@ def _ints_between(start, end, max_count, min_count, verbose=False):
         return out
 
 
-def _describe_bytes(size):
+def _describe_bytes(size: float) -> str:
     """Describe a size in bytes in human-readable format.
 
     :param size:    size in bytes
@@ -84,7 +87,7 @@ def _describe_bytes(size):
     return f"{size:.2f} {unit}"
 
 
-def _download_file_from_git_lfs(target_path: str, oid: str, size: int, verbose=False):
+def _download_file_from_git_lfs(target_path: str, oid: str, size: int, verbose: bool = False) -> bool:
     """Download a single object from Git LFS.
 
     :param target_path:  path to save the downloaded object
@@ -146,8 +149,8 @@ def _download_file_from_git_lfs(target_path: str, oid: str, size: int, verbose=F
 
 
 class _LFSDownloadPlan:
-    def __init__(self, verbose=False):
-        self.objects = []
+    def __init__(self, verbose: bool = False) -> None:
+        self.objects: list[tuple[str, tuple[str, int]]] = []
         """(target_path, (oid, size))"""
 
         self.verbose = verbose
@@ -156,7 +159,7 @@ class _LFSDownloadPlan:
     def total_size(self) -> int:
         return sum(size for _, (_, size) in self.objects)
 
-    def add(self, target_path: str, oid: str, size: int):
+    def add(self, target_path: str, oid: str, size: int) -> None:
         self.objects.append((target_path, (oid, size)))
 
     def download(self) -> bool:
@@ -173,10 +176,10 @@ class _LFSDownloadPlan:
 
 
 def download_cbioportal_data(
-    study_ids,
-    verbose=False,
-    out_dir=None,
-    confirm_download=False,
+    study_ids: list[str],
+    verbose: bool = False,
+    out_dir: str | None = None,
+    confirm_download: bool = False,
 ) -> bool:
     """Download data from cBioPortal studies.
 
@@ -290,7 +293,7 @@ def _extract_study_name(name: str) -> str:
     return name
 
 
-def cbio_search(key_words):
+def cbio_search(key_words: str | list[str]) -> list[str]:
     """Find cBioPortal study IDs by keyword.
 
     Args:
@@ -351,7 +354,7 @@ def cbio_search(key_words):
     return sorted(matching_study_ids)
 
 
-def _get_ensembl_gene_id(transcript_id: str, verbose=False):
+def _get_ensembl_gene_id(transcript_id: str, verbose: bool = False) -> str | None:
     try:
         url = f"https://rest.ensembl.org/lookup/id/{transcript_id}?expand=1"
         response = requests.get(url, headers={"Content-Type": "application/json"})
@@ -368,7 +371,7 @@ def _get_ensembl_gene_id(transcript_id: str, verbose=False):
         return "Unknown"
 
 
-def _get_ensembl_gene_id_bulk(transcript_ids):
+def _get_ensembl_gene_id_bulk(transcript_ids: list[str]) -> dict[str, Any]:
     if not transcript_ids:
         return {}
 
@@ -393,7 +396,7 @@ def _get_ensembl_gene_id_bulk(transcript_ids):
         raise e
 
 
-def _get_ensembl_gene_name_bulk(gene_ids):
+def _get_ensembl_gene_name_bulk(gene_ids: list[str]) -> dict[str, Any]:
     if not gene_ids:
         return {}
 
@@ -412,7 +415,7 @@ def _get_ensembl_gene_name_bulk(gene_ids):
         raise e
 
 
-def _get_valid_ensembl_gene_id(row, transcript_column: str = "seq_ID", gene_column: str = "gene_name"):
+def _get_valid_ensembl_gene_id(row: pd.Series, transcript_column: str = "seq_ID", gene_column: str = "gene_name") -> Any:
     ensembl_gene_id = _get_ensembl_gene_id(row[transcript_column])
     if ensembl_gene_id == "Unknown":
         return row[gene_column]
@@ -1078,22 +1081,22 @@ class _GeneAnalysis:
 
 
 def cbio_plot(
-    study_ids,
-    genes,
-    stratification="tissue",
-    variation_type="mutation_occurrences",
-    filter=None,
-    merge_type="Symbol",
-    remove_non_ensembl_genes=False,
-    data_dir="gget_cbio_cache",
-    figure_dir="gget_cbio_figures",
-    figure_filename=None,
-    verbose=True,
-    confirm_download=False,
-    dpi=100,
-    show=False,
-    figure_title=None,
-):
+    study_ids: list[str],
+    genes: list[str],
+    stratification: str = "tissue",
+    variation_type: str = "mutation_occurrences",
+    filter: tuple[str, Any] | None = None,
+    merge_type: str = "Symbol",
+    remove_non_ensembl_genes: bool = False,
+    data_dir: str = "gget_cbio_cache",
+    figure_dir: str = "gget_cbio_figures",
+    figure_filename: str | None = None,
+    verbose: bool = True,
+    confirm_download: bool = False,
+    dpi: int = 100,
+    show: bool = False,
+    figure_title: str | None = None,
+) -> bool:
     """Plot a heatmap of given genes in the given studies.
 
     Args:

@@ -1,4 +1,8 @@
+from __future__ import annotations
+
 # Custom functions
+from typing import Any
+
 from .utils import get_uniprot_seqs, post_query, rest_query, set_up_logger
 
 logger = set_up_logger()
@@ -8,14 +12,14 @@ from .gget_info import info  # noqa: E402
 
 
 def seq(
-    ens_ids,
-    translate=False,
-    isoforms=False,
-    save=False,
-    transcribe=None,
-    seqtype=None,
-    verbose=True,
-):
+    ens_ids: str | list[str],
+    translate: bool = False,
+    isoforms: bool = False,
+    save: bool = False,
+    transcribe: bool | None = None,
+    seqtype: Any = None,
+    verbose: bool = True,
+) -> list[str] | None:
     """Fetch nucleotide or amino acid sequence (FASTA) of a gene or transcript.
 
     Fetches the gene (and all its isoforms) or transcript by Ensembl, WormBase or FlyBase ID.

@@ -1,3 +1,7 @@
+from __future__ import annotations
+
+from typing import Any
+
 import json
 from urllib.error import HTTPError
 from urllib.request import urlopen
@@ -9,7 +13,7 @@ logger = set_up_logger()
 from .constants import RCSB_PDB_API  # noqa: E402
 
 
-def pdb(pdb_id, resource="pdb", identifier=None, save=False):
+def pdb(pdb_id: str, resource: str = "pdb", identifier: str | int | None = None, save: bool = False) -> Any:
     """Query RCSB PDB for the protein structutre/metadata of a given PDB ID.
 
     Args:

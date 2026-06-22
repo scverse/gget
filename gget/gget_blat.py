@@ -1,6 +1,9 @@
+from __future__ import annotations
+
 import json as json_package
 import time
 from json.decoder import JSONDecodeError
+from typing import Any
 from urllib import request
 from urllib.error import HTTPError, URLError
 
@@ -16,13 +19,13 @@ _BLAT_BACKOFF_BASE_SECONDS = 1.5
 
 
 def blat(
-    sequence,
-    seqtype="default",
-    assembly="human",
-    json=False,
-    save=False,
-    verbose=True,
-):
+    sequence: str,
+    seqtype: str = "default",
+    assembly: str = "human",
+    json: bool = False,
+    save: bool = False,
+    verbose: bool = True,
+) -> pd.DataFrame | list[dict[str, Any]] | None:
     """BLAT a nucleotide or amino acid sequence against any BLAT UCSC assembly.
 
     Args:
@@ -204,7 +207,7 @@ class _RetryableBlatError(Exception):
     """Raised when a BLAT attempt failed in a way that may succeed on retry."""
 
 
-def _fetch_blat_results(url, seqtype, database):
+def _fetch_blat_results(url: str, seqtype: str, database: str) -> dict[str, Any] | None:
     """Submit a BLAT request to UCSC and return the parsed JSON dict, or None on a non-recoverable failure.
 
     Retries transient failures (5xx, network
@@ -235,7 +238,7 @@ def _fetch_blat_results(url, seqtype, database):
     return None
 
 
-def _fetch_blat_attempt(url, seqtype, database):
+def _fetch_blat_attempt(url: str, seqtype: str, database: str) -> dict[str, Any] | None:
     """One BLAT attempt. Raises _RetryableBlatError on transient failures."""
     req = request.Request(url, headers={"User-Agent": "gget"})
 
@@ -272,14 +275,14 @@ def _fetch_blat_attempt(url, seqtype, database):
         raise _RetryableBlatError(f"non-JSON response: {preview!r}") from None
 
 
-def _safe_read_preview(response, limit=300):
+def _safe_read_preview(response: Any, limit: int = 300) -> str:
     try:
         return _preview_bytes(response.read(), limit=limit)
     except Exception:  # noqa: BLE001
         return ""
 
 
-def _preview_bytes(raw, limit=300):
+def _preview_bytes(raw: bytes | str, limit: int = 300) -> str:
     if isinstance(raw, bytes):
         raw = raw.decode("utf-8", errors="replace")
     raw = raw.strip()
