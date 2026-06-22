@@ -2,7 +2,7 @@
 
 ## ✨ What's new
 
-#### *gget* officially became part of *scverse* on June 9, 2026. 🥳🥳🥳
+#### *gget* officially became part of [*scverse*](https://scverse.org/) on June 9, 2026. 🥳🥳🥳
 
 **Version ≥ 0.30.8** (XXX XX, 2026):  
 - [`gget pdb`](pdb.md): Added support for the PDBx/mmCIF structure format (fixes [issue 178](https://github.com/scverse/gget/issues/178) and [issue 177](https://github.com/scverse/gget/issues/177)).

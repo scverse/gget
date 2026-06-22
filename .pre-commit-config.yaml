@@ -25,7 +25,7 @@ exclude: |
       gget/bins/
     | gget/constants/
     | tests/fixtures/
-    | tests/pytest_results_py.*\.txt
+    | tests/pytest_results.*\.txt
   )
 repos:
   - repo: https://github.com/biomejs/pre-commit

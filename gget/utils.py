@@ -1238,8 +1238,10 @@ class FastaIO:
 
 
 def diagnose_binary_load_error(stderr_text: str, module_name: str) -> str | None:
-    """If stderr indicates a missing shared-library / dynamic-linker error, return a
-    human-friendly diagnostic + fix instructions. Otherwise return None.
+    """Return a human-friendly diagnostic for a missing shared-library / dynamic-linker error.
+
+    If stderr indicates a missing shared library, return a diagnostic with fix
+    instructions. Otherwise return None.
 
     Covers:
     - macOS dyld: 'Library not loaded: <path>'
