@@ -19,9 +19,9 @@ def g2p(
     save: bool = False,
     verbose: bool = True,
 ) -> pd.DataFrame | None:
-    """
-    Query the Genomics 2 Proteins (G2P) portal (https://g2p.broadinstitute.org/) to link
-    genes/proteins to per-residue structural and functional annotations.
+    """Query the Genomics 2 Proteins (G2P) portal to link genes/proteins to per-residue structural and functional annotations.
+
+    Portal: https://g2p.broadinstitute.org/
 
     Args:
     - gene          Gene symbol, e.g. "BRCA1" (str).

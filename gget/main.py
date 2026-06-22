@@ -30,20 +30,18 @@ from .gget_cosmic import cosmic  # noqa: E402
 from .gget_diamond import diamond  # noqa: E402
 from .gget_elm import elm  # noqa: E402
 from .gget_enrichr import enrichr  # noqa: E402
-from .gget_g2p import g2p
+from .gget_g2p import g2p  # noqa: E402
 from .gget_gpt import gpt  # noqa: E402
 from .gget_info import info  # noqa: E402
 from .gget_muscle import muscle  # noqa: E402
 from .gget_mutate import mutate  # noqa: E402
 from .gget_opentargets import OPENTARGETS_RESOURCES, opentargets  # noqa: E402
 from .gget_pdb import pdb  # noqa: E402
-
-# Module functions
-from .gget_ref import ref
-from .gget_search import search
-from .gget_seq import seq
-from .gget_setup import setup
-from .gget_virus import virus
+from .gget_ref import ref  # noqa: E402
+from .gget_search import search  # noqa: E402
+from .gget_seq import seq  # noqa: E402
+from .gget_setup import setup  # noqa: E402
+from .gget_virus import virus  # noqa: E402
 
 
 # Custom formatter for help messages that preserved the text formatting and adds the default value to the end of the help message
