@@ -411,6 +411,255 @@ tests/test_diamond.py::TestDiamond::test_diamond_JSON_out PASSED         [ 99%]
 tests/test_diamond.py::TestDiamond::test_diamond_seqs_multiple PASSED    [ 99%]
 tests/test_diamond.py::TestDiamond::test_diamond_seqs_single PASSED      [100%]
 
+_________________________ TestBgee.test_bgee_orthologs _________________________
+
+self = <tests.test_bgee.TestBgee testMethod=test_bgee_orthologs>
+
+    def assert_equal(self: unittest.TestCase):
+        test = name
+        expected_result = td[test]["expected_result"]
+>       result_to_test = do_call(func, td[test]["args"])
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/from_json.py:68:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests/from_json.py:60: in do_call
+    return func(**args)
+           ^^^^^^^^^^^^
+gget/gget_bgee.py:192: in bgee
+    return _bgee_orthologs(gene_id, json=json, verbose=verbose)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+gget/gget_bgee.py:60: in _bgee_orthologs
+    species = _bgee_species(gene_id, verbose=verbose)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+gget/gget_bgee.py:24: in _bgee_species
+    payload = http_json(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+method = 'GET', url = 'https://bgee.org/api/'
+context = 'Bgee API (species lookup)', timeout = (10, 60), retries = 3
+backoff = 1.0
+kwargs = {'params': {'display_type': 'json', 'page': 'gene', 'action': 'general_info', 'gene_id': 'ENSOARG00000019163'}}
+
+    def http_json(
+        method: str,
+        url: str,
+        *,
+        context: str = "",
+        timeout: float = DEFAULT_REQUESTS_TIMEOUT,
+        retries: int = 3,
+        backoff: float = 1.0,
+        **kwargs: Any,
+    ) -> Any:
+        """Issue an HTTP request and return the parsed JSON body, raising a
+
+        RuntimeError with consistent context if the request fails or the body
+        is not valid JSON.
+
+        `context` is a short human-readable label (e.g. "Bgee API") used in
+        error messages so users can identify which upstream service failed.
+        Transient failures (connection errors, read timeouts, HTTP 5xx) are
+        retried up to `retries` additional times with exponential backoff
+        (`backoff * 2**i` seconds between attempts). Set `retries=0` to disable.
+        All other keyword arguments are forwarded to `requests.request`.
+        """
+        label = context or url
+        last_exc = None
+        last_status = None
+        last_body = ""
+        attempts = retries + 1
+        for attempt in range(attempts):
+            try:
+                response = requests.request(method, url, timeout=timeout, **kwargs)
+            except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
+                last_exc = e
+                last_status = None
+                last_body = ""
+            else:
+                if response.ok:
+                    try:
+                        return response.json()
+                    except json.JSONDecodeError as e:
+                        body = response.text[:200] if response.text else ""
+                        raise RuntimeError(
+                            f"{label} returned non-JSON response (HTTP {response.status_code}): {body}"
+                        ) from e
+                # Retry on transient server errors only; client errors are returned
+                # to the caller without retry.
+                if response.status_code < 500:
+                    body = response.text[:200] if response.text else ""
+>                   raise RuntimeError(f"{label} returned HTTP {response.status_code}. Body: {body}")
+E                   RuntimeError: Bgee API (species lookup) returned HTTP 403. Body: <!DOCTYPE html><html lang="en-US"><head><title>Just a moment...</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta nam
+
+gget/utils.py:147: RuntimeError
+------------------------------ Captured log call -------------------------------
+INFO     gget.utils:gget_bgee.py:22 Getting species ID for gene ENSOARG00000019163 from Bgee
+____________________ TestBgee.test_bgee_expression_multiple ____________________
+
+self = <tests.test_bgee.TestBgee testMethod=test_bgee_expression_multiple>
+
+    def assert_equal(self: unittest.TestCase):
+        test = name
+        expected_result = td[test]["expected_result"]
+>       result_to_test = do_call(func, td[test]["args"])
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/from_json.py:68:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests/from_json.py:60: in do_call
+    return func(**args)
+           ^^^^^^^^^^^^
+gget/gget_bgee.py:190: in bgee
+    return _bgee_expression(gene_id, json=json, verbose=verbose)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+gget/gget_bgee.py:117: in _bgee_expression
+    species_set = {_bgee_species(gene_id, verbose=verbose) for gene_id in gene_ids}
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+gget/gget_bgee.py:24: in _bgee_species
+    payload = http_json(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+method = 'GET', url = 'https://bgee.org/api/'
+context = 'Bgee API (species lookup)', timeout = (10, 60), retries = 3
+backoff = 1.0
+kwargs = {'params': {'display_type': 'json', 'page': 'gene', 'action': 'general_info', 'gene_id': 'ENSBTAG00000047356'}}
+
+    def http_json(
+        method: str,
+        url: str,
+        *,
+        context: str = "",
+        timeout: float = DEFAULT_REQUESTS_TIMEOUT,
+        retries: int = 3,
+        backoff: float = 1.0,
+        **kwargs: Any,
+    ) -> Any:
+        """Issue an HTTP request and return the parsed JSON body, raising a
+
+        RuntimeError with consistent context if the request fails or the body
+        is not valid JSON.
+
+        `context` is a short human-readable label (e.g. "Bgee API") used in
+        error messages so users can identify which upstream service failed.
+        Transient failures (connection errors, read timeouts, HTTP 5xx) are
+        retried up to `retries` additional times with exponential backoff
+        (`backoff * 2**i` seconds between attempts). Set `retries=0` to disable.
+        All other keyword arguments are forwarded to `requests.request`.
+        """
+        label = context or url
+        last_exc = None
+        last_status = None
+        last_body = ""
+        attempts = retries + 1
+        for attempt in range(attempts):
+            try:
+                response = requests.request(method, url, timeout=timeout, **kwargs)
+            except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
+                last_exc = e
+                last_status = None
+                last_body = ""
+            else:
+                if response.ok:
+                    try:
+                        return response.json()
+                    except json.JSONDecodeError as e:
+                        body = response.text[:200] if response.text else ""
+                        raise RuntimeError(
+                            f"{label} returned non-JSON response (HTTP {response.status_code}): {body}"
+                        ) from e
+                # Retry on transient server errors only; client errors are returned
+                # to the caller without retry.
+                if response.status_code < 500:
+                    body = response.text[:200] if response.text else ""
+>                   raise RuntimeError(f"{label} returned HTTP {response.status_code}. Body: {body}")
+E                   RuntimeError: Bgee API (species lookup) returned HTTP 403. Body: <!DOCTYPE html><html lang="en-US"><head><title>Just a moment...</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta nam
+
+gget/utils.py:147: RuntimeError
+------------------------------ Captured log call -------------------------------
+INFO     gget.utils:gget_bgee.py:22 Getting species ID for gene ENSBTAG00000047356 from Bgee
+________________________ TestBgee.test_bgee_expression _________________________
+
+self = <tests.test_bgee.TestBgee testMethod=test_bgee_expression>
+
+    def assert_equal(self: unittest.TestCase):
+        test = name
+        expected_result = td[test]["expected_result"]
+>       result_to_test = do_call(func, td[test]["args"])
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/from_json.py:68:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests/from_json.py:60: in do_call
+    return func(**args)
+           ^^^^^^^^^^^^
+gget/gget_bgee.py:190: in bgee
+    return _bgee_expression(gene_id, json=json, verbose=verbose)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+gget/gget_bgee.py:117: in _bgee_expression
+    species_set = {_bgee_species(gene_id, verbose=verbose) for gene_id in gene_ids}
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+gget/gget_bgee.py:24: in _bgee_species
+    payload = http_json(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+method = 'GET', url = 'https://bgee.org/api/'
+context = 'Bgee API (species lookup)', timeout = (10, 60), retries = 3
+backoff = 1.0
+kwargs = {'params': {'display_type': 'json', 'page': 'gene', 'action': 'general_info', 'gene_id': 'ENSBTAG00000047356'}}
+
+    def http_json(
+        method: str,
+        url: str,
+        *,
+        context: str = "",
+        timeout: float = DEFAULT_REQUESTS_TIMEOUT,
+        retries: int = 3,
+        backoff: float = 1.0,
+        **kwargs: Any,
+    ) -> Any:
+        """Issue an HTTP request and return the parsed JSON body, raising a
+
+        RuntimeError with consistent context if the request fails or the body
+        is not valid JSON.
+
+        `context` is a short human-readable label (e.g. "Bgee API") used in
+        error messages so users can identify which upstream service failed.
+        Transient failures (connection errors, read timeouts, HTTP 5xx) are
+        retried up to `retries` additional times with exponential backoff
+        (`backoff * 2**i` seconds between attempts). Set `retries=0` to disable.
+        All other keyword arguments are forwarded to `requests.request`.
+        """
+        label = context or url
+        last_exc = None
+        last_status = None
+        last_body = ""
+        attempts = retries + 1
+        for attempt in range(attempts):
+            try:
+                response = requests.request(method, url, timeout=timeout, **kwargs)
+            except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
+                last_exc = e
+                last_status = None
+                last_body = ""
+            else:
+                if response.ok:
+                    try:
+                        return response.json()
+                    except json.JSONDecodeError as e:
+                        body = response.text[:200] if response.text else ""
+                        raise RuntimeError(
+                            f"{label} returned non-JSON response (HTTP {response.status_code}): {body}"
+                        ) from e
+                # Retry on transient server errors only; client errors are returned
+                # to the caller without retry.
+                if response.status_code < 500:
+                    body = response.text[:200] if response.text else ""
+>                   raise RuntimeError(f"{label} returned HTTP {response.status_code}. Body: {body}")
+E                   RuntimeError: Bgee API (species lookup) returned HTTP 403. Body: <!DOCTYPE html><html lang="en-US"><head><title>Just a moment...</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta nam
+
+gget/utils.py:147: RuntimeError
+------------------------------ Captured log call -------------------------------
+INFO     gget.utils:gget_bgee.py:22 Getting species ID for gene ENSBTAG00000047356 from Bgee
 =============================== warnings summary ===============================
 tests/test_utils.py: 1 warning
 tests/test_ref.py: 11 warnings
