@@ -115,6 +115,9 @@ def setup(module: str, verbose: bool = True, out: str | None = None) -> None:
         raise ValueError(f"'module' argument specified as {module}. Expected one of: {', '.join(supported_modules)}")
 
     if module == "gpt":
+        logger.warning(
+            "gget gpt is no longer actively maintained."
+        )
         _install("openai<=0.28.1", "openai", verbose=verbose)
 
     elif module == "cellxgene":
@@ -203,6 +206,12 @@ def setup(module: str, verbose: bool = True, out: str | None = None) -> None:
             raise RuntimeError("ELM database files download failed; missing files: " + ", ".join(missing))
 
     elif module == "alphafold":
+        logger.warning(
+            "gget alphafold is no longer actively maintained. For up-to-date AlphaFold predictions, "
+            "we recommend ColabFold (https://github.com/sokrypton/ColabFold) for AlphaFold 2 "
+            "or the AlphaFold Server (https://alphafoldserver.com/) for AlphaFold 3."
+        )
+
         if platform.system() == "Windows":
             logger.error("gget setup alphafold and gget alphafold are not supported on Windows OS.")
             return
