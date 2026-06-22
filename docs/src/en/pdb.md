@@ -3,7 +3,7 @@
 > Python arguments are equivalent to long-option arguments (`--arg`), unless otherwise specified. Flags are True/False arguments in Python. The manual for any gget tool can be called from the command-line using the `-h` `--help` flag.  
 # gget pdb 🔮
 Query [RCSB Protein Data Bank (PDB)](https://www.rcsb.org/) for the protein structure/metadata of a given PDB ID.  
-Return format: Resource 'pdb' is returned in PDB format. All other resources are returned in JSON format.  
+Return format: Resource 'pdb' is returned in legacy PDB format (or PDBx/mmCIF if the legacy PDB file is unavailable), 'mmcif' in PDBx/mmCIF format. All other resources are returned in JSON format.  
 
 **Positional argument**  
 `pdb_id`  
@@ -12,7 +12,8 @@ PDB ID to be queried, e.g. '7S7U'.
 **Optional arguments**  
  `-r` `--resource`  
  Defines type of information to be returned. One of the following:  
- 'pdb': Returns the protein structure in PDB format (default).  
+ 'pdb': Returns the protein structure in legacy PDB format (default). The legacy PDB format is being phased out by RCSB and is unavailable for large structures; in that case gget automatically falls back to the PDBx/mmCIF format.  
+ 'mmcif': Returns the protein structure in PDBx/mmCIF format (.cif).  
  'entry': Information about PDB structures at the top level of PDB structure hierarchical data organization.  
  'pubmed': Get PubMed annotations (data integrated from PubMed) for a given entry's primary citation.  
  'assembly': Information about PDB structures at the quaternary structure level.  
@@ -41,6 +42,17 @@ gget pdb 7S7U -o 7S7U.pdb
 gget.pdb("7S7U", save=True)
 ```
 &rarr; Saves the structure of 7S7U in PDB format as '7S7U.pdb' in the current working directory.
+
+**Fetch a structure in PDBx/mmCIF format (recommended for large structures, which have no legacy PDB file):**  
+```bash
+gget pdb 6Q38 -r mmcif -o 6Q38.cif
+```
+```python
+# Python
+gget.pdb("6Q38", resource="mmcif", save=True)
+```
+&rarr; Saves the structure of 6Q38 in PDBx/mmCIF format as '6Q38.cif' in the current working directory.  
+Note: `gget pdb 6Q38` (without `-r mmcif`) also works — since 6Q38 has no legacy PDB file, gget automatically falls back to PDBx/mmCIF and saves a '.cif' file.
 
 **Find PDB crystal structures for a comparative analysis of protein structure:**  
 ```bash
