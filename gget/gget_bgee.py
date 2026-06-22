@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json as json_
+from importlib.metadata import PackageNotFoundError, version
 from typing import TYPE_CHECKING, Any
 
 from .utils import dig, http_json, json_list_to_df, set_up_logger
@@ -9,6 +10,13 @@ if TYPE_CHECKING:
     import pandas as pd
 
 logger = set_up_logger()
+
+try:
+    _GGET_VERSION = version("gget")
+except PackageNotFoundError:
+    _GGET_VERSION = "unknown"
+
+_BGEE_HEADERS = {"User-Agent": f"gget/{_GGET_VERSION} (+https://github.com/scverse/gget)"}
 
 
 def _bgee_species(gene_id: str, verbose: bool = True) -> int:
@@ -25,6 +33,7 @@ def _bgee_species(gene_id: str, verbose: bool = True) -> int:
         "GET",
         "https://bgee.org/api/",
         context="Bgee API (species lookup)",
+        headers=_BGEE_HEADERS,
         params={
             "display_type": "json",
             "page": "gene",
@@ -67,6 +76,7 @@ def _bgee_orthologs(gene_id: str, json: bool = False, verbose: bool = True) -> p
         "GET",
         "https://bgee.org/api/",
         context="Bgee API (orthologs)",
+        headers=_BGEE_HEADERS,
         params={
             "display_type": "json",
             "page": "gene",
@@ -130,6 +140,7 @@ def _bgee_expression(gene_id: str | list[str], json: bool = False, verbose: bool
         "GET",
         "https://bgee.org/api/",
         context="Bgee API (expression)",
+        headers=_BGEE_HEADERS,
         params={
             "display_type": "json",
             "page": "data",
