@@ -8,11 +8,9 @@
 Generates natural language text based on a given prompt using the [OpenAI](https://openai.com/) API's 'openai.ChatCompletion.create' endpoint.
 This module, including its source code, documentation and unit tests, were partly written by OpenAI's Chat-GTP3.  
 
-NOTE:  
-OpenAI API calls are only 'free' for the first three months after generating your OpenAI Account (OpenAI provides a $5 credit that expires).  
-You can define a hard monthly billing limit (e.g. $1) [here](https://platform.openai.com/account/billing/limits).  
-See their pricing and FAQ [here](https://openai.com/pricing).  
 Get your OpenAI API key [here](https://platform.openai.com/account/api-keys).  
+You can define a hard monthly billing limit [here](https://platform.openai.com/account/billing/limits).  
+See their pricing and FAQ [here](https://openai.com/pricing).
 
 Returns: A string containing the generated text.  
 
