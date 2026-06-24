@@ -35,6 +35,8 @@ Path to folder to save prediction results in (str). Default: "./[date_time]_gget
 
 `-jhd` `--jackhmmer_savedir`  
 Path to a parent directory in which to store the temporary jackhmmer files (str). By default, `gget alphafold` creates a "tmp" folder in your home directory (`~/tmp/jackhmmer/`), which can take up to ~2 GB of disk space. Use this argument to place these temporary files elsewhere, e.g. on a disk with more free space. Default: None.  
+`-msa` `--msa`  
+Path to a custom multiple sequence alignment (MSA) file to use instead of running the internal jackhmmer search (str). Accepts a3m (`.a3m`) or aligned FASTA (`.fasta`, `.fa`, `.afa`) files. The first sequence in the MSA must be the query (i.e. match the input `sequence`, ignoring gaps). When provided, `gget alphafold` skips the jackhmmer search entirely, so no genetic databases are downloaded. This is useful for submitting a manually curated MSA to improve folding predictions. Currently supported for single-sequence (monomer) predictions only. Default: None.  
 
 **Flags**  
 `-mfm` `--multimer_for_monomer`  
