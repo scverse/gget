@@ -911,7 +911,7 @@ def main() -> None:
         default=None,
         required=False,
         help=(
-            "Raw NCBI Entrez query to limit the search, e.g. \"Homo sapiens[ORGN] NOT predicted[Title]\". "
+            'Raw NCBI Entrez query to limit the search, e.g. "Homo sapiens[ORGN] NOT predicted[Title]". '
             "Combined with --taxid using AND when both are provided."
         ),
     )
