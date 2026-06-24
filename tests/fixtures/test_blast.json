@@ -70,5 +70,25 @@
             "database": "banana"
         },
         "expected_result": "ValueError"
+    },
+    "test_blast_bad_matrix": {
+        "type": "error",
+        "args": {
+            "sequence": "MSKGEELFTGVVPILVELDGDVNGQKFSVSGEGEGDATYGKL",
+            "limit": 1,
+            "matrix": "banana"
+        },
+        "expected_result": "ValueError",
+        "expected_msg": "Invalid matrix 'banana'. Expected one of: PAM30, PAM70, PAM250, BLOSUM80, BLOSUM62, BLOSUM50, BLOSUM45, BLOSUM90"
+    },
+    "test_blast_bad_word_size": {
+        "type": "error",
+        "args": {
+            "sequence": "MSKGEELFTGVVPILVELDGDVNGQKFSVSGEGEGDATYGKL",
+            "limit": 1,
+            "word_size": 1
+        },
+        "expected_result": "ValueError",
+        "expected_msg": "Invalid word_size 1. Expected an integer >= 2."
     }
 }

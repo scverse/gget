@@ -25,6 +25,26 @@ Limits number of hits to return. Default: 50.
 `-e` `--expect`  
 Defines the [expect value](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=FAQ#expect) cutoff. Default: 10.0.  
 
+The following arguments expose the NCBI web BLAST ["Algorithm parameters"](https://blast.ncbi.nlm.nih.gov/Blast.cgi) so `gget blast` more fully matches the web app. Each defaults to `None`, in which case the NCBI server default is used.
+
+`-ws` `--word_size`  
+Length of the seed words used for the search (`WORD_SIZE`). Default: server default.  
+
+`-gc` `--gapcosts`  
+Gap costs as `"open extend"`, e.g. `"11 1"` (`GAPCOSTS`). Default: server default.  
+
+`-mx` `--matrix`  
+Protein scoring matrix (`MATRIX`): one of PAM30, PAM70, PAM250, BLOSUM80, BLOSUM62, BLOSUM50, BLOSUM45, BLOSUM90. Default: server default.  
+
+`-nr` `--nucl_reward`  
+Reward for a nucleotide match (blastn only) (`NUCL_REWARD`). Default: server default.  
+
+`-np` `--nucl_penalty`  
+Penalty for a nucleotide mismatch (blastn only) (`NUCL_PENALTY`). Default: server default.  
+
+`-pi` `--perc_identity`  
+Percent identity cutoff between 0 and 100 (`PERC_IDENT`). Default: server default.  
+
 `-o` `--out`  
 Path to the file the results will be saved in, e.g. path/to/directory/results.csv (or .json). Default: Standard out.  
 Python: `save=True` will save the output in the current working directory.

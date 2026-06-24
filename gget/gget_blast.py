@@ -24,6 +24,79 @@ from .constants import (  # noqa: E402
     BLAST_URL,
 )
 
+# Protein scoring matrices supported by the NCBI web BLAST app
+BLAST_MATRICES = [
+    "PAM30",
+    "PAM70",
+    "PAM250",
+    "BLOSUM80",
+    "BLOSUM62",
+    "BLOSUM50",
+    "BLOSUM45",
+    "BLOSUM90",
+]
+
+
+def _build_algorithm_params(
+    word_size: int | None = None,
+    gapcosts: str | None = None,
+    matrix: str | None = None,
+    nucl_reward: int | None = None,
+    nucl_penalty: int | None = None,
+    perc_identity: float | None = None,
+) -> list[tuple[str, Any]]:
+    """Validate and assemble extra NCBI BLAST "Algorithm parameters" (issue #58).
+
+    Mirrors the algorithm-parameter panel of the NCBI web BLAST app. Returns a
+    list of (KEY, value) tuples for the BLAST URL API, omitting any unset
+    (None) parameter so default server behavior is preserved.
+
+    Args:
+     - word_size      Length of the seed words (WORD_SIZE). Positive integer.
+     - gapcosts       Gap costs as "open extend", e.g. "11 1" (GAPCOSTS).
+     - matrix         Protein scoring matrix, e.g. "BLOSUM62" (MATRIX).
+     - nucl_reward    blastn match reward, positive integer (NUCL_REWARD).
+     - nucl_penalty   blastn mismatch penalty, negative integer (NUCL_PENALTY).
+     - perc_identity  Percent identity cutoff, 0-100 (PERC_IDENT).
+
+    Raises ValueError on invalid values.
+    """
+    params: list[tuple[str, Any]] = []
+
+    if word_size is not None:
+        if not isinstance(word_size, int) or isinstance(word_size, bool) or word_size < 2:
+            raise ValueError(f"Invalid word_size {word_size!r}. Expected an integer >= 2.")
+        params.append(("WORD_SIZE", word_size))
+
+    if gapcosts is not None:
+        parts = str(gapcosts).split()
+        if len(parts) != 2 or not all(p.lstrip("-").isdigit() for p in parts):
+            raise ValueError(f"Invalid gapcosts {gapcosts!r}. Expected two integers as 'open extend', e.g. '11 1'.")
+        params.append(("GAPCOSTS", f"{parts[0]} {parts[1]}"))
+
+    if matrix is not None:
+        matrix_upper = str(matrix).upper()
+        if matrix_upper not in BLAST_MATRICES:
+            raise ValueError(f"Invalid matrix {matrix!r}. Expected one of: {', '.join(BLAST_MATRICES)}")
+        params.append(("MATRIX", matrix_upper))
+
+    if nucl_reward is not None:
+        if not isinstance(nucl_reward, int) or isinstance(nucl_reward, bool):
+            raise ValueError(f"Invalid nucl_reward {nucl_reward!r}. Expected an integer.")
+        params.append(("NUCL_REWARD", nucl_reward))
+
+    if nucl_penalty is not None:
+        if not isinstance(nucl_penalty, int) or isinstance(nucl_penalty, bool):
+            raise ValueError(f"Invalid nucl_penalty {nucl_penalty!r}. Expected an integer.")
+        params.append(("NUCL_PENALTY", nucl_penalty))
+
+    if perc_identity is not None:
+        if not isinstance(perc_identity, (int, float)) or isinstance(perc_identity, bool) or not (0 <= perc_identity <= 100):
+            raise ValueError(f"Invalid perc_identity {perc_identity!r}. Expected a number between 0 and 100.")
+        params.append(("PERC_IDENT", perc_identity))
+
+    return params
+
 
 @overload
 def blast(
@@ -39,6 +112,12 @@ def blast(
     *,
     json: Literal[True],
     save: bool = False,
+    word_size: int | None = None,
+    gapcosts: str | None = None,
+    matrix: str | None = None,
+    nucl_reward: int | None = None,
+    nucl_penalty: int | None = None,
+    perc_identity: float | None = None,
 ) -> list[dict[str, Any]] | None: ...
 
 
@@ -55,6 +134,12 @@ def blast(
     wrap_text: bool = False,
     json: Literal[False] = False,
     save: bool = False,
+    word_size: int | None = None,
+    gapcosts: str | None = None,
+    matrix: str | None = None,
+    nucl_reward: int | None = None,
+    nucl_penalty: int | None = None,
+    perc_identity: float | None = None,
 ) -> pd.DataFrame | None: ...
 
 
@@ -70,6 +155,12 @@ def blast(
     wrap_text: bool = False,
     json: bool = False,
     save: bool = False,
+    word_size: int | None = None,
+    gapcosts: str | None = None,
+    matrix: str | None = None,
+    nucl_reward: int | None = None,
+    nucl_penalty: int | None = None,
+    perc_identity: float | None = None,
 ) -> pd.DataFrame | list[dict[str, Any]] | None:
     """BLAST a nucleotide or amino acid sequence against any BLAST DB.
 
@@ -89,7 +180,19 @@ def blast(
      - wrap_text      If True, displays data frame with wrapped text for easy reading. Default: False.
      - json           If True, returns results in json format instead of data frame. Default: False.
      - save           If True, the data frame is saved as a csv in the current directory (default: False).
+     - word_size      int or None. Length of the seed words used for the search (WORD_SIZE).
+                      Mirrors the "Word size" option of the NCBI web BLAST app. Default: None (server default).
+     - gapcosts       str or None. Gap costs as "open extend" (e.g. "11 1") (GAPCOSTS). Default: None.
+     - matrix         str or None. Protein scoring matrix (e.g. "BLOSUM62") (MATRIX).
+                      One of: PAM30, PAM70, PAM250, BLOSUM80, BLOSUM62, BLOSUM50, BLOSUM45, BLOSUM90. Default: None.
+     - nucl_reward    int or None. Reward for a nucleotide match (blastn only) (NUCL_REWARD). Default: None.
+     - nucl_penalty   int or None. Penalty for a nucleotide mismatch (blastn only) (NUCL_PENALTY). Default: None.
+     - perc_identity  float or None. Percent identity cutoff between 0 and 100 (PERC_IDENT). Default: None.
      - verbose        True/False whether to print progress information. Default True.
+
+    The word_size, gapcosts, matrix, nucl_reward, nucl_penalty, and perc_identity
+    arguments expose the NCBI web BLAST "Algorithm parameters" so gget blast more
+    fully matches the web app (issue #58).
 
     Returns a data frame with the BLAST results.
 
@@ -230,6 +333,16 @@ def blast(
     else:
         megablast = "on"
 
+    ## Validate and assemble extra NCBI web BLAST "Algorithm parameters" (issue #58)
+    algorithm_params = _build_algorithm_params(
+        word_size=word_size,
+        gapcosts=gapcosts,
+        matrix=matrix,
+        nucl_reward=nucl_reward,
+        nucl_penalty=nucl_penalty,
+        perc_identity=perc_identity,
+    )
+
     ## Submit search
     #  The following code was partly adapted from the Biopython BLAST NCBIWWW project written
     #  by Jeffrey Chang (Copyright 1999), Brad Chapman, and Chris Wroe distributed under the
@@ -247,6 +360,7 @@ def blast(
         ("EXPECT", expect),
         ("FILTER", low_comp_filt),
         ("MEGABLAST", megablast),
+        *algorithm_params,
         ("CMD", "Put"),
     ]
 

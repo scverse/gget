@@ -5,6 +5,7 @@
 #### *gget* officially became part of [*scverse*](https://scverse.org/) on June 9, 2026. 🥳🥳🥳
 
 **Version ≥ 0.30.9** (XXX XX, 2026):  
+- [`gget blast`](blast.md): Exposed the NCBI web BLAST "Algorithm parameters" so `gget blast` more fully matches the web app (resolves [issue 58](https://github.com/scverse/gget/issues/58)). New arguments `word_size`, `gapcosts`, `matrix`, `nucl_reward`, `nucl_penalty`, and `perc_identity` (CLI: `-ws`/`--word_size`, `-gc`/`--gapcosts`, `-mx`/`--matrix`, `-nr`/`--nucl_reward`, `-np`/`--nucl_penalty`, `-pi`/`--perc_identity`) are validated and forwarded to the BLAST URL API (`WORD_SIZE`, `GAPCOSTS`, `MATRIX`, `NUCL_REWARD`, `NUCL_PENALTY`, `PERC_IDENT`). All default to `None` (server default), so existing behavior is unchanged.
 
 **Version ≥ 0.30.8** (Jun 28, 2026):  
 - [`gget g2p`](g2p.md): Either `gene` or `--uniprot_id` is now sufficient — whichever is missing is resolved via UniProt and cached. Gene→UniProt picks the canonical reviewed human Swiss-Prot entry; the resolution and its limitations are logged. The canonical pair is **always** prepended to the result as `gene_name` / `uniprot_id` columns (and stored on `df.attrs`), so the output schema is invariant regardless of input mode. Existing call sites continue to work.
