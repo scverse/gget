@@ -8,6 +8,7 @@
 - [`gget pdb`](pdb.md): Added support for the PDBx/mmCIF structure format (fixes [issue 178](https://github.com/scverse/gget/issues/178) and [issue 177](https://github.com/scverse/gget/issues/177)).
   - New `resource="mmcif"` option downloads the structure in PDBx/mmCIF format (`.cif`).
   - The default `resource="pdb"` now automatically falls back to PDBx/mmCIF when the legacy PDB file is unavailable (e.g. for large structures), since the legacy PDB format is being phased out by RCSB. A warning is logged and saved files use the correct extension (`.cif`).
+- [`gget opentargets`](opentargets.md): Fixed `resource="drugs"` returning an HTTP 400 error after OpenTargets changed the `synonyms` and `tradeNames` fields from `[String!]!` to the object type `[DrugLabelAndSource!]!`. The GraphQL query now requests a sub-selection (`{ label }`) and the response is flattened back to a list of strings, keeping the output backward-compatible.
 
 
 **Version ≥ 0.30.7** (Jun 21, 2026):  
