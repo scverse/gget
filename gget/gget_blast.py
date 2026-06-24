@@ -91,7 +91,11 @@ def _build_algorithm_params(
         params.append(("NUCL_PENALTY", nucl_penalty))
 
     if perc_identity is not None:
-        if not isinstance(perc_identity, (int, float)) or isinstance(perc_identity, bool) or not (0 <= perc_identity <= 100):
+        if (
+            not isinstance(perc_identity, (int, float))
+            or isinstance(perc_identity, bool)
+            or not (0 <= perc_identity <= 100)
+        ):
             raise ValueError(f"Invalid perc_identity {perc_identity!r}. Expected a number between 0 and 100.")
         params.append(("PERC_IDENT", perc_identity))
 
