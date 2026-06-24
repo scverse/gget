@@ -91,7 +91,9 @@ class TestEncodeHelpers(unittest.TestCase):
         df = _files_to_df(_EXPERIMENT_PAYLOAD["files"])
         self.assertEqual(list(df.columns), gget_encode._FILE_COLUMNS)
         self.assertEqual(df.shape[0], 2)
-        self.assertEqual(df.iloc[0]["url"], "https://www.encodeproject.org/files/ENCFF000BXK/@@download/ENCFF000BXK.bam")
+        self.assertEqual(
+            df.iloc[0]["url"], "https://www.encodeproject.org/files/ENCFF000BXK/@@download/ENCFF000BXK.bam"
+        )
         # Filter by assembly
         df2 = _files_to_df(_EXPERIMENT_PAYLOAD["files"], assembly="GRCh38")
         self.assertEqual(df2.shape[0], 1)

@@ -244,7 +244,9 @@ def encode(
         rows = [_search_row(g) for g in data.get("@graph", [])]
         results_df = pd.DataFrame(rows, columns=_SEARCH_COLUMNS)
         if download:
-            logger.warning("'download' is only supported for ENCODE accessions (experiments/files), not free-text searches.")
+            logger.warning(
+                "'download' is only supported for ENCODE accessions (experiments/files), not free-text searches."
+            )
 
     if len(results_df) == 0:
         logger.warning(f"No ENCODE results found for '{term}'.")
