@@ -1,8 +1,11 @@
 import json
+import os
+import tempfile
 import unittest
 from unittest.mock import patch
 
 import gget.gget_rummage as gget_rummage
+import requests
 from gget.gget_rummage import _clean_genes, rummagene, rummageo
 
 from .from_json import from_json
@@ -140,6 +143,48 @@ class TestRummageParsing(unittest.TestCase):
         mock_post.return_value = _FakeResponse({}, ok=False, status_code=500)
         with self.assertRaises(RuntimeError):
             rummageo(["STAT1"], verbose=False)
+
+    @patch.object(gget_rummage.requests, "post")
+    def test_filter_term_and_verbose(self, mock_post):
+        # Covers the filter_term variable branch and the verbose logging line.
+        mock_post.return_value = _FakeResponse(_RUMMAGENE_PAYLOAD)
+        rummagene(["STAT1"], filter_term="cancer", verbose=True)
+        sent_variables = mock_post.call_args.kwargs["json"]["variables"]
+        self.assertEqual(sent_variables["filterTerm"], "cancer")
+
+    @patch.object(gget_rummage.requests, "post")
+    def test_request_exception_raises(self, mock_post):
+        # Covers the requests.RequestException -> RuntimeError branch.
+        mock_post.side_effect = requests.exceptions.ConnectionError("no network")
+        with self.assertRaises(RuntimeError):
+            rummagene(["STAT1"], verbose=False)
+
+    @patch.object(gget_rummage.requests, "post")
+    def test_save_csv(self, mock_post):
+        # Covers the save-to-CSV branch.
+        mock_post.return_value = _FakeResponse(_RUMMAGENE_PAYLOAD)
+        with tempfile.TemporaryDirectory() as tmp:
+            cwd = os.getcwd()
+            os.chdir(tmp)
+            try:
+                rummagene(["STAT1"], save=True, verbose=False)
+                self.assertTrue(os.path.exists("gget_rummagene_results.csv"))
+            finally:
+                os.chdir(cwd)
+
+    @patch.object(gget_rummage.requests, "post")
+    def test_save_json(self, mock_post):
+        # Covers the json + save branch.
+        mock_post.return_value = _FakeResponse(_RUMMAGENE_PAYLOAD)
+        with tempfile.TemporaryDirectory() as tmp:
+            cwd = os.getcwd()
+            os.chdir(tmp)
+            try:
+                result = rummagene(["STAT1"], save=True, json=True, verbose=False)
+                self.assertIsInstance(result, list)
+                self.assertTrue(os.path.exists("gget_rummagene_results.json"))
+            finally:
+                os.chdir(cwd)
 
 
 if __name__ == "__main__":
