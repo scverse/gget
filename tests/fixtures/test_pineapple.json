@@ -1,0 +1,18 @@
+{
+    "test_pineapple_bad_category": {
+        "type": "error",
+        "args": {
+            "category": "banana"
+        },
+        "expected_result": "ValueError",
+        "expected_msg": "Invalid category 'banana'. Expected one of: segmentation, benchmark, weights"
+    },
+    "test_pineapple_bad_name": {
+        "type": "error",
+        "args": {
+            "name": "not_a_dataset",
+            "category": "segmentation"
+        },
+        "expected_result": "ValueError"
+    }
+}
