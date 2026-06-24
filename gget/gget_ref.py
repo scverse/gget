@@ -77,9 +77,7 @@ def assembly_report(
 
     soup = BeautifulSoup(parent_html.text, "html.parser")
     folders = [
-        href.rstrip("/")
-        for href in (a.get("href", "") for a in soup.find_all("a"))
-        if href.startswith(accession)
+        href.rstrip("/") for href in (a.get("href", "") for a in soup.find_all("a")) if href.startswith(accession)
     ]
     if not folders:
         raise RuntimeError(
