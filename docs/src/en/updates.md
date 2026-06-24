@@ -5,6 +5,8 @@
 #### *gget* officially became part of [*scverse*](https://scverse.org/) on June 9, 2026. 🥳🥳🥳
 
 **Version ≥ 0.30.9** (XXX XX, 2026):  
+- Bug fixes:
+  - [`gget seq`](seq.md): Transcript/ENST IDs now return the spliced cDNA sequence instead of the genomic span (which included introns). gget requests `type=cdna` from the Ensembl `sequence/id` endpoint for transcript IDs across all code paths (bulk, isoform, and single-ID); gene IDs are unaffected and still return the genomic sequence. Resolves [issue 187](https://github.com/scverse/gget/issues/187).
 
 **Version ≥ 0.30.8** (Jun 28, 2026):  
 - [`gget g2p`](g2p.md): Either `gene` or `--uniprot_id` is now sufficient — whichever is missing is resolved via UniProt and cached. Gene→UniProt picks the canonical reviewed human Swiss-Prot entry; the resolution and its limitations are logged. The canonical pair is **always** prepended to the result as `gene_name` / `uniprot_id` columns (and stored on `df.attrs`), so the output schema is invariant regardless of input mode. Existing call sites continue to work.
@@ -37,7 +39,6 @@
 - Deprecations:
   - [`gget alphafold`](alphafold.md) and [`gget gpt`](gpt.md) are no longer actively maintained. Both now emit a warning when invoked, and a deprecation notice was added to the top of each module's docs.
 - Bug fixes:
-  - [`gget seq`](seq.md): Transcript/ENST IDs now return the spliced cDNA sequence instead of the genomic span (which included introns). gget requests `type=cdna` from the Ensembl `sequence/id` endpoint for transcript IDs across all code paths (bulk, isoform, and single-ID); gene IDs are unaffected and still return the genomic sequence. Resolves [issue 187](https://github.com/scverse/gget/issues/187).
   - [`gget search`](search.md): Missing values are now consistently returned as `None` instead of `NaN`, both in scalar cells and inside synonym lists (`[None]` rather than `[nan]` for genes with no synonyms). The previous output was an artifact of `SQL LEFT JOIN`s surfacing as pandas `NaN`s; the JSON output was already `null` either way, so this only affects the DataFrame return path.
   - [`gget mutate`](mutate.md): Fixed `pyarrow.lib.ArrowNotImplementedError: Function 'binary_join_element_wise' has no kernel matching input types (large_string, null, large_string)` when the input contained no substitutions (only deletions/insertions/delins/duplications/inversions). The substitution-only sequence-build branches now short-circuit on an empty selection instead of triggering an arrow-string kernel that older `pyarrow` versions don't implement.
   - [`gget muscle`](muscle.md) and [`gget diamond`](diamond.md): When the bundled MUSCLE / DIAMOND binary fails because a system library is missing (most commonly `libgomp` / `libomp` on macOS without Homebrew gcc/libomp installed), gget now raises a clear `RuntimeError` naming the missing library and the exact `brew install` / `apt install` command to fix it — instead of the raw `dyld` / `ld.so` error spilling onto stderr.

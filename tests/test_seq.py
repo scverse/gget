@@ -314,3 +314,65 @@ class TestSeqTranscriptMocked(unittest.TestCase):
         self.assertIn("uniprot_id: P38398", result[0])
         self.assertIn(transcript_id, result[0])
         self.assertEqual(result[1], "MEN")
+
+    # ----- error/fallback branches (the remaining uncovered #187 lines) -----
+
+    def test_lookup_failure_falls_back_to_genomic(self):
+        """If the lookup/id classification fails, gget seq falls back to a genomic request."""
+
+        def fake_post_query(server, endpoint, data):
+            if endpoint == "lookup/id":
+                raise RuntimeError("lookup/id endpoint unavailable")
+            if endpoint == "sequence/id":
+                return [_seq_entry(i, "FALLBACKSEQ", desc="chromosome:GRCh38:1") for i in data["ids"]]
+            raise AssertionError(f"Unexpected endpoint after lookup failure: {endpoint}")
+
+        with patch("gget.gget_seq.post_query", side_effect=fake_post_query) as mock_pq:
+            result = seq("ENSG00000012048", verbose=False)
+
+        endpoints = [call.args[1] for call in mock_pq.call_args_list]
+        self.assertIn("lookup/id", endpoints)  # the lookup was attempted
+        self.assertIn("sequence/id", endpoints)  # and it fell back to the genomic request
+        self.assertNotIn("sequence/id?type=cdna", endpoints)
+        self.assertEqual(result, [">ENSG00000012048 chromosome:GRCh38:1", "FALLBACKSEQ"])
+
+    def test_isoforms_gene_transcript_fetch_error_is_logged(self):
+        """isoforms=True on a gene logs an error for a failing transcript but keeps the others."""
+        gene_id = "ENSG00000012048"
+
+        def fake_rest_query(server, query, content_type):
+            if "ENST00000357654" in query:
+                raise RuntimeError("transcript not found")
+            return {"id": "ENST00000352993", "seq": "CDNA_OK", "desc": None}
+
+        with (
+            patch(
+                "gget.gget_seq.info",
+                return_value=_info_df(gene_id, "Gene", all_transcripts=["ENST00000357654", "ENST00000352993"]),
+            ),
+            patch("gget.gget_seq.rest_query", side_effect=fake_rest_query),
+            self.assertLogs(level="ERROR") as captured,
+        ):
+            result = seq(gene_id, isoforms=True, verbose=False)
+
+        self.assertTrue(any("ENST00000357654" in line for line in captured.output))
+        # The transcript that succeeded is still returned
+        self.assertIn(">ENST00000352993", result)
+        self.assertIn("CDNA_OK", result)
+
+    def test_isoforms_transcript_fetch_error_is_logged(self):
+        """isoforms=True on a transcript whose cDNA fetch fails logs an error and yields no sequence."""
+        transcript_id = "ENST00000357654"
+
+        def fake_rest_query(server, query, content_type):
+            raise RuntimeError("transcript not found")
+
+        with (
+            patch("gget.gget_seq.info", return_value=_info_df(transcript_id, "Transcript")),
+            patch("gget.gget_seq.rest_query", side_effect=fake_rest_query),
+            self.assertLogs(level="ERROR") as captured,
+        ):
+            result = seq(transcript_id, isoforms=True, verbose=False)
+
+        self.assertEqual(result, [])
+        self.assertTrue(any(transcript_id in line for line in captured.output))
