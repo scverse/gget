@@ -21,7 +21,20 @@ from .constants import (  # noqa: E402
     ENSEMBL_FTP_URL,
     ENSEMBL_FTP_URL_GRCH37,
     ENSEMBL_FTP_URL_NV,
+    GENCODE_FTP_URL,
 )
+
+# Mapping of `which` keys to (GENCODE file-name substring template, output dict key) for gget ref.
+# {ver} is filled with the GENCODE version string (e.g. "v46" for human, "vM35" for mouse).
+_GENCODE_FILES: dict[str, tuple[str, str]] = {
+    "gtf": ("gencode.{ver}.annotation.gtf.gz", "annotation_gtf"),
+    "dna": ("primary_assembly.genome.fa.gz", "genome_dna"),
+    "cdna": ("gencode.{ver}.transcripts.fa.gz", "transcriptome_cdna"),
+    "ncrna": ("gencode.{ver}.lncRNA_transcripts.fa.gz", "non-coding_seq_ncRNA"),
+    "pep": ("gencode.{ver}.pc_translations.fa.gz", "protein_translation_pep"),
+}
+# Order used when `which="all"` is requested for GENCODE (mirrors the Ensembl ordering, minus 'cds').
+_GENCODE_ALL_ORDER = ["cdna", "dna", "gtf", "ncrna", "pep"]
 
 
 def find_FTP_link(url: str, link_substring: str) -> tuple[str | None, str | None, str | None]:
@@ -58,6 +71,127 @@ def find_FTP_link(url: str, link_substring: str) -> tuple[str | None, str | None
     return link_str, date_str, size_str
 
 
+def _find_latest_gencode_release(organism: str) -> str:
+    """Return the latest GENCODE release identifier for 'human' (e.g. '46') or 'mouse' (e.g. 'M35')."""
+    base_url = f"{GENCODE_FTP_URL}Gencode_{organism}/"
+    html = requests.get(base_url, timeout=DEFAULT_REQUESTS_TIMEOUT)
+    if html.status_code != 200:
+        raise RuntimeError(
+            f"GENCODE FTP returned status code {html.status_code} for {base_url}. Please try again.\n"
+        )
+
+    soup = BeautifulSoup(html.text, "html.parser")
+    releases = [
+        href.strip("/").replace("release_", "")
+        for href in (a.get("href", "") for a in soup.find_all("a"))
+        if href.startswith("release_")
+    ]
+
+    if organism == "mouse":
+        # Mouse releases are prefixed with "M" (e.g. "M35")
+        nums = [int(r[1:]) for r in releases if r.startswith("M") and r[1:].isdigit()]
+        if not nums:
+            raise RuntimeError(f"Could not determine the latest GENCODE mouse release from {base_url}.\n")
+        return f"M{max(nums)}"
+
+    nums = [int(r) for r in releases if r.isdigit()]
+    if not nums:
+        raise RuntimeError(f"Could not determine the latest GENCODE human release from {base_url}.\n")
+    return str(max(nums))
+
+
+def _gencode_ref(
+    species: str,
+    which: str | list[str],
+    release: int | None,
+    ftp: bool,
+    save: bool,
+    verbose: bool,
+) -> Any:
+    """Fetch reference GTF/FASTA FTP links from GENCODE (human and mouse only). See `ref` for details."""
+    # Resolve organism (GENCODE only provides human and mouse references)
+    species_lower = species.lower()
+    if species_lower in ("human", "homo_sapiens"):
+        organism = "human"
+    elif species_lower in ("mouse", "mus_musculus"):
+        organism = "mouse"
+    else:
+        raise ValueError(
+            f"GENCODE only provides reference files for human and mouse, but species '{species}' was passed.\n"
+            "Use species 'human'/'homo_sapiens' or 'mouse'/'mus_musculus' with source='gencode', "
+            "or use source='ensembl' (default) for other species.\n"
+        )
+
+    # Resolve the GENCODE release identifier ("46" for human, "M35" for mouse)
+    if release is None:
+        rel = _find_latest_gencode_release(organism)
+    else:
+        rel = f"M{release}" if organism == "mouse" else str(release)
+    ver = f"v{rel}"
+    base_url = f"{GENCODE_FTP_URL}Gencode_{organism}/release_{rel}/"
+
+    # Normalize and validate the 'which' parameter
+    if isinstance(which, str):
+        which = [which]
+    if len(which) > 1 and "all" in which:
+        raise ValueError(
+            "Parameter 'which' must be 'all', or any one or a combination of the following: "
+            "'gtf', 'cdna', 'dna', 'ncrna', 'pep'.\n"
+        )
+    which_allowed = ["all", *_GENCODE_FILES.keys()]
+    bad = [x for x in which if x not in which_allowed]
+    if bad:
+        extra = ""
+        if "cds" in bad:
+            extra = " (GENCODE does not provide a CDS file; use 'cdna' for transcripts or 'pep' for translations)"
+        raise ValueError(
+            "For source='gencode', parameter 'which' must be 'all', or any one or a combination of the "
+            f"following: 'gtf', 'cdna', 'dna', 'ncrna', 'pep'.{extra}\n"
+        )
+
+    keys = _GENCODE_ALL_ORDER if "all" in which else which
+
+    if verbose:
+        logger.info(f"Fetching GENCODE reference information for {organism} from release {rel}.")
+
+    ref_dict: dict[str, dict[str, Any]] = {species_lower: {}}
+    urls: list[str] = []
+    for key in keys:
+        substring_template, out_key = _GENCODE_FILES[key]
+        link_substring = substring_template.format(ver=ver)
+        link_str, date_str, size_str = find_FTP_link(url=base_url, link_substring=link_substring)
+        if link_str is not None:
+            file_url = base_url + link_str
+            date_part = (date_str or " ").split(" ")[0]
+            time_part = (date_str or "  ").split(" ")[1] if date_str and " " in date_str else ""
+            size_part = size_str or ""
+        else:
+            file_url = ""
+            date_part = ""
+            time_part = ""
+            size_part = ""
+
+        urls.append(file_url)
+        ref_dict[species_lower][out_key] = {
+            "ftp": file_url,
+            "gencode_release": rel,
+            "release_date": date_part,
+            "release_time": time_part,
+            "bytes": size_part,
+        }
+
+    if ftp:
+        if save:
+            with open("gget_ref_results.txt", "w") as tfile:
+                tfile.write("\n".join(urls))
+        return urls
+
+    if save:
+        with open("gget_ref_results.json", "w", encoding="utf-8") as file:
+            json.dump(ref_dict, file, ensure_ascii=False, indent=4)
+    return ref_dict
+
+
 def ref(
     species: str | None,
     which: str | list[str] = "all",
@@ -66,14 +200,16 @@ def ref(
     save: bool = False,
     list_species: bool = False,
     list_iv_species: bool = False,
+    source: str = "ensembl",
     verbose: bool = True,
 ) -> Any:
-    """Fetch FTPs for reference genomes and annotations by species from Ensembl.
+    """Fetch FTPs for reference genomes and annotations by species from Ensembl or GENCODE.
 
     Args:
     - species         Defines the species for which the reference should be fetched in the format "<genus>_<species>",
                       e.g. species = "homo_sapiens".
                       Supported shortcuts: "human", "mouse", "human_grch37" (accesses the GRCh37 genome assembly)
+                      For source='gencode', only human ('human'/'homo_sapiens') and mouse ('mouse'/'mus_musculus') are supported.
     - which           Defines which results to return.
                       Default: 'all' -> Returns all available results.
                       Possible entries are one or a combination (as a list of strings) of the following:
@@ -83,19 +219,31 @@ def ref(
                       'cds - Returns the coding sequences corresponding to Ensembl genes. (Does not contain UTR or intronic sequence.)
                       'cdrna' - Returns transcript sequences corresponding to non-coding RNA genes (ncRNA).
                       'pep' - Returns the protein translations of Ensembl genes.
-    - release         Defines the Ensembl release number from which the files are fetched, e.g. release = 104.
-                      Default: None -> latest Ensembl release is used
+                      Note: source='gencode' does not provide 'cds'; 'cdna' returns GENCODE transcript sequences and
+                      'ncrna' returns GENCODE long non-coding RNA transcript sequences.
+    - release         Defines the release number from which the files are fetched, e.g. release = 104.
+                      Default: None -> latest release is used
+                      For source='gencode', this is the GENCODE release number (e.g. 46); the mouse 'M' prefix is added automatically.
     - ftp             Return only the requested FTP links in a list (default: False).
     - save            Save the results in the local directory (default: False).
     - list_species    If True and `species=None`, returns a list of all available VERTEBRATE species from the Ensembl database (default: False).
                       (Can be combined with the `release` argument to get the available species from a specific Ensembl release.)
     - list_iv_species If True and `species=None`, returns a list of all available INVERTEBRATE species from the Ensembl database (default: False).
                       (Can be combined with the `release` argument to get the available species from a specific Ensembl release.)
+    - source          Reference database to fetch from: 'ensembl' (default) or 'gencode' (human and mouse only).
     - verbose         True/False whether to print progress information (default: True).
 
-    Returns a dictionary containing the requested URLs with their respective Ensembl version and release date and time.
+    Returns a dictionary containing the requested URLs with their respective Ensembl/GENCODE version and release date and time.
     (If FTP=True, returns a list containing only the URLs.)
     """
+    # Fetch from GENCODE instead of Ensembl
+    if source != "ensembl":
+        if source != "gencode":
+            raise ValueError(f"Parameter 'source' must be 'ensembl' or 'gencode', but '{source}' was passed.\n")
+        if species is None:
+            raise ValueError("A species ('human'/'homo_sapiens' or 'mouse'/'mus_musculus') must be provided for source='gencode'.\n")
+        return _gencode_ref(species, which, release, ftp, save, verbose)
+
     # Return list of all available species
     if list_species:
         if release is None:

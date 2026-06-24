@@ -200,6 +200,18 @@ def main() -> None:
         help="Return only the FTP link(s).",
     )
     parser_ref.add_argument(
+        "-src",
+        "--source",
+        default="ensembl",
+        type=str,
+        choices=["ensembl", "gencode"],
+        required=False,
+        help=(
+            "Reference database to fetch from: 'ensembl' (default) or 'gencode'.\n"
+            "GENCODE provides human and mouse references only."
+        ),
+    )
+    parser_ref.add_argument(
         "-d",
         "--download",
         default=False,
@@ -3380,6 +3392,7 @@ def main() -> None:
                 which=which_clean,
                 release=args.release,
                 ftp=args.ftp,
+                source=args.source,
                 verbose=args.quiet,
             )
 
