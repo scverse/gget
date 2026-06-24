@@ -1,8 +1,11 @@
 import json
+import os
+import tempfile
 import unittest
 from unittest.mock import patch
 
 import gget.gget_ucsc as gget_ucsc
+import requests
 from gget.gget_ucsc import _match_rows, _parse_position, ucsc
 
 from .from_json import from_json
@@ -113,6 +116,44 @@ class TestUcscHelpers(unittest.TestCase):
         mock_get.return_value = _FakeResponse({}, ok=False, status_code=500)
         with self.assertRaises(RuntimeError):
             ucsc("BRCA2", verbose=False)
+
+    def test_empty_search_term_raises(self):
+        # Covers the empty/None search_term ValueError branch.
+        with self.assertRaises(ValueError):
+            ucsc("   ", verbose=False)
+
+    def test_parse_position_no_range(self):
+        # Covers the "chrom with colon but no range" branch of _parse_position.
+        self.assertEqual(_parse_position("chr1:5000"), ("chr1", None, None))
+
+    @patch.object(gget_ucsc.requests, "get")
+    def test_search_verbose(self, mock_get):
+        # Covers the verbose logging line.
+        mock_get.return_value = _FakeResponse(_SEARCH_PAYLOAD)
+        df = ucsc("BRCA2", verbose=True)
+        self.assertEqual(df.shape[0], 2)
+
+    @patch.object(gget_ucsc.requests, "get")
+    def test_request_exception_raises(self, mock_get):
+        # Covers the requests.RequestException -> RuntimeError branch.
+        mock_get.side_effect = requests.exceptions.ConnectionError("no network")
+        with self.assertRaises(RuntimeError):
+            ucsc("BRCA2", verbose=False)
+
+    @patch.object(gget_ucsc.requests, "get")
+    def test_save_csv_and_json(self, mock_get):
+        # Covers the save-to-CSV and json+save branches.
+        mock_get.return_value = _FakeResponse(_SEARCH_PAYLOAD)
+        with tempfile.TemporaryDirectory() as tmp:
+            cwd = os.getcwd()
+            os.chdir(tmp)
+            try:
+                ucsc("BRCA2", save=True, verbose=False)
+                self.assertTrue(os.path.exists("gget_ucsc_results.csv"))
+                ucsc("BRCA2", save=True, json=True, verbose=False)
+                self.assertTrue(os.path.exists("gget_ucsc_results.json"))
+            finally:
+                os.chdir(cwd)
 
 
 if __name__ == "__main__":
