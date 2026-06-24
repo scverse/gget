@@ -220,9 +220,7 @@ def reactome(
     Returns the requested information as a DataFrame (or list of dicts if json=True).
     """
     if resource not in REACTOME_RESOURCES:
-        raise ValueError(
-            f"Argument 'resource' must be one of {REACTOME_RESOURCES}, not '{resource}'."
-        )
+        raise ValueError(f"Argument 'resource' must be one of {REACTOME_RESOURCES}, not '{resource}'.")
 
     if not isinstance(query, str) or not query.strip():
         raise ValueError("Argument 'query' must be a non-empty string.")

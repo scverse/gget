@@ -24,25 +24,17 @@ class TestReactome(unittest.TestCase, metaclass=from_json(reactome_dict, reactom
             self.skipTest(f"Reactome service unreachable: {e}")
 
     def test_reactome_pathways_network(self):
-        df = self._maybe_skip(
-            reactome, query="P04637", resource="pathways", species="9606", verbose=False
-        )
+        df = self._maybe_skip(reactome, query="P04637", resource="pathways", species="9606", verbose=False)
         self.assertIsInstance(df, pd.DataFrame)
-        self.assertEqual(
-            list(df.columns), ["stable_id", "name", "species", "schema_class", "in_disease"]
-        )
+        self.assertEqual(list(df.columns), ["stable_id", "name", "species", "schema_class", "in_disease"])
         self.assertGreater(len(df), 0)
         # All stable IDs are Reactome identifiers, and the species filter is honored.
         self.assertTrue(df["stable_id"].str.startswith("R-").all())
         self.assertTrue((df["species"] == "Homo sapiens").all())
 
     def test_reactome_search_network(self):
-        df = self._maybe_skip(
-            reactome, query="TP53", resource="search", types="Pathway", verbose=False
-        )
-        self.assertEqual(
-            list(df.columns), ["stable_id", "name", "type", "species", "reactome_id"]
-        )
+        df = self._maybe_skip(reactome, query="TP53", resource="search", types="Pathway", verbose=False)
+        self.assertEqual(list(df.columns), ["stable_id", "name", "type", "species", "reactome_id"])
         self.assertGreater(len(df), 0)
         # HTML highlight tags from the search endpoint must be stripped from names.
         self.assertFalse(df["name"].str.contains("<", regex=False).any())
@@ -63,14 +55,10 @@ class TestReactome(unittest.TestCase, metaclass=from_json(reactome_dict, reactom
 
     def test_reactome_pathways_no_results_network(self):
         # An unmapped identifier yields an empty DataFrame (Reactome returns HTTP 404), not an error.
-        df = self._maybe_skip(
-            reactome, query="NOTAREALID", resource="pathways", verbose=False
-        )
+        df = self._maybe_skip(reactome, query="NOTAREALID", resource="pathways", verbose=False)
         self.assertIsInstance(df, pd.DataFrame)
         self.assertEqual(len(df), 0)
-        self.assertEqual(
-            list(df.columns), ["stable_id", "name", "species", "schema_class", "in_disease"]
-        )
+        self.assertEqual(list(df.columns), ["stable_id", "name", "species", "schema_class", "in_disease"])
 
 
 if __name__ == "__main__":
