@@ -1,6 +1,9 @@
 import json
 import math
+import os
+import tempfile
 import unittest
+from unittest.mock import patch
 
 import matplotlib
 import matplotlib.pyplot as plt
@@ -10,6 +13,7 @@ from .from_json import from_json
 
 # Prevent matplotlib from opening windows
 matplotlib.use("Agg")
+import gget.gget_enrichr as gget_enrichr
 from gget.gget_enrichr import enrichr, enrichr_library
 
 # Load dictionary containing arguments and expected results
@@ -99,3 +103,76 @@ class TestEnrichr(unittest.TestCase, metaclass=from_json(enrichr_dict, enrichr))
             num_figures_before,
             "No matplotlib plt object was created.",
         )
+
+
+class _FakeResponse:
+    """Minimal stand-in for a requests.Response used to test enrichr_library offline."""
+
+    def __init__(self, text, ok=True):
+        self.text = text
+        self.ok = ok
+
+
+# A valid Enrichr gene-set-library text payload (tab-separated, with a blank line).
+_LIBRARY_TEXT = "SET_A\t\tGENE1\tGENE2\tGENE3\n\nSET_B\tdescription\tGENE4\tGENE5\n"
+
+
+class TestEnrichrLibraryOffline(unittest.TestCase):
+    """Network-free tests of enrichr_library parsing/branches (issue #139)."""
+
+    def test_invalid_species_raises(self):
+        with self.assertRaises(ValueError):
+            enrichr_library("MSigDB_Hallmark_2020", species="martian", verbose=False)
+
+    @patch.object(gget_enrichr.requests, "get")
+    def test_parse_verbose(self, mock_get):
+        # Covers verbose logging, the blank-line skip, and full parsing.
+        mock_get.return_value = _FakeResponse(_LIBRARY_TEXT)
+        df = enrichr_library("MSigDB_Hallmark_2020", verbose=True)
+        self.assertEqual(list(df.columns), ["gene_set", "gene"])
+        self.assertEqual(set(df["gene_set"]), {"SET_A", "SET_B"})
+        self.assertEqual(df.shape[0], 5)
+
+    @patch.object(gget_enrichr.requests, "get")
+    def test_bad_library_html_raises(self, mock_get):
+        # Enrichr returns an HTML page for unknown library names.
+        mock_get.return_value = _FakeResponse("<html>HTTP Status 404</html>")
+        with self.assertRaises(RuntimeError):
+            enrichr_library("DoesNotExist", verbose=False)
+
+    @patch.object(gget_enrichr.requests, "get")
+    def test_empty_library_raises(self, mock_get):
+        # A response whose sets contain no member genes is treated as empty.
+        mock_get.return_value = _FakeResponse("SET_A\tdescription\n")
+        with self.assertRaises(RuntimeError):
+            enrichr_library("EmptyLib", verbose=False)
+
+    @patch.object(gget_enrichr.requests, "get")
+    def test_gene_set_filter(self, mock_get):
+        mock_get.return_value = _FakeResponse(_LIBRARY_TEXT)
+        df = enrichr_library("MSigDB_Hallmark_2020", gene_set="SET_A", verbose=False)
+        self.assertEqual(set(df["gene_set"]), {"SET_A"})
+
+    @patch.object(gget_enrichr.requests, "get")
+    def test_gene_set_not_found_raises(self, mock_get):
+        mock_get.return_value = _FakeResponse(_LIBRARY_TEXT)
+        with self.assertRaises(ValueError):
+            enrichr_library("MSigDB_Hallmark_2020", gene_set="NOPE", verbose=False)
+
+    @patch.object(gget_enrichr.requests, "get")
+    def test_json_and_save(self, mock_get):
+        # Covers the json return, json+save, and CSV save branches.
+        mock_get.return_value = _FakeResponse(_LIBRARY_TEXT)
+        result = enrichr_library("MSigDB_Hallmark_2020", json=True, verbose=False)
+        self.assertIsInstance(result, dict)
+        self.assertEqual(result["SET_A"], ["GENE1", "GENE2", "GENE3"])
+        with tempfile.TemporaryDirectory() as tmp:
+            cwd = os.getcwd()
+            os.chdir(tmp)
+            try:
+                enrichr_library("MSigDB_Hallmark_2020", save=True, verbose=False)
+                self.assertTrue(any(f.endswith(".csv") for f in os.listdir(".")))
+                enrichr_library("MSigDB_Hallmark_2020", json=True, save=True, verbose=False)
+                self.assertTrue(any(f.endswith(".json") for f in os.listdir(".")))
+            finally:
+                os.chdir(cwd)
