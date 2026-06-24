@@ -70,5 +70,15 @@
             "database": "banana"
         },
         "expected_result": "ValueError"
+    },
+    "test_blast_bad_taxid": {
+        "type": "error",
+        "args": {
+            "sequence": "MSKGEELFTGVVPILVELDGDVNGQKFSVSGEGEGDATYGKL",
+            "limit": 1,
+            "taxid": "banana"
+        },
+        "expected_result": "ValueError",
+        "expected_msg": "Invalid taxid 'banana'. Expected a numeric NCBI taxonomy ID (e.g. 9606 or 'txid9606')."
     }
 }

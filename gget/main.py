@@ -893,6 +893,29 @@ def main() -> None:
         help="Returns results in csv format instead of json.",
     )
     parser_blast.add_argument(
+        "-tax",
+        "--taxid",
+        type=str,
+        nargs="+",
+        default=None,
+        required=False,
+        help=(
+            "One or more NCBI taxonomy IDs to restrict the search to, e.g. 9606 (human) "
+            "or 'txid9606'. Multiple IDs (space-separated) are combined with OR."
+        ),
+    )
+    parser_blast.add_argument(
+        "-eq",
+        "--entrez_query",
+        type=str,
+        default=None,
+        required=False,
+        help=(
+            "Raw NCBI Entrez query to limit the search, e.g. \"Homo sapiens[ORGN] NOT predicted[Title]\". "
+            "Combined with --taxid using AND when both are provided."
+        ),
+    )
+    parser_blast.add_argument(
         "-o",
         "--out",
         type=str,
@@ -3111,6 +3134,8 @@ def main() -> None:
             megablast=args.megablast_off,
             verbose=args.quiet,
             json=args.csv,
+            entrez_query=args.entrez_query,
+            taxid=args.taxid,
         )
 
         # Check if the function returned something

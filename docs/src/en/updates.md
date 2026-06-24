@@ -5,6 +5,9 @@
 #### *gget* officially became part of [*scverse*](https://scverse.org/) on June 9, 2026. 🥳🥳🥳
 
 **Version ≥ 0.30.9** (XXX XX, 2026):  
+- [`gget blast`](blast.md): Added taxonomy/organism filtering via the new `taxid` and `entrez_query` arguments (CLI: `--taxid`/`-tax` and `--entrez_query`/`-eq`), mirroring the "Organism" field of the NCBI web BLAST app (resolves [issue 71](https://github.com/scverse/gget/issues/71)).
+  - `taxid` accepts a single NCBI taxonomy ID or a list (e.g. `9606`, `"txid9606"`, or `[9606, 10090]`); multiple IDs are combined with OR and a `txid<ID>[ORGN]` Entrez term is built automatically.
+  - `entrez_query` passes a raw NCBI Entrez query through to BLAST (`ENTREZ_QUERY`); when both are given they are combined with AND. Backward compatible — both default to `None` (no filtering).
 
 **Version ≥ 0.30.8** (Jun 28, 2026):  
 - [`gget g2p`](g2p.md): Either `gene` or `--uniprot_id` is now sufficient — whichever is missing is resolved via UniProt and cached. Gene→UniProt picks the canonical reviewed human Swiss-Prot entry; the resolution and its limitations are logged. The canonical pair is **always** prepended to the result as `gene_name` / `uniprot_id` columns (and stored on `df.attrs`), so the output schema is invariant regardless of input mode. Existing call sites continue to work.

@@ -25,6 +25,47 @@ from .constants import (  # noqa: E402
 )
 
 
+def _build_entrez_query(
+    taxid: int | str | list[int | str] | None = None,
+    entrez_query: str | None = None,
+) -> str | None:
+    """Build an NCBI Entrez query string to limit a BLAST search by taxonomy.
+
+    Args:
+     - taxid          A single NCBI taxonomy ID or a list of taxonomy IDs to
+                      restrict the search to (e.g. 9606 or "txid9606" for human).
+                      Multiple IDs are combined with OR.
+     - entrez_query   A raw NCBI Entrez query string passed through as-is
+                      (e.g. "Homo sapiens[ORGN] NOT predicted[Title]").
+
+    When both are provided they are combined with AND. Returns None if neither
+    is provided. Raises ValueError if a taxid is not a valid (numeric) ID.
+    """
+    entrez_terms = []
+
+    if taxid is not None:
+        # Accept a single taxid or an iterable of taxids
+        taxid_list = list(taxid) if isinstance(taxid, (list, tuple, set)) else [taxid]
+        taxid_terms = []
+        for tid in taxid_list:
+            tid_str = str(tid).strip().lower().removeprefix("txid")
+            if not tid_str.isdigit():
+                raise ValueError(
+                    f"Invalid taxid {tid!r}. Expected a numeric NCBI taxonomy ID (e.g. 9606 or 'txid9606')."
+                )
+            taxid_terms.append(f"txid{tid_str}[ORGN]")
+
+        if len(taxid_terms) == 1:
+            entrez_terms.append(taxid_terms[0])
+        else:
+            entrez_terms.append("(" + " OR ".join(taxid_terms) + ")")
+
+    if entrez_query is not None and str(entrez_query).strip() != "":
+        entrez_terms.append(str(entrez_query).strip())
+
+    return " AND ".join(entrez_terms) if entrez_terms else None
+
+
 @overload
 def blast(
     sequence: str,
@@ -39,6 +80,8 @@ def blast(
     *,
     json: Literal[True],
     save: bool = False,
+    entrez_query: str | None = None,
+    taxid: int | str | list[int | str] | None = None,
 ) -> list[dict[str, Any]] | None: ...
 
 
@@ -55,6 +98,8 @@ def blast(
     wrap_text: bool = False,
     json: Literal[False] = False,
     save: bool = False,
+    entrez_query: str | None = None,
+    taxid: int | str | list[int | str] | None = None,
 ) -> pd.DataFrame | None: ...
 
 
@@ -70,6 +115,8 @@ def blast(
     wrap_text: bool = False,
     json: bool = False,
     save: bool = False,
+    entrez_query: str | None = None,
+    taxid: int | str | list[int | str] | None = None,
 ) -> pd.DataFrame | list[dict[str, Any]] | None:
     """BLAST a nucleotide or amino acid sequence against any BLAST DB.
 
@@ -89,6 +136,12 @@ def blast(
      - wrap_text      If True, displays data frame with wrapped text for easy reading. Default: False.
      - json           If True, returns results in json format instead of data frame. Default: False.
      - save           If True, the data frame is saved as a csv in the current directory (default: False).
+     - entrez_query   Raw NCBI Entrez query string used to limit the BLAST search
+                      (e.g. "Homo sapiens[ORGN] NOT predicted[Title]"). Default: None.
+     - taxid          NCBI taxonomy ID, or list of taxonomy IDs, to restrict the search to
+                      (e.g. 9606 or "txid9606" for human; ["9606", "10090"] for human and mouse).
+                      Multiple IDs are combined with OR. Combined with 'entrez_query' using AND
+                      when both are provided. Default: None.
      - verbose        True/False whether to print progress information. Default True.
 
     Returns a data frame with the BLAST results.
@@ -230,6 +283,12 @@ def blast(
     else:
         megablast = "on"
 
+    ## Build Entrez query for taxonomy / organism filtering (issue #71)
+    # Validates taxid(s) and combines with any raw entrez_query before submission.
+    entrez_query_final = _build_entrez_query(taxid, entrez_query)
+    if entrez_query_final is not None and verbose:
+        logger.info(f"Limiting BLAST search to Entrez query: {entrez_query_final}")
+
     ## Submit search
     #  The following code was partly adapted from the Biopython BLAST NCBIWWW project written
     #  by Jeffrey Chang (Copyright 1999), Brad Chapman, and Chris Wroe distributed under the
@@ -247,6 +306,7 @@ def blast(
         ("EXPECT", expect),
         ("FILTER", low_comp_filt),
         ("MEGABLAST", megablast),
+        ("ENTREZ_QUERY", entrez_query_final),
         ("CMD", "Put"),
     ]
 
