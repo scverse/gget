@@ -17,6 +17,12 @@ ENSEMBL_FTP_URL_NV = "http://ftp.ensemblgenomes.org/pub/"
 # NCBI URL for gget info
 NCBI_URL = "https://www.ncbi.nlm.nih.gov"
 
+# MitoCarta3.0 download URLs (Broad Institute) for gget mitocarta
+MITOCARTA_URLS = {
+    "human": "https://personal.broadinstitute.org/scalvo/MitoCarta3.0/Human.MitoCarta3.0.xls",
+    "mouse": "https://personal.broadinstitute.org/scalvo/MitoCarta3.0/Mouse.MitoCarta3.0.xls",
+}
+
 # NCBI VIRUS REST API URL for gget virus - Version 2 API endpoint
 NCBI_API_BASE = "https://api.ncbi.nlm.nih.gov/datasets/v2"
 

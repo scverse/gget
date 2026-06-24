@@ -40,6 +40,7 @@ dependencies = [
   "pandas>=1",
   "requests>=2.22",
   "tqdm",
+  "xlrd>=2",
 ]
 # Optional feature dependency for `gget cellxgene` (install: pip install gget[cellxgene]).
 # No wheels for the newest Python versions yet (e.g. 3.14 via tiledbsoma).

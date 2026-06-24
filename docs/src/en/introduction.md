@@ -46,18 +46,23 @@ These are the `gget` core modules. Click on any module to access detailed docume
   </tr>
   <tr>
     <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/info.md"><strong>gget info</strong></a><br><span style="font-size:0.85em;">Fetch all of the information associated with an Ensembl ID.</span></td>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/mitocarta.md"><strong>gget mitocarta</strong></a><br><span style="font-size:0.85em;">Fetch the MitoCarta3.0 inventory of mitochondrial proteins and pathways.</span></td>
     <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/muscle.md"><strong>gget muscle</strong></a><br><span style="font-size:0.85em;">Align multiple nucleotide or amino acid sequences to each other.</span></td>
-    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/mutate.md"><strong>gget mutate</strong></a><br><span style="font-size:0.85em;">Mutate nucleotide sequences based on specified mutations.</span></td>
   </tr>
   <tr>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/mutate.md"><strong>gget mutate</strong></a><br><span style="font-size:0.85em;">Mutate nucleotide sequences based on specified mutations.</span></td>
     <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/opentargets.md"><strong>gget opentargets</strong></a><br><span style="font-size:0.85em;">Explore which diseases and drugs a gene is associated with.</span></td>
     <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/pdb.md"><strong>gget pdb</strong></a><br><span style="font-size:0.85em;">Fetch data from the Protein Data Bank (PDB) based on a PDB ID.</span></td>
-    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/ref.md"><strong>gget ref</strong></a><br><span style="font-size:0.85em;">Get reference genomes from Ensembl.</span></td>
   </tr>
   <tr>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/ref.md"><strong>gget ref</strong></a><br><span style="font-size:0.85em;">Get reference genomes from Ensembl.</span></td>
     <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/search.md"><strong>gget search</strong></a><br><span style="font-size:0.85em;">Find Ensembl IDs associated with the specified search word.</span></td>
     <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/seq.md"><strong>gget seq</strong></a><br><span style="font-size:0.85em;">Fetch the nucleotide or amino acid sequence of a gene.</span></td>
+  </tr>
+  <tr>
     <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/virus.md"><strong>gget virus</strong></a><br><span style="font-size:0.85em;">Filter and fetch global viral sequences and extensive metadata.</span></td>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"></td>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"></td>
   </tr>
 </table>
 

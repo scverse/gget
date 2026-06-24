@@ -33,6 +33,7 @@ from .gget_enrichr import enrichr  # noqa: E402
 from .gget_g2p import g2p  # noqa: E402
 from .gget_gpt import gpt  # noqa: E402
 from .gget_info import info  # noqa: E402
+from .gget_mitocarta import mitocarta  # noqa: E402
 from .gget_muscle import muscle  # noqa: E402
 from .gget_mutate import mutate  # noqa: E402
 from .gget_opentargets import OPENTARGETS_RESOURCES, opentargets  # noqa: E402
@@ -2292,6 +2293,66 @@ def main() -> None:
 
     ## bgee parser arguments
     bgee_desc = "Query the Bgee database for orthology and gene expression data using Ensembl IDs."
+    ## gget mitocarta subparser
+    mitocarta_desc = "Fetch the MitoCarta3.0 inventory of mammalian mitochondrial proteins and pathways."
+    parser_mitocarta = parent_subparsers.add_parser(
+        "mitocarta",
+        parents=[parent],
+        description=mitocarta_desc,
+        help=mitocarta_desc,
+        add_help=True,
+        formatter_class=CustomHelpFormatter,
+    )
+    parser_mitocarta.add_argument(
+        "-s",
+        "--species",
+        type=str,
+        choices=["human", "mouse"],
+        default="human",
+        required=False,
+        help="Species to fetch: 'human' (default) or 'mouse'.",
+    )
+    parser_mitocarta.add_argument(
+        "-w",
+        "--which",
+        type=str,
+        choices=["mitocarta", "all_genes", "pathways"],
+        default="mitocarta",
+        required=False,
+        help=(
+            "Which table to return:\n"
+            "'mitocarta' (default) - the MitoCarta3.0 inventory of mitochondrial genes.\n"
+            "'all_genes'           - all genes scored for mitochondrial localization (Maestro scores).\n"
+            "'pathways'            - the MitoPathways hierarchy and the genes in each pathway."
+        ),
+    )
+    parser_mitocarta.add_argument(
+        "-o",
+        "--out",
+        type=str,
+        required=False,
+        help=(
+            "Path to the file the results will be saved in, e.g. path/to/directory/results.json.\n"
+            "Default: Standard out."
+        ),
+    )
+    parser_mitocarta.add_argument(
+        "-csv",
+        "--csv",
+        default=False,
+        action="store_true",
+        required=False,
+        help="Returns results in csv format instead of json.",
+    )
+    parser_mitocarta.add_argument(
+        "-q",
+        "--quiet",
+        default=True,
+        action="store_false",
+        required=False,
+        help="Does not print progress information.",
+    )
+
     parser_bgee = parent_subparsers.add_parser(
         "bgee",
         parents=[parent],
@@ -3806,6 +3867,29 @@ def main() -> None:
             )
 
     ## bgee return
+    ## mitocarta return
+    if args.command == "mitocarta":
+        mitocarta_results: pd.DataFrame = mitocarta(
+            species=args.species,
+            which=args.which,
+            verbose=args.quiet,
+        )
+
+        if args.out is not None and args.out != "":
+            directory = os.path.dirname(args.out)
+            if directory != "":
+                os.makedirs(directory, exist_ok=True)
+            with open(args.out, "w", encoding="utf-8") as f:
+                if args.csv:
+                    mitocarta_results.to_csv(f, index=False)
+                else:
+                    mitocarta_results.to_json(f, orient="records", force_ascii=False, indent=4)
+        else:
+            if args.csv:
+                mitocarta_results.to_csv(sys.stdout, index=False)
+            else:
+                print(mitocarta_results.to_json(orient="records", force_ascii=False, indent=4))
+
     if args.command == "bgee":
         bgee_results: pd.DataFrame = bgee(
             args.ens_id,

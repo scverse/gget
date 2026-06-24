@@ -5,6 +5,9 @@
 #### *gget* officially became part of [*scverse*](https://scverse.org/) on June 9, 2026. 🥳🥳🥳
 
 **Version ≥ 0.30.9** (XXX XX, 2026):  
+- [`gget mitocarta`](mitocarta.md): **New module** to fetch the [MitoCarta3.0](https://www.broadinstitute.org/mitocarta/) inventory of mammalian mitochondrial proteins and pathways from the Broad Institute (resolves [issue 118](https://github.com/scverse/gget/issues/118)).
+  - Supports human and mouse via the `species` argument; the `which` argument returns the mitochondrial gene inventory (`mitocarta`, default), all genes with Maestro localization scores (`all_genes`), or the MitoPathways hierarchy and their genes (`pathways`).
+  - Returns a `pandas` DataFrame (or a list of dictionaries / JSON with `json=True`). Adds `xlrd` as a dependency to read the MitoCarta Excel file.
 
 **Version ≥ 0.30.8** (Jun 28, 2026):  
 - [`gget g2p`](g2p.md): Either `gene` or `--uniprot_id` is now sufficient — whichever is missing is resolved via UniProt and cached. Gene→UniProt picks the canonical reviewed human Swiss-Prot entry; the resolution and its limitations are logged. The canonical pair is **always** prepended to the result as `gene_name` / `uniprot_id` columns (and stored on `df.attrs`), so the output schema is invariant regardless of input mode. Existing call sites continue to work.
