@@ -5,6 +5,9 @@
 #### *gget* officially became part of [*scverse*](https://scverse.org/) on June 9, 2026. 🥳🥳🥳
 
 **Version ≥ 0.30.8** (XXX XX, 2026):  
+- [`gget virus`](virus.md): Documented the baseline metadata deduplication / incremental download feature (resolves [issue 204](https://github.com/scverse/gget/issues/204)).
+  - The `baseline_metadata` argument (command line: `--baseline`) accepts a baseline metadata file (CSV/JSONL/JSON/text) whose accessions are skipped, so only new (not-already-downloaded) sequences are fetched — useful for incremental updates and for resuming after a mid-pagination API failure (a partial-metadata file + recovery command is emitted on failure).
+  - The `merge_results` argument (command line: `--merge-results` / `--no-merge`, default merge) controls whether new results are merged with the baseline into a single output or written separately (`{virus}_new.csv` + baseline reference). Accession comparison is case-insensitive.
 - [`gget pdb`](pdb.md): Added support for the PDBx/mmCIF structure format (fixes [issue 178](https://github.com/scverse/gget/issues/178) and [issue 177](https://github.com/scverse/gget/issues/177)).
   - New `resource="mmcif"` option downloads the structure in PDBx/mmCIF format (`.cif`).
   - The default `resource="pdb"` now automatically falls back to PDBx/mmCIF when the legacy PDB file is unavailable (e.g. for large structures), since the legacy PDB format is being phased out by RCSB. A warning is logged and saved files use the correct extension (`.cif`).
