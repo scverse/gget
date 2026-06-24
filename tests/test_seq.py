@@ -250,7 +250,10 @@ class TestSeqTranscriptMocked(unittest.TestCase):
             return {"id": tid, "seq": "CDNA_" + tid, "desc": None}
 
         with (
-            patch("gget.gget_seq.info", return_value=_info_df(gene_id, "Gene", all_transcripts=["ENST00000357654", "ENST00000352993"])),
+            patch(
+                "gget.gget_seq.info",
+                return_value=_info_df(gene_id, "Gene", all_transcripts=["ENST00000357654", "ENST00000352993"]),
+            ),
             patch("gget.gget_seq.rest_query", side_effect=fake_rest_query),
         ):
             result = seq(gene_id, isoforms=True, verbose=False)
