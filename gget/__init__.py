@@ -26,6 +26,7 @@ from .gget_ref import ref
 from .gget_search import search
 from .gget_seq import seq
 from .gget_setup import setup
+from .gget_ucsc import ucsc
 from .gget_virus import virus
 
 # Mute numexpr threads info

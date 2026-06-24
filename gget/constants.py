@@ -7,6 +7,9 @@ import uuid
 # strategy avoid hanging indefinitely on slow upstreams.
 DEFAULT_REQUESTS_TIMEOUT = (10, 60)
 
+# UCSC Genome Browser REST API for gget ucsc
+UCSC_API_URL = "https://api.genome.ucsc.edu"
+
 # Ensembl REST API server for gget seq and info
 ENSEMBL_REST_API = "http://rest.ensembl.org/"
 ENSEMBL_FTP_URL = "http://ftp.ensembl.org/pub/"
