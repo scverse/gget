@@ -63,3 +63,15 @@ class TestBuildAlgorithmParams(unittest.TestCase):
     def test_invalid_perc_identity(self):
         with self.assertRaises(ValueError):
             _build_algorithm_params(perc_identity=150)
+
+    def test_invalid_nucl_reward(self):
+        with self.assertRaises(ValueError):
+            _build_algorithm_params(nucl_reward="two")
+        with self.assertRaises(ValueError):
+            _build_algorithm_params(nucl_reward=True)
+
+    def test_invalid_nucl_penalty(self):
+        with self.assertRaises(ValueError):
+            _build_algorithm_params(nucl_penalty="minus three")
+        with self.assertRaises(ValueError):
+            _build_algorithm_params(nucl_penalty=False)
