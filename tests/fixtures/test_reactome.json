@@ -1,0 +1,19 @@
+{
+    "test_reactome_invalid_resource": {
+        "type": "error",
+        "args": {
+            "query": "P04637",
+            "resource": "bogus"
+        },
+        "expected_result": "ValueError",
+        "expected_msg": "Argument 'resource' must be one of ('pathways', 'search', 'entity'), not 'bogus'."
+    },
+    "test_reactome_empty_query": {
+        "type": "error",
+        "args": {
+            "query": "   "
+        },
+        "expected_result": "ValueError",
+        "expected_msg": "Argument 'query' must be a non-empty string."
+    }
+}
