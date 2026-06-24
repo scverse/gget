@@ -648,5 +648,36 @@
             "ftp": false
         },
         "expected_result": "RuntimeError"
+    },
+    "test_ref_assembly_report": {
+        "type": "assert_equal",
+        "args": {
+            "species": "GCF_009858895.2",
+            "assembly_report": true,
+            "verbose": false
+        },
+        "expected_result": [
+            [
+                "NC_045512.2",
+                "assembled-molecule",
+                "na",
+                "Segment",
+                "MN908947.3",
+                "=",
+                "NC_045512.2",
+                "Primary Assembly",
+                "29903",
+                "na"
+            ]
+        ]
+    },
+    "test_ref_assembly_report_bad_accession": {
+        "type": "error",
+        "args": {
+            "species": "banana",
+            "assembly_report": true
+        },
+        "expected_result": "ValueError",
+        "expected_msg": "Invalid NCBI assembly accession: 'banana'. Expected format 'GCA_########.#' or 'GCF_########.#', e.g. 'GCF_000001405.40'.\n"
     }
 }

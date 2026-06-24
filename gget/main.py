@@ -200,6 +200,27 @@ def main() -> None:
         help="Return only the FTP link(s).",
     )
     parser_ref.add_argument(
+        "-ar",
+        "--assembly_report",
+        default=False,
+        action="store_true",
+        required=False,
+        help=(
+            "Return the NCBI assembly report instead of Ensembl FTP links.\n"
+            "When set, the positional argument is interpreted as an NCBI assembly accession,\n"
+            "e.g. 'gget ref GCF_000001405.40 --assembly_report'.\n"
+            "Useful for translating sequence/chromosome names between Ensembl, GenBank, RefSeq and UCSC."
+        ),
+    )
+    parser_ref.add_argument(
+        "-csv",
+        "--csv",
+        default=False,
+        action="store_true",
+        required=False,
+        help="Only used with --assembly_report: return the report in JSON format instead of CSV.",
+    )
+    parser_ref.add_argument(
         "-d",
         "--download",
         default=False,
@@ -3323,6 +3344,40 @@ def main() -> None:
 
     ## ref return
     if args.command == "ref":
+        # Return the NCBI assembly report instead of Ensembl FTP links
+        if args.assembly_report:
+            if args.species is None:
+                parser_ref.error(
+                    "the following argument is required with --assembly_report: an NCBI assembly accession\n"
+                    "Example: 'gget ref GCF_000001405.40 --assembly_report'"
+                )
+
+            report_results = ref(
+                species=args.species,
+                assembly_report=True,
+                json=args.csv,
+                verbose=args.quiet,
+            )
+
+            # Save in specified file if -o specified
+            if args.out:
+                directory = "/".join(args.out.split("/")[:-1])
+                if directory != "":
+                    os.makedirs(directory, exist_ok=True)
+                if args.csv:
+                    with open(args.out, "w", encoding="utf-8") as f:
+                        json.dump(report_results, f, ensure_ascii=False, indent=4)
+                else:
+                    report_results.to_csv(args.out, index=False)
+            # Otherwise print to standard out
+            else:
+                if args.csv:
+                    print(json.dumps(report_results, ensure_ascii=False, indent=4))
+                else:
+                    report_results.to_csv(sys.stdout, index=False)
+
+            return
+
         # Return all vertebrate available species
         if args.list_species:
             species_list = ref(species=None, release=args.release, list_species=args.list_species)

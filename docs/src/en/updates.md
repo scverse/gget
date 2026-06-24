@@ -5,6 +5,9 @@
 #### *gget* officially became part of [*scverse*](https://scverse.org/) on June 9, 2026. 🥳🥳🥳
 
 **Version ≥ 0.30.9** (XXX XX, 2026):  
+- [`gget ref`](ref.md): Added support for fetching [NCBI assembly reports](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/troubleshooting/faq/#what-is-an-assembly-report) (fixes [issue 179](https://github.com/scverse/gget/issues/179)).
+  - New `assembly_report=True` option (command line: `--assembly_report`/`-ar`) interprets the positional argument as an NCBI assembly accession (e.g. `GCF_000001405.40`) and returns the assembly report, which maps sequence/chromosome names across the Ensembl/short, GenBank, RefSeq, and UCSC naming conventions (e.g. `chr1` ↔ `1` ↔ `CM000663.2` ↔ `NC_000001.11`).
+  - Returns a `pandas` DataFrame by default; pass `json=True` (command line: `--csv`) for a list of dictionaries / JSON. The new `gget.assembly_report()` function is also exposed for direct use.
 
 **Version ≥ 0.30.8** (Jun 28, 2026):  
 - [`gget g2p`](g2p.md): Either `gene` or `--uniprot_id` is now sufficient — whichever is missing is resolved via UniProt and cached. Gene→UniProt picks the canonical reviewed human Swiss-Prot entry; the resolution and its limitations are logged. The canonical pair is **always** prepended to the result as `gene_name` / `uniprot_id` columns (and stored on `df.attrs`), so the output schema is invariant regardless of input mode. Existing call sites continue to work.
