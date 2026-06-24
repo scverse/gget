@@ -42,6 +42,13 @@ Short names (gene symbols) of background genes to perform enrichment analysis on
 Alternatively: use flag `--ensembl_background` to input a list of Ensembl gene IDs.  
 See [this Tweetorial](https://x.com/ChiHoangCaltech/status/1689679611335155712?s=20) to learn why you should use a background gene list when performing an enrichment analysis.  
 
+`-gl` `--get_library`  
+Instead of running an enrichment analysis, fetch the gene sets (members) of this Enrichr gene-set library, e.g. `MSigDB_Hallmark_2020`. This is the recommended way to retrieve [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb/) gene sets (search for "MSigDB" in the [Enrichr library list](https://maayanlab.cloud/Enrichr/#libraries), e.g. `MSigDB_Hallmark_2020`, `MSigDB_Oncogenic_Signatures`, `MSigDB_Computational`). When set, the `genes` argument and `--database` are not required.  
+Python: `gget.enrichr_library("MSigDB_Hallmark_2020")`  
+
+`-gs` `--gene_set`  
+With `--get_library`: only return the genes of this single gene set (term) within the library, e.g. `Hypoxia`. (Default: None -> return all gene sets in the library.)  
+
 `-o` `--out`  
 Path to the file the results will be saved in, e.g. path/to/directory/results.csv (or .json). (Default: Standard out.)  
 Python: `save=True` will save the output in the current working directory.  
@@ -221,6 +228,25 @@ df |>
 	ylab("Pathway name") +
 	xlab("-log10(adjusted P value)")
 ```
+
+<br/><br/>
+
+**Fetch the gene sets of an MSigDB collection (e.g. the Hallmark gene sets):**
+```bash
+gget enrichr --get_library MSigDB_Hallmark_2020 --csv
+```
+```python
+# Python
+import gget
+gget.enrichr_library("MSigDB_Hallmark_2020")
+```
+&rarr; Returns the 50 MSigDB Hallmark gene sets and their member genes as a long-format data frame (`gene_set`, `gene`). Add `--gene_set Hypoxia` (Python: `gene_set="Hypoxia"`) to return only one gene set. Search for "MSigDB" in the [Enrichr library list](https://maayanlab.cloud/Enrichr/#libraries) for the available MSigDB collections.
+
+| gene_set                       | gene   |
+|--------------------------------|--------|
+| TNF-alpha&nbsp;Signaling&nbsp;via&nbsp;NF-kB | JUNB   |
+| TNF-alpha&nbsp;Signaling&nbsp;via&nbsp;NF-kB | CXCL2  |
+| ...                            | ...    |
 
 # Tutorials
 [Using `gget enrichr` with background genes](https://github.com/pachterlab/gget_examples/blob/main/gget_enrichr_with_background_genes.ipynb)

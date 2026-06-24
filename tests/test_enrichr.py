@@ -10,7 +10,7 @@ from .from_json import from_json
 
 # Prevent matplotlib from opening windows
 matplotlib.use("Agg")
-from gget.gget_enrichr import enrichr
+from gget.gget_enrichr import enrichr, enrichr_library
 
 # Load dictionary containing arguments and expected results
 with open("./tests/fixtures/test_enrichr.json") as json_file:
@@ -47,6 +47,31 @@ class TestEnrichr(unittest.TestCase, metaclass=from_json(enrichr_dict, enrichr))
             result_to_test = [[x if x != math.inf else "inf" for x in i] for i in result_to_test]
 
         self.assertListEqual(result_to_test, expected_result)
+
+    def test_enrichr_library(self):
+        test = "test_enrichr_library"
+        td = enrichr_dict[test]
+        df = enrichr_library(**td["args"])
+        self.assertListEqual(list(df.columns), ["gene_set", "gene"])
+        self.assertEqual(df["gene_set"].nunique(), td["expected_n_sets"])
+
+    def test_enrichr_library_gene_set(self):
+        test = "test_enrichr_library_gene_set"
+        td = enrichr_dict[test]
+        df = enrichr_library(**td["args"])
+        self.assertEqual(set(df["gene_set"]), {td["args"]["gene_set"]})
+        self.assertEqual(len(df), td["expected_n_genes"])
+
+    def test_enrichr_library_json(self):
+        test = "test_enrichr_library_json"
+        td = enrichr_dict[test]
+        result = enrichr_library(**td["args"])
+        self.assertIsInstance(result, dict)
+        self.assertEqual(len(result), td["expected_n_sets"])
+
+    def test_enrichr_library_bad(self):
+        with self.assertRaises(RuntimeError):
+            enrichr_library("NOT_A_LIBRARY_xyz", verbose=False)
 
     def test_enrichr_plot(self):
         # Number of plots before running enrichr plot

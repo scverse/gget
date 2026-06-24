@@ -17,6 +17,7 @@ if TYPE_CHECKING:
 from .compile import PACKAGE_PATH
 from .constants import (
     DEFAULT_REQUESTS_TIMEOUT,
+    GENESETLIBRARY_ENRICHR_URLS,
     GET_BACKGROUND_ENRICHR_URL,
     GET_ENRICHR_URLS,
     POST_BACKGROUND_ID_ENRICHR_URL,
@@ -62,6 +63,107 @@ def clean_genes_list(genes_list: list[Any]) -> list[Any]:
         if not isinstance(gene, float) and gene is not None and gene != "nan":
             genes_clean.append(gene)
     return genes_clean
+
+
+def enrichr_library(
+    library: str,
+    species: str = "human",
+    gene_set: str | None = None,
+    json: bool = False,
+    save: bool = False,
+    verbose: bool = True,
+) -> pd.DataFrame | dict[str, list[str]]:
+    """Fetch the gene sets (members) of an Enrichr gene-set library.
+
+    This is useful for retrieving the gene sets of a collection such as the
+    [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb/) libraries hosted by Enrichr
+    (e.g. "MSigDB_Hallmark_2020", "MSigDB_Oncogenic_Signatures", "MSigDB_Computational").
+
+    Args:
+    - library     Name of the Enrichr gene-set library to fetch, e.g. "MSigDB_Hallmark_2020".
+                  See the full list at https://maayanlab.cloud/Enrichr/#libraries
+                  (search for "MSigDB" for the MSigDB collections).
+    - species     Enrichr variant to query: 'human' (default), 'mouse' (uses the human/Enrichr variant),
+                  'fly', 'yeast', 'worm', or 'fish'.
+    - gene_set    If provided, only return the genes of this single gene set (term) within the library
+                  (default: None -> return all gene sets in the library).
+    - json        If True, returns a dictionary mapping each gene set name to its list of genes
+                  instead of a pandas DataFrame (default: False).
+    - save        If True, saves the result to 'gget_enrichr_library_{library}.csv'
+                  (or .json if json=True) in the current working directory (default: False).
+    - verbose     True/False whether to print progress information (default: True).
+
+    Returns a long-format pandas DataFrame with one row per (gene set, gene) pair and the columns
+    'gene_set' and 'gene' (or a {gene_set: [genes]} dictionary if json=True).
+    """
+    if species not in ["human", "mouse", "fly", "yeast", "worm", "fish"]:
+        raise ValueError("Argument 'species' must be one of 'human', 'mouse', 'fly', 'yeast', 'worm', or 'fish'.")
+
+    # Mouse uses the human (Enrichr) variant, consistent with gget.enrichr
+    species_key = "human" if species in ("human", "mouse") else species
+    url = GENESETLIBRARY_ENRICHR_URLS[species_key]
+
+    if verbose:
+        logger.info(f"Fetching gene sets for Enrichr library '{library}'...")
+
+    response = requests.get(
+        url,
+        params={"mode": "text", "libraryName": library},
+        timeout=DEFAULT_REQUESTS_TIMEOUT,
+    )
+    # Enrichr returns an HTML 404 page (with HTTP status 200) for unknown library names
+    text = response.text
+    if not response.ok or text.lstrip()[:1] == "<" or "HTTP Status 404" in text[:500]:
+        raise RuntimeError(
+            f"Enrichr did not return a valid gene-set library for '{library}'. "
+            "Please double-check the library name (see https://maayanlab.cloud/Enrichr/#libraries)."
+        )
+
+    # Each line: "<gene set name>\t<description>\t<gene1>\t<gene2>\t..."
+    library_dict: dict[str, list[str]] = {}
+    for line in text.splitlines():
+        if not line.strip():
+            continue
+        fields = line.split("\t")
+        set_name = fields[0].strip()
+        # The second field is an (often empty) description; genes start at index 2
+        genes = [g.strip() for g in fields[2:] if g.strip()]
+        if set_name:
+            library_dict[set_name] = genes
+
+    # A valid library has at least one gene set with member genes
+    if not library_dict or not any(genes for genes in library_dict.values()):
+        raise RuntimeError(
+            f"No gene sets returned for Enrichr library '{library}'. "
+            "Please double-check the library name (see https://maayanlab.cloud/Enrichr/#libraries)."
+        )
+
+    # Optionally restrict to a single gene set
+    if gene_set is not None:
+        if gene_set not in library_dict:
+            raise ValueError(
+                f"Gene set '{gene_set}' not found in Enrichr library '{library}'. "
+                f"The library contains {len(library_dict)} gene sets."
+            )
+        library_dict = {gene_set: library_dict[gene_set]}
+
+    if verbose:
+        n_genes = sum(len(g) for g in library_dict.values())
+        logger.info(f"Retrieved {len(library_dict)} gene set(s) containing {n_genes} gene entries.")
+
+    if json:
+        if save:
+            with open(f"gget_enrichr_library_{library}.json", "w", encoding="utf-8") as f:
+                json_package.dump(library_dict, f, ensure_ascii=False, indent=4)
+        return library_dict
+
+    rows = [{"gene_set": set_name, "gene": gene} for set_name, genes in library_dict.items() for gene in genes]
+    df = pd.DataFrame(rows, columns=["gene_set", "gene"])
+
+    if save:
+        df.to_csv(f"gget_enrichr_library_{library}.csv", index=False)
+
+    return df
 
 
 @overload

@@ -5,6 +5,9 @@
 #### *gget* officially became part of [*scverse*](https://scverse.org/) on June 9, 2026. 🥳🥳🥳
 
 **Version ≥ 0.30.9** (XXX XX, 2026):  
+- [`gget enrichr`](enrichr.md): Added support for retrieving gene sets, including [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb/) collections (fixes [issue 139](https://github.com/scverse/gget/issues/139)).
+  - New `gget.enrichr_library()` function (command line: `gget enrichr --get_library`/`-gl`) fetches the gene sets (members) of any Enrichr gene-set library, e.g. `MSigDB_Hallmark_2020`, `MSigDB_Oncogenic_Signatures`, `MSigDB_Computational`.
+  - Returns a long-format DataFrame (`gene_set`, `gene`), or a `{gene_set: [genes]}` dictionary with `json=True`. Use `gene_set=` (command line: `--gene_set`/`-gs`) to return a single gene set, and the `species` argument for the non-human Enrichr variants.
 
 **Version ≥ 0.30.8** (Jun 28, 2026):  
 - [`gget g2p`](g2p.md): Either `gene` or `--uniprot_id` is now sufficient — whichever is missing is resolved via UniProt and cached. Gene→UniProt picks the canonical reviewed human Swiss-Prot entry; the resolution and its limitations are logged. The canonical pair is **always** prepended to the result as `gene_name` / `uniprot_id` columns (and stored on `df.attrs`), so the output schema is invariant regardless of input mode. Existing call sites continue to work.
