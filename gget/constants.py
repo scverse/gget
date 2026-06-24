@@ -7,6 +7,9 @@ import uuid
 # strategy avoid hanging indefinitely on slow upstreams.
 DEFAULT_REQUESTS_TIMEOUT = (10, 60)
 
+# ENCODE project REST API for gget encode
+ENCODE_URL = "https://www.encodeproject.org"
+
 # Ensembl REST API server for gget seq and info
 ENSEMBL_REST_API = "http://rest.ensembl.org/"
 ENSEMBL_FTP_URL = "http://ftp.ensembl.org/pub/"

@@ -20,6 +20,7 @@
 * [gget cosmic](en/cosmic.md)  
 * [gget diamond](en/diamond.md)  
 * [gget elm](en/elm.md)  
+* [gget encode](en/encode.md)  
 * [gget enrichr](en/enrichr.md)  
 * [gget g2p](en/g2p.md)
 * [gget gpt](en/gpt.md)  

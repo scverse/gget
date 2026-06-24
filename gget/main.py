@@ -29,6 +29,7 @@ from .gget_cellxgene import cellxgene  # noqa: E402
 from .gget_cosmic import cosmic  # noqa: E402
 from .gget_diamond import diamond  # noqa: E402
 from .gget_elm import elm  # noqa: E402
+from .gget_encode import encode  # noqa: E402
 from .gget_enrichr import enrichr  # noqa: E402
 from .gget_g2p import g2p  # noqa: E402
 from .gget_gpt import gpt  # noqa: E402
@@ -1000,6 +1001,104 @@ def main() -> None:
         action="store_true",
         required=False,
         help="DEPRECATED - json is now the default output format (convert to csv using flag [--csv]).",
+    )
+
+    ## gget encode subparser
+    encode_desc = "Query and download data from the ENCODE project (https://www.encodeproject.org/)."
+    parser_encode = parent_subparsers.add_parser(
+        "encode",
+        parents=[parent],
+        description=encode_desc,
+        help=encode_desc,
+        add_help=True,
+        formatter_class=CustomHelpFormatter,
+    )
+    parser_encode.add_argument(
+        "search_term",
+        type=str,
+        help="ENCODE accession (e.g. ENCSR000AKS or ENCFF000BXK) or a free-text search term.",
+    )
+    parser_encode.add_argument(
+        "-t",
+        "--type",
+        type=str,
+        default="Experiment",
+        required=False,
+        help="ENCODE object type for free-text searches, e.g. 'Experiment', 'File', 'Biosample'. Default: 'Experiment'.",
+    )
+    parser_encode.add_argument(
+        "-l",
+        "--limit",
+        type=int,
+        default=10,
+        required=False,
+        help="Maximum number of results for free-text searches. Default: 10.",
+    )
+    parser_encode.add_argument(
+        "-a",
+        "--assembly",
+        type=str,
+        default=None,
+        required=False,
+        help="Only return files for this genome assembly, e.g. 'GRCh38'. Default: None.",
+    )
+    parser_encode.add_argument(
+        "-ff",
+        "--file_format",
+        type=str,
+        default=None,
+        required=False,
+        help="Only return files of this format, e.g. 'bam', 'fastq', 'bigWig'. Default: None.",
+    )
+    parser_encode.add_argument(
+        "-ot",
+        "--output_type",
+        type=str,
+        default=None,
+        required=False,
+        help="Only return files of this output type, e.g. 'alignments'. Default: None.",
+    )
+    parser_encode.add_argument(
+        "-d",
+        "--download",
+        default=False,
+        action="store_true",
+        required=False,
+        help="Download the returned files into the directory given by --out_dir.",
+    )
+    parser_encode.add_argument(
+        "-od",
+        "--out_dir",
+        type=str,
+        default=".",
+        required=False,
+        help="Directory to download files into. Default: current directory.",
+    )
+    parser_encode.add_argument(
+        "-csv",
+        "--csv",
+        default=True,
+        action="store_false",
+        required=False,
+        help="Returns results in csv format instead of json.",
+    )
+    parser_encode.add_argument(
+        "-o",
+        "--out",
+        type=str,
+        required=False,
+        help=(
+            "Path to the file the results table will be saved in, e.g. path/to/directory/results.csv (or .json).\n"
+            "Default: Standard out."
+        ),
+    )
+    parser_encode.add_argument(
+        "-q",
+        "--quiet",
+        default=True,
+        action="store_false",
+        required=False,
+        help="Does not print progress information.",
     )
 
     ## gget enrichr subparser
@@ -2956,6 +3055,7 @@ def main() -> None:
         "muscle": parser_muscle,
         "blast": parser_blast,
         "blat": parser_blat,
+        "encode": parser_encode,
         "enrichr": parser_enrichr,
         "archs4": parser_archs4,
         "setup": parser_setup,
@@ -3501,6 +3601,43 @@ def main() -> None:
             gget_results.to_csv(sys.stdout, index=False)
         if not args.out and args.csv:
             print(json.dumps(gget_results, ensure_ascii=False, indent=4))
+
+    ## encode return
+    if args.command == "encode":
+        encode_results = encode(
+            search_term=args.search_term,
+            type=args.type,
+            limit=args.limit,
+            assembly=args.assembly,
+            file_format=args.file_format,
+            output_type=args.output_type,
+            download=args.download,
+            out_dir=args.out_dir,
+            json=args.csv,
+            verbose=args.quiet,
+        )
+
+        # Check if the function returned something
+        if encode_results is not None:
+            # Save results if args.out specified
+            if args.out and not args.csv:
+                directory = "/".join(args.out.split("/")[:-1])
+                if directory != "":
+                    os.makedirs(directory, exist_ok=True)
+                encode_results.to_csv(args.out, index=False)
+
+            if args.out and args.csv:
+                directory = "/".join(args.out.split("/")[:-1])
+                if directory != "":
+                    os.makedirs(directory, exist_ok=True)
+                with open(args.out, "w", encoding="utf-8") as f:
+                    json.dump(encode_results, f, ensure_ascii=False, indent=4)
+
+            # Print results if no directory specified
+            if not args.out and not args.csv:
+                encode_results.to_csv(sys.stdout, index=False)
+            if not args.out and args.csv:
+                print(json.dumps(encode_results, ensure_ascii=False, indent=4))
 
     ## enrichr return
     if args.command == "enrichr":
