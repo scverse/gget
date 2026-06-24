@@ -140,8 +140,34 @@ def get_msa(fasta_path: str, msa_databases: list[dict[str, Any]], total_jackhmme
     return raw_msa_results
 
 
-def clean_up() -> None:
-    """Function to clean up temporary files after running gget alphafold."""
+def get_jackhmmer_dir(jackhmmer_savedir: str | None = None) -> str:
+    """Return the directory used for jackhmmer's temporary FASTA and working files.
+
+    By default gget creates a "tmp" folder in the user's home directory
+    ("~/tmp/jackhmmer/<UUID>"). These temporary files can take up to ~2 GB of disk space.
+    Passing a custom ``jackhmmer_savedir`` lets the user place this folder elsewhere
+    (e.g. on a disk with more free space), see https://github.com/scverse/gget/issues/49.
+
+    Args:
+      - jackhmmer_savedir    Custom parent directory for the temporary jackhmmer folder (str).
+                             If None (default), "~/tmp" is used.
+
+    Returns the absolute path to the temporary jackhmmer folder.
+    """
+    if jackhmmer_savedir is not None:
+        return os.path.abspath(os.path.join(jackhmmer_savedir, "jackhmmer", UUID))
+    return os.path.expanduser(os.path.join("~", "tmp", "jackhmmer", UUID))
+
+
+def clean_up(jackhmmer_dir: str | None = None) -> None:
+    """Function to clean up temporary files after running gget alphafold.
+
+    Args:
+      - jackhmmer_dir    Path to the temporary jackhmmer folder to clean up (str).
+                         If None (default), the default "~/tmp/jackhmmer/<UUID>" is used.
+    """
+    if jackhmmer_dir is None:
+        jackhmmer_dir = get_jackhmmer_dir()
     # # Remove fasta files with input sequences
     # files = glob.glob("target_*.fasta")
     # for f in files:
@@ -167,12 +193,13 @@ def clean_up() -> None:
     #           sys.stderr.write(stderr)
 
     # Delete any fasta files left in temporary jackhmmer folder
-    for file in glob.glob(os.path.expanduser(f"~/tmp/jackhmmer/{UUID}/*.fasta")):
+    for file in glob.glob(os.path.join(jackhmmer_dir, "*.fasta")):
         if os.path.exists(file):
             os.remove(file)
 
     # Delete empty parent folders
-    os.removedirs(os.path.expanduser(f"~/tmp/jackhmmer/{UUID}"))
+    if os.path.isdir(jackhmmer_dir):
+        os.removedirs(jackhmmer_dir)
 
 
 def alphafold(
@@ -184,6 +211,7 @@ def alphafold(
     plot: bool = True,
     show_sidechains: bool = True,
     verbose: bool = True,
+    jackhmmer_savedir: str | None = None,
 ) -> None:
     """Predicts the structure of a protein using a slightly simplified version of AlphaFold v2.3.0 (https://doi.org/10.1038/s41586-021-03819-2).
 
@@ -200,6 +228,10 @@ def alphafold(
       - plot                    True/False whether to provide a graphical overview of the prediction (default: True).
       - show_sidechains         True/False whether to show side chains in the plot (default: True).
       - verbose                 True/False whether to print progress information. Default True.
+      - jackhmmer_savedir       Path to a parent directory in which to store the temporary jackhmmer
+                                files (str). By default, gget creates a "tmp" folder in the home
+                                directory ("~/tmp/jackhmmer/"), which can take up to ~2 GB of disk space.
+                                Use this argument to place these temporary files elsewhere. Default: None.
 
     Saves the predicted aligned error (json) and the prediction (PDB) in the defined 'out' folder.
 
@@ -500,16 +532,19 @@ def alphafold(
     TOTAL_JACKHMMER_CHUNKS = sum([cfg["num_streamed_chunks"] for cfg in MSA_DATABASES])
 
     ### Search against existing databases
+    # Resolve the temporary jackhmmer folder (optionally user-defined via jackhmmer_savedir)
+    jackhmmer_dir = get_jackhmmer_dir(jackhmmer_savedir)
+
     # Get absolute path to output file and create output directory
     if out is not None:
         os.makedirs(out, exist_ok=True)
         abs_out_path = os.path.abspath(out)
     else:
         # Use temporary jackhmmer folder which will later be deleted
-        abs_out_path = os.path.expanduser(f"~/tmp/jackhmmer/{UUID}")
+        abs_out_path = jackhmmer_dir
 
     # Create folder to save temporary jackhmmer database chunks in
-    os.makedirs(os.path.expanduser(f"~/tmp/jackhmmer/{UUID}"), exist_ok=True)
+    os.makedirs(jackhmmer_dir, exist_ok=True)
 
     features_for_chain = {}
     raw_msa_results_for_sequence = {}
@@ -815,4 +850,4 @@ def alphafold(
                 )
 
     ## Run clean_up function
-    clean_up()
+    clean_up(jackhmmer_dir)
