@@ -38,6 +38,7 @@ from .gget_mutate import mutate  # noqa: E402
 from .gget_opentargets import OPENTARGETS_RESOURCES, opentargets  # noqa: E402
 from .gget_pdb import pdb  # noqa: E402
 from .gget_ref import ref  # noqa: E402
+from .gget_rummage import rummagene, rummageo  # noqa: E402
 from .gget_search import search  # noqa: E402
 from .gget_seq import seq  # noqa: E402
 from .gget_setup import setup  # noqa: E402
@@ -1131,6 +1132,129 @@ def main() -> None:
         action="store_true",
         required=False,
         help="DEPRECATED - json is now the default output format (convert to csv using flag [--csv]).",
+    )
+
+    ## gget rummagene subparser
+    rummagene_desc = (
+        "Find gene sets from PMC supplementary tables that overlap a query gene set using Rummagene "
+        "(https://rummagene.com/)."
+    )
+    parser_rummagene = parent_subparsers.add_parser(
+        "rummagene",
+        parents=[parent],
+        description=rummagene_desc,
+        help=rummagene_desc,
+        add_help=True,
+        formatter_class=CustomHelpFormatter,
+    )
+    parser_rummagene.add_argument(
+        "genes",
+        type=str,
+        nargs="+",
+        help="List of gene symbols (HGNC) to perform the gene set search on.",
+    )
+    parser_rummagene.add_argument(
+        "-l",
+        "--limit",
+        type=int,
+        default=50,
+        required=False,
+        help="Maximum number of enriched gene sets to return. Default: 50.",
+    )
+    parser_rummagene.add_argument(
+        "-ft",
+        "--filter_term",
+        type=str,
+        default=None,
+        required=False,
+        help="Only return gene sets whose term contains this (case-insensitive) substring. Default: None.",
+    )
+    parser_rummagene.add_argument(
+        "-csv",
+        "--csv",
+        default=True,
+        action="store_false",
+        required=False,
+        help="Returns results in csv format instead of json.",
+    )
+    parser_rummagene.add_argument(
+        "-o",
+        "--out",
+        type=str,
+        required=False,
+        help=(
+            "Path to the file the results will be saved in, e.g. path/to/directory/results.csv (or .json).\n"
+            "Default: Standard out."
+        ),
+    )
+    parser_rummagene.add_argument(
+        "-q",
+        "--quiet",
+        default=True,
+        action="store_false",
+        required=False,
+        help="Does not print progress information.",
+    )
+
+    ## gget rummageo subparser
+    rummageo_desc = (
+        "Find gene sets from GEO studies that overlap a query gene set using RummaGEO (https://rummageo.com/)."
+    )
+    parser_rummageo = parent_subparsers.add_parser(
+        "rummageo",
+        parents=[parent],
+        description=rummageo_desc,
+        help=rummageo_desc,
+        add_help=True,
+        formatter_class=CustomHelpFormatter,
+    )
+    parser_rummageo.add_argument(
+        "genes",
+        type=str,
+        nargs="+",
+        help="List of gene symbols to perform the gene set search on.",
+    )
+    parser_rummageo.add_argument(
+        "-l",
+        "--limit",
+        type=int,
+        default=50,
+        required=False,
+        help="Maximum number of enriched gene sets to return. Default: 50.",
+    )
+    parser_rummageo.add_argument(
+        "-ft",
+        "--filter_term",
+        type=str,
+        default=None,
+        required=False,
+        help="Only return gene sets whose term contains this (case-insensitive) substring. Default: None.",
+    )
+    parser_rummageo.add_argument(
+        "-csv",
+        "--csv",
+        default=True,
+        action="store_false",
+        required=False,
+        help="Returns results in csv format instead of json.",
+    )
+    parser_rummageo.add_argument(
+        "-o",
+        "--out",
+        type=str,
+        required=False,
+        help=(
+            "Path to the file the results will be saved in, e.g. path/to/directory/results.csv (or .json).\n"
+            "Default: Standard out."
+        ),
+    )
+    parser_rummageo.add_argument(
+        "-q",
+        "--quiet",
+        default=True,
+        action="store_false",
+        required=False,
+        help="Does not print progress information.",
     )
 
     ## gget archs4 subparser
@@ -2957,6 +3081,8 @@ def main() -> None:
         "blast": parser_blast,
         "blat": parser_blat,
         "enrichr": parser_enrichr,
+        "rummagene": parser_rummagene,
+        "rummageo": parser_rummageo,
         "archs4": parser_archs4,
         "setup": parser_setup,
         "alphafold": parser_alphafold,
@@ -3577,6 +3703,47 @@ def main() -> None:
                 enrichr_results.to_csv(sys.stdout, index=False)
             if not args.out and args.csv:
                 print(json.dumps(enrichr_results, ensure_ascii=False, indent=4))
+
+    ## rummagene / rummageo return
+    if args.command in ("rummagene", "rummageo"):
+        # Clean up args.genes (split any comma-separated values; spaces handled by nargs="+")
+        genes_clean = []
+        for gene in args.genes:
+            genes_clean.append(gene.split(","))
+        genes_clean_final = [item for sublist in genes_clean for item in sublist]
+        while "" in genes_clean_final:
+            genes_clean_final.remove("")
+
+        rummage_func = rummagene if args.command == "rummagene" else rummageo
+        rummage_results = rummage_func(
+            genes=genes_clean_final,
+            limit=args.limit,
+            filter_term=args.filter_term,
+            json=args.csv,
+            verbose=args.quiet,
+        )
+
+        # Check if the function returned something
+        if rummage_results is not None:
+            # Save results if args.out specified
+            if args.out and not args.csv:
+                directory = "/".join(args.out.split("/")[:-1])
+                if directory != "":
+                    os.makedirs(directory, exist_ok=True)
+                rummage_results.to_csv(args.out, index=False)
+
+            if args.out and args.csv:
+                directory = "/".join(args.out.split("/")[:-1])
+                if directory != "":
+                    os.makedirs(directory, exist_ok=True)
+                with open(args.out, "w", encoding="utf-8") as f:
+                    json.dump(rummage_results, f, ensure_ascii=False, indent=4)
+
+            # Print results if no directory specified
+            if not args.out and not args.csv:
+                rummage_results.to_csv(sys.stdout, index=False)
+            if not args.out and args.csv:
+                print(json.dumps(rummage_results, ensure_ascii=False, indent=4))
 
     ## info return
     if args.command == "info":

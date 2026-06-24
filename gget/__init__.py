@@ -23,6 +23,7 @@ from .gget_mutate import mutate
 from .gget_opentargets import opentargets
 from .gget_pdb import pdb
 from .gget_ref import ref
+from .gget_rummage import rummagene, rummageo
 from .gget_search import search
 from .gget_seq import seq
 from .gget_setup import setup

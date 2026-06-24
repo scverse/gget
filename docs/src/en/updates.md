@@ -5,6 +5,7 @@
 #### *gget* officially became part of [*scverse*](https://scverse.org/) on June 9, 2026. 🥳🥳🥳
 
 **Version ≥ 0.30.9** (XXX XX, 2026):  
+- [`gget rummagene`](rummagene.md) and [`gget rummageo`](rummageo.md): **New modules** for gene set enrichment against gene sets automatically mined from PMC supplementary tables ([Rummagene](https://rummagene.com/)) and from GEO study signatures ([RummaGEO](https://rummageo.com/)). Submit a list of gene symbols to retrieve the most significantly overlapping literature/GEO gene sets (Fisher's exact test), ranked by p-value, via each service's public GraphQL API. Both share a single enrichment helper and support the `limit`, `filter_term`, `json`, and `save` options in the Python API and on the command line. Resolves [issue 164](https://github.com/scverse/gget/issues/164).
 
 **Version ≥ 0.30.8** (Jun 28, 2026):  
 - [`gget g2p`](g2p.md): Either `gene` or `--uniprot_id` is now sufficient — whichever is missing is resolved via UniProt and cached. Gene→UniProt picks the canonical reviewed human Swiss-Prot entry; the resolution and its limitations are logged. The canonical pair is **always** prepended to the result as `gene_name` / `uniprot_id` columns (and stored on `df.attrs`), so the output schema is invariant regardless of input mode. Existing call sites continue to work.
