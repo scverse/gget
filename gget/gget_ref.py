@@ -76,9 +76,7 @@ def _find_latest_gencode_release(organism: str) -> str:
     base_url = f"{GENCODE_FTP_URL}Gencode_{organism}/"
     html = requests.get(base_url, timeout=DEFAULT_REQUESTS_TIMEOUT)
     if html.status_code != 200:
-        raise RuntimeError(
-            f"GENCODE FTP returned status code {html.status_code} for {base_url}. Please try again.\n"
-        )
+        raise RuntimeError(f"GENCODE FTP returned status code {html.status_code} for {base_url}. Please try again.\n")
 
     soup = BeautifulSoup(html.text, "html.parser")
     releases = [
@@ -241,7 +239,9 @@ def ref(
         if source != "gencode":
             raise ValueError(f"Parameter 'source' must be 'ensembl' or 'gencode', but '{source}' was passed.\n")
         if species is None:
-            raise ValueError("A species ('human'/'homo_sapiens' or 'mouse'/'mus_musculus') must be provided for source='gencode'.\n")
+            raise ValueError(
+                "A species ('human'/'homo_sapiens' or 'mouse'/'mus_musculus') must be provided for source='gencode'.\n"
+            )
         return _gencode_ref(species, which, release, ftp, save, verbose)
 
     # Return list of all available species
