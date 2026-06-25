@@ -106,34 +106,21 @@ query target($ensemblId: String!) {
 }
 """
 
-# OpenTargets retired the per-tissue `target.expressions` field (it now returns an
-# empty list for every gene). Baseline expression data moved to the paginated
-# `target.baselineExpression { rows { ... } }` field, which provides per-biosample
-# (tissue and/or cell type) expression summary statistics. We request a single page
-# of up to 250 biosamples (the API's max page size is 3000); 250 keeps the response
-# small/fast/robust against upstream throttling while still covering far more than the
-# old per-tissue list. See issue: OpenTargets API drift.
 QUERY_STRING_EXPRESSION = """
 query target($ensemblId: String!) {
   target(ensemblId: $ensemblId) {
-    baselineExpression(page: { index: 0, size: 250 }) {
-      rows {
-        tissueBiosample {
-          biosampleId
-          biosampleName
-        }
-        celltypeBiosample {
-          biosampleId
-          biosampleName
-        }
-        median
-        min
-        q1
-        q3
-        max
+    expressions {
+      tissue {
+        id
+        label
+        anatomicalSystems
+        organs
+      }
+      rna {
+        zscore
+        value
         unit
-        datasourceId
-        datatypeId
+        level
       }
     }
   }
@@ -342,7 +329,7 @@ def opentargets(
         rows_path = ["pharmacogenomics"]
     elif resource == "expression":
         query_string = QUERY_STRING_EXPRESSION
-        rows_path = ["baselineExpression", "rows"]
+        rows_path = ["expressions"]
     elif resource == "depmap":
         query_string = QUERY_STRING_DEPMAP
         rows_path = [

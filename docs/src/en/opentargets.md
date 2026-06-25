@@ -22,7 +22,7 @@ Possible resources are:
 | `drugs`            | Associated drugs                                                  | `disease_id`                                      | [ChEMBL](https://www.ebi.ac.uk/chembl/)                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | `tractability`     | Tractability data                                                 | None                                              | [Open&nbsp;Targets](https://platform-docs.opentargets.org/target/tractability)                                                                                                                                                                                                                                                                                                                                                                                                                     |
 | `pharmacogenetics` | Pharmacogenetic responses                                         | `drug_id`                                         | [PharmGKB](https://www.pharmgkb.org/)                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| `expression`       | Baseline expression per biosample (tissue/cell type) with summary statistics | `tissueBiosample.biosampleId`<br/>`datasourceId`<br/>`datatypeId` | <ul><li>[GTEx](https://www.gtexportal.org/home/)</li><li>[ExpressionAtlas](https://www.ebi.ac.uk/gxa/home)</li><li>single-cell datasets</li></ul>                                                                                                                                                                                                                                                                                                                                  |
+| `expression`       | Gene expression data (by tissues, organs, and anatomical systems) | `tissue_id`<br/>`anatomical_system`<br/>`organ`   | <ul><li>[ExpressionAtlas](https://www.ebi.ac.uk/gxa/home)</li><li>[HPA](https://www.proteinatlas.org/)</li><li>[GTEx](https://www.gtexportal.org/home/)</li></ul>                                                                                                                                                                                                                                                                                                                                  |
 | `depmap`           | DepMap gene&rarr;disease-effect data.                             | `tissue_id`                                       | [DepMap&nbsp;Portal](https://depmap.org/portal/)                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | `interactions`     | Protein&rlarr;protein interactions                                | `protein_a_id`<br/>`protein_b_id`<br/>`gene_b_id` | <ul><li>[Open&nbsp;Targets](https://platform-docs.opentargets.org/target/molecular-interactions)</li><li>[IntAct](https://platform-docs.opentargets.org/target/molecular-interactions#intact)</li><li>[Signor](https://platform-docs.opentargets.org/target/molecular-interactions#signor)</li><li>[Reactome](https://platform-docs.opentargets.org/target/molecular-interactions#reactome)</li><li>[String](https://platform-docs.opentargets.org/target/molecular-interactions#string)</li></ul> |
 
@@ -135,7 +135,7 @@ gget.opentargets('ENSG00000169194', resource='pharmacogenetics', limit=1)
 
 <br/><br/>
 
-**Get baseline expression of a gene across biosamples (tissues / cell types):**
+**Get tissues where a gene is most expressed:**
 ```bash
 gget opentargets ENSG00000169194 -r expression -l 2
 ```
@@ -145,13 +145,12 @@ import gget
 gget.opentargets('ENSG00000169194', resource='expression', limit=2)
 ```
 
-&rarr; Returns baseline expression summary statistics for the gene ENSG00000169194 per biosample.
+&rarr; Returns the top 2 tissues where the gene ENSG00000169194 is most expressed.
 
-| tissueBiosample.biosampleId | tissueBiosample.biosampleName | median   | min | q1       | q3       | max     | unit | datasourceId | datatypeId   |
-|-----------------------------|-------------------------------|----------|-----|----------|----------|---------|------|--------------|--------------|
-| UBERON_0000007              | pituitary&nbsp;gland          | 0.066891 | 0   | 0.028268 | 0.142208 | 1.69407 | TPM  | gtex         | bulk&nbsp;rna-seq |
-
-> **Note (OpenTargets API change):** OpenTargets retired the per-tissue `target.expressions` field (it now returns nothing) and moved baseline expression to the paginated `target.baselineExpression` field. `gget opentargets -r expression` now returns up to 250 per-biosample expression summary statistics (`median`, `min`, `q1`, `q3`, `max`) from the current sources (e.g. GTEx bulk RNA-seq and single-cell datasets), with `tissueBiosample`/`celltypeBiosample` identifiers and `datasourceId`/`datatypeId` so results can be filtered. The returned columns therefore differ from earlier gget versions.
+| tissue_id      | tissue_name                           | rna_zscore | rna_value | rna_unit | rna_level | anatomical_systems                                                   | organs                                                 |
+|----------------|---------------------------------------|------------|-----------|----------|-----------|----------------------------------------------------------------------|--------------------------------------------------------|
+| UBERON_0000473 | testis                                | 5          | 1026      |          | 3         | [reproductive&nbsp;system]                                           | [reproductive&nbsp;organ, reproductive&nbsp;structure] |
+| CL_0000542     | EBV&#8209;transformed&nbsp;lymphocyte | 1          | 54        |          | 2         | [hemolymphoid&nbsp;system, immune&nbsp;system, lymphoid&nbsp;system] | [immune organ]                                         |
 
 <br/><br/>
 

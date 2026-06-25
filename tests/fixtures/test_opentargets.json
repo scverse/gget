@@ -7,6 +7,13 @@
       "limit": 2
     }
   },
+  "test_opentargets_expression_no_limit": {
+    "type": "code_defined",
+    "args": {
+      "ensembl_id": "ENSG00000169194",
+      "resource": "expression"
+    }
+  },
   "test_opentargets_depmap": {
     "type": "code_defined",
     "args": {
@@ -200,6 +207,14 @@
         ]
       }
     ]
+  },
+  "test_opentargets_expression": {
+    "type": "code_defined",
+    "args": {
+      "ensembl_id": "ENSG00000169194",
+      "resource": "expression",
+      "limit": 2
+    }
   },
   "test_opentargets_interactions": {
     "type": "code_defined",
