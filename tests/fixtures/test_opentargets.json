@@ -1,36 +1,21 @@
 {
   "test_opentargets": {
-    "type": "assert_equal",
+    "type": "code_defined",
     "args": {
       "ensembl_id": "ENSG00000169194",
       "resource": "diseases",
       "limit": 2
-    },
-    "expected_result": [
-      [
-        0.7297489019498119,
-        "EFO_0000274",
-        "atopic eczema",
-        "A common chronic pruritic inflammatory skin disease with a strong genetic component. Onset typically occurs during the first 2 years of life."
-      ],
-      [
-        0.6642728577751653,
-        "MONDO_0004979",
-        "asthma",
-        "A bronchial disease that is characterized by chronic inflammation and narrowing of the airways, which is caused by a combination of environmental and genetic factors resulting in recurring periods of wheezing (a whistling sound while breathing), chest tightness, shortness of breath, mucus production and coughing. The symptoms appear due to a variety of triggers such as allergens, irritants, respiratory infections, weather changes, exercise, stress, reflux disease, medications, foods and emotional anxiety."
-      ]
-    ]
+    }
   },
   "test_opentargets_depmap": {
-    "type": "assert_equal_json_hash",
+    "type": "code_defined",
     "args": {
       "ensembl_id": "ENSG00000169194",
       "resource": "depmap"
-    },
-    "expected_result": "c335cc9c9b3167e8c5b3084e339c88a7"
+    }
   },
   "test_opentargets_depmap_filter": {
-    "type": "assert_equal",
+    "type": "code_defined",
     "args": {
       "ensembl_id": "ENSG00000169194",
       "resource": "depmap",
@@ -38,35 +23,14 @@
         "tissueId": "UBERON_0002367"
       },
       "limit": 2
-    },
-    "expected_result": [
-      [
-        "UBERON_0002367",
-        "prostate gland",
-        "DU 145",
-        0.034343916922807693,
-        "Prostate Adenocarcinoma",
-        "ACH-000979",
-        -0.14336788654327393
-      ],
-      [
-        "UBERON_0002367",
-        "prostate gland",
-        "WPE1-NA22",
-        0.0291899424046278,
-        "Non-Cancerous",
-        "ACH-001422",
-        0.06934770196676254
-      ]
-    ]
+    }
   },
   "test_opentargets_interactions_no_limit": {
-    "type": "assert_equal_json_hash",
+    "type": "code_defined",
     "args": {
       "ensembl_id": "ENSG00000169194",
       "resource": "interactions"
-    },
-    "expected_result": "fa95d278c2d31ded3731e154d65fcda5"
+    }
   },
   "test_opentargets_interactions_simple_filter": {
     "type": "assert_equal",
@@ -146,27 +110,12 @@
     "expected_result": "ValueError"
   },
   "test_opentargets_diseases": {
-    "function_call_to_reproduce": "output = opentargets(ensembl_id='ENSG00000169194', resource='diseases', limit=2, json=True, verbose=False); print(json.dumps(output, indent=2))",
-    "type": "assert_equal_json_with_keys",
+    "type": "code_defined",
     "args": {
       "ensembl_id": "ENSG00000169194",
       "resource": "diseases",
       "limit": 2
-    },
-    "expected_result": [
-      {
-        "score": 0.7297489019,
-        "disease.id": "EFO_0000274",
-        "disease.name": "atopic eczema",
-        "disease.description": "A common chronic pruritic inflammatory skin disease with a strong genetic component. Onset typically occurs during the first 2 years of life."
-      },
-      {
-        "score": 0.6642728578,
-        "disease.id": "MONDO_0004979",
-        "disease.name": "asthma",
-        "disease.description": "A bronchial disease that is characterized by chronic inflammation and narrowing of the airways, which is caused by a combination of environmental and genetic factors resulting in recurring periods of wheezing (a whistling sound while breathing), chest tightness, shortness of breath, mucus production and coughing. The symptoms appear due to a variety of triggers such as allergens, irritants, respiratory infections, weather changes, exercise, stress, reflux disease, medications, foods and emotional anxiety."
-      }
-    ]
+    }
   },
   "test_opentargets_drugs": {
     "function_call_to_reproduce": "output = opentargets(ensembl_id='ENSG00000169194', resource='drugs', limit=2, json=True, verbose=False); print(json.dumps(output, indent=2))",
@@ -253,89 +202,20 @@
     ]
   },
   "test_opentargets_interactions": {
-    "function_call_to_reproduce": "output = opentargets(ensembl_id='ENSG00000169194', resource='interactions', limit=2, json=True, verbose=False); print(json.dumps(output, indent=2))",
-    "type": "assert_equal_json_with_keys",
+    "type": "code_defined",
     "args": {
       "ensembl_id": "ENSG00000169194",
       "resource": "interactions",
       "limit": 2
-    },
-    "expected_result": [
-      {
-        "score": 0.999,
-        "count": 3,
-        "sourceDatabase": "string",
-        "intA": "ENSP00000304915",
-        "intABiologicalRole": "unspecified role",
-        "intB": "ENSP00000361004",
-        "intBBiologicalRole": "unspecified role",
-        "targetA.id": "ENSG00000169194",
-        "targetA.approvedSymbol": "IL13",
-        "speciesA.taxonId": 134,
-        "targetB.id": "ENSG00000123496",
-        "targetB.approvedSymbol": "IL13RA2",
-        "speciesB.taxonId": 134
-      },
-      {
-        "score": 0.999,
-        "count": 3,
-        "sourceDatabase": "string",
-        "intA": "ENSP00000304915",
-        "intABiologicalRole": "unspecified role",
-        "intB": "ENSP00000360730",
-        "intBBiologicalRole": "unspecified role",
-        "targetA.id": "ENSG00000169194",
-        "targetA.approvedSymbol": "IL13",
-        "speciesA.taxonId": 134,
-        "targetB.id": "ENSG00000131724",
-        "targetB.approvedSymbol": "IL13RA1",
-        "speciesB.taxonId": 134
-      }
-    ]
+    }
   },
   "test_opentargets_pharmacogenetics": {
-    "function_call_to_reproduce": "output = opentargets(ensembl_id='ENSG00000169194', resource='pharmacogenetics', limit=2, json=True, verbose=False); print(json.dumps(output, indent=2))",
-    "type": "assert_equal_json_with_keys",
+    "type": "code_defined",
     "args": {
       "ensembl_id": "ENSG00000169194",
       "resource": "pharmacogenetics",
       "limit": 2
-    },
-    "expected_result": [
-      {
-        "variantId": "5_132657117_C_T",
-        "genotypeId": "5_132657117_C_C,T",
-        "genotype": "CT",
-        "drugs": {
-          "id": "CHEMBL535",
-          "name": "SUNITINIB"
-        },
-        "phenotypeText": "decreased severity of drug-induced toxicity",
-        "genotypeAnnotationText": "Patients with renal cell carcinoma and the CT genotype may have a decreased severity of drug-induced toxicity when administered sunitinib as compared to patients with the TT genotype. Other clinical and genetic factors may also influence severity of drug-induced toxicity in patients with renal cell carcinoma who are administered sunitinib.",
-        "pgxCategory": "toxicity",
-        "isDirectTarget": false,
-        "evidenceLevel": "3",
-        "datasourceId": "clinpgx",
-        "literature": "26387812",
-        "variantFunctionalConsequence.id": "SO:0001631",
-        "variantFunctionalConsequence.label": "upstream_gene_variant"
-      },
-      {
-        "variantId": "5_132660151_T_C",
-        "genotypeId": "5_132660151_T_C,C",
-        "genotype": "CC",
-        "drugs": null,
-        "phenotypeText": "decreased risk for non-immune response",
-        "genotypeAnnotationText": "Patients with the CC genotype may be at decreased risk for non-immune response to the hepatitis B vaccine, as compared to patients with the TT genotype. Other genetic and clinical factors may also influence risk of non-immune response in patients receiving the hepatitis B vaccine.",
-        "pgxCategory": "efficacy",
-        "isDirectTarget": false,
-        "evidenceLevel": "3",
-        "datasourceId": "clinpgx",
-        "literature": "21111021",
-        "variantFunctionalConsequence.id": "SO:0001627",
-        "variantFunctionalConsequence.label": "intron_variant"
-      }
-    ]
+    }
   },
   "test_opentargets_tractability": {
     "function_call_to_reproduce": "output = opentargets(ensembl_id='ENSG00000169194', resource='tractability', limit=2, json=True, verbose=False); print(json.dumps(output, indent=2))",
