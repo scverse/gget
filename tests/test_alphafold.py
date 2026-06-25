@@ -2,7 +2,9 @@ import os
 import subprocess
 import sys
 import unittest
+from unittest.mock import patch
 
+import gget.gget_alphafold as gget_alphafold
 from gget.gget_alphafold import clean_up, get_jackhmmer_dir
 from gget.gget_setup import UUID
 
@@ -48,6 +50,20 @@ class TestAlphafoldJackhmmerSavedir(unittest.TestCase):
         missing = get_jackhmmer_dir(os.path.join("definitely", "not", "there"))
         # Should be a no-op rather than raising.
         clean_up(missing)
+
+    def test_clean_up_default_dir_when_none(self):
+        """clean_up(None) resolves the default directory via get_jackhmmer_dir()."""
+        import tempfile
+
+        with tempfile.TemporaryDirectory() as parent:
+            default_dir = os.path.join(parent, "jackhmmer", "default")
+            os.makedirs(default_dir, exist_ok=True)
+            # Patch get_jackhmmer_dir so the None default resolves to a temp folder
+            # (never the real ~/tmp) for the duration of the call.
+            with patch.object(gget_alphafold, "get_jackhmmer_dir", return_value=default_dir) as mock_dir:
+                clean_up()
+                mock_dir.assert_called_once()
+            self.assertFalse(os.path.isdir(default_dir))
 
     def test_cli_exposes_jackhmmer_savedir_flag(self):
         """The command-line interface exposes the --jackhmmer_savedir option."""
