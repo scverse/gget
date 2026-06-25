@@ -1,4 +1,5 @@
 import json
+import time
 import unittest
 
 from gget.gget_elm import elm
@@ -8,7 +9,14 @@ from gget.gget_setup import setup as gget_setup
 with open("./tests/fixtures/test_elm.json") as json_file:
     elm_dict = json.load(json_file)
 
-gget_setup(module="elm")
+for attempt in range(3):
+    try:
+        gget_setup(module="elm")
+        break
+    except RuntimeError as exc:
+        if "ELM database files download failed" not in str(exc) or attempt == 2:
+            raise
+        time.sleep(30)
 
 
 class TestELM(unittest.TestCase):
