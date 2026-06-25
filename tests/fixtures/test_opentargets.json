@@ -119,7 +119,7 @@
   },
   "test_opentargets_drugs": {
     "function_call_to_reproduce": "output = opentargets(ensembl_id='ENSG00000169194', resource='drugs', limit=2, json=True, verbose=False); print(json.dumps(output, indent=2))",
-    "type": "assert_equal_json_with_keys",
+    "type": "code_defined",
     "args": {
       "ensembl_id": "ENSG00000169194",
       "resource": "drugs",

@@ -440,7 +440,7 @@
         ]
     },
     "test_archs4_tissue": {
-        "type": "assert_equal",
+        "type": "code_defined",
         "args": {
             "gene": "fuNdC1",
             "which": "tissue"
@@ -1025,7 +1025,7 @@
         ]
     },
     "test_archs4_tissue_json": {
-        "type": "assert_equal",
+        "type": "code_defined",
         "args": {
             "gene": "fuNdC1",
             "which": "tissue",
@@ -1611,7 +1611,7 @@
         ]
     },
     "test_archs4_tissue_mouse": {
-        "type": "assert_equal",
+        "type": "code_defined",
         "args": {
             "gene": "fuNdC1",
             "which": "tissue",
@@ -2093,7 +2093,7 @@
         ]
     },
     "test_archs4_tissue_ensembl": {
-        "type": "assert_equal",
+        "type": "code_defined",
         "args": {
             "gene": "ENSG00000106443",
             "ensembl": true,

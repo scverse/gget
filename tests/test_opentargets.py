@@ -56,6 +56,40 @@ class TestOpenTargets(unittest.TestCase, metaclass=from_json(ot_dict, opentarget
     def test_opentargets_diseases(self):
         self._assert_diseases(self._run("test_opentargets_diseases"))
 
+    # ----- drugs: indications/synonym text drifts, GraphQL shape must stay valid -----
+    def test_opentargets_drugs(self):
+        df = self._run("test_opentargets_drugs")
+        self.assertGreater(len(df), 0, "drugs query returned no rows")
+        required_columns = (
+            "drug.id",
+            "drug.name",
+            "drug.drugType",
+            "drug.mechanismsOfAction.rows",
+            "drug.synonyms",
+            "drug.tradeNames",
+            "drug.maximumClinicalStage",
+            "drug.indications.rows",
+        )
+        for col in required_columns:
+            self.assertIn(col, df.columns)
+
+        for drug_id in df["drug.id"].dropna().head(50):
+            self.assertRegex(str(drug_id), r"^CHEMBL\d+$")
+        for drug_name in df["drug.name"].dropna().head(50):
+            self.assertTrue(str(drug_name).strip(), "empty drug name")
+
+        for synonyms in df["drug.synonyms"].dropna().head(50):
+            self.assertIsInstance(synonyms, list)
+            self.assertTrue(all(str(s).strip() for s in synonyms), "empty drug synonym")
+
+        for indications in df["drug.indications.rows"].dropna().head(50):
+            self.assertIsInstance(indications, list)
+            for indication in indications:
+                self.assertIn("id", indication)
+                self.assertIn("name", indication)
+                self.assertRegex(str(indication["id"]), _CURIE)
+                self.assertTrue(str(indication["name"]).strip(), "empty indication name")
+
     # ----- depmap: gene-effect rows change between releases -----
     def test_opentargets_depmap(self):
         df = self._run("test_opentargets_depmap")
