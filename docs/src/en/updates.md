@@ -8,6 +8,7 @@
 - [`gget pdb`](pdb.md): Added support for the PDBx/mmCIF structure format (fixes [issue 178](https://github.com/scverse/gget/issues/178) and [issue 177](https://github.com/scverse/gget/issues/177)).
   - New `resource="mmcif"` option downloads the structure in PDBx/mmCIF format (`.cif`).
   - The default `resource="pdb"` now automatically falls back to PDBx/mmCIF when the legacy PDB file is unavailable (e.g. for large structures), since the legacy PDB format is being phased out by RCSB. A warning is logged and saved files use the correct extension (`.cif`).
+- [`gget archs4`](archs4.md) (tissue mode): No longer crashes with `KeyError: ['color'] not found in axis` when ARCHS4 intermittently omits the optional `color` column from its CSV response. The column is now dropped only if present. Output also has a deterministic row order (sorted by `median` descending, with `id` as tiebreaker) so equal-median tissues no longer flip order between requests.
 
 
 **Version ≥ 0.30.7** (Jun 21, 2026):  
