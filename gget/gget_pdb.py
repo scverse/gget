@@ -85,6 +85,8 @@ def pdb(pdb_id: str, resource: str = "pdb", identifier: str | int | None = None,
     # Define URLs for HTTP request.
     # Each entry is (url, fetched_format) so we can track which structure format
     # was actually returned ("pdb"/"mmcif"/None for JSON resources).
+    urls: list[tuple[str, str | None]]
+
     if resource not in structure_resources:
         # URLs to request resources other than a structure file
         if identifier is not None:
