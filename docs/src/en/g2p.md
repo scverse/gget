@@ -12,7 +12,7 @@ Returns: A data frame with the requested G2P information, or `None` if the query
 
 This module was written by [Elarwei](https://github.com/Elarwei001).
 
-At least one of `gene` or `--uniprot_id` is required — the other is resolved automatically via the UniProt REST API and cached. When resolution happens, the chosen pair is logged and prepended to the returned data frame as `Resolved Gene` / `Resolved UniProt` columns. Gene-symbol → accession lookup is approximate (it picks the canonical reviewed human Swiss-Prot entry only); for non-human organisms, unreviewed entries, or a specific isoform, pass `--uniprot_id` explicitly.
+At least one of `gene` or `--uniprot_id` is required — the other is resolved automatically via the UniProt REST API and cached. The canonical pair used for the query is **always** prepended to the returned data frame as `gene_name` / `uniprot_id` columns (and stored as `df.attrs["gene_name"]` / `df.attrs["uniprot_id"]`), so the output schema is identical whether you pass gene-only, uniprot-only, or both. Gene-symbol → accession lookup is approximate (it picks the canonical reviewed human Swiss-Prot entry only); for non-human organisms, unreviewed entries, or a specific isoform, pass `--uniprot_id` explicitly.
 
 **Arguments (at least one of `gene` / `--uniprot_id` required)**  
 `gene` (positional)  
@@ -82,7 +82,7 @@ gget g2p BRCA1
 # Python
 gget.g2p("BRCA1")
 ```
-&rarr; Same as above. The resolved `P38398` is logged and added as a `Resolved UniProt` column.
+&rarr; Same as above. The resolved `P38398` is logged and is visible in the leading `uniprot_id` column.
 
 <br/><br/>
 

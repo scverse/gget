@@ -194,9 +194,14 @@ def g2p(
     therefore not available here — query the portal directly for those.
 
     At least one of `gene` or `uniprot_id` is required. The other is resolved
-    automatically via the UniProt REST API and cached. When resolution happens, the
-    chosen pair is logged and prepended to the returned DataFrame as `Resolved Gene` /
-    `Resolved UniProt` columns so it travels with the data.
+    automatically via the UniProt REST API and cached; when resolution happens it is
+    logged with the limitations.
+
+    The canonical pair used for the query is always prepended to the returned
+    DataFrame as `gene_name` and `uniprot_id` columns and stored as
+    `df.attrs["gene_name"]` / `df.attrs["uniprot_id"]`, so the output schema is
+    identical regardless of input mode and the chosen identifiers survive in saved
+    files.
 
     Args:
     - gene          Optional gene symbol, e.g. "BRCA1". If omitted, resolved from
@@ -245,8 +250,6 @@ def g2p(
 
     Returns a pandas DataFrame with the requested G2P information, or None if the query
     failed (network error, invalid arguments, unknown gene/UniProt pair, or empty response).
-    The resolved canonical pair is also stored on the DataFrame as
-    `df.attrs["gene"]` / `df.attrs["uniprot_id"]`.
     """
     resources = ["features", "map", "alignment"]
     if resource not in resources:
@@ -279,9 +282,6 @@ def g2p(
             "Use it with 'features' or 'alignment'."
         )
 
-    resolved_uniprot_from_gene = False
-    resolved_gene_from_uniprot = False
-
     if not uniprot_id:
         if verbose:
             logger.info(f"Resolving UniProt accession for gene '{gene}' via UniProt...")
@@ -292,7 +292,6 @@ def g2p(
                 "Please pass the UniProt accession explicitly via 'uniprot_id' (find it with 'gget info')."
             )
         uniprot_id, n_candidates = lookup
-        resolved_uniprot_from_gene = True
         if verbose:
             extra = f" ({n_candidates} reviewed candidates matched; the first was chosen)" if n_candidates > 1 else ""
             logger.info(
@@ -312,7 +311,6 @@ def g2p(
                 f"Could not resolve a gene symbol for UniProt accession '{uniprot_id}'. "
                 "Please pass the gene symbol explicitly via the 'gene' argument."
             )
-        resolved_gene_from_uniprot = True
         if verbose:
             logger.info(f"Resolved UniProt '{uniprot_id}' → gene '{gene}'.")
 
@@ -361,13 +359,12 @@ def g2p(
                     f"{missing[:10]}{'...' if len(missing) > 10 else ''}"
                 )
 
-    # Surface the canonical pair both as pandas metadata and (when we resolved
-    # something) as visible leading columns so it travels with saved files too.
-    df.attrs["gene"] = gene
+    # Always prepend the canonical pair so the output schema is invariant across
+    # input modes (gene-only / uniprot-only / both) and survives `to_csv` / `to_json`.
+    df.attrs["gene_name"] = gene
     df.attrs["uniprot_id"] = uniprot_id
-    if resolved_uniprot_from_gene or resolved_gene_from_uniprot:
-        df.insert(0, "Resolved UniProt", uniprot_id)
-        df.insert(0, "Resolved Gene", gene)
+    df.insert(0, "uniprot_id", uniprot_id)
+    df.insert(0, "gene_name", gene)
 
     out_path: str | None = out if out else (f"gget_g2p_{gene}_{uniprot_id}_{resource}.csv" if save else None)
     if out_path:

@@ -19,6 +19,8 @@ class TestG2P(unittest.TestCase):
         self.assertListEqual(
             list(df.columns),
             [
+                "gene_name",
+                "uniprot_id",
                 "UniProtKB",
                 "UniProt Isoform",
                 "Ensembl Gene Id",
@@ -30,6 +32,9 @@ class TestG2P(unittest.TestCase):
             ],
         )
         self.assertGreater(len(df), 0)
+        # Identifier columns are populated with the query pair on every row.
+        self.assertTrue((df["gene_name"] == "BRCA1").all())
+        self.assertTrue((df["uniprot_id"] == "P38398").all())
         # BRCA1's stable Ensembl gene ID should be present
         self.assertTrue((df["Ensembl Gene Id"] == "ENSG00000012048").any())
 
@@ -86,11 +91,23 @@ class TestG2P(unittest.TestCase):
         _resolve_uniprot_from_gene.cache_clear()
         df = g2p("BRCA1", resource="map", verbose=False)
         self.assertIsNotNone(df)
-        # Resolved IDs travel with the data both as columns and df.attrs
-        self.assertIn("Resolved Gene", df.columns)
-        self.assertIn("Resolved UniProt", df.columns)
-        self.assertEqual(df.attrs.get("gene"), "BRCA1")
+        # The canonical pair travels with the data both as leading columns and df.attrs
+        self.assertIn("gene_name", df.columns)
+        self.assertIn("uniprot_id", df.columns)
+        self.assertTrue((df["gene_name"] == "BRCA1").all())
+        self.assertTrue((df["uniprot_id"] == "P38398").all())
+        self.assertEqual(df.attrs.get("gene_name"), "BRCA1")
         self.assertEqual(df.attrs.get("uniprot_id"), "P38398")
+
+    def test_g2p_schema_invariant_across_input_modes(self):
+        """Output schema must be identical whether the user passes gene-only,
+        uniprot-only, or both — including the leading gene_name / uniprot_id columns."""
+        df_both = g2p("BRCA1", uniprot_id="P38398", resource="map", verbose=False)
+        df_gene_only = g2p("BRCA1", resource="map", verbose=False)
+        df_uniprot_only = g2p(uniprot_id="P38398", resource="map", verbose=False)
+        self.assertEqual(list(df_both.columns), list(df_gene_only.columns))
+        self.assertEqual(list(df_both.columns), list(df_uniprot_only.columns))
+        self.assertEqual(list(df_both.columns[:2]), ["gene_name", "uniprot_id"])
 
     def test_g2p_residues_filter(self):
         """`residues=` restricts the features table to the requested positions."""
