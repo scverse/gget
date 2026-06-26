@@ -26,7 +26,8 @@ class TestOpenTargets(unittest.TestCase, metaclass=from_json(ot_dict, opentarget
         these hardcoded assertions were written for."""
         eid = ot_dict[name]["args"]["ensembl_id"]
         self.assertEqual(
-            eid, _IL13,
+            eid,
+            _IL13,
             f"{name}: assertions are hardcoded for IL13 ({_IL13}); fixture now uses {eid}. "
             "Update the assertions (and this guard) if the test gene changed.",
         )
@@ -62,11 +63,15 @@ class TestOpenTargets(unittest.TestCase, metaclass=from_json(ot_dict, opentarget
         self.assertIn("Lebrikizumab", row["drug.synonyms"])
 
     # ---------- expression: retired upstream in 26.06; migration tracked in #247/#248 ----------
-    @unittest.skip("OpenTargets target.expressions retired in 26.06 (returns empty); migration to baselineExpression tracked in #247/#248")
+    @unittest.skip(
+        "OpenTargets target.expressions retired in 26.06 (returns empty); migration to baselineExpression tracked in #247/#248"
+    )
     def test_opentargets_expression(self):
         pass
 
-    @unittest.skip("OpenTargets target.expressions retired in 26.06 (returns empty); migration to baselineExpression tracked in #247/#248")
+    @unittest.skip(
+        "OpenTargets target.expressions retired in 26.06 (returns empty); migration to baselineExpression tracked in #247/#248"
+    )
     def test_opentargets_expression_no_limit(self):
         pass
 
@@ -109,7 +114,9 @@ class TestOpenTargets(unittest.TestCase, metaclass=from_json(ot_dict, opentarget
 
     # ---------- pharmacogenetics ----------
     def test_opentargets_pharmacogenetics(self):
-        df = opentargets(self._gene("test_opentargets_pharmacogenetics"), resource="pharmacogenetics", limit=2, verbose=False)
+        df = opentargets(
+            self._gene("test_opentargets_pharmacogenetics"), resource="pharmacogenetics", limit=2, verbose=False
+        )
         self.assertGreater(len(df), 0)
         for col in ("variantId", "genotype", "genotypeId"):
             self.assertIn(col, df.columns)
