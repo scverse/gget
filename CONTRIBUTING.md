@@ -50,7 +50,7 @@ Commit the changes once you are happy with them.
     - The command line interface and arguments are defined in ./gget/main.py
 6. **Documentation:** Add new modules/arguments to the documentation if applicable:
     - The manual for each module can be added/edited in `./docs/src/en/*.md` (the Spanish version of the docs in `./docs/src/es/*.md` is automatically generated/updated, and does not need to be edited manually)
-    - **Document all edits in `./docs/src/en/updates.md`**
+    - **Document all edits in `./docs/src/en/updates.md`.** Keep this brief and succinct.
 
 If you have any questions, feel free to start a [discussion](https://github.com/scverse/gget/discussions) or create an issue as described above.
 
