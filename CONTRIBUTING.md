@@ -38,20 +38,19 @@ Commit the changes once you are happy with them.
 
 ### ‼️ Self-review the following before creating a Pull Request ‼️
 
-1. Review the content for technical accuracy.
+1. Review the content for technical accuracy and biological relevance (who are your target users and is this useful to them?).
 2. Copy-edit the changes/comments for grammar, spelling, and adherence to the general style of existing gget code.
-3. Format and lint your code with [pre-commit](https://pre-commit.com/) (powered by [ruff](https://docs.astral.sh/ruff/)). Install the hooks once with `prek install` (or `pre-commit install`) so they run automatically on every commit, or run them on demand with `prek run --all-files` (or `pre-commit run --all-files`).
-4. Make sure the unit tests pass:
+3. **Testing new code:** Make sure the unit tests pass:
     - The tested environments are defined in `pyproject.toml` under `[tool.hatch.envs.hatch-test]` (the single source of truth used by CI). Run the full matrix with `uvx hatch test`.
     - For a quick single-environment run, install the test dependencies with `uv sync --group test` and run `uv run pytest -ra -v --cov=gget --cov-report=term-missing tests`. To also exercise the `gget cellxgene` module, install its extra (`uv sync --group test --extra cellxgene`) on Python 3.12/3.13 — its dependency has no wheels for newer Python versions yet, and that test skips itself when the dependency is absent.
-5. Add new unit tests if applicable:
+4. **Unit tests:** Add new unit tests if applicable:
     - Arguments and expected results are stored in json files in ./tests/fixtures/
     - Unit tests can be added to ./tests/test_*.py and will be automatically detected
-6. Make sure the edits are compatible with both the Python and the command line interface
+5. **Command line interface:** Make sure edits keep the Python function and the command-line interface in sync. Any change to a function's arguments must be reflected in both the Python signature and the CLI argument parser.
     - The command line interface and arguments are defined in ./gget/main.py
-8. Add new modules/arguments to the documentation if applicable:
+6. **Documentation:** Add new modules/arguments to the documentation if applicable:
     - The manual for each module can be added/edited in `./docs/src/en/*.md` (the Spanish version of the docs in `./docs/src/es/*.md` is automatically generated/updated, and does not need to be edited manually)
-    - List all edits in `./docs/src/en/updates.md`
+    - **Document all edits in `./docs/src/en/updates.md`**
 
 If you have any questions, feel free to start a [discussion](https://github.com/scverse/gget/discussions) or create an issue as described above.
 
@@ -59,16 +58,12 @@ If you have any questions, feel free to start a [discussion](https://github.com/
 
 Reviewers move faster on small, focused PRs. Whenever possible:
 
-- **Scope each PR to a single `gget` module**. If you find yourself changing more than one module to address several distinct concerns, please open them as separate PRs — one per module. Bug fixes and small refactors inside one module can be combined; cross-module work should be split.
+- **Scope each PR to a single `gget` module or issue**. If you find yourself changing more than one module to address several distinct concerns, please open them as separate PRs — one per module. Bug fixes and small refactors inside one module can be combined; cross-module work should be split.
 - **Don't bundle unrelated changes** (e.g. a bug fix plus a new feature plus a refactor) in the same PR.
-
-If your PR is naturally bigger than this (e.g. a brand-new module, a cross-cutting deprecation, a large API change), call it out in the PR description so reviewers know it's intentional.
 
 ### Failing tests for modules you didn't touch
 
 The `gget` test suite hits real upstream databases (Ensembl, UniProt, NCBI, ARCHS4, Open Targets, ELM, etc.). When those services change their data or schemas — which they do regularly — tests for the affected modules can start failing without anyone changing `gget` itself. **If automated CI tests fail in your PR for a module you did not touch, you can safely ignore those failures** when judging whether your PR is ready to merge. The maintainers track upstream-drift failures separately and do not expect contributors to fix unrelated breakages as a condition of merging.
-
-To confirm a failure is upstream and not caused by your changes, run just your module's tests locally (see step 4 in the self-review checklist above).
 
 ### Pull Request
 
@@ -80,10 +75,10 @@ When you're finished with the changes, [create a pull request](https://docs.gith
 - Enable the checkbox to [allow maintainer edits](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/allowing-changes-to-a-pull-request-branch-created-from-a-fork) so the branch can be updated for a merge.
 - If you run into any merge issues, checkout this [git tutorial](https://github.com/skills/resolve-merge-conflicts) to help you resolve merge conflicts and other issues.
 
-Once you submit your PR, a gget team member will review your proposal. We may ask questions or request additional information.
+Once you submit your PR, a `gget` team member will review your proposal. We may ask questions or request additional information.
 
 ### Your PR is merged!
 
-Congratulations! 🎉	 The gget team thanks you. ✨
+Congratulations! 🎉	 The `gget` team thanks you. ✨
 
 Once your PR is merged, your contributions will be publicly visible on the [gget repo](https://github.com/scverse/gget).
