@@ -103,7 +103,7 @@ def http_json(
     url: str,
     *,
     context: str = "",
-    timeout: float = DEFAULT_REQUESTS_TIMEOUT,
+    timeout: float | tuple[float, float] = DEFAULT_REQUESTS_TIMEOUT,
     retries: int = 3,
     backoff: float = 1.0,
     **kwargs: Any,
