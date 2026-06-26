@@ -72,7 +72,8 @@ class TestOpenTargets(unittest.TestCase, metaclass=from_json(ot_dict, opentarget
             did, score = rows[name]
             self.assertIn(did, id_set, f"{name}: unexpected id {did} (not in {sorted(id_set)})")
             self.assertLessEqual(
-                abs(float(score) - base), self._SCORE_TOL,
+                abs(float(score) - base),
+                self._SCORE_TOL,
                 f"{name} score {score} off baseline {base} by >{self._SCORE_TOL}",
             )
 
