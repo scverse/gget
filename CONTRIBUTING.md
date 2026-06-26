@@ -55,6 +55,21 @@ Commit the changes once you are happy with them.
 
 If you have any questions, feel free to start a [discussion](https://github.com/scverse/gget/discussions) or create an issue as described above.
 
+### Keep PRs small and focused
+
+Reviewers move faster on small, focused PRs. Whenever possible:
+
+- **Scope each PR to a single `gget` module**. If you find yourself changing more than one module to address several distinct concerns, please open them as separate PRs — one per module. Bug fixes and small refactors inside one module can be combined; cross-module work should be split.
+- **Don't bundle unrelated changes** (e.g. a bug fix plus a new feature plus a refactor) in the same PR.
+
+If your PR is naturally bigger than this (e.g. a brand-new module, a cross-cutting deprecation, a large API change), call it out in the PR description so reviewers know it's intentional.
+
+### Failing tests for modules you didn't touch
+
+The `gget` test suite hits real upstream databases (Ensembl, UniProt, NCBI, ARCHS4, Open Targets, ELM, etc.). When those services change their data or schemas — which they do regularly — tests for the affected modules can start failing without anyone changing `gget` itself. **If automated CI tests fail in your PR for a module you did not touch, you can safely ignore those failures** when judging whether your PR is ready to merge. The maintainers track upstream-drift failures separately and do not expect contributors to fix unrelated breakages as a condition of merging.
+
+To confirm a failure is upstream and not caused by your changes, run just your module's tests locally (see step 4 in the self-review checklist above).
+
 ### Pull Request
 
 When you're finished with the changes, [create a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request), also known as a PR.
