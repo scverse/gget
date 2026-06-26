@@ -2,7 +2,7 @@ import os
 import tempfile
 import unittest
 
-from gget.gget_g2p import _resolve_gene_from_uniprot, g2p
+from gget.gget_g2p import _resolve_gene_from_uniprot, _resolve_uniprot_from_gene, g2p
 
 
 class TestG2P(unittest.TestCase):
@@ -26,6 +26,7 @@ class TestG2P(unittest.TestCase):
                 "Ensembl Transcript Id",
                 "RefSeq mRNA Id",
                 "PDB Ids",
+                "PDB Ids List",
             ],
         )
         self.assertGreater(len(df), 0)
@@ -80,6 +81,50 @@ class TestG2P(unittest.TestCase):
             self.assertTrue(os.path.exists(out_path))
             self.assertGreater(os.path.getsize(out_path), 0)
 
+    def test_g2p_uniprot_auto_resolved(self):
+        """When only `gene` is supplied, UniProt accession must be resolved via UniProt."""
+        _resolve_uniprot_from_gene.cache_clear()
+        df = g2p("BRCA1", resource="map", verbose=False)
+        self.assertIsNotNone(df)
+        # Resolved IDs travel with the data both as columns and df.attrs
+        self.assertIn("Resolved Gene", df.columns)
+        self.assertIn("Resolved UniProt", df.columns)
+        self.assertEqual(df.attrs.get("gene"), "BRCA1")
+        self.assertEqual(df.attrs.get("uniprot_id"), "P38398")
+
+    def test_g2p_residues_filter(self):
+        """`residues=` restricts the features table to the requested positions."""
+        df = g2p(
+            "BRCA1",
+            uniprot_id="P38398",
+            resource="features",
+            residues=[1, 100, 1000],
+            verbose=False,
+        )
+        self.assertIsNotNone(df)
+        self.assertEqual(sorted(df["residueId"].tolist()), [1, 100, 1000])
+
+    def test_g2p_residues_single_int(self):
+        df = g2p(
+            "BRCA1",
+            uniprot_id="P38398",
+            resource="features",
+            residues=42,
+            verbose=False,
+        )
+        self.assertIsNotNone(df)
+        self.assertEqual(df["residueId"].tolist(), [42])
+
+    def test_g2p_map_has_pdb_list_column(self):
+        """The `map` resource gets a parsed `PDB Ids List` column for direct consumption."""
+        df = g2p("BRCA1", uniprot_id="P38398", resource="map", verbose=False)
+        self.assertIn("PDB Ids List", df.columns)
+        # Each non-null entry should be a list of strings
+        for entry in df["PDB Ids List"].head(3):
+            self.assertIsInstance(entry, list)
+            for item in entry:
+                self.assertIsInstance(item, str)
+
 
 class TestG2PValidation(unittest.TestCase):
     """Fast, network-free tests for argument validation."""
@@ -88,10 +133,23 @@ class TestG2PValidation(unittest.TestCase):
         with self.assertRaises(ValueError):
             g2p("BRCA1", uniprot_id="P38398", resource="not_a_resource")
 
-    def test_missing_uniprot_raises(self):
+    def test_missing_both_raises(self):
         with self.assertRaises(ValueError):
-            g2p("BRCA1", uniprot_id=None)
+            g2p()
 
     def test_alignment_requires_isoform(self):
         with self.assertRaises(ValueError):
             g2p("LDLR", uniprot_id="P01130-1", resource="alignment")
+
+    def test_alignment_requires_explicit_uniprot(self):
+        """Alignment cannot rely on gene→UniProt resolution (returns base accession, no isoform)."""
+        with self.assertRaises(ValueError):
+            g2p("LDLR", resource="alignment", isoform="P01130-2")
+
+    def test_residues_on_map_raises(self):
+        with self.assertRaises(ValueError):
+            g2p("BRCA1", uniprot_id="P38398", resource="map", residues=[1, 2, 3])
+
+    def test_residues_wrong_type_raises(self):
+        with self.assertRaises(ValueError):
+            g2p("BRCA1", uniprot_id="P38398", residues="not-ints")  # type: ignore[arg-type]

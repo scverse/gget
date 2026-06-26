@@ -5,7 +5,9 @@
 #### *gget* officially became part of [*scverse*](https://scverse.org/) on June 9, 2026. 🥳🥳🥳
 
 **Version ≥ 0.30.8** (XXX XX, 2026):  
-- [`gget g2p`](g2p.md): The `gene` argument is now **optional**, resolved automatically from `--uniprot_id` via UniProt when omitted. Existing call sites continue to work.
+- [`gget g2p`](g2p.md): Either `gene` or `--uniprot_id` is now sufficient — whichever is missing is resolved via UniProt and cached. Gene→UniProt picks the canonical reviewed human Swiss-Prot entry; the resolved pair is logged with the limitations and prepended to the result as `Resolved Gene` / `Resolved UniProt` columns (and stored on `df.attrs`). Existing call sites continue to work.
+  - New `residues=` filter (Python: int / list / range / set; CLI `--residues 100,200,300` or `100-200`) restricts `features` / `alignment` to specific positions client-side.
+  - `map` results gain a parsed `PDB Ids List` column (`list[str]`) alongside the comma-joined `PDB Ids` string, for direct chaining into [`gget pdb`](pdb.md).
   - Fixed silent failure when the gene/UniProt pair was unknown: G2P returns HTTP 200 with a JSON `{"status":"failure",...}` body that was being parsed as a single TSV column. Now logged as an error and returns `None`.
   - All failure modes now return `None` (was a mix of `None` and empty `DataFrame`).
   - Added retries with exponential backoff on transient failures (5xx, connection errors, timeouts).
