@@ -332,6 +332,19 @@ def opentargets(
         query_string = QUERY_STRING_PHARMACOGENETICS
         rows_path = ["pharmacogenomics"]
     elif resource == "expression":
+        # Open Targets deprecated `Target.expressions` upstream (returns []
+        # for all targets as of mid-2026). The replacement field
+        # `Target.baselineExpression` has a different schema (tissueBiosample,
+        # q1/q3/median/min/max instead of tissue/rna sub-objects); migrating
+        # gget's output is a user-facing change tracked in
+        # https://github.com/scverse/gget/issues/247.
+        logger.warning(
+            "gget opentargets resource='expression' is currently broken upstream: "
+            "Open Targets retired the `Target.expressions` GraphQL field (returns []). "
+            "A future gget release will migrate to the replacement `Target.baselineExpression` "
+            "field, which has a different output schema. Track at "
+            "https://github.com/scverse/gget/issues/247."
+        )
         query_string = QUERY_STRING_EXPRESSION
         rows_path = ["expressions"]
     elif resource == "depmap":
