@@ -1,12 +1,4 @@
 {
-  "test_opentargets": {
-    "type": "code_defined",
-    "args": {
-      "ensembl_id": "ENSG00000169194",
-      "resource": "diseases",
-      "limit": 2
-    }
-  },
   "test_opentargets_expression_no_limit": {
     "type": "code_defined",
     "args": {
