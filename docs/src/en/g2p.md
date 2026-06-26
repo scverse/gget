@@ -12,11 +12,12 @@ Returns: A data frame with the requested G2P information, or `None` if the query
 
 This module was written by [Elarwei](https://github.com/Elarwei001).
 
-At least one of `gene` or `--uniprot_id` is required — the other is resolved automatically via the UniProt REST API and cached. The canonical pair used for the query is **always** prepended to the returned data frame as `gene_name` / `uniprot_id` columns (and stored as `df.attrs["gene_name"]` / `df.attrs["uniprot_id"]`), so the output schema is identical whether you pass gene-only, uniprot-only, or both. Gene-symbol → accession lookup is approximate (it picks the canonical reviewed human Swiss-Prot entry only); for non-human organisms, unreviewed entries, or a specific isoform, pass `--uniprot_id` explicitly.
+At least one of `gene` or `--uniprot_id` is required — the other is resolved automatically via the UniProt REST API and cached.
 
 **Arguments (at least one of `gene` / `--uniprot_id` required)**  
 `gene` (positional)  
-Gene symbol, e.g. BRCA1. If omitted, resolved from `--uniprot_id`.  
+Gene symbol, e.g. BRCA1.  
+If omitted, resolved from `--uniprot_id`. In this case, note that gene → UniProt accession lookup is approximate (it picks the canonical reviewed human Swiss-Prot entry only); for non-human organisms, unreviewed entries, or a specific isoform, pass `--uniprot_id` explicitly.  
 
 `-u` `--uniprot_id`  
 UniProt accession, e.g. P38398. If omitted, resolved from `gene`. For `--resource alignment` this is the canonical isoform (e.g. P01130-1) and is **required** (gene→UniProt lookup returns the base accession and cannot disambiguate isoforms).  
