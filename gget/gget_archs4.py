@@ -205,8 +205,10 @@ def archs4(
         # "color" column does not raise a KeyError and crash the request.
         tissue_exp_df = tissue_exp_df.drop(columns=["color"], errors="ignore")
 
-        # Sort data frame by median expression
-        tissue_exp_df = tissue_exp_df.sort_values("median", ascending=False)
+        # Sort data frame by median expression. Use "id" as a stable tiebreaker so the row
+        # order is deterministic when several tissues share the same median (ARCHS4 returns
+        # tied rows in a varying order between requests otherwise).
+        tissue_exp_df = tissue_exp_df.sort_values(["median", "id"], ascending=[False, True])
         tissue_exp_df = tissue_exp_df.reset_index(drop=True)
 
         if json:
