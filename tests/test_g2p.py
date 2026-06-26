@@ -1,6 +1,8 @@
+import os
+import tempfile
 import unittest
 
-from gget.gget_g2p import g2p
+from gget.gget_g2p import _resolve_gene_from_uniprot, g2p
 
 
 class TestG2P(unittest.TestCase):
@@ -47,6 +49,36 @@ class TestG2P(unittest.TestCase):
         self.assertGreater(len(df), 0)
         self.assertIn("residueId", df.columns)
         self.assertIn("AA", df.columns)
+
+    def test_g2p_gene_auto_resolved(self):
+        """When `gene` is omitted, it must be resolved from `uniprot_id` via UniProt."""
+        _resolve_gene_from_uniprot.cache_clear()
+        df = g2p(uniprot_id="P38398", resource="map", verbose=False)
+        self.assertIsNotNone(df)
+        self.assertGreater(len(df), 0)
+        self.assertTrue((df["Ensembl Gene Id"] == "ENSG00000012048").any())
+
+    def test_g2p_invalid_pair_returns_none(self):
+        """Regression: the G2P portal returns HTTP 200 with a JSON failure body when the
+        gene/UniProt pair is unknown. Previously this leaked through as a 0-row DataFrame
+        whose only column name was the JSON error string; now it must return None.
+        """
+        df = g2p("BRCA1", uniprot_id="P01130", resource="features", verbose=False)
+        self.assertIsNone(df)
+
+    def test_g2p_out_writes_to_explicit_path(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out_path = os.path.join(tmp, "g2p_map.csv")
+            df = g2p(
+                "BRCA1",
+                uniprot_id="P38398",
+                resource="map",
+                out=out_path,
+                verbose=False,
+            )
+            self.assertIsNotNone(df)
+            self.assertTrue(os.path.exists(out_path))
+            self.assertGreater(os.path.getsize(out_path), 0)
 
 
 class TestG2PValidation(unittest.TestCase):

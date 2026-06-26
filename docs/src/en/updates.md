@@ -5,6 +5,12 @@
 #### *gget* officially became part of [*scverse*](https://scverse.org/) on June 9, 2026. 🥳🥳🥳
 
 **Version ≥ 0.30.8** (XXX XX, 2026):  
+- [`gget g2p`](g2p.md): The `gene` argument is now **optional**, resolved automatically from `--uniprot_id` via UniProt when omitted. Existing call sites continue to work.
+  - Fixed silent failure when the gene/UniProt pair was unknown: G2P returns HTTP 200 with a JSON `{"status":"failure",...}` body that was being parsed as a single TSV column. Now logged as an error and returns `None`.
+  - All failure modes now return `None` (was a mix of `None` and empty `DataFrame`).
+  - Added retries with exponential backoff on transient failures (5xx, connection errors, timeouts).
+  - URL-encoded path segments.
+  - New `out=` Python argument writes the result to an explicit CSV path (takes precedence over `save`).
 - [`gget pdb`](pdb.md): Added support for the PDBx/mmCIF structure format (fixes [issue 178](https://github.com/scverse/gget/issues/178) and [issue 177](https://github.com/scverse/gget/issues/177)).
   - New `resource="mmcif"` option downloads the structure in PDBx/mmCIF format (`.cif`).
   - The default `resource="pdb"` now automatically falls back to PDBx/mmCIF when the legacy PDB file is unavailable (e.g. for large structures), since the legacy PDB format is being phased out by RCSB. A warning is logged and saved files use the correct extension (`.cif`).

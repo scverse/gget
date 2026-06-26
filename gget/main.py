@@ -2343,7 +2343,12 @@ def main() -> None:
     parser_g2p.add_argument(
         "gene",
         type=str,
-        help="Gene symbol, e.g. BRCA1.",
+        nargs="?",
+        default=None,
+        help=(
+            "Optional gene symbol, e.g. BRCA1. If omitted, the gene is resolved "
+            "automatically from --uniprot_id via the UniProt REST API."
+        ),
     )
     parser_g2p.add_argument(
         "-u",

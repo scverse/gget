@@ -2,25 +2,28 @@
 
 > Python arguments are equivalent to long-option arguments (`--arg`), unless otherwise specified. Flags are True/False arguments in Python.  The manual for any gget tool can be called from the command-line using the `-h` `--help` flag.  
 # gget g2p 🧬➜🧪
-Query the [Genomics 2 Proteins (G2P) portal](https://g2p.broadinstitute.org/) to link genes/proteins to residue-level structural and functional annotations (e.g. AlphaFold pLDDT, UniProt sites, predicted pockets, PTMs), the gene–transcript–protein–isoform–structure map, and isoform alignments.  
+Query the [Genomics 2 Proteins (G2P) portal](https://g2p.broadinstitute.org/) to link genes/proteins to residue-level structural and functional annotations, the gene–transcript–protein–isoform–structure map, and isoform alignments.
 
-Returns: A data frame with the requested G2P information.  
+The per-residue feature table is rich (~140 columns), including AlphaFold pLDDT, DSSP secondary structure, accessible surface area, UniProt sites (active/binding/domain/...), PhosphoSitePlus PTMs, fpocket / af2bind / p2rank pocket predictions, intra- and inter-chain hydrogen bonds, non-bonded interactions, disulfide bonds and salt bridges (from PDB and AlphaFold), the PFES (Protein Feature Enrichment Score) sub-scores used by G2P for missense variant interpretation, and per-residue MaveDB experimental functional scores. See the [`g2p-bis` documentation](https://github.com/broadinstitute/g2p-bis) for column descriptions.
+
+> Note: this module wraps the *public* G2P REST API. The variant overlays shown in the portal's web UI (gnomAD, ClinVar, HGMD) are not exposed by the public API and are therefore not available via `gget g2p` — use the portal directly for those.
+
+Returns: A data frame with the requested G2P information, or `None` if the query failed (network error, invalid arguments, or unknown gene/UniProt pair).
 
 This module was written by [Elarwei](https://github.com/Elarwei001).
 
-**Positional argument**  
-`gene`  
-Gene symbol, e.g. BRCA1.  
-
-**Other required arguments**  
+**Required arguments**  
 `-u` `--uniprot_id`  
 UniProt accession, e.g. P38398. For `--resource alignment` this is the canonical isoform (e.g. P01130-1).  
 Tip: find a gene's UniProt ID with [`gget info`](info.md).  
 
 **Optional arguments**  
+`gene` (positional)  
+Gene symbol, e.g. BRCA1. If omitted, the gene is resolved automatically from `--uniprot_id` via the UniProt REST API (the result is cached for repeat calls).  
+
 `-r` `--resource`  
 Defines the type of information to return (default: 'features'):  
-`features`: Per-residue protein feature table (AlphaFold pLDDT, UniProt sites, secondary structure, predicted pockets, PTMs, etc.).  
+`features`: Per-residue protein feature table (~140 columns: AlphaFold pLDDT, UniProt sites, secondary structure, predicted pockets, PTMs, PFES, MaveDB scores, ...).  
 `map`: Gene → transcript → protein isoform → structure map (UniProt/Ensembl/RefSeq/PDB identifiers).  
 `alignment`: Residue-level sequence alignment between two isoforms (requires `--isoform`; `--uniprot_id` is the canonical isoform).  
 
@@ -29,7 +32,7 @@ Alternative isoform UniProt accession (e.g. P01130-2). Required when `--resource
 
 `-o` `--out`  
 Path to the file the results will be saved in, e.g. path/to/directory/results.json. Default: Standard out.  
-Python: `save=True` will save the output in the current working directory.  
+Python: `save=True` will save the output as a CSV in the current working directory; `out="path/to/file.csv"` writes to an explicit path and takes precedence over `save`.
 
 **Flags**  
 `-csv` `--csv`  
@@ -42,24 +45,36 @@ Python: Use `verbose=False` to prevent progress information from being displayed
 
 ### Examples
 ```bash
-# Per-residue protein features for BRCA1 (AlphaFold pLDDT, UniProt sites, ...)
-gget g2p BRCA1 -u P38398
+# Per-residue protein features for BRCA1 (AlphaFold pLDDT, UniProt sites, ...).
+# The gene symbol is optional — it can be resolved from the UniProt accession.
+gget g2p -u P38398
 ```
 ```python
 # Python
-gget.g2p("BRCA1", uniprot_id="P38398", resource="features")
+gget.g2p(uniprot_id="P38398", resource="features")
 ```
 &rarr; Returns a data frame with one row per residue of the BRCA1 protein (UniProt P38398) and its structural/functional annotations.  
 
 <br/><br/>
 
 ```bash
-# Gene -> transcript -> isoform -> structure map (CSV)
-gget g2p BRCA1 -u P38398 -r map --csv
+# Same query, with the gene symbol passed explicitly
+gget g2p BRCA1 -u P38398
 ```
 ```python
 # Python
-gget.g2p("BRCA1", uniprot_id="P38398", resource="map")
+gget.g2p("BRCA1", uniprot_id="P38398", resource="features")
+```
+
+<br/><br/>
+
+```bash
+# Gene -> transcript -> isoform -> structure map (CSV)
+gget g2p -u P38398 -r map --csv
+```
+```python
+# Python
+gget.g2p(uniprot_id="P38398", resource="map")
 ```
 &rarr; Returns the mapping of BRCA1 to its UniProt isoforms, Ensembl/RefSeq identifiers, and PDB structures.  
 
@@ -67,11 +82,11 @@ gget.g2p("BRCA1", uniprot_id="P38398", resource="map")
 
 ```bash
 # Residue-level alignment between two LDLR isoforms
-gget g2p LDLR -u P01130-1 -r alignment -i P01130-2
+gget g2p -u P01130-1 -r alignment -i P01130-2
 ```
 ```python
 # Python
-gget.g2p("LDLR", uniprot_id="P01130-1", resource="alignment", isoform="P01130-2")
+gget.g2p(uniprot_id="P01130-1", resource="alignment", isoform="P01130-2")
 ```
 &rarr; Returns the residue-level alignment between LDLR isoforms P01130-1 and P01130-2.  
 
