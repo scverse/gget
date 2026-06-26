@@ -35,8 +35,19 @@ class TestOpenTargets(unittest.TestCase, metaclass=from_json(ot_dict, opentarget
         args = {**ot_dict[name]["args"], "verbose": False, **overrides}
         return opentargets(**args)
 
-    # ----- diseases: top disease id + score drift each release -----
+    # ----- diseases: structure (any gene) + semantic anchor (known IL13 diseases) -----
+    # IL13's associated diseases are stable by NAME; a disease's id may migrate between
+    # ontologies (EFO<->MONDO) so we accept a known id SET per disease (extend if it
+    # migrates again). Score drifts each release (~5% observed) -> tolerance band, not an
+    # exact value. Baselines captured at OpenTargets data v26.06.
+    _IL13_DISEASES = {
+        "atopic eczema": ({"EFO_0000274", "MONDO_0004980"}, 0.728),
+        "asthma": ({"MONDO_0004979"}, 0.695),
+    }
+    _SCORE_TOL = 0.15
+
     def _assert_diseases(self, df):
+        # Layer 1 -- structure / format
         self.assertGreater(len(df), 0, "diseases query returned no rows")
         for col in ("score", "disease.id", "disease.name"):
             self.assertIn(col, df.columns)
@@ -49,11 +60,29 @@ class TestOpenTargets(unittest.TestCase, metaclass=from_json(ot_dict, opentarget
         for disease_name in df["disease.name"].dropna().head(50):
             self.assertTrue(str(disease_name).strip(), "empty disease name")
 
+    def _assert_il13_disease_anchor(self):
+        # Layer 2+3 -- known IL13 diseases must be present (right gene + real data), each
+        # with an accepted id and a score near baseline. Query a window of 15 so we don't
+        # depend on top-2 ordering (scores can rerank between releases).
+        eid = ot_dict["test_opentargets"]["args"]["ensembl_id"]
+        df = opentargets(ensembl_id=eid, resource="diseases", limit=15, verbose=False)
+        rows = dict(zip(df["disease.name"], zip(df["disease.id"], df["score"])))
+        for name, (id_set, base) in self._IL13_DISEASES.items():
+            self.assertIn(name, rows, f"expected disease '{name}' missing for {eid}")
+            did, score = rows[name]
+            self.assertIn(did, id_set, f"{name}: unexpected id {did} (not in {sorted(id_set)})")
+            self.assertLessEqual(
+                abs(float(score) - base), self._SCORE_TOL,
+                f"{name} score {score} off baseline {base} by >{self._SCORE_TOL}",
+            )
+
     def test_opentargets(self):
         self._assert_diseases(self._run("test_opentargets"))
+        self._assert_il13_disease_anchor()
 
     def test_opentargets_diseases(self):
         self._assert_diseases(self._run("test_opentargets_diseases"))
+        self._assert_il13_disease_anchor()
 
     # ----- drugs: indications/synonym text drifts, GraphQL shape must stay valid -----
     def test_opentargets_drugs(self):
@@ -88,6 +117,27 @@ class TestOpenTargets(unittest.TestCase, metaclass=from_json(ot_dict, opentarget
                 self.assertIn("name", indication)
                 self.assertRegex(str(indication["id"]), _CURIE)
                 self.assertTrue(str(indication["name"]).strip(), "empty indication name")
+
+        self._assert_il13_drug_anchor()
+
+    def _assert_il13_drug_anchor(self):
+        # Layer 2 -- IL13 is targeted by lebrikizumab (approved, stable) whose mechanism is
+        # an "Interleukin-13 inhibitor": a biologically stable anchor catching wrong-gene /
+        # broken-shape, without pinning the volatile full drug/indication list.
+        eid = ot_dict["test_opentargets_drugs"]["args"]["ensembl_id"]
+        df = opentargets(ensembl_id=eid, resource="drugs", limit=25, verbose=False)
+        names = {str(n).upper() for n in df["drug.name"].dropna()}
+        self.assertIn("LEBRIKIZUMAB", names, f"expected drug LEBRIKIZUMAB missing for {eid}")
+        moas = []
+        for rows in df["drug.mechanismsOfAction.rows"].dropna():
+            if not isinstance(rows, (list, tuple)):
+                continue
+            for row in rows:
+                moas.append(str(row.get("mechanismOfAction", "")) if isinstance(row, dict) else str(row))
+        self.assertTrue(
+            any("interleukin-13 inhibitor" in str(m).lower() for m in moas),
+            "expected an 'Interleukin-13 inhibitor' mechanism of action",
+        )
 
     # ----- expression: upstream field currently empty; semantic migration is out of scope for CI repair -----
     @unittest.skip(
@@ -144,8 +194,19 @@ class TestOpenTargets(unittest.TestCase, metaclass=from_json(ot_dict, opentarget
         for gene_id in df["targetB.id"].dropna().head(50):
             self.assertRegex(str(gene_id), _ENSG)
 
+    def _assert_il13_interaction_anchor(self):
+        # Layer 2 -- IL13's canonical receptors IL13RA1/IL13RA2 are stable interactors, and
+        # every interaction's targetA must be the queried gene.
+        eid = ot_dict["test_opentargets_interactions"]["args"]["ensembl_id"]
+        df = opentargets(ensembl_id=eid, resource="interactions", limit=25, verbose=False)
+        self.assertTrue((df["targetA.id"].dropna() == eid).all(), "targetA is not the queried gene")
+        partners = set(df["targetB.approvedSymbol"].dropna())
+        for sym in ("IL13RA1", "IL13RA2"):
+            self.assertIn(sym, partners, f"expected interactor {sym} missing for {eid}")
+
     def test_opentargets_interactions(self):
         self._assert_interactions(self._run("test_opentargets_interactions"))
+        self._assert_il13_interaction_anchor()
 
     def test_opentargets_interactions_no_limit(self):
         self._assert_interactions(self._run("test_opentargets_interactions_no_limit"))
