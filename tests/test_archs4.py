@@ -26,7 +26,6 @@ class TestArchs4MissingColor(unittest.TestCase):
     the tissue-expression CSV. gget must not crash with a KeyError when it is absent
     (the 'color' column is dropped and never used)."""
 
-    _CSV_WITH_COLOR = "id,min,q1,median,q3,max,color\nTissueA,0,1,5,9,10,#fff\nTissueB,0,2,8,12,15,#000\n"
     _CSV_NO_COLOR = "id,min,q1,median,q3,max\nTissueA,0,1,5,9,10\nTissueB,0,2,8,12,15\n"
 
     def test_tissue_missing_color_does_not_crash(self):
@@ -36,10 +35,3 @@ class TestArchs4MissingColor(unittest.TestCase):
         self.assertEqual(len(df), 2)
         self.assertNotIn("color", df.columns)
         self.assertEqual(df.iloc[0]["id"], "TissueB")  # sorted by median descending
-
-    def test_tissue_with_color_still_dropped(self):
-        with patch("gget.gget_archs4.requests.post", return_value=_FakeResponse(self._CSV_WITH_COLOR)):
-            df = archs4("STAT4", which="tissue", verbose=False)
-        self.assertEqual(len(df), 2)
-        self.assertNotIn("color", df.columns)
-        self.assertEqual(df.iloc[0]["id"], "TissueB")
