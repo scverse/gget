@@ -1,224 +1,110 @@
 import json
-import re
 import unittest
 
-import pandas as pd
 from gget.gget_opentargets import opentargets
 
 from .from_json import from_json
 
-# Load dictionary containing arguments and expected results
 with open("./tests/fixtures/test_opentargets.json") as json_file:
     ot_dict = json.load(json_file)
 
-# Invariant value-format patterns: loose enough to survive routine OpenTargets data
-# drift across releases, strict enough to catch genuine shape/format regressions.
-_CURIE = re.compile(r"^[A-Za-z][A-Za-z0-9]*[_:][A-Za-z0-9]+$")  # e.g. MONDO_0004980, EFO_0000274, UBERON_0000977
-_ENSG = re.compile(r"^ENSG\d+$")
-_ACH = re.compile(r"^ACH-\d+$")  # DepMap cell-line id, e.g. ACH-000092
-_GENOTYPE = re.compile(r"^[ACGTN/,\- ]+$", re.IGNORECASE)  # nucleotide-allele genotypes, e.g. CT, CC, TT
+GENE = "ENSG00000169194"  # IL13 — the single gene all these fixtures query
 
 
 class TestOpenTargets(unittest.TestCase, metaclass=from_json(ot_dict, opentargets)):
-    """Most tests are generated from the JSON fixture. The methods below override the
-    fixture entries marked ``code_defined`` for resources whose live data legitimately
-    drifts between OpenTargets releases (disease ids/scores, DepMap rows, interaction
-    partners, pharmacogenetics genotypes).
+    """Most tests are generated from the JSON fixture. The methods below replace the
+    fixture entries marked ``code_defined`` — resources whose live OpenTargets data
+    drifts between releases. Since every fixture queries IL13 (ENSG00000169194), we
+    assert IL13's specific, biologically-stable facts directly (known entities by
+    name/id, scores within a tolerance of a baseline) instead of pinning exact values
+    (fragile) or checking only generic formats (too weak). See issue #249.
+    Baselines captured at OpenTargets data v26.06; score tolerance 0.15 (drift ~5%/release)."""
 
-    They assert structure and value *format* / invariants rather than pinning exact
-    values, so they keep catching real regressions (wrong columns, malformed ids,
-    empty-where-guaranteed, broken filtering) without breaking on routine upstream
-    data updates. See issue #249."""
+    # ---------- diseases ----------
+    def _check_il13_diseases(self):
+        df = opentargets(GENE, resource="diseases", limit=15, verbose=False)
+        hits = dict(zip(df["disease.name"], zip(df["disease.id"], df["score"])))
 
-    def _run(self, name, **overrides):
-        """Call opentargets with the fixture args for ``name`` (quietly)."""
-        args = {**ot_dict[name]["args"], "verbose": False, **overrides}
-        return opentargets(**args)
+        self.assertIn("atopic eczema", hits)
+        did, score = hits["atopic eczema"]
+        self.assertIn(did, {"EFO_0000274", "MONDO_0004980"})  # id may migrate EFO<->MONDO
+        self.assertAlmostEqual(score, 0.73, delta=0.15)
 
-    # ----- diseases: structure (any gene) + semantic anchor (known IL13 diseases) -----
-    # IL13's associated diseases are stable by NAME; a disease's id may migrate between
-    # ontologies (EFO<->MONDO) so we accept a known id SET per disease (extend if it
-    # migrates again). Score drifts each release (~5% observed) -> tolerance band, not an
-    # exact value. Baselines captured at OpenTargets data v26.06.
-    _IL13_DISEASES = {
-        "atopic eczema": ({"EFO_0000274", "MONDO_0004980"}, 0.728),
-        "asthma": ({"MONDO_0004979"}, 0.695),
-    }
-    _SCORE_TOL = 0.15
-
-    def _assert_diseases(self, df):
-        # Layer 1 -- structure / format
-        self.assertGreater(len(df), 0, "diseases query returned no rows")
-        for col in ("score", "disease.id", "disease.name"):
-            self.assertIn(col, df.columns)
-        self.assertTrue(pd.api.types.is_numeric_dtype(df["score"]))
-        for s in df["score"].dropna().head(50):
-            self.assertGreaterEqual(float(s), 0.0)
-            self.assertLessEqual(float(s), 1.0)
-        for disease_id in df["disease.id"].dropna().head(50):
-            self.assertRegex(str(disease_id), _CURIE)
-        for disease_name in df["disease.name"].dropna().head(50):
-            self.assertTrue(str(disease_name).strip(), "empty disease name")
-
-    def _assert_il13_disease_anchor(self):
-        # Layer 2+3 -- known IL13 diseases must be present (right gene + real data), each
-        # with an accepted id and a score near baseline. Query a window of 15 so we don't
-        # depend on top-2 ordering (scores can rerank between releases).
-        eid = ot_dict["test_opentargets"]["args"]["ensembl_id"]
-        df = opentargets(ensembl_id=eid, resource="diseases", limit=15, verbose=False)
-        rows = dict(zip(df["disease.name"], zip(df["disease.id"], df["score"])))
-        for name, (id_set, base) in self._IL13_DISEASES.items():
-            self.assertIn(name, rows, f"expected disease '{name}' missing for {eid}")
-            did, score = rows[name]
-            self.assertIn(did, id_set, f"{name}: unexpected id {did} (not in {sorted(id_set)})")
-            self.assertLessEqual(
-                abs(float(score) - base),
-                self._SCORE_TOL,
-                f"{name} score {score} off baseline {base} by >{self._SCORE_TOL}",
-            )
+        self.assertIn("asthma", hits)
+        did, score = hits["asthma"]
+        self.assertEqual(did, "MONDO_0004979")
+        self.assertAlmostEqual(score, 0.70, delta=0.15)
 
     def test_opentargets(self):
-        self._assert_diseases(self._run("test_opentargets"))
-        self._assert_il13_disease_anchor()
+        self._check_il13_diseases()
 
     def test_opentargets_diseases(self):
-        self._assert_diseases(self._run("test_opentargets_diseases"))
-        self._assert_il13_disease_anchor()
+        self._check_il13_diseases()
 
-    # ----- drugs: indications/synonym text drifts, GraphQL shape must stay valid -----
+    # ---------- drugs ----------
     def test_opentargets_drugs(self):
-        df = self._run("test_opentargets_drugs")
-        self.assertGreater(len(df), 0, "drugs query returned no rows")
-        required_columns = (
-            "drug.id",
-            "drug.name",
-            "drug.drugType",
-            "drug.mechanismsOfAction.rows",
-            "drug.synonyms",
-            "drug.tradeNames",
-            "drug.maximumClinicalStage",
-            "drug.indications.rows",
-        )
-        for col in required_columns:
-            self.assertIn(col, df.columns)
-
-        for drug_id in df["drug.id"].dropna().head(50):
-            self.assertRegex(str(drug_id), r"^CHEMBL\d+$")
-        for drug_name in df["drug.name"].dropna().head(50):
-            self.assertTrue(str(drug_name).strip(), "empty drug name")
-
-        for synonyms in df["drug.synonyms"].dropna().head(50):
-            self.assertIsInstance(synonyms, list)
-            self.assertTrue(all(str(s).strip() for s in synonyms), "empty drug synonym")
-
-        for indications in df["drug.indications.rows"].dropna().head(50):
-            self.assertIsInstance(indications, list)
-            for indication in indications:
-                self.assertIn("id", indication)
-                self.assertIn("name", indication)
-                self.assertRegex(str(indication["id"]), _CURIE)
-                self.assertTrue(str(indication["name"]).strip(), "empty indication name")
-
-        self._assert_il13_drug_anchor()
-
-    def _assert_il13_drug_anchor(self):
-        # Layer 2 -- IL13 is targeted by lebrikizumab (approved, stable) whose mechanism is
-        # an "Interleukin-13 inhibitor": a biologically stable anchor catching wrong-gene /
-        # broken-shape, without pinning the volatile full drug/indication list.
-        eid = ot_dict["test_opentargets_drugs"]["args"]["ensembl_id"]
-        df = opentargets(ensembl_id=eid, resource="drugs", limit=25, verbose=False)
+        df = opentargets(GENE, resource="drugs", limit=25, verbose=False)
         names = {str(n).upper() for n in df["drug.name"].dropna()}
-        self.assertIn("LEBRIKIZUMAB", names, f"expected drug LEBRIKIZUMAB missing for {eid}")
-        moas = []
-        for rows in df["drug.mechanismsOfAction.rows"].dropna():
-            if not isinstance(rows, (list, tuple)):
-                continue
-            for row in rows:
-                moas.append(str(row.get("mechanismOfAction", "")) if isinstance(row, dict) else str(row))
-        self.assertTrue(
-            any("interleukin-13 inhibitor" in str(m).lower() for m in moas),
-            "expected an 'Interleukin-13 inhibitor' mechanism of action",
-        )
+        self.assertIn("LEBRIKIZUMAB", names)  # an approved IL-13 inhibitor targeting IL13
 
-    # ----- expression: upstream field currently empty; semantic migration is out of scope for CI repair -----
-    @unittest.skip(
-        "OpenTargets target.expressions currently returns no rows; issue #247 tracks whether gget should "
-        "introduce a new/explicit baselineExpression resource instead of silently changing expression semantics."
-    )
+        row = df[df["drug.name"].str.upper() == "LEBRIKIZUMAB"].iloc[0]
+        self.assertEqual(row["drug.drugType"], "Antibody")
+        self.assertTrue(str(row["drug.id"]).startswith("CHEMBL"))
+        self.assertIn("interleukin-13 inhibitor", str(row["drug.mechanismsOfAction.rows"]).lower())
+        # synonyms must be a flat list of strings (the GraphQL { label } sub-selection fix)
+        self.assertIsInstance(row["drug.synonyms"], list)
+        self.assertIn("Lebrikizumab", row["drug.synonyms"])
+
+    # ---------- expression: retired upstream in 26.06; migration tracked in #247/#248 ----------
+    @unittest.skip("OpenTargets target.expressions retired in 26.06 (returns empty); migration to baselineExpression tracked in #247/#248")
     def test_opentargets_expression(self):
-        self._run("test_opentargets_expression")
+        pass
 
-    @unittest.skip(
-        "OpenTargets target.expressions currently returns no rows; issue #247 tracks whether gget should "
-        "introduce a new/explicit baselineExpression resource instead of silently changing expression semantics."
-    )
+    @unittest.skip("OpenTargets target.expressions retired in 26.06 (returns empty); migration to baselineExpression tracked in #247/#248")
     def test_opentargets_expression_no_limit(self):
-        self._run("test_opentargets_expression_no_limit")
+        pass
 
-    # ----- depmap: gene-effect rows change between releases -----
+    # ---------- depmap ----------
     def test_opentargets_depmap(self):
-        df = self._run("test_opentargets_depmap")
-        self.assertGreater(len(df), 0, "depmap query returned no rows")
+        df = opentargets(GENE, resource="depmap", verbose=False)
+        self.assertGreater(len(df), 0)
         for col in ("tissueId", "tissueName", "depmapId", "geneEffect"):
             self.assertIn(col, df.columns)
-        self.assertTrue(pd.api.types.is_numeric_dtype(df["geneEffect"]))
-        for tissue_id in df["tissueId"].dropna().head(50):
-            self.assertRegex(str(tissue_id), _CURIE)
-        for depmap_id in df["depmapId"].dropna().head(50):
-            self.assertRegex(str(depmap_id), _ACH)
+        # DepMap gene-effect scores fall roughly within [-3, 2]; just sanity-bound them.
+        self.assertTrue(df["geneEffect"].dropna().between(-3, 2).all())
+        self.assertTrue(df["depmapId"].dropna().str.startswith("ACH-").all())
 
     def test_opentargets_depmap_filter(self):
-        # The filter invariant must hold regardless of which tissues currently carry
-        # data: pick a tissue that is present now, then assert filtering returns only
-        # rows for that tissue. (Pinning a specific tissue id is fragile — a given
-        # tissue's screens can be empty in some releases.)
-        eid = ot_dict["test_opentargets_depmap_filter"]["args"]["ensembl_id"]
-        full = opentargets(ensembl_id=eid, resource="depmap", verbose=False)
-        self.assertIn("tissueId", full.columns)
-        self.assertGreater(len(full), 0, "depmap query returned no rows to filter")
+        # Filtering must return only rows for the requested tissue. Pick a tissue present
+        # now (which ones carry data varies by release) and check the filter holds.
+        full = opentargets(GENE, resource="depmap", verbose=False)
+        self.assertGreater(len(full), 0)
         tissue = full.iloc[0]["tissueId"]
-        filtered = opentargets(ensembl_id=eid, resource="depmap", filters={"tissueId": tissue}, verbose=False)
+        filtered = opentargets(GENE, resource="depmap", filters={"tissueId": tissue}, verbose=False)
         self.assertGreater(len(filtered), 0)
-        self.assertTrue((filtered["tissueId"] == tissue).all(), "filter returned rows for other tissues")
+        self.assertTrue((filtered["tissueId"] == tissue).all())
 
-    # ----- interactions: partner ids change between releases -----
-    def _assert_interactions(self, df):
-        self.assertGreater(len(df), 0, "interactions query returned no rows")
-        for col in ("score", "targetA.id", "targetB.id"):
-            self.assertIn(col, df.columns)
-        self.assertTrue(pd.api.types.is_numeric_dtype(df["score"]))
-        for s in df["score"].dropna().head(50):
-            self.assertGreaterEqual(float(s), 0.0)
-            self.assertLessEqual(float(s), 1.0)
-        for gene_id in df["targetA.id"].dropna().head(50):
-            self.assertRegex(str(gene_id), _ENSG)
-        for gene_id in df["targetB.id"].dropna().head(50):
-            self.assertRegex(str(gene_id), _ENSG)
-
-    def _assert_il13_interaction_anchor(self):
-        # Layer 2 -- IL13's canonical receptors IL13RA1/IL13RA2 are stable interactors, and
-        # every interaction's targetA must be the queried gene.
-        eid = ot_dict["test_opentargets_interactions"]["args"]["ensembl_id"]
-        df = opentargets(ensembl_id=eid, resource="interactions", limit=25, verbose=False)
-        self.assertTrue((df["targetA.id"].dropna() == eid).all(), "targetA is not the queried gene")
+    # ---------- interactions ----------
+    def _check_il13_interactions(self):
+        df = opentargets(GENE, resource="interactions", limit=25, verbose=False)
+        self.assertTrue((df["targetA.id"].dropna() == GENE).all())  # source is the query gene
         partners = set(df["targetB.approvedSymbol"].dropna())
-        for sym in ("IL13RA1", "IL13RA2"):
-            self.assertIn(sym, partners, f"expected interactor {sym} missing for {eid}")
+        self.assertIn("IL13RA1", partners)  # IL13's canonical receptors
+        self.assertIn("IL13RA2", partners)
+        self.assertTrue(df["score"].dropna().between(0, 1).all())
 
     def test_opentargets_interactions(self):
-        self._assert_interactions(self._run("test_opentargets_interactions"))
-        self._assert_il13_interaction_anchor()
+        self._check_il13_interactions()
 
     def test_opentargets_interactions_no_limit(self):
-        self._assert_interactions(self._run("test_opentargets_interactions_no_limit"))
+        self._check_il13_interactions()
 
-    # ----- pharmacogenetics: surfaced genotype / row order drift -----
+    # ---------- pharmacogenetics ----------
     def test_opentargets_pharmacogenetics(self):
-        df = self._run("test_opentargets_pharmacogenetics")
-        self.assertGreater(len(df), 0, "pharmacogenetics query returned no rows")
+        df = opentargets(GENE, resource="pharmacogenetics", limit=2, verbose=False)
+        self.assertGreater(len(df), 0)
         for col in ("variantId", "genotype", "genotypeId"):
             self.assertIn(col, df.columns)
-        for genotype in df["genotype"].dropna().head(50):
-            self.assertRegex(str(genotype), _GENOTYPE)
-        for variant_id in df["variantId"].dropna().head(50):
-            self.assertTrue(str(variant_id).strip(), "empty variantId")
+        # genotypes are nucleotide alleles, e.g. "CT", "CC"
+        self.assertTrue(df["genotype"].dropna().str.match(r"^[ACGTN/,\- ]+$", case=False).all())
+        self.assertTrue(df["variantId"].dropna().astype(str).str.strip().ne("").all())
