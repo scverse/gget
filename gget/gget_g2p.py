@@ -40,9 +40,7 @@ def _resolve_gene_from_uniprot(uniprot_id: str) -> str | None:
         payload = r.json()
         gene = payload["genes"][0]["geneName"]["value"]
     except (json.JSONDecodeError, KeyError, IndexError, TypeError):
-        logger.error(
-            f"UniProt returned an entry for '{uniprot_id}' but no primary gene symbol could be extracted."
-        )
+        logger.error(f"UniProt returned an entry for '{uniprot_id}' but no primary gene symbol could be extracted.")
         return None
     return gene if isinstance(gene, str) and gene else None
 
@@ -106,8 +104,7 @@ def _g2p_get_tsv(
             delay = backoff * (2**attempt)
             reason = str(last_exc) if last_exc is not None else f"HTTP {last_status}"
             logger.warning(
-                f"{label}: transient failure ({reason}); retrying in {delay:.1f}s "
-                f"(attempt {attempt + 2}/{attempts})."
+                f"{label}: transient failure ({reason}); retrying in {delay:.1f}s (attempt {attempt + 2}/{attempts})."
             )
             time.sleep(delay)
 
@@ -172,9 +169,7 @@ def g2p(
     """
     resources = ["features", "map", "alignment"]
     if resource not in resources:
-        raise ValueError(
-            f"'resource' argument specified as '{resource}'. Expected one of: {', '.join(resources)}"
-        )
+        raise ValueError(f"'resource' argument specified as '{resource}'. Expected one of: {', '.join(resources)}")
 
     if not uniprot_id:
         raise ValueError(
