@@ -20,7 +20,7 @@ Gene symbol, e.g. BRCA1. If omitted, resolved from `--uniprot_id`.
 
 `-u` `--uniprot_id`  
 UniProt accession, e.g. P38398. If omitted, resolved from `gene`. For `--resource alignment` this is the canonical isoform (e.g. P01130-1) and is **required** (gene→UniProt lookup returns the base accession and cannot disambiguate isoforms).  
-Tip: find a gene's UniProt ID with [`gget info`](info.md).  
+Tip: find a gene's UniProt ID with [`gget search`](search.md) (to get a gene's Ensembl ID) and [`gget info`](info.md).  
 
 **Optional arguments**  
 `-r` `--resource`  
