@@ -21,15 +21,6 @@
       ]
     ]
   },
-  "test_opentargets_expression_no_limit": {
-    "type": "skip",
-    "args": {
-      "ensembl_id": "ENSG00000169194",
-      "resource": "expression"
-    },
-    "expected_result": "7d32780ec48250553246c816d80b93ee",
-    "reason": "Open Targets deprecated the `expressions` GraphQL field (returns []) in favor of `baselineExpression`, which has a different schema (tissueBiosample, q1/q3/median/min/max instead of tissue/rna sub-objects). Migration is a user-facing API change; tracked separately."
-  },
   "test_opentargets_depmap": {
     "type": "assert_equal_json_hash",
     "args": {
@@ -250,46 +241,6 @@
         ]
       }
     ]
-  },
-  "test_opentargets_expression": {
-    "function_call_to_reproduce": "output = opentargets(ensembl_id='ENSG00000169194', resource='expression', limit=2, json=True, verbose=False); print(json.dumps(output, indent=2))",
-    "type": "skip",
-    "args": {
-      "ensembl_id": "ENSG00000169194",
-      "resource": "expression",
-      "limit": 2
-    },
-    "expected_result": [
-      {
-        "tissue.id": "UBERON_0002367",
-        "tissue.label": "prostate gland",
-        "tissue.anatomicalSystems": [
-          "reproductive system"
-        ],
-        "tissue.organs": [
-          "reproductive structure"
-        ],
-        "rna.zscore": -1,
-        "rna.value": 4.0,
-        "rna.unit": "",
-        "rna.level": -1
-      },
-      {
-        "tissue.id": "UBERON_0002113",
-        "tissue.label": "kidney",
-        "tissue.anatomicalSystems": [
-          "renal system"
-        ],
-        "tissue.organs": [
-          "kidney"
-        ],
-        "rna.zscore": -1,
-        "rna.value": 0.0,
-        "rna.unit": "",
-        "rna.level": -1
-      }
-    ],
-    "reason": "Open Targets deprecated the `expressions` GraphQL field (returns []) in favor of `baselineExpression`, which has a different schema (tissueBiosample, q1/q3/median/min/max instead of tissue/rna sub-objects). Migration is a user-facing API change; tracked separately."
   },
   "test_opentargets_interactions": {
     "function_call_to_reproduce": "output = opentargets(ensembl_id='ENSG00000169194', resource='interactions', limit=2, json=True, verbose=False); print(json.dumps(output, indent=2))",
