@@ -8,6 +8,9 @@
 - [`gget pdb`](pdb.md): Added support for the PDBx/mmCIF structure format (fixes [issue 178](https://github.com/scverse/gget/issues/178) and [issue 177](https://github.com/scverse/gget/issues/177)).
   - New `resource="mmcif"` option downloads the structure in PDBx/mmCIF format (`.cif`).
   - The default `resource="pdb"` now automatically falls back to PDBx/mmCIF when the legacy PDB file is unavailable (e.g. for large structures), since the legacy PDB format is being phased out by RCSB. A warning is logged and saved files use the correct extension (`.cif`).
+- [`gget opentargets`](opentargets.md): Adapted to several upstream Open Targets GraphQL API changes:
+  - **Fixed**: `gget opentargets resource="drugs"` was failing with `HTTP 400 — Field 'synonyms' of type '[DrugLabelAndSource!]!' must have a sub selection.` Open Targets changed `Drug.synonyms` and `Drug.tradeNames` from scalar lists to lists of structured `DrugLabelAndSource` objects. The internal GraphQL query was updated to request the `label` sub-field; the `drug.synonyms` / `drug.tradeNames` columns in the returned DataFrame remain `list[str]`, so existing user code is unaffected.
+  - **Known limitation**: `gget opentargets resource="expression"` now returns an empty DataFrame because Open Targets deprecated the `Target.expressions` field. The replacement `Target.baselineExpression` field has a different schema (`tissueBiosample`, `q1`/`q3`/`median`/`min`/`max` instead of `tissue`/`rna` sub-objects) and will be wired up in a future release. The corresponding tests are marked as skipped until then.
 
 
 **Version ≥ 0.30.7** (Jun 21, 2026):  
