@@ -43,12 +43,8 @@ query target($ensemblId: String!) {
             }
           }
           description
-          synonyms {
-            label
-          }
-          tradeNames {
-            label
-          }
+          synonyms
+          tradeNames
           maximumClinicalStage
           indications {
             rows {
@@ -388,20 +384,6 @@ def opentargets(
         if verbose:
             logger.info(f"No {resource} data found for {ensembl_id}.")
         return pd.DataFrame() if not json else []
-
-    if resource == "drugs":
-        # OpenTargets changed 'synonyms'/'tradeNames' from [String!]! to
-        # [DrugLabelAndSource!]!, which requires a sub-selection (see query above).
-        # Flatten each object back to its 'label' string to keep the output
-        # backward-compatible (a list of strings).
-        for row in rows:
-            drug = row.get("drug")
-            if not isinstance(drug, dict):
-                continue
-            for field in ("synonyms", "tradeNames"):
-                values = drug.get(field)
-                if isinstance(values, list):
-                    drug[field] = [v["label"] for v in values if isinstance(v, dict) and "label" in v]
 
     # ---------------------------
     # If JSON → return normalized JSON
