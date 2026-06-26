@@ -3833,8 +3833,7 @@ def main() -> None:
                         start, end = int(start_s), int(end_s)
                     except ValueError as e:
                         raise ValueError(
-                            f"Could not parse '{part}' as a residue range. "
-                            "Expected 'start-end' (e.g. '100-200')."
+                            f"Could not parse '{part}' as a residue range. Expected 'start-end' (e.g. '100-200')."
                         ) from e
                     residues.extend(range(start, end + 1))
                 else:
@@ -3842,8 +3841,7 @@ def main() -> None:
                         residues.append(int(part))
                     except ValueError as e:
                         raise ValueError(
-                            f"Could not parse '{part}' as a residue position. "
-                            "Expected an int (e.g. '185')."
+                            f"Could not parse '{part}' as a residue position. Expected an int (e.g. '185')."
                         ) from e
 
         g2p_results: pd.DataFrame = g2p(

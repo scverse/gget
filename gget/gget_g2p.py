@@ -99,8 +99,7 @@ def _normalize_residues(residues: object) -> set[int]:
                 f"(e.g. [100, 200, 300] or range(100, 200)). Got: {residues!r}"
             ) from e
     raise ValueError(
-        "'residues' must be an int or an iterable of ints "
-        f"(e.g. [100, 200, 300] or range(100, 200)). Got: {residues!r}"
+        f"'residues' must be an int or an iterable of ints (e.g. [100, 200, 300] or range(100, 200)). Got: {residues!r}"
     )
 
 
@@ -295,11 +294,7 @@ def g2p(
         uniprot_id, n_candidates = lookup
         resolved_uniprot_from_gene = True
         if verbose:
-            extra = (
-                f" ({n_candidates} reviewed candidates matched; the first was chosen)"
-                if n_candidates > 1
-                else ""
-            )
+            extra = f" ({n_candidates} reviewed candidates matched; the first was chosen)" if n_candidates > 1 else ""
             logger.info(
                 f"Resolved gene '{gene}' → UniProt '{uniprot_id}' "
                 f"(canonical reviewed human Swiss-Prot entry{extra}). "
@@ -347,9 +342,7 @@ def g2p(
     # Augment the `map` resource with a parsed list of PDB IDs alongside the
     # comma-joined string column (so callers can pipe straight into `gget pdb`).
     if resource == "map" and "PDB Ids" in df.columns:
-        pdb_lists = df["PDB Ids"].fillna("").map(
-            lambda s: [p for p in str(s).split(",") if p]
-        )
+        pdb_lists = df["PDB Ids"].fillna("").map(lambda s: [p for p in str(s).split(",") if p])
         df.insert(df.columns.get_loc("PDB Ids") + 1, "PDB Ids List", pdb_lists)
 
     # Apply the residues filter (validated above; resource is features or alignment).
