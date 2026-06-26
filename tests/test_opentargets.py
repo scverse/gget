@@ -56,11 +56,15 @@ class TestOpenTargets(unittest.TestCase, metaclass=from_json(ot_dict, opentarget
         self.assertIn("Lebrikizumab", row["drug.synonyms"])
 
     # ---------- expression: retired upstream in 26.06; migration tracked in #247/#248 ----------
-    @unittest.skip("OpenTargets target.expressions retired in 26.06 (returns empty); migration to baselineExpression tracked in #247/#248")
+    @unittest.skip(
+        "OpenTargets target.expressions retired in 26.06 (returns empty); migration to baselineExpression tracked in #247/#248"
+    )
     def test_opentargets_expression(self):
         pass
 
-    @unittest.skip("OpenTargets target.expressions retired in 26.06 (returns empty); migration to baselineExpression tracked in #247/#248")
+    @unittest.skip(
+        "OpenTargets target.expressions retired in 26.06 (returns empty); migration to baselineExpression tracked in #247/#248"
+    )
     def test_opentargets_expression_no_limit(self):
         pass
 
