@@ -43,8 +43,16 @@ query target($ensemblId: String!) {
             }
           }
           description
-          synonyms
-          tradeNames
+          # synonyms and tradeNames are now [DrugLabelAndSource!]! (were scalar
+          # lists); query the `label` sub-field so _collapse_singletons flattens
+          # each {label: "X"} back to "X", preserving the list[str] shape users
+          # see in the resulting DataFrame.
+          synonyms {
+            label
+          }
+          tradeNames {
+            label
+          }
           maximumClinicalStage
           indications {
             rows {
