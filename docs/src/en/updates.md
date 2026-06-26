@@ -5,6 +5,7 @@
 #### *gget* officially became part of [*scverse*](https://scverse.org/) on June 9, 2026. 🥳🥳🥳
 
 **Version ≥ 0.30.8** (XXX XX, 2026):  
+- [`gget alphafold`](alphafold.md): Added a new `jackhmmer_savedir` argument (`-jhd`/`--jackhmmer_savedir` on the command line) that lets you choose where the temporary jackhmmer files are stored. By default, `gget alphafold` still creates a `~/tmp/jackhmmer/` folder in your home directory (which can take up to ~2 GB of disk space); the new argument lets you redirect these files elsewhere, e.g. to a disk with more free space. Resolves [issue 49](https://github.com/scverse/gget/issues/49).
 - [`gget pdb`](pdb.md): Added support for the PDBx/mmCIF structure format (fixes [issue 178](https://github.com/scverse/gget/issues/178) and [issue 177](https://github.com/scverse/gget/issues/177)).
   - New `resource="mmcif"` option downloads the structure in PDBx/mmCIF format (`.cif`).
   - The default `resource="pdb"` now automatically falls back to PDBx/mmCIF when the legacy PDB file is unavailable (e.g. for large structures), since the legacy PDB format is being phased out by RCSB. A warning is logged and saved files use the correct extension (`.cif`).
