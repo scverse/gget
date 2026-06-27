@@ -112,15 +112,16 @@ query target($ensemblId: String!) {
 
 # OpenTargets retired the per-tissue `target.expressions` field (it now returns an
 # empty list for every gene). Baseline expression data moved to the paginated
-# `target.baselineExpression { rows { ... } }` field, which provides per-biosample
-# (tissue and/or cell type) expression summary statistics. We request a single page
-# of up to 250 biosamples (the API's max page size is 3000); 250 keeps the response
-# small/fast/robust against upstream throttling while still covering far more than the
-# old per-tissue list. See issue: OpenTargets API drift.
+# `target.baselineExpression { count rows { ... } }` field, which provides per-biosample
+# (tissue and/or cell type) expression summary statistics. The page `size` is supplied
+# as a GraphQL variable so it can be driven by the caller's `limit` (and capped at the
+# API's documented max page size). `count` is the true total number of biosamples
+# upstream, used to warn the user when the result is truncated.
 QUERY_STRING_EXPRESSION = """
-query target($ensemblId: String!) {
+query target($ensemblId: String!, $size: Int!) {
   target(ensemblId: $ensemblId) {
-    baselineExpression(page: { index: 0, size: 250 }) {
+    baselineExpression(page: { index: 0, size: $size }) {
+      count
       rows {
         tissueBiosample {
           biosampleId
@@ -143,6 +144,9 @@ query target($ensemblId: String!) {
   }
 }
 """
+
+# OpenTargets caps a single GraphQL page at 3000 rows.
+MAX_EXPRESSION_PAGE_SIZE = 3000
 
 QUERY_STRING_DEPMAP = """
 query target($ensemblId: String!) {
@@ -319,7 +323,9 @@ def opentargets(
                     "drugs":            Returns drugs associated with the gene.
                     "tractability":     Returns tractability data for the gene.
                     "pharmacogenetics": Returns pharmacogenetics data for the gene.
-                    "expression":       Returns gene expression data (by tissues, organs, and anatomical systems).
+                    "expression":       Returns baseline expression per biosample (tissue and/or cell type) as
+                                        summary statistics (median, min, q1, q3, max, unit) with tissueBiosample/
+                                        celltypeBiosample identifiers and datasourceId/datatypeId.
                     "depmap":           Returns DepMap gene-disease effect data for the gene.
                     "interactions":     Returns protein-protein interactions for the gene.
     - limit         Limit the number of results returned (default: No limit).
@@ -347,6 +353,10 @@ def opentargets(
     elif resource == "expression":
         query_string = QUERY_STRING_EXPRESSION
         rows_path = ["baselineExpression", "rows"]
+        # Drive the page size from `limit` so a small limit fetches only what's needed
+        # and (crucially) a large/absent limit fetches everything up to the API max,
+        # rather than silently capping at a fixed page size.
+        expression_page_size = min(limit, MAX_EXPRESSION_PAGE_SIZE) if limit is not None else MAX_EXPRESSION_PAGE_SIZE
     elif resource == "depmap":
         query_string = QUERY_STRING_DEPMAP
         rows_path = [
@@ -362,6 +372,8 @@ def opentargets(
         )
 
     variables = {"ensemblId": ensembl_id}
+    if resource == "expression":
+        variables["size"] = expression_page_size
 
     if verbose:
         logger.info(f"Querying OpenTargets for {resource} associated with {ensembl_id}...")
@@ -385,6 +397,20 @@ def opentargets(
     #     return api_response
 
     api_target = dig(api_response, "data", "target", context="OpenTargets GraphQL")
+
+    # Warn when the gene has more baseline-expression biosamples upstream than a single
+    # API page can return (only possible when the user did not set an explicit limit;
+    # an explicit limit is treated as intentional). Without this, the result would be a
+    # silent partial slice of the data.
+    if resource == "expression" and limit is None:
+        total = (api_target.get("baselineExpression") or {}).get("count")
+        if isinstance(total, int) and total > MAX_EXPRESSION_PAGE_SIZE:
+            logger.warning(
+                f"{ensembl_id} has {total} baseline-expression biosamples, but the OpenTargets API "
+                f"returns at most {MAX_EXPRESSION_PAGE_SIZE} per request; the result is truncated to "
+                f"{MAX_EXPRESSION_PAGE_SIZE}. Use the 'filters' argument (e.g. datasourceId or datatypeId) "
+                "to narrow the query to the biosamples you need."
+            )
 
     rows = api_target
     for row_key in rows_path:
