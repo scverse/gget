@@ -69,6 +69,8 @@ The `gget` test suite hits real upstream databases (Ensembl, UniProt, NCBI, ARCH
 
 When you're finished with the changes, [create a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request), also known as a PR.
 
+‼️ Please DO NOT commit AI-generated code without careful review.
+
 ‼️ Please make all PRs against the `dev` branch of the gget repository.
 
 - Don't forget to [link PR to issue](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue) if you are solving one.

@@ -1330,6 +1330,18 @@ def main() -> None:
         ),
     )
     parser_alphafold.add_argument(
+        "-jhd",
+        "--jackhmmer_savedir",
+        type=str,
+        default=None,
+        required=False,
+        help=(
+            "Path to a parent directory in which to store the temporary jackhmmer files.\n"
+            "By default, gget creates a 'tmp' folder in the home directory ('~/tmp/jackhmmer/'),\n"
+            "which can take up to ~2 GB of disk space. Use this argument to place them elsewhere."
+        ),
+    )
+    parser_alphafold.add_argument(
         "-q",
         "--quiet",
         default=True,
@@ -3703,6 +3715,7 @@ def main() -> None:
             plot=False,
             show_sidechains=False,
             verbose=args.quiet,
+            jackhmmer_savedir=args.jackhmmer_savedir,
         )
 
     ## pdb return
