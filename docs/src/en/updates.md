@@ -5,6 +5,14 @@
 #### *gget* officially became part of [*scverse*](https://scverse.org/) on June 9, 2026. 🥳🥳🥳
 
 **Version ≥ 0.30.8** (XXX XX, 2026):  
+- [`gget g2p`](g2p.md): Either `gene` or `--uniprot_id` is now sufficient — whichever is missing is resolved via UniProt and cached. Gene→UniProt picks the canonical reviewed human Swiss-Prot entry; the resolution and its limitations are logged. The canonical pair is **always** prepended to the result as `gene_name` / `uniprot_id` columns (and stored on `df.attrs`), so the output schema is invariant regardless of input mode. Existing call sites continue to work.
+  - New `residues=` filter (Python: int / list / range / set; CLI `--residues 100,200,300` or `100-200`) restricts `features` / `alignment` to specific positions client-side.
+  - `map` results gain a parsed `PDB Ids List` column (`list[str]`) alongside the comma-joined `PDB Ids` string, for direct chaining into [`gget pdb`](pdb.md).
+  - Fixed silent failure when the gene/UniProt pair was unknown: G2P returns HTTP 200 with a JSON `{"status":"failure",...}` body that was being parsed as a single TSV column. Now logged as an error and returns `None`.
+  - All failure modes now return `None` (was a mix of `None` and empty `DataFrame`).
+  - Added retries with exponential backoff on transient failures (5xx, connection errors, timeouts).
+  - URL-encoded path segments.
+  - New `out=` Python argument writes the result to an explicit CSV path (takes precedence over `save`).
 - [`gget alphafold`](alphafold.md): Added a new `jackhmmer_savedir` argument (`-jhd`/`--jackhmmer_savedir` on the command line) that lets you choose where the temporary jackhmmer files are stored. By default, `gget alphafold` still creates a `~/tmp/jackhmmer/` folder in your home directory (which can take up to ~2 GB of disk space); the new argument lets you redirect these files elsewhere, e.g. to a disk with more free space. Resolves [issue 49](https://github.com/scverse/gget/issues/49).
 - [`gget pdb`](pdb.md): Added support for the PDBx/mmCIF structure format (fixes [issue 178](https://github.com/scverse/gget/issues/178) and [issue 177](https://github.com/scverse/gget/issues/177)).
   - New `resource="mmcif"` option downloads the structure in PDBx/mmCIF format (`.cif`).
