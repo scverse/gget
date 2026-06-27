@@ -7,6 +7,8 @@ Return format: JSON/CSV (command-line) or data frame (Python).
 
 This module was written by [Sam Wagenaar](https://github.com/techno-sam).  
 
+> ⚠️ **Change as of gget v0.30.8 — `resource="expression"` output is different.** OpenTargets retired the old `target.expressions` field, so `gget opentargets -r expression` now returns OpenTargets' `baselineExpression` data instead. **The output columns changed**: results are now per-biosample (tissue *and/or* cell type) summary statistics (`median`, `min`, `q1`, `q3`, `max`, `unit`) with `tissueBiosample.*` / `celltypeBiosample.*` identifiers and `datasourceId` / `datatypeId` — replacing the old per-tissue `tissue.*` / `rna.*` (z-score) columns, which no longer exist upstream. A gene can have thousands of biosamples; use `--filters` (e.g. `datasourceId`, `datatypeId`) or `--limit` to narrow the result. See the baseline expression example below.
+
 **Positional argument**  
 `ens_id`  
 Ensembl gene ID, e.g ENSG00000169194.
