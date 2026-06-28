@@ -8,11 +8,9 @@
 Genera texto en lenguaje natural basado en mensaje de entrada. `gget gpt` use la API 'openai.ChatCompletion.create' de [OpenAI](https://openai.com/).
 Este módulo, incluido su código, documentación y pruebas unitarias, fue escrito en parte por Chat-GTP3 de OpenAI.
 
-TENGA EN CUENTA:  
-Las llamadas a la API de OpenAI solo son 'gratuitas' durante los primeros tres meses después de generar su cuenta de OpenAI (OpenAI proporciona un crédito de $5 que vence).  
-Puede definir un límite de facturación mensual estricto (por ejemplo, $1) [aquí](https://platform.openai.com/account/billing/limits).  
-Vea sus precios y preguntas frecuentes [aquí](https://openai.com/pricing).  
 Obtenga su clave API de OpenAI [aquí](https://platform.openai.com/account/api-keys).  
+Puede definir un límite de facturación mensual estricto [aquí](https://platform.openai.com/account/billing/limits).  
+Vea sus precios y preguntas frecuentes [aquí](https://openai.com/pricing).
 
 Regresa: El texto generado (str).  
 

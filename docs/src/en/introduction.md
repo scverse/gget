@@ -13,7 +13,7 @@
 <br>
 `gget` consists of a collection of separate but interoperable modules, each designed to facilitate one type of database querying in a single line of code.  
 <br>
-`gget` is part of the [scverse®](https://scverse.org) project and is fiscally sponsored by [NumFOCUS](https://numfocus.org/). If you like `gget` and want to support our mission, please consider making a tax-deductible [donation](https://opencollective.com/scverse/projects/scverse-gget/donate?interval=oneTime&amount=20&contributeAs=me).
+`gget` is part of the [scverse®](https://scverse.org) project and is fiscally sponsored by [NumFOCUS](https://numfocus.org/). If you like `gget` and want to **support our mission**, please consider making a tax-deductible **[donation](https://opencollective.com/scverse/projects/scverse-gget/donate?interval=oneTime&amount=20&contributeAs=me)**.
 
 > Note: The databases queried by `gget` are continuously updated and may change structure. `gget` modules are [automatically tested](https://github.com/scverse/gget/blob/main/tests/pytest_results.txt) twice weekly and updated as needed. If you encounter an issue, first upgrade to the latest version with pip install --upgrade gget. If the issue persists, please [report it](https://github.com/scverse/gget/issues/new/choose).
 
@@ -26,23 +26,23 @@ These are the `gget` core modules. Click on any module to access detailed docume
 <table style="width:100%; table-layout:fixed;">
   <tr>
     <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/8cube.md"><strong>gget 8cube</strong></a><br><span style="font-size:0.85em;">What is the expression of gene X across 8 different mouse strains and tissues?</span></td>
-    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/alphafold.md"><strong>gget alphafold</strong></a><br><span style="font-size:0.85em;">Predict 3D protein structure from an amino acid sequence.</span></td>
     <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/archs4.md"><strong>gget archs4</strong></a><br><span style="font-size:0.85em;">What is the expression of my gene in tissue X?</span></td>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/bgee.md"><strong>gget bgee</strong></a><br><span style="font-size:0.85em;">Find all orthologs of a gene.</span></td>
   </tr>
   <tr>
-    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/bgee.md"><strong>gget bgee</strong></a><br><span style="font-size:0.85em;">Find all orthologs of a gene.</span></td>
     <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/blast.md"><strong>gget blast</strong></a><br><span style="font-size:0.85em;">BLAST a nucleotide or amino acid sequence.</span></td>
     <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/blat.md"><strong>gget blat</strong></a><br><span style="font-size:0.85em;">Find the genomic location of a nucleotide or amino acid sequence.</span></td>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/cbio.md"><strong>gget cbio</strong></a><br><span style="font-size:0.85em;">Explore a gene's expression in the specified cancers.</span></td>
   </tr>
   <tr>
-    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/cbio.md"><strong>gget cbio</strong></a><br><span style="font-size:0.85em;">Explore a gene's expression in the specified cancers.</span></td>
     <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/cellxgene.md"><strong>gget cellxgene</strong></a><br><span style="font-size:0.85em;">Get ready-to-use single-cell RNA seq count matrices from certain tissues/ diseases/ etc.</span></td>
     <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/cosmic.md"><strong>gget cosmic</strong></a><br><span style="font-size:0.85em;">Search for genes, mutations, and other factors associated with certain cancers.</span></td>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/diamond.md"><strong>gget diamond</strong></a><br><span style="font-size:0.85em;">Align amino acid sequences to a reference.</span></td>
   </tr>
   <tr>
-    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/diamond.md"><strong>gget diamond</strong></a><br><span style="font-size:0.85em;">Align amino acid sequences to a reference.</span></td>
     <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/elm.md"><strong>gget elm</strong></a><br><span style="font-size:0.85em;">Find protein interaction domains and functions in an amino acid sequence.</span></td>
     <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/enrichr.md"><strong>gget enrichr</strong></a><br><span style="font-size:0.85em;">Check if a list of genes is associated with a specific celltype/ pathway/ disease/ etc.</span></td>
+    <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/g2p.md"><strong>gget g2p</strong></a><br><span style="font-size:0.85em;">Link genes/proteins to residue-level structural and functional annotations.</span></td>
   </tr>
   <tr>
     <td style="width:33.33%; padding:20px; text-align:center; vertical-align:top;"><a href="/gget/en/info.md"><strong>gget info</strong></a><br><span style="font-size:0.85em;">Fetch all of the information associated with an Ensembl ID.</span></td>

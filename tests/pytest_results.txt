@@ -433,49 +433,6 @@ tests/test_utils.py::TestUtils::test_get_uniprot_info_transcript PASSED  [ 99%]
 tests/test_utils.py::TestUtils::test_aa_colors PASSED                    [ 99%]
 tests/test_utils.py::TestUtils::test_rest_query PASSED                   [100%]
 
-=============================== warnings summary ===============================
-tests/test_cbio.py::TestCbioSearch::test_cbio_search
-tests/test_cbio.py::TestCbioSearch::test_cbio_search
-  /home/runner/.local/share/hatch/env/virtual/gget/dY-b3nRT/hatch-test.py3.14/lib/python3.14/site-packages/swagger_spec_validator/validator12.py:18: DeprecationWarning: jsonschema.RefResolver is deprecated as of v4.18.0, in favor of the https://github.com/python-jsonschema/referencing library, which provides more compliant referencing behavior as well as more flexible APIs for customization. A future release will remove RefResolver. Please file a feature request (on referencing) if you are missing an API for the kind of customization you need.
-    from jsonschema import RefResolver
-
-tests/test_cbio.py::TestCbioSearch::test_cbio_search
-  /home/runner/.local/share/hatch/env/virtual/gget/dY-b3nRT/hatch-test.py3.14/lib/python3.14/site-packages/swagger_spec_validator/ref_validators.py:14: DeprecationWarning: jsonschema.RefResolver is deprecated as of v4.18.0, in favor of the https://github.com/python-jsonschema/referencing library, which provides more compliant referencing behavior as well as more flexible APIs for customization. A future release will remove RefResolver. Please file a feature request (on referencing) if you are missing an API for the kind of customization you need.
-    from jsonschema.validators import RefResolver
-
-tests/test_cbio.py::TestCbioSearch::test_cbio_search
-  /home/runner/.local/share/hatch/env/virtual/gget/dY-b3nRT/hatch-test.py3.14/lib/python3.14/site-packages/swagger_spec_validator/validator20.py:18: DeprecationWarning: jsonschema.RefResolver is deprecated as of v4.18.0, in favor of the https://github.com/python-jsonschema/referencing library, which provides more compliant referencing behavior as well as more flexible APIs for customization. A future release will remove RefResolver. Please file a feature request (on referencing) if you are missing an API for the kind of customization you need.
-    from jsonschema.validators import RefResolver
-
-tests/test_cbio.py::TestCbioSearch::test_cbio_search
-tests/test_cbio.py::TestCbioSearch::test_cbio_search
-  /home/runner/.local/share/hatch/env/virtual/gget/dY-b3nRT/hatch-test.py3.14/lib/python3.14/site-packages/bravado_core/swagger20_validator.py:6: DeprecationWarning: jsonschema.RefResolver is deprecated as of v4.18.0, in favor of the https://github.com/python-jsonschema/referencing library, which provides more compliant referencing behavior as well as more flexible APIs for customization. A future release will remove RefResolver. Please file a feature request (on referencing) if you are missing an API for the kind of customization you need.
-    from jsonschema import RefResolver
-
-tests/test_cbio.py::TestCbioSearch::test_cbio_search
-  /home/runner/.local/share/hatch/env/virtual/gget/dY-b3nRT/hatch-test.py3.14/lib/python3.14/site-packages/bravado_core/spec.py:14: DeprecationWarning: jsonschema.RefResolver is deprecated as of v4.18.0, in favor of the https://github.com/python-jsonschema/referencing library, which provides more compliant referencing behavior as well as more flexible APIs for customization. A future release will remove RefResolver. Please file a feature request (on referencing) if you are missing an API for the kind of customization you need.
-    from jsonschema.validators import RefResolver
-
-tests/test_cbio.py: 16 warnings
-  /home/runner/.local/share/hatch/env/virtual/gget/dY-b3nRT/hatch-test.py3.14/lib/python3.14/site-packages/bravado_core/model.py:888: DeprecationWarning: jsonschema.RefResolver.in_scope is deprecated and will be removed in a future release.
-    with spec.resolver.in_scope(additional_uri):
-
-tests/test_mutate.py: 29 warnings
-  /home/runner/work/gget/gget/gget/gget_mutate.py:667: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
-    mask = mutations[mut_column].str.contains(combined_pattern)
-
-tests/test_search.py: 10 warnings
-  /home/runner/work/gget/gget/gget/gget_search.py:267: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
-    df_temp = pd.read_sql(query, con=db_connection)
-
-tests/test_search.py: 19 warnings
-tests/test_ref.py: 7 warnings
-  /home/runner/work/gget/gget/gget/utils.py:922: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
-    for subsoup in soup.body.findAll("a"):
-
-tests/test_search.py::TestSearch::test_search_transcript_two_sw_or
-tests/test_search.py::TestSearch::test_search_plant
-tests/test_search.py::TestSearch::test_search_release
 tests/test_utils.py::TestUtils::test_search_species_options
   /home/runner/work/gget/gget/gget/utils.py:899: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
     for subsoup in soup.body.findAll("a"):
@@ -508,9 +465,10 @@ tests/test_utils.py: 4 warnings
   /home/runner/work/gget/gget/gget/utils.py:975: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
     for subsoup in soup.body.findAll("a"):
 
-tests/test_ref.py: 39 warnings
-  /home/runner/work/gget/gget/gget/gget_ref.py:49: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
-    links = [stuff.text.strip() for stuff in soup.findAll("td")]
+tests/test_utils.py: 1 warning
+tests/test_ref.py: 11 warnings
+  /home/runner/work/gget/gget/gget/utils.py:998: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
+    for subsoup in soup.body.findAll("a"):
 
 tests/test_ref.py::TestRef::test_ref
 tests/test_ref.py::TestRef::test_ref_ftp
@@ -518,19 +476,3 @@ tests/test_ref.py::TestRef::test_ref_ftp
     links = [stuff.text.strip() for stuff in soup.findAll("td")]
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-============================= slowest 10 durations =============================
-172.43s call     tests/test_virus.py::TestVirus::test_virus_with_lab_passaged_filter
-131.36s call     tests/test_virus.py::TestVirus::test_virus_integer_virus_id
-129.67s call     tests/test_virus.py::TestVirus::test_virus_with_max_ambiguous_chars_filter
-127.42s call     tests/test_virus.py::TestVirus::test_virus_with_source_database_filter
-88.80s call     tests/test_blast.py::TestBlast::test_blast_nt
-57.26s call     tests/test_virus.py::TestVirus::test_virus_with_has_proteins_filter
-33.59s call     tests/test_8cube.py::TestSpecificity::test_specificity_basic
-26.88s call     tests/test_virus.py::TestVirus::test_virus_with_protein_count_filters
-24.73s call     tests/test_virus.py::TestVirus::test_virus_with_annotated_filter
-23.33s call     tests/test_virus.py::TestVirus::test_virus_with_host_filter
-=========================== short test summary info ============================
-SKIPPED [1] tests/test_cellxgene.py:45: cellxgene-census is not installed
-SKIPPED [1] tests/test_cellxgene.py:55: cellxgene-census is not installed
-SKIPPED [1] tests/test_cellxgene.py:65: cellxgene-census is not installed
-========== 419 passed, 3 skipped, 185 warnings in 1455.99s (0:24:15) ===========
