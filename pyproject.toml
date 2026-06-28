@@ -159,3 +159,8 @@ run.source = [ "gget" ]
 #   mypy gget | mypy-baseline sync
 [tool.mypy-baseline]
 baseline_path = ".mypy-baseline.txt"
+# Ignore mypy `note:` lines in the baseline. Notes are non-actionable context
+# attached to errors, and mypy emits slightly different notes across platforms
+# (the baseline is generated on macOS; CI runs on Linux), which would otherwise
+# show up as spurious "new" violations.
+ignore_categories = [ "note" ]

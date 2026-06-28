@@ -56,39 +56,23 @@ gget/gget_mutate.py:0: error: Incompatible types in assignment (expression has t
 gget/gget_mutate.py:0: error: Incompatible types in assignment (expression has type "DataFrame", variable has type "str | list[str]")  [assignment]
 gget/gget_mutate.py:0: error: Incompatible types in assignment (expression has type "DataFrame", variable has type "str | list[str]")  [assignment]
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Item "str" of "str | Any" has no attribute "isna"  [union-attr]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: Item "str" of "str | list[str]" has no attribute "dropna"  [union-attr]
 gget/gget_mutate.py:0: error: Item "list[str]" of "str | list[str]" has no attribute "dropna"  [union-attr]
 gget/gget_mutate.py:0: error: Unsupported target for indexed assignment ("str | list[str]")  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__setitem__" of "list" matches argument types "str", "Any"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __setitem__(self, SupportsIndex, str, /) -> None
-gget/gget_mutate.py:0: note: def __setitem__(self, slice, Iterable[str], /) -> None
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Item "str" of "str | Any" has no attribute "apply"  [union-attr]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: Incompatible types in assignment (expression has type "DataFrame", variable has type "str | list[str]")  [assignment]
 gget/gget_mutate.py:0: error: Argument 1 to "add_mutation_type" has incompatible type "str | list[str]"; expected "DataFrame"  [arg-type]
 gget/gget_mutate.py:0: error: Unsupported target for indexed assignment ("str | list[str]")  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__setitem__" of "list" matches argument types "str", "Any"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __setitem__(self, SupportsIndex, str, /) -> None
-gget/gget_mutate.py:0: note: def __setitem__(self, slice, Iterable[str], /) -> None
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Item "str" of "str | Any" has no attribute "map"  [union-attr]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Item "str" of "str | Any" has no attribute "isin"  [union-attr]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: "str" has no attribute "values"  [attr-defined]
@@ -99,46 +83,23 @@ gget/gget_mutate.py:0: error: Item "str" of "str | list[str]" has no attribute "
 gget/gget_mutate.py:0: error: Item "list[str]" of "str | list[str]" has no attribute "shape"  [union-attr]
 gget/gget_mutate.py:0: error: Unsupported target for indexed assignment ("str | list[str]")  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__setitem__" of "list" matches argument types "str", "str"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __setitem__(self, SupportsIndex, str, /) -> None
-gget/gget_mutate.py:0: note: def __setitem__(self, slice, Iterable[str], /) -> None
 gget/gget_mutate.py:0: error: Unsupported target for indexed assignment ("str | list[str]")  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__setitem__" of "list" matches argument types "str", "str | Any"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __setitem__(self, SupportsIndex, str, /) -> None
-gget/gget_mutate.py:0: note: def __setitem__(self, slice, Iterable[str], /) -> None
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Item "str" of "str | Any" has no attribute "str"  [union-attr]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Item "str" of "str | Any" has no attribute "str"  [union-attr]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Item "str" of "str | Any" has no attribute "str"  [union-attr]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Item "str" of "str | Any" has no attribute "str"  [union-attr]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Item "str" of "str | Any" has no attribute "str"  [union-attr]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: Unsupported target for indexed assignment ("str | Any")  [index]
@@ -150,90 +111,45 @@ gget/gget_mutate.py:0: error: Item "str" of "str | Any" has no attribute "dropna
 gget/gget_mutate.py:0: error: Item "str" of "str | list[str]" has no attribute "empty"  [union-attr]
 gget/gget_mutate.py:0: error: Item "list[str]" of "str | list[str]" has no attribute "empty"  [union-attr]
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Item "str" of "str | Any" has no attribute "str"  [union-attr]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: Unsupported target for indexed assignment ("str | list[str]")  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__setitem__" of "list" matches argument types "str", "Any"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __setitem__(self, SupportsIndex, str, /) -> None
-gget/gget_mutate.py:0: note: def __setitem__(self, slice, Iterable[str], /) -> None
 gget/gget_mutate.py:0: error: Unsupported target for indexed assignment ("str | list[str]")  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__setitem__" of "list" matches argument types "str", "Any"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __setitem__(self, SupportsIndex, str, /) -> None
-gget/gget_mutate.py:0: note: def __setitem__(self, slice, Iterable[str], /) -> None
 gget/gget_mutate.py:0: error: Unsupported target for indexed assignment ("str | list[str]")  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__setitem__" of "list" matches argument types "str", "str | Any"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __setitem__(self, SupportsIndex, str, /) -> None
-gget/gget_mutate.py:0: note: def __setitem__(self, slice, Iterable[str], /) -> None
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: Item "str" of "str | list[str]" has no attribute "loc"  [union-attr]
 gget/gget_mutate.py:0: error: Item "list[str]" of "str | list[str]" has no attribute "loc"  [union-attr]
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Item "str" of "str | Any" has no attribute "isna"  [union-attr]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: Unsupported target for indexed assignment ("str | list[str]")  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__setitem__" of "list" matches argument types "list[str]", "Any"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __setitem__(self, SupportsIndex, str, /) -> None
-gget/gget_mutate.py:0: note: def __setitem__(self, slice, Iterable[str], /) -> None
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "list[str]"  [call-overload]
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Item "str" of "str | Any" has no attribute "astype"  [union-attr]
 gget/gget_mutate.py:0: error: Invalid index type "list[str]" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Unsupported target for indexed assignment ("str | list[str]")  [index]
 gget/gget_mutate.py:0: error: Unsupported operand types for - (likely involving Union)  [operator]
-gget/gget_mutate.py:0: note: Left operand is of type "str | Any"
 gget/gget_mutate.py:0: error: No overload variant of "__setitem__" of "list" matches argument types "str", "int | Any"  [call-overload]
-gget/gget_mutate.py:0: note: def __setitem__(self, SupportsIndex, str, /) -> None
-gget/gget_mutate.py:0: note: def __setitem__(self, slice, Iterable[str], /) -> None
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Unsupported target for indexed assignment ("str | list[str]")  [index]
 gget/gget_mutate.py:0: error: Unsupported operand types for - (likely involving Union)  [operator]
-gget/gget_mutate.py:0: note: Left operand is of type "str | Any"
 gget/gget_mutate.py:0: error: No overload variant of "__setitem__" of "list" matches argument types "str", "int | Any"  [call-overload]
-gget/gget_mutate.py:0: note: def __setitem__(self, SupportsIndex, str, /) -> None
-gget/gget_mutate.py:0: note: def __setitem__(self, slice, Iterable[str], /) -> None
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: Unsupported target for indexed assignment ("str | list[str]")  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__setitem__" of "list" matches argument types "str", "Any"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __setitem__(self, SupportsIndex, str, /) -> None
-gget/gget_mutate.py:0: note: def __setitem__(self, slice, Iterable[str], /) -> None
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Item "str" of "str | Any" has no attribute "apply"  [union-attr]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: Item "bool" of "bool | Any" has no attribute "sum"  [union-attr]
 gget/gget_mutate.py:0: error: "str" has no attribute "empty"  [attr-defined]
@@ -361,163 +277,87 @@ gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type 
 gget/gget_mutate.py:0: error: Unsupported operand types for <= ("str" and "int")  [operator]
 gget/gget_mutate.py:0: error: "str" has no attribute "drop"  [attr-defined]
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Argument 1 to "cut" has incompatible type "str | Any"; expected "Series[Timestamp]"  [arg-type]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: Argument "bins" to "cut" has incompatible type "range"; expected "int | Sequence[datetime64[Any] | Timestamp] | IntervalIndex[Interval[Timestamp]] | DatetimeIndex | Series[Timestamp]"  [arg-type]
 gget/gget_mutate.py:0: error: Item "str" of "str | list[str]" has no attribute "shape"  [union-attr]
 gget/gget_mutate.py:0: error: Item "list[str]" of "str | list[str]" has no attribute "shape"  [union-attr]
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: Unsupported target for indexed assignment ("str | list[str]")  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__setitem__" of "list" matches argument types "str", "Any"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __setitem__(self, SupportsIndex, str, /) -> None
-gget/gget_mutate.py:0: note: def __setitem__(self, slice, Iterable[str], /) -> None
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Item "str" of "str | Any" has no attribute "progress_apply"  [union-attr]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: Argument "end" to "translate_sequence" has incompatible type "Any | int | str"; expected "int"  [arg-type]
 gget/gget_mutate.py:0: error: Unsupported target for indexed assignment ("str | list[str]")  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__setitem__" of "list" matches argument types "str", "Any"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __setitem__(self, SupportsIndex, str, /) -> None
-gget/gget_mutate.py:0: note: def __setitem__(self, slice, Iterable[str], /) -> None
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Item "str" of "str | Any" has no attribute "apply"  [union-attr]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: Argument "end" to "translate_sequence" has incompatible type "Any | int | str"; expected "int"  [arg-type]
 gget/gget_mutate.py:0: error: Unsupported target for indexed assignment ("str | list[str]")  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__setitem__" of "list" matches argument types "str", "Any"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __setitem__(self, SupportsIndex, str, /) -> None
-gget/gget_mutate.py:0: note: def __setitem__(self, slice, Iterable[str], /) -> None
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Item "str" of "str | Any" has no attribute "progress_apply"  [union-attr]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: Argument "end" to "translate_sequence" has incompatible type "Any | int | str"; expected "int"  [arg-type]
 gget/gget_mutate.py:0: error: Unsupported target for indexed assignment ("str | list[str]")  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__setitem__" of "list" matches argument types "str", "Any"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __setitem__(self, SupportsIndex, str, /) -> None
-gget/gget_mutate.py:0: note: def __setitem__(self, slice, Iterable[str], /) -> None
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Item "str" of "str | Any" has no attribute "apply"  [union-attr]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: Argument "end" to "translate_sequence" has incompatible type "Any | int | str"; expected "int"  [arg-type]
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: Item "str" of "str | list[str]" has no attribute "columns"  [union-attr]
 gget/gget_mutate.py:0: error: Item "list[str]" of "str | list[str]" has no attribute "columns"  [union-attr]
 gget/gget_mutate.py:0: error: Unsupported target for indexed assignment ("str | list[str]")  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__setitem__" of "list" matches argument types "str", "int"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __setitem__(self, SupportsIndex, str, /) -> None
-gget/gget_mutate.py:0: note: def __setitem__(self, slice, Iterable[str], /) -> None
 gget/gget_mutate.py:0: error: Item "str" of "str | list[str]" has no attribute "columns"  [union-attr]
 gget/gget_mutate.py:0: error: Item "list[str]" of "str | list[str]" has no attribute "columns"  [union-attr]
 gget/gget_mutate.py:0: error: Unsupported target for indexed assignment ("str | list[str]")  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__setitem__" of "list" matches argument types "str", "str | Any"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __setitem__(self, SupportsIndex, str, /) -> None
-gget/gget_mutate.py:0: note: def __setitem__(self, slice, Iterable[str], /) -> None
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: Unsupported target for indexed assignment ("str | list[str]")  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__setitem__" of "list" matches argument types "str", "Any"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __setitem__(self, SupportsIndex, str, /) -> None
-gget/gget_mutate.py:0: note: def __setitem__(self, slice, Iterable[str], /) -> None
 gget/gget_mutate.py:0: error: Unsupported target for indexed assignment ("str | list[str]")  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__setitem__" of "list" matches argument types "str", "Any"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __setitem__(self, SupportsIndex, str, /) -> None
-gget/gget_mutate.py:0: note: def __setitem__(self, slice, Iterable[str], /) -> None
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "list[str]"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Invalid index type "list[str]" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: Item "str" of "str | Any" has no attribute "groupby"  [union-attr]
 gget/gget_mutate.py:0: error: Item "str" of "str | Any" has no attribute "groupby"  [union-attr]
 gget/gget_mutate.py:0: error: Unsupported target for indexed assignment ("str | list[str]")  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__setitem__" of "list" matches argument types "str", "Any"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __setitem__(self, SupportsIndex, str, /) -> None
-gget/gget_mutate.py:0: note: def __setitem__(self, slice, Iterable[str], /) -> None
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Item "str" of "str | Any" has no attribute "apply"  [union-attr]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: Unsupported target for indexed assignment ("str | list[str]")  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__setitem__" of "list" matches argument types "str", "Any"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __setitem__(self, SupportsIndex, str, /) -> None
-gget/gget_mutate.py:0: note: def __setitem__(self, slice, Iterable[str], /) -> None
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Item "str" of "str | Any" has no attribute "str"  [union-attr]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Unsupported target for indexed assignment ("str | list[str]")  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__setitem__" of "list" matches argument types "str", "Any"  [call-overload]
-gget/gget_mutate.py:0: note: def __setitem__(self, SupportsIndex, str, /) -> None
-gget/gget_mutate.py:0: note: def __setitem__(self, slice, Iterable[str], /) -> None
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: Unsupported operand types for + (likely involving Union)  [operator]
-gget/gget_mutate.py:0: note: Left operand is of type "str | Any"
 gget/gget_mutate.py:0: error: Unsupported target for indexed assignment ("str | list[str]")  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__setitem__" of "list" matches argument types "str", "str | Any"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __setitem__(self, SupportsIndex, str, /) -> None
-gget/gget_mutate.py:0: note: def __setitem__(self, slice, Iterable[str], /) -> None
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: Argument 1 to "replace" of "str" has incompatible type "int"; expected "str"  [arg-type]
 gget/gget_mutate.py:0: error: Argument 2 to "replace" of "str" has incompatible type "float"; expected "str"  [arg-type]
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Item "str" of "str | Any" has no attribute "sum"  [union-attr]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: Item "str" of "str | list[str]" has no attribute "drop"  [union-attr]
 gget/gget_mutate.py:0: error: Item "list[str]" of "str | list[str]" has no attribute "drop"  [union-attr]
 gget/gget_mutate.py:0: error: Item "bool" of "bool | Any" has no attribute "sum"  [union-attr]
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: No overload variant of "__getitem__" of "list" matches argument type "str"  [call-overload]
-gget/gget_mutate.py:0: note: Possible overload variants:
-gget/gget_mutate.py:0: note: def __getitem__(self, SupportsIndex, /) -> str
-gget/gget_mutate.py:0: note: def __getitem__(self, slice, /) -> list[str]
 gget/gget_mutate.py:0: error: Invalid index type "str" for "str"; expected type "SupportsIndex | slice"  [index]
 gget/gget_mutate.py:0: error: Unsupported target for indexed assignment ("str")  [index]
 gget/gget_mutate.py:0: error: "str" has no attribute "str"  [attr-defined]
@@ -557,7 +397,6 @@ gget/gget_gpt.py:0: error: Return value expected  [return-value]
 gget/gget_g2p.py:0: error: Argument "params" to "get" has incompatible type "dict[str, object]"; expected "SupportsItems[str | bytes | int | float, str | bytes | int | float | Iterable[str | bytes | int | float] | None] | tuple[str | bytes | int | float, str | bytes | int | float | Iterable[str | bytes | int | float] | None] | Iterable[tuple[str | bytes | int | float, str | bytes | int | float | Iterable[str | bytes | int | float] | None]] | str | bytes | None"  [arg-type]
 gget/gget_g2p.py:0: error: Unused "type: ignore" comment  [unused-ignore]
 gget/gget_g2p.py:0: error: Unsupported operand types for + ("slice" and "int")  [operator]
-gget/gget_g2p.py:0: note: Left operand is of type "int | slice | ndarray[tuple[int], dtype[numpy.bool[builtins.bool]]]"
 gget/gget_g2p.py:0: error: Argument 1 to "insert" of "DataFrame" has incompatible type "int | ndarray[tuple[Any, ...], dtype[signedinteger[Any]]]"; expected "int"  [arg-type]
 gget/gget_cbio.py:0: error: Cannot assign to a method  [method-assign]
 gget/gget_cbio.py:0: error: "type[DataFrame]" has no attribute "applymap"  [attr-defined]
@@ -635,9 +474,6 @@ gget/gget_alphafold.py:0: error: "Future[str]" has no attribute "write"  [attr-d
 gget/gget_alphafold.py:0: error: Incompatible types in assignment (expression has type "TextIOWrapper[_WrappedBuffer]", variable has type "Future[str]")  [assignment]
 gget/gget_alphafold.py:0: error: Argument 2 to "dump" has incompatible type "Future[str]"; expected "SupportsWrite[str]"  [arg-type]
 gget/gget_virus.py:0: error: Library stubs not installed for "dateutil"  [import-untyped]
-gget/gget_virus.py:0: note: Hint: "python3 -m pip install types-python-dateutil"
-gget/gget_virus.py:0: note: (or run "mypy --install-types" to install all missing stub packages)
-gget/gget_virus.py:0: note: See https://mypy.readthedocs.io/en/stable/running_mypy.html#missing-imports
 gget/gget_virus.py:0: error: Incompatible types in assignment (expression has type "float", target has type "bool | None")  [assignment]
 gget/gget_virus.py:0: error: Incompatible types in assignment (expression has type "float", target has type "bool | None")  [assignment]
 gget/gget_virus.py:0: error: Incompatible types in assignment (expression has type "float", target has type "bool | None")  [assignment]
@@ -646,7 +482,6 @@ gget/gget_virus.py:0: error: Incompatible types in assignment (expression has ty
 gget/gget_virus.py:0: error: Unsupported operand types for / ("bool" and "None")  [operator]
 gget/gget_virus.py:0: error: Unsupported operand types for / ("None" and "bool")  [operator]
 gget/gget_virus.py:0: error: Unsupported left operand type for / ("None")  [operator]
-gget/gget_virus.py:0: note: Both left and right operands are unions
 gget/gget_virus.py:0: error: Incompatible return value type (got "list[Never]", expected "tuple[list[Any], dict[str, Any] | None]")  [return-value]
 gget/gget_virus.py:0: error: Value of type "object" is not indexable  [index]
 gget/gget_virus.py:0: error: Argument 1 to "makedirs" has incompatible type "str | None"; expected "str | bytes | PathLike[str] | PathLike[bytes]"  [arg-type]
