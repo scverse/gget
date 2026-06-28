@@ -33,6 +33,9 @@ For higher accuracy, at the potential cost of longer inference times, set this t
 `-o` `--out`  
 Path to folder to save prediction results in (str). Default: "./[date_time]_gget_alphafold_prediction".  
 
+`-jhd` `--jackhmmer_savedir`  
+Path to a parent directory in which to store the temporary jackhmmer files (str). By default, `gget alphafold` creates a "tmp" folder in your home directory (`~/tmp/jackhmmer/`), which can take up to ~2 GB of disk space. Use this argument to place these temporary files elsewhere, e.g. on a disk with more free space. Default: None.  
+
 **Flags**  
 `-mfm` `--multimer_for_monomer`  
 Use multimer model for a monomer.  

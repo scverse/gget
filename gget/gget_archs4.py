@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import io
 import json as json_package
-from typing import Any
+from typing import Any, Literal, overload
 
 import pandas as pd
 import requests
@@ -15,6 +15,32 @@ logger = set_up_logger()
 # Constants
 from .constants import EXPRESSION_URL, GENECORR_URL  # noqa: E402
 from .gget_info import info  # noqa: E402
+
+
+@overload
+def archs4(
+    gene: str,
+    ensembl: bool = False,
+    which: str = "correlation",
+    gene_count: int = 100,
+    species: str = "human",
+    json: Literal[True] = ...,
+    save: bool = False,
+    verbose: bool = True,
+) -> list[dict[str, Any]] | None: ...
+
+
+@overload
+def archs4(
+    gene: str,
+    ensembl: bool = False,
+    which: str = "correlation",
+    gene_count: int = 100,
+    species: str = "human",
+    json: Literal[False] = False,
+    save: bool = False,
+    verbose: bool = True,
+) -> pd.DataFrame | None: ...
 
 
 def archs4(
@@ -174,11 +200,15 @@ def archs4(
         # Drop NaN rows
         tissue_exp_df = tissue_exp_df.dropna()
 
-        # Drop color columns
-        tissue_exp_df = tissue_exp_df.drop(["color"], axis=1)
+        # Drop the "color" column if present (only used for plotting upstream, not by gget).
+        # ARCHS4 intermittently omits this column; use errors="ignore" so a missing
+        # "color" column does not raise a KeyError and crash the request.
+        tissue_exp_df = tissue_exp_df.drop(columns=["color"], errors="ignore")
 
-        # Sort data frame by median expression
-        tissue_exp_df = tissue_exp_df.sort_values("median", ascending=False)
+        # Sort data frame by median expression. Use "id" as a stable tiebreaker so the row
+        # order is deterministic when several tissues share the same median (ARCHS4 returns
+        # tied rows in a varying order between requests otherwise).
+        tissue_exp_df = tissue_exp_df.sort_values(["median", "id"], ascending=[False, True])
         tissue_exp_df = tissue_exp_df.reset_index(drop=True)
 
         if json:

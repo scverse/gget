@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json as json_package
 import textwrap
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Literal, overload
 
 # Plotting packages
 import matplotlib.pyplot as plt
@@ -62,6 +62,46 @@ def clean_genes_list(genes_list: list[Any]) -> list[Any]:
         if not isinstance(gene, float) and gene is not None and gene != "nan":
             genes_clean.append(gene)
     return genes_clean
+
+
+@overload
+def enrichr(
+    genes: str | list[str],
+    database: str,
+    species: str = "human",
+    background_list: list[str] | None = None,
+    background: bool = False,
+    ensembl: bool = False,
+    ensembl_bkg: bool = False,
+    plot: bool = False,
+    figsize: tuple[float, float] = (10, 10),
+    ax: Axes | None = None,
+    kegg_out: str | None = None,
+    kegg_rank: int = 1,
+    json: Literal[True] = ...,
+    save: bool = False,
+    verbose: bool = True,
+) -> list[dict[str, Any]] | None: ...
+
+
+@overload
+def enrichr(
+    genes: str | list[str],
+    database: str,
+    species: str = "human",
+    background_list: list[str] | None = None,
+    background: bool = False,
+    ensembl: bool = False,
+    ensembl_bkg: bool = False,
+    plot: bool = False,
+    figsize: tuple[float, float] = (10, 10),
+    ax: Axes | None = None,
+    kegg_out: str | None = None,
+    kegg_rank: int = 1,
+    json: Literal[False] = False,
+    save: bool = False,
+    verbose: bool = True,
+) -> pd.DataFrame | None: ...
 
 
 def enrichr(

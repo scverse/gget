@@ -1330,6 +1330,18 @@ def main() -> None:
         ),
     )
     parser_alphafold.add_argument(
+        "-jhd",
+        "--jackhmmer_savedir",
+        type=str,
+        default=None,
+        required=False,
+        help=(
+            "Path to a parent directory in which to store the temporary jackhmmer files.\n"
+            "By default, gget creates a 'tmp' folder in the home directory ('~/tmp/jackhmmer/'),\n"
+            "which can take up to ~2 GB of disk space. Use this argument to place them elsewhere."
+        ),
+    )
+    parser_alphafold.add_argument(
         "-q",
         "--quiet",
         default=True,
@@ -1361,6 +1373,7 @@ def main() -> None:
         type=str,
         choices=[
             "pdb",
+            "mmcif",
             "entry",
             "pubmed",
             "assembly",
@@ -1375,7 +1388,10 @@ def main() -> None:
         required=False,
         help=(
             "Defines type of information to be returned.\n\n"
-            '"pdb": Returns the protein structure in PDB format.\n'
+            '"pdb": Returns the protein structure in legacy PDB format. Automatically falls\n'
+            "       back to PDBx/mmCIF when the legacy PDB file is unavailable (e.g. for\n"
+            "       large structures), since the legacy PDB format is being phased out by RCSB.\n"
+            '"mmcif": Returns the protein structure in PDBx/mmCIF format (.cif).\n'
             '"entry": Information about PDB structures at the top level of PDB structure hierarchical data organization.\n'
             '"pubmed": Get PubMed annotations (data integrated from PubMed) for a given entry\'s primary citation.\n'
             '"assembly": Information about PDB structures at the quaternary structure level.\n'
@@ -1406,7 +1422,7 @@ def main() -> None:
         required=False,
         help=(
             "Path to the file the results will be saved in, e.g. path/to/directory/7S7U.pdb or path/to/directory/7S7U_entry.json.\n"
-            "Resource 'pdb' is returned in PDB format. All other resources are returned in JSON format.\n"
+            "Resource 'pdb' is returned in PDB format (or PDBx/mmCIF if the legacy PDB file is unavailable), 'mmcif' in PDBx/mmCIF format. All other resources are returned in JSON format.\n"
             "Default: Standard out."
         ),
     )
@@ -2339,14 +2355,26 @@ def main() -> None:
     parser_g2p.add_argument(
         "gene",
         type=str,
-        help="Gene symbol, e.g. BRCA1.",
+        nargs="?",
+        default=None,
+        help=(
+            "Optional gene symbol, e.g. BRCA1. If omitted, the gene is resolved "
+            "automatically from --uniprot_id via the UniProt REST API."
+        ),
     )
     parser_g2p.add_argument(
         "-u",
         "--uniprot_id",
         type=str,
-        required=True,
-        help="UniProt accession, e.g. P38398. For '--resource alignment' this is the canonical isoform (e.g. P01130-1). Find it with `gget info`.",
+        required=False,
+        default=None,
+        help=(
+            "UniProt accession, e.g. P38398. Optional — if omitted, it is resolved from the "
+            "gene symbol via UniProt (canonical reviewed human Swiss-Prot entry only; pass "
+            "explicitly for non-human, unreviewed, or specific-isoform queries). "
+            "For '--resource alignment' this is the canonical isoform (e.g. P01130-1) and is "
+            "required. Find it with `gget info`."
+        ),
     )
     parser_g2p.add_argument(
         "-r",
@@ -2369,6 +2397,17 @@ def main() -> None:
         default=None,
         required=False,
         help="Alternative isoform UniProt accession (e.g. P01130-2). Required for '--resource alignment'.",
+    )
+    parser_g2p.add_argument(
+        "--residues",
+        type=str,
+        default=None,
+        required=False,
+        help=(
+            "Restrict the result to specific residue positions (only applies to --resource "
+            "features / alignment). Comma-separated list and/or inclusive ranges, "
+            "e.g. '185,1775,1812' or '100-200' or '1-50,185,300-310'."
+        ),
     )
     parser_g2p.add_argument(
         "-o",
@@ -3676,6 +3715,7 @@ def main() -> None:
             plot=False,
             show_sidechains=False,
             verbose=args.quiet,
+            jackhmmer_savedir=args.jackhmmer_savedir,
         )
 
     ## pdb return
@@ -3687,7 +3727,7 @@ def main() -> None:
         )
 
         if pdb_results:
-            if args.resource == "pdb":
+            if args.resource in ("pdb", "mmcif"):
                 if args.out:
                     # Create saving directory
                     directory = "/".join(args.out.split("/")[:-1])
@@ -3793,11 +3833,36 @@ def main() -> None:
 
     ## g2p return
     if args.command == "g2p":
+        residues: list[int] | None = None
+        if args.residues:
+            residues = []
+            for part in args.residues.split(","):
+                part = part.strip()
+                if not part:
+                    continue
+                if "-" in part:
+                    try:
+                        start_s, end_s = part.split("-", 1)
+                        start, end = int(start_s), int(end_s)
+                    except ValueError as e:
+                        raise ValueError(
+                            f"Could not parse '{part}' as a residue range. Expected 'start-end' (e.g. '100-200')."
+                        ) from e
+                    residues.extend(range(start, end + 1))
+                else:
+                    try:
+                        residues.append(int(part))
+                    except ValueError as e:
+                        raise ValueError(
+                            f"Could not parse '{part}' as a residue position. Expected an int (e.g. '185')."
+                        ) from e
+
         g2p_results: pd.DataFrame = g2p(
             args.gene,
             uniprot_id=args.uniprot_id,
             resource=args.resource,
             isoform=args.isoform,
+            residues=residues,
             verbose=args.quiet,
         )
 

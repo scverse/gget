@@ -1453,7 +1453,7 @@ def fetch_virus_metadata(
         # e.g., "NC_045512.2%2CMN908947.3%2CMT020781.1"
         url = f"{NCBI_API_BASE}/virus/accession/{virus}/dataset_report"
         logger.debug("Using accession endpoint for virus: %s", virus)
-        params = {}
+        params: dict[str, Any] = {}
     else:
         # For taxon names/IDs (e.g., 'Zika Virus', 'influenza'), use the taxon endpoint
         url = f"{NCBI_API_BASE}/virus/taxon/{virus}/dataset_report"
@@ -4381,7 +4381,7 @@ def _load_metadata_dict_from_temp_jsonl(temp_file_path: str) -> dict[str, Any]:
               Same format as load_metadata_from_api_reports().
 
     """
-    metadata_dict = {}
+    metadata_dict: dict[str, Any] = {}
     processed_count = 0
     skipped_count = 0
 
@@ -4471,7 +4471,7 @@ def _load_cached_metadata_from_jsonl(jsonl_path: str) -> dict[str, Any]:
         dict: Dictionary mapping accession numbers to metadata dictionaries.
 
     """
-    metadata_dict = {}
+    metadata_dict: dict[str, Any] = {}
     processed_count = 0
 
     if not jsonl_path or not os.path.exists(jsonl_path):
@@ -4565,7 +4565,7 @@ def _stream_filter_cached_metadata_from_jsonl(
     if "min_release_date" in filters_active:
         min_release_date_parsed = _parse_date(min_release_date, filtername="min_release_date")
 
-    metadata_dict = {}
+    metadata_dict: dict[str, Any] = {}
     total_records = 0
     filter_stats = {
         "host": 0,
@@ -4967,7 +4967,7 @@ def filter_sequences(
 
     # Initialize lists to store filtered results (metadata is small, kept in memory)
     filtered_metadata = []  # Will store corresponding metadata dictionaries
-    protein_headers = []  # Will store protein/segment information from FASTA headers
+    protein_headers: list[Any] = []  # Will store protein/segment information from FASTA headers
     filtered_count = 0  # Count of sequences passing all filters
 
     # Counters for logging filter statistics
@@ -5264,7 +5264,7 @@ def save_command_summary(
                     f.write(f"Average sequence length: {sum(lengths) / len(lengths):.0f} bp\n\n")
 
                 # Completeness breakdown
-                completeness_counts = {}
+                completeness_counts: dict[str, int] = {}
                 for meta in filtered_metadata:
                     comp = meta.get("completeness", "unknown")
                     completeness_counts[comp] = completeness_counts.get(comp, 0) + 1
@@ -5274,7 +5274,7 @@ def save_command_summary(
                 f.write("\n")
 
                 # Source database breakdown
-                source_counts = {}
+                source_counts: dict[str, int] = {}
                 for meta in filtered_metadata:
                     source = meta.get("sourceDatabase", "unknown")
                     source_counts[source] = source_counts.get(source, 0) + 1
@@ -6181,7 +6181,7 @@ def fetch_genbank_metadata(
     _log_memory_usage("GenBank fetch start")
 
     # Initialize tracking variables
-    all_metadata = {}  # Only used for final return; populated from temp JSONL at end
+    all_metadata: dict[str, Any] = {}  # Only used for final return; populated from temp JSONL at end
     failed_batches = []
     total_metadata_written = 0  # Counter for metadata records streamed to disk
 
@@ -7053,7 +7053,7 @@ def _parse_genbank_xml(xml_content: str) -> dict[str, Any]:
             logger.debug("Processing GenBank record: %s", accession)
 
             # Initialize metadata dictionary for this record
-            metadata = {
+            metadata: dict[str, Any] = {
                 "accession": accession,
                 "genbank_data": {},  # Store GenBank-specific fields
             }
@@ -8741,14 +8741,14 @@ def virus(
     refseq_only = False
 
     # Initialize filter stats for each stage (populated by filter functions)
-    metadata_filter_stats = {}
-    genbank_filter_stats = {}
-    sequence_filter_stats = {}
+    metadata_filter_stats: dict[str, int] = {}
+    genbank_filter_stats: dict[str, int] = {}
+    sequence_filter_stats: dict[str, int] = {}
     total_after_genbank_filter = None
     total_after_sequence_filter = None
 
     # Initialize failed commands tracker for tracking all types of failures
-    failed_commands = {
+    failed_commands: dict[str, Any] = {
         "api_timeout": None,
         "empty_response": None,
         "sequence_batches": [],
@@ -9768,7 +9768,7 @@ def virus(
                             logger.warning("No sequences will pass the GenBank-based filters.")
                             filtered_accessions = []
                             filtered_metadata = []
-                            genbank_data_prefetch = {}
+                            genbank_data_prefetch: dict[str, Any] = {}
 
                             save_command_summary(
                                 outfolder=outfolder,
@@ -9985,7 +9985,7 @@ def virus(
             # For large datasets (millions of sequences), this avoids OOM errors
             total_final_sequences = _stream_copy_fasta(fna_file, output_fasta_file)
             filtered_metadata_final = filtered_metadata  # No change to metadata
-            protein_headers = []
+            protein_headers: list[Any] = []
             logger.info("All %d downloaded sequences were streamed to output", total_final_sequences)
             _log_memory_usage("after streaming sequences to output")
         else:

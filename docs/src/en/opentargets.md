@@ -7,6 +7,8 @@ Return format: JSON/CSV (command-line) or data frame (Python).
 
 This module was written by [Sam Wagenaar](https://github.com/techno-sam).  
 
+> ⚠️ **Change as of gget v0.30.8 — `resource="expression"` output is different.** OpenTargets retired the old `target.expressions` field, so `gget opentargets -r expression` now returns OpenTargets' `baselineExpression` data instead. **The output columns changed**: results are now per-biosample (tissue *and/or* cell type) summary statistics (`median`, `min`, `q1`, `q3`, `max`, `unit`) with `tissueBiosample.*` / `celltypeBiosample.*` identifiers and `datasourceId` / `datatypeId` — replacing the old per-tissue `tissue.*` / `rna.*` (z-score) columns, which no longer exist upstream. A gene can have thousands of biosamples; use `--filters` (e.g. `datasourceId`, `datatypeId`) or `--limit` to narrow the result. See the baseline expression example below.
+
 **Positional argument**  
 `ens_id`  
 Ensembl gene ID, e.g ENSG00000169194.
@@ -18,13 +20,13 @@ Possible resources are:
 
 | Resource           | Return Value                                                      | Valid Filters                                     | Sources                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 |--------------------|-------------------------------------------------------------------|---------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `diseases`         | Associated diseases                                               | None                                              | Various:<ul><li>[Open&nbsp;Targets](https://genetics.opentargets.org/)</li><li>[ChEMBL](https://www.ebi.ac.uk/chembl/)</li><li>[Europe&nbsp;PMC](http://europepmc.org/)</li></ul>etc.                                                                                                                                                                                                                                                                                                              |
-| `drugs`            | Associated drugs                                                  | `disease_id`                                      | [ChEMBL](https://www.ebi.ac.uk/chembl/)                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| `diseases`         | Associated diseases, phenotypes & traits (EFO-mapped) with the overall association `score` (0–1) | None                                              | Various:<ul><li>[Open&nbsp;Targets](https://genetics.opentargets.org/)</li><li>[ChEMBL](https://www.ebi.ac.uk/chembl/)</li><li>[Europe&nbsp;PMC](http://europepmc.org/)</li></ul>etc.                                                                                                                                                                                                                                                                                                              |
+| `drugs`            | Associated drugs                                                  | `drug.drugType`<br/>`drug.maximumClinicalStage`   | [ChEMBL](https://www.ebi.ac.uk/chembl/)                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | `tractability`     | Tractability data                                                 | None                                              | [Open&nbsp;Targets](https://platform-docs.opentargets.org/target/tractability)                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| `pharmacogenetics` | Pharmacogenetic responses                                         | `drug_id`                                         | [PharmGKB](https://www.pharmgkb.org/)                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| `expression`       | Gene expression data (by tissues, organs, and anatomical systems) | `tissue_id`<br/>`anatomical_system`<br/>`organ`   | <ul><li>[ExpressionAtlas](https://www.ebi.ac.uk/gxa/home)</li><li>[HPA](https://www.proteinatlas.org/)</li><li>[GTEx](https://www.gtexportal.org/home/)</li></ul>                                                                                                                                                                                                                                                                                                                                  |
-| `depmap`           | DepMap gene&rarr;disease-effect data.                             | `tissue_id`                                       | [DepMap&nbsp;Portal](https://depmap.org/portal/)                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| `interactions`     | Protein&rlarr;protein interactions                                | `protein_a_id`<br/>`protein_b_id`<br/>`gene_b_id` | <ul><li>[Open&nbsp;Targets](https://platform-docs.opentargets.org/target/molecular-interactions)</li><li>[IntAct](https://platform-docs.opentargets.org/target/molecular-interactions#intact)</li><li>[Signor](https://platform-docs.opentargets.org/target/molecular-interactions#signor)</li><li>[Reactome](https://platform-docs.opentargets.org/target/molecular-interactions#reactome)</li><li>[String](https://platform-docs.opentargets.org/target/molecular-interactions#string)</li></ul> |
+| `pharmacogenetics` | Pharmacogenetic responses                                         | `datasourceId`<br/>`pgxCategory`<br/>`evidenceLevel` | [PharmGKB](https://www.pharmgkb.org/)                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `expression`       | Baseline expression per biosample (tissue/cell type) with summary statistics | `tissueBiosample.biosampleId`<br/>`datasourceId`<br/>`datatypeId` | <ul><li>[GTEx](https://www.gtexportal.org/home/)</li><li>[ExpressionAtlas](https://www.ebi.ac.uk/gxa/home)</li><li>single-cell datasets</li></ul>                                                                                                                                                                                                                                                                                                                                  |
+| `depmap`           | DepMap gene&rarr;disease-effect data.                             | `tissueId`<br/>`diseaseFromSource`                | [DepMap&nbsp;Portal](https://depmap.org/portal/)                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| `interactions`     | Protein&rlarr;protein interactions                                | `sourceDatabase`<br/>`targetB.id`<br/>`targetB.approvedSymbol` | <ul><li>[Open&nbsp;Targets](https://platform-docs.opentargets.org/target/molecular-interactions)</li><li>[IntAct](https://platform-docs.opentargets.org/target/molecular-interactions#intact)</li><li>[Signor](https://platform-docs.opentargets.org/target/molecular-interactions#signor)</li><li>[Reactome](https://platform-docs.opentargets.org/target/molecular-interactions#reactome)</li><li>[String](https://platform-docs.opentargets.org/target/molecular-interactions#string)</li></ul> |
 
 `-l` `--limit`  
 Limit the number of results, e.g 10. Default: No limit.  
@@ -66,9 +68,13 @@ gget.opentargets('ENSG00000169194', resource='diseases', limit=1)
 ```
 &rarr; Returns the top disease associated with the gene ENSG00000169194.
 
-| id            | name               | description                                                           | score            |
-|---------------|--------------------|-----------------------------------------------------------------------|------------------|
-| EFO_0000274   | atopic&nbsp;eczema | A chronic inflammatory genetically determined disease of the skin ... | 0.66364347241831 |
+| score              | disease.id     | disease.name       | disease.description                                                      |
+|--------------------|----------------|--------------------|-------------------------------------------------------------------------|
+| 0.7279798021712002 | MONDO_0004980  | atopic&nbsp;eczema | A common chronic pruritic inflammatory skin disease with a strong ...   |
+
+> **Understanding the `score` column and disease IDs** ([issue #168](https://github.com/scverse/gget/issues/168))
+> - `score` is OpenTargets' **overall target–disease association score** — a single value between 0 and 1 that aggregates the evidence across *all* data types and data sources. It is **not** a per-data-source score. The OpenTargets website shows, in addition, a per-data-type breakdown (genetic associations, somatic mutations, known drugs, animal models, etc.) in its "Associations" view; `gget opentargets` currently returns only the aggregated `score`, so a single gget row corresponds to one whole row of that web table.
+> - `disease.id` is an [EFO](https://www.ebi.ac.uk/efo/) ontology ID. OpenTargets maps every associated trait to EFO, which imports terms from several ontologies. As a result the returned IDs are **not exclusively diseases**: they can be MONDO disease terms (`MONDO_*`), Human Phenotype Ontology phenotypes (`HP_*`), Orphanet rare diseases (`Orphanet_*`), or EFO measurements/traits (`EFO_*`, e.g. biomarker or blood-measurement traits). `gget opentargets` returns the associations **exactly as OpenTargets reports them**, without dropping non-disease terms. To keep only MONDO disease terms, filter the returned data frame, e.g. `df[df["disease.id"].str.startswith("MONDO")]`.
 
 <br/><br/>
 
@@ -84,12 +90,12 @@ gget.opentargets('ENSG00000169194', resource='drugs', limit=2)
 
 &rarr; Returns the top 2 drugs associated with the gene ENSG00000169194.
 
-| id            | name         | type     | action_mechanism                    | description                                                  | synonyms                                           | trade_names           | disease_id  | disease_name                  | trial_phase | trial_status | trial_ids     | approved |
-|---------------|--------------|----------|-------------------------------------|--------------------------------------------------------------|----------------------------------------------------|-----------------------|-------------|-------------------------------|-------------|--------------|---------------|----------|
-| CHEMBL1743081 | TRALOKINUMAB | Antibody | Interleukin&#8209;13&nbsp;inhibitor | Antibody drug with a maximum clinical trial phase of IV ...  | ['CAT-354', 'Tralokinumab']                        | ['Adbry', 'Adtralza'] | EFO_0000274 | atopic&nbsp;eczema            | 4           |              | []            | True     |
-| CHEMBL4297864 | CENDAKIMAB   | Antibody | Interleukin&#8209;13&nbsp;inhibitor | Antibody drug with a maximum clinical trial phase of III ... | [ABT-308, Abt-308, CC-93538, Cendakimab, RPC-4046] | []                    | EFO_0004232 | eosinophilic&nbsp;esophagitis | 3           | Recruiting   | [NCT04991935] | False    |
+| drug.id       | drug.name    | drug.drugType | drug.mechanismsOfAction.rows        | drug.description                                              | drug.synonyms                          | drug.tradeNames | drug.maximumClinicalStage | drug.indications.rows                                                            |
+|---------------|--------------|---------------|-------------------------------------|--------------------------------------------------------------|----------------------------------------|-----------------|---------------------------|---------------------------------------------------------------------------------|
+| CHEMBL1743035 | LEBRIKIZUMAB | Antibody      | Interleukin&#8209;13&nbsp;inhibitor | Antibody drug with a maximum clinical stage of Approval ...  | ['Lebrikizumab', 'MILR-1444A', ...]    | Ebglyss         | APPROVAL                  | [{'id': 'MONDO_0004980', 'name': 'atopic eczema'}, {'id': 'MONDO_0004979', 'name': 'asthma'}, ...] |
+| CHEMBL1742985 | ANRUKINZUMAB | Antibody      | Interleukin&#8209;13&nbsp;inhibitor | Antibody drug with a maximum clinical stage of Phase 2 ...   | ['Anrukinzumab', 'IMA-638']            | []              | PHASE2                    | [{'id': 'MONDO_0005101', 'name': 'ulcerative colitis'}, ...]                    |
 
-*Note: Returned `trial_ids` are [ClinicalTrials.gov](https://clinicaltrials.gov) identifiers*
+*Note: associated diseases/indications are nested under `drug.indications.rows` (each a `{'id', 'name'}` dict); the `drug.id` values are [ChEMBL](https://www.ebi.ac.uk/chembl/) identifiers.*
 
 <br/><br/>
 
@@ -105,13 +111,14 @@ gget.opentargets('ENSG00000169194', resource='tractability')
 
 &rarr; Returns tractability data for the gene ENSG00000169194.
 
-| label                 | modality       |
-|-----------------------|----------------|
-| High-Quality Pocket   | Small molecule |
-| Approved Drug         | Antibody       |
-| GO CC high conf       | Antibody       |
-| UniProt loc med conf  | Antibody       |
-| UniProt SigP or TMHMM | Antibody       |
+| modality | label               | value |
+|----------|---------------------|-------|
+| SM       | Approved Drug       | False |
+| SM       | High-Quality Pocket | True  |
+| AB       | Approved Drug       | True  |
+| AB       | Advanced Clinical   | False |
+
+*Note: `modality` is `SM` (small molecule), `AB` (antibody), `PR` (PROTAC), `OC` (other clinical), etc.; `value` is a boolean indicating whether the target meets that tractability bucket.*
 
 <br/><br/>
 
@@ -127,15 +134,15 @@ gget.opentargets('ENSG00000169194', resource='pharmacogenetics', limit=1)
 
 &rarr; Returns pharmacogenetic responses for the gene ENSG00000169194.
 
-| rs_id     | genotype_id       | genotype | variant_consequence_id | variant_consequence_label | drugs                                                                                                                                   | phenotype                                                               | genotype_annotation                                                                                          | response_category | direct_target | evidence_level | source   | literature |
-|-----------|-------------------|----------|------------------------|---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------|-------------------|---------------|----------------|----------|------------|
-| rs1295686 | 5_132660151_T_T,T | TT       | SO:0002073             | no_sequence_alteration    | &nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name<br/>0&nbsp;&nbsp;None&nbsp;&nbsp;hepatitis&nbsp;vaccines | increased risk for non&#8209;immune response to the hepatitis B vaccine | Patients with the TT genotype may be at increased risk for non-immune response to the hepatitis B vaccine... | efficacy          | False         | 3              | pharmgkb | [21111021] |
+| variantId       | genotypeId         | genotype | drugs                                       | phenotypeText                              | genotypeAnnotationText                    | pgxCategory | isDirectTarget | evidenceLevel | datasourceId | literature | variantFunctionalConsequence.id | variantFunctionalConsequence.label |
+|-----------------|--------------------|----------|---------------------------------------------|--------------------------------------------|-------------------------------------------|-------------|----------------|---------------|--------------|------------|---------------------------------|------------------------------------|
+| 5_132657117_C_T | 5_132657117_C_C,T  | CT       | {'id': 'CHEMBL535', 'name': 'SUNITINIB'}    | decreased severity of drug-induced toxicity | Patients with renal cell carcinoma and ... | toxicity    | False          | 3             | clinpgx      | 26387812   | SO:0001631                      | upstream_gene_variant              |
 
-*Note: Returned `literature` ids are [Europe PMC](https://europepmc.org/article/med/) identifiers*
+*Note: `drugs` is a `{'id', 'name'}` dict (or list of them); `literature` ids are [Europe PMC](https://europepmc.org/article/med/) identifiers.*
 
 <br/><br/>
 
-**Get tissues where a gene is most expressed:**
+**Get baseline expression of a gene across biosamples (tissues / cell types):**
 ```bash
 gget opentargets ENSG00000169194 -r expression -l 2
 ```
@@ -145,12 +152,16 @@ import gget
 gget.opentargets('ENSG00000169194', resource='expression', limit=2)
 ```
 
-&rarr; Returns the top 2 tissues where the gene ENSG00000169194 is most expressed.
+&rarr; Returns baseline expression summary statistics for the gene ENSG00000169194 per biosample.
 
-| tissue_id      | tissue_name                           | rna_zscore | rna_value | rna_unit | rna_level | anatomical_systems                                                   | organs                                                 |
-|----------------|---------------------------------------|------------|-----------|----------|-----------|----------------------------------------------------------------------|--------------------------------------------------------|
-| UBERON_0000473 | testis                                | 5          | 1026      |          | 3         | [reproductive&nbsp;system]                                           | [reproductive&nbsp;organ, reproductive&nbsp;structure] |
-| CL_0000542     | EBV&#8209;transformed&nbsp;lymphocyte | 1          | 54        |          | 2         | [hemolymphoid&nbsp;system, immune&nbsp;system, lymphoid&nbsp;system] | [immune organ]                                         |
+| median   | min | q1       | q3       | max     | unit                        | datasourceId   | datatypeId    | tissueBiosample.biosampleId | tissueBiosample.biosampleName | celltypeBiosample.biosampleId | celltypeBiosample.biosampleName |
+|----------|-----|----------|----------|---------|-----------------------------|----------------|---------------|-----------------------------|-------------------------------|-------------------------------|---------------------------------|
+| 0.066891 | 0   | 0.028268 | 0.142208 | 1.69407 | TPM                         | gtex           | bulk&nbsp;rna-seq | UBERON_0000007              | pituitary&nbsp;gland          | None                          | None                            |
+| 0.0      | 0   | 0.0      | 0.0      | 0.0     | CPM(pseudobulk&nbsp;sum)    | tabula_sapiens | scrna-seq     | UBERON_0000016              | endocrine&nbsp;pancreas       | CL_0000115                    | endothelial&nbsp;cell           |
+
+*Note: bulk sources (e.g. GTEx) populate only `tissueBiosample.*` (`celltypeBiosample.*` is `None`); single-cell sources (e.g. Tabula Sapiens) populate both.*
+
+> **Note (OpenTargets API change):** OpenTargets retired the per-tissue `target.expressions` field (it now returns nothing) and moved baseline expression to the paginated `target.baselineExpression` field. `gget opentargets -r expression` now returns per-biosample expression summary statistics (`median`, `min`, `q1`, `q3`, `max`) from the current sources (e.g. GTEx bulk RNA-seq and single-cell datasets), with `tissueBiosample`/`celltypeBiosample` identifiers and `datasourceId`/`datatypeId` so results can be filtered. The returned columns therefore differ from earlier gget versions. A gene can have thousands of biosamples; OpenTargets returns at most 3000 per request, so for genes that exceed this a warning is logged and you should narrow the query with `--filters` (e.g. `datasourceId` or `datatypeId`). Use `--limit` to fetch fewer rows.
 
 <br/><br/>
 
@@ -166,9 +177,9 @@ gget.opentargets('ENSG00000169194', resource='depmap')
 
 &rarr; Returns DepMap gene-disease effect data for the gene ENSG00000169194.
 
-| depmap_id        | expression | effect   | tissue_id      | tissue_name | cell_line_name | disease_cell_line_id | disease_name         | mutation |
-|------------------|------------|----------|----------------|-------------|----------------|----------------------|----------------------|----------|
-| ACH&#8209;001532 | 0.176323   | 0.054950 | UBERON_0002113 | kidney      | JMU-RTK-2      | None                 | Rhabdoid&nbsp;Cancer | None     |
+| tissueId       | tissueName | cellLineName | expression  | diseaseFromSource     | depmapId    | geneEffect  |
+|----------------|------------|--------------|-------------|-----------------------|-------------|-------------|
+| UBERON_0000977 | pleura     | NCI-H2452    | 0.0223550275 | Pleural&nbsp;Mesothelioma | ACH-000092  | 0.0368397422 |
 
 <br/><br/>
 
@@ -184,57 +195,30 @@ gget.opentargets('ENSG00000169194', resource='interactions', limit=2)
 
 &rarr; Returns the top 2 protein-protein interactions for the gene ENSG00000169194.
 
-| evidence_score | evidence_count | source_db | protein_a_id    | gene_a_id       | gene_a_symbol | role_a                | taxon_a | protein_b_id    | gene_b_id       | gene_b_symbol | role_b                | taxon_b |
-|----------------|----------------|-----------|-----------------|-----------------|---------------|-----------------------|---------|-----------------|-----------------|---------------|-----------------------|---------|
-| 0.999          | 3              | string    | ENSP00000304915 | ENSG00000169194 | IL13          | unspecified&nbsp;role | 9606    | ENSP00000379111 | ENSG00000077238 | IL4R          | unspecified&nbsp;role | 9606    |
-| 0.999          | 3              | string    | ENSP00000304915 | ENSG00000169194 | IL13          | unspecified&nbsp;role | 9606    | ENSP00000360730 | ENSG00000131724 | IL13RA1       | unspecified&nbsp;role | 9606    |
+| score | count | sourceDatabase | intA            | intABiologicalRole    | intB            | intBBiologicalRole    | targetA.id      | targetA.approvedSymbol | speciesA.taxonId | targetB.id      | targetB.approvedSymbol | speciesB.taxonId |
+|-------|-------|----------------|-----------------|-----------------------|-----------------|-----------------------|-----------------|------------------------|------------------|-----------------|------------------------|------------------|
+| 0.999 | 3     | string         | ENSP00000304915 | unspecified&nbsp;role | ENSP00000360730 | unspecified&nbsp;role | ENSG00000169194 | IL13                   | 134              | ENSG00000131724 | IL13RA1                | 134              |
+| 0.999 | 3     | string         | ENSP00000304915 | unspecified&nbsp;role | ENSP00000361004 | unspecified&nbsp;role | ENSG00000169194 | IL13                   | 134              | ENSG00000123496 | IL13RA2                | 134              |
 
 <br/><br/>
 
-**Get protein-protein interactions for a specific gene, filtering by protein and gene IDs:**
+**Get protein-protein interactions for a specific gene, filtered by column values:**
+
+Filters use the generic `--filter key=value` flag (CLI) / `filters={...}` argument (Python), where the keys are the exact returned column names. Multiple filters are combined with **AND** (exact equality). (The previous `filter_mode`/OR option and the `-fpa`/`--filter_gene_b` shortcuts were removed in v0.30.5.)
 ```bash
-gget opentargets ENSG00000169194 -r interactions -fpa P35225 --filter_gene_b ENSG00000077238
+gget opentargets ENSG00000169194 -r interactions --filter sourceDatabase=string --filter targetB.approvedSymbol=IL13RA1
 ```
 ```python
 # Python
 import gget
-gget.opentargets('ENSG00000169194', resource='interactions', filters={'protein_a_id': 'P35225', 'gene_b_id': 'ENSG00000077238'})
+gget.opentargets('ENSG00000169194', resource='interactions', filters={'sourceDatabase': 'string', 'targetB.approvedSymbol': 'IL13RA1'})
 ```
 
-&rarr; Returns protein-protein interactions for the gene ENSG00000169194, where the first protein is P35225 **and** the second gene is ENSG00000077238.
+&rarr; Returns the `string`-sourced interactions of IL13 where the partner is IL13RA1.
 
-| evidence_score | evidence_count | source_db | protein_a_id | gene_a_id       | gene_a_symbol | role_a                | taxon_a | protein_b_id | gene_b_id       | gene_b_symbol | role_b                | taxon_b |
-|----------------|----------------|-----------|--------------|-----------------|---------------|-----------------------|---------|--------------|-----------------|---------------|-----------------------|---------|
-| None           | 3              | reactome  | P35225       | ENSG00000169194 | IL13          | unspecified&nbsp;role | 9606    | P24394       | ENSG00000077238 | IL4R          | unspecified&nbsp;role | 9606    |
-| None           | 2              | signor    | P35225       | ENSG00000169194 | IL13          | regulator             | 9606    | P24394       | ENSG00000077238 | IL4R          | regulator&nbsp;target | 9606    |
-
-<br/><br/>
-
-**Get protein-protein interactions for a specific gene, filtering by protein or gene IDs:**
-```bash
-gget opentargets ENSG00000169194 -r interactions -fpa P35225 --filter_gene_b ENSG00000077238 ENSG00000111537 --or -l 5
-```
-```python
-# Python
-import gget
-gget.opentargets(
-    'ENSG00000169194',
-    resource='interactions',
-    filters={'protein_a_id': 'P35225', 'gene_b_id': ['ENSG00000077238', 'ENSG00000111537']},
-    filter_mode='or',
-    limit=5
-)
-```
-
-&rarr; Returns protein-protein interactions for the gene ENSG00000169194, where the first protein is P35225 **or** the second gene is either ENSG00000077238 or ENSG00000111537.
-
-| evidence_score | evidence_count | source_db | protein_a_id    | gene_a_id       | gene_a_symbol | role_a                | taxon_a | protein_b_id    | gene_b_id       | gene_b_symbol | role_b                | taxon_b |
-|----------------|----------------|-----------|-----------------|-----------------|---------------|-----------------------|---------|-----------------|-----------------|---------------|-----------------------|---------|
-| 0.999          | 3              | string    | ENSP00000304915 | ENSG00000169194 | IL13          | unspecified&nbsp;role | 9606    | ENSP00000379111 | ENSG00000077238 | IL4R          | unspecified&nbsp;role | 9606    |
-| 0.961          | 2              | string    | ENSP00000304915 | ENSG00000169194 | IL13          | unspecified&nbsp;role | 9606    | ENSP00000229135 | ENSG00000111537 | IFNG          | unspecified&nbsp;role | 9606    |
-| 0.800          | 9              | intact    | P35225          | ENSG00000169194 | IL13          | unspecified&nbsp;role | 9606    | Q14627          | ENSG00000123496 | IL13RA2       | unspecified&nbsp;role | 9606    |
-| 0.740          | 6              | intact    | P35225          | ENSG00000169194 | IL13          | unspecified&nbsp;role | 9606    | P78552          | ENSG00000131724 | IL13RA1       | unspecified&nbsp;role | 9606    |
-| 0.400          | 1              | intact    | P35225          | ENSG00000169194 | IL13          | unspecified&nbsp;role | 9606    | Q86XT9          | ENSG00000149932 | TMEM219       | stimulator            | 9606    |
+| score | count | sourceDatabase | intA            | intABiologicalRole    | intB            | intBBiologicalRole    | targetA.id      | targetA.approvedSymbol | speciesA.taxonId | targetB.id      | targetB.approvedSymbol | speciesB.taxonId |
+|-------|-------|----------------|-----------------|-----------------------|-----------------|-----------------------|-----------------|------------------------|------------------|-----------------|------------------------|------------------|
+| 0.999 | 3     | string         | ENSP00000304915 | unspecified&nbsp;role | ENSP00000360730 | unspecified&nbsp;role | ENSG00000169194 | IL13                   | 134              | ENSG00000131724 | IL13RA1                | 134              |
 
 
 

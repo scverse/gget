@@ -359,7 +359,7 @@ def ref(
     ## Return results
     # If FTP=False, return dictionary/json of specified results
     if ftp is False:
-        ref_dict = {species: {}}
+        ref_dict: dict[str, dict[str, Any]] = {species: {}}
         for return_val in which:
             if return_val == "all":
                 ref_dict = {

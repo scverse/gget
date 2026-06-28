@@ -3,7 +3,7 @@ from __future__ import annotations
 import json as json_package
 import time
 from json.decoder import JSONDecodeError
-from typing import Any
+from typing import Any, Literal, overload
 from urllib import request
 from urllib.error import HTTPError, URLError
 
@@ -16,6 +16,28 @@ logger = set_up_logger()
 # Retry settings for transient UCSC failures (rate limits, HTML error pages, 5xx)
 _BLAT_MAX_ATTEMPTS = 4
 _BLAT_BACKOFF_BASE_SECONDS = 1.5
+
+
+@overload
+def blat(
+    sequence: str,
+    seqtype: str = ...,
+    assembly: str = ...,
+    json: Literal[True] = ...,
+    save: bool = ...,
+    verbose: bool = ...,
+) -> list[dict[str, Any]] | None: ...
+
+
+@overload
+def blat(
+    sequence: str,
+    seqtype: str = ...,
+    assembly: str = ...,
+    json: Literal[False] = ...,
+    save: bool = ...,
+    verbose: bool = ...,
+) -> pd.DataFrame | None: ...
 
 
 def blat(
@@ -133,7 +155,7 @@ def blat(
 
     ## Build data frame to resemble BLAT web search results
     # Define dataframe from dictionary
-    df_dict = {}
+    df_dict: dict[str, list[Any]] = {}
 
     for field in results["fields"]:
         df_dict.update({field: []})

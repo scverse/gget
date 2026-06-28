@@ -9,7 +9,7 @@ import re
 import shutil
 import subprocess
 import tarfile
-from typing import Any
+from typing import Any, Literal, overload
 
 import pandas as pd
 
@@ -315,6 +315,53 @@ def query_local_cosmic(cosmic_tsv_path: str, cosmic_project: str, searchterm: st
     return results
 
 
+@overload
+def cosmic(
+    searchterm: str | None,
+    cosmic_tsv_path: str | None = None,
+    limit: int = 100,
+    *,
+    json: Literal[True],
+    download_cosmic: bool = False,
+    cosmic_project: str | None = None,
+    cosmic_version: int | None = None,
+    grch_version: int = 37,
+    email: str | None = None,
+    password: str | None = None,
+    gget_mutate: bool = False,
+    keep_genome_info: bool = False,
+    remove_duplicates: bool = False,
+    seq_id_column: str = "seq_ID",
+    mutation_column: str = "mutation",
+    mut_id_column: str = "mutation_id",
+    out: str | None = None,
+    verbose: bool = True,
+) -> list[dict[str, Any]] | None: ...
+
+
+@overload
+def cosmic(
+    searchterm: str | None,
+    cosmic_tsv_path: str | None = None,
+    limit: int = 100,
+    json: Literal[False] = False,
+    download_cosmic: bool = False,
+    cosmic_project: str | None = None,
+    cosmic_version: int | None = None,
+    grch_version: int = 37,
+    email: str | None = None,
+    password: str | None = None,
+    gget_mutate: bool = False,
+    keep_genome_info: bool = False,
+    remove_duplicates: bool = False,
+    seq_id_column: str = "seq_ID",
+    mutation_column: str = "mutation",
+    mut_id_column: str = "mutation_id",
+    out: str | None = None,
+    verbose: bool = True,
+) -> pd.DataFrame | None: ...
+
+
 def cosmic(
     searchterm: str | None,
     cosmic_tsv_path: str | None = None,
@@ -334,7 +381,7 @@ def cosmic(
     mut_id_column: str = "mutation_id",
     out: str | None = None,
     verbose: bool = True,
-) -> Any:
+) -> pd.DataFrame | list[dict[str, Any]] | None:
     """Search for genes, mutations, etc associated with cancers using the COSMIC database.
 
     (Catalogue Of Somatic Mutations In Cancer) database

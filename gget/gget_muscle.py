@@ -122,7 +122,7 @@ def muscle(fasta: str | list[str], super5: bool = False, out: str | None = None,
         # Get the titles and sequences from the generated .afa file
         titles = []
         seqs_master = []
-        seqs = []
+        seqs: list[str] = []
         with open(abs_out_path) as aln_file:
             for i, line in enumerate(aln_file):
                 # Recognize title lines by the '>' character

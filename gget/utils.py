@@ -103,7 +103,7 @@ def http_json(
     url: str,
     *,
     context: str = "",
-    timeout: float = DEFAULT_REQUESTS_TIMEOUT,
+    timeout: float | tuple[float, float] = DEFAULT_REQUESTS_TIMEOUT,
     retries: int = 3,
     backoff: float = 1.0,
     **kwargs: Any,
@@ -1138,7 +1138,7 @@ def json_list_to_df(json_list: list[Any], columns: list[tuple[str, str]]) -> pd.
 
     Returns data frame with columns as specified in keys.
     """
-    tmp_columns = [[] for _ in range(len(columns))]
+    tmp_columns: list[list[Any]] = [[] for _ in range(len(columns))]
 
     for json_obj in json_list:
         for i, column_key in enumerate(columns):
@@ -1186,7 +1186,7 @@ class FastaIO:
         with open(filename, encoding="utf-8") as handle:
             current_id = None
             current_description = ""
-            current_seq = []
+            current_seq: list[str] = []
 
             for line in handle:
                 line = line.strip()

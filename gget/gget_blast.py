@@ -3,7 +3,7 @@ from __future__ import annotations
 import json as json_package
 import time
 from io import StringIO
-from typing import Any
+from typing import Any, Literal, overload
 from urllib.parse import urlencode
 
 # Using urllib instead of requests here because requests does not
@@ -23,6 +23,39 @@ from .constants import (  # noqa: E402
     BLAST_CLIENT,
     BLAST_URL,
 )
+
+
+@overload
+def blast(
+    sequence: str,
+    program: str = "default",
+    database: str = "default",
+    limit: int = 50,
+    expect: float = 10.0,
+    low_comp_filt: bool = False,
+    megablast: bool = True,
+    verbose: bool = True,
+    wrap_text: bool = False,
+    *,
+    json: Literal[True],
+    save: bool = False,
+) -> list[dict[str, Any]] | None: ...
+
+
+@overload
+def blast(
+    sequence: str,
+    program: str = "default",
+    database: str = "default",
+    limit: int = 50,
+    expect: float = 10.0,
+    low_comp_filt: bool = False,
+    megablast: bool = True,
+    verbose: bool = True,
+    wrap_text: bool = False,
+    json: Literal[False] = False,
+    save: bool = False,
+) -> pd.DataFrame | None: ...
 
 
 def blast(

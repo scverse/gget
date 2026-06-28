@@ -279,6 +279,16 @@ def _error(name, td, func):
 
 
 # _test_constructor = Callable[[str, dict[str, dict[str, ...]], Callable], Callable]
+def _skip(name, td, _func):
+    """Mark a JSON-defined test as skipped, with the `reason` from the fixture."""
+    reason = td[name].get("reason", "skipped")
+
+    def skip(self: unittest.TestCase):
+        self.skipTest(reason)
+
+    return skip
+
+
 _TYPES = {
     "assert_equal": _assert_equal,
     "assert_equal_na": _assert_equal_na,
@@ -288,6 +298,7 @@ _TYPES = {
     "assert_equal_json_hash_nested": _assert_equal_json_hash_nested,
     "assert_equal_json_with_keys": _assert_equal_json_with_keys,
     "error": _error,
+    "skip": _skip,
 }
 
 
