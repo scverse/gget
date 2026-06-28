@@ -861,6 +861,55 @@ def main() -> None:
         help="float or None. An expect value cutoff. Default 10.0.",
     )
     parser_blast.add_argument(
+        "-ws",
+        "--word_size",
+        type=int,
+        default=None,
+        required=False,
+        help="Length of the seed words for the search (WORD_SIZE in the NCBI web BLAST app). Default: server default.",
+    )
+    parser_blast.add_argument(
+        "-gc",
+        "--gapcosts",
+        type=str,
+        default=None,
+        required=False,
+        help="Gap costs as 'open extend', e.g. '11 1' (GAPCOSTS). Default: server default.",
+    )
+    parser_blast.add_argument(
+        "-mx",
+        "--matrix",
+        type=str,
+        default=None,
+        required=False,
+        choices=["PAM30", "PAM70", "PAM250", "BLOSUM80", "BLOSUM62", "BLOSUM50", "BLOSUM45", "BLOSUM90"],
+        help="Protein scoring matrix (MATRIX), e.g. BLOSUM62. Default: server default.",
+    )
+    parser_blast.add_argument(
+        "-nr",
+        "--nucl_reward",
+        type=int,
+        default=None,
+        required=False,
+        help="Reward for a nucleotide match (blastn only) (NUCL_REWARD). Default: server default.",
+    )
+    parser_blast.add_argument(
+        "-np",
+        "--nucl_penalty",
+        type=int,
+        default=None,
+        required=False,
+        help="Penalty for a nucleotide mismatch (blastn only) (NUCL_PENALTY). Default: server default.",
+    )
+    parser_blast.add_argument(
+        "-pi",
+        "--perc_identity",
+        type=float,
+        default=None,
+        required=False,
+        help="Percent identity cutoff between 0 and 100 (PERC_IDENT). Default: server default.",
+    )
+    parser_blast.add_argument(
         "-lcf",
         "--low_comp_filt",
         default=False,
@@ -3111,6 +3160,12 @@ def main() -> None:
             megablast=args.megablast_off,
             verbose=args.quiet,
             json=args.csv,
+            word_size=args.word_size,
+            gapcosts=args.gapcosts,
+            matrix=args.matrix,
+            nucl_reward=args.nucl_reward,
+            nucl_penalty=args.nucl_penalty,
+            perc_identity=args.perc_identity,
         )
 
         # Check if the function returned something
