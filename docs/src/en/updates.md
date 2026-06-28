@@ -23,6 +23,7 @@
   - **Docs**: Clarified the meaning of the `diseases` resource `score` column (OpenTargets' single overall target–disease association score, 0–1, aggregated across all data types/sources — not a per-data-source score) and that `disease.id` values are EFO-mapped traits that include not only MONDO diseases but also phenotypes (`HP_*`) and measurements (`EFO_*`), with an example of how to filter to MONDO disease terms only. Addresses [issue 168](https://github.com/scverse/gget/issues/168).
 - [`gget archs4`](archs4.md) (tissue mode): No longer crashes with `KeyError: ['color'] not found in axis` when ARCHS4 intermittently omits the optional `color` column from its CSV response. The column is now dropped only if present. Output also has a deterministic row order (sorted by `median` descending, with `id` as tiebreaker) so equal-median tissues no longer flip order between requests.
 - [`gget bgee`](bgee.md): Outbound Bgee API requests now send a `User-Agent: gget/<version>` header so the Bgee service can attribute (and, if needed, allow-list) gget traffic, improving resilience against intermittent request blocking.
+- [`gget archs4`](archs4.md) (docs): Added a note clarifying that `gget archs4` uses the legacy `maayanlab.cloud` ARCHS4 endpoints (lightweight HTTP), while the newer [archs4.org](https://archs4.org) dataset is only accessible via `archs4py`/HDF5 downloads. A possible future migration is tracked in [issue 254](https://github.com/scverse/gget/issues/254).
 
 
 **Version ≥ 0.30.7** (Jun 21, 2026):  

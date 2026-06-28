@@ -5,6 +5,8 @@
 Find the most correlated genes to a gene of interest or find the gene's tissue expression atlas using [ARCHS4](https://maayanlab.cloud/archs4/).  
 Return format: JSON (command-line) or data frame/CSV (Python).
 
+> **Note on the data source:** `gget archs4` queries the legacy ARCHS4 HTTP endpoints at `maayanlab.cloud`, which are lightweight and still maintained. ARCHS4 has since launched a new site ([archs4.org](https://archs4.org)) with a larger, more up-to-date dataset, but its programmatic access is provided only via the [`archs4py`](https://github.com/MaayanLab/archs4py) package and multi-GB HDF5 downloads — there is no equivalent lightweight HTTP API to query. `gget archs4` therefore continues to use the legacy endpoints. If you need the newest data or larger sample sizes, use `archs4py` directly. A possible future migration is tracked in [issue 254](https://github.com/scverse/gget/issues/254).
+
 **Positional argument**  
 `gene`  
 Short name (gene symbol) of gene of interest, e.g. STAT4.  
