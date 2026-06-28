@@ -61,6 +61,17 @@ Reviewers move faster on small, focused PRs. Whenever possible:
 - **Scope each PR to a single `gget` module or issue**. If you find yourself changing more than one module to address several distinct concerns, please open them as separate PRs — one per module. Bug fixes and small refactors inside one module can be combined; cross-module work should be split.
 - **Don't bundle unrelated changes** (e.g. a bug fix plus a new feature plus a refactor) in the same PR.
 
+### What runs automatically on your PR
+
+When you open a PR, a few checks run automatically — you don't need to set anything up:
+
+- **Linting & formatting** ([pre-commit.ci](https://pre-commit.ci)): runs [ruff](https://docs.astral.sh/ruff/) (lint + format), [biome](https://biomejs.dev/), and basic hygiene hooks. It **auto-fixes** formatting issues by pushing a commit to your branch (just `git pull` afterwards); it only fails the check for problems it can't fix automatically (e.g. lint errors).
+- **Type checking** (mypy, via pre-commit.ci): only **new** type errors fail the check — the existing baseline is grandfathered, so you're not on the hook for pre-existing issues.
+- **Unit tests** (`CI - tests`): the test suite runs on Python 3.12, 3.13, and 3.14.
+- **Build check**: confirms the package still builds and is publishable.
+
+You don't have to run these manually first, but doing the self-review above (especially `uvx hatch test` and `prek run --all-files`) catches most issues before they reach CI.
+
 ### Failing tests for modules you didn't touch
 
 The `gget` test suite hits real upstream databases (Ensembl, UniProt, NCBI, ARCHS4, Open Targets, ELM, etc.). When those services change their data or schemas — which they do regularly — tests for the affected modules can start failing without anyone changing `gget` itself. **If automated CI tests fail in your PR for a module you did not touch, you can safely ignore those failures** when judging whether your PR is ready to merge. The maintainers track upstream-drift failures separately and do not expect contributors to fix unrelated breakages as a condition of merging.
