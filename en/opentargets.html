@@ -1,0 +1,411 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>gget opentargets - gget</title>
+
+
+        <!-- Custom HTML head -->
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZM4N3XBEW7"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-ZM4N3XBEW7');
+        </script>
+
+        <meta name="description" content="gget enables efficient querying of genomic reference databases">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../en/introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="../en/updates.html">What's New?</a></li><li class="chapter-item expanded affix "><a href="../en/dependents.html">Dependents & News</a></li><li class="chapter-item expanded affix "><li class="part-title">User Guide</li><li class="chapter-item expanded "><a href="../en/installation.html">Installation</a></li><li class="chapter-item expanded "><a href="../en/quick_start_guide.html">Quick Start Guide</a></li><li class="chapter-item expanded affix "><li class="part-title">Manual</li><li class="chapter-item expanded "><a href="../en/8cube.html">gget 8cube</a></li><li class="chapter-item expanded "><a href="../en/alphafold.html">gget alphafold</a></li><li class="chapter-item expanded "><a href="../en/archs4.html">gget archs4</a></li><li class="chapter-item expanded "><a href="../en/bgee.html">gget bgee</a></li><li class="chapter-item expanded "><a href="../en/blast.html">gget blast</a></li><li class="chapter-item expanded "><a href="../en/blat.html">gget blat</a></li><li class="chapter-item expanded "><a href="../en/cbio.html">gget cbio</a></li><li class="chapter-item expanded "><a href="../en/cellxgene.html">gget cellxgene</a></li><li class="chapter-item expanded "><a href="../en/cosmic.html">gget cosmic</a></li><li class="chapter-item expanded "><a href="../en/diamond.html">gget diamond</a></li><li class="chapter-item expanded "><a href="../en/elm.html">gget elm</a></li><li class="chapter-item expanded "><a href="../en/enrichr.html">gget enrichr</a></li><li class="chapter-item expanded "><a href="../en/g2p.html">gget g2p</a></li><li class="chapter-item expanded "><a href="../en/gpt.html">gget gpt</a></li><li class="chapter-item expanded "><a href="../en/info.html">gget info</a></li><li class="chapter-item expanded "><a href="../en/muscle.html">gget muscle</a></li><li class="chapter-item expanded "><a href="../en/mutate.html">gget mutate</a></li><li class="chapter-item expanded "><a href="../en/opentargets.html" class="active">gget opentargets</a></li><li class="chapter-item expanded "><a href="../en/pdb.html">gget pdb</a></li><li class="chapter-item expanded "><a href="../en/ref.html">gget ref</a></li><li class="chapter-item expanded "><a href="../en/search.html">gget search</a></li><li class="chapter-item expanded "><a href="../en/setup.html">gget setup</a></li><li class="chapter-item expanded "><a href="../en/seq.html">gget seq</a></li><li class="chapter-item expanded "><a href="../en/virus.html">gget virus</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../en/contributing.html">Contributing Guide</a></li><li class="chapter-item expanded "><a href="../en/code_of_conduct.html">Code of Conduct</a></li><li class="chapter-item expanded "><a href="../en/cite.html">Citation Guidelines</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Español</li><li class="chapter-item expanded "><a href="../es/introduction.html">Introdución</a></li><li class="chapter-item expanded "><a href="../es/updates.html">¡Lo más reciente!</a></li><li class="chapter-item expanded "><a href="../es/dependents.html">Dependientes y Noticias</a></li><li class="chapter-item expanded affix "><li class="part-title">Guía del usario</li><li class="chapter-item expanded "><a href="../es/installation.html">Instalación</a></li><li class="chapter-item expanded "><a href="../es/quick_start_guide.html">Guía de inicio rápido</a></li><li class="chapter-item expanded affix "><li class="part-title">Manuál</li><li class="chapter-item expanded "><a href="../es/8cube.html">gget 8cube</a></li><li class="chapter-item expanded "><a href="../es/alphafold.html">gget alphafold</a></li><li class="chapter-item expanded "><a href="../es/archs4.html">gget archs4</a></li><li class="chapter-item expanded "><a href="../es/bgee.html">gget bgee</a></li><li class="chapter-item expanded "><a href="../es/blast.html">gget blast</a></li><li class="chapter-item expanded "><a href="../es/blat.html">gget blat</a></li><li class="chapter-item expanded "><a href="../es/cbio.html">gget cbio</a></li><li class="chapter-item expanded "><a href="../es/cellxgene.html">gget cellxgene</a></li><li class="chapter-item expanded "><a href="../es/cosmic.html">gget cosmic</a></li><li class="chapter-item expanded "><a href="../es/diamond.html">gget diamond</a></li><li class="chapter-item expanded "><a href="../es/elm.html">gget elm</a></li><li class="chapter-item expanded "><a href="../es/enrichr.html">gget enrichr</a></li><li class="chapter-item expanded "><a href="../es/g2p.html">gget g2p</a></li><li class="chapter-item expanded "><a href="../es/gpt.html">gget gpt</a></li><li class="chapter-item expanded "><a href="../es/info.html">gget info</a></li><li class="chapter-item expanded "><a href="../es/muscle.html">gget muscle</a></li><li class="chapter-item expanded "><a href="../es/mutate.html">gget mutate</a></li><li class="chapter-item expanded "><a href="../es/opentargets.html">gget opentargets</a></li><li class="chapter-item expanded "><a href="../es/pdb.html">gget pdb</a></li><li class="chapter-item expanded "><a href="../es/ref.html">gget ref</a></li><li class="chapter-item expanded "><a href="../es/search.html">gget search</a></li><li class="chapter-item expanded "><a href="../es/setup.html">gget setup</a></li><li class="chapter-item expanded "><a href="../es/seq.html">gget seq</a></li><li class="chapter-item expanded "><a href="../es/virus.html">gget virus</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../es/contributing.html">Guía de contribución</a></li><li class="chapter-item expanded "><a href="../es/code_of_conduct.html">Codigo de conducto</a></li><li class="chapter-item expanded "><a href="../es/cite.html">Cómo citar</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">gget</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <p><a href="https://github.com/scverse/gget/blob/main/docs/src/en/opentargets.md"><kbd> View page source on GitHub </kbd></a></p>
+<blockquote>
+<p>Python arguments are equivalent to long-option arguments (<code>--arg</code>), unless otherwise specified. Flags are True/False arguments in Python. The manual for any gget tool can be called from the command-line using the <code>-h</code> <code>--help</code> flag.</p>
+</blockquote>
+<h1 id="gget-opentargets-"><a class="header" href="#gget-opentargets-">gget opentargets 🎯</a></h1>
+<p>Fetch associated diseases or drugs from <a href="https://platform.opentargets.org/">OpenTargets</a> using Ensembl IDs.<br />
+Return format: JSON/CSV (command-line) or data frame (Python).</p>
+<p>This module was written by <a href="https://github.com/techno-sam">Sam Wagenaar</a>.</p>
+<blockquote>
+<p>⚠️ <strong>Change as of gget v0.30.8 — <code>resource=&quot;expression&quot;</code> output is different.</strong> OpenTargets retired the old <code>target.expressions</code> field, so <code>gget opentargets -r expression</code> now returns OpenTargets' <code>baselineExpression</code> data instead. <strong>The output columns changed</strong>: results are now per-biosample (tissue <em>and/or</em> cell type) summary statistics (<code>median</code>, <code>min</code>, <code>q1</code>, <code>q3</code>, <code>max</code>, <code>unit</code>) with <code>tissueBiosample.*</code> / <code>celltypeBiosample.*</code> identifiers and <code>datasourceId</code> / <code>datatypeId</code> — replacing the old per-tissue <code>tissue.*</code> / <code>rna.*</code> (z-score) columns, which no longer exist upstream. A gene can have thousands of biosamples; use <code>--filters</code> (e.g. <code>datasourceId</code>, <code>datatypeId</code>) or <code>--limit</code> to narrow the result. See the baseline expression example below.</p>
+</blockquote>
+<p><strong>Positional argument</strong><br />
+<code>ens_id</code><br />
+Ensembl gene ID, e.g ENSG00000169194.</p>
+<p><strong>Optional arguments</strong><br />
+<code>-r</code> <code>--resource</code><br />
+Defines the type of information to return in the output. Default: 'diseases'.<br />
+Possible resources are:</p>
+<div class="table-wrapper"><table><thead><tr><th>Resource</th><th>Return Value</th><th>Valid Filters</th><th>Sources</th></tr></thead><tbody>
+<tr><td><code>diseases</code></td><td>Associated diseases, phenotypes &amp; traits (EFO-mapped) with the overall association <code>score</code> (0–1)</td><td>None</td><td>Various:<ul><li><a href="https://genetics.opentargets.org/">Open Targets</a></li><li><a href="https://www.ebi.ac.uk/chembl/">ChEMBL</a></li><li><a href="http://europepmc.org/">Europe PMC</a></li></ul>etc.</td></tr>
+<tr><td><code>drugs</code></td><td>Associated drugs</td><td><code>drug.drugType</code><br/><code>drug.maximumClinicalStage</code></td><td><a href="https://www.ebi.ac.uk/chembl/">ChEMBL</a></td></tr>
+<tr><td><code>tractability</code></td><td>Tractability data</td><td>None</td><td><a href="https://platform-docs.opentargets.org/target/tractability">Open Targets</a></td></tr>
+<tr><td><code>pharmacogenetics</code></td><td>Pharmacogenetic responses</td><td><code>datasourceId</code><br/><code>pgxCategory</code><br/><code>evidenceLevel</code></td><td><a href="https://www.pharmgkb.org/">PharmGKB</a></td></tr>
+<tr><td><code>expression</code></td><td>Baseline expression per biosample (tissue/cell type) with summary statistics</td><td><code>tissueBiosample.biosampleId</code><br/><code>datasourceId</code><br/><code>datatypeId</code></td><td><ul><li><a href="https://www.gtexportal.org/home/">GTEx</a></li><li><a href="https://www.ebi.ac.uk/gxa/home">ExpressionAtlas</a></li><li>single-cell datasets</li></ul></td></tr>
+<tr><td><code>depmap</code></td><td>DepMap gene→disease-effect data.</td><td><code>tissueId</code><br/><code>diseaseFromSource</code></td><td><a href="https://depmap.org/portal/">DepMap Portal</a></td></tr>
+<tr><td><code>interactions</code></td><td>Protein⇄protein interactions</td><td><code>sourceDatabase</code><br/><code>targetB.id</code><br/><code>targetB.approvedSymbol</code></td><td><ul><li><a href="https://platform-docs.opentargets.org/target/molecular-interactions">Open Targets</a></li><li><a href="https://platform-docs.opentargets.org/target/molecular-interactions#intact">IntAct</a></li><li><a href="https://platform-docs.opentargets.org/target/molecular-interactions#signor">Signor</a></li><li><a href="https://platform-docs.opentargets.org/target/molecular-interactions#reactome">Reactome</a></li><li><a href="https://platform-docs.opentargets.org/target/molecular-interactions#string">String</a></li></ul></td></tr>
+</tbody></table>
+</div>
+<p><code>-l</code> <code>--limit</code><br />
+Limit the number of results, e.g 10. Default: No limit.<br />
+Note: Not compatible with the <code>tractability</code> and <code>depmap</code> resources.</p>
+<p><code>-o</code> <code>--out</code><br />
+Path to the JSON file the results will be saved in, e.g. path/to/directory/results.json. Default: Standard out.<br />
+Python: <code>save=True</code> will save the output in the current working directory.</p>
+<p><code>--filters</code><br />
+Filter results by exact equality using returned OpenTargets column names. Pass multiple filters by repeating the flag, e.g. '--filter disease.id=EFO_0000274 --filter drug.id=CHEMBL1743081'. Nested fields use dot notation, matching the column names returned by the API.</p>
+<p><strong>Flags</strong><br />
+<code>-csv</code> <code>--csv</code><br />
+Command-line only. Returns the output in CSV format, instead of JSON format.
+Python: Use <code>json=True</code> to return output in JSON format.</p>
+<p><code>-q</code> <code>--quiet</code><br />
+Command-line only. Prevents progress information from being displayed.<br />
+Python: Use <code>verbose=False</code> to prevent progress information from being displayed.</p>
+<p><code>-or</code> <code>--or</code><br />
+Command-line only. Filters are combined with OR logic. Default: AND logic.</p>
+<p><code>wrap_text</code><br />
+Python only. <code>wrap_text=True</code> displays data frame with wrapped text for easy reading (default: False).</p>
+<h3 id="examples"><a class="header" href="#examples">Examples</a></h3>
+<p><strong>Get associated diseases for a specific gene:</strong></p>
+<pre><code class="language-bash">gget opentargets ENSG00000169194 -r diseases -l 1
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+gget.opentargets('ENSG00000169194', resource='diseases', limit=1)
+</code></pre>
+<p>→ Returns the top disease associated with the gene ENSG00000169194.</p>
+<div class="table-wrapper"><table><thead><tr><th>score</th><th>disease.id</th><th>disease.name</th><th>disease.description</th></tr></thead><tbody>
+<tr><td>0.7279798021712002</td><td>MONDO_0004980</td><td>atopic eczema</td><td>A common chronic pruritic inflammatory skin disease with a strong ...</td></tr>
+</tbody></table>
+</div>
+<blockquote>
+<p><strong>Understanding the <code>score</code> column and disease IDs</strong> (<a href="https://github.com/scverse/gget/issues/168">issue #168</a>)</p>
+<ul>
+<li><code>score</code> is OpenTargets' <strong>overall target–disease association score</strong> — a single value between 0 and 1 that aggregates the evidence across <em>all</em> data types and data sources. It is <strong>not</strong> a per-data-source score. The OpenTargets website shows, in addition, a per-data-type breakdown (genetic associations, somatic mutations, known drugs, animal models, etc.) in its &quot;Associations&quot; view; <code>gget opentargets</code> currently returns only the aggregated <code>score</code>, so a single gget row corresponds to one whole row of that web table.</li>
+<li><code>disease.id</code> is an <a href="https://www.ebi.ac.uk/efo/">EFO</a> ontology ID. OpenTargets maps every associated trait to EFO, which imports terms from several ontologies. As a result the returned IDs are <strong>not exclusively diseases</strong>: they can be MONDO disease terms (<code>MONDO_*</code>), Human Phenotype Ontology phenotypes (<code>HP_*</code>), Orphanet rare diseases (<code>Orphanet_*</code>), or EFO measurements/traits (<code>EFO_*</code>, e.g. biomarker or blood-measurement traits). <code>gget opentargets</code> returns the associations <strong>exactly as OpenTargets reports them</strong>, without dropping non-disease terms. To keep only MONDO disease terms, filter the returned data frame, e.g. <code>df[df[&quot;disease.id&quot;].str.startswith(&quot;MONDO&quot;)]</code>.</li>
+</ul>
+</blockquote>
+<p><br/><br/></p>
+<p><strong>Get associated drugs for a specific gene:</strong></p>
+<pre><code class="language-bash">gget opentargets ENSG00000169194 -r drugs -l 2
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+gget.opentargets('ENSG00000169194', resource='drugs', limit=2)
+</code></pre>
+<p>→ Returns the top 2 drugs associated with the gene ENSG00000169194.</p>
+<div class="table-wrapper"><table><thead><tr><th>drug.id</th><th>drug.name</th><th>drug.drugType</th><th>drug.mechanismsOfAction.rows</th><th>drug.description</th><th>drug.synonyms</th><th>drug.tradeNames</th><th>drug.maximumClinicalStage</th><th>drug.indications.rows</th></tr></thead><tbody>
+<tr><td>CHEMBL1743035</td><td>LEBRIKIZUMAB</td><td>Antibody</td><td>Interleukin‑13 inhibitor</td><td>Antibody drug with a maximum clinical stage of Approval ...</td><td>['Lebrikizumab', 'MILR-1444A', ...]</td><td>Ebglyss</td><td>APPROVAL</td><td>[{'id': 'MONDO_0004980', 'name': 'atopic eczema'}, {'id': 'MONDO_0004979', 'name': 'asthma'}, ...]</td></tr>
+<tr><td>CHEMBL1742985</td><td>ANRUKINZUMAB</td><td>Antibody</td><td>Interleukin‑13 inhibitor</td><td>Antibody drug with a maximum clinical stage of Phase 2 ...</td><td>['Anrukinzumab', 'IMA-638']</td><td>[]</td><td>PHASE2</td><td>[{'id': 'MONDO_0005101', 'name': 'ulcerative colitis'}, ...]</td></tr>
+</tbody></table>
+</div>
+<p><em>Note: associated diseases/indications are nested under <code>drug.indications.rows</code> (each a <code>{'id', 'name'}</code> dict); the <code>drug.id</code> values are <a href="https://www.ebi.ac.uk/chembl/">ChEMBL</a> identifiers.</em></p>
+<p><br/><br/></p>
+<p><strong>Get tractability data for a specific gene:</strong></p>
+<pre><code class="language-bash">gget opentargets ENSG00000169194 -r tractability
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+gget.opentargets('ENSG00000169194', resource='tractability')
+</code></pre>
+<p>→ Returns tractability data for the gene ENSG00000169194.</p>
+<div class="table-wrapper"><table><thead><tr><th>modality</th><th>label</th><th>value</th></tr></thead><tbody>
+<tr><td>SM</td><td>Approved Drug</td><td>False</td></tr>
+<tr><td>SM</td><td>High-Quality Pocket</td><td>True</td></tr>
+<tr><td>AB</td><td>Approved Drug</td><td>True</td></tr>
+<tr><td>AB</td><td>Advanced Clinical</td><td>False</td></tr>
+</tbody></table>
+</div>
+<p><em>Note: <code>modality</code> is <code>SM</code> (small molecule), <code>AB</code> (antibody), <code>PR</code> (PROTAC), <code>OC</code> (other clinical), etc.; <code>value</code> is a boolean indicating whether the target meets that tractability bucket.</em></p>
+<p><br/><br/></p>
+<p><strong>Get pharmacogenetic responses for a specific gene:</strong></p>
+<pre><code class="language-bash">gget opentargets ENSG00000169194 -r pharmacogenetics -l 1
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+gget.opentargets('ENSG00000169194', resource='pharmacogenetics', limit=1)
+</code></pre>
+<p>→ Returns pharmacogenetic responses for the gene ENSG00000169194.</p>
+<div class="table-wrapper"><table><thead><tr><th>variantId</th><th>genotypeId</th><th>genotype</th><th>drugs</th><th>phenotypeText</th><th>genotypeAnnotationText</th><th>pgxCategory</th><th>isDirectTarget</th><th>evidenceLevel</th><th>datasourceId</th><th>literature</th><th>variantFunctionalConsequence.id</th><th>variantFunctionalConsequence.label</th></tr></thead><tbody>
+<tr><td>5_132657117_C_T</td><td>5_132657117_C_C,T</td><td>CT</td><td>{'id': 'CHEMBL535', 'name': 'SUNITINIB'}</td><td>decreased severity of drug-induced toxicity</td><td>Patients with renal cell carcinoma and ...</td><td>toxicity</td><td>False</td><td>3</td><td>clinpgx</td><td>26387812</td><td>SO:0001631</td><td>upstream_gene_variant</td></tr>
+</tbody></table>
+</div>
+<p><em>Note: <code>drugs</code> is a <code>{'id', 'name'}</code> dict (or list of them); <code>literature</code> ids are <a href="https://europepmc.org/article/med/">Europe PMC</a> identifiers.</em></p>
+<p><br/><br/></p>
+<p><strong>Get baseline expression of a gene across biosamples (tissues / cell types):</strong></p>
+<pre><code class="language-bash">gget opentargets ENSG00000169194 -r expression -l 2
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+gget.opentargets('ENSG00000169194', resource='expression', limit=2)
+</code></pre>
+<p>→ Returns baseline expression summary statistics for the gene ENSG00000169194 per biosample.</p>
+<div class="table-wrapper"><table><thead><tr><th>median</th><th>min</th><th>q1</th><th>q3</th><th>max</th><th>unit</th><th>datasourceId</th><th>datatypeId</th><th>tissueBiosample.biosampleId</th><th>tissueBiosample.biosampleName</th><th>celltypeBiosample.biosampleId</th><th>celltypeBiosample.biosampleName</th></tr></thead><tbody>
+<tr><td>0.066891</td><td>0</td><td>0.028268</td><td>0.142208</td><td>1.69407</td><td>TPM</td><td>gtex</td><td>bulk rna-seq</td><td>UBERON_0000007</td><td>pituitary gland</td><td>None</td><td>None</td></tr>
+<tr><td>0.0</td><td>0</td><td>0.0</td><td>0.0</td><td>0.0</td><td>CPM(pseudobulk sum)</td><td>tabula_sapiens</td><td>scrna-seq</td><td>UBERON_0000016</td><td>endocrine pancreas</td><td>CL_0000115</td><td>endothelial cell</td></tr>
+</tbody></table>
+</div>
+<p><em>Note: bulk sources (e.g. GTEx) populate only <code>tissueBiosample.*</code> (<code>celltypeBiosample.*</code> is <code>None</code>); single-cell sources (e.g. Tabula Sapiens) populate both.</em></p>
+<blockquote>
+<p><strong>Note (OpenTargets API change):</strong> OpenTargets retired the per-tissue <code>target.expressions</code> field (it now returns nothing) and moved baseline expression to the paginated <code>target.baselineExpression</code> field. <code>gget opentargets -r expression</code> now returns per-biosample expression summary statistics (<code>median</code>, <code>min</code>, <code>q1</code>, <code>q3</code>, <code>max</code>) from the current sources (e.g. GTEx bulk RNA-seq and single-cell datasets), with <code>tissueBiosample</code>/<code>celltypeBiosample</code> identifiers and <code>datasourceId</code>/<code>datatypeId</code> so results can be filtered. The returned columns therefore differ from earlier gget versions. A gene can have thousands of biosamples; OpenTargets returns at most 3000 per request, so for genes that exceed this a warning is logged and you should narrow the query with <code>--filters</code> (e.g. <code>datasourceId</code> or <code>datatypeId</code>). Use <code>--limit</code> to fetch fewer rows.</p>
+</blockquote>
+<p><br/><br/></p>
+<p><strong>Get DepMap gene-disease effect data for a specific gene:</strong></p>
+<pre><code class="language-bash">gget opentargets ENSG00000169194 -r depmap
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+gget.opentargets('ENSG00000169194', resource='depmap')
+</code></pre>
+<p>→ Returns DepMap gene-disease effect data for the gene ENSG00000169194.</p>
+<div class="table-wrapper"><table><thead><tr><th>tissueId</th><th>tissueName</th><th>cellLineName</th><th>expression</th><th>diseaseFromSource</th><th>depmapId</th><th>geneEffect</th></tr></thead><tbody>
+<tr><td>UBERON_0000977</td><td>pleura</td><td>NCI-H2452</td><td>0.0223550275</td><td>Pleural Mesothelioma</td><td>ACH-000092</td><td>0.0368397422</td></tr>
+</tbody></table>
+</div>
+<p><br/><br/></p>
+<p><strong>Get protein-protein interactions for a specific gene:</strong></p>
+<pre><code class="language-bash">gget opentargets ENSG00000169194 -r interactions -l 2
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+gget.opentargets('ENSG00000169194', resource='interactions', limit=2)
+</code></pre>
+<p>→ Returns the top 2 protein-protein interactions for the gene ENSG00000169194.</p>
+<div class="table-wrapper"><table><thead><tr><th>score</th><th>count</th><th>sourceDatabase</th><th>intA</th><th>intABiologicalRole</th><th>intB</th><th>intBBiologicalRole</th><th>targetA.id</th><th>targetA.approvedSymbol</th><th>speciesA.taxonId</th><th>targetB.id</th><th>targetB.approvedSymbol</th><th>speciesB.taxonId</th></tr></thead><tbody>
+<tr><td>0.999</td><td>3</td><td>string</td><td>ENSP00000304915</td><td>unspecified role</td><td>ENSP00000360730</td><td>unspecified role</td><td>ENSG00000169194</td><td>IL13</td><td>134</td><td>ENSG00000131724</td><td>IL13RA1</td><td>134</td></tr>
+<tr><td>0.999</td><td>3</td><td>string</td><td>ENSP00000304915</td><td>unspecified role</td><td>ENSP00000361004</td><td>unspecified role</td><td>ENSG00000169194</td><td>IL13</td><td>134</td><td>ENSG00000123496</td><td>IL13RA2</td><td>134</td></tr>
+</tbody></table>
+</div>
+<p><br/><br/></p>
+<p><strong>Get protein-protein interactions for a specific gene, filtered by column values:</strong></p>
+<p>Filters use the generic <code>--filter key=value</code> flag (CLI) / <code>filters={...}</code> argument (Python), where the keys are the exact returned column names. Multiple filters are combined with <strong>AND</strong> (exact equality). (The previous <code>filter_mode</code>/OR option and the <code>-fpa</code>/<code>--filter_gene_b</code> shortcuts were removed in v0.30.5.)</p>
+<pre><code class="language-bash">gget opentargets ENSG00000169194 -r interactions --filter sourceDatabase=string --filter targetB.approvedSymbol=IL13RA1
+</code></pre>
+<pre><code class="language-python"># Python
+import gget
+gget.opentargets('ENSG00000169194', resource='interactions', filters={'sourceDatabase': 'string', 'targetB.approvedSymbol': 'IL13RA1'})
+</code></pre>
+<p>→ Returns the <code>string</code>-sourced interactions of IL13 where the partner is IL13RA1.</p>
+<div class="table-wrapper"><table><thead><tr><th>score</th><th>count</th><th>sourceDatabase</th><th>intA</th><th>intABiologicalRole</th><th>intB</th><th>intBBiologicalRole</th><th>targetA.id</th><th>targetA.approvedSymbol</th><th>speciesA.taxonId</th><th>targetB.id</th><th>targetB.approvedSymbol</th><th>speciesB.taxonId</th></tr></thead><tbody>
+<tr><td>0.999</td><td>3</td><td>string</td><td>ENSP00000304915</td><td>unspecified role</td><td>ENSP00000360730</td><td>unspecified role</td><td>ENSG00000169194</td><td>IL13</td><td>134</td><td>ENSG00000131724</td><td>IL13RA1</td><td>134</td></tr>
+</tbody></table>
+</div>
+<h4 id="more-examples"><a class="header" href="#more-examples"><a href="https://github.com/pachterlab/gget_examples">More examples</a></a></h4>
+<h1 id="references"><a class="header" href="#references">References</a></h1>
+<p>If you use <code>gget opentargets</code> in a publication, please cite the following articles:</p>
+<ul>
+<li>
+<p>Luebbert, L., &amp; Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. <a href="https://doi.org/10.1093/bioinformatics/btac836">https://doi.org/10.1093/bioinformatics/btac836</a></p>
+</li>
+<li>
+<p>Ochoa D, Hercules A, Carmona M, Suveges D, Baker J, Malangone C, Lopez I, Miranda A, Cruz-Castillo C, Fumis L, Bernal-Llinares M, Tsukanov K, Cornu H, Tsirigos K, Razuvayevskaya O, Buniello A, Schwartzentruber J, Karim M, Ariano B, Martinez Osorio RE, Ferrer J, Ge X, Machlitt-Northen S, Gonzalez-Uriarte A, Saha S, Tirunagari S, Mehta C, Roldán-Romero JM, Horswell S, Young S, Ghoussaini M, Hulcoop DG, Dunham I, McDonagh EM. The next-generation Open Targets Platform: reimagined, redesigned, rebuilt. Nucleic Acids Res. 2023 Jan 6;51(D1):D1353-D1359. doi: <a href="https://doi.org/10.1093/nar/gkac1046">10.1093/nar/gkac1046</a>. PMID: 36399499; PMCID: PMC9825572.</p>
+</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../en/mutate.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../en/pdb.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../en/mutate.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../en/pdb.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
