@@ -25,6 +25,12 @@ Limits number of hits to return. Default: 50.
 `-e` `--expect`  
 Defines the [expect value](https://blast.ncbi.nlm.nih.gov/Blast.cgi?CMD=Web&PAGE_TYPE=BlastDocs&DOC_TYPE=FAQ#expect) cutoff. Default: 10.0.  
 
+`-tax` `--taxid`  
+One or more NCBI taxonomy IDs to restrict the search to, e.g. `9606` (human) or `txid9606`. On the command line, pass several space-separated IDs (`--taxid 9606 10090`); in Python, pass an `int`/`str` or a list (`taxid=[9606, 10090]`). Multiple IDs are combined with OR. This mirrors the "Organism" field of the [NCBI web BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi) app. Default: None.  
+
+`-eq` `--entrez_query`  
+Raw [NCBI Entrez query](https://www.ncbi.nlm.nih.gov/books/NBK3837/) used to limit the search, e.g. `"Homo sapiens[ORGN] NOT predicted[Title]"`. Combined with `--taxid` using AND when both are provided. Default: None.  
+
 `-o` `--out`  
 Path to the file the results will be saved in, e.g. path/to/directory/results.csv (or .json). Default: Standard out.  
 Python: `save=True` will save the output in the current working directory.
@@ -72,6 +78,22 @@ gget blast fasta.fa
 gget.blast("fasta.fa")
 ```
 &rarr; Returns the BLAST results of the first sequence contained in the fasta.fa file.
+
+<br/><br/>
+**Restrict the search to one or more organisms (taxonomy filtering):**  
+```bash
+# Limit to human (taxid 9606)
+gget blast --taxid 9606 MKWMFKEDHSLEHRCVESAKIRAKYPDRVPVIVEKVSGSQIVDIDKRKYLVPSDITVAQFMWIIRKRIQLPSEKAIFLFVDKTVPQSR
+```
+```python
+# Python: limit to human and mouse, excluding predicted records
+gget.blast(
+    "MKWMFKEDHSLEHRCVESAKIRAKYPDRVPVIVEKVSGSQIVDIDKRKYLVPSDITVAQFMWIIRKRIQLPSEKAIFLFVDKTVPQSR",
+    taxid=[9606, 10090],
+    entrez_query="NOT predicted[Title]",
+)
+```
+&rarr; Returns only BLAST hits matching the requested organism(s)/Entrez query, mirroring the "Organism" filter of the NCBI web BLAST app.
 
 #### [More examples](https://github.com/pachterlab/gget_examples)
 
