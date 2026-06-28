@@ -3,8 +3,14 @@ name: Check Build
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
+    paths:
+      - "gget/**"
+      - "tests/**"
+      - "pyproject.toml"
+      # Avoid triggering on the bot-committed pytest report
+      # and tests badge JSON.
+      - "!tests/pytest_results.txt"
+      - "!.github/badges/tests.json"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
