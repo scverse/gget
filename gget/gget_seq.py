@@ -90,11 +90,34 @@ def seq(
         if not isoforms:
             actual_results_dict = {}
 
-            endpoint = "sequence/id/"
-            query = {"ids": ens_ids_clean}
+            # Ensembl's sequence/id endpoint returns the *genomic* sequence by
+            # default. For a transcript, that genomic span includes the introns
+            # rather than the spliced transcript, so we must request type=cdna
+            # for transcripts (issue #187). Genes keep the default genomic
+            # sequence. Classify the IDs with a single bulk lookup and split the
+            # request into a cDNA batch (transcripts) and a genomic batch (rest).
+            try:
+                id_types = post_query(server, "lookup/id", {"ids": ens_ids_clean})
+            except RuntimeError:
+                # If the lookup fails, fall back to the previous behaviour
+                # (single genomic request) rather than erroring out.
+                id_types = {}
 
-            # noinspection PyTypeChecker
-            results_list = post_query(server, endpoint, query)
+            transcript_ids = []
+            other_ids = []
+            for ensembl_ID in ens_ids_clean:
+                lookup_entry = id_types.get(ensembl_ID) if isinstance(id_types, dict) else None
+                if isinstance(lookup_entry, dict) and lookup_entry.get("object_type") == "Transcript":
+                    transcript_ids.append(ensembl_ID)
+                else:
+                    other_ids.append(ensembl_ID)
+
+            results_list = []
+            if transcript_ids:
+                results_list += post_query(server, "sequence/id?type=cdna", {"ids": transcript_ids})
+            if other_ids:
+                results_list += post_query(server, "sequence/id", {"ids": other_ids})
+
             results_dict = {v["query"]: v for v in results_list if v is not None}
 
             for ensembl_ID, df_temp in results_dict.items():
@@ -149,8 +172,9 @@ def seq(
 
                         # Try if query is valid
                         try:
-                            # Define the REST query
-                            query = "sequence/id/" + transcipt_id + "?"
+                            # Define the REST query (request the spliced cDNA, not
+                            # the genomic span, for transcripts -- issue #187)
+                            query = "sequence/id/" + transcipt_id + "?type=cdna"
                             # Submit query
                             df_temp = rest_query(server, query, content_type)
 
@@ -172,8 +196,11 @@ def seq(
                 else:
                     # Try if query is valid
                     try:
-                        # Define the REST query
-                        query = "sequence/id/" + ensembl_ID + "?"
+                        # Define the REST query. Request the spliced cDNA for
+                        # transcripts (issue #187); any other object type keeps
+                        # the default genomic sequence.
+                        seq_type = "cdna" if ens_ID_type == "Transcript" else "genomic"
+                        query = "sequence/id/" + ensembl_ID + "?type=" + seq_type
 
                         # Submit query
                         df_temp = rest_query(server, query, content_type)
@@ -201,11 +228,15 @@ def seq(
         # Build FASTA file
         for ens_ID in master_dict:
             for key in master_dict[ens_ID].keys():
+                # The cDNA (type=cdna) response has no "desc" field (None); coerce
+                # to an empty string so the FASTA header still builds.
                 if key == "seq":
-                    fasta.append(">" + ens_ID + " " + master_dict[ens_ID][key]["desc"])
+                    desc = master_dict[ens_ID][key].get("desc") or ""
+                    fasta.append((">" + ens_ID + " " + desc).rstrip())
                     fasta.append(master_dict[ens_ID][key]["seq"])
                 else:
-                    fasta.append(">" + master_dict[ens_ID][key]["id"] + " " + master_dict[ens_ID][key]["desc"])
+                    desc = master_dict[ens_ID][key].get("desc") or ""
+                    fasta.append((">" + master_dict[ens_ID][key]["id"] + " " + desc).rstrip())
                     fasta.append(master_dict[ens_ID][key]["seq"])
 
     ## Fetch amino acid sequences from UniProt
