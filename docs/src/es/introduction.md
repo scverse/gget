@@ -13,7 +13,7 @@
 <br>
 `gget` consiste en un conjunto de módulos separados pero interoperables, cada uno diseñado para facilitar un tipo de consulta de base de datos en una sola línea de código.  
 <br>
-`gget` es parte del proyecto [scverse®](https://scverse.org) y está patrocinado fiscalmente por [NumFOCUS](https://numfocus.org/). Si te gusta `gget` y quieres apoyar nuestra misión, por favor considera hacer una [donación](https://opencollective.com/scverse/projects/scverse-gget/donate?interval=oneTime&amount=20&contributeAs=me) deducible de impuestos.
+`gget` es parte del proyecto [scverse®](https://scverse.org) y está patrocinado fiscalmente por [NumFOCUS](https://numfocus.org/). Si te gusta `gget` y quieres **apoyar nuestra misión**, por favor considera hacer una **[donación](https://opencollective.com/scverse/projects/scverse-gget/donate?interval=oneTime&amount=20&contributeAs=me)** deducible de impuestos.
 
 > Nota: Las bases de datos consultadas por `gget` se actualizan continuamente y pueden cambiar su estructura. Los módulos de `gget` se [prueban automáticamente](https://github.com/scverse/gget/blob/main/tests/pytest_results.txt) dos veces por semana y se actualizan cuando es necesario. Si encuentras un problema, primero actualiza a la versión más reciente con `pip install --upgrade gget`. Si el problema persiste, por favor [repórtalo](https://github.com/scverse/gget/issues/new/choose).
 
