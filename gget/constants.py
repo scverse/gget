@@ -7,6 +7,11 @@ import uuid
 # strategy avoid hanging indefinitely on slow upstreams.
 DEFAULT_REQUESTS_TIMEOUT = (10, 60)
 
+# Rummagene & RummaGEO GraphQL API endpoints (gene set enrichment against gene
+# sets automatically extracted from PMC supplementary tables / GEO studies)
+RUMMAGENE_GRAPHQL_URL = "https://rummagene.com/graphql"
+RUMMAGEO_GRAPHQL_URL = "https://rummageo.com/graphql"
+
 # Ensembl REST API server for gget seq and info
 ENSEMBL_REST_API = "http://rest.ensembl.org/"
 ENSEMBL_FTP_URL = "http://ftp.ensembl.org/pub/"

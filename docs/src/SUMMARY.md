@@ -29,6 +29,8 @@
 * [gget opentargets](en/opentargets.md)
 * [gget pdb](en/pdb.md)  
 * [gget ref](en/ref.md)  
+* [gget rummagene](en/rummagene.md)  
+* [gget rummageo](en/rummageo.md)  
 * [gget search](en/search.md)  
 * [gget setup](en/setup.md)  
 * [gget seq](en/seq.md)  

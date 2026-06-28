@@ -1,0 +1,18 @@
+{
+    "test_rummagene_no_genes": {
+        "type": "error",
+        "args": {
+            "genes": []
+        },
+        "expected_result": "ValueError",
+        "expected_msg": "Please provide at least one gene symbol in the 'genes' argument."
+    },
+    "test_rummagene_only_invalid_genes": {
+        "type": "error",
+        "args": {
+            "genes": ["", "nan", null]
+        },
+        "expected_result": "ValueError",
+        "expected_msg": "Please provide at least one gene symbol in the 'genes' argument."
+    }
+}
