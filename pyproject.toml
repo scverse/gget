@@ -60,6 +60,7 @@ test = [
   "bravado==11.0.3",
   "coverage>=7",
   "mypy>=1.13",
+  "mypy-baseline",
   "openai<=0.28.1",
   "pandas-stubs",
   "parameterized==0.9",
@@ -141,6 +142,12 @@ check_untyped_defs = false
 warn_redundant_casts = true
 warn_unused_ignores = true
 show_error_codes = true
+
+# mypy-baseline grandfathers the pre-existing type errors so the pre-commit
+# mypy hook only fails on NEW errors. Refresh after fixing some with:
+#   mypy gget | mypy-baseline sync
+[tool.mypy-baseline]
+baseline_path = ".mypy-baseline.txt"
 
 [tool.pytest]
 ini_options.testpaths = [ "tests" ]
