@@ -59,16 +59,16 @@ dev = [ "pre-commit" ]
 test = [
   "bravado==11.0.3",
   "coverage>=7",
-  "mypy>=1.13",
-  "mypy-baseline",
+  "mypy==1.13",
+  "mypy-baseline==0.7.4",
   "openai<=0.28.1",
-  "pandas-stubs",
+  "pandas-stubs==3.0.3.260530",
   "parameterized==0.9",
   "pytest>=7",
   "pytest-cov>=6.2.1",
-  "types-beautifulsoup4",
-  "types-requests",
-  "types-tqdm",
+  "types-beautifulsoup4==4.12.0.20250516",
+  "types-requests==2.33.0.20260518",
+  "types-tqdm==4.68.0.20260608",
 ]
 
 [tool.hatch]
