@@ -40,17 +40,17 @@ Commit the changes once you are happy with them.
 
 1. Review the content for technical accuracy and biological relevance (who are your target users and is this useful to them?).
 2. Copy-edit the changes/comments for grammar, spelling, and adherence to the general style of existing gget code.
-3. **Testing new code:** Make sure the unit tests pass:
-    - The tested environments are defined in `pyproject.toml` under `[tool.hatch.envs.hatch-test]` (the single source of truth used by CI). Run the full matrix with `uvx hatch test`.
-    - For a quick single-environment run, install the test dependencies with `uv sync --group test` and run `uv run pytest -ra -v --cov=gget --cov-report=term-missing tests`. To also exercise the `gget cellxgene` module, install its extra (`uv sync --group test --extra cellxgene`) on Python 3.12/3.13 — its dependency has no wheels for newer Python versions yet, and that test skips itself when the dependency is absent.
-4. **Unit tests:** Add new unit tests if applicable:
-    - Arguments and expected results are stored in json files in ./tests/fixtures/
-    - Unit tests can be added to ./tests/test_*.py and will be automatically detected
-5. **Command line interface:** Make sure edits keep the Python function and the command-line interface in sync. Any change to a function's arguments must be reflected in both the Python signature and the CLI argument parser.
+3. **Command line interface:** Make sure edits keep the Python function and the command-line interface in sync. Any change to a function's arguments must be reflected in both the Python signature and the CLI argument parser.
     - The command line interface and arguments are defined in ./gget/main.py
-6. **Documentation:** Add new modules/arguments to the documentation if applicable:
+4. **Documentation:** Add new modules/arguments to the documentation if applicable:
     - The manual for each module can be added/edited in `./docs/src/en/*.md` (the Spanish version of the docs in `./docs/src/es/*.md` is automatically generated/updated, and does not need to be edited manually)
     - **Document all edits in `./docs/src/en/updates.md`.** Keep this brief and succinct.
+5. **Add unit tests:** Add new unit tests if applicable:
+    - Arguments and expected results are stored in json files in ./tests/fixtures/
+    - Unit tests can be added to ./tests/test_*.py and will be automatically detected
+6. **Run unit tests:** Make sure the unit tests pass:
+    - The tested environments are defined in `pyproject.toml` under `[tool.hatch.envs.hatch-test]` (the single source of truth used by CI). Run the full matrix with `uvx hatch test`.
+    - For a quick single-environment run, install the test dependencies with `uv sync --group test` and run `uv run pytest -ra -v --cov=gget --cov-report=term-missing tests`. To also exercise the `gget cellxgene` module, install its extra (`uv sync --group test --extra cellxgene`) on Python 3.12/3.13 — its dependency has no wheels for newer Python versions yet, and that test skips itself when the dependency is absent.
 
 If you have any questions, feel free to start a [discussion](https://github.com/scverse/gget/discussions) or create an issue as described above.
 
@@ -60,21 +60,6 @@ Reviewers move faster on small, focused PRs. Whenever possible:
 
 - **Scope each PR to a single `gget` module or issue**. If you find yourself changing more than one module to address several distinct concerns, please open them as separate PRs — one per module. Bug fixes and small refactors inside one module can be combined; cross-module work should be split.
 - **Don't bundle unrelated changes** (e.g. a bug fix plus a new feature plus a refactor) in the same PR.
-
-### What runs automatically on your PR
-
-When you open a PR, a few checks run automatically — you don't need to set anything up:
-
-- **Linting & formatting** ([pre-commit.ci](https://pre-commit.ci)): runs [ruff](https://docs.astral.sh/ruff/) (lint + format), [biome](https://biomejs.dev/), and basic hygiene hooks. It **auto-fixes** formatting issues by pushing a commit to your branch (just `git pull` afterwards); it only fails the check for problems it can't fix automatically (e.g. lint errors).
-- **Type checking** (mypy, via pre-commit.ci): only **new** type errors fail the check — the existing baseline is grandfathered, so you're not on the hook for pre-existing issues.
-- **Unit tests** (`CI - tests`): the test suite runs on Python 3.12, 3.13, and 3.14.
-- **Build check**: confirms the package still builds and is publishable.
-
-You don't have to run these manually first, but doing the self-review above (especially `uvx hatch test` and `prek run --all-files`) catches most issues before they reach CI.
-
-### Failing tests for modules you didn't touch
-
-The `gget` test suite hits real upstream databases (Ensembl, UniProt, NCBI, ARCHS4, Open Targets, ELM, etc.). When those services change their data or schemas — which they do regularly — tests for the affected modules can start failing without anyone changing `gget` itself. **If automated CI tests fail in your PR for a module you did not touch, you can safely ignore those failures** when judging whether your PR is ready to merge. The maintainers track upstream-drift failures separately and do not expect contributors to fix unrelated breakages as a condition of merging.
 
 ### Pull Request
 
@@ -90,7 +75,22 @@ When you're finished with the changes, [create a pull request](https://docs.gith
 
 Once you submit your PR, a `gget` team member will review your proposal. We may ask questions or request additional information.
 
-### Your PR is merged!
+### What runs automatically on your PR
+
+When you open a PR, a few checks run automatically — you don't need to set anything up:
+
+- **Linting & formatting** ([pre-commit.ci](https://pre-commit.ci)): runs [ruff](https://docs.astral.sh/ruff/) (lint + format), [biome](https://biomejs.dev/), and basic hygiene hooks. It **auto-fixes** formatting issues by pushing a commit to your branch; it only fails the check for problems it can't fix automatically (e.g. lint errors).
+- **Type checking** (mypy, via pre-commit.ci): newly introduced type errors fail this check.
+- **Unit tests** (`CI - tests`): the complete test suite for all modules runs on Python 3.12, 3.13, and 3.14.
+- **Build check**: confirms the package still builds and is publishable.
+
+Optional: You can run these manually first (especially `uvx hatch test` and `prek run --all-files`) to catch most issues before creating the PR.
+
+### Failing tests for modules you didn't touch
+
+The `gget` test suite hits real upstream databases (Ensembl, UniProt, NCBI, ARCHS4, Open Targets, ELM, etc.). When those services change their data or schemas — which they do regularly — tests for the affected modules can start failing without anyone changing `gget` itself. **If automated CI tests fail in your PR for a module you did not touch, you can safely ignore those failures** when judging whether your PR is ready to merge. The maintainers track upstream-drift failures separately and do not expect contributors to fix unrelated breakages as a condition of merging.
+
+### Your PR gets merged!
 
 Congratulations! 🎉	 The `gget` team thanks you. ✨
 
