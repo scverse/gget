@@ -78,6 +78,6 @@ gget.pineapple(category="weights")
 # References
 If you use `gget pineapple` in a publication, please cite the following article and the original dataset references (listed in the catalog `data_authors` column):  
 
-- Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
-
 - Pineapple: scalable processing for image-based cell profiling. [https://github.com/tomouellette/pineapple](https://github.com/tomouellette/pineapple)
+
+- Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
