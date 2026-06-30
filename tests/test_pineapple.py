@@ -121,8 +121,7 @@ class TestPineappleLiveAccess(unittest.TestCase):
         self.assertIn(
             "octet-stream",
             response.headers.get("Content-Type", ""),
-            f"{name}: expected a binary download, got Content-Type "
-            f"{response.headers.get('Content-Type', '')!r}",
+            f"{name}: expected a binary download, got Content-Type {response.headers.get('Content-Type', '')!r}",
         )
         disposition = response.headers.get("Content-Disposition", "")
         self.assertIn(
@@ -153,9 +152,7 @@ class TestPineappleLiveAccess(unittest.TestCase):
                 expected = _catalog_row(category, name, info)
                 with self.subTest(category=category, name=name):
                     try:
-                        response = gget_pineapple._resolve_gdrive_response(
-                            session, expected["google_drive_id"]
-                        )
+                        response = gget_pineapple._resolve_gdrive_response(session, expected["google_drive_id"])
                     except requests.RequestException as exc:
                         unavailable.append((name, f"network error: {exc}"))
                         continue
@@ -176,10 +173,7 @@ class TestPineappleLiveAccess(unittest.TestCase):
         # network) -- never when a real assertion failed (those are already recorded
         # as subTest failures and must keep the build red).
         if verified == 0 and len(unavailable) == total:
-            self.skipTest(
-                f"Could not verify any of the {total} resources (all transiently "
-                f"unavailable): {unavailable}"
-            )
+            self.skipTest(f"Could not verify any of the {total} resources (all transiently unavailable): {unavailable}")
         if unavailable:
             print(
                 f"\n[pineapple live] verified {verified}/{total}; "
