@@ -225,6 +225,11 @@ _CATEGORIES: dict[str, dict[str, dict[str, str]]] = {
     "weights": _WEIGHTS,
 }
 
+# Closed set of resource categories. Used as the public `category` type so editors
+# and type checkers can flag typos; the implementation still accepts a plain str
+# (it lowercases and validates at runtime, listing valid values on error).
+_CategoryT = Literal["segmentation", "benchmark", "weights"]
+
 _COLUMNS = ["name", "category", "data_authors", "size_gb", "license", "filename", "google_drive_id"]
 
 
@@ -326,7 +331,7 @@ def _download_from_gdrive(file_id: str, dest_path: str, verbose: bool = True) ->
 @overload
 def pineapple(
     name: str | None = None,
-    category: str = "segmentation",
+    category: _CategoryT = "segmentation",
     download: bool = False,
     out_dir: str = ".",
     save: bool = False,
@@ -339,7 +344,7 @@ def pineapple(
 @overload
 def pineapple(
     name: str | None = None,
-    category: str = "segmentation",
+    category: _CategoryT = "segmentation",
     download: bool = False,
     out_dir: str = ".",
     save: bool = False,
