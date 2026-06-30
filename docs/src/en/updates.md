@@ -5,6 +5,7 @@
 #### *gget* officially became part of [*scverse*](https://scverse.org/) on June 9, 2026. 🥳🥳🥳
 
 **Version ≥ 0.30.9** (XXX XX, 2026):  
+- [`gget pineapple`](pineapple.md): **New module** to list and download curated bio-imaging datasets and pre-trained model weights from [Pineapple](https://github.com/tomouellette/pineapple) (by Tom Ouellette). Browse the segmentation/benchmark dataset and model-weights catalog (names, authors, sizes, licenses) and download a resource by name directly from its Google Drive host — no Rust binary required. Available in the Python API and on the command line. Resolves [issue 161](https://github.com/scverse/gget/issues/161).
 
 **Version ≥ 0.30.8** (Jun 28, 2026):  
 - [`gget g2p`](g2p.md): Either `gene` or `--uniprot_id` is now sufficient — whichever is missing is resolved via UniProt and cached. Gene→UniProt picks the canonical reviewed human Swiss-Prot entry; the resolution and its limitations are logged. The canonical pair is **always** prepended to the result as `gene_name` / `uniprot_id` columns (and stored on `df.attrs`), so the output schema is invariant regardless of input mode. Existing call sites continue to work.

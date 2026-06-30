@@ -37,6 +37,7 @@ from .gget_muscle import muscle  # noqa: E402
 from .gget_mutate import mutate  # noqa: E402
 from .gget_opentargets import OPENTARGETS_RESOURCES, opentargets  # noqa: E402
 from .gget_pdb import pdb  # noqa: E402
+from .gget_pineapple import pineapple  # noqa: E402
 from .gget_ref import ref  # noqa: E402
 from .gget_search import search  # noqa: E402
 from .gget_seq import seq  # noqa: E402
@@ -1000,6 +1001,75 @@ def main() -> None:
         action="store_true",
         required=False,
         help="DEPRECATED - json is now the default output format (convert to csv using flag [--csv]).",
+    )
+
+    ## gget pineapple subparser
+    pineapple_desc = "List and download curated bio-imaging datasets and model weights from Pineapple."
+    parser_pineapple = parent_subparsers.add_parser(
+        "pineapple",
+        parents=[parent],
+        description=pineapple_desc,
+        help=pineapple_desc,
+        add_help=True,
+        formatter_class=CustomHelpFormatter,
+    )
+    parser_pineapple.add_argument(
+        "name",
+        type=str,
+        nargs="?",
+        default=None,
+        help="Name of the dataset/weights to fetch, e.g. 'vicar_2021' or 'dino_vit_small'. Omit to list the catalog.",
+    )
+    parser_pineapple.add_argument(
+        "-c",
+        "--category",
+        type=str,
+        default="segmentation",
+        choices=["segmentation", "benchmark", "weights"],
+        required=False,
+        help="Resource category: 'segmentation', 'benchmark', or 'weights'. Default: 'segmentation'.",
+    )
+    parser_pineapple.add_argument(
+        "-d",
+        "--download",
+        default=False,
+        action="store_true",
+        required=False,
+        help="Download the resource (requires a specific 'name') into --out_dir.",
+    )
+    parser_pineapple.add_argument(
+        "-od",
+        "--out_dir",
+        type=str,
+        default=".",
+        required=False,
+        help="Directory to download the resource into. Default: current directory.",
+    )
+    parser_pineapple.add_argument(
+        "-csv",
+        "--csv",
+        default=True,
+        action="store_false",
+        required=False,
+        help="Returns results in csv format instead of json.",
+    )
+    parser_pineapple.add_argument(
+        "-o",
+        "--out",
+        type=str,
+        required=False,
+        help=(
+            "Path to the file the catalog table will be saved in, e.g. path/to/directory/results.csv (or .json).\n"
+            "Default: Standard out."
+        ),
+    )
+    parser_pineapple.add_argument(
+        "-q",
+        "--quiet",
+        default=True,
+        action="store_false",
+        required=False,
+        help="Does not print progress information.",
     )
 
     ## gget enrichr subparser
@@ -2956,6 +3026,7 @@ def main() -> None:
         "muscle": parser_muscle,
         "blast": parser_blast,
         "blat": parser_blat,
+        "pineapple": parser_pineapple,
         "enrichr": parser_enrichr,
         "archs4": parser_archs4,
         "setup": parser_setup,
@@ -3501,6 +3572,39 @@ def main() -> None:
             gget_results.to_csv(sys.stdout, index=False)
         if not args.out and args.csv:
             print(json.dumps(gget_results, ensure_ascii=False, indent=4))
+
+    ## pineapple return
+    if args.command == "pineapple":
+        pineapple_results = pineapple(
+            name=args.name,
+            category=args.category,
+            download=args.download,
+            out_dir=args.out_dir,
+            json=args.csv,
+            verbose=args.quiet,
+        )
+
+        # Check if the function returned something
+        if pineapple_results is not None:
+            # Save results if args.out specified
+            if args.out and not args.csv:
+                directory = "/".join(args.out.split("/")[:-1])
+                if directory != "":
+                    os.makedirs(directory, exist_ok=True)
+                pineapple_results.to_csv(args.out, index=False)
+
+            if args.out and args.csv:
+                directory = "/".join(args.out.split("/")[:-1])
+                if directory != "":
+                    os.makedirs(directory, exist_ok=True)
+                with open(args.out, "w", encoding="utf-8") as f:
+                    json.dump(pineapple_results, f, ensure_ascii=False, indent=4)
+
+            # Print results if no directory specified
+            if not args.out and not args.csv:
+                pineapple_results.to_csv(sys.stdout, index=False)
+            if not args.out and args.csv:
+                print(json.dumps(pineapple_results, ensure_ascii=False, indent=4))
 
     ## enrichr return
     if args.command == "enrichr":

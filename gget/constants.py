@@ -7,6 +7,10 @@ import uuid
 # strategy avoid hanging indefinitely on slow upstreams.
 DEFAULT_REQUESTS_TIMEOUT = (10, 60)
 
+# Google Drive download endpoint used by gget pineapple
+# (the Pineapple bio-imaging datasets/weights are hosted on Google Drive)
+PINEAPPLE_GDRIVE_URL = "https://drive.google.com/uc?export=download"
+
 # Ensembl REST API server for gget seq and info
 ENSEMBL_REST_API = "http://rest.ensembl.org/"
 ENSEMBL_FTP_URL = "http://ftp.ensembl.org/pub/"
