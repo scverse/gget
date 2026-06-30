@@ -269,11 +269,15 @@ def _parse_gdrive_form(html_text: str) -> tuple[str | None, dict[str, str]]:
     return action, params
 
 
-def _download_from_gdrive(file_id: str, dest_path: str, verbose: bool = True) -> None:
-    """Download a (potentially large) file from Google Drive by file ID."""
-    session = requests.Session()
-    session.headers.update({"User-Agent": "Mozilla/5.0 (compatible; gget)"})
+def _resolve_gdrive_response(session: requests.Session, file_id: str) -> requests.Response:
+    """Resolve a Google Drive file ID to a streaming response for the actual file.
 
+    Small files download directly; large files first return an HTML
+    "can't scan for viruses" warning page whose form must be submitted to
+    obtain the real file. The returned response is opened with ``stream=True``,
+    so the body is not fetched until the caller iterates it. Callers that only
+    need the headers (e.g. accessibility checks) must ``close()`` the response.
+    """
     response = session.get(
         PINEAPPLE_GDRIVE_URL,
         params={"id": file_id},
@@ -282,8 +286,6 @@ def _download_from_gdrive(file_id: str, dest_path: str, verbose: bool = True) ->
     )
     response.raise_for_status()
 
-    # Small files download directly; large files first return an HTML
-    # "can't scan for viruses" warning page that must be confirmed.
     content_type = response.headers.get("Content-Type", "")
     if "text/html" in content_type:
         action, params = _parse_gdrive_form(response.text)
@@ -301,6 +303,16 @@ def _download_from_gdrive(file_id: str, dest_path: str, verbose: bool = True) ->
                     timeout=DEFAULT_REQUESTS_TIMEOUT,
                 )
                 response.raise_for_status()
+
+    return response
+
+
+def _download_from_gdrive(file_id: str, dest_path: str, verbose: bool = True) -> None:
+    """Download a (potentially large) file from Google Drive by file ID."""
+    session = requests.Session()
+    session.headers.update({"User-Agent": "Mozilla/5.0 (compatible; gget)"})
+
+    response = _resolve_gdrive_response(session, file_id)
 
     with open(dest_path, "wb") as fh:
         for chunk in response.iter_content(chunk_size=32768):
