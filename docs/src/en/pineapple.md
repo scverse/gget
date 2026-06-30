@@ -3,7 +3,7 @@
 > Python arguments are equivalent to long-option arguments (`--arg`), unless otherwise specified. Flags are True/False arguments in Python.  The manual for any gget tool can be called from the command-line using the `-h` `--help` flag.  
 # gget pineapple 🍍
 List and download curated bio-imaging datasets and pre-trained model weights from [Pineapple](https://github.com/tomouellette/pineapple).  
-[Pineapple](https://github.com/tomouellette/pineapple) (by Tom Ouellette; suggested for gget by Prof. Anne Carpenter) is a tool for image-based cell profiling that also curates and standardizes a collection of annotated bio-imaging datasets (segmentation and benchmark) and self-supervised model weights, hosted on Google Drive. `gget pineapple` lets you browse this catalog and download the resources directly — no Rust binary required.  
+[Pineapple](https://github.com/tomouellette/pineapple) (by Tom Ouellette) is a tool for image-based cell profiling that also curates and standardizes a collection of annotated bio-imaging datasets (segmentation and benchmark) and self-supervised model weights, hosted on Google Drive. `gget pineapple` lets you browse this catalog and download the resources directly — no Rust binary required.  
 Return format: JSON (command-line) or data frame/CSV (Python).
 
 > **Scope:** `gget pineapple` wraps only Pineapple's data download. It does not reimplement Pineapple's image-processing features (`process`, `profile`, `neural`, `measure`) — use the [Pineapple](https://github.com/tomouellette/pineapple) tool directly for those.

@@ -6,7 +6,7 @@ from typing import Any, Literal, overload
 
 import pandas as pd
 import requests
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoup, Tag
 
 from .constants import DEFAULT_REQUESTS_TIMEOUT, PINEAPPLE_GDRIVE_URL
 from .utils import set_up_logger
@@ -263,14 +263,19 @@ def _parse_gdrive_form(html_text: str) -> tuple[str | None, dict[str, str]]:
     """
     soup = BeautifulSoup(html_text, "html.parser")
     form = soup.find("form", id="download-form")
-    if form is None:
+    if not isinstance(form, Tag):
         return None, {}
     action = form.get("action")
-    params = {}
+    if isinstance(action, list):  # a multi-valued attr; the download form's is single
+        action = action[0] if action else None
+    params: dict[str, str] = {}
     for inp in form.find_all("input"):
+        if not isinstance(inp, Tag):
+            continue
         name = inp.get("name")
-        if name:
-            params[name] = inp.get("value", "")
+        if isinstance(name, str):
+            value = inp.get("value", "")
+            params[name] = value if isinstance(value, str) else ""
     return action, params
 
 
