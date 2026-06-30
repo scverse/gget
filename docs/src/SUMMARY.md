@@ -72,6 +72,7 @@
 * [gget mutate](es/mutate.md)  
 * [gget opentargets](es/opentargets.md)  
 * [gget pdb](es/pdb.md)  
+* [gget pineapple](es/pineapple.md)  
 * [gget ref](es/ref.md)  
 * [gget search](es/search.md)  
 * [gget setup](es/setup.md)  
