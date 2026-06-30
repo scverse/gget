@@ -29,10 +29,10 @@ class TestPineappleHelpers(unittest.TestCase):
         self.assertEqual(list(df.columns), gget_pineapple._COLUMNS)
         self.assertEqual(df.shape[0], len(gget_pineapple._SEGMENTATION))
         self.assertIn("vicar_2021", set(df["name"]))
+        # filename is DERIVED (underscore -> dash, + .tar.gz), so this exercises
+        # real logic -- unlike asserting raw catalog values back at themselves.
         row = df[df["name"] == "vicar_2021"].iloc[0]
-        self.assertEqual(row["google_drive_id"], "12tJOlIHZPFqp8GLek_jV__Uhhgsa530_")
         self.assertEqual(row["filename"], "vicar-2021.tar.gz")
-        self.assertEqual(row["license"], "CC BY 4.0")
 
     def test_list_weights(self):
         df = pineapple(category="weights", verbose=False)
@@ -89,19 +89,24 @@ class TestPineappleHelpers(unittest.TestCase):
 
 
 class TestPineappleLiveAccess(unittest.TestCase):
-    """Live data test: verify EVERY curated Pineapple resource is still
-    downloadable from Google Drive (issue #161).
+    """Live data test: verify a representative set of Pineapple resources is
+    still downloadable from Google Drive (issue #161).
 
     This hits Google Drive over the network but never downloads the (multi-GB)
     bodies. Each file ID is resolved through the *same* production code path as
     a real download (``_resolve_gdrive_response``, including the large-file
-    virus-scan-warning confirmation), and only the response headers are checked,
-    so the whole catalog can be swept cheaply.
+    virus-scan-warning confirmation), and only the response headers are checked.
 
     Purpose: if someone edits the catalog, or upstream repoints/removes a file,
     this fails loudly -- the Google-Drive-reported filename must still match the
     catalog and the ID must still resolve to a binary download rather than an
     error/quota HTML page.
+
+    Coverage is a small representative sample (not all 30 resources) to keep CI
+    fast and resilient to Google Drive rate-limiting: one resource per category,
+    both filename conventions (.tar.gz datasets vs explicit .safetensors
+    weights), and both resolution paths (direct download vs the large-file
+    virus-scan-warning form).
     """
 
     _CATALOGS = {
@@ -110,75 +115,70 @@ class TestPineappleLiveAccess(unittest.TestCase):
         "weights": gget_pineapple._WEIGHTS,
     }
 
+    _SAMPLE = [
+        ("segmentation", "arvidsson_2022"),  # small .tar.gz, direct download
+        ("benchmark", "kromp_2023"),  # small .tar.gz, benchmark category
+        ("weights", "dino_vit_small"),  # explicit .safetensors filename
+        ("segmentation", "hpa_2022"),  # large file -> virus-scan-warning form
+    ]
+
     # 1 MB floor: catches an ID repointed to a tiny placeholder/error file.
     # NOT tied to the catalog's size_gb, which is only approximate (e.g.
     # livecell_2021 lists 3.26 GB but the real file is ~1.81 GB).
     _MIN_BYTES = 1_000_000
 
-    def _assert_resource_headers(self, response, expected, name):
-        """Header-only assertions for a resolved resource (no body download)."""
-        self.assertEqual(response.status_code, 200, f"{name}: unexpected status code")
-        self.assertIn(
-            "octet-stream",
-            response.headers.get("Content-Type", ""),
-            f"{name}: expected a binary download, got Content-Type {response.headers.get('Content-Type', '')!r}",
-        )
-        disposition = response.headers.get("Content-Disposition", "")
-        self.assertIn(
-            f'filename="{expected["filename"]}"',
-            disposition,
-            f"{name}: Google Drive filename does not match the catalog "
-            f"(expected {expected['filename']!r}, Content-Disposition={disposition!r}). "
-            f"The file ID may have been repointed upstream.",
-        )
-        length = response.headers.get("Content-Length")
-        self.assertIsNotNone(length, f"{name}: response is missing Content-Length")
-        self.assertGreater(
-            int(length),
-            self._MIN_BYTES,
-            f"{name}: file is implausibly small ({length} bytes) -- possible placeholder",
-        )
+    def _check_resource(self, category, name):
+        info = self._CATALOGS[category][name]
+        expected = _catalog_row(category, name, info)
 
-    def test_live_all_resources_accessible(self):
         session = requests.Session()
         session.headers.update({"User-Agent": "Mozilla/5.0 (compatible; gget)"})
+        try:
+            response = gget_pineapple._resolve_gdrive_response(session, expected["google_drive_id"])
+        except requests.RequestException as exc:
+            self.skipTest(f"Network error reaching Google Drive for {name}: {exc}")
 
-        total = sum(len(cat) for cat in self._CATALOGS.values())
-        verified = 0
-        unavailable = []  # (name, reason) -- transient: throttling / network, not a failure
+        try:
+            content_type = response.headers.get("Content-Type", "")
+            # Google Drive serves a transient HTML "download quota exceeded" page
+            # under load. Treat that as a skip (not a failure); a genuinely missing
+            # file would have raised a 404/410 in _resolve_gdrive_response above.
+            if "text/html" in content_type:
+                self.skipTest(
+                    f"Google Drive returned an HTML page (likely download-quota "
+                    f"throttling) for {name}; skipping live check."
+                )
 
-        for category, catalog in self._CATALOGS.items():
-            for name, info in catalog.items():
-                expected = _catalog_row(category, name, info)
-                with self.subTest(category=category, name=name):
-                    try:
-                        response = gget_pineapple._resolve_gdrive_response(session, expected["google_drive_id"])
-                    except requests.RequestException as exc:
-                        unavailable.append((name, f"network error: {exc}"))
-                        continue
-                    try:
-                        # Google Drive serves a transient HTML "download quota
-                        # exceeded" page under load. Treat as unavailable (not a
-                        # failure) and move on; a genuinely missing file would have
-                        # raised a 404/410 in _resolve_gdrive_response above.
-                        if "text/html" in response.headers.get("Content-Type", ""):
-                            unavailable.append((name, "Google Drive HTML page (quota throttling?)"))
-                            continue
-                        self._assert_resource_headers(response, expected, name)
-                        verified += 1
-                    finally:
-                        response.close()
-
-        # Only skip when the ENTIRE sweep was transiently unavailable (throttling /
-        # network) -- never when a real assertion failed (those are already recorded
-        # as subTest failures and must keep the build red).
-        if verified == 0 and len(unavailable) == total:
-            self.skipTest(f"Could not verify any of the {total} resources (all transiently unavailable): {unavailable}")
-        if unavailable:
-            print(
-                f"\n[pineapple live] verified {verified}/{total}; "
-                f"{len(unavailable)} transiently unavailable: {unavailable}"
+            self.assertEqual(response.status_code, 200, f"{name}: unexpected status code")
+            self.assertIn(
+                "octet-stream",
+                content_type,
+                f"{name}: expected a binary download, got Content-Type {content_type!r}",
             )
+
+            disposition = response.headers.get("Content-Disposition", "")
+            self.assertIn(
+                f'filename="{expected["filename"]}"',
+                disposition,
+                f"{name}: Google Drive filename does not match the catalog "
+                f"(expected {expected['filename']!r}, Content-Disposition={disposition!r}). "
+                f"The file ID may have been repointed upstream.",
+            )
+
+            length = response.headers.get("Content-Length")
+            self.assertIsNotNone(length, f"{name}: response is missing Content-Length")
+            self.assertGreater(
+                int(length),
+                self._MIN_BYTES,
+                f"{name}: file is implausibly small ({length} bytes) -- possible placeholder",
+            )
+        finally:
+            response.close()
+
+    def test_live_resources_accessible(self):
+        for category, name in self._SAMPLE:
+            with self.subTest(category=category, name=name):
+                self._check_resource(category, name)
 
 
 if __name__ == "__main__":

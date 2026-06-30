@@ -6,6 +6,8 @@ List and download curated bio-imaging datasets and pre-trained model weights fro
 [Pineapple](https://github.com/tomouellette/pineapple) (by Tom Ouellette; suggested for gget by Prof. Anne Carpenter) is a tool for image-based cell profiling that also curates and standardizes a collection of annotated bio-imaging datasets (segmentation and benchmark) and self-supervised model weights, hosted on Google Drive. `gget pineapple` lets you browse this catalog and download the resources directly — no Rust binary required.  
 Return format: JSON (command-line) or data frame/CSV (Python).
 
+> **Scope:** `gget pineapple` wraps only Pineapple's data download. It does not reimplement Pineapple's image-processing features (`process`, `profile`, `neural`, `measure`) — use the [Pineapple](https://github.com/tomouellette/pineapple) tool directly for those.
+
 > ⚠️ Please check each dataset's original reference and license (shown in the catalog) before use. Some datasets are non-commercial only.
 
 **Positional argument**  
