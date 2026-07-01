@@ -3,7 +3,7 @@ from __future__ import annotations
 import io
 import json as json_package
 import time
-from typing import Any
+from typing import Any, Literal, overload
 
 import pandas as pd
 import requests
@@ -68,6 +68,37 @@ def _clean_df(df: pd.DataFrame, which: str) -> pd.DataFrame:
         if col in df.columns:
             df[col] = df[col].map(lambda value, _sep=sep: _split_delimited(value, _sep))
     return df
+
+
+@overload
+def mitocarta(
+    species: str,
+    which: str,
+    json: Literal[True],
+    save: bool = ...,
+    verbose: bool = ...,
+) -> list[dict[str, Any]]: ...
+
+
+@overload
+def mitocarta(
+    species: str = ...,
+    which: str = ...,
+    *,
+    json: Literal[True],
+    save: bool = ...,
+    verbose: bool = ...,
+) -> list[dict[str, Any]]: ...
+
+
+@overload
+def mitocarta(
+    species: str = ...,
+    which: str = ...,
+    json: Literal[False] = False,
+    save: bool = ...,
+    verbose: bool = ...,
+) -> pd.DataFrame: ...
 
 
 def mitocarta(
