@@ -1,7 +1,10 @@
 import json
 import unittest
+from unittest.mock import patch
 
+import gget.gget_mitocarta as gget_mitocarta
 import pandas as pd
+import requests
 from gget.gget_mitocarta import _clean_df, mitocarta
 
 from .from_json import from_json
@@ -73,3 +76,18 @@ class TestMitocartaClean(unittest.TestCase):
         raw = pd.DataFrame({"Symbol": ["X"], "Synonyms": [None]})
         out = _clean_df(raw, "mitocarta")
         self.assertEqual(out.loc[0, "Synonyms"], [])
+
+
+class TestMitocartaRetry(unittest.TestCase):
+    """Network-free test that the download retries on transient network errors."""
+
+    @patch("gget.gget_mitocarta.time.sleep")  # don't actually wait between retries
+    @patch(
+        "gget.gget_mitocarta.requests.get",
+        side_effect=requests.exceptions.ConnectionError("boom"),
+    )
+    def test_retries_then_raises_after_exhausting_attempts(self, mock_get, _mock_sleep):
+        with self.assertRaises(RuntimeError):
+            mitocarta("human", which="mitocarta", verbose=False)
+        # Retried the configured number of times before giving up.
+        self.assertEqual(mock_get.call_count, gget_mitocarta._DOWNLOAD_RETRIES)

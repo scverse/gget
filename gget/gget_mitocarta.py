@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import io
 import json as json_package
+import time
 from typing import Any
 
 import pandas as pd
@@ -11,6 +12,10 @@ from .constants import DEFAULT_REQUESTS_TIMEOUT, MITOCARTA_URLS
 from .utils import set_up_logger
 
 logger = set_up_logger()
+
+# Retry the download on transient network errors (connection drops, timeouts, 5xx).
+_DOWNLOAD_RETRIES = 3
+_RETRY_BACKOFF_SEC = 2
 
 # Map the `which` argument to the leading character of the corresponding Excel sheet name.
 # The MitoCarta3.0 workbook contains the sheets:
@@ -111,11 +116,31 @@ def mitocarta(
     if verbose:
         logger.info(f"Downloading MitoCarta3.0 ({species_key}) from {url} ...")
 
-    response = requests.get(url, timeout=DEFAULT_REQUESTS_TIMEOUT)
-    if response.status_code != 200:
-        raise RuntimeError(
-            f"MitoCarta3.0 download returned status code {response.status_code} ({url}). Please try again.\n"
-        )
+    response = None
+    last_error = ""
+    for attempt in range(1, _DOWNLOAD_RETRIES + 1):
+        try:
+            response = requests.get(url, timeout=DEFAULT_REQUESTS_TIMEOUT)
+        except requests.RequestException as e:
+            last_error = str(e)
+            response = None
+        else:
+            if response.status_code == 200:
+                break
+            if response.status_code < 500:
+                # Client error (e.g. 404) is permanent; do not retry.
+                raise RuntimeError(f"MitoCarta3.0 download returned status code {response.status_code} ({url}).\n")
+            last_error = f"status code {response.status_code}"
+            response = None
+        if attempt < _DOWNLOAD_RETRIES:
+            if verbose:
+                logger.warning(
+                    f"MitoCarta3.0 download attempt {attempt}/{_DOWNLOAD_RETRIES} failed ({last_error}); retrying..."
+                )
+            time.sleep(_RETRY_BACKOFF_SEC * attempt)
+
+    if response is None:
+        raise RuntimeError(f"MitoCarta3.0 download failed after {_DOWNLOAD_RETRIES} attempts ({last_error}) ({url}).\n")
 
     try:
         excel_file = pd.ExcelFile(io.BytesIO(response.content), engine="xlrd")
