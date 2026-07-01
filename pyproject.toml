@@ -41,9 +41,6 @@ dependencies = [
   "requests>=2.22",
   "tqdm",
 ]
-# Optional feature dependency for `gget mitocarta` (install: pip install gget[mitocarta]).
-# xlrd is only needed to read MitoCarta's legacy .xls; kept out of the core deps.
-optional-dependencies.mitocarta = [ "xlrd>=2" ]
 # Optional feature dependency for `gget cellxgene` (install: pip install gget[cellxgene]).
 # No wheels for the newest Python versions yet (e.g. 3.14 via tiledbsoma).
 # scanpy>=1.10 is pinned defensively, not because gget uses scanpy directly,
@@ -51,6 +48,9 @@ optional-dependencies.mitocarta = [ "xlrd>=2" ]
 # Under certain resolver paths uv lands on scanpy 1.9.8, which transitively
 # pins numba 0.53.1 and llvmlite 0.36.x — both of which only support Python 3.6-3.9.
 optional-dependencies.cellxgene = [ "cellxgene-census", "scanpy>=1.10" ]
+# Optional feature dependency for `gget mitocarta` (install: pip install gget[mitocarta]).
+# xlrd is only needed to read MitoCarta's legacy .xls; kept out of the core deps.
+optional-dependencies.mitocarta = [ "xlrd>=2" ]
 # https://docs.pypi.org/project_metadata/#project-urls
 urls.Documentation = "https://pachterlab.github.io/gget"
 urls.Homepage = "https://github.com/pachterlab/gget"
