@@ -9,6 +9,8 @@ MitoCarta3.0 is a curated inventory of genes encoding proteins with strong suppo
 
 The returned table is *tidy* (analysis-ready) rather than the raw Excel: delimited columns — `Synonyms` and `MitoCarta3.0_MitoPathways`, plus the pathways table's `Genes` — are split into lists, which become nested arrays in JSON output.
 
+> `gget mitocarta` needs the optional `xlrd` dependency to read MitoCarta's `.xls` file. Install it with `pip install gget[mitocarta]`.
+
 **Optional arguments**  
 `-s` `--species`  
 Species to fetch: `human` (default) or `mouse`.  

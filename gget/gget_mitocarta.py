@@ -146,7 +146,8 @@ def mitocarta(
         excel_file = pd.ExcelFile(io.BytesIO(response.content), engine="xlrd")
     except ImportError as e:
         raise RuntimeError(
-            "Reading the MitoCarta3.0 Excel file requires the 'xlrd' package. Install it with `pip install xlrd`.\n"
+            "Reading the MitoCarta3.0 Excel file requires the optional 'xlrd' dependency. "
+            "Install it with `pip install gget[mitocarta]` (or `pip install xlrd`).\n"
         ) from e
 
     # Resolve the sheet name by its leading character (species word differs between human/mouse)
