@@ -151,7 +151,7 @@ def mitocarta(
 
     # Resolve the sheet name by its leading character (species word differs between human/mouse)
     prefix = _WHICH_TO_SHEET_PREFIX[which]
-    matching = [name for name in excel_file.sheet_names if name.startswith(prefix)]
+    matching = [name for name in excel_file.sheet_names if isinstance(name, str) and name.startswith(prefix)]
     if not matching:
         raise RuntimeError(
             f"Could not find the '{which}' sheet in the MitoCarta3.0 workbook. "
