@@ -67,6 +67,9 @@ Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference data
 
   - The UniProt Consortium , UniProt: the Universal Protein Knowledgebase in 2023, Nucleic Acids Research, Volume 51, Issue D1, 6 January 2023, Pages D523–D531, [https://doi.org/10.1093/nar/gkac1052](https://doi.org/10.1093/nar/gkac1052)
 
+- Si utiliza `gget mitocarta`, favor de citar también:
+  - Rath S, Sharma R, Gupta R, Ast T, Chan C, Durham TJ, Goodman RP, Grabarek Z, Haas ME, Hung WHW, Joshi PR, Jourdain AA, Kim SH, Kotrys AV, Lam SS, McCoy JG, Meisel JD, Miranda M, Panda A, Patgiri A, Rogers R, Sadre S, Shah H, Skinner OS, To TL, Walker MA, Wang H, Ward PS, Wengrod J, Yuan CC, Calvo SE, Mootha VK. MitoCarta3.0: an updated mitochondrial proteome now with sub-organelle localization and pathway annotations. Nucleic Acids Res. 2021 Jan 8;49(D1):D1541-D1547. doi: [10.1093/nar/gkaa1011](https://doi.org/10.1093/nar/gkaa1011). PMID: 33174596; PMCID: PMC7779016.
+
 - Si utiliza `gget muscle`, favor de citar también:  
   - Edgar RC (2021), MUSCLE v5 enables improved estimates of phylogenetic tree confidence by ensemble bootstrapping, bioRxiv 2021.06.20.449169. [https://doi.org/10.1101/2021.06.20.449169](https://doi.org/10.1101/2021.06.20.449169)
 

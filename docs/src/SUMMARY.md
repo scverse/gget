@@ -68,6 +68,7 @@
 * [gget g2p](es/g2p.md)
 * [gget gpt](es/gpt.md)  
 * [gget info](es/info.md)  
+* [gget mitocarta](es/mitocarta.md)  
 * [gget muscle](es/muscle.md)
 * [gget mutate](es/mutate.md)  
 * [gget opentargets](es/opentargets.md)  
