@@ -7,6 +7,8 @@ Return format: JSON (command-line) or data frame (Python).
 
 MitoCarta3.0 is a curated inventory of genes encoding proteins with strong support of mitochondrial localization, annotated with sub-mitochondrial localization and pathway membership.
 
+The returned table is *tidy* (analysis-ready) rather than the raw Excel: delimited columns — `Synonyms` and `MitoCarta3.0_MitoPathways`, plus the pathways table's `Genes` — are split into lists, which become nested arrays in JSON output.
+
 **Optional arguments**  
 `-s` `--species`  
 Species to fetch: `human` (default) or `mouse`.  
@@ -60,6 +62,19 @@ gget mitocarta --which pathways --csv
 gget.mitocarta(which="pathways")
 ```
 &rarr; Returns the MitoPathways and the genes assigned to each pathway.
+
+<br/><br/>
+
+**JSON output.** The command line returns JSON by default (use `--csv` for CSV; in Python use `json=True` for a list of dictionaries). List columns are emitted as arrays:
+```json
+[
+  {
+    "MitoPathway": "Mitochondrial central dogma",
+    "MitoPathways Hierarchy": "Mitochondrial central dogma",
+    "Genes": ["AARS2", "ALKBH1", "ANGEL2", "APEX1", "..."]
+  }
+]
+```
 
 # References
 If you use `gget mitocarta` in a publication, please cite the following article:  
