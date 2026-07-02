@@ -261,3 +261,11 @@ class TestEnrichrLibrariesOffline(unittest.TestCase):
         mock_get.return_value = _FakeJsonResponse({}, ok=False, status_code=503)
         with self.assertRaises(RuntimeError):
             enrichr_libraries(verbose=False)
+
+    @patch.object(gget_enrichr.requests, "get")
+    def test_mouse_maps_to_human(self, mock_get):
+        # 'mouse' has no dedicated Enrichr variant; it must query the human endpoint,
+        # consistent with enrichr_library / enrichr.
+        mock_get.return_value = _FakeJsonResponse(_STATS_PAYLOAD)
+        enrichr_libraries(species="mouse", verbose=False)
+        self.assertEqual(mock_get.call_args[0][0], gget_enrichr.DATASETSTATISTICS_ENRICHR_URLS["human"])

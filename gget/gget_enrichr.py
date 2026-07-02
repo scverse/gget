@@ -199,7 +199,8 @@ def enrichr_libraries(
     MSigDB collections with filter="MSigDB".
 
     Args:
-    - species     Enrichr variant to list: 'human' (default), 'fly', 'yeast', 'worm', or 'fish'.
+    - species     Enrichr variant to list: 'human' (default), 'mouse' (uses the human/Enrichr variant),
+                  'fly', 'yeast', 'worm', or 'fish'.
     - filter      If provided, only return libraries whose name contains this substring
                   (case-insensitive), e.g. "MSigDB" (default: None -> all libraries).
     - json        If True, returns a list of dictionaries instead of a pandas DataFrame (default: False).
@@ -210,15 +211,16 @@ def enrichr_libraries(
     Returns a pandas DataFrame (or list of dicts if json=True) with one row per library and the
     columns 'library', 'num_terms', 'gene_coverage', 'genes_per_term'.
     """
-    if species not in DATASETSTATISTICS_ENRICHR_URLS:
-        raise ValueError(
-            f"Argument 'species' must be one of {sorted(DATASETSTATISTICS_ENRICHR_URLS)}, but '{species}' was passed."
-        )
+    if species not in ("human", "mouse", "fly", "yeast", "worm", "fish"):
+        raise ValueError("Argument 'species' must be one of 'human', 'mouse', 'fly', 'yeast', 'worm', or 'fish'.")
+
+    # Mouse uses the human (Enrichr) variant, consistent with gget.enrichr
+    species_key = "human" if species in ("human", "mouse") else species
 
     if verbose:
         logger.info(f"Fetching the list of Enrichr gene-set libraries ({species})...")
 
-    response = requests.get(DATASETSTATISTICS_ENRICHR_URLS[species], timeout=DEFAULT_REQUESTS_TIMEOUT)
+    response = requests.get(DATASETSTATISTICS_ENRICHR_URLS[species_key], timeout=DEFAULT_REQUESTS_TIMEOUT)
     if not response.ok:
         raise RuntimeError(
             f"Enrichr returned error status code {response.status_code} while listing libraries. Please try again."
