@@ -39,6 +39,21 @@ Opciones:
 Lista de nombres cortos (símbolos) de genes de 'background' (de fondo/control), p. NSUN3 POLRMT NLRX1.  
 Alternativamente: usa la bandera `--ensembl_background` para ingresar IDs tipo Ensembl.  
 
+`-gl` `--get_library`  
+En lugar de ejecutar el análisis de enriquecimiento, obtén los conjuntos de genes (miembros) de esta biblioteca de Enrichr, p. ej. `MSigDB_Hallmark_2020`. Es la forma recomendada de obtener conjuntos de genes de [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb/) (busca "MSigDB" en la [lista de bibliotecas de Enrichr](https://maayanlab.cloud/Enrichr/#libraries)). Con esta opción, `genes` y `--database` no son necesarios.  
+Para Python: `gget.enrichr_library("MSigDB_Hallmark_2020")`  
+
+`-gs` `--gene_set`  
+Con `--get_library`: solo regresa los genes de este único conjunto de genes (término) dentro de la biblioteca, p. ej. `Hypoxia`. (Por defecto: None -> regresa todos los conjuntos de la biblioteca.)  
+
+`-ll` `--list_libraries`  
+Lista las bibliotecas de conjuntos de genes disponibles en Enrichr (para descubrir sus nombres) y termina. Opcionalmente pasa un texto para filtrar, p. ej. `--list_libraries MSigDB`.  
+Para Python: `gget.enrichr_libraries(filter="MSigDB")`  
+
+`-desc` `--descriptions`  
+Con `--get_library`: también incluye la columna de descripción de cada conjunto de genes.  
+Para Python: `descriptions=True`  
+
 `-o` `--out`  
 Ruta al archivo en el que se guardarán los resultados, p. ruta/al/directorio/resultados.csv (o .json). Por defecto: salida estándar (STDOUT).  
 Para Python, usa `save=True` para guardar los resultados en el directorio de trabajo actual.  
@@ -220,6 +235,19 @@ df |>
 ```
 
 #### [Más ejemplos](https://github.com/pachterlab/gget_examples)
+
+<br/><br/>
+
+**Obtén los conjuntos de genes de una colección de MSigDB (p. ej. los conjuntos Hallmark):**
+```bash
+gget enrichr --get_library MSigDB_Hallmark_2020 --csv
+```
+```python
+# Python
+import gget
+gget.enrichr_library("MSigDB_Hallmark_2020")
+```
+&rarr; Regresa los 50 conjuntos de genes Hallmark de MSigDB y sus genes miembros como un Dataframe en formato largo (`gene_set`, `gene`). Agrega `--gene_set Hypoxia` (Python: `gene_set="Hypoxia"`) para regresar un solo conjunto. Usa `--list_libraries MSigDB` (Python: `gget.enrichr_libraries(filter="MSigDB")`) para descubrir las bibliotecas MSigDB disponibles.
 
 # Citar  
 Si utiliza `gget enrichr` en una publicación, favor de citar los siguientes artículos:

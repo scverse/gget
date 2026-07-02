@@ -49,6 +49,14 @@ Python: `gget.enrichr_library("MSigDB_Hallmark_2020")`
 `-gs` `--gene_set`  
 With `--get_library`: only return the genes of this single gene set (term) within the library, e.g. `Hypoxia`. (Default: None -> return all gene sets in the library.)  
 
+`-ll` `--list_libraries`  
+List the available Enrichr gene-set libraries (to discover library names), then exit. Optionally pass a substring to filter, e.g. `--list_libraries MSigDB`.  
+Python: `gget.enrichr_libraries(filter="MSigDB")`  
+
+`-desc` `--descriptions`  
+With `--get_library`: also include each gene set's description column.  
+Python: `descriptions=True`  
+
 `-o` `--out`  
 Path to the file the results will be saved in, e.g. path/to/directory/results.csv (or .json). (Default: Standard out.)  
 Python: `save=True` will save the output in the current working directory.  
@@ -240,7 +248,7 @@ gget enrichr --get_library MSigDB_Hallmark_2020 --csv
 import gget
 gget.enrichr_library("MSigDB_Hallmark_2020")
 ```
-&rarr; Returns the 50 MSigDB Hallmark gene sets and their member genes as a long-format data frame (`gene_set`, `gene`). Add `--gene_set Hypoxia` (Python: `gene_set="Hypoxia"`) to return only one gene set. Search for "MSigDB" in the [Enrichr library list](https://maayanlab.cloud/Enrichr/#libraries) for the available MSigDB collections.
+&rarr; Returns the 50 MSigDB Hallmark gene sets and their member genes as a long-format data frame (`gene_set`, `gene`). Add `--gene_set Hypoxia` (Python: `gene_set="Hypoxia"`) to return only one gene set. Use `--list_libraries MSigDB` (Python: `gget.enrichr_libraries(filter="MSigDB")`) to discover the available MSigDB collections.
 
 | gene_set                       | gene   |
 |--------------------------------|--------|
