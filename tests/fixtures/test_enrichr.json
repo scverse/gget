@@ -1,4 +1,37 @@
 {
+    "test_enrichr_library": {
+        "type": "code_defined",
+        "args": {
+            "library": "MSigDB_Hallmark_2020",
+            "verbose": false
+        },
+        "expected_n_sets": 50
+    },
+    "test_enrichr_library_gene_set": {
+        "type": "code_defined",
+        "args": {
+            "library": "MSigDB_Hallmark_2020",
+            "gene_set": "Hypoxia",
+            "verbose": false
+        },
+        "expected_n_genes": 200
+    },
+    "test_enrichr_library_json": {
+        "type": "code_defined",
+        "args": {
+            "library": "MSigDB_Hallmark_2020",
+            "json": true,
+            "verbose": false
+        },
+        "expected_n_sets": 50
+    },
+    "test_enrichr_library_bad": {
+        "type": "code_defined",
+        "args": {
+            "library": "NOT_A_LIBRARY_xyz"
+        },
+        "expected_result": "RuntimeError"
+    },
     "test_enrichr_pathway": {
         "type": "assert_equal",
         "args": {

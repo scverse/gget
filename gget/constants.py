@@ -60,6 +60,20 @@ GET_ENRICHR_URLS = {
 }
 GET_ENRICHR_URLS["human"] = GET_ENRICHR_URL
 
+# Enrichr endpoint to download the gene sets (membership) of a library, e.g. MSigDB collections
+GENESETLIBRARY_ENRICHR_URLS = {
+    f"{typ}": f"https://maayanlab.cloud/{typ.capitalize()}Enrichr/geneSetLibrary"
+    for typ in ["fly", "yeast", "worm", "fish"]
+}
+GENESETLIBRARY_ENRICHR_URLS["human"] = "https://maayanlab.cloud/Enrichr/geneSetLibrary"
+
+# Enrichr endpoint listing all available gene-set libraries (for library discovery)
+DATASETSTATISTICS_ENRICHR_URLS = {
+    f"{typ}": f"https://maayanlab.cloud/{typ.capitalize()}Enrichr/datasetStatistics"
+    for typ in ["fly", "yeast", "worm", "fish"]
+}
+DATASETSTATISTICS_ENRICHR_URLS["human"] = "https://maayanlab.cloud/Enrichr/datasetStatistics"
+
 # ARCHS4 API endpoints
 GENECORR_URL = "https://maayanlab.cloud/matrixapi/coltop"
 EXPRESSION_URL = "https://maayanlab.cloud/archs4/search/loadExpressionTissue.php?"

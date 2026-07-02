@@ -29,7 +29,7 @@ from .gget_cellxgene import cellxgene  # noqa: E402
 from .gget_cosmic import cosmic  # noqa: E402
 from .gget_diamond import diamond  # noqa: E402
 from .gget_elm import elm  # noqa: E402
-from .gget_enrichr import enrichr  # noqa: E402
+from .gget_enrichr import enrichr, enrichr_libraries, enrichr_library  # noqa: E402
 from .gget_g2p import g2p  # noqa: E402
 from .gget_gpt import gpt  # noqa: E402
 from .gget_info import info  # noqa: E402
@@ -1016,19 +1016,61 @@ def main() -> None:
     parser_enrichr.add_argument(
         "genes",
         type=str,
-        nargs="+",
-        help="List of gene symbols or Ensembl gene IDs to perform enrichment analysis on.",
+        nargs="*",
+        help="List of gene symbols or Ensembl gene IDs to perform enrichment analysis on. "
+        "(Not required with --get_library.)",
     )
     parser_enrichr.add_argument(
         "-db",
         "--database",
         type=str,
-        required=True,
+        required=False,
         help=(
             "'pathway', 'transcription', 'ontology', 'diseases_drugs', 'celltypes', 'kinase_interactions'"
             "or any database listed at: https://maayanlab.cloud/Enrichr/#libraries"
             " or the species-specific libraries listed in the documentation"
         ),
+    )
+    parser_enrichr.add_argument(
+        "-gl",
+        "--get_library",
+        type=str,
+        default=None,
+        required=False,
+        help=(
+            "Instead of running enrichment, fetch the gene sets (members) of this Enrichr gene-set library, "
+            "e.g. 'MSigDB_Hallmark_2020'. Useful for retrieving MSigDB gene sets. "
+            "See https://maayanlab.cloud/Enrichr/#libraries"
+        ),
+    )
+    parser_enrichr.add_argument(
+        "-gs",
+        "--gene_set",
+        type=str,
+        default=None,
+        required=False,
+        help="With --get_library: only return the genes of this single gene set (term) within the library.",
+    )
+    parser_enrichr.add_argument(
+        "-ll",
+        "--list_libraries",
+        type=str,
+        nargs="?",
+        const="",
+        default=None,
+        required=False,
+        help=(
+            "List the available Enrichr gene-set libraries (to discover library names), then exit. "
+            "Optionally pass a substring to filter, e.g. --list_libraries MSigDB."
+        ),
+    )
+    parser_enrichr.add_argument(
+        "-desc",
+        "--descriptions",
+        default=False,
+        action="store_true",
+        required=False,
+        help="With --get_library: also include each gene set's description column.",
     )
     parser_enrichr.add_argument(
         "-s",
@@ -3504,6 +3546,62 @@ def main() -> None:
 
     ## enrichr return
     if args.command == "enrichr":
+        # List available gene-set libraries (discovery) instead of running enrichment
+        if args.list_libraries is not None:
+            libraries_results = enrichr_libraries(
+                species=args.species,
+                filter=args.list_libraries or None,
+                json=args.csv,
+                verbose=args.quiet,
+            )
+            if isinstance(libraries_results, pd.DataFrame):
+                if args.out:
+                    directory = "/".join(args.out.split("/")[:-1])
+                    if directory != "":
+                        os.makedirs(directory, exist_ok=True)
+                    libraries_results.to_csv(args.out, index=False)
+                else:
+                    libraries_results.to_csv(sys.stdout, index=False)
+            elif args.out:
+                directory = "/".join(args.out.split("/")[:-1])
+                if directory != "":
+                    os.makedirs(directory, exist_ok=True)
+                with open(args.out, "w", encoding="utf-8") as f:
+                    json.dump(libraries_results, f, ensure_ascii=False, indent=4)
+            else:
+                print(json.dumps(libraries_results, ensure_ascii=False, indent=4))
+            return
+
+        # Fetch the gene sets of a library (e.g. MSigDB) instead of running enrichment
+        if args.get_library:
+            library_results = enrichr_library(
+                library=args.get_library,
+                species=args.species,
+                gene_set=args.gene_set,
+                descriptions=args.descriptions,
+                json=args.csv,
+                verbose=args.quiet,
+            )
+
+            if isinstance(library_results, pd.DataFrame):
+                if args.out:
+                    directory = "/".join(args.out.split("/")[:-1])
+                    if directory != "":
+                        os.makedirs(directory, exist_ok=True)
+                    library_results.to_csv(args.out, index=False)
+                else:
+                    library_results.to_csv(sys.stdout, index=False)
+            elif args.out:
+                directory = "/".join(args.out.split("/")[:-1])
+                if directory != "":
+                    os.makedirs(directory, exist_ok=True)
+                with open(args.out, "w", encoding="utf-8") as f:
+                    json.dump(library_results, f, ensure_ascii=False, indent=4)
+            else:
+                print(json.dumps(library_results, ensure_ascii=False, indent=4))
+
+            return
+
         # Handle deprecated flags for backwards compatibility
         if args.genes_deprecated and args.genes:
             logger.warning("The [-g][--genes] argument is deprecated, using positional argument [genes] instead.")
@@ -3512,6 +3610,8 @@ def main() -> None:
             logger.warning("The [-g][--genes] argument is deprecated, please use positional argument [genes] instead.")
         if not args.genes_deprecated and not args.genes:
             parser_enrichr.error("the following arguments are required: genes")
+        if not args.database:
+            parser_enrichr.error("the following arguments are required: -db/--database (or use --get_library)")
 
         ## Clean up args.genes
         genes_clean = []

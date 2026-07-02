@@ -39,6 +39,21 @@ Opciones:
 Lista de nombres cortos (símbolos) de genes de 'background' (de fondo/control), p. NSUN3 POLRMT NLRX1.  
 Alternativamente: usa la bandera `--ensembl_background` para ingresar IDs tipo Ensembl.  
 
+`-gl` `--get_library`  
+En lugar de ejecutar el análisis de enriquecimiento, obtén los conjuntos de genes (miembros) de esta biblioteca de Enrichr, p. ej. `MSigDB_Hallmark_2020`. Es la forma recomendada de obtener conjuntos de genes de [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb/) (busca "MSigDB" en la [lista de bibliotecas de Enrichr](https://maayanlab.cloud/Enrichr/#libraries)). Con esta opción, `genes` y `--database` no son necesarios.  
+Para Python: `gget.enrichr_library("MSigDB_Hallmark_2020")`  
+
+`-gs` `--gene_set`  
+Con `--get_library`: solo regresa los genes de este único conjunto de genes (término) dentro de la biblioteca, p. ej. `Hypoxia`. (Por defecto: None -> regresa todos los conjuntos de la biblioteca.)  
+
+`-ll` `--list_libraries`  
+Lista las bibliotecas de conjuntos de genes disponibles en Enrichr (para descubrir sus nombres) y termina. Opcionalmente pasa un texto para filtrar, p. ej. `--list_libraries MSigDB`.  
+Para Python: `gget.enrichr_libraries(filter="MSigDB")`  
+
+`-desc` `--descriptions`  
+Con `--get_library`: también incluye la columna de descripción de cada conjunto de genes.  
+Para Python: `descriptions=True`  
+
 `-o` `--out`  
 Ruta al archivo en el que se guardarán los resultados, p. ruta/al/directorio/resultados.csv (o .json). Por defecto: salida estándar (STDOUT).  
 Para Python, usa `save=True` para guardar los resultados en el directorio de trabajo actual.  
@@ -221,6 +236,19 @@ df |>
 
 #### [Más ejemplos](https://github.com/pachterlab/gget_examples)
 
+<br/><br/>
+
+**Obtén los conjuntos de genes de una colección de MSigDB (p. ej. los conjuntos Hallmark):**
+```bash
+gget enrichr --get_library MSigDB_Hallmark_2020 --csv
+```
+```python
+# Python
+import gget
+gget.enrichr_library("MSigDB_Hallmark_2020")
+```
+&rarr; Regresa los 50 conjuntos de genes Hallmark de MSigDB y sus genes miembros como un Dataframe en formato largo (`gene_set`, `gene`). Agrega `--gene_set Hypoxia` (Python: `gene_set="Hypoxia"`) para regresar un solo conjunto. Usa `--list_libraries MSigDB` (Python: `gget.enrichr_libraries(filter="MSigDB")`) para descubrir las bibliotecas MSigDB disponibles.
+
 # Citar  
 Si utiliza `gget enrichr` en una publicación, favor de citar los siguientes artículos:
 
@@ -234,3 +262,11 @@ Si utiliza `gget enrichr` en una publicación, favor de citar los siguientes art
 
 Si trabaja con conjuntos de datos no humanos/ratón, cite también:  
 - Kuleshov MV, Diaz JEL, Flamholz ZN, Keenan AB, Lachmann A, Wojciechowicz ML, Cagan RL, Ma'ayan A. modEnrichr: a suite of gene set enrichment analysis tools for model organisms. Nucleic Acids Res. 2019 Jul 2;47(W1):W183-W190. doi: [10.1093/nar/gkz347](https://doi.org/10.1093/nar/gkz347). PMID: 31069376; PMCID: PMC6602483.
+
+Si recupera colecciones de MSigDB, cite también:  
+- Subramanian A, Tamayo P, Mootha VK, Mukherjee S, Ebert BL, Gillette MA, Paulovich A, Pomeroy SL, Golub TR, Lander ES, Mesirov JP. Gene set enrichment analysis: a knowledge-based approach for interpreting genome-wide expression profiles. Proc Natl Acad Sci USA. 2005;102(43):15545-15550. doi: [10.1073/pnas.0506580102](https://doi.org/10.1073/pnas.0506580102)
+- Liberzon A, Subramanian A, Pinchback R, Thorvaldsdóttir H, Tamayo P, Mesirov JP. Molecular signatures database (MSigDB) 3.0. Bioinformatics. 2011;27(12):1739-1740. doi: [10.1093/bioinformatics/btr260](https://doi.org/10.1093/bioinformatics/btr260)
+- Liberzon A, Birger C, Thorvaldsdóttir H, Ghandi M, Mesirov JP, Tamayo P. The Molecular Signatures Database (MSigDB) hallmark gene set collection. Cell Syst. 2015;1(6):417-425. doi: [10.1016/j.cels.2015.12.004](https://doi.org/10.1016/j.cels.2015.12.004)
+
+Si utiliza MSigDB de ratón, cite también:  
+- Castanza AS, Recla JM, Eby D, Thorvaldsdóttir H, Bult CJ, Mesirov JP. Extending support for mouse data in the Molecular Signatures Database (MSigDB). Nat Methods. 2023;20:1619-1620. doi: [10.1038/s41592-023-02014-7](https://doi.org/10.1038/s41592-023-02014-7)

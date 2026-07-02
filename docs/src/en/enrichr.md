@@ -42,6 +42,21 @@ Short names (gene symbols) of background genes to perform enrichment analysis on
 Alternatively: use flag `--ensembl_background` to input a list of Ensembl gene IDs.  
 See [this Tweetorial](https://x.com/ChiHoangCaltech/status/1689679611335155712?s=20) to learn why you should use a background gene list when performing an enrichment analysis.  
 
+`-gl` `--get_library`  
+Instead of running an enrichment analysis, fetch the gene sets (members) of this Enrichr gene-set library, e.g. `MSigDB_Hallmark_2020`. This is the recommended way to retrieve [MSigDB](https://www.gsea-msigdb.org/gsea/msigdb/) gene sets (search for "MSigDB" in the [Enrichr library list](https://maayanlab.cloud/Enrichr/#libraries), e.g. `MSigDB_Hallmark_2020`, `MSigDB_Oncogenic_Signatures`, `MSigDB_Computational`). When set, the `genes` argument and `--database` are not required.  
+Python: `gget.enrichr_library("MSigDB_Hallmark_2020")`  
+
+`-gs` `--gene_set`  
+With `--get_library`: only return the genes of this single gene set (term) within the library, e.g. `Hypoxia`. (Default: None -> return all gene sets in the library.)  
+
+`-ll` `--list_libraries`  
+List the available Enrichr gene-set libraries (to discover library names), then exit. Optionally pass a substring to filter, e.g. `--list_libraries MSigDB`.  
+Python: `gget.enrichr_libraries(filter="MSigDB")`  
+
+`-desc` `--descriptions`  
+With `--get_library`: also include each gene set's description column.  
+Python: `descriptions=True`  
+
 `-o` `--out`  
 Path to the file the results will be saved in, e.g. path/to/directory/results.csv (or .json). (Default: Standard out.)  
 Python: `save=True` will save the output in the current working directory.  
@@ -222,6 +237,25 @@ df |>
 	xlab("-log10(adjusted P value)")
 ```
 
+<br/><br/>
+
+**Fetch the gene sets of an MSigDB collection (e.g. the Hallmark gene sets):**
+```bash
+gget enrichr --get_library MSigDB_Hallmark_2020 --csv
+```
+```python
+# Python
+import gget
+gget.enrichr_library("MSigDB_Hallmark_2020")
+```
+&rarr; Returns the 50 MSigDB Hallmark gene sets and their member genes as a long-format data frame (`gene_set`, `gene`). Add `--gene_set Hypoxia` (Python: `gene_set="Hypoxia"`) to return only one gene set. Use `--list_libraries MSigDB` (Python: `gget.enrichr_libraries(filter="MSigDB")`) to discover the available MSigDB collections.
+
+| gene_set                       | gene   |
+|--------------------------------|--------|
+| TNF-alpha&nbsp;Signaling&nbsp;via&nbsp;NF-kB | JUNB   |
+| TNF-alpha&nbsp;Signaling&nbsp;via&nbsp;NF-kB | CXCL2  |
+| ...                            | ...    |
+
 # Tutorials
 [Using `gget enrichr` with background genes](https://github.com/pachterlab/gget_examples/blob/main/gget_enrichr_with_background_genes.ipynb)
 
@@ -238,3 +272,11 @@ If you use `gget enrichr` in a publication, please cite the following articles:
 
 If working with non-human/mouse datasets, please also cite:
 - Kuleshov MV, Diaz JEL, Flamholz ZN, Keenan AB, Lachmann A, Wojciechowicz ML, Cagan RL, Ma'ayan A. modEnrichr: a suite of gene set enrichment analysis tools for model organisms. Nucleic Acids Res. 2019 Jul 2;47(W1):W183-W190. doi: [10.1093/nar/gkz347](https://doi.org/10.1093/nar/gkz347). PMID: 31069376; PMCID: PMC6602483.
+
+If retrieving MSigDB collections, please also cite:
+- Subramanian A, Tamayo P, Mootha VK, Mukherjee S, Ebert BL, Gillette MA, Paulovich A, Pomeroy SL, Golub TR, Lander ES, Mesirov JP. Gene set enrichment analysis: a knowledge-based approach for interpreting genome-wide expression profiles. Proc Natl Acad Sci USA. 2005;102(43):15545-15550. doi: [10.1073/pnas.0506580102](https://doi.org/10.1073/pnas.0506580102)
+- Liberzon A, Subramanian A, Pinchback R, Thorvaldsdóttir H, Tamayo P, Mesirov JP. Molecular signatures database (MSigDB) 3.0. Bioinformatics. 2011;27(12):1739-1740. doi: [10.1093/bioinformatics/btr260](https://doi.org/10.1093/bioinformatics/btr260)
+- Liberzon A, Birger C, Thorvaldsdóttir H, Ghandi M, Mesirov JP, Tamayo P. The Molecular Signatures Database (MSigDB) hallmark gene set collection. Cell Syst. 2015;1(6):417-425. doi: [10.1016/j.cels.2015.12.004](https://doi.org/10.1016/j.cels.2015.12.004)
+
+If using mouse MSigDB, please also cite:
+- Castanza AS, Recla JM, Eby D, Thorvaldsdóttir H, Bult CJ, Mesirov JP. Extending support for mouse data in the Molecular Signatures Database (MSigDB). Nat Methods. 2023;20:1619-1620. doi: [10.1038/s41592-023-02014-7](https://doi.org/10.1038/s41592-023-02014-7)
