@@ -1,5 +1,8 @@
 import unittest
+from unittest.mock import Mock, patch
 
+import gget.utils as gget_utils
+import requests
 from gget.constants import ENSEMBL_FTP_URL_NV, ENSEMBL_REST_API, UNIPROT_REST_API
 from gget.utils import (
     aa_colors,
@@ -182,3 +185,64 @@ class TestUtils(unittest.TestCase):
     def test_ref_species_options_bad_type(self):
         with self.assertRaises(RuntimeError):
             ref_species_options("gtf", release=2000)
+
+
+def _resp(status_code, headers=None):
+    """Minimal mock requests.Response with .status_code/.ok/.headers."""
+    m = Mock()
+    m.status_code = status_code
+    m.ok = 200 <= status_code < 300
+    m.headers = headers or {}
+    return m
+
+
+class TestQueryRetry(unittest.TestCase):
+    """Network-free tests for the transient-error retry in the REST query helpers."""
+
+    @patch("gget.utils.time.sleep")
+    @patch("gget.utils.requests.request")
+    def test_retries_on_503_then_succeeds(self, mock_request, _sleep):
+        mock_request.side_effect = [_resp(503), _resp(503), _resp(200)]
+        r = gget_utils._query_with_retry("GET", "http://x")
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(mock_request.call_count, 3)
+
+    @patch("gget.utils.time.sleep")
+    @patch("gget.utils.requests.request")
+    def test_retries_on_connection_error_then_succeeds(self, mock_request, _sleep):
+        mock_request.side_effect = [requests.ConnectionError("boom"), _resp(200)]
+        r = gget_utils._query_with_retry("GET", "http://x")
+        self.assertEqual(r.status_code, 200)
+        self.assertEqual(mock_request.call_count, 2)
+
+    @patch("gget.utils.time.sleep")
+    @patch("gget.utils.requests.request")
+    def test_no_retry_on_client_error(self, mock_request, _sleep):
+        # A 404 is a real client error, not transient -> returned immediately (caller handles it).
+        mock_request.return_value = _resp(404)
+        r = gget_utils._query_with_retry("GET", "http://x")
+        self.assertEqual(r.status_code, 404)
+        self.assertEqual(mock_request.call_count, 1)
+
+    @patch("gget.utils.time.sleep")
+    @patch("gget.utils.requests.request")
+    def test_exhausts_retries_on_persistent_503(self, mock_request, _sleep):
+        mock_request.return_value = _resp(503)
+        r = gget_utils._query_with_retry("GET", "http://x")
+        # After exhausting retries the last (503) response is returned so the caller raises as before.
+        self.assertEqual(r.status_code, 503)
+        self.assertEqual(mock_request.call_count, gget_utils._QUERY_RETRIES)
+
+    @patch("gget.utils.time.sleep")
+    @patch("gget.utils.requests.request")
+    def test_persistent_connection_error_raises(self, mock_request, _sleep):
+        mock_request.side_effect = requests.ConnectionError("down")
+        with self.assertRaises(requests.RequestException):
+            gget_utils._query_with_retry("GET", "http://x")
+
+    @patch("gget.utils.time.sleep")
+    @patch("gget.utils.requests.request")
+    def test_retry_after_header_used(self, mock_request, mock_sleep):
+        mock_request.side_effect = [_resp(429, headers={"Retry-After": "7"}), _resp(200)]
+        gget_utils._query_with_retry("GET", "http://x")
+        mock_sleep.assert_called_once_with(7)
