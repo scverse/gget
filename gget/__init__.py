@@ -18,6 +18,7 @@ from .gget_enrichr import enrichr
 from .gget_g2p import g2p
 from .gget_gpt import gpt
 from .gget_info import info
+from .gget_mitocarta import mitocarta
 from .gget_muscle import muscle
 from .gget_mutate import mutate
 from .gget_opentargets import opentargets

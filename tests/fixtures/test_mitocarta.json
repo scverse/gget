@@ -1,0 +1,41 @@
+{
+    "test_mitocarta_human": {
+        "type": "code_defined",
+        "args": {
+            "species": "human",
+            "which": "mitocarta",
+            "verbose": false
+        },
+        "expected_n_rows": 1136,
+        "expected_columns": [
+            "Symbol",
+            "MitoCarta3.0_List",
+            "MitoCarta3.0_SubMitoLocalization",
+            "MitoCarta3.0_MitoPathways"
+        ]
+    },
+    "test_mitocarta_pathways": {
+        "type": "code_defined",
+        "args": {
+            "species": "human",
+            "which": "pathways",
+            "verbose": false
+        },
+        "expected_min_rows": 100
+    },
+    "test_mitocarta_bad_species": {
+        "type": "error",
+        "args": {
+            "species": "zebrafish"
+        },
+        "expected_result": "ValueError"
+    },
+    "test_mitocarta_bad_which": {
+        "type": "error",
+        "args": {
+            "species": "human",
+            "which": "nope"
+        },
+        "expected_result": "ValueError"
+    }
+}

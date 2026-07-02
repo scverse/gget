@@ -48,6 +48,9 @@ dependencies = [
 # Under certain resolver paths uv lands on scanpy 1.9.8, which transitively
 # pins numba 0.53.1 and llvmlite 0.36.x — both of which only support Python 3.6-3.9.
 optional-dependencies.cellxgene = [ "cellxgene-census", "scanpy>=1.10" ]
+# Optional feature dependency for `gget mitocarta` (install: pip install gget[mitocarta]).
+# xlrd is only needed to read MitoCarta's legacy .xls; kept out of the core deps.
+optional-dependencies.mitocarta = [ "xlrd>=2" ]
 # https://docs.pypi.org/project_metadata/#project-urls
 urls.Documentation = "https://pachterlab.github.io/gget"
 urls.Homepage = "https://github.com/pachterlab/gget"
@@ -77,10 +80,13 @@ envs.default.installer = "uv"
 envs.hatch-test.matrix = [
   { python = [ "3.12", "3.13", "3.14" ] },
 ]
-# cellxgene-census (the `cellxgene` extra) has no wheels for the newest Python
-# versions yet (e.g. 3.14 via tiledbsoma), so install it only where available;
-# the gget cellxgene test skips itself when the dependency is absent.
+# Install the `mitocarta` extra (xlrd) on every tested Python version so the
+# gget mitocarta tests can read the .xls. cellxgene-census (the `cellxgene`
+# extra) has no wheels for the newest Python versions yet (e.g. 3.14 via
+# tiledbsoma), so install it only where available; the gget cellxgene test
+# skips itself when the dependency is absent.
 envs.hatch-test.overrides.matrix.python.features = [
+  { value = "mitocarta", if = [ "3.12", "3.13", "3.14" ] },
   { value = "cellxgene", if = [ "3.12", "3.13" ] },
 ]
 # pyproject.toml is the single source of truth for the environments CI tests:
