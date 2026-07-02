@@ -16,6 +16,7 @@ if TYPE_CHECKING:
 
 from .compile import PACKAGE_PATH
 from .constants import (
+    DATASETSTATISTICS_ENRICHR_URLS,
     DEFAULT_REQUESTS_TIMEOUT,
     GENESETLIBRARY_ENRICHR_URLS,
     GET_BACKGROUND_ENRICHR_URL,
@@ -69,10 +70,11 @@ def enrichr_library(
     library: str,
     species: str = "human",
     gene_set: str | None = None,
+    descriptions: bool = False,
     json: bool = False,
     save: bool = False,
     verbose: bool = True,
-) -> pd.DataFrame | dict[str, list[str]]:
+) -> pd.DataFrame | dict[str, Any]:
     """Fetch the gene sets (members) of an Enrichr gene-set library.
 
     This is useful for retrieving the gene sets of a collection such as the
@@ -87,14 +89,17 @@ def enrichr_library(
                   'fly', 'yeast', 'worm', or 'fish'.
     - gene_set    If provided, only return the genes of this single gene set (term) within the library
                   (default: None -> return all gene sets in the library).
-    - json        If True, returns a dictionary mapping each gene set name to its list of genes
-                  instead of a pandas DataFrame (default: False).
+    - descriptions If True, also include each gene set's description (the source often leaves this
+                  empty). Adds a 'description' column to the data frame; with json=True the dict becomes
+                  {gene_set: {'description': str, 'genes': [genes]}} (default: False).
+    - json        If True, returns a dictionary instead of a pandas DataFrame (default: False).
     - save        If True, saves the result to 'gget_enrichr_library_{library}.csv'
                   (or .json if json=True) in the current working directory (default: False).
     - verbose     True/False whether to print progress information (default: True).
 
     Returns a long-format pandas DataFrame with one row per (gene set, gene) pair and the columns
-    'gene_set' and 'gene' (or a {gene_set: [genes]} dictionary if json=True).
+    'gene_set' and 'gene' (plus 'description' if descriptions=True). With json=True, returns a
+    {gene_set: [genes]} dictionary (or {gene_set: {'description', 'genes'}} if descriptions=True).
     """
     if species not in ["human", "mouse", "fly", "yeast", "worm", "fish"]:
         raise ValueError("Argument 'species' must be one of 'human', 'mouse', 'fly', 'yeast', 'worm', or 'fish'.")
@@ -121,6 +126,7 @@ def enrichr_library(
 
     # Each line: "<gene set name>\t<description>\t<gene1>\t<gene2>\t..."
     library_dict: dict[str, list[str]] = {}
+    description_map: dict[str, str] = {}
     for line in text.splitlines():
         if not line.strip():
             continue
@@ -130,6 +136,7 @@ def enrichr_library(
         genes = [g.strip() for g in fields[2:] if g.strip()]
         if set_name:
             library_dict[set_name] = genes
+            description_map[set_name] = fields[1].strip() if len(fields) > 1 else ""
 
     # A valid library has at least one gene set with member genes
     if not library_dict or not any(genes for genes in library_dict.values()):
@@ -152,17 +159,98 @@ def enrichr_library(
         logger.info(f"Retrieved {len(library_dict)} gene set(s) containing {n_genes} gene entries.")
 
     if json:
+        result_dict: dict[str, Any]
+        if descriptions:
+            result_dict = {s: {"description": description_map.get(s, ""), "genes": g} for s, g in library_dict.items()}
+        else:
+            result_dict = library_dict
         if save:
             with open(f"gget_enrichr_library_{library}.json", "w", encoding="utf-8") as f:
-                json_package.dump(library_dict, f, ensure_ascii=False, indent=4)
-        return library_dict
+                json_package.dump(result_dict, f, ensure_ascii=False, indent=4)
+        return result_dict
 
-    rows = [{"gene_set": set_name, "gene": gene} for set_name, genes in library_dict.items() for gene in genes]
-    df = pd.DataFrame(rows, columns=["gene_set", "gene"])
+    if descriptions:
+        rows = [
+            {"gene_set": s, "description": description_map.get(s, ""), "gene": gene}
+            for s, genes in library_dict.items()
+            for gene in genes
+        ]
+        df = pd.DataFrame(rows, columns=["gene_set", "description", "gene"])
+    else:
+        rows = [{"gene_set": s, "gene": gene} for s, genes in library_dict.items() for gene in genes]
+        df = pd.DataFrame(rows, columns=["gene_set", "gene"])
 
     if save:
         df.to_csv(f"gget_enrichr_library_{library}.csv", index=False)
 
+    return df
+
+
+def enrichr_libraries(
+    species: str = "human",
+    filter: str | None = None,
+    json: bool = False,
+    save: bool = False,
+    verbose: bool = True,
+) -> pd.DataFrame | list[dict[str, Any]]:
+    """List the gene-set libraries available from Enrichr (for discovering library names).
+
+    Handy for finding the exact library name to pass to `enrichr_library`, e.g. searching for the
+    MSigDB collections with filter="MSigDB".
+
+    Args:
+    - species     Enrichr variant to list: 'human' (default), 'fly', 'yeast', 'worm', or 'fish'.
+    - filter      If provided, only return libraries whose name contains this substring
+                  (case-insensitive), e.g. "MSigDB" (default: None -> all libraries).
+    - json        If True, returns a list of dictionaries instead of a pandas DataFrame (default: False).
+    - save        If True, saves the result to 'gget_enrichr_libraries.csv'
+                  (or .json if json=True) in the current working directory (default: False).
+    - verbose     True/False whether to print progress information (default: True).
+
+    Returns a pandas DataFrame (or list of dicts if json=True) with one row per library and the
+    columns 'library', 'num_terms', 'gene_coverage', 'genes_per_term'.
+    """
+    if species not in DATASETSTATISTICS_ENRICHR_URLS:
+        raise ValueError(
+            f"Argument 'species' must be one of {sorted(DATASETSTATISTICS_ENRICHR_URLS)}, but '{species}' was passed."
+        )
+
+    if verbose:
+        logger.info(f"Fetching the list of Enrichr gene-set libraries ({species})...")
+
+    response = requests.get(DATASETSTATISTICS_ENRICHR_URLS[species], timeout=DEFAULT_REQUESTS_TIMEOUT)
+    if not response.ok:
+        raise RuntimeError(
+            f"Enrichr returned error status code {response.status_code} while listing libraries. Please try again."
+        )
+
+    stats = response.json().get("statistics", [])
+    rows = [
+        {
+            "library": s.get("libraryName"),
+            "num_terms": s.get("numTerms"),
+            "gene_coverage": s.get("geneCoverage"),
+            "genes_per_term": s.get("genesPerTerm"),
+        }
+        for s in stats
+    ]
+    if filter:
+        needle = filter.lower()
+        rows = [r for r in rows if r["library"] and needle in r["library"].lower()]
+    rows.sort(key=lambda r: (r["library"] or "").lower())
+
+    if verbose:
+        logger.info(f"Found {len(rows)} gene-set library/libraries.")
+
+    if json:
+        if save:
+            with open("gget_enrichr_libraries.json", "w", encoding="utf-8") as f:
+                json_package.dump(rows, f, ensure_ascii=False, indent=4)
+        return rows
+
+    df = pd.DataFrame(rows, columns=["library", "num_terms", "gene_coverage", "genes_per_term"])
+    if save:
+        df.to_csv("gget_enrichr_libraries.csv", index=False)
     return df
 
 

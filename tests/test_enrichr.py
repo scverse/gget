@@ -8,13 +8,14 @@ from unittest.mock import patch
 import matplotlib
 import matplotlib.pyplot as plt
 import pandas as pd
+import requests
 
 from .from_json import from_json
 
 # Prevent matplotlib from opening windows
 matplotlib.use("Agg")
 import gget.gget_enrichr as gget_enrichr
-from gget.gget_enrichr import enrichr, enrichr_library
+from gget.gget_enrichr import enrichr, enrichr_libraries, enrichr_library
 
 # Load dictionary containing arguments and expected results
 with open("./tests/fixtures/test_enrichr.json") as json_file:
@@ -52,30 +53,46 @@ class TestEnrichr(unittest.TestCase, metaclass=from_json(enrichr_dict, enrichr))
 
         self.assertListEqual(result_to_test, expected_result)
 
+    def _live_library(self, **kwargs):
+        """Call enrichr_library live, skipping (not failing) on transient network/Enrichr issues.
+
+        A genuine network error, or Enrichr transiently returning a non-data response (e.g. a
+        rate-limit/HTML page, which enrichr_library raises as RuntimeError), is treated as a skip
+        so these live tests don't go red on upstream hiccups. The exact-count anchors below are
+        stable because MSigDB_Hallmark_2020 is a frozen (2020) snapshot.
+        """
+        try:
+            return enrichr_library(**kwargs)
+        except requests.RequestException as e:
+            self.skipTest(f"Network error reaching Enrichr: {e}")
+        except RuntimeError as e:
+            self.skipTest(f"Enrichr did not return library data (transient): {e}")
+
     def test_enrichr_library(self):
-        test = "test_enrichr_library"
-        td = enrichr_dict[test]
-        df = enrichr_library(**td["args"])
+        td = enrichr_dict["test_enrichr_library"]
+        df = self._live_library(**td["args"])
         self.assertListEqual(list(df.columns), ["gene_set", "gene"])
         self.assertEqual(df["gene_set"].nunique(), td["expected_n_sets"])
 
     def test_enrichr_library_gene_set(self):
-        test = "test_enrichr_library_gene_set"
-        td = enrichr_dict[test]
-        df = enrichr_library(**td["args"])
+        td = enrichr_dict["test_enrichr_library_gene_set"]
+        df = self._live_library(**td["args"])
         self.assertEqual(set(df["gene_set"]), {td["args"]["gene_set"]})
         self.assertEqual(len(df), td["expected_n_genes"])
 
     def test_enrichr_library_json(self):
-        test = "test_enrichr_library_json"
-        td = enrichr_dict[test]
-        result = enrichr_library(**td["args"])
+        td = enrichr_dict["test_enrichr_library_json"]
+        result = self._live_library(**td["args"])
         self.assertIsInstance(result, dict)
         self.assertEqual(len(result), td["expected_n_sets"])
 
     def test_enrichr_library_bad(self):
-        with self.assertRaises(RuntimeError):
-            enrichr_library("NOT_A_LIBRARY_xyz", verbose=False)
+        # A bad library name must raise RuntimeError; a real network error is a skip, not a failure.
+        try:
+            with self.assertRaises(RuntimeError):
+                enrichr_library("NOT_A_LIBRARY_xyz", verbose=False)
+        except requests.RequestException as e:
+            self.skipTest(f"Network error reaching Enrichr: {e}")
 
     def test_enrichr_plot(self):
         # Number of plots before running enrichr plot
@@ -176,3 +193,71 @@ class TestEnrichrLibraryOffline(unittest.TestCase):
                 self.assertTrue(any(f.endswith(".json") for f in os.listdir(".")))
             finally:
                 os.chdir(cwd)
+
+    @patch.object(gget_enrichr.requests, "get")
+    def test_descriptions(self, mock_get):
+        # descriptions=True keeps the (often empty) description field.
+        mock_get.return_value = _FakeResponse(_LIBRARY_TEXT)
+        df = enrichr_library("MSigDB_Hallmark_2020", descriptions=True, verbose=False)
+        self.assertEqual(list(df.columns), ["gene_set", "description", "gene"])
+        self.assertEqual(df[df["gene_set"] == "SET_B"]["description"].iloc[0], "description")
+        self.assertEqual(df[df["gene_set"] == "SET_A"]["description"].iloc[0], "")
+        # json + descriptions -> {set: {"description", "genes"}}
+        result = enrichr_library("MSigDB_Hallmark_2020", descriptions=True, json=True, verbose=False)
+        self.assertEqual(result["SET_B"], {"description": "description", "genes": ["GENE4", "GENE5"]})
+
+
+class _FakeJsonResponse:
+    """Minimal stand-in for a requests.Response returning JSON (for enrichr_libraries)."""
+
+    def __init__(self, payload, ok=True, status_code=200):
+        self._payload = payload
+        self.ok = ok
+        self.status_code = status_code
+
+    def json(self):
+        return self._payload
+
+
+_STATS_PAYLOAD = {
+    "statistics": [
+        {"libraryName": "MSigDB_Hallmark_2020", "numTerms": 50, "geneCoverage": 4383, "genesPerTerm": 146},
+        {"libraryName": "KEGG_2021_Human", "numTerms": 300, "geneCoverage": 8000, "genesPerTerm": 90},
+        {"libraryName": "MSigDB_Computational", "numTerms": 858, "geneCoverage": 10061, "genesPerTerm": 106},
+    ]
+}
+
+
+class TestEnrichrLibrariesOffline(unittest.TestCase):
+    """Network-free tests of enrichr_libraries (library discovery, issue #139)."""
+
+    def test_invalid_species_raises(self):
+        with self.assertRaises(ValueError):
+            enrichr_libraries(species="martian", verbose=False)
+
+    @patch.object(gget_enrichr.requests, "get")
+    def test_list_columns_and_sort(self, mock_get):
+        mock_get.return_value = _FakeJsonResponse(_STATS_PAYLOAD)
+        df = enrichr_libraries(verbose=True)
+        self.assertEqual(list(df.columns), ["library", "num_terms", "gene_coverage", "genes_per_term"])
+        # Sorted case-insensitively by library name
+        self.assertEqual(list(df["library"]), ["KEGG_2021_Human", "MSigDB_Computational", "MSigDB_Hallmark_2020"])
+
+    @patch.object(gget_enrichr.requests, "get")
+    def test_filter_case_insensitive(self, mock_get):
+        mock_get.return_value = _FakeJsonResponse(_STATS_PAYLOAD)
+        df = enrichr_libraries(filter="msigdb", verbose=False)
+        self.assertEqual(set(df["library"]), {"MSigDB_Hallmark_2020", "MSigDB_Computational"})
+
+    @patch.object(gget_enrichr.requests, "get")
+    def test_json_return(self, mock_get):
+        mock_get.return_value = _FakeJsonResponse(_STATS_PAYLOAD)
+        result = enrichr_libraries(filter="Hallmark", json=True, verbose=False)
+        self.assertIsInstance(result, list)
+        self.assertEqual(result[0]["library"], "MSigDB_Hallmark_2020")
+
+    @patch.object(gget_enrichr.requests, "get")
+    def test_bad_status_raises(self, mock_get):
+        mock_get.return_value = _FakeJsonResponse({}, ok=False, status_code=503)
+        with self.assertRaises(RuntimeError):
+            enrichr_libraries(verbose=False)

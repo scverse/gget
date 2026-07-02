@@ -14,7 +14,7 @@ from .gget_cellxgene import cellxgene
 from .gget_cosmic import cosmic
 from .gget_diamond import diamond
 from .gget_elm import elm
-from .gget_enrichr import enrichr, enrichr_library
+from .gget_enrichr import enrichr, enrichr_libraries, enrichr_library
 from .gget_g2p import g2p
 from .gget_gpt import gpt
 from .gget_info import info
