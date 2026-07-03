@@ -742,6 +742,44 @@ def wrap_cols_func(df: pd.DataFrame, cols: list[str]) -> Any:
     return display(HTML(df.to_html().replace("\\n", "<br>")))
 
 
+# Retry the shared REST query helpers on transient upstream errors. Ensembl's REST API (which
+# many gget modules depend on) returns 429 (rate limit, with a Retry-After header) or 5xx under
+# load; a short backoff keeps a transient hiccup from failing the whole call.
+_QUERY_RETRIES = 4
+_QUERY_BACKOFF_SEC = 2
+_RETRYABLE_STATUS = frozenset({429, 500, 502, 503, 504})
+
+
+def _query_with_retry(method: str, url: str, **kwargs: Any) -> requests.Response:
+    """GET/POST with retry on transient errors (429/5xx and connection/timeout errors).
+
+    Honors a Retry-After header when present. Non-retryable client errors (e.g. 404) and the
+    final response after exhausting retries are returned to the caller to handle as before.
+    """
+    kwargs.setdefault("timeout", DEFAULT_REQUESTS_TIMEOUT)
+    last_exc: Exception | None = None
+    response: requests.Response | None = None
+    for attempt in range(1, _QUERY_RETRIES + 1):
+        try:
+            response = requests.request(method, url, **kwargs)
+        except requests.RequestException as e:
+            last_exc = e
+            response = None
+        else:
+            if response.ok or response.status_code not in _RETRYABLE_STATUS:
+                return response
+        if attempt < _QUERY_RETRIES:
+            wait = _QUERY_BACKOFF_SEC * attempt
+            if response is not None:
+                retry_after = response.headers.get("Retry-After", "")
+                if retry_after.isdigit():
+                    wait = min(int(retry_after), 30)
+            time.sleep(wait)
+    if response is not None:
+        return response
+    raise requests.RequestException(f"Request to {url} failed after {_QUERY_RETRIES} attempts: {last_exc}")
+
+
 def rest_query(server: str, query: str, content_type: str) -> Any:
     """Function to perform a REST API query.
 
@@ -752,7 +790,7 @@ def rest_query(server: str, query: str, content_type: str) -> Any:
 
     Returns server output.
     """
-    r = requests.get(server + query, headers={"Content-Type": content_type})
+    r = _query_with_retry("GET", server + query, headers={"Content-Type": content_type})
 
     if not r.ok:
         raise RuntimeError(
@@ -774,7 +812,7 @@ def post_query(server: str, endpoint: str, query: Any) -> Any:
 
     :return: server output
     """
-    r = requests.post(server + endpoint, json=query, headers={"Content-Type": "application/json"})
+    r = _query_with_retry("POST", server + endpoint, json=query, headers={"Content-Type": "application/json"})
 
     if not r.ok:
         raise RuntimeError(
