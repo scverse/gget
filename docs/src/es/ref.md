@@ -2,7 +2,7 @@
 
 > Parámetros de Python són iguales a los parámetros largos (`--parámetro`) de Terminal, si no especificado de otra manera. Banderas son parámetros de verdadero o falso (True/False) en Python. El manuál para cualquier modulo de gget se puede llamar desde la Terminal con la bandera `-h` `--help`.  
 # gget ref 📖
-Obtenga enlaces de descarga y metadatos para los genomas de referencia de [Ensembl](https://www.ensembl.org/).  
+Obtenga enlaces de descarga y metadatos para los genomas de referencia de [Ensembl](https://www.ensembl.org/) y [GENCODE](https://www.gencodegenes.org/).  
 Regresa: Resultados en formato JSON.  
 
 **Parámetro posicional**  
@@ -10,6 +10,7 @@ Regresa: Resultados en formato JSON.
 La especie por la cual que se buscará los FTP en el formato género_especies, p. ej. homo_sapiens.  
 Nota: No se requiere cuando se llama a la bandera `--list_species`.  
 Accesos directos: 'human', 'mouse', 'human_grch37' (accede al ensamblaje del genoma GRCh37)  
+Para `source=gencode`, solo se admiten humano ('human'/'homo_sapiens') y ratón ('mouse'/'mus_musculus').  
 
 **Parámetros optionales**  
 `-w` `--which`  
@@ -21,9 +22,14 @@ Las entradas posibles son uno solo o una combinación de las siguientes (como li
 'cds' - Regresa las secuencias codificantes correspondientes a los genes Ensembl. (No contiene UTR ni secuencia intrónica).  
 'cdrna' - Regresa secuencias de transcripción correspondientes a genes de ARN no codificantes (ncRNA).  
 'pep' - Regresa las traducciones de proteínas de los genes Ensembl.  
+Nota: `source=gencode` no proporciona 'cds'; con GENCODE, 'cdna' regresa secuencias de transcripción y 'ncrna' regresa secuencias de transcripción de ARN largo no codificante.  
 
 `-r` `--release`  
-Define el número de versión de Ensembl desde el que se obtienen los archivos, p. ej. 104. Default: latest Ensembl release.  
+Define el número de versión desde el que se obtienen los archivos, p. ej. 104. Por defecto: la última versión.  
+Para `source=gencode`, este es el número de versión de GENCODE (p. ej. 46); el prefijo 'M' para ratón se añade automáticamente.  
+
+`-src` `--source`  
+Base de datos de referencia de la que obtener los archivos: 'ensembl' (por defecto) o 'gencode'. GENCODE proporciona referencias solo para humano y ratón.  
 
 `-od` `--out_dir`  
 Ruta al directorio donde se guardarán los archivos FTP, p. ruta/al/directorio/. Por defecto: directorio de trabajo actual.  
@@ -65,6 +71,19 @@ gget.ref(species=None, list_species=True, release=103)
 ```
 &rarr; Regresa una lista con todos los genomas disponibles (`gget ref` verifica si GTF y FASTA están disponibles) de la versión 103 de Ensembl.  
 (Si no se especifica ninguna versión, `gget ref` siempre devolverá información de la última versión de Ensembl).  
+
+<br/><br/>
+
+**Obtenga el GTF de referencia humano y el FASTA del genoma desde GENCODE (versión 46):**  
+```bash
+gget ref -w gtf,dna -r 46 --source gencode human
+```
+```python
+# Python
+gget.ref("human", which=["gtf", "dna"], release=46, source="gencode")
+```
+&rarr; Regresa un JSON con los FTP del GTF humano y el FASTA del genoma de GENCODE v46 y sus metadatos.  
+(GENCODE está disponible solo para humano y ratón. Omita `--release` para usar la última versión de GENCODE).
 
 <br/><br/>
 

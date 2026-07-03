@@ -5,7 +5,7 @@
 #### *gget* officially became part of [*scverse*](https://scverse.org/) on June 9, 2026. 🥳🥳🥳
 
 **Version ≥ 0.30.9** (XXX XX, 2026):  
-- [`gget ref`](ref.md): Added support for fetching reference GTFs and FASTAs from [GENCODE](https://www.gencodegenes.org/) (fixes [issue 73](https://github.com/scverse/gget/issues/73)).
+- [`gget ref`](ref.md): Added support for fetching reference GTFs and FASTAs from [GENCODE](https://www.gencodegenes.org/).
   - New `source` argument (command line: `--source`/`-src`) selects the reference database: `"ensembl"` (default, unchanged behavior) or `"gencode"` (human and mouse only).
   - With `source="gencode"`, the `release` argument is the GENCODE release number (e.g. `46`; the mouse `M` prefix is added automatically) and defaults to the latest release. `which` supports `gtf`, `dna` (primary assembly genome), `cdna` (transcript sequences), `ncrna` (long non-coding RNA transcripts), and `pep` (protein translations); GENCODE does not provide `cds`.
 
