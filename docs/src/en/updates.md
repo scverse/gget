@@ -5,6 +5,10 @@
 #### *gget* officially became part of [*scverse*](https://scverse.org/) on June 9, 2026. 🥳🥳🥳
 
 **Version ≥ 0.30.9** (XXX XX, 2026):  
+- [`gget ref`](ref.md): Added support for fetching reference GTFs and FASTAs from [GENCODE](https://www.gencodegenes.org/).
+  - New `source` argument (command line: `--source`/`-src`) selects the reference database: `"ensembl"` (default, unchanged behavior) or `"gencode"` (human and mouse only).
+  - With `source="gencode"`, the `release` argument is the GENCODE release number (e.g. `46`; the mouse `M` prefix is added automatically) and defaults to the latest release. `which` supports `gtf`, `dna` (primary assembly genome), `cdna` (transcript sequences), `ncrna` (long non-coding RNA transcripts), and `pep` (protein translations); GENCODE does not provide `cds`.
+  - New `list_files` flag (command line: `--list_files`/`-lf`), only for `source="gencode"`, lists every file in a GENCODE release directory (keyed by filename) so GENCODE-specific files beyond the `which` set — GFF3, basic/comprehensive annotation, `pc_transcripts`, metadata, etc. — can be fetched.
 
 **Version ≥ 0.30.8** (Jun 28, 2026):  
 - [`gget g2p`](g2p.md): Either `gene` or `--uniprot_id` is now sufficient — whichever is missing is resolved via UniProt and cached. Gene→UniProt picks the canonical reviewed human Swiss-Prot entry; the resolution and its limitations are logged. The canonical pair is **always** prepended to the result as `gene_name` / `uniprot_id` columns (and stored on `df.attrs`), so the output schema is invariant regardless of input mode. Existing call sites continue to work.

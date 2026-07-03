@@ -14,6 +14,9 @@ ENSEMBL_FTP_URL_GRCH37 = "http://ftp.ensembl.org/pub/grch37/"
 # Non-vertebrate server
 ENSEMBL_FTP_URL_NV = "http://ftp.ensemblgenomes.org/pub/"
 
+# GENCODE FTP root for gget ref (human and mouse reference GTFs/FASTAs)
+GENCODE_FTP_URL = "https://ftp.ebi.ac.uk/pub/databases/gencode/"
+
 # NCBI URL for gget info
 NCBI_URL = "https://www.ncbi.nlm.nih.gov"
 

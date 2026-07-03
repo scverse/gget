@@ -2,13 +2,14 @@
 
 > Python arguments are equivalent to long-option arguments (`--arg`), unless otherwise specified. Flags are True/False arguments in Python. The manual for any gget tool can be called from the command-line using the `-h` `--help` flag.  
 # gget ref 📖
-Fetch download links and metadata for [Ensembl](https://www.ensembl.org/) reference genomes.  
+Fetch download links and metadata for [Ensembl](https://www.ensembl.org/) and [GENCODE](https://www.gencodegenes.org/) reference genomes.  
 Return format: dictionary/JSON.
 
 **Positional argument**  
 `species`  
 Species for which the FTPs will be fetched in the format genus_species, e.g. homo_sapiens.  
 Supports all available vertebrate and invertebrate (plants, fungi, protists, and invertebrate metazoa) genomes from Ensembl, except bacteria.  
+For `source=gencode`, only human ('human'/'homo_sapiens') and mouse ('mouse'/'mus_musculus') are supported.  
 Note: Not required when using flags `--list_species` or `--list_iv_species`.  
 Supported shortcuts: 'human', 'mouse', 'human_grch37' (accesses the GRCh37 genome assembly)
 
@@ -22,9 +23,14 @@ Possible entries are one or a combination (as comma-separated list) of the follo
 'cds' - Returns the coding sequences corresponding to Ensembl genes. (Does not contain UTR or intronic sequence.)  
 'cdrna' - Returns transcript sequences corresponding to non-coding RNA genes (ncRNA).  
 'pep' - Returns the protein translations of Ensembl genes.  
+Note: `source=gencode` does not provide 'cds'; with GENCODE, 'cdna' returns transcript sequences and 'ncrna' returns long non-coding RNA transcript sequences.  
 
 `-r` `--release`  
-Defines the Ensembl release number from which the files are fetched, e.g. 104. Default: latest Ensembl release.  
+Defines the release number from which the files are fetched, e.g. 104. Default: latest release.  
+For `source=gencode`, this is the GENCODE release number (e.g. 46); the mouse 'M' prefix is added automatically.  
+
+`-src` `--source`  
+Reference database to fetch from: 'ensembl' (default) or 'gencode'. GENCODE provides human and mouse references only.  
 
 `-od` `--out_dir`  
 Path to the directory where the FTPs will be saved, e.g. path/to/directory/. Default: Current working directory.
@@ -39,6 +45,9 @@ Lists all available vertebrate species. (Python: combine with `species=None`.)
 
 `-liv` `--list_iv_species`  
 Lists all available invertebrate species. (Python: combine with `species=None`.)  
+
+`-lf` `--list_files`  
+Only for `--source gencode`. Lists every file in the GENCODE release directory for the given species (beyond the curated `-w`/`--which` set), e.g. GFF3, basic/comprehensive annotation, `pc_transcripts`, and metadata files. Combine with `--release` to target a specific GENCODE release.  
 
 `-ftp` `--ftp`  
 Returns only the requested FTP links.  
@@ -95,6 +104,31 @@ gget.ref(species=None, list_species=True, release=103)
 ```
 &rarr; Returns a list with all available genomes (checks if GTF and FASTAs are available) from Ensembl release 103.  
 (If no release is specified, `gget ref` will always return information from the latest Ensembl release.)  
+
+<br/><br/>
+
+**Fetch human reference GTF and genome FASTA from GENCODE (release 46):**  
+```bash
+gget ref -w gtf,dna -r 46 --source gencode human
+```
+```python
+# Python
+gget.ref("human", which=["gtf", "dna"], release=46, source="gencode")
+```
+&rarr; Returns a JSON with the GENCODE v46 human GTF and genome FASTA FTPs and their metadata.  
+(GENCODE is available for human and mouse only. Omit `--release` to use the latest GENCODE release.)
+
+<br/><br/>
+
+**List every file in a GENCODE release directory (to fetch files beyond the `which` set):**  
+```bash
+gget ref --list_files -r 46 --source gencode human
+```
+```python
+# Python
+gget.ref("human", list_files=True, release=46, source="gencode")
+```
+&rarr; Returns a JSON keyed by filename with every file in the GENCODE v46 human release directory (GFF3, basic/comprehensive annotation, `pc_transcripts`, metadata, etc.) and its FTP link, date, and size. Use this to reach GENCODE-specific files that `which` does not expose.
 
 <br/><br/>
 

@@ -648,5 +648,25 @@
             "ftp": false
         },
         "expected_result": "RuntimeError"
+    },
+    "test_ref_gencode_bad_species": {
+        "type": "error",
+        "args": {
+            "species": "zebrafish",
+            "which": "gtf",
+            "release": 46,
+            "source": "gencode"
+        },
+        "expected_result": "ValueError"
+    },
+    "test_ref_gencode_no_cds": {
+        "type": "error",
+        "args": {
+            "species": "human",
+            "which": "cds",
+            "release": 46,
+            "source": "gencode"
+        },
+        "expected_result": "ValueError"
     }
 }
