@@ -164,6 +164,10 @@ def _gencode_ref(
             time_part = (date_str or "  ").split(" ")[1] if date_str and " " in date_str else ""
             size_part = size_str or ""
         else:
+            logger.warning(
+                f"No GENCODE file matching '{link_substring}' was found in {base_url} "
+                f"(the '{key}' entry will be empty). The upstream file naming may have changed."
+            )
             file_url = ""
             date_part = ""
             time_part = ""

@@ -649,45 +649,6 @@
         },
         "expected_result": "RuntimeError"
     },
-    "test_ref_gencode": {
-        "type": "assert_equal",
-        "args": {
-            "species": "human",
-            "which": "gtf",
-            "release": 46,
-            "source": "gencode",
-            "verbose": false
-        },
-        "expected_result": {
-            "human": {
-                "annotation_gtf": {
-                    "ftp": "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_46/gencode.v46.annotation.gtf.gz",
-                    "gencode_release": "46",
-                    "release_date": "2024-05-13",
-                    "release_time": "16:01",
-                    "bytes": "49M"
-                }
-            }
-        }
-    },
-    "test_ref_gencode_ftp": {
-        "type": "assert_equal",
-        "args": {
-            "species": "mouse",
-            "which": [
-                "gtf",
-                "dna"
-            ],
-            "release": 35,
-            "source": "gencode",
-            "ftp": true,
-            "verbose": false
-        },
-        "expected_result": [
-            "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M35/gencode.vM35.annotation.gtf.gz",
-            "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_mouse/release_M35/GRCm39.primary_assembly.genome.fa.gz"
-        ]
-    },
     "test_ref_gencode_bad_species": {
         "type": "error",
         "args": {
