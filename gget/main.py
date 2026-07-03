@@ -212,6 +212,18 @@ def main() -> None:
         ),
     )
     parser_ref.add_argument(
+        "-lf",
+        "--list_files",
+        default=False,
+        action="store_true",
+        required=False,
+        help=(
+            "Only for --source gencode. List every file in the GENCODE release directory for the\n"
+            "given species (beyond the curated -w/--which set), e.g. GFF3, basic/comprehensive\n"
+            "annotation, pc_transcripts, and metadata files."
+        ),
+    )
+    parser_ref.add_argument(
         "-d",
         "--download",
         default=False,
@@ -3393,6 +3405,7 @@ def main() -> None:
                 release=args.release,
                 ftp=args.ftp,
                 source=args.source,
+                list_files=args.list_files,
                 verbose=args.quiet,
             )
 

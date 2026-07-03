@@ -98,6 +98,37 @@ def _find_latest_gencode_release(organism: str) -> str:
     return str(max(nums))
 
 
+def _list_gencode_files(base_url: str) -> list[tuple[str, str, str]]:
+    """List every file in a GENCODE release directory as (filename, date, size) tuples.
+
+    Powers the `list_files` escape hatch of gget ref, exposing the full GENCODE release
+    directory (beyond the curated `which` set). The parent-directory link and any
+    subdirectories are skipped; only files are returned.
+    """
+    html = requests.get(base_url, timeout=DEFAULT_REQUESTS_TIMEOUT)
+    if html.status_code != 200:
+        raise RuntimeError(f"GENCODE FTP returned status code {html.status_code} for {base_url}. Please try again.\n")
+
+    soup = BeautifulSoup(html.text, "html.parser")
+    files: list[tuple[str, str, str]] = []
+    for row in soup.find_all("tr"):
+        cells = row.find_all("td")
+        if len(cells) < 4:
+            continue
+        link = cells[1].find("a")
+        if link is None:
+            continue
+        name = link.get("href", "")
+        # Skip the parent-directory link ("../"), subdirectories (end in "/"),
+        # absolute-path links, and column-sort links ("?C=...").
+        if not name or name.endswith("/") or name.startswith(("/", "?")):
+            continue
+        date_str = cells[2].get_text().strip()
+        size_str = cells[3].get_text().strip()
+        files.append((name, date_str, size_str))
+    return files
+
+
 def _gencode_ref(
     species: str,
     which: str | list[str],
@@ -105,6 +136,7 @@ def _gencode_ref(
     ftp: bool,
     save: bool,
     verbose: bool,
+    list_files: bool = False,
 ) -> Any:
     """Fetch reference GTF/FASTA FTP links from GENCODE (human and mouse only). See `ref` for details."""
     # Resolve organism (GENCODE only provides human and mouse references)
@@ -127,6 +159,31 @@ def _gencode_ref(
         rel = f"M{release}" if organism == "mouse" else str(release)
     ver = f"v{rel}"
     base_url = f"{GENCODE_FTP_URL}Gencode_{organism}/release_{rel}/"
+
+    # Escape hatch: list every file in the release directory (beyond the curated `which` set)
+    if list_files:
+        if verbose:
+            logger.info(f"Listing all files in the GENCODE {organism} release {rel} directory.")
+        all_files = _list_gencode_files(base_url)
+        file_urls = [base_url + fname for fname, _, _ in all_files]
+        listing: dict[str, dict[str, Any]] = {species_lower: {}}
+        for fname, f_date, f_size in all_files:
+            listing[species_lower][fname] = {
+                "ftp": base_url + fname,
+                "gencode_release": rel,
+                "release_date": f_date.split(" ")[0] if f_date else "",
+                "release_time": f_date.split(" ")[1] if f_date and " " in f_date else "",
+                "bytes": f_size or "",
+            }
+        if ftp:
+            if save:
+                with open("gget_ref_results.txt", "w") as tfile:
+                    tfile.write("\n".join(file_urls))
+            return file_urls
+        if save:
+            with open("gget_ref_results.json", "w", encoding="utf-8") as file:
+                json.dump(listing, file, ensure_ascii=False, indent=4)
+        return listing
 
     # Normalize and validate the 'which' parameter
     if isinstance(which, str):
@@ -203,6 +260,7 @@ def ref(
     list_species: bool = False,
     list_iv_species: bool = False,
     source: str = "ensembl",
+    list_files: bool = False,
     verbose: bool = True,
 ) -> Any:
     """Fetch FTPs for reference genomes and annotations by species from Ensembl or GENCODE.
@@ -233,6 +291,10 @@ def ref(
     - list_iv_species If True and `species=None`, returns a list of all available INVERTEBRATE species from the Ensembl database (default: False).
                       (Can be combined with the `release` argument to get the available species from a specific Ensembl release.)
     - source          Reference database to fetch from: 'ensembl' (default) or 'gencode' (human and mouse only).
+    - list_files      Only for source='gencode'. If True, returns every file in the GENCODE release directory
+                      for the given species (not just the curated `which` set), keyed by filename. Handy for
+                      fetching GENCODE-specific files (GFF3, basic/comprehensive annotation, pc_transcripts,
+                      metadata, ...) that `which` does not expose (default: False).
     - verbose         True/False whether to print progress information (default: True).
 
     Returns a dictionary containing the requested URLs with their respective Ensembl/GENCODE version and release date and time.
@@ -246,7 +308,13 @@ def ref(
             raise ValueError(
                 "A species ('human'/'homo_sapiens' or 'mouse'/'mus_musculus') must be provided for source='gencode'.\n"
             )
-        return _gencode_ref(species, which, release, ftp, save, verbose)
+        return _gencode_ref(species, which, release, ftp, save, verbose, list_files=list_files)
+
+    if list_files:
+        raise ValueError(
+            "list_files=True is only supported with source='gencode' (it lists the full GENCODE release "
+            "directory). Ensembl organizes files in per-type subdirectories; use the 'which' argument instead.\n"
+        )
 
     # Return list of all available species
     if list_species:

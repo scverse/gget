@@ -46,6 +46,9 @@ Lists all available vertebrate species. (Python: combine with `species=None`.)
 `-liv` `--list_iv_species`  
 Lists all available invertebrate species. (Python: combine with `species=None`.)  
 
+`-lf` `--list_files`  
+Only for `--source gencode`. Lists every file in the GENCODE release directory for the given species (beyond the curated `-w`/`--which` set), e.g. GFF3, basic/comprehensive annotation, `pc_transcripts`, and metadata files. Combine with `--release` to target a specific GENCODE release.  
+
 `-ftp` `--ftp`  
 Returns only the requested FTP links.  
 
@@ -114,6 +117,18 @@ gget.ref("human", which=["gtf", "dna"], release=46, source="gencode")
 ```
 &rarr; Returns a JSON with the GENCODE v46 human GTF and genome FASTA FTPs and their metadata.  
 (GENCODE is available for human and mouse only. Omit `--release` to use the latest GENCODE release.)
+
+<br/><br/>
+
+**List every file in a GENCODE release directory (to fetch files beyond the `which` set):**  
+```bash
+gget ref --list_files -r 46 --source gencode human
+```
+```python
+# Python
+gget.ref("human", list_files=True, release=46, source="gencode")
+```
+&rarr; Returns a JSON keyed by filename with every file in the GENCODE v46 human release directory (GFF3, basic/comprehensive annotation, `pc_transcripts`, metadata, etc.) and its FTP link, date, and size. Use this to reach GENCODE-specific files that `which` does not expose.
 
 <br/><br/>
 

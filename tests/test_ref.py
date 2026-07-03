@@ -124,6 +124,57 @@ class TestGencodeRefOffline(unittest.TestCase):
         self.assertEqual(result, {"human": {}})
         mock_gencode.assert_called_once()
 
+    @patch.object(gget_ref.requests, "get")
+    def test_list_gencode_files_parses_and_filters(self, mock_get):
+        html = (
+            "<table>"
+            '<tr><td><img></td><td><a href="../">Parent Directory</a></td><td></td><td> - </td></tr>'
+            '<tr><td><img></td><td><a href="GRCh37_mapping/">GRCh37_mapping/</a></td><td>2024-05-13 16:01</td><td> - </td></tr>'
+            '<tr><td><img></td><td><a href="gencode.v46.annotation.gtf.gz">gencode.v46.annotation.gtf.gz</a></td><td>2024-05-13 16:01  </td><td> 49M</td></tr>'
+            '<tr><td><img></td><td><a href="README.TXT">README.TXT</a></td><td>2024-05-13 15:55  </td><td> 67K</td></tr>'
+            "</table>"
+        )
+        mock_get.return_value = _FakeResp(html)
+        files = gget_ref._list_gencode_files("https://example/release_46/")
+        names = [f[0] for f in files]
+        self.assertIn("gencode.v46.annotation.gtf.gz", names)
+        self.assertIn("README.TXT", names)  # non-.gz files are listed too
+        # The parent-directory link and subdirectories are filtered out.
+        self.assertNotIn("../", names)
+        self.assertNotIn("GRCh37_mapping/", names)
+
+    @patch.object(gget_ref.requests, "get")
+    def test_list_gencode_files_bad_status_raises(self, mock_get):
+        mock_get.return_value = _FakeResp("", status_code=503)
+        with self.assertRaises(RuntimeError):
+            gget_ref._list_gencode_files("https://example/release_46/")
+
+    @patch.object(gget_ref, "_list_gencode_files")
+    def test_gencode_list_files_returns_dict(self, mock_list):
+        mock_list.return_value = [
+            ("gencode.v46.annotation.gtf.gz", "2024-05-13 16:01", "49M"),
+            ("README.TXT", "2024-05-13 15:55", "67K"),
+        ]
+        result = gget_ref._gencode_ref("human", "all", 46, False, False, False, list_files=True)
+        self.assertIn("gencode.v46.annotation.gtf.gz", result["human"])
+        entry = result["human"]["gencode.v46.annotation.gtf.gz"]
+        self.assertTrue(entry["ftp"].endswith("release_46/gencode.v46.annotation.gtf.gz"))
+        self.assertEqual(entry["release_date"], "2024-05-13")
+        self.assertEqual(entry["release_time"], "16:01")
+        self.assertEqual(entry["bytes"], "49M")
+
+    @patch.object(gget_ref, "_list_gencode_files")
+    def test_gencode_list_files_ftp_returns_urls(self, mock_list):
+        mock_list.return_value = [("gencode.v46.annotation.gtf.gz", "2024-05-13 16:01", "49M")]
+        urls = gget_ref._gencode_ref("human", "all", 46, True, False, False, list_files=True)
+        self.assertIsInstance(urls, list)
+        self.assertTrue(urls[0].endswith("gencode.v46.annotation.gtf.gz"))
+
+    def test_ref_list_files_requires_gencode(self):
+        # list_files is only valid with source='gencode'; the default source='ensembl' must reject it.
+        with self.assertRaises(ValueError):
+            ref("human", list_files=True, verbose=False)
+
 
 class TestGencodeRefLive(unittest.TestCase):
     """Live tests against the real GENCODE FTP (ftp.ebi.ac.uk) for issue #73.
@@ -186,3 +237,13 @@ class TestGencodeRefLive(unittest.TestCase):
         rel = self._skip_if_transient(gget_ref._find_latest_gencode_release, "mouse")
         self.assertTrue(rel.startswith("M") and rel[1:].isdigit(), f"expected 'M<int>', got {rel!r}")
         self.assertGreaterEqual(int(rel[1:]), 35)
+
+    def test_list_files_exposes_more_than_which(self):
+        # The escape hatch must surface files the curated `which` set does not expose.
+        result = self._skip_if_transient(ref, "human", release=46, source="gencode", list_files=True, verbose=False)
+        files = result["human"]
+        if not files:
+            self.skipTest("GENCODE returned an empty listing (likely a transient/rate-limit HTML page).")
+        self.assertIn("gencode.v46.annotation.gtf.gz", files)
+        # pc_transcripts is a real GENCODE file with no `which` key -> proves list_files goes beyond it.
+        self.assertIn("gencode.v46.pc_transcripts.fa.gz", files)

@@ -42,6 +42,9 @@ Para Python, usa `save=True` para guardar los resultados en el directorio de tra
 `-l` `--list_species`  
 Enumera todas las especies disponibles. (Para Python: combina con `species=None`.)  
 
+`-lf` `--list_files`  
+Solo para `--source gencode`. Enumera todos los archivos del directorio de la versión de GENCODE para la especie indicada (más allá del conjunto seleccionado por `-w`/`--which`), p. ej. GFF3, anotación básica/completa, `pc_transcripts` y archivos de metadatos. Combínalo con `--release` para apuntar a una versión específica de GENCODE.  
+
 `-ftp` `--ftp`  
 Regresa solo los enlaces FTP solicitados.  
 
@@ -84,6 +87,18 @@ gget.ref("human", which=["gtf", "dna"], release=46, source="gencode")
 ```
 &rarr; Regresa un JSON con los FTP del GTF humano y el FASTA del genoma de GENCODE v46 y sus metadatos.  
 (GENCODE está disponible solo para humano y ratón. Omita `--release` para usar la última versión de GENCODE).
+
+<br/><br/>
+
+**Enumere todos los archivos de un directorio de versión de GENCODE (para obtener archivos más allá del conjunto `which`):**  
+```bash
+gget ref --list_files -r 46 --source gencode human
+```
+```python
+# Python
+gget.ref("human", list_files=True, release=46, source="gencode")
+```
+&rarr; Regresa un JSON indexado por nombre de archivo con todos los archivos del directorio de la versión 46 humana de GENCODE (GFF3, anotación básica/completa, `pc_transcripts`, metadatos, etc.) junto con su enlace FTP, fecha y tamaño. Úselo para alcanzar archivos específicos de GENCODE que `which` no expone.
 
 <br/><br/>
 
