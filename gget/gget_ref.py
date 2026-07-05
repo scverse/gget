@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json as json_package
 import re
-from typing import Any
+from typing import Any, cast
 
 import pandas as pd
 import requests
@@ -42,7 +42,8 @@ def assembly_report(
 
     Args:
     - accession   NCBI assembly accession, e.g. "GCF_000001405.40" (RefSeq) or
-                  "GCA_000001405.29" (GenBank). Must include the version suffix.
+                  "GCA_000001405.29" (GenBank). The version suffix is optional; if omitted
+                  (e.g. "GCF_000001405"), the latest available version is used.
     - json        If True, returns the report as a list of dictionaries instead of
                   a pandas DataFrame. Default: False.
     - save        If True, saves the report to '{accession}_assembly_report.csv'
@@ -54,20 +55,26 @@ def assembly_report(
     (Sequence-Name, Sequence-Role, Assigned-Molecule, Assigned-Molecule-Location/Type,
     GenBank-Accn, Relationship, RefSeq-Accn, Assembly-Unit, Sequence-Length, UCSC-style-name).
     """
-    # Validate the accession format (GCA_/GCF_ followed by 9 digits and a version)
-    if not isinstance(accession, str) or not re.fullmatch(r"GC[AF]_\d{9}\.\d+", accession.strip()):
+    # Validate the accession format. The version suffix is optional: when omitted
+    # (e.g. "GCF_000001405"), the latest available version is used.
+    accession = accession.strip() if isinstance(accession, str) else accession
+    match = re.fullmatch(r"(GC[AF]_\d{9})(\.\d+)?", accession) if isinstance(accession, str) else None
+    if not match:
         raise ValueError(
             f"Invalid NCBI assembly accession: '{accession}'. "
-            "Expected format 'GCA_########.#' or 'GCF_########.#', e.g. 'GCF_000001405.40'.\n"
+            "Expected format 'GCA_########.#' or 'GCF_########.#'; the version suffix is optional, "
+            "e.g. 'GCF_000001405.40' or 'GCF_000001405'.\n"
         )
-    accession = accession.strip()
+    base_accession = match.group(1)  # accession without version, e.g. GCF_000001405
+    has_version = match.group(2) is not None
 
     # Build the path to the assembly's FTP directory from the accession digits
-    prefix = accession[:3]  # GCA or GCF
-    digits = accession.split("_")[1].split(".")[0]  # e.g. 000001405
+    # (the version does not affect this sharded path).
+    prefix = base_accession[:3]  # GCA or GCF
+    digits = base_accession.split("_")[1]  # e.g. 000001405
     parent_url = f"{NCBI_FTP_GENOMES_URL}{prefix}/{digits[0:3]}/{digits[3:6]}/{digits[6:9]}/"
 
-    # List the parent directory to find the full assembly folder name (accession + assembly name)
+    # List the parent directory to find the full assembly folder name (accession.version + assembly name)
     parent_html = requests.get(parent_url, timeout=DEFAULT_REQUESTS_TIMEOUT)
     if parent_html.status_code != 200:
         raise RuntimeError(
@@ -76,9 +83,16 @@ def assembly_report(
         )
 
     soup = BeautifulSoup(parent_html.text, "html.parser")
-    folders = [
-        href.rstrip("/") for href in (a.get("href", "") for a in soup.find_all("a")) if href.startswith(accession)
-    ]
+    hrefs = [href.rstrip("/") for href in (a.get("href", "") for a in soup.find_all("a"))]
+    if has_version:
+        # Match on the trailing underscore so that e.g. 'GCF_000001405.4' does not
+        # prefix-match the folder for 'GCF_000001405.40'.
+        folders = [h for h in hrefs if h.startswith(accession + "_")]
+    else:
+        # No version given: match any version of this accession and pick the latest.
+        versioned = re.compile(rf"{re.escape(base_accession)}\.(\d+)_")
+        candidates = [(int(m.group(1)), h) for h in hrefs if (m := versioned.match(h))]
+        folders = [max(candidates)[1]] if candidates else []
     if not folders:
         raise RuntimeError(
             f"No assembly folder found for accession '{accession}' at {parent_url}. "
@@ -86,10 +100,13 @@ def assembly_report(
         )
 
     folder = folders[0]
+    # Recover the accession with its resolved version from the folder name (e.g. GCF_000001405.40),
+    # so saved files and logs always carry the exact version even when the input omitted it.
+    resolved_accession = "_".join(folder.split("_")[:2])
     report_url = f"{parent_url}{folder}/{folder}_assembly_report.txt"
 
     if verbose:
-        logger.info(f"Fetching NCBI assembly report for {accession} from {report_url}.")
+        logger.info(f"Fetching NCBI assembly report for {resolved_accession} from {report_url}.")
 
     report_html = requests.get(report_url, timeout=DEFAULT_REQUESTS_TIMEOUT)
     if report_html.status_code != 200:
@@ -120,14 +137,14 @@ def assembly_report(
     df = pd.DataFrame(rows, columns=columns)
 
     if json:
-        result: list[dict[str, Any]] = df.to_dict(orient="records")
+        result = cast("list[dict[str, Any]]", df.to_dict(orient="records"))
         if save:
-            with open(f"{accession}_assembly_report.json", "w", encoding="utf-8") as f:
+            with open(f"{resolved_accession}_assembly_report.json", "w", encoding="utf-8") as f:
                 json_package.dump(result, f, ensure_ascii=False, indent=4)
         return result
 
     if save:
-        df.to_csv(f"{accession}_assembly_report.csv", index=False)
+        df.to_csv(f"{resolved_accession}_assembly_report.csv", index=False)
 
     return df
 
@@ -190,7 +207,8 @@ def ref(
                       e.g. species = "homo_sapiens".
                       Supported shortcuts: "human", "mouse", "human_grch37" (accesses the GRCh37 genome assembly)
                       When `assembly_report=True`, this is instead an NCBI assembly accession,
-                      e.g. "GCF_000001405.40".
+                      e.g. "GCF_000001405.40" (the version suffix is optional; if omitted, the
+                      latest available version is used).
     - which           Defines which results to return.
                       Default: 'all' -> Returns all available results.
                       Possible entries are one or a combination (as a list of strings) of the following:

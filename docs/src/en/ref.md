@@ -11,7 +11,7 @@ Species for which the FTPs will be fetched in the format genus_species, e.g. hom
 Supports all available vertebrate and invertebrate (plants, fungi, protists, and invertebrate metazoa) genomes from Ensembl, except bacteria.  
 Note: Not required when using flags `--list_species` or `--list_iv_species`.  
 Supported shortcuts: 'human', 'mouse', 'human_grch37' (accesses the GRCh37 genome assembly)  
-When using the `--assembly_report` flag, this is instead an NCBI assembly accession, e.g. GCF_000001405.40.
+When using the `--assembly_report` flag, this is instead an NCBI assembly accession, e.g. GCF_000001405.40. The version suffix is optional; if omitted (e.g. GCF_000001405), the latest available version is used.
 
 **Optional arguments**  
 `-w` `--which`  
@@ -49,7 +49,7 @@ Returns the [NCBI assembly report](https://www.ncbi.nlm.nih.gov/datasets/docs/v2
 Python: returns a `pandas` DataFrame (use `assembly_report=True`).  
 
 `-csv` `--csv`  
-Command-line only. Only used with `--assembly_report`: returns the report in JSON format instead of CSV.  
+Command-line only. Only used with `--assembly_report`: returns the report in csv format instead of json.  
 Python: Use `json=True` to return a list of dictionaries instead of a DataFrame.  
 
 `-d` `--download`  

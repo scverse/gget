@@ -215,10 +215,10 @@ def main() -> None:
     parser_ref.add_argument(
         "-csv",
         "--csv",
-        default=False,
-        action="store_true",
+        default=True,
+        action="store_false",
         required=False,
-        help="Only used with --assembly_report: return the report in JSON format instead of CSV.",
+        help="Only used with --assembly_report: return the report in csv format instead of json.",
     )
     parser_ref.add_argument(
         "-d",

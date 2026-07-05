@@ -5,6 +5,7 @@ import unittest
 from unittest.mock import patch
 
 import gget.gget_ref as gget_ref
+import requests
 from gget.gget_ref import assembly_report, ref
 
 from .from_json import from_json
@@ -104,3 +105,48 @@ class TestAssemblyReportOffline(unittest.TestCase):
         mock_fn.return_value = "DELEGATED"
         self.assertEqual(ref("GCF_000001405.40", assembly_report=True, verbose=False), "DELEGATED")
         mock_fn.assert_called_once()
+
+    @patch.object(gget_ref.requests, "get")
+    def test_version_prefix_no_collision(self, mock_get):
+        # Only version .40 exists; querying .4 must NOT prefix-match the .40 folder.
+        mock_get.return_value = _FakeResp('<a href="GCF_000001405.40_GRCh38.p14/">x</a>')
+        with self.assertRaises(RuntimeError):
+            assembly_report("GCF_000001405.4", verbose=False)
+
+    @patch.object(gget_ref.requests, "get")
+    def test_versionless_resolves_latest(self, mock_get):
+        # No version given -> resolve to the latest version folder (.40, not .39).
+        parent = '<a href="GCF_000001405.39_A/">a</a><a href="GCF_000001405.40_B/">b</a>'
+        with tempfile.TemporaryDirectory() as tmp:
+            cwd = os.getcwd()
+            os.chdir(tmp)
+            try:
+                mock_get.side_effect = [_FakeResp(parent), _FakeResp(_REPORT_TEXT)]
+                assembly_report("GCF_000001405", save=True, verbose=False)
+                # The resolved (latest) version is reflected in the saved filename.
+                self.assertTrue(os.path.exists("GCF_000001405.40_assembly_report.csv"))
+            finally:
+                os.chdir(cwd)
+
+
+class TestAssemblyReportLive(unittest.TestCase):
+    """Live test hitting the real NCBI FTP (issue #179).
+
+    Anchored to SARS-CoV-2 (GCF_009858895.2), a frozen single-sequence reference, so
+    the identity columns are stable. Skips (rather than fails) on a network error or a
+    transient non-200 instead of reddening CI.
+    """
+
+    def test_sars_cov2_report_key_columns(self):
+        try:
+            df = assembly_report("GCF_009858895.2", verbose=False)
+        except requests.RequestException as e:
+            self.skipTest(f"Network error reaching NCBI FTP: {e}")
+        except RuntimeError as e:
+            self.skipTest(f"NCBI FTP transient error: {e}")
+        # Anchor on stable identity columns, not the full row.
+        self.assertEqual(len(df), 1)
+        row = df.iloc[0]
+        self.assertEqual(row["RefSeq-Accn"], "NC_045512.2")
+        self.assertEqual(row["GenBank-Accn"], "MN908947.3")
+        self.assertEqual(row["Sequence-Length"], "29903")
