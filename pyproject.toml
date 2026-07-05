@@ -66,6 +66,7 @@ test = [
   "parameterized==0.9",
   "pytest>=7",
   "pytest-cov>=6.2.1",
+  "pytest-xdist>=3",
   "types-beautifulsoup4==4.12.0.20250516",
   "types-requests==2.33.0.20260518",
   "types-tqdm==4.68.0.20260608",
@@ -85,7 +86,7 @@ envs.hatch-test.overrides.matrix.python.features = [
 ]
 # pyproject.toml is the single source of truth for the environments CI tests:
 # the workflow reads this matrix via `hatch env show --json`.
-envs.hatch-test.default-args = [ "tests" ]
+envs.hatch-test.default-args = [ "-n", "auto", "tests" ]
 envs.hatch-test.dependency-groups = [ "test" ]
 
 [tool.ruff]

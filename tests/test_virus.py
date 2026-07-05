@@ -261,24 +261,11 @@ class TestVirus(unittest.TestCase, metaclass=from_json(virus_dict, virus)):
     See module docstring for detailed parameter coverage analysis.
     """
 
-    @classmethod
-    def setUpClass(cls):
-        """Set up test fixtures that are shared across all tests."""
-        cls.test_output_dir = "test_virus_output"
-
-    @classmethod
-    def tearDownClass(cls):
-        """Clean up after all tests have run."""
-        # Clean up test output directory if it exists
-        if os.path.exists(cls.test_output_dir):
-            shutil.rmtree(cls.test_output_dir)
-
     def setUp(self):
         """Set up before each test method."""
-        # Create a fresh test output directory
-        if os.path.exists(self.test_output_dir):
-            shutil.rmtree(self.test_output_dir)
-        os.makedirs(self.test_output_dir, exist_ok=True)
+        # Create a unique per-test output directory so tests can run in parallel
+        # (pytest-xdist) without racing on a shared, fixed directory.
+        self.test_output_dir = tempfile.mkdtemp(prefix="test_virus_")
 
     def tearDown(self):
         """Clean up after each test method."""
