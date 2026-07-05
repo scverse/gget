@@ -1,8 +1,11 @@
 from __future__ import annotations
 
-import json
-from typing import Any
+import json as json_package
+import re
+import subprocess
+from typing import Any, cast
 
+import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
@@ -21,7 +24,269 @@ from .constants import (  # noqa: E402
     ENSEMBL_FTP_URL,
     ENSEMBL_FTP_URL_GRCH37,
     ENSEMBL_FTP_URL_NV,
+    NCBI_FTP_GENOMES_URL,
 )
+
+
+def _resolve_taxon_to_accession(taxon_name: str, verbose: bool = True) -> str:
+    """Resolve an organism / taxon name to its NCBI reference assembly accession.
+
+    Uses the bundled NCBI `datasets` CLI (`datasets summary genome taxon <name> --reference`)
+    and returns the reference assembly's accession, e.g. "homo sapiens" -> "GCF_000001405.40".
+    """
+    # Imported lazily so that plain `gget ref` / accession-mode assembly_report do not pull
+    # in the heavier gget_virus module (only taxon-name resolution needs the datasets CLI).
+    from .gget_virus import _get_datasets_path
+
+    datasets_path = _get_datasets_path()
+    try:
+        result = subprocess.run(
+            [datasets_path, "summary", "genome", "taxon", taxon_name, "--reference", "--as-json-lines"],
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+    except (subprocess.SubprocessError, OSError) as e:
+        raise RuntimeError(f"Failed to run the NCBI datasets CLI to resolve taxon '{taxon_name}': {e}\n") from e
+
+    if result.returncode != 0:
+        raise RuntimeError(
+            f"The NCBI datasets CLI failed while resolving taxon '{taxon_name}' (exit {result.returncode}). "
+            "This is often a transient network issue; please try again.\n"
+        )
+
+    for line in result.stdout.splitlines():
+        line = line.strip()
+        if not line.startswith("{"):
+            continue  # skip non-JSON notices (e.g. update banners)
+        try:
+            record = json_package.loads(line)
+        except ValueError:
+            continue
+        accession = record.get("accession")
+        if accession:
+            if verbose:
+                logger.info(f"Resolved taxon '{taxon_name}' to reference assembly {accession}.")
+            return accession
+
+    raise ValueError(
+        f"Could not find a reference assembly for taxon '{taxon_name}'. Please check the name, "
+        "or pass an NCBI assembly accession (e.g. 'GCF_000001405.40') directly.\n"
+    )
+
+
+def _list_taxon_assemblies(
+    taxon_name: str, json: bool = False, save: bool = False, verbose: bool = True
+) -> pd.DataFrame | list[dict[str, Any]]:
+    """List all NCBI genome assemblies available for an organism/taxon name.
+
+    Returns a DataFrame (or list of dicts) with columns accession, assembly_name,
+    refseq_category, assembly_level and organism, with the reference / representative
+    assemblies listed first. Use it to discover a specific accession to then pass to
+    assembly_report().
+    """
+    from .gget_virus import _get_datasets_path
+
+    datasets_path = _get_datasets_path()
+    try:
+        result = subprocess.run(
+            [datasets_path, "summary", "genome", "taxon", taxon_name, "--as-json-lines"],
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+    except (subprocess.SubprocessError, OSError) as e:
+        raise RuntimeError(f"Failed to run the NCBI datasets CLI to list assemblies for '{taxon_name}': {e}\n") from e
+
+    if result.returncode != 0:
+        raise RuntimeError(
+            f"The NCBI datasets CLI failed while listing assemblies for '{taxon_name}' (exit {result.returncode}). "
+            "This is often a transient network issue; please try again.\n"
+        )
+
+    rows: list[dict[str, Any]] = []
+    for line in result.stdout.splitlines():
+        line = line.strip()
+        if not line.startswith("{"):
+            continue  # skip non-JSON notices (e.g. update banners)
+        try:
+            record = json_package.loads(line)
+        except ValueError:
+            continue
+        info = record.get("assembly_info", {})
+        rows.append(
+            {
+                "accession": record.get("accession", ""),
+                "assembly_name": info.get("assembly_name", ""),
+                "refseq_category": info.get("refseq_category") or "na",
+                "assembly_level": info.get("assembly_level", ""),
+                "organism": record.get("organism", {}).get("organism_name", ""),
+            }
+        )
+
+    if not rows:
+        raise ValueError(f"No assemblies found for taxon '{taxon_name}'. Please check the name.\n")
+
+    # Surface the reference / representative assemblies first, then by accession.
+    category_rank = {"reference genome": 0, "representative genome": 1}
+    rows.sort(key=lambda r: (category_rank.get(r["refseq_category"], 2), r["accession"]))
+    df = pd.DataFrame(rows)
+
+    if verbose:
+        logger.info(f"Found {len(df)} assemblies for taxon '{taxon_name}'.")
+
+    file_stem = taxon_name.replace(" ", "_")
+    if json:
+        result_list = cast("list[dict[str, Any]]", df.to_dict(orient="records"))
+        if save:
+            with open(f"{file_stem}_assemblies.json", "w", encoding="utf-8") as f:
+                json_package.dump(result_list, f, ensure_ascii=False, indent=4)
+        return result_list
+
+    if save:
+        df.to_csv(f"{file_stem}_assemblies.csv", index=False)
+
+    return df
+
+
+def assembly_report(
+    accession: str,
+    json: bool = False,
+    save: bool = False,
+    taxon: bool = False,
+    list_assemblies: bool = False,
+    verbose: bool = True,
+) -> pd.DataFrame | list[dict[str, Any]]:
+    """Fetch the NCBI assembly report for a genome assembly accession.
+
+    The assembly report maps sequence (e.g. chromosome) names across the
+    different naming conventions (Ensembl/short names, GenBank accessions,
+    RefSeq accessions, UCSC-style names), which is useful for translating
+    chromosome names between databases.
+
+    Args:
+    - accession   NCBI assembly accession, e.g. "GCF_000001405.40" (RefSeq) or
+                  "GCA_000001405.29" (GenBank). The version suffix is optional; if omitted
+                  (e.g. "GCF_000001405"), the latest available version is used.
+                  When taxon=True, this is instead an organism/taxon name (e.g. "homo sapiens").
+    - json        If True, returns the report as a list of dictionaries instead of
+                  a pandas DataFrame. Default: False.
+    - save        If True, saves the report to '{accession}_assembly_report.csv'
+                  (or .json if json=True) in the current working directory. Default: False.
+    - taxon       If True, `accession` is interpreted as an organism/taxon name and resolved to
+                  that taxon's NCBI reference assembly accession (via the bundled datasets CLI)
+                  before fetching the report. Default: False.
+    - list_assemblies If True, `accession` is interpreted as an organism/taxon name and, instead of a
+                  report, a table of all NCBI assemblies for that taxon is returned (accession,
+                  assembly_name, refseq_category, assembly_level, organism), reference/representative
+                  first. Use it to find a specific accession to pass back in. Default: False.
+    - verbose     True/False whether to print progress information. Default: True.
+
+    Returns a pandas DataFrame (or list of dictionaries if json=True) with one row per
+    sequence and the columns provided by the NCBI assembly report
+    (Sequence-Name, Sequence-Role, Assigned-Molecule, Assigned-Molecule-Location/Type,
+    GenBank-Accn, Relationship, RefSeq-Accn, Assembly-Unit, Sequence-Length, UCSC-style-name).
+    """
+    # When list_assemblies=True, return the taxon's assembly catalogue instead of a single report.
+    if list_assemblies:
+        return _list_taxon_assemblies(accession, json=json, save=save, verbose=verbose)
+
+    # When taxon=True, resolve the organism/taxon name to its reference assembly accession first.
+    if taxon:
+        accession = _resolve_taxon_to_accession(accession, verbose=verbose)
+
+    # Validate the accession format. The version suffix is optional: when omitted
+    # (e.g. "GCF_000001405"), the latest available version is used.
+    accession = accession.strip() if isinstance(accession, str) else accession
+    match = re.fullmatch(r"(GC[AF]_\d{9})(\.\d+)?", accession) if isinstance(accession, str) else None
+    if not match:
+        raise ValueError(
+            f"Invalid NCBI assembly accession: '{accession}'. "
+            "Expected format 'GCA_########.#' or 'GCF_########.#'; the version suffix is optional, "
+            "e.g. 'GCF_000001405.40' or 'GCF_000001405'.\n"
+        )
+    base_accession = match.group(1)  # accession without version, e.g. GCF_000001405
+    has_version = match.group(2) is not None
+
+    # Build the path to the assembly's FTP directory from the accession digits
+    # (the version does not affect this sharded path).
+    prefix = base_accession[:3]  # GCA or GCF
+    digits = base_accession.split("_")[1]  # e.g. 000001405
+    parent_url = f"{NCBI_FTP_GENOMES_URL}{prefix}/{digits[0:3]}/{digits[3:6]}/{digits[6:9]}/"
+
+    # List the parent directory to find the full assembly folder name (accession.version + assembly name)
+    parent_html = requests.get(parent_url, timeout=DEFAULT_REQUESTS_TIMEOUT)
+    if parent_html.status_code != 200:
+        raise RuntimeError(
+            f"NCBI assembly directory for accession '{accession}' returned status code "
+            f"{parent_html.status_code}. Please double-check the accession.\n"
+        )
+
+    soup = BeautifulSoup(parent_html.text, "html.parser")
+    hrefs = [href.rstrip("/") for href in (a.get("href", "") for a in soup.find_all("a"))]
+    if has_version:
+        # Match on the trailing underscore so that e.g. 'GCF_000001405.4' does not
+        # prefix-match the folder for 'GCF_000001405.40'.
+        folders = [h for h in hrefs if h.startswith(accession + "_")]
+    else:
+        # No version given: match any version of this accession and pick the latest.
+        versioned = re.compile(rf"{re.escape(base_accession)}\.(\d+)_")
+        candidates = [(int(m.group(1)), h) for h in hrefs if (m := versioned.match(h))]
+        folders = [max(candidates)[1]] if candidates else []
+    if not folders:
+        raise RuntimeError(
+            f"No assembly folder found for accession '{accession}' at {parent_url}. "
+            "Please double-check the accession.\n"
+        )
+
+    folder = folders[0]
+    # Recover the accession with its resolved version from the folder name (e.g. GCF_000001405.40),
+    # so saved files and logs always carry the exact version even when the input omitted it.
+    resolved_accession = "_".join(folder.split("_")[:2])
+    report_url = f"{parent_url}{folder}/{folder}_assembly_report.txt"
+
+    if verbose:
+        logger.info(f"Fetching NCBI assembly report for {resolved_accession} from {report_url}.")
+
+    report_html = requests.get(report_url, timeout=DEFAULT_REQUESTS_TIMEOUT)
+    if report_html.status_code != 200:
+        raise RuntimeError(
+            f"Assembly report for accession '{accession}' returned status code "
+            f"{report_html.status_code} ({report_url}).\n"
+        )
+
+    # Parse the tab-delimited report: comment lines start with '#'; the column
+    # header is the comment line that starts with '# Sequence-Name'.
+    columns: list[str] | None = None
+    rows: list[list[str]] = []
+    for line in report_html.text.splitlines():
+        if line.startswith("#"):
+            if line.startswith("# Sequence-Name"):
+                columns = line.lstrip("#").strip().split("\t")
+            continue
+        if not line.strip():
+            continue
+        rows.append(line.split("\t"))
+
+    if columns is None:
+        raise RuntimeError(
+            f"Could not parse the assembly report for accession '{accession}' "
+            f"(no column header found at {report_url}).\n"
+        )
+
+    df = pd.DataFrame(rows, columns=columns)
+
+    if json:
+        result = cast("list[dict[str, Any]]", df.to_dict(orient="records"))
+        if save:
+            with open(f"{resolved_accession}_assembly_report.json", "w", encoding="utf-8") as f:
+                json_package.dump(result, f, ensure_ascii=False, indent=4)
+        return result
+
+    if save:
+        df.to_csv(f"{resolved_accession}_assembly_report.csv", index=False)
+
+    return df
 
 
 def find_FTP_link(url: str, link_substring: str) -> tuple[str | None, str | None, str | None]:
@@ -58,6 +323,11 @@ def find_FTP_link(url: str, link_substring: str) -> tuple[str | None, str | None
     return link_str, date_str, size_str
 
 
+# Module-level alias so ref() can delegate without its boolean ``assembly_report``
+# parameter shadowing the function of the same name.
+_assembly_report_fn = assembly_report
+
+
 def ref(
     species: str | None,
     which: str | list[str] = "all",
@@ -66,6 +336,10 @@ def ref(
     save: bool = False,
     list_species: bool = False,
     list_iv_species: bool = False,
+    assembly_report: bool = False,
+    json: bool = False,
+    taxon: bool = False,
+    list_assemblies: bool = False,
     verbose: bool = True,
 ) -> Any:
     """Fetch FTPs for reference genomes and annotations by species from Ensembl.
@@ -74,6 +348,9 @@ def ref(
     - species         Defines the species for which the reference should be fetched in the format "<genus>_<species>",
                       e.g. species = "homo_sapiens".
                       Supported shortcuts: "human", "mouse", "human_grch37" (accesses the GRCh37 genome assembly)
+                      When `assembly_report=True`, this is instead an NCBI assembly accession,
+                      e.g. "GCF_000001405.40" (the version suffix is optional; if omitted, the
+                      latest available version is used).
     - which           Defines which results to return.
                       Default: 'all' -> Returns all available results.
                       Possible entries are one or a combination (as a list of strings) of the following:
@@ -91,11 +368,34 @@ def ref(
                       (Can be combined with the `release` argument to get the available species from a specific Ensembl release.)
     - list_iv_species If True and `species=None`, returns a list of all available INVERTEBRATE species from the Ensembl database (default: False).
                       (Can be combined with the `release` argument to get the available species from a specific Ensembl release.)
+    - assembly_report If True, `species` is interpreted as an NCBI assembly accession (e.g. "GCF_000001405.40")
+                      and the NCBI assembly report is returned instead of Ensembl FTP links. Useful for translating
+                      sequence/chromosome names between Ensembl, GenBank, RefSeq and UCSC conventions (default: False).
+    - json            Only used when `assembly_report=True`: if True, returns the report as a list of
+                      dictionaries instead of a pandas DataFrame (default: False).
+    - taxon           Only used when `assembly_report=True`: if True, `species` is interpreted as an
+                      organism/taxon name (e.g. "homo sapiens") and resolved to that taxon's NCBI
+                      reference assembly accession before fetching the report (default: False).
+    - list_assemblies Only used when `assembly_report=True`: if True, `species` is interpreted as an
+                      organism/taxon name and a table of all NCBI assemblies for that taxon is
+                      returned instead of a report (default: False).
     - verbose         True/False whether to print progress information (default: True).
 
     Returns a dictionary containing the requested URLs with their respective Ensembl version and release date and time.
     (If FTP=True, returns a list containing only the URLs.)
+    (If assembly_report=True, returns the NCBI assembly report as a pandas DataFrame, or a list of dictionaries if json=True.)
     """
+    # Return the NCBI assembly report instead of Ensembl FTP links
+    if assembly_report:
+        if species is None:
+            raise ValueError(
+                "An NCBI assembly accession (e.g. 'GCF_000001405.40') must be provided as the "
+                "`species` argument when `assembly_report=True`.\n"
+            )
+        return _assembly_report_fn(
+            species, json=json, save=save, taxon=taxon, list_assemblies=list_assemblies, verbose=verbose
+        )
+
     # Return list of all available species
     if list_species:
         if release is None:
@@ -481,7 +781,7 @@ def ref(
 
         if save:
             with open("gget_ref_results.json", "w", encoding="utf-8") as file:
-                json.dump(ref_dict, file, ensure_ascii=False, indent=4)
+                json_package.dump(ref_dict, file, ensure_ascii=False, indent=4)
         if verbose:
             logger.info(f"Fetching reference information for {species} from Ensembl release: {ENS_rel}.")
         return ref_dict

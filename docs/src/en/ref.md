@@ -10,7 +10,8 @@ Return format: dictionary/JSON.
 Species for which the FTPs will be fetched in the format genus_species, e.g. homo_sapiens.  
 Supports all available vertebrate and invertebrate (plants, fungi, protists, and invertebrate metazoa) genomes from Ensembl, except bacteria.  
 Note: Not required when using flags `--list_species` or `--list_iv_species`.  
-Supported shortcuts: 'human', 'mouse', 'human_grch37' (accesses the GRCh37 genome assembly)
+Supported shortcuts: 'human', 'mouse', 'human_grch37' (accesses the GRCh37 genome assembly)  
+When using the `--assembly_report` flag, this is instead an NCBI assembly accession, e.g. GCF_000001405.40. The version suffix is optional; if omitted (e.g. GCF_000001405), the latest available version is used.
 
 **Optional arguments**  
 `-w` `--which`  
@@ -42,6 +43,22 @@ Lists all available invertebrate species. (Python: combine with `species=None`.)
 
 `-ftp` `--ftp`  
 Returns only the requested FTP links.  
+
+`-ar` `--assembly_report`  
+Returns the [NCBI assembly report](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/troubleshooting/faq/#what-is-an-assembly-report) for the NCBI assembly accession passed as the positional argument (instead of Ensembl FTP links). The report maps sequence/chromosome names across the Ensembl/short, GenBank, RefSeq, and UCSC naming conventions, which is useful for translating chromosome names between databases.  
+Python: returns a `pandas` DataFrame (use `assembly_report=True`).  
+
+`-tx` `--taxon`  
+Only used with `--assembly_report`: interpret the positional argument as an organism/taxon name (e.g. `"homo sapiens"`) and resolve it to that taxon's NCBI reference assembly before fetching the report.  
+Python: use `taxon=True`.  
+
+`-la` `--list_assemblies`  
+Only used with `--assembly_report`: interpret the positional argument as an organism/taxon name and list all of that taxon's NCBI assemblies (accession, assembly_name, refseq_category, assembly_level, organism), reference/representative first, instead of a report. Use it to find a specific accession to fetch.  
+Python: use `list_assemblies=True`.  
+
+`-csv` `--csv`  
+Command-line only. Only used with `--assembly_report`: returns the report in csv format instead of json.  
+Python: Use `json=True` to return a list of dictionaries instead of a DataFrame.  
 
 `-d` `--download`  
 Command-line only. Downloads the requested FTPs to the directory specified by `out_dir` (requires [curl](https://curl.se/docs/) to be installed).
@@ -95,6 +112,47 @@ gget.ref(species=None, list_species=True, release=103)
 ```
 &rarr; Returns a list with all available genomes (checks if GTF and FASTAs are available) from Ensembl release 103.  
 (If no release is specified, `gget ref` will always return information from the latest Ensembl release.)  
+
+<br/><br/>
+
+**Get the NCBI assembly report to translate chromosome names between conventions:**  
+```bash
+gget ref GCF_000001405.40 --assembly_report
+```
+```python
+# Python
+gget.ref("GCF_000001405.40", assembly_report=True)
+```
+&rarr; Returns the NCBI assembly report for the human GRCh38.p14 assembly, mapping each sequence across the Ensembl/short (`Sequence-Name`), GenBank (`GenBank-Accn`), RefSeq (`RefSeq-Accn`), and UCSC (`UCSC-style-name`) naming conventions:
+
+| Sequence-Name | Sequence-Role | Assigned-Molecule | ... | GenBank-Accn | RefSeq-Accn | ... | UCSC-style-name |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 1 | assembled-molecule | 1 | ... | CM000663.2 | NC_000001.11 | ... | chr1 |
+| 2 | assembled-molecule | 2 | ... | CM000664.2 | NC_000002.12 | ... | chr2 |
+
+<br/><br/>
+
+**Get the assembly report by organism name instead of accession (resolves to the reference assembly):**  
+```bash
+gget ref "homo sapiens" --assembly_report --taxon
+```
+```python
+# Python
+gget.ref("homo sapiens", assembly_report=True, taxon=True)
+```
+&rarr; Resolves *homo sapiens* to its NCBI reference assembly (`GCF_000001405.40`) and returns the same report as above. (If you already know the specific assembly you want, pass its accession directly without `--taxon`.)
+
+<br/><br/>
+
+**List all assemblies for an organism (to pick a specific non-reference assembly):**  
+```bash
+gget ref "homo sapiens" --assembly_report --list_assemblies
+```
+```python
+# Python
+gget.ref("homo sapiens", assembly_report=True, list_assemblies=True)
+```
+&rarr; Returns a table of all NCBI assemblies for *homo sapiens* (reference/representative first), e.g. `GCF_000001405.40` (GRCh38.p14), `GCF_009914755.1` (T2T-CHM13v2.0), .... Pick the accession you want and pass it back to `--assembly_report` to fetch its report.
 
 <br/><br/>
 

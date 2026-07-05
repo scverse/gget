@@ -17,6 +17,9 @@ ENSEMBL_FTP_URL_NV = "http://ftp.ensemblgenomes.org/pub/"
 # NCBI URL for gget info
 NCBI_URL = "https://www.ncbi.nlm.nih.gov"
 
+# NCBI genomes FTP root for gget ref assembly reports
+NCBI_FTP_GENOMES_URL = "https://ftp.ncbi.nlm.nih.gov/genomes/all/"
+
 # NCBI VIRUS REST API URL for gget virus - Version 2 API endpoint
 NCBI_API_BASE = "https://api.ncbi.nlm.nih.gov/datasets/v2"
 

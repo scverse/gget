@@ -648,5 +648,14 @@
             "ftp": false
         },
         "expected_result": "RuntimeError"
+    },
+    "test_ref_assembly_report_bad_accession": {
+        "type": "error",
+        "args": {
+            "species": "banana",
+            "assembly_report": true
+        },
+        "expected_result": "ValueError",
+        "expected_msg": "Invalid NCBI assembly accession: 'banana'. Expected format 'GCA_########.#' or 'GCF_########.#'; the version suffix is optional, e.g. 'GCF_000001405.40' or 'GCF_000001405'.\n"
     }
 }
