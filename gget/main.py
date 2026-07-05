@@ -213,6 +213,18 @@ def main() -> None:
         ),
     )
     parser_ref.add_argument(
+        "-tx",
+        "--taxon",
+        default=False,
+        action="store_true",
+        required=False,
+        help=(
+            "Only used with --assembly_report: interpret the positional argument as an organism/taxon\n"
+            "name (e.g. 'gget ref \"homo sapiens\" --assembly_report --taxon') and resolve it to that\n"
+            "taxon's NCBI reference assembly before fetching the report."
+        ),
+    )
+    parser_ref.add_argument(
         "-csv",
         "--csv",
         default=True,
@@ -3356,6 +3368,7 @@ def main() -> None:
                 species=args.species,
                 assembly_report=True,
                 json=args.csv,
+                taxon=args.taxon,
                 verbose=args.quiet,
             )
 

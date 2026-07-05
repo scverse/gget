@@ -48,6 +48,10 @@ Returns only the requested FTP links.
 Returns the [NCBI assembly report](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/troubleshooting/faq/#what-is-an-assembly-report) for the NCBI assembly accession passed as the positional argument (instead of Ensembl FTP links). The report maps sequence/chromosome names across the Ensembl/short, GenBank, RefSeq, and UCSC naming conventions, which is useful for translating chromosome names between databases.  
 Python: returns a `pandas` DataFrame (use `assembly_report=True`).  
 
+`-tx` `--taxon`  
+Only used with `--assembly_report`: interpret the positional argument as an organism/taxon name (e.g. `"homo sapiens"`) and resolve it to that taxon's NCBI reference assembly before fetching the report.  
+Python: use `taxon=True`.  
+
 `-csv` `--csv`  
 Command-line only. Only used with `--assembly_report`: returns the report in csv format instead of json.  
 Python: Use `json=True` to return a list of dictionaries instead of a DataFrame.  
@@ -121,6 +125,18 @@ gget.ref("GCF_000001405.40", assembly_report=True)
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | assembled-molecule | 1 | ... | CM000663.2 | NC_000001.11 | ... | chr1 |
 | 2 | assembled-molecule | 2 | ... | CM000664.2 | NC_000002.12 | ... | chr2 |
+
+<br/><br/>
+
+**Get the assembly report by organism name instead of accession (resolves to the reference assembly):**  
+```bash
+gget ref "homo sapiens" --assembly_report --taxon
+```
+```python
+# Python
+gget.ref("homo sapiens", assembly_report=True, taxon=True)
+```
+&rarr; Resolves *homo sapiens* to its NCBI reference assembly (`GCF_000001405.40`) and returns the same report as above. (If you already know the specific assembly you want, pass its accession directly without `--taxon`.)
 
 <br/><br/>
 

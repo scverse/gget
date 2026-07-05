@@ -2,7 +2,7 @@ import json
 import os
 import tempfile
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 import gget.gget_ref as gget_ref
 import requests
@@ -128,6 +128,38 @@ class TestAssemblyReportOffline(unittest.TestCase):
             finally:
                 os.chdir(cwd)
 
+    @patch.object(gget_ref.requests, "get")
+    @patch.object(gget_ref, "_resolve_taxon_to_accession", return_value="GCF_000001405.40")
+    def test_taxon_resolves_then_fetches(self, mock_resolve, mock_get):
+        # taxon=True routes the input through the resolver, then fetches the report normally.
+        mock_get.side_effect = [_FakeResp(_PARENT_HTML), _FakeResp(_REPORT_TEXT)]
+        df = assembly_report("homo sapiens", taxon=True, verbose=False)
+        mock_resolve.assert_called_once_with("homo sapiens", verbose=False)
+        self.assertEqual(df.iloc[0]["UCSC-style-name"], "chr1")
+
+    @patch("gget.gget_virus._get_datasets_path", return_value="datasets")
+    @patch.object(gget_ref.subprocess, "run")
+    def test_resolve_taxon_parses_accession(self, mock_run, _mock_path):
+        mock_run.return_value = Mock(
+            returncode=0,
+            stdout='new version notice\n{"accession": "GCF_000001405.40", "organism": {}}\n',
+        )
+        self.assertEqual(gget_ref._resolve_taxon_to_accession("homo sapiens", verbose=False), "GCF_000001405.40")
+
+    @patch("gget.gget_virus._get_datasets_path", return_value="datasets")
+    @patch.object(gget_ref.subprocess, "run")
+    def test_resolve_taxon_not_found_raises(self, mock_run, _mock_path):
+        mock_run.return_value = Mock(returncode=0, stdout="")  # no records -> unknown taxon
+        with self.assertRaises(ValueError):
+            gget_ref._resolve_taxon_to_accession("not-a-species", verbose=False)
+
+    @patch("gget.gget_virus._get_datasets_path", return_value="datasets")
+    @patch.object(gget_ref.subprocess, "run")
+    def test_resolve_taxon_datasets_failure_raises(self, mock_run, _mock_path):
+        mock_run.return_value = Mock(returncode=1, stdout="")  # datasets CLI error (often transient)
+        with self.assertRaises(RuntimeError):
+            gget_ref._resolve_taxon_to_accession("homo sapiens", verbose=False)
+
 
 class TestAssemblyReportLive(unittest.TestCase):
     """Live test hitting the real NCBI FTP (issue #179).
@@ -150,3 +182,14 @@ class TestAssemblyReportLive(unittest.TestCase):
         self.assertEqual(row["RefSeq-Accn"], "NC_045512.2")
         self.assertEqual(row["GenBank-Accn"], "MN908947.3")
         self.assertEqual(row["Sequence-Length"], "29903")
+
+    def test_taxon_human_resolves_to_reference(self):
+        # taxon=True resolves "homo sapiens" (via the bundled datasets CLI) to the human
+        # reference assembly and returns its report, which must contain chromosome 1.
+        try:
+            df = assembly_report("homo sapiens", taxon=True, verbose=False)
+        except requests.RequestException as e:
+            self.skipTest(f"Network error reaching NCBI: {e}")
+        except RuntimeError as e:
+            self.skipTest(f"NCBI datasets/FTP transient error: {e}")
+        self.assertIn("NC_000001.11", set(df["RefSeq-Accn"]))
