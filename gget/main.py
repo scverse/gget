@@ -225,6 +225,18 @@ def main() -> None:
         ),
     )
     parser_ref.add_argument(
+        "-la",
+        "--list_assemblies",
+        default=False,
+        action="store_true",
+        required=False,
+        help=(
+            "Only used with --assembly_report: interpret the positional argument as an organism/taxon\n"
+            "name and list all of that taxon's NCBI assemblies (accession, name, category, level) instead\n"
+            "of a report, so you can pick a specific accession to fetch."
+        ),
+    )
+    parser_ref.add_argument(
         "-csv",
         "--csv",
         default=True,
@@ -3369,6 +3381,7 @@ def main() -> None:
                 assembly_report=True,
                 json=args.csv,
                 taxon=args.taxon,
+                list_assemblies=args.list_assemblies,
                 verbose=args.quiet,
             )
 

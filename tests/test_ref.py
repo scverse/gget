@@ -160,6 +160,40 @@ class TestAssemblyReportOffline(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             gget_ref._resolve_taxon_to_accession("homo sapiens", verbose=False)
 
+    @patch("gget.gget_virus._get_datasets_path", return_value="datasets")
+    @patch.object(gget_ref.subprocess, "run")
+    def test_list_taxon_assemblies_columns_and_order(self, mock_run, _mock_path):
+        # Two records; the "reference genome" must sort ahead of the "na" one.
+        mock_run.return_value = Mock(
+            returncode=0,
+            stdout=(
+                '{"accession": "GCF_000002125.1", "assembly_info": {"assembly_name": "HuRef", '
+                '"assembly_level": "Chromosome"}, "organism": {"organism_name": "Homo sapiens"}}\n'
+                '{"accession": "GCF_000001405.40", "assembly_info": {"assembly_name": "GRCh38.p14", '
+                '"refseq_category": "reference genome", "assembly_level": "Chromosome"}, '
+                '"organism": {"organism_name": "Homo sapiens"}}\n'
+            ),
+        )
+        df = gget_ref._list_taxon_assemblies("homo sapiens", verbose=False)
+        self.assertEqual(
+            list(df.columns), ["accession", "assembly_name", "refseq_category", "assembly_level", "organism"]
+        )
+        self.assertEqual(df.iloc[0]["accession"], "GCF_000001405.40")  # reference first
+        self.assertEqual(df.iloc[1]["refseq_category"], "na")  # missing category -> "na"
+
+    @patch("gget.gget_virus._get_datasets_path", return_value="datasets")
+    @patch.object(gget_ref.subprocess, "run")
+    def test_list_taxon_assemblies_empty_raises(self, mock_run, _mock_path):
+        mock_run.return_value = Mock(returncode=0, stdout="")
+        with self.assertRaises(ValueError):
+            gget_ref._list_taxon_assemblies("not-a-species", verbose=False)
+
+    @patch.object(gget_ref, "_list_taxon_assemblies")
+    def test_assembly_report_list_assemblies_delegates(self, mock_list):
+        mock_list.return_value = "CATALOGUE"
+        self.assertEqual(assembly_report("homo sapiens", list_assemblies=True, verbose=False), "CATALOGUE")
+        mock_list.assert_called_once()
+
 
 class TestAssemblyReportLive(unittest.TestCase):
     """Live test hitting the real NCBI FTP (issue #179).
@@ -193,3 +227,14 @@ class TestAssemblyReportLive(unittest.TestCase):
         except RuntimeError as e:
             self.skipTest(f"NCBI datasets/FTP transient error: {e}")
         self.assertIn("NC_000001.11", set(df["RefSeq-Accn"]))
+
+    def test_list_assemblies_human_contains_reference(self):
+        # list_assemblies=True returns the taxon's assembly catalogue; the human reference must be in it.
+        try:
+            df = assembly_report("homo sapiens", list_assemblies=True, verbose=False)
+        except requests.RequestException as e:
+            self.skipTest(f"Network error reaching NCBI: {e}")
+        except RuntimeError as e:
+            self.skipTest(f"NCBI datasets transient error: {e}")
+        self.assertIn("GCF_000001405.40", set(df["accession"]))
+        self.assertEqual(df.iloc[0]["refseq_category"], "reference genome")  # reference sorted first

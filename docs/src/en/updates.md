@@ -9,6 +9,7 @@
   - New `assembly_report=True` option (command line: `--assembly_report`/`-ar`) interprets the positional argument as an NCBI assembly accession (e.g. `GCF_000001405.40`) and returns the assembly report, which maps sequence/chromosome names across the Ensembl/short, GenBank, RefSeq, and UCSC naming conventions (e.g. `chr1` ↔ `1` ↔ `CM000663.2` ↔ `NC_000001.11`).
   - The accession version suffix is optional; if omitted (e.g. `GCF_000001405`), the latest available version is used.
   - New `taxon=True` option (command line: `--taxon`/`-tx`) interprets the input as an organism/taxon name (e.g. `"homo sapiens"`) and resolves it to that taxon's NCBI reference assembly before fetching the report.
+  - New `list_assemblies=True` option (command line: `--list_assemblies`/`-la`) lists all NCBI assemblies for an organism/taxon name (reference/representative first) so a specific non-reference assembly can be selected.
   - Returns a `pandas` DataFrame in Python (pass `json=True` for a list of dictionaries). On the command line the report prints as JSON by default; use `--csv` for CSV. The new `gget.assembly_report()` function is also exposed for direct use.
 
 **Version ≥ 0.30.8** (Jun 28, 2026):  
