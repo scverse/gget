@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import sys
 from datetime import datetime
-from typing import Any
+from typing import Any, cast
 
 import pandas as pd
 
@@ -37,6 +37,7 @@ from .gget_muscle import muscle  # noqa: E402
 from .gget_mutate import mutate  # noqa: E402
 from .gget_opentargets import OPENTARGETS_RESOURCES, opentargets  # noqa: E402
 from .gget_pdb import pdb  # noqa: E402
+from .gget_reactome import reactome  # noqa: E402
 from .gget_ref import ref  # noqa: E402
 from .gget_search import search  # noqa: E402
 from .gget_seq import seq  # noqa: E402
@@ -2342,6 +2343,94 @@ def main() -> None:
         help="Does not print progress information.",
     )
 
+    ## reactome parser arguments
+    reactome_desc = "Query the Reactome pathway database (https://reactome.org/)."
+    parser_reactome = parent_subparsers.add_parser(
+        "reactome",
+        parents=[parent],
+        description=reactome_desc,
+        help=reactome_desc,
+        add_help=True,
+        formatter_class=CustomHelpFormatter,
+    )
+    parser_reactome.add_argument(
+        "query",
+        type=str,
+        help=(
+            "Identifier or search term to query. Meaning depends on --resource:\n"
+            "  - resource 'pathways': an identifier (e.g. UniProt accession 'P04637').\n"
+            "  - resource 'search':   a free-text search term (e.g. 'TP53').\n"
+            "  - resource 'entity':   a Reactome stable ID (e.g. 'R-HSA-6804754')."
+        ),
+    )
+    parser_reactome.add_argument(
+        "-r",
+        "--resource",
+        type=str,
+        choices=["pathways", "search", "entity", "interactors", "orthology", "event-hierarchy"],
+        default="pathways",
+        required=False,
+        help=(
+            "Type of query to perform:\n"
+            "  - 'pathways' (default): pathways the identifier participates in.\n"
+            "  - 'search':             full-text search of the Reactome knowledgebase.\n"
+            "  - 'entity':             details for a Reactome stable ID.\n"
+            "  - 'interactors':        molecular interactors of an identifier.\n"
+            "  - 'orthology':          project a stable ID to another species (needs --species).\n"
+            "  - 'event-hierarchy':    the full pathway/reaction hierarchy for a species."
+        ),
+    )
+    parser_reactome.add_argument(
+        "-s",
+        "--source",
+        type=str,
+        default="UniProt",
+        required=False,
+        help="Identifier resource/database for resource 'pathways' (e.g. 'UniProt', 'Ensembl', 'ChEBI'). Default: UniProt.",
+    )
+    parser_reactome.add_argument(
+        "-sp",
+        "--species",
+        type=str,
+        default=None,
+        required=False,
+        help="Restrict results to a species, as a name (e.g. 'Homo sapiens') or NCBI taxonomy ID (e.g. '9606').",
+    )
+    parser_reactome.add_argument(
+        "-t",
+        "--types",
+        type=str,
+        default=None,
+        required=False,
+        help="Restrict resource 'search' results to one or more entry types (e.g. 'Pathway', 'Reaction', 'Protein').",
+    )
+    parser_reactome.add_argument(
+        "-o",
+        "--out",
+        type=str,
+        required=False,
+        help=(
+            "Path to the file the results will be saved in, e.g. path/to/directory/results.json.\n"
+            "Default: Standard out."
+        ),
+    )
+    parser_reactome.add_argument(
+        "-csv",
+        "--csv",
+        default=False,
+        action="store_true",
+        required=False,
+        help="Returns results in csv format instead of json.",
+    )
+    parser_reactome.add_argument(
+        "-q",
+        "--quiet",
+        default=True,
+        action="store_false",
+        required=False,
+        help="Does not print progress information.",
+    )
+
     ## g2p parser arguments
     g2p_desc = "Query the Genomics 2 Proteins (G2P) portal for residue-level protein structure/function annotations."
     parser_g2p = parent_subparsers.add_parser(
@@ -2971,6 +3060,7 @@ def main() -> None:
         "opentargets": parser_opentargets,
         "cbio": parser_cbio,
         "bgee": parser_bgee,
+        "reactome": parser_reactome,
         "8cube": parser_8cube,
         "virus": parser_virus,
     }
@@ -3830,6 +3920,39 @@ def main() -> None:
                 bgee_results.to_csv(sys.stdout, index=False)
             else:
                 print(bgee_results.to_json(orient="records", force_ascii=False, indent=4))
+
+    ## reactome return
+    if args.command == "reactome":
+        # The CLI never passes json=True, so reactome() always returns a DataFrame here.
+        reactome_results = cast(
+            "pd.DataFrame",
+            reactome(
+                args.query,
+                resource=args.resource,
+                source=args.source,
+                species=args.species,
+                types=args.types,
+                verbose=args.quiet,
+            ),
+        )
+
+        if args.out is not None and args.out != "":
+            # Make saving directory
+            directory = os.path.dirname(args.out)
+            if directory != "":
+                os.makedirs(directory, exist_ok=True)
+
+            # Save results
+            with open(args.out, "w", encoding="utf-8") as f:
+                if args.csv:
+                    reactome_results.to_csv(f, index=False)
+                else:
+                    reactome_results.to_json(f, orient="records", force_ascii=False, indent=4)
+        else:
+            if args.csv:
+                reactome_results.to_csv(sys.stdout, index=False)
+            else:
+                print(reactome_results.to_json(orient="records", force_ascii=False, indent=4))
 
     ## g2p return
     if args.command == "g2p":
