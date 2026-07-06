@@ -98,6 +98,19 @@ def parallel_map(fn: Callable[[Any], Any], items: Iterable[Any], *, max_workers:
         return list(executor.map(fn, items))
 
 
+class HTTPStatusError(RuntimeError):
+    """RuntimeError raised by http_json for a non-2xx HTTP response.
+
+    Subclasses RuntimeError (so existing `except RuntimeError` handlers keep working) but
+    carries the numeric `status_code`, letting callers branch on it without parsing the
+    error message.
+    """
+
+    def __init__(self, message: str, status_code: int | None = None) -> None:
+        super().__init__(message)
+        self.status_code = status_code
+
+
 def http_json(
     method: str,
     url: str,
@@ -145,7 +158,10 @@ def http_json(
             # to the caller without retry.
             if response.status_code < 500:
                 body = response.text[:200] if response.text else ""
-                raise RuntimeError(f"{label} returned HTTP {response.status_code}. Body: {body}")
+                raise HTTPStatusError(
+                    f"{label} returned HTTP {response.status_code}. Body: {body}",
+                    status_code=response.status_code,
+                )
             last_exc = None
             last_status = response.status_code
             last_body = response.text[:200] if response.text else ""
@@ -163,7 +179,10 @@ def http_json(
 
     if last_exc is not None:
         raise RuntimeError(f"{label} request failed after {attempts} attempts: {last_exc}") from last_exc
-    raise RuntimeError(f"{label} returned HTTP {last_status} after {attempts} attempts. Body: {last_body}")
+    raise HTTPStatusError(
+        f"{label} returned HTTP {last_status} after {attempts} attempts. Body: {last_body}",
+        status_code=last_status,
+    )
 
 
 def dig(obj: Any, *path: str, context: str = "") -> Any:

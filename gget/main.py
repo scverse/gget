@@ -3,7 +3,7 @@ from __future__ import annotations
 import argparse
 import sys
 from datetime import datetime
-from typing import Any
+from typing import Any, cast
 
 import pandas as pd
 
@@ -2367,14 +2367,17 @@ def main() -> None:
         "-r",
         "--resource",
         type=str,
-        choices=["pathways", "search", "entity"],
+        choices=["pathways", "search", "entity", "interactors", "orthology", "event-hierarchy"],
         default="pathways",
         required=False,
         help=(
             "Type of query to perform:\n"
             "  - 'pathways' (default): pathways the identifier participates in.\n"
             "  - 'search':             full-text search of the Reactome knowledgebase.\n"
-            "  - 'entity':             details for a Reactome stable ID."
+            "  - 'entity':             details for a Reactome stable ID.\n"
+            "  - 'interactors':        molecular interactors of an identifier.\n"
+            "  - 'orthology':          project a stable ID to another species (needs --species).\n"
+            "  - 'event-hierarchy':    the full pathway/reaction hierarchy for a species."
         ),
     )
     parser_reactome.add_argument(
@@ -3920,13 +3923,17 @@ def main() -> None:
 
     ## reactome return
     if args.command == "reactome":
-        reactome_results: pd.DataFrame = reactome(
-            args.query,
-            resource=args.resource,
-            source=args.source,
-            species=args.species,
-            types=args.types,
-            verbose=args.quiet,
+        # The CLI never passes json=True, so reactome() always returns a DataFrame here.
+        reactome_results = cast(
+            "pd.DataFrame",
+            reactome(
+                args.query,
+                resource=args.resource,
+                source=args.source,
+                species=args.species,
+                types=args.types,
+                verbose=args.quiet,
+            ),
         )
 
         if args.out is not None and args.out != "":

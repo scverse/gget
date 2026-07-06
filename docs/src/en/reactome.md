@@ -5,27 +5,33 @@
 Query the [Reactome](https://reactome.org/) pathway knowledgebase using its [ContentService REST API](https://reactome.org/dev/content-service).  
 Return format: JSON/CSV (command-line) or data frame (Python).
 
-`gget reactome` supports three kinds of queries, selected with the `resource` argument:
+`gget reactome` supports several kinds of queries, selected with the `resource` argument:
 - `pathways` (default): return the Reactome pathways a given identifier (e.g. a UniProt accession) participates in.
 - `search`: full-text search of the Reactome knowledgebase (pathways, reactions, physical entities, ...).
 - `entity`: return details for a Reactome stable ID (e.g. `R-HSA-6804754`).
+- `interactors`: return the molecular interactors of an identifier (IntAct static interactors).
+- `orthology`: project a Reactome stable ID to its ortholog in another species (requires `--species`).
+- `event-hierarchy`: return the full pathway/reaction hierarchy for a species.
 
 **Positional argument**  
 `query`  
-Identifier or search term to query. Its meaning depends on `resource`:
+Identifier, search term or species to query. Its meaning depends on `resource`:
 - `resource="pathways"`: an identifier, e.g. UniProt accession `P04637`.
 - `resource="search"`: a free-text search term, e.g. `TP53`.
 - `resource="entity"`: a Reactome stable ID, e.g. `R-HSA-6804754`.
+- `resource="interactors"`: a molecule accession, e.g. UniProt `P04637`.
+- `resource="orthology"`: a Reactome stable ID to project, e.g. `R-HSA-6804754`.
+- `resource="event-hierarchy"`: a species name or NCBI taxonomy ID, e.g. `Homo sapiens`.
 
 **Optional arguments**  
 `-r` `--resource`  
-Type of query to perform. Options: `pathways` (default), `search`, `entity`.  
+Type of query to perform. Options: `pathways` (default), `search`, `entity`, `interactors`, `orthology`, `event-hierarchy`.  
 
 `-s` `--source`  
 Identifier resource/database for `resource="pathways"`, e.g. `UniProt` (default), `Ensembl`, `ChEBI`, `NCBI`.  
 
 `-sp` `--species`  
-Restrict results to a species, as a name (e.g. `Homo sapiens`) or NCBI taxonomy ID (e.g. `9606`). Applies to `resource="pathways"` and `resource="search"`. Default: None (no species filter).  
+Species, as a name (e.g. `Homo sapiens`) or NCBI taxonomy ID (e.g. `9606`). Filters `resource="pathways"` and `resource="search"`; is the **required target** for `resource="orthology"`. Default: None.  
 
 `-t` `--types`  
 Restrict `resource="search"` results to one or more entry types, e.g. `Pathway`, `Reaction`, `Protein`. Default: None (all types).  
@@ -101,6 +107,47 @@ gget.reactome("R-HSA-6804754", resource="entity")
 | stable_id     | name                          | schema_class | species      | in_disease | summation        |
 |---------------|-------------------------------|--------------|--------------|------------|------------------|
 | R-HSA-6804754 | Regulation of TP53 Expression | Pathway      | Homo sapiens | False      | Transcription... |
+
+<br/><br/>
+
+**Get the molecular interactors of a protein**
+
+```bash
+gget reactome P04637 -r interactors
+```
+```python
+gget.reactome("P04637", resource="interactors")
+```
+
+&rarr; Returns the IntAct interactors of P04637 (columns: `interactor_acc`, `interactor_name`, `score`, `evidences`), e.g. MDM2, with an interaction confidence score.
+
+<br/><br/>
+
+**Project a pathway to another species (orthology)**
+
+```bash
+gget reactome R-HSA-6804754 -r orthology -sp "Mus musculus"
+```
+```python
+gget.reactome("R-HSA-6804754", resource="orthology", species="Mus musculus")
+```
+
+&rarr; Returns the mouse ortholog of the human pathway (`R-MMU-6804754`, "Regulation of TP53 Expression", Mus musculus).
+
+<br/><br/>
+
+**Get the full event (pathway/reaction) hierarchy for a species**
+
+```bash
+gget reactome "Homo sapiens" -r event-hierarchy
+```
+```python
+gget.reactome("Homo sapiens", resource="event-hierarchy")
+```
+
+&rarr; Returns the entire human event hierarchy flattened to one row per event (columns: `stable_id`, `name`, `type`, `species`, `parent_id`, `level`). This is a large table — use `parent_id`/`level` to navigate the tree.
+
+> The returned DataFrame's `.attrs["reactome_release"]` records the Reactome release version (e.g. `97`) for reproducibility.
 
 
 # References
