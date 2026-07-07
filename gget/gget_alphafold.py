@@ -707,7 +707,9 @@ def alphafold(
         single_chain_msas = []
         uniprot_msa = None
 
-        if msa is not None:
+        # `custom_msa_paths is not None` iff `msa is not None`; checking it lets the type
+        # narrow so the indexing below is valid.
+        if custom_msa_paths is not None:
             ## Use the user-provided custom MSA instead of running jackhmmer
             custom_msa = read_custom_msa(custom_msa_paths[sequence_index - 1])
             single_chain_msas.append(custom_msa)
