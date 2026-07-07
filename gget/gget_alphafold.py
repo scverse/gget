@@ -23,6 +23,7 @@ import os  # noqa: E402
 import platform  # noqa: E402
 import random  # noqa: E402
 import shutil  # noqa: E402
+import string  # noqa: E402
 import subprocess  # noqa: E402
 import sys  # noqa: E402
 from concurrent import futures  # noqa: E402
@@ -159,6 +160,149 @@ def get_jackhmmer_dir(jackhmmer_savedir: str | None = None) -> str:
     return os.path.expanduser(os.path.join("~", "tmp", "jackhmmer", UUID))
 
 
+# Recognized custom MSA file extensions (a3m and aligned FASTA share the same parser;
+# in plain aligned FASTA there are simply no lowercase insertion characters).
+CUSTOM_MSA_EXTENSIONS = (".a3m", ".fasta", ".fa", ".afa")
+
+
+def detect_msa_format(msa_path: str) -> str:
+    """Validate and return the format of a user-provided custom MSA file based on its extension.
+
+    Args:
+      - msa_path    Path to the custom MSA file (str).
+
+    Returns "a3m" for '.a3m' files and "fasta" for aligned FASTA files ('.fasta', '.fa', '.afa').
+
+    Raises ValueError if the file extension is not recognized.
+    """
+    lower = msa_path.lower()
+    if lower.endswith(".a3m"):
+        return "a3m"
+    if lower.endswith((".fasta", ".fa", ".afa")):
+        return "fasta"
+    raise ValueError(
+        f"Custom MSA file format not recognized for '{msa_path}'. "
+        f"gget alphafold accepts a3m ('.a3m') or aligned FASTA ('.fasta', '.fa', '.afa') files."
+    )
+
+
+def _parse_fasta_string(fasta_string: str) -> tuple[list[str], list[str]]:
+    """Parse a FASTA/a3m string into (sequences, descriptions)."""
+    sequences: list[str] = []
+    descriptions: list[str] = []
+    index = -1
+    for line in fasta_string.splitlines():
+        line = line.strip()
+        if line.startswith(">"):
+            index += 1
+            descriptions.append(line[1:])
+            sequences.append("")
+            continue
+        if not line:
+            continue
+        if index == -1:
+            raise ValueError("Custom MSA file must be in FASTA/a3m format (sequences preceded by '>' headers).")
+        sequences[index] += line
+    return sequences, descriptions
+
+
+def parse_custom_msa(msa_string: str) -> tuple[list[str], list[list[int]], list[str]]:
+    """Parse a custom a3m/aligned-FASTA MSA string into AlphaFold MSA components.
+
+    Lowercase characters in a3m sequences are treated as insertions relative to the query
+    and counted into the deletion matrix (matching AlphaFold's own a3m parsing). Aligned FASTA
+    files contain no lowercase insertions, so their deletion matrix is all zeros.
+
+    Args:
+      - msa_string    Contents of the custom MSA file (str).
+
+    Returns a tuple of (aligned_sequences, deletion_matrix, descriptions).
+
+    Raises ValueError if no sequences are found.
+    """
+    sequences, descriptions = _parse_fasta_string(msa_string)
+    if not sequences or not any(sequences):
+        raise ValueError("No sequences found in the provided custom MSA.")
+
+    deletion_matrix: list[list[int]] = []
+    for msa_sequence in sequences:
+        deletion_vec: list[int] = []
+        deletion_count = 0
+        for residue in msa_sequence:
+            if residue.islower():
+                deletion_count += 1
+            else:
+                deletion_vec.append(deletion_count)
+                deletion_count = 0
+        deletion_matrix.append(deletion_vec)
+
+    # Build the aligned MSA matrix by removing the lowercase (insertion) characters.
+    deletion_table = str.maketrans("", "", string.ascii_lowercase)
+    aligned_sequences = [seq.translate(deletion_table) for seq in sequences]
+    return aligned_sequences, deletion_matrix, descriptions
+
+
+def read_custom_msa(msa_path: str) -> Any:
+    """Read a user-provided custom MSA file and return an AlphaFold ``parsers.Msa`` object.
+
+    Args:
+      - msa_path    Path to the custom MSA file (a3m or aligned FASTA) (str).
+
+    Returns an ``alphafold.data.parsers.Msa`` object.
+    """
+    from alphafold.data import parsers
+
+    # Validate the file extension up front (raises ValueError for unsupported formats).
+    detect_msa_format(msa_path)
+
+    with open(msa_path) as f:
+        msa_string = f.read()
+
+    aligned_sequences, deletion_matrix, descriptions = parse_custom_msa(msa_string)
+    return parsers.Msa(
+        sequences=aligned_sequences,
+        deletion_matrix=deletion_matrix,
+        descriptions=descriptions,
+    )
+
+
+def _validate_custom_msa_paths(custom_msa_paths: list[str], sequences: list[str]) -> None:
+    """Validate user-provided custom MSA files: one per chain, correct format, first sequence = query.
+
+    Args:
+      - custom_msa_paths   One MSA file path per input chain/sequence (list of str).
+      - sequences          The (cleaned) query sequences, one per chain (list of str).
+
+    Raises ValueError / FileNotFoundError on a mismatch (count, missing file, unsupported format, or a
+    chain whose first MSA sequence does not match that chain's query with gaps removed).
+    """
+    if len(custom_msa_paths) != len(sequences):
+        raise ValueError(
+            "Custom MSA input ('msa') must provide one MSA file per sequence: "
+            f"got {len(custom_msa_paths)} MSA file(s) for {len(sequences)} sequence(s). "
+            "For a multi-chain prediction, pass a list of one MSA file per chain (in the same order)."
+        )
+
+    for chain_index, (msa_path, chain_sequence) in enumerate(zip(custom_msa_paths, sequences, strict=True), start=1):
+        if not os.path.isfile(msa_path):
+            raise FileNotFoundError(f"Custom MSA file not found: '{msa_path}'.")
+
+        # Validate the file format (raises ValueError for unsupported extensions).
+        detect_msa_format(msa_path)
+
+        # The first sequence in each chain's MSA must be that chain's query (ignoring gaps).
+        with open(msa_path) as msa_file:
+            aligned_sequences, _, _ = parse_custom_msa(msa_file.read())
+        query_in_msa = aligned_sequences[0].replace("-", "").upper()
+        if query_in_msa != chain_sequence.upper():
+            raise ValueError(
+                f"The first sequence in custom MSA #{chain_index} ('{msa_path}') must be that chain's "
+                "query sequence (matching the input sequence, ignoring gaps).\n"
+                f"Query sequence:     {chain_sequence}\n"
+                f"First MSA sequence: {query_in_msa}"
+            )
+
+
 def clean_up(jackhmmer_dir: str | None = None) -> None:
     """Function to clean up temporary files after running gget alphafold.
 
@@ -212,6 +356,7 @@ def alphafold(
     show_sidechains: bool = True,
     verbose: bool = True,
     jackhmmer_savedir: str | None = None,
+    msa: str | list[str] | None = None,
 ) -> None:
     """Predicts the structure of a protein using a slightly simplified version of AlphaFold v2.3.0 (https://doi.org/10.1038/s41586-021-03819-2).
 
@@ -232,6 +377,14 @@ def alphafold(
                                 files (str). By default, gget creates a "tmp" folder in the home
                                 directory ("~/tmp/jackhmmer/"), which can take up to ~2 GB of disk space.
                                 Use this argument to place these temporary files elsewhere. Default: None.
+      - msa                     Custom multiple sequence alignment (MSA) to use instead of running the internal
+                                jackhmmer search. Path to a single a3m ('.a3m') or aligned FASTA ('.fasta',
+                                '.fa', '.afa') file for a monomer, or a list of one MSA file per chain (in the
+                                same order as the sequences) for a multimer. The first sequence in each chain's
+                                MSA must be that chain's query (matching the input sequence, ignoring gaps).
+                                When provided, gget alphafold skips the jackhmmer search entirely (no
+                                network/database download). For multimer cross-chain pairing to work, the MSA
+                                headers should carry species identifiers. Default: None.
 
     Saves the predicted aligned error (json) and the prediction (PDB) in the defined 'out' folder.
 
@@ -481,55 +634,69 @@ def alphafold(
             f"The accuracy of this algorithm has not been fully validated above 3000 residues, and you may experience long running times or run out of memory. Total sequence length is {total_sequence_length} residues."
         )
 
-    ## Find the closest source
-    if verbose:
-        logger.info("Finding closest source for reference database.")
+    ## Validate user-provided custom MSA input (https://github.com/scverse/gget/issues/52)
+    # One MSA file per chain (monomer = one file; multimer = one file per sequence, same order).
+    custom_msa_paths = None
+    if msa is not None:
+        # Normalize to a list of paths
+        custom_msa_paths = [msa] if isinstance(msa, str) else list(msa)
+        _validate_custom_msa_paths(custom_msa_paths, sequences)
+        if verbose:
+            logger.info(
+                f"Using {len(custom_msa_paths)} user-provided custom MSA file(s); "
+                "skipping the internal jackhmmer search."
+            )
 
-    ex = futures.ThreadPoolExecutor(3)
-    fs = [ex.submit(fetch, source) for source in ["", "-europe", "-asia"]]
-    source = None
-    for f in futures.as_completed(fs):
-        source = f.result()
-        ex.shutdown()
-        break
+    ## Find the closest source (only needed for the internal jackhmmer search)
+    if msa is None:
+        if verbose:
+            logger.info("Finding closest source for reference database.")
 
-    DB_ROOT_PATH = f"https://storage.googleapis.com/alphafold-colab{source}/latest/"
-    MSA_DATABASES = [
-        {
-            "db_name": "uniref90",
-            "db_path": f"{DB_ROOT_PATH}uniref90_2022_01.fasta",
-            "num_streamed_chunks": 62,
-            "z_value": 144_113_457,
-        },
-        {
-            "db_name": "smallbfd",
-            "db_path": f"{DB_ROOT_PATH}bfd-first_non_consensus_sequences.fasta",
-            "num_streamed_chunks": 17,
-            "z_value": 65_984_053,
-        },
-        {
-            "db_name": "mgnify",
-            "db_path": f"{DB_ROOT_PATH}mgy_clusters_2022_05.fasta",
-            "num_streamed_chunks": 120,
-            "z_value": 623_796_864,
-        },
-    ]
+        ex = futures.ThreadPoolExecutor(3)
+        fs = [ex.submit(fetch, source) for source in ["", "-europe", "-asia"]]
+        source = None
+        for f in futures.as_completed(fs):
+            source = f.result()
+            ex.shutdown()
+            break
 
-    # Search UniProt and construct the all_seq features (only for heteromers, not homomers).
-    if model_type_to_use == ModelType.MULTIMER and len(set(sequences)) > 1:
-        MSA_DATABASES.extend(
-            [
-                # Swiss-Prot and TrEMBL are concatenated together as UniProt
-                {
-                    "db_name": "uniprot",
-                    "db_path": f"{DB_ROOT_PATH}uniprot_2021_04.fasta",
-                    "num_streamed_chunks": 101,
-                    "z_value": 225_013_025 + 565_928,
-                },
-            ]
-        )
+        DB_ROOT_PATH = f"https://storage.googleapis.com/alphafold-colab{source}/latest/"
+        MSA_DATABASES = [
+            {
+                "db_name": "uniref90",
+                "db_path": f"{DB_ROOT_PATH}uniref90_2022_01.fasta",
+                "num_streamed_chunks": 62,
+                "z_value": 144_113_457,
+            },
+            {
+                "db_name": "smallbfd",
+                "db_path": f"{DB_ROOT_PATH}bfd-first_non_consensus_sequences.fasta",
+                "num_streamed_chunks": 17,
+                "z_value": 65_984_053,
+            },
+            {
+                "db_name": "mgnify",
+                "db_path": f"{DB_ROOT_PATH}mgy_clusters_2022_05.fasta",
+                "num_streamed_chunks": 120,
+                "z_value": 623_796_864,
+            },
+        ]
 
-    TOTAL_JACKHMMER_CHUNKS = sum([cfg["num_streamed_chunks"] for cfg in MSA_DATABASES])
+        # Search UniProt and construct the all_seq features (only for heteromers, not homomers).
+        if model_type_to_use == ModelType.MULTIMER and len(set(sequences)) > 1:
+            MSA_DATABASES.extend(
+                [
+                    # Swiss-Prot and TrEMBL are concatenated together as UniProt
+                    {
+                        "db_name": "uniprot",
+                        "db_path": f"{DB_ROOT_PATH}uniprot_2021_04.fasta",
+                        "num_streamed_chunks": 101,
+                        "z_value": 225_013_025 + 565_928,
+                    },
+                ]
+            )
+
+        TOTAL_JACKHMMER_CHUNKS = sum([cfg["num_streamed_chunks"] for cfg in MSA_DATABASES])
 
     ### Search against existing databases
     # Resolve the temporary jackhmmer folder (optionally user-defined via jackhmmer_savedir)
@@ -551,47 +718,64 @@ def alphafold(
     for sequence_index, sequence in enumerate(sequences, start=1):
         # logger.info(f"Getting MSA for sequence {sequence_index}.")
 
-        ## Manage permissions to jackhmmer binary
-        command = f"chmod 755 {JACKHMMER_BINARY_PATH}"
-        with subprocess.Popen(command, shell=True, stderr=subprocess.PIPE) as process:
-            stderr = process.stderr.read().decode("utf-8")
-        # Exit system if the subprocess returned with an error
-        if process.wait() != 0:
-            if stderr:
-                # Log the standard error if it is not empty
-                sys.stderr.write(stderr)
-            logger.error("Giving chmod 755 permissions to jackhmmer binary failed.")
-            return
-
-        # Save the target sequence in a fasta file
-        fasta_path = os.path.join(abs_out_path, f"target_{sequence_index}.fasta")
-        with open(fasta_path, "w") as f:
-            f.write(f">query\n{sequence}")
-
-        # Don't do redundant work for multiple copies of the same chain in the multimer
-        if sequence not in raw_msa_results_for_sequence:
-            raw_msa_results = get_msa(
-                fasta_path=fasta_path,
-                msa_databases=MSA_DATABASES,
-                total_jackhmmer_chunks=TOTAL_JACKHMMER_CHUNKS,
-            )
-            raw_msa_results_for_sequence[sequence] = raw_msa_results
-        else:
-            raw_msa_results = copy.deepcopy(raw_msa_results_for_sequence[sequence])
-
-        ## Extract the MSAs from the Stockholm files.
-        # NB: deduplication happens later in pipeline.make_msa_features.
+        # Build the single-chain MSA(s), either from a user-provided custom MSA or via jackhmmer.
         single_chain_msas = []
         uniprot_msa = None
-        for db_name, db_results in raw_msa_results.items():
-            merged_msa = notebook_utils.merge_chunked_msa(results=db_results, max_hits=MAX_HITS.get(db_name))
-            if merged_msa.sequences and db_name != "uniprot":
-                single_chain_msas.append(merged_msa)
-                msa_size = len(set(merged_msa.sequences))
-                if verbose:
-                    logger.info(f"{msa_size} unique sequences found in {db_name} for sequence {sequence_index}.")
-            elif merged_msa.sequences and db_name == "uniprot":
-                uniprot_msa = merged_msa
+
+        # `custom_msa_paths is not None` iff `msa is not None`; checking it lets the type
+        # narrow so the indexing below is valid.
+        if custom_msa_paths is not None:
+            ## Use the user-provided custom MSA instead of running jackhmmer
+            custom_msa = read_custom_msa(custom_msa_paths[sequence_index - 1])
+            single_chain_msas.append(custom_msa)
+            # For multimer (heteromer) predictions, the custom MSA also serves as the "all_seq"
+            # MSA that AlphaFold-Multimer pairs across chains by species (see the heteromer block
+            # below). Cross-chain pairing only finds matches if the MSA headers carry species
+            # identifiers; otherwise it degrades gracefully to an unpaired multimer.
+            uniprot_msa = custom_msa
+            if verbose:
+                msa_size = len(set(custom_msa.sequences))
+                logger.info(f"{msa_size} unique sequences found in the custom MSA for sequence {sequence_index}.")
+        else:
+            ## Manage permissions to jackhmmer binary
+            command = f"chmod 755 {JACKHMMER_BINARY_PATH}"
+            with subprocess.Popen(command, shell=True, stderr=subprocess.PIPE) as process:
+                stderr = process.stderr.read().decode("utf-8")
+            # Exit system if the subprocess returned with an error
+            if process.wait() != 0:
+                if stderr:
+                    # Log the standard error if it is not empty
+                    sys.stderr.write(stderr)
+                logger.error("Giving chmod 755 permissions to jackhmmer binary failed.")
+                return
+
+            # Save the target sequence in a fasta file
+            fasta_path = os.path.join(abs_out_path, f"target_{sequence_index}.fasta")
+            with open(fasta_path, "w") as f:
+                f.write(f">query\n{sequence}")
+
+            # Don't do redundant work for multiple copies of the same chain in the multimer
+            if sequence not in raw_msa_results_for_sequence:
+                raw_msa_results = get_msa(
+                    fasta_path=fasta_path,
+                    msa_databases=MSA_DATABASES,
+                    total_jackhmmer_chunks=TOTAL_JACKHMMER_CHUNKS,
+                )
+                raw_msa_results_for_sequence[sequence] = raw_msa_results
+            else:
+                raw_msa_results = copy.deepcopy(raw_msa_results_for_sequence[sequence])
+
+            ## Extract the MSAs from the Stockholm files.
+            # NB: deduplication happens later in pipeline.make_msa_features.
+            for db_name, db_results in raw_msa_results.items():
+                merged_msa = notebook_utils.merge_chunked_msa(results=db_results, max_hits=MAX_HITS.get(db_name))
+                if merged_msa.sequences and db_name != "uniprot":
+                    single_chain_msas.append(merged_msa)
+                    msa_size = len(set(merged_msa.sequences))
+                    if verbose:
+                        logger.info(f"{msa_size} unique sequences found in {db_name} for sequence {sequence_index}.")
+                elif merged_msa.sequences and db_name == "uniprot":
+                    uniprot_msa = merged_msa
 
         notebook_utils.show_msa_info(single_chain_msas=single_chain_msas, sequence_index=sequence_index)
 

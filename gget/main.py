@@ -1342,6 +1342,20 @@ def main() -> None:
         ),
     )
     parser_alphafold.add_argument(
+        "-msa",
+        "--msa",
+        type=str,
+        nargs="+",
+        default=None,
+        required=False,
+        help=(
+            "Custom multiple sequence alignment(s) (a3m or aligned FASTA) to use instead of running\n"
+            "the internal jackhmmer search. Pass one MSA file for a monomer, or one file per chain (in\n"
+            "the same order as the sequences) for a multimer. The first sequence in each chain's MSA\n"
+            "must be that chain's query (matching the input sequence, ignoring gaps)."
+        ),
+    )
+    parser_alphafold.add_argument(
         "-q",
         "--quiet",
         default=True,
@@ -3716,6 +3730,7 @@ def main() -> None:
             show_sidechains=False,
             verbose=args.quiet,
             jackhmmer_savedir=args.jackhmmer_savedir,
+            msa=args.msa,
         )
 
     ## pdb return
