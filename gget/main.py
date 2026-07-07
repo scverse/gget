@@ -1345,12 +1345,14 @@ def main() -> None:
         "-msa",
         "--msa",
         type=str,
+        nargs="+",
         default=None,
         required=False,
         help=(
-            "Path to a custom multiple sequence alignment (MSA) file (a3m or aligned FASTA) to use\n"
-            "instead of running the internal jackhmmer search. The first sequence in the MSA must be\n"
-            "the query (matching the input sequence, ignoring gaps). Single-sequence predictions only."
+            "Custom multiple sequence alignment(s) (a3m or aligned FASTA) to use instead of running\n"
+            "the internal jackhmmer search. Pass one MSA file for a monomer, or one file per chain (in\n"
+            "the same order as the sequences) for a multimer. The first sequence in each chain's MSA\n"
+            "must be that chain's query (matching the input sequence, ignoring gaps)."
         ),
     )
     parser_alphafold.add_argument(

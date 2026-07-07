@@ -6,6 +6,7 @@ from unittest.mock import patch
 
 import gget.gget_alphafold as gget_alphafold
 from gget.gget_alphafold import (
+    _validate_custom_msa_paths,
     clean_up,
     detect_msa_format,
     get_jackhmmer_dir,
@@ -160,6 +161,35 @@ class TestAlphafoldCustomMSA(unittest.TestCase):
             text=True,
         )
         self.assertIn("--msa", result.stdout)
+
+    # --- custom MSA validation, incl. multimer (one MSA file per chain) ---
+
+    def test_validate_monomer_ok(self):
+        # A single MSA file whose first sequence is the query passes.
+        _validate_custom_msa_paths([A3M_FIXTURE], [QUERY])
+
+    def test_validate_multimer_ok(self):
+        # One MSA file per chain (both fixtures have the query as their first sequence).
+        _validate_custom_msa_paths([A3M_FIXTURE, FASTA_FIXTURE], [QUERY, QUERY])
+
+    def test_validate_count_mismatch_raises(self):
+        # Fewer MSA files than chains must raise.
+        with self.assertRaises(ValueError):
+            _validate_custom_msa_paths([A3M_FIXTURE], [QUERY, QUERY])
+        with self.assertRaises(ValueError):
+            _validate_custom_msa_paths([A3M_FIXTURE, FASTA_FIXTURE], [QUERY])
+
+    def test_validate_query_mismatch_raises(self):
+        # A chain whose first MSA sequence does not match that chain's query must raise.
+        with self.assertRaises(ValueError):
+            _validate_custom_msa_paths([A3M_FIXTURE], ["MKVLAAGSTKDEFGHIKLPP"])
+        # Second chain mismatches while the first is fine.
+        with self.assertRaises(ValueError):
+            _validate_custom_msa_paths([A3M_FIXTURE, FASTA_FIXTURE], [QUERY, "TOTALLYDIFFERENT"])
+
+    def test_validate_missing_file_raises(self):
+        with self.assertRaises(FileNotFoundError):
+            _validate_custom_msa_paths([os.path.join(FIXTURE_DIR, "does_not_exist.a3m")], [QUERY])
 
 
 if __name__ == "__main__":

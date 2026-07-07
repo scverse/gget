@@ -5,7 +5,7 @@
 #### *gget* officially became part of [*scverse*](https://scverse.org/) on June 9, 2026. 🥳🥳🥳
 
 **Version ≥ 0.30.9** (XXX XX, 2026):  
-- [`gget alphafold`](alphafold.md): Added a new `msa` argument (`-msa`/`--msa` on the command line) that lets you provide a custom multiple sequence alignment (a3m or aligned FASTA) instead of running the internal jackhmmer search. The first sequence in the MSA must be the query. This enables folding from a manually curated MSA and skips the genetic database download entirely (currently supported for single-sequence/monomer predictions). Resolves [issue 52](https://github.com/scverse/gget/issues/52).
+- [`gget alphafold`](alphafold.md): Added a new `msa` argument (`-msa`/`--msa` on the command line) that lets you provide a custom multiple sequence alignment (a3m or aligned FASTA) instead of running the internal jackhmmer search. Pass a single MSA file for a monomer, or one file per chain for a multimer; the first sequence in each chain's MSA must be that chain's query. This enables folding from a manually curated MSA and skips the genetic database download entirely.
 
 **Version ≥ 0.30.8** (Jun 28, 2026):  
 - [`gget g2p`](g2p.md): Either `gene` or `--uniprot_id` is now sufficient — whichever is missing is resolved via UniProt and cached. Gene→UniProt picks the canonical reviewed human Swiss-Prot entry; the resolution and its limitations are logged. The canonical pair is **always** prepended to the result as `gene_name` / `uniprot_id` columns (and stored on `df.attrs`), so the output schema is invariant regardless of input mode. Existing call sites continue to work.

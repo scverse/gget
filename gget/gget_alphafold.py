@@ -266,6 +266,43 @@ def read_custom_msa(msa_path: str) -> Any:
     )
 
 
+def _validate_custom_msa_paths(custom_msa_paths: list[str], sequences: list[str]) -> None:
+    """Validate user-provided custom MSA files: one per chain, correct format, first sequence = query.
+
+    Args:
+      - custom_msa_paths   One MSA file path per input chain/sequence (list of str).
+      - sequences          The (cleaned) query sequences, one per chain (list of str).
+
+    Raises ValueError / FileNotFoundError on a mismatch (count, missing file, unsupported format, or a
+    chain whose first MSA sequence does not match that chain's query with gaps removed).
+    """
+    if len(custom_msa_paths) != len(sequences):
+        raise ValueError(
+            "Custom MSA input ('msa') must provide one MSA file per sequence: "
+            f"got {len(custom_msa_paths)} MSA file(s) for {len(sequences)} sequence(s). "
+            "For a multi-chain prediction, pass a list of one MSA file per chain (in the same order)."
+        )
+
+    for chain_index, (msa_path, chain_sequence) in enumerate(zip(custom_msa_paths, sequences, strict=True), start=1):
+        if not os.path.isfile(msa_path):
+            raise FileNotFoundError(f"Custom MSA file not found: '{msa_path}'.")
+
+        # Validate the file format (raises ValueError for unsupported extensions).
+        detect_msa_format(msa_path)
+
+        # The first sequence in each chain's MSA must be that chain's query (ignoring gaps).
+        with open(msa_path) as msa_file:
+            aligned_sequences, _, _ = parse_custom_msa(msa_file.read())
+        query_in_msa = aligned_sequences[0].replace("-", "").upper()
+        if query_in_msa != chain_sequence.upper():
+            raise ValueError(
+                f"The first sequence in custom MSA #{chain_index} ('{msa_path}') must be that chain's "
+                "query sequence (matching the input sequence, ignoring gaps).\n"
+                f"Query sequence:     {chain_sequence}\n"
+                f"First MSA sequence: {query_in_msa}"
+            )
+
+
 def clean_up(jackhmmer_dir: str | None = None) -> None:
     """Function to clean up temporary files after running gget alphafold.
 
@@ -340,12 +377,14 @@ def alphafold(
                                 files (str). By default, gget creates a "tmp" folder in the home
                                 directory ("~/tmp/jackhmmer/"), which can take up to ~2 GB of disk space.
                                 Use this argument to place these temporary files elsewhere. Default: None.
-      - msa                     Path to a custom multiple sequence alignment (MSA) file to use instead of
-                                running the internal jackhmmer search (str). Accepts a3m ('.a3m') or aligned
-                                FASTA ('.fasta', '.fa', '.afa') files. The first sequence in the MSA must be the
-                                query (i.e. match the input 'sequence', ignoring gaps). When provided, gget
-                                alphafold skips the jackhmmer search entirely (no network/database download).
-                                Currently supported for single-sequence (monomer) predictions only. Default: None.
+      - msa                     Custom multiple sequence alignment (MSA) to use instead of running the internal
+                                jackhmmer search. Path to a single a3m ('.a3m') or aligned FASTA ('.fasta',
+                                '.fa', '.afa') file for a monomer, or a list of one MSA file per chain (in the
+                                same order as the sequences) for a multimer. The first sequence in each chain's
+                                MSA must be that chain's query (matching the input sequence, ignoring gaps).
+                                When provided, gget alphafold skips the jackhmmer search entirely (no
+                                network/database download). For multimer cross-chain pairing to work, the MSA
+                                headers should carry species identifiers. Default: None.
 
     Saves the predicted aligned error (json) and the prediction (PDB) in the defined 'out' folder.
 
@@ -596,40 +635,16 @@ def alphafold(
         )
 
     ## Validate user-provided custom MSA input (https://github.com/scverse/gget/issues/52)
+    # One MSA file per chain (monomer = one file; multimer = one file per sequence, same order).
     custom_msa_paths = None
     if msa is not None:
         # Normalize to a list of paths
         custom_msa_paths = [msa] if isinstance(msa, str) else list(msa)
-
-        if len(seqs) > 1 or len(custom_msa_paths) > 1:
-            raise ValueError(
-                "Custom MSA input ('msa') is currently only supported for single-sequence (monomer) "
-                "predictions. Please provide a single sequence together with a single MSA file."
-            )
-
-        msa_path = custom_msa_paths[0]
-        if not os.path.isfile(msa_path):
-            raise FileNotFoundError(f"Custom MSA file not found: '{msa_path}'.")
-
-        # Validate the file format (raises ValueError for unsupported extensions).
-        detect_msa_format(msa_path)
-
-        # Parse the custom MSA and check that the first sequence matches the query.
-        with open(msa_path) as msa_file:
-            aligned_sequences, _, _ = parse_custom_msa(msa_file.read())
-        query_in_msa = aligned_sequences[0].replace("-", "").upper()
-        if query_in_msa != sequences[0].upper():
-            raise ValueError(
-                "The first sequence in the custom MSA must be the query sequence "
-                "(matching the input 'sequence', ignoring gaps).\n"
-                f"Query sequence:     {sequences[0]}\n"
-                f"First MSA sequence: {query_in_msa}"
-            )
-
+        _validate_custom_msa_paths(custom_msa_paths, sequences)
         if verbose:
             logger.info(
-                f"Using user-provided custom MSA from '{msa_path}' "
-                f"({len(aligned_sequences)} sequences); skipping the internal jackhmmer search."
+                f"Using {len(custom_msa_paths)} user-provided custom MSA file(s); "
+                "skipping the internal jackhmmer search."
             )
 
     ## Find the closest source (only needed for the internal jackhmmer search)
@@ -713,6 +728,11 @@ def alphafold(
             ## Use the user-provided custom MSA instead of running jackhmmer
             custom_msa = read_custom_msa(custom_msa_paths[sequence_index - 1])
             single_chain_msas.append(custom_msa)
+            # For multimer (heteromer) predictions, the custom MSA also serves as the "all_seq"
+            # MSA that AlphaFold-Multimer pairs across chains by species (see the heteromer block
+            # below). Cross-chain pairing only finds matches if the MSA headers carry species
+            # identifiers; otherwise it degrades gracefully to an unpaired multimer.
+            uniprot_msa = custom_msa
             if verbose:
                 msa_size = len(set(custom_msa.sequences))
                 logger.info(f"{msa_size} unique sequences found in the custom MSA for sequence {sequence_index}.")
