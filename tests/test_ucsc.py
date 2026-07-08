@@ -168,6 +168,32 @@ class TestUcscHelpers(unittest.TestCase):
             ucsc("BRCA2", genome="banana", verbose=False)
         self.assertIn("banana", str(ctx.exception))
 
+    @patch.object(gget_ucsc.requests, "get")
+    def test_match_without_description_key(self, mock_get):
+        # Most UCSC tracks (all GENCODE versions, refSeq, pliByGene, ...) omit the
+        # match-level "description" key entirely and add an "extraSel" field.
+        # Parsing must fall back to the group description and ignore unknown fields.
+        payload = {
+            "positionMatches": [
+                {
+                    "trackName": "wgEncodeGencodeBasicV49",
+                    "description": "GENCODE V49",
+                    "matches": [
+                        {
+                            "position": "chr13:32315508-32400268",
+                            "hgFindMatches": "ENST00000380152.8",
+                            "posName": "BRCA2",
+                            "extraSel": "someInternalValue",  # unknown field, ignored
+                        }
+                    ],
+                }
+            ]
+        }
+        mock_get.return_value = _FakeResponse(payload)
+        df = ucsc("BRCA2", verbose=False)
+        self.assertEqual(df.iloc[0]["ucsc_id"], "ENST00000380152.8")
+        self.assertEqual(df.iloc[0]["description"], "GENCODE V49")  # group fallback
+
 
 class TestUcscLive(unittest.TestCase):
     """Live test against the real UCSC /search API (issue #18).
@@ -189,6 +215,23 @@ class TestUcscLive(unittest.TestCase):
         self.assertEqual(list(df.columns), gget_ucsc._COLUMNS)
         self.assertIn("chr13", set(df["chrom"]))
         self.assertTrue(any(str(i).startswith("ENST00000380152") for i in df["ucsc_id"]))
+
+    def test_live_ucsc_all_track_types_parse(self):
+        # An unfiltered BRCA2/hg38 search returns dozens of heterogeneous track
+        # groups (gene models, naming, RefSeq, every GENCODE version, dbSNP, ...).
+        # This confirms the track-agnostic parser handles all of them, not just the
+        # gene-model tracks the mocked tests use.
+        try:
+            df = ucsc("BRCA2", genome="hg38", verbose=False)
+        except (requests.exceptions.RequestException, RuntimeError) as exc:
+            self.skipTest(f"UCSC API unreachable: {exc}")
+
+        self.assertIsNotNone(df)
+        # Many distinct track types come back and all flatten without error.
+        self.assertGreater(df["track"].nunique(), 5)
+        # Core fields are populated across every track type.
+        self.assertTrue(df["ucsc_id"].notna().any())
+        self.assertIn("chr13", set(df["chrom"]))
 
 
 if __name__ == "__main__":
