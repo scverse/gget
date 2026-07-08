@@ -4,6 +4,7 @@
 # gget ucsc 🔎
 Obtenga identificadores del [UCSC Genome Browser](https://genome.ucsc.edu/) para un gen o término, de forma similar a `gget search` para Ensembl.  
 `gget ucsc` busca en el UCSC Genome Browser un símbolo de gen, número de acceso o término de texto libre y devuelve los identificadores coincidentes (p. ej. identificadores de genes / transcritos conocidos de UCSC) junto con sus posiciones genómicas, agrupados por la pista ("track") de la que provienen.  
+Un gen común puede coincidir con muchas pistas (p. ej. cada versión de GENCODE, RefSeq, HGNC, MANE …), por lo que una búsqueda sin filtrar puede devolver un gran número de filas — use `--track` y/o `--limit` para acotar los resultados.  
 Regresa: Resultados en formato JSON (Terminal) o Dataframe/CSV (Python).  
 
 **Parámetro posicional**  
