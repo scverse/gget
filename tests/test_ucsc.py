@@ -155,6 +155,41 @@ class TestUcscHelpers(unittest.TestCase):
             finally:
                 os.chdir(cwd)
 
+    @patch.object(gget_ucsc.requests, "get")
+    def test_bad_genome_status_surfaces_error(self, mock_get):
+        # A bad genome returns HTTP 400 with an informative "error" field; that
+        # message should be surfaced, not masked by a generic status-code error.
+        mock_get.return_value = _FakeResponse(
+            {"error": "can not find genome='banana' for endpoint '/search'"},
+            ok=False,
+            status_code=400,
+        )
+        with self.assertRaises(ValueError) as ctx:
+            ucsc("BRCA2", genome="banana", verbose=False)
+        self.assertIn("banana", str(ctx.exception))
+
+
+class TestUcscLive(unittest.TestCase):
+    """Live test against the real UCSC /search API (issue #18).
+
+    Unlike the mocked tests above, this one actually calls the UCSC server so it
+    catches upstream API / response-schema drift. It is skipped (not failed) when
+    the network is unavailable, so CI without internet access stays green.
+    """
+
+    def test_live_ucsc_brca2(self):
+        # Truth anchor: BRCA2 in hg38 sits on chr13, and the canonical known-gene
+        # transcript ENST00000380152 is among the matches (version-agnostic).
+        try:
+            df = ucsc("BRCA2", genome="hg38", track="knownGene", verbose=False)
+        except (requests.exceptions.RequestException, RuntimeError) as exc:
+            self.skipTest(f"UCSC API unreachable: {exc}")
+
+        self.assertIsNotNone(df)
+        self.assertEqual(list(df.columns), gget_ucsc._COLUMNS)
+        self.assertIn("chr13", set(df["chrom"]))
+        self.assertTrue(any(str(i).startswith("ENST00000380152") for i in df["ucsc_id"]))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -139,14 +139,24 @@ def ucsc(
     except requests.exceptions.RequestException as exc:
         raise RuntimeError(f"The UCSC server request failed: {exc}") from exc
 
+    # Parse the JSON body before checking the status code: a bad genome or bad
+    # parameter returns a 4xx together with an informative "error" field, which we
+    # want to surface instead of a generic message.
+    try:
+        data = response.json()
+    except ValueError:
+        data = None
+
+    if isinstance(data, dict) and data.get("error"):
+        raise ValueError(f"UCSC returned an error: {data['error']}")
+
     if not response.ok:
         raise RuntimeError(
             f"The UCSC server returned error status code {response.status_code}. Please try again later."
         )
 
-    data = response.json()
-    if isinstance(data, dict) and data.get("error"):
-        raise ValueError(f"UCSC returned an error: {data['error']}")
+    if not isinstance(data, dict):
+        raise RuntimeError("The UCSC server returned an unexpected (non-JSON) response.")
 
     rows = []
     for group in data.get("positionMatches", []):

@@ -53,6 +53,6 @@ A UCSC ID (e.g. a known gene `ucsc_id`) can be inspected on the UCSC gene page, 
 # References
 If you use `gget ucsc` in a publication, please cite the following articles:  
 
-- Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
-
 - Kent WJ, Sugnet CW, Furey TS, et al. (2002). The human genome browser at UCSC. Genome Research. [https://doi.org/10.1101/gr.229102](https://doi.org/10.1101/gr.229102)
+
+- Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
