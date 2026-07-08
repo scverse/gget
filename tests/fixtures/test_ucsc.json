@@ -1,0 +1,10 @@
+{
+    "test_ucsc_no_term": {
+        "type": "error",
+        "args": {
+            "search_term": ""
+        },
+        "expected_result": "ValueError",
+        "expected_msg": "Please provide a gene symbol or search term in 'search_term'."
+    }
+}

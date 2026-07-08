@@ -32,6 +32,7 @@
 * [gget search](en/search.md)  
 * [gget setup](en/setup.md)  
 * [gget seq](en/seq.md)  
+* [gget ucsc](en/ucsc.md)  
 * [gget virus](en/virus.md)
 
 ---
@@ -75,6 +76,7 @@
 * [gget search](es/search.md)  
 * [gget setup](es/setup.md)  
 * [gget seq](es/seq.md)  
+* [gget ucsc](es/ucsc.md)  
 * [gget virus](es/virus.md)
 
 ---

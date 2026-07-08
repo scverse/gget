@@ -41,6 +41,7 @@ from .gget_ref import ref  # noqa: E402
 from .gget_search import search  # noqa: E402
 from .gget_seq import seq  # noqa: E402
 from .gget_setup import setup  # noqa: E402
+from .gget_ucsc import ucsc  # noqa: E402
 from .gget_virus import virus  # noqa: E402
 
 
@@ -1000,6 +1001,72 @@ def main() -> None:
         action="store_true",
         required=False,
         help="DEPRECATED - json is now the default output format (convert to csv using flag [--csv]).",
+    )
+
+    ## gget ucsc subparser
+    ucsc_desc = "Fetch UCSC Genome Browser IDs for a gene/term (similar to gget search)."
+    parser_ucsc = parent_subparsers.add_parser(
+        "ucsc",
+        parents=[parent],
+        description=ucsc_desc,
+        help=ucsc_desc,
+        add_help=True,
+        formatter_class=CustomHelpFormatter,
+    )
+    parser_ucsc.add_argument(
+        "search_term",
+        type=str,
+        help="Gene symbol, accession, or free-text term to search for, e.g. 'BRCA2'.",
+    )
+    parser_ucsc.add_argument(
+        "-g",
+        "--genome",
+        type=str,
+        default="hg38",
+        required=False,
+        help="UCSC genome assembly to search, e.g. 'hg38', 'hg19', 'mm39'. Default: 'hg38'.",
+    )
+    parser_ucsc.add_argument(
+        "-t",
+        "--track",
+        type=str,
+        default=None,
+        required=False,
+        help="Only return matches from tracks whose name contains this substring, e.g. 'knownGene'. Default: None.",
+    )
+    parser_ucsc.add_argument(
+        "-l",
+        "--limit",
+        type=int,
+        default=None,
+        required=False,
+        help="Maximum number of matches to return. Default: None (all matches).",
+    )
+    parser_ucsc.add_argument(
+        "-csv",
+        "--csv",
+        default=True,
+        action="store_false",
+        required=False,
+        help="Returns results in csv format instead of json.",
+    )
+    parser_ucsc.add_argument(
+        "-o",
+        "--out",
+        type=str,
+        required=False,
+        help=(
+            "Path to the file the results will be saved in, e.g. path/to/directory/results.csv (or .json).\n"
+            "Default: Standard out."
+        ),
+    )
+    parser_ucsc.add_argument(
+        "-q",
+        "--quiet",
+        default=True,
+        action="store_false",
+        required=False,
+        help="Does not print progress information.",
     )
 
     ## gget enrichr subparser
@@ -2956,6 +3023,7 @@ def main() -> None:
         "muscle": parser_muscle,
         "blast": parser_blast,
         "blat": parser_blat,
+        "ucsc": parser_ucsc,
         "enrichr": parser_enrichr,
         "archs4": parser_archs4,
         "setup": parser_setup,
@@ -3501,6 +3569,39 @@ def main() -> None:
             gget_results.to_csv(sys.stdout, index=False)
         if not args.out and args.csv:
             print(json.dumps(gget_results, ensure_ascii=False, indent=4))
+
+    ## ucsc return
+    if args.command == "ucsc":
+        ucsc_results = ucsc(
+            search_term=args.search_term,
+            genome=args.genome,
+            track=args.track,
+            limit=args.limit,
+            json=args.csv,
+            verbose=args.quiet,
+        )
+
+        # Check if the function returned something
+        if ucsc_results is not None:
+            # Save results if args.out specified
+            if args.out and not args.csv:
+                directory = "/".join(args.out.split("/")[:-1])
+                if directory != "":
+                    os.makedirs(directory, exist_ok=True)
+                ucsc_results.to_csv(args.out, index=False)
+
+            if args.out and args.csv:
+                directory = "/".join(args.out.split("/")[:-1])
+                if directory != "":
+                    os.makedirs(directory, exist_ok=True)
+                with open(args.out, "w", encoding="utf-8") as f:
+                    json.dump(ucsc_results, f, ensure_ascii=False, indent=4)
+
+            # Print results if no directory specified
+            if not args.out and not args.csv:
+                ucsc_results.to_csv(sys.stdout, index=False)
+            if not args.out and args.csv:
+                print(json.dumps(ucsc_results, ensure_ascii=False, indent=4))
 
     ## enrichr return
     if args.command == "enrichr":
