@@ -206,7 +206,13 @@ def alliance(
     else:
         params: dict[str, Any] = {"q": term, "limit": limit}
         if category is not None and str(category).lower() not in ("all", ""):
-            params["category"] = _CATEGORY_MAP.get(str(category).lower(), category)
+            cat_key = str(category).lower()
+            if cat_key not in _CATEGORY_MAP:
+                logger.warning(
+                    f"Unknown category '{category}'; expected one of {sorted(_CATEGORY_MAP)} (or 'all'). "
+                    "Passing it to the Alliance API as-is, which may return no results."
+                )
+            params["category"] = _CATEGORY_MAP.get(cat_key, category)
         if verbose:
             logger.info(f"Searching Alliance for '{term}' (category={category})...")
         data = _alliance_get("/search", params=params)

@@ -5,7 +5,7 @@
 #### *gget* officially became part of [*scverse*](https://scverse.org/) on June 9, 2026. 🥳🥳🥳
 
 **Version ≥ 0.30.9** (XXX XX, 2026):  
-- [`gget alliance`](alliance.md): **New module** to query the [Alliance of Genome Resources](https://www.alliancegenome.org/). Pass an Alliance gene ID (e.g. `HGNC:1101`, `MGI:109337`, `RGD:2219`) to fetch the gene's details, or a free-text term to search genes/alleles/diseases/GO/variants/models across the member model-organism databases (selectable with `category`). Available in the Python API and on the command line. Resolves [issue 162](https://github.com/scverse/gget/issues/162).
+- [`gget alliance`](alliance.md): **New module** to query the [Alliance of Genome Resources](https://www.alliancegenome.org/). Pass an Alliance gene ID (e.g. `HGNC:1101`, `MGI:109337`, `RGD:2219`) to fetch the gene's details, or a free-text term to search genes/alleles/diseases/GO/variants/models across the member model-organism databases (selectable with `category`). Available in the Python API and on the command line.
 
 **Version ≥ 0.30.8** (Jun 28, 2026):  
 - [`gget g2p`](g2p.md): Either `gene` or `--uniprot_id` is now sufficient — whichever is missing is resolved via UniProt and cached. Gene→UniProt picks the canonical reviewed human Swiss-Prot entry; the resolution and its limitations are logged. The canonical pair is **always** prepended to the result as `gene_name` / `uniprot_id` columns (and stored on `df.attrs`), so the output schema is invariant regardless of input mode. Existing call sites continue to work.

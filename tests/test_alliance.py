@@ -180,5 +180,39 @@ class TestAllianceHelpers(unittest.TestCase):
                 os.chdir(cwd)
 
 
+class TestAllianceLive(unittest.TestCase):
+    """Live tests against the real Alliance of Genome Resources API (issue #162).
+
+    Unlike the mocked tests above, these actually call the Alliance server so they
+    catch upstream API / field-name drift. They are skipped (not failed) when the
+    network is unavailable, so CI without internet access stays green.
+    """
+
+    def test_live_gene_by_id(self):
+        # Truth anchor: HGNC:1101 is human BRCA2.
+        try:
+            df = alliance("HGNC:1101", verbose=False)
+        except (requests.exceptions.RequestException, RuntimeError) as exc:
+            self.skipTest(f"Alliance API unreachable: {exc}")
+
+        self.assertIsNotNone(df)
+        self.assertEqual(list(df.columns), gget_alliance._GENE_COLUMNS)
+        self.assertEqual(df.iloc[0]["id"], "HGNC:1101")
+        self.assertEqual(df.iloc[0]["symbol"], "BRCA2")
+        self.assertEqual(df.iloc[0]["species"], "Homo sapiens")
+
+    def test_live_search(self):
+        # A free-text gene search returns rows in the search schema, and BRCA2
+        # (HGNC:1101) is among the human hits.
+        try:
+            df = alliance("brca2", category="gene", limit=20, verbose=False)
+        except (requests.exceptions.RequestException, RuntimeError) as exc:
+            self.skipTest(f"Alliance API unreachable: {exc}")
+
+        self.assertIsNotNone(df)
+        self.assertEqual(list(df.columns), gget_alliance._SEARCH_COLUMNS)
+        self.assertIn("HGNC:1101", set(df["id"]))
+
+
 if __name__ == "__main__":
     unittest.main()

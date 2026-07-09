@@ -67,6 +67,6 @@ gget.alliance("HGNC:1101")
 # References
 If you use `gget alliance` in a publication, please cite the following articles:  
 
-- Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
-
 - Alliance of Genome Resources Consortium. (2024). Updates to the Alliance of Genome Resources central infrastructure. Genetics. [https://doi.org/10.1093/genetics/iyae049](https://doi.org/10.1093/genetics/iyae049)
+
+- Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
