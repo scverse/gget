@@ -7,6 +7,9 @@ import uuid
 # strategy avoid hanging indefinitely on slow upstreams.
 DEFAULT_REQUESTS_TIMEOUT = (10, 60)
 
+# Alliance of Genome Resources REST API for gget alliance
+ALLIANCE_URL = "https://www.alliancegenome.org/api"
+
 # Ensembl REST API server for gget seq and info
 ENSEMBL_REST_API = "http://rest.ensembl.org/"
 ENSEMBL_FTP_URL = "http://ftp.ensembl.org/pub/"

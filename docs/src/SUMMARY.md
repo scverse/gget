@@ -10,6 +10,7 @@
 
 # Manual
 * [gget 8cube](en/8cube.md)
+* [gget alliance](en/alliance.md)  
 * [gget alphafold](en/alphafold.md)  
 * [gget archs4](en/archs4.md)
 * [gget bgee](en/bgee.md)
@@ -53,6 +54,7 @@
 
 # Manuál
 * [gget 8cube](es/8cube.md)
+* [gget alliance](es/alliance.md)  
 * [gget alphafold](es/alphafold.md)  
 * [gget archs4](es/archs4.md)  
 * [gget bgee](es/bgee.md)  

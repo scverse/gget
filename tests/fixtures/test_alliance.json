@@ -1,0 +1,10 @@
+{
+    "test_alliance_no_term": {
+        "type": "error",
+        "args": {
+            "search_term": ""
+        },
+        "expected_result": "ValueError",
+        "expected_msg": "Please provide a gene ID or search term in 'search_term'."
+    }
+}

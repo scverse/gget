@@ -19,6 +19,7 @@ from .utils import set_up_logger  # noqa: E402
 logger = set_up_logger()
 
 from .__init__ import __version__  # noqa: E402
+from .gget_alliance import alliance  # noqa: E402
 from .gget_alphafold import alphafold  # noqa: E402
 from .gget_archs4 import archs4  # noqa: E402
 from .gget_bgee import bgee  # noqa: E402
@@ -1000,6 +1001,67 @@ def main() -> None:
         action="store_true",
         required=False,
         help="DEPRECATED - json is now the default output format (convert to csv using flag [--csv]).",
+    )
+
+    ## gget alliance subparser
+    alliance_desc = "Query the Alliance of Genome Resources (https://www.alliancegenome.org/)."
+    parser_alliance = parent_subparsers.add_parser(
+        "alliance",
+        parents=[parent],
+        description=alliance_desc,
+        help=alliance_desc,
+        add_help=True,
+        formatter_class=CustomHelpFormatter,
+    )
+    parser_alliance.add_argument(
+        "search_term",
+        type=str,
+        help="Alliance gene ID (e.g. HGNC:1101, MGI:109337, RGD:2219) or a free-text search term.",
+    )
+    parser_alliance.add_argument(
+        "-c",
+        "--category",
+        type=str,
+        default="gene",
+        required=False,
+        help=(
+            "Category for free-text searches: 'gene', 'allele', 'disease', 'go', 'variant', 'model', "
+            "or 'all' for no filter. Default: 'gene'."
+        ),
+    )
+    parser_alliance.add_argument(
+        "-l",
+        "--limit",
+        type=int,
+        default=10,
+        required=False,
+        help="Maximum number of results for free-text searches. Default: 10.",
+    )
+    parser_alliance.add_argument(
+        "-csv",
+        "--csv",
+        default=True,
+        action="store_false",
+        required=False,
+        help="Returns results in csv format instead of json.",
+    )
+    parser_alliance.add_argument(
+        "-o",
+        "--out",
+        type=str,
+        required=False,
+        help=(
+            "Path to the file the results will be saved in, e.g. path/to/directory/results.csv (or .json).\n"
+            "Default: Standard out."
+        ),
+    )
+    parser_alliance.add_argument(
+        "-q",
+        "--quiet",
+        default=True,
+        action="store_false",
+        required=False,
+        help="Does not print progress information.",
     )
 
     ## gget enrichr subparser
@@ -2956,6 +3018,7 @@ def main() -> None:
         "muscle": parser_muscle,
         "blast": parser_blast,
         "blat": parser_blat,
+        "alliance": parser_alliance,
         "enrichr": parser_enrichr,
         "archs4": parser_archs4,
         "setup": parser_setup,
@@ -3501,6 +3564,38 @@ def main() -> None:
             gget_results.to_csv(sys.stdout, index=False)
         if not args.out and args.csv:
             print(json.dumps(gget_results, ensure_ascii=False, indent=4))
+
+    ## alliance return
+    if args.command == "alliance":
+        alliance_results = alliance(
+            search_term=args.search_term,
+            category=args.category,
+            limit=args.limit,
+            json=args.csv,
+            verbose=args.quiet,
+        )
+
+        # Check if the function returned something
+        if alliance_results is not None:
+            # Save results if args.out specified
+            if args.out and not args.csv:
+                directory = "/".join(args.out.split("/")[:-1])
+                if directory != "":
+                    os.makedirs(directory, exist_ok=True)
+                alliance_results.to_csv(args.out, index=False)
+
+            if args.out and args.csv:
+                directory = "/".join(args.out.split("/")[:-1])
+                if directory != "":
+                    os.makedirs(directory, exist_ok=True)
+                with open(args.out, "w", encoding="utf-8") as f:
+                    json.dump(alliance_results, f, ensure_ascii=False, indent=4)
+
+            # Print results if no directory specified
+            if not args.out and not args.csv:
+                alliance_results.to_csv(sys.stdout, index=False)
+            if not args.out and args.csv:
+                print(json.dumps(alliance_results, ensure_ascii=False, indent=4))
 
     ## enrichr return
     if args.command == "enrichr":

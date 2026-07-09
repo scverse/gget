@@ -4,6 +4,7 @@ import logging
 from importlib.metadata import PackageNotFoundError, version
 
 from .gget_8cube import gene_expression, psi_block, specificity
+from .gget_alliance import alliance
 from .gget_alphafold import alphafold
 from .gget_archs4 import archs4
 from .gget_bgee import bgee
