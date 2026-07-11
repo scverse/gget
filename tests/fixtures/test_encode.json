@@ -1,0 +1,10 @@
+{
+    "test_encode_no_term": {
+        "type": "error",
+        "args": {
+            "search_term": ""
+        },
+        "expected_result": "ValueError",
+        "expected_msg": "Please provide a search term or ENCODE accession in 'search_term'."
+    }
+}

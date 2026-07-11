@@ -5,6 +5,7 @@
 #### *gget* officially became part of [*scverse*](https://scverse.org/) on June 9, 2026. 🥳🥳🥳
 
 **Version ≥ 0.30.9** (XXX XX, 2026):  
+- [`gget encode`](encode.md): **New module** to query and download data from the [ENCODE project](https://www.encodeproject.org/). Pass an ENCODE accession (e.g. `ENCSR000AKS` experiment or `ENCFF000BXK` file) to list its file(s) with download URLs — optionally filtered by `assembly`, `file_format`, and `output_type`, and downloaded with `download=True` — or pass a free-text term to search ENCODE objects of a given `type`. Available in the Python API and on the command line.
 
 **Version ≥ 0.30.8** (Jun 28, 2026):  
 - [`gget g2p`](g2p.md): Either `gene` or `--uniprot_id` is now sufficient — whichever is missing is resolved via UniProt and cached. Gene→UniProt picks the canonical reviewed human Swiss-Prot entry; the resolution and its limitations are logged. The canonical pair is **always** prepended to the result as `gene_name` / `uniprot_id` columns (and stored on `df.attrs`), so the output schema is invariant regardless of input mode. Existing call sites continue to work.
