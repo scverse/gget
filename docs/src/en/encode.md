@@ -89,9 +89,11 @@ gget.encode("ENCSR000AKS", file_format="bam", download=True, out_dir="./encode_d
 ```
 &rarr; Downloads the matching files into `./encode_data`.
 
+> ⚠️ `--download` fetches **every file left after filtering**. A single ENCODE experiment can contain dozens of files (tens of GB in total), and individual BAM/FASTQ files are often ~1 GB or larger. Always narrow the results with `--assembly`, `--file_format`, and/or `--output_type` before downloading.
+
 # References
 If you use `gget encode` in a publication, please cite the following articles:  
 
-- Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
-
 - ENCODE Project Consortium. (2012). An integrated encyclopedia of DNA elements in the human genome. Nature. [https://doi.org/10.1038/nature11247](https://doi.org/10.1038/nature11247)
+
+- Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)

@@ -230,5 +230,49 @@ class TestEncodeHelpers(unittest.TestCase):
             gget_encode._download_files(df, tmp, verbose=False)
 
 
+class TestEncodeLive(unittest.TestCase):
+    """Live tests against the real ENCODE REST API (issue #151).
+
+    Unlike the mocked tests above, these call the ENCODE server so they catch
+    upstream API / schema drift. They are skipped (not failed) when the network is
+    unavailable, and they never trigger a download (ENCODE files are large).
+    """
+
+    def test_live_file_accession(self):
+        # Truth anchor: ENCFF000BXK is a BAM file.
+        try:
+            df = encode("ENCFF000BXK", verbose=False)
+        except (requests.exceptions.RequestException, RuntimeError) as exc:
+            self.skipTest(f"ENCODE API unreachable: {exc}")
+
+        self.assertIsNotNone(df)
+        self.assertEqual(list(df.columns), gget_encode._FILE_COLUMNS)
+        self.assertEqual(df.iloc[0]["file_accession"], "ENCFF000BXK")
+        self.assertEqual(df.iloc[0]["file_format"], "bam")
+
+    def test_live_experiment_lists_files(self):
+        # ENCSR000AKS is an experiment; the bare accession 301-redirects and the
+        # response embeds many files, including BAMs.
+        try:
+            df = encode("ENCSR000AKS", verbose=False)
+        except (requests.exceptions.RequestException, RuntimeError) as exc:
+            self.skipTest(f"ENCODE API unreachable: {exc}")
+
+        self.assertIsNotNone(df)
+        self.assertEqual(list(df.columns), gget_encode._FILE_COLUMNS)
+        self.assertGreater(df.shape[0], 1)
+        self.assertIn("bam", set(df["file_format"]))
+
+    def test_live_search(self):
+        try:
+            df = encode("CTCF", type="Experiment", limit=5, verbose=False)
+        except (requests.exceptions.RequestException, RuntimeError) as exc:
+            self.skipTest(f"ENCODE API unreachable: {exc}")
+
+        self.assertIsNotNone(df)
+        self.assertEqual(list(df.columns), gget_encode._SEARCH_COLUMNS)
+        self.assertGreater(df.shape[0], 0)
+
+
 if __name__ == "__main__":
     unittest.main()

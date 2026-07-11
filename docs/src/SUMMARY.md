@@ -64,6 +64,7 @@
 * [gget cosmic](es/cosmic.md)  
 * [gget diamond](es/diamond.md)  
 * [gget elm](es/elm.md)  
+* [gget encode](es/encode.md)  
 * [gget enrichr](es/enrichr.md)  
 * [gget g2p](es/g2p.md)
 * [gget gpt](es/gpt.md)  
