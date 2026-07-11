@@ -89,7 +89,7 @@ gget.encode("ENCSR000AKS", file_format="bam", download=True, out_dir="./encode_d
 ```
 &rarr; Downloads the matching files into `./encode_data`.
 
-> ⚠️ `--download` fetches **every file left after filtering**. A single ENCODE experiment can contain dozens of files (tens of GB in total), and individual BAM/FASTQ files are often ~1 GB or larger. Always narrow the results with `--assembly`, `--file_format`, and/or `--output_type` before downloading.
+> **Note:** `--download` fetches **every file left after filtering**. A single ENCODE experiment can contain dozens of files (tens of GB in total), and individual BAM/FASTQ files are often ~1 GB or larger. Always narrow the results with `--assembly`, `--file_format`, and/or `--output_type` before downloading.
 
 # References
 If you use `gget encode` in a publication, please cite the following articles:  
