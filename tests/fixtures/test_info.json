@@ -108,7 +108,7 @@
         ]
     },
     "test_info_gene": {
-        "type": "assert_equal",
+        "type": "assert_info_gene_core",
         "args": {
             "ens_ids": "EnsMUSG00000000001"
         },
