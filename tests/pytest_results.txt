@@ -1,437 +1,437 @@
-Pytest results (Python 3.14) - 2026-08-28T00:47:07Z
+Pytest results (Python 3.14) - 2026-08-31T21:21:35Z
 
 ============================= test session starts ==============================
 platform linux -- Python 3.14.7, pytest-9.1.1, pluggy-1.6.0 -- /home/runner/.local/share/hatch/env/virtual/gget/dY-b3nRT/hatch-test.py3.14/bin/python3
 cachedir: .pytest_cache
-Using --randomly-seed=3871985674
+Using --randomly-seed=580868049
 rootdir: /home/runner/work/gget/gget
 configfile: pyproject.toml
 testpaths: tests
 plugins: mock-3.15.1, cov-7.1.0, rerunfailures-14.0, randomly-3.16.0, xdist-3.8.0
 collecting ... collected 422 items
 
-tests/test_compile.py::TestCompilerWindows::test_compiler_windows PASSED [  0%]
-tests/test_opentargets.py::TestOpenTargetsExpressionMocked::test_expression_limit PASSED [  0%]
-tests/test_opentargets.py::TestOpenTargetsExpressionMocked::test_expression_empty_is_graceful PASSED [  0%]
-tests/test_opentargets.py::TestOpenTargetsExpressionMocked::test_expression_json PASSED [  0%]
-tests/test_opentargets.py::TestOpenTargetsExpressionMocked::test_expression_parses_baseline_rows PASSED [  1%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets_interactions PASSED [  1%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets_pharmacogenetics PASSED [  1%]
-tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_diseases_filter PASSED [  1%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets_tractability PASSED [  2%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets_diseases PASSED [  2%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets PASSED      [  2%]
-tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_bad_resource PASSED [  2%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets_depmap_filter PASSED [  3%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets_interactions_simple_filter PASSED [  3%]
-tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_nonexistent_id PASSED [  3%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets_depmap PASSED [  3%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets_drugs PASSED [  4%]
-tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_bad_limit PASSED [  4%]
-tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_drugs_invalid_filter PASSED [  4%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets_interactions_no_limit PASSED [  4%]
-tests/test_g2p.py::TestG2P::test_g2p_alignment PASSED                    [  4%]
-tests/test_g2p.py::TestG2P::test_g2p_map_has_pdb_list_column PASSED      [  5%]
-tests/test_g2p.py::TestG2P::test_g2p_features PASSED                     [  5%]
-tests/test_g2p.py::TestG2P::test_g2p_gene_auto_resolved PASSED           [  5%]
-tests/test_g2p.py::TestG2P::test_g2p_out_writes_to_explicit_path PASSED  [  5%]
-tests/test_g2p.py::TestG2P::test_g2p_invalid_pair_returns_none PASSED    [  6%]
-tests/test_g2p.py::TestG2P::test_g2p_map PASSED                          [  6%]
-tests/test_g2p.py::TestG2P::test_g2p_residues_filter PASSED              [  6%]
-tests/test_g2p.py::TestG2P::test_g2p_schema_invariant_across_input_modes PASSED [  6%]
-tests/test_g2p.py::TestG2P::test_g2p_residues_single_int PASSED          [  7%]
-tests/test_g2p.py::TestG2P::test_g2p_uniprot_auto_resolved PASSED        [  7%]
-tests/test_g2p.py::TestG2PValidation::test_missing_both_raises PASSED    [  7%]
-tests/test_g2p.py::TestG2PValidation::test_residues_on_map_raises PASSED [  7%]
-tests/test_g2p.py::TestG2PValidation::test_alignment_requires_explicit_uniprot PASSED [  8%]
-tests/test_g2p.py::TestG2PValidation::test_invalid_resource_raises PASSED [  8%]
-tests/test_g2p.py::TestG2PValidation::test_alignment_requires_isoform PASSED [  8%]
-tests/test_g2p.py::TestG2PValidation::test_residues_wrong_type_raises PASSED [  8%]
-tests/test_ref.py::TestRef::test_ref_rel_ftp_octopus PASSED              [  9%]
-tests/test_ref.py::TestRef::test_ref_bad_which PASSED                    [  9%]
-tests/test_ref.py::TestRef::test_ref_bad_species PASSED                  [  9%]
-tests/test_ref.py::TestRef::test_ref_bad_rel PASSED                      [  9%]
-tests/test_ref.py::TestRef::test_ref_rel PASSED                          [  9%]
-tests/test_ref.py::TestRef::test_ref_rel_ftp PASSED                      [ 10%]
-tests/test_ref.py::TestRef::test_ref_plant PASSED                        [ 10%]
-tests/test_ref.py::TestRef::test_ref_which_plant PASSED                  [ 10%]
-tests/test_ref.py::TestRef::test_ref_which PASSED                        [ 10%]
-tests/test_ref.py::TestRef::test_ref_ftp PASSED                          [ 11%]
-tests/test_ref.py::TestRef::test_ref_list PASSED                         [ 11%]
-tests/test_ref.py::TestRef::test_ref PASSED                              [ 11%]
-tests/test_ref.py::TestRef::test_ref_rel_protist PASSED                  [ 11%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_genotype_list PASSED [ 12%]
-tests/test_virus.py::TestVirus::test_check_min_max_none_values PASSED    [ 12%]
-tests/test_virus.py::TestVirus::test_save_command_summary_with_error PASSED [ 12%]
-tests/test_virus.py::TestVirus::test_retry_helper_custom_retryable_exceptions PASSED [ 12%]
-tests/test_virus.py::TestVirus::test_virus_with_protein_count_filters PASSED [ 13%]
-tests/test_virus.py::TestVirus::test_filter_sequences_max_ambiguous_chars PASSED [ 13%]
-tests/test_virus.py::TestVirus::test_track_failed_operation_none_dict PASSED [ 13%]
-tests/test_virus.py::TestVirus::test_virus_multi_accession_file_input PASSED [ 13%]
-tests/test_virus.py::TestVirus::test_merge_baseline_with_new_deduplicates PASSED [ 13%]
-tests/test_virus.py::TestVirus::test_virus_with_genbank_metadata_retrieval PASSED [ 14%]
-tests/test_virus.py::TestVirus::test_virus_relationship_check_counts_match PASSED [ 14%]
-tests/test_virus.py::TestVirus::test_virus_with_geographic_location_filter PASSED [ 14%]
-tests/test_virus.py::TestVirus::test_virus_with_completeness_filter PASSED [ 14%]
-tests/test_virus.py::TestVirus::test_get_modified_virus_name_already_correct_returns_none PASSED [ 15%]
-tests/test_virus.py::TestVirus::test_unzip_file_nonexistent_raises PASSED [ 15%]
-tests/test_virus.py::TestVirus::test_validate_datasets_binary_valid PASSED [ 15%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_submitter_country PASSED [ 15%]
-tests/test_virus.py::TestVirus::test_filter_sequences_proteins_complete PASSED [ 16%]
-tests/test_virus.py::TestVirus::test_virus_release_date_filter_verification PASSED [ 16%]
-tests/test_virus.py::TestVirus::test_parse_partial_date_year_month_min PASSED [ 16%]
-tests/test_virus.py::TestVirus::test_virus_empty_virus_name PASSED       [ 16%]
-tests/test_virus.py::TestVirus::test_get_datasets_path_returns_valid_path PASSED [ 17%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_genotype PASSED [ 17%]
-tests/test_virus.py::TestVirus::test_get_modified_virus_name_add_virus_suffix PASSED [ 17%]
-tests/test_virus.py::TestVirus::test_merge_metadata_csvs_fills_missing PASSED [ 17%]
-tests/test_virus.py::TestVirus::test_load_metadata_from_api_reports_missing_accession PASSED [ 18%]
-tests/test_virus.py::TestVirus::test_get_modified_virus_name_remove_parentheses PASSED [ 18%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_annotated_true PASSED [ 18%]
-tests/test_virus.py::TestVirus::test_virus_invalid_completeness PASSED   [ 18%]
-tests/test_virus.py::TestVirus::test_parse_baseline_file_nonexistent_raises PASSED [ 18%]
+tests/test_alphafold.py::TestAlphafoldJackhmmerSavedir::test_cli_exposes_jackhmmer_savedir_flag PASSED [  0%]
+tests/test_alphafold.py::TestAlphafoldJackhmmerSavedir::test_clean_up_default_dir_when_none PASSED [  0%]
+tests/test_alphafold.py::TestAlphafoldJackhmmerSavedir::test_default_dir PASSED [  0%]
+tests/test_alphafold.py::TestAlphafoldJackhmmerSavedir::test_clean_up_missing_dir_is_safe PASSED [  0%]
+tests/test_alphafold.py::TestAlphafoldJackhmmerSavedir::test_clean_up_removes_custom_dir PASSED [  1%]
+tests/test_alphafold.py::TestAlphafoldJackhmmerSavedir::test_custom_dir PASSED [  1%]
+tests/test_compile.py::TestCompilerWindows::test_compiler_windows PASSED [  1%]
+tests/test_utils.py::TestUtils::test_aa_colors PASSED                    [  1%]
+tests/test_utils.py::TestUtils::test_search_iv_species_options PASSED    [  2%]
+tests/test_utils.py::TestUtils::test_get_uniprot_info_transcript PASSED  [  2%]
+tests/test_utils.py::TestUtils::test_ref_iv_species_options PASSED       [  2%]
+tests/test_utils.py::TestUtils::test_ref_species_options PASSED          [  2%]
+tests/test_utils.py::TestUtils::test_rest_query_bad_type PASSED          [  3%]
+tests/test_utils.py::TestUtils::test_rest_query PASSED                   [  3%]
+tests/test_utils.py::TestUtils::test_ref_species_options_bad_type PASSED [  3%]
+tests/test_utils.py::TestUtils::test_get_uniprot_seqs PASSED             [  3%]
+tests/test_utils.py::TestUtils::test_search_species_options PASSED       [  4%]
+tests/test_utils.py::TestUtils::test_search_species_options_bad_type PASSED [  4%]
+tests/test_utils.py::TestUtils::test_read_fasta PASSED                   [  4%]
+tests/test_utils.py::TestUtils::test_find_latest_ens_rel PASSED          [  4%]
+tests/test_utils.py::TestUtils::test_n_colors PASSED                     [  4%]
+tests/test_utils.py::TestUtils::test_get_uniprot_info_gene PASSED        [  5%]
+tests/test_muscle.py::TestMusclePrints::test_muscle_print_nt PASSED      [  5%]
+tests/test_muscle.py::TestMuscleAA::test_muscle_aa PASSED                [  5%]
+tests/test_muscle.py::TestMuscleSuper::test_muscle_nt_super5 PASSED      [  5%]
+tests/test_muscle.py::TestMuscleSeqsInput::test_muscle_seqs_as_input PASSED [  6%]
+tests/test_muscle.py::TestMuscle::test_muscle_nt PASSED                  [  6%]
+tests/test_muscle.py::TestMuscle::test_muscle_nt_txt PASSED              [  6%]
+tests/test_muscle.py::TestMuscleAASuper::test_muscle_aa_super5 PASSED    [  6%]
+tests/test_diamond.py::TestDiamond::test_diamond_JSON_out PASSED         [  7%]
+tests/test_diamond.py::TestDiamond::test_diamond_ref_file PASSED         [  7%]
+tests/test_diamond.py::TestDiamond::test_diamond_seqs_single PASSED      [  7%]
+tests/test_diamond.py::TestDiamond::test_diamond_seqs_multiple PASSED    [  7%]
+tests/test_diamond.py::TestDiamond::test_diamond_query_file PASSED       [  8%]
+tests/test_diamond.py::TestDiamond::test_diamond_both_files PASSED       [  8%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_min_seq_length PASSED [  8%]
+tests/test_virus.py::TestVirus::test_parse_partial_date_year_month_min PASSED [  8%]
+tests/test_virus.py::TestVirus::test_load_metadata_from_api_reports_missing_accession PASSED [  9%]
+tests/test_virus.py::TestVirus::test_parse_date_various_formats PASSED   [  9%]
+tests/test_virus.py::TestVirus::test_check_min_max_equal PASSED          [  9%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_provirus_true PASSED [  9%]
+tests/test_virus.py::TestVirus::test_virus_with_protein_count_filters PASSED [  9%]
+tests/test_virus.py::TestVirus::test_is_alphainfluenza_query_accession_mode PASSED [ 10%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_isolation_source PASSED [ 10%]
+tests/test_virus.py::TestVirus::test_filter_cached_host_not_in_strategy PASSED [ 10%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_csv PASSED      [ 10%]
+tests/test_virus.py::TestVirus::test_virus_invalid_genbank_metadata_type PASSED [ 11%]
+tests/test_virus.py::TestVirus::test_merge_baseline_with_new_empty_new PASSED [ 11%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_empty PASSED [ 11%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_segment PASSED [ 11%]
+tests/test_virus.py::TestVirus::test_validate_datasets_binary_empty_path PASSED [ 12%]
+tests/test_virus.py::TestVirus::test_load_metadata_from_api_reports_basic PASSED [ 12%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_annotated_true PASSED [ 12%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_submitter_name PASSED [ 12%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_max_release_date PASSED [ 13%]
+tests/test_virus.py::TestVirus::test_stream_copy_fasta_all_records PASSED [ 13%]
+tests/test_virus.py::TestVirus::test_virus_with_collection_date_filters PASSED [ 13%]
+tests/test_virus.py::TestVirus::test_virus_release_date_filter_verification PASSED [ 13%]
+tests/test_virus.py::TestVirus::test_virus_invalid_proteins_complete_type PASSED [ 13%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_host PASSED    [ 14%]
+tests/test_virus.py::TestVirus::test_local_name_with_namespace PASSED    [ 14%]
+tests/test_virus.py::TestVirus::test_virus_invalid_genbank_batch_size_zero PASSED [ 14%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_env_source PASSED [ 14%]
+tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_protein_count PASSED [ 15%]
+tests/test_virus.py::TestVirus::test_filter_cached_geographic_location PASSED [ 15%]
+tests/test_virus.py::TestVirus::test_clean_xml_declarations_no_declarations PASSED [ 15%]
+tests/test_virus.py::TestVirus::test_validate_datasets_binary_nonexistent PASSED [ 15%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_annotated_false PASSED [ 16%]
+tests/test_virus.py::TestVirus::test_calculate_max_accessions_per_batch PASSED [ 16%]
+tests/test_virus.py::TestVirus::test_deduplicate_metadata_against_baseline PASSED [ 16%]
+tests/test_virus.py::TestVirus::test_save_partial_metadata PASSED        [ 16%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_lab_passaged_true PASSED [ 17%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_gen_mol_type PASSED [ 17%]
+tests/test_virus.py::TestVirus::test_save_genbank_metadata_to_csv_empty PASSED [ 17%]
+tests/test_virus.py::TestVirus::test_retry_helper_custom_retryable_exceptions PASSED [ 17%]
+tests/test_virus.py::TestVirus::test_write_fasta_record_without_description PASSED [ 18%]
+tests/test_virus.py::TestVirus::test_virus_empty_virus_name PASSED       [ 18%]
+tests/test_virus.py::TestVirus::test_check_min_max_none_values PASSED    [ 18%]
+tests/test_virus.py::TestVirus::test_filter_sequences_proteins_complete PASSED [ 18%]
+tests/test_virus.py::TestVirus::test_parse_genbank_xml_invalid_raises PASSED [ 18%]
 tests/test_virus.py::TestVirus::test_filter_sequences_no_filters PASSED  [ 19%]
-tests/test_virus.py::TestVirus::test_genbank_xml_to_csv_basic PASSED     [ 19%]
-tests/test_virus.py::TestVirus::test_check_min_max_date_valid PASSED     [ 19%]
-tests/test_virus.py::TestVirus::test_get_modified_virus_name_invalid_attempt_returns_none PASSED [ 19%]
-tests/test_virus.py::TestVirus::test_merge_baseline_with_new_empty_new PASSED [ 20%]
-tests/test_virus.py::TestVirus::test_deduplicate_all_existing PASSED     [ 20%]
-tests/test_virus.py::TestVirus::test_virus_none_virus_name PASSED        [ 20%]
-tests/test_virus.py::TestVirus::test_unzip_file_bad_zip_raises PASSED    [ 20%]
-tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_seq_length PASSED [ 21%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_collection_date_range PASSED [ 21%]
-tests/test_virus.py::TestVirus::test_virus_invalid_genbank_metadata_type PASSED [ 21%]
-tests/test_virus.py::TestVirus::test_parse_genbank_xml_invalid_raises PASSED [ 21%]
-tests/test_virus.py::TestVirus::test_is_sars_cov2_query_negative PASSED  [ 22%]
-tests/test_virus.py::TestVirus::test_parse_date_invalid_raises PASSED    [ 22%]
-tests/test_virus.py::TestVirus::test_virus_multi_accession_space_separated PASSED [ 22%]
-tests/test_virus.py::TestVirus::test_get_memory_usage_returns_dict PASSED [ 22%]
-tests/test_virus.py::TestVirus::test_parse_partial_date_full_date PASSED [ 22%]
-tests/test_virus.py::TestVirus::test_parse_date_various_formats PASSED   [ 23%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_submitter_name PASSED [ 23%]
-tests/test_virus.py::TestVirus::test_get_datasets_version_returns_string_or_none PASSED [ 23%]
-tests/test_virus.py::TestVirus::test_merge_metadata_csvs_no_overwrite PASSED [ 23%]
-tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_collection_date PASSED [ 24%]
-tests/test_virus.py::TestVirus::test_load_metadata_from_api_reports_multiple PASSED [ 24%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_min_seq_length PASSED [ 24%]
-tests/test_virus.py::TestVirus::test_filter_cached_refseq_only PASSED    [ 24%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_no_filters PASSED [ 25%]
-tests/test_virus.py::TestVirus::test_is_alphainfluenza_query_negative PASSED [ 25%]
-tests/test_virus.py::TestVirus::test_retry_helper_failed_commands_tracking PASSED [ 25%]
+tests/test_virus.py::TestVirus::test_get_datasets_path_returns_valid_path PASSED [ 19%]
+tests/test_virus.py::TestVirus::test_check_min_max_date_invalid_raises PASSED [ 19%]
+tests/test_virus.py::TestVirus::test_filter_cached_min_release_date PASSED [ 19%]
+tests/test_virus.py::TestVirus::test_get_memory_usage_returns_dict PASSED [ 20%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_empty_returns_none PASSED [ 20%]
+tests/test_virus.py::TestVirus::test_parse_partial_date_full_date PASSED [ 20%]
+tests/test_virus.py::TestVirus::test_batch_accessions_for_url PASSED     [ 20%]
+tests/test_virus.py::TestVirus::test_track_failed_operation_creates_key PASSED [ 21%]
+tests/test_virus.py::TestVirus::test_track_failed_operation_none_dict PASSED [ 21%]
+tests/test_virus.py::TestVirus::test_virus_multi_accession_file_input PASSED [ 21%]
+tests/test_virus.py::TestVirus::test_filter_cached_refseq_only PASSED    [ 21%]
+tests/test_virus.py::TestVirus::test_parse_accession_input_empty_file_raises_error PASSED [ 22%]
+tests/test_virus.py::TestVirus::test_unzip_file_valid PASSED             [ 22%]
+tests/test_virus.py::TestVirus::test_unzip_file_nonexistent_raises PASSED [ 22%]
+tests/test_virus.py::TestVirus::test_save_genbank_metadata_to_csv_basic PASSED [ 22%]
+tests/test_virus.py::TestVirus::test_virus_none_virus_name PASSED        [ 22%]
+tests/test_virus.py::TestVirus::test_datasets_cli_version_output PASSED  [ 23%]
+tests/test_virus.py::TestVirus::test_merge_baseline_with_new_deduplicates PASSED [ 23%]
+tests/test_virus.py::TestVirus::test_local_name_without_namespace PASSED [ 23%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_has_proteins PASSED [ 23%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_none_raises PASSED [ 24%]
+tests/test_virus.py::TestVirus::test_filter_cached_annotated PASSED      [ 24%]
+tests/test_virus.py::TestVirus::test_virus_completeness_filter_verification PASSED [ 24%]
+tests/test_virus.py::TestVirus::test_virus_with_annotated_filter PASSED  [ 24%]
 tests/test_virus.py::TestVirus::test_virus_invalid_annotated_type PASSED [ 25%]
-tests/test_virus.py::TestVirus::test_unzip_file_valid PASSED             [ 26%]
-tests/test_virus.py::TestVirus::test_save_command_summary_creates_file PASSED [ 26%]
-tests/test_virus.py::TestVirus::test_retry_helper_exponential_backoff_timing PASSED [ 26%]
-tests/test_virus.py::TestVirus::test_virus_with_collection_date_filters PASSED [ 26%]
-tests/test_virus.py::TestVirus::test_is_alphainfluenza_query_common_names PASSED [ 27%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_combined_filters PASSED [ 27%]
-tests/test_virus.py::TestVirus::test_virus_invalid_is_accession_type PASSED [ 27%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_protein_count PASSED [ 27%]
-tests/test_virus.py::TestVirus::test_local_name_with_namespace PASSED    [ 27%]
-tests/test_virus.py::TestVirus::test_load_metadata_from_api_reports_empty PASSED [ 28%]
-tests/test_virus.py::TestVirus::test_validate_datasets_binary_nonexistent PASSED [ 28%]
-tests/test_virus.py::TestVirus::test_parse_partial_date_year_only_min_comparison PASSED [ 28%]
-tests/test_virus.py::TestVirus::test_virus_invalid_genbank_batch_size_type PASSED [ 28%]
-tests/test_virus.py::TestVirus::test_parse_partial_date_empty_raises PASSED [ 29%]
-tests/test_virus.py::TestVirus::test_force_garbage_collection_runs PASSED [ 29%]
-tests/test_virus.py::TestVirus::test_check_min_max_date_invalid_raises PASSED [ 29%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_no_filters PASSED [ 29%]
-tests/test_virus.py::TestVirus::test_parse_date_full PASSED              [ 30%]
-tests/test_virus.py::TestVirus::test_check_min_max_equal PASSED          [ 30%]
-tests/test_virus.py::TestVirus::test_get_modified_virus_name_no_parentheses_returns_none PASSED [ 30%]
-tests/test_virus.py::TestVirus::test_virus_invalid_keep_temp_type PASSED [ 30%]
-tests/test_virus.py::TestVirus::test_write_fasta_record_long_sequence_wraps PASSED [ 31%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_gen_mol_type PASSED [ 31%]
-tests/test_virus.py::TestVirus::test_is_alphainfluenza_query_accession_mode PASSED [ 31%]
-tests/test_virus.py::TestVirus::test_check_min_max_invalid_raises PASSED [ 31%]
-tests/test_virus.py::TestVirus::test_retry_helper_success_after_retry PASSED [ 31%]
-tests/test_virus.py::TestVirus::test_retry_helper_successful_operation PASSED [ 32%]
-tests/test_virus.py::TestVirus::test_virus_multiple_filters_relationship_check PASSED [ 32%]
-tests/test_virus.py::TestVirus::test_get_gget_version_returns_string PASSED [ 32%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_vaccine_strain_true PASSED [ 32%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_has_proteins PASSED [ 33%]
-tests/test_virus.py::TestVirus::test_merge_baseline_with_new_csv PASSED  [ 33%]
-tests/test_virus.py::TestVirus::test_virus_host_filter_verification PASSED [ 33%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_provirus_true PASSED [ 33%]
-tests/test_virus.py::TestVirus::test_parse_accession_input_space_separated PASSED [ 34%]
-tests/test_virus.py::TestVirus::test_track_failed_operation_appends PASSED [ 34%]
-tests/test_virus.py::TestVirus::test_virus_invalid_proteins_complete_type PASSED [ 34%]
-tests/test_virus.py::TestVirus::test_parse_baseline_file_empty_raises PASSED [ 34%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_mature_peptide_count PASSED [ 35%]
-tests/test_virus.py::TestVirus::test_virus_with_max_ambiguous_chars_filter PASSED [ 35%]
-tests/test_virus.py::TestVirus::test_virus_with_length_filters PASSED    [ 35%]
-tests/test_virus.py::TestVirus::test_parse_accession_input_nonexistent_file_raises_error PASSED [ 35%]
-tests/test_virus.py::TestVirus::test_parse_baseline_file_json PASSED     [ 36%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_isolate PASSED [ 36%]
-tests/test_virus.py::TestVirus::test_virus_specific_accession_file_creation PASSED [ 36%]
-tests/test_virus.py::TestVirus::test_save_genbank_metadata_to_csv_empty PASSED [ 36%]
-tests/test_virus.py::TestVirus::test_load_metadata_from_api_reports_basic PASSED [ 36%]
-tests/test_virus.py::TestVirus::test_write_fasta_record_without_description PASSED [ 37%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_segment PASSED [ 37%]
-tests/test_virus.py::TestVirus::test_check_min_max_valid PASSED          [ 37%]
-tests/test_virus.py::TestVirus::test_save_partial_metadata PASSED        [ 37%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_combined PASSED [ 38%]
-tests/test_virus.py::TestVirus::test_track_failed_operation_creates_key PASSED [ 38%]
-tests/test_virus.py::TestVirus::test_parse_partial_date_year_only_max_comparison PASSED [ 38%]
-tests/test_virus.py::TestVirus::test_save_metadata_to_csv_empty_metadata PASSED [ 38%]
-tests/test_virus.py::TestVirus::test_virus_with_host_filter PASSED       [ 39%]
-tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_gene_count PASSED [ 39%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_lab_passaged_true PASSED [ 39%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_nuc_completeness_partial PASSED [ 39%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_geographic_location PASSED [ 40%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_lab_passaged_false PASSED [ 40%]
-tests/test_virus.py::TestVirus::test_filter_cached_complete_only PASSED  [ 40%]
-tests/test_virus.py::TestVirus::test_virus_with_multiple_filters PASSED  [ 40%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_annotated_false PASSED [ 40%]
-tests/test_virus.py::TestVirus::test_filter_cached_geographic_location PASSED [ 41%]
-tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_protein_count PASSED [ 41%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_empty PASSED [ 41%]
-tests/test_virus.py::TestVirus::test_virus_with_source_database_filter PASSED [ 41%]
-tests/test_virus.py::TestVirus::test_save_genbank_metadata_to_csv_basic PASSED [ 42%]
-tests/test_virus.py::TestVirus::test_stream_copy_fasta_all_records PASSED [ 42%]
-tests/test_virus.py::TestVirus::test_virus_completeness_filter_verification PASSED [ 42%]
-tests/test_virus.py::TestVirus::test_get_datasets_path_uses_bundled_binary PASSED [ 42%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_isolation_source PASSED [ 43%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_min_gene_count PASSED [ 43%]
-tests/test_virus.py::TestVirus::test_filter_cached_min_release_date PASSED [ 43%]
-tests/test_virus.py::TestVirus::test_virus_with_annotated_filter PASSED  [ 43%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_max_release_date PASSED [ 44%]
-tests/test_virus.py::TestVirus::test_retry_helper_non_retryable_exception PASSED [ 44%]
-tests/test_virus.py::TestVirus::test_merge_metadata_csvs_missing_standard_file PASSED [ 44%]
-tests/test_virus.py::TestVirus::test_parse_genbank_xml_basic PASSED      [ 44%]
+tests/test_virus.py::TestVirus::test_parse_partial_date_empty_raises PASSED [ 25%]
+tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_seq_length PASSED [ 25%]
+tests/test_virus.py::TestVirus::test_parse_partial_date_year_only_max_comparison PASSED [ 25%]
+tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_collection_date PASSED [ 26%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_genotype PASSED [ 26%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_submitter_institution PASSED [ 26%]
+tests/test_virus.py::TestVirus::test_merge_metadata_csvs_missing_standard_file PASSED [ 26%]
+tests/test_virus.py::TestVirus::test_is_sars_cov2_query_accession_mode PASSED [ 27%]
+tests/test_virus.py::TestVirus::test_merge_metadata_csvs_fills_missing PASSED [ 27%]
+tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_release_date PASSED [ 27%]
+tests/test_virus.py::TestVirus::test_virus_with_geographic_location_filter PASSED [ 27%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_isolate PASSED [ 27%]
+tests/test_virus.py::TestVirus::test_get_datasets_version_returns_string_or_none PASSED [ 28%]
+tests/test_virus.py::TestVirus::test_parse_accession_input_nonexistent_file_raises_error PASSED [ 28%]
+tests/test_virus.py::TestVirus::test_parse_partial_date_year_month_max PASSED [ 28%]
+tests/test_virus.py::TestVirus::test_track_failed_operation_appends PASSED [ 28%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_combined_filters PASSED [ 29%]
+tests/test_virus.py::TestVirus::test_parse_date_full PASSED              [ 29%]
+tests/test_virus.py::TestVirus::test_virus_metadata_schema_validation PASSED [ 29%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_invalid_attempt_returns_none PASSED [ 29%]
+tests/test_virus.py::TestVirus::test_virus_with_has_proteins_filter PASSED [ 30%]
+tests/test_virus.py::TestVirus::test_retry_helper_non_retryable_exception PASSED [ 30%]
+tests/test_virus.py::TestVirus::test_virus_host_filter_verification PASSED [ 30%]
+tests/test_virus.py::TestVirus::test_virus_with_lab_passaged_filter PASSED [ 30%]
+tests/test_virus.py::TestVirus::test_retry_helper_exponential_backoff_timing PASSED [ 31%]
+tests/test_virus.py::TestVirus::test_save_command_summary_with_error PASSED [ 31%]
+tests/test_virus.py::TestVirus::test_virus_relationship_check_counts_match PASSED [ 31%]
+tests/test_virus.py::TestVirus::test_stream_copy_fasta_with_accession_filter PASSED [ 31%]
+tests/test_virus.py::TestVirus::test_virus_with_multiple_filters PASSED  [ 31%]
+tests/test_virus.py::TestVirus::test_write_fasta_record_long_sequence_wraps PASSED [ 32%]
+tests/test_virus.py::TestVirus::test_retry_helper_success_after_retry PASSED [ 32%]
+tests/test_virus.py::TestVirus::test_check_min_max_valid PASSED          [ 32%]
+tests/test_virus.py::TestVirus::test_filter_cached_complete_only PASSED  [ 32%]
+tests/test_virus.py::TestVirus::test_write_fasta_record_with_description PASSED [ 33%]
+tests/test_virus.py::TestVirus::test_save_command_summary_creates_file PASSED [ 33%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_nonexistent_raises PASSED [ 33%]
+tests/test_virus.py::TestVirus::test_save_metadata_to_csv_basic PASSED   [ 33%]
+tests/test_virus.py::TestVirus::test_save_metadata_to_csv_empty_metadata PASSED [ 34%]
+tests/test_virus.py::TestVirus::test_retry_helper_failed_commands_tracking PASSED [ 34%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_add_virus_suffix PASSED [ 34%]
+tests/test_virus.py::TestVirus::test_parse_partial_date_year_only_min_comparison PASSED [ 34%]
+tests/test_virus.py::TestVirus::test_virus_with_source_database_filter PASSED [ 35%]
+tests/test_virus.py::TestVirus::test_genbank_xml_to_csv_basic PASSED     [ 35%]
+tests/test_virus.py::TestVirus::test_virus_with_genbank_metadata_retrieval PASSED [ 35%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_vaccine_strain_true PASSED [ 35%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_submitter_country PASSED [ 36%]
+tests/test_virus.py::TestVirus::test_virus_integer_virus_id PASSED       [ 36%]
+tests/test_virus.py::TestVirus::test_filter_cached_no_filters PASSED     [ 36%]
+tests/test_virus.py::TestVirus::test_load_metadata_from_api_reports_empty PASSED [ 36%]
+tests/test_virus.py::TestVirus::test_get_datasets_path_uses_bundled_binary PASSED [ 36%]
+tests/test_virus.py::TestVirus::test_virus_with_completeness_filter PASSED [ 37%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_geographic_location PASSED [ 37%]
+tests/test_virus.py::TestVirus::test_is_sars_cov2_query_negative PASSED  [ 37%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_remove_parentheses PASSED [ 37%]
+tests/test_virus.py::TestVirus::test_virus_multiple_filters_relationship_check PASSED [ 38%]
+tests/test_virus.py::TestVirus::test_parse_genbank_xml_empty_set PASSED  [ 38%]
+tests/test_virus.py::TestVirus::test_filter_sequences_max_ambiguous_chars PASSED [ 38%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_empty_raises PASSED [ 38%]
+tests/test_virus.py::TestVirus::test_deduplicate_empty_baseline PASSED   [ 39%]
+tests/test_virus.py::TestVirus::test_virus_specific_accession_file_creation PASSED [ 39%]
+tests/test_virus.py::TestVirus::test_virus_invalid_genbank_batch_size_type PASSED [ 39%]
+tests/test_virus.py::TestVirus::test_clean_xml_declarations PASSED       [ 39%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_vaccine_strain_false PASSED [ 40%]
+tests/test_virus.py::TestVirus::test_virus_invalid_completeness PASSED   [ 40%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_genotype_list PASSED [ 40%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_text PASSED     [ 40%]
+tests/test_virus.py::TestVirus::test_parse_accession_input_single PASSED [ 40%]
+tests/test_virus.py::TestVirus::test_force_garbage_collection_runs PASSED [ 41%]
+tests/test_virus.py::TestVirus::test_check_min_max_invalid_raises PASSED [ 41%]
+tests/test_virus.py::TestVirus::test_is_alphainfluenza_query_common_names PASSED [ 41%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_collection_date_range PASSED [ 41%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_json PASSED     [ 42%]
+tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_gene_count PASSED [ 42%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_source_database PASSED [ 42%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_jsonl PASSED    [ 42%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_max_gene_count PASSED [ 43%]
+tests/test_virus.py::TestVirus::test_virus_invalid_lab_passaged_type PASSED [ 43%]
+tests/test_virus.py::TestVirus::test_virus_with_host_filter PASSED       [ 43%]
+tests/test_virus.py::TestVirus::test_merge_baseline_with_new_csv PASSED  [ 43%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_already_correct_returns_none PASSED [ 44%]
+tests/test_virus.py::TestVirus::test_unzip_file_bad_zip_raises PASSED    [ 44%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_add_space_before_virus PASSED [ 44%]
+tests/test_virus.py::TestVirus::test_validate_datasets_binary_valid PASSED [ 44%]
+tests/test_virus.py::TestVirus::test_virus_with_max_ambiguous_chars_filter PASSED [ 45%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_combined PASSED [ 45%]
+tests/test_virus.py::TestVirus::test_virus_invalid_is_accession_type PASSED [ 45%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_provirus_false PASSED [ 45%]
 tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_peptide_count PASSED [ 45%]
-tests/test_virus.py::TestVirus::test_virus_invalid_genbank_batch_size_negative PASSED [ 45%]
-tests/test_virus.py::TestVirus::test_filter_cached_no_filters PASSED     [ 45%]
-tests/test_virus.py::TestVirus::test_parse_baseline_file_text PASSED     [ 45%]
-tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_release_date PASSED [ 45%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_env_source PASSED [ 46%]
-tests/test_virus.py::TestVirus::test_datasets_cli_version_output PASSED  [ 46%]
-tests/test_virus.py::TestVirus::test_local_name_without_namespace PASSED [ 46%]
-tests/test_virus.py::TestVirus::test_virus_invalid_lab_passaged_type PASSED [ 46%]
-tests/test_virus.py::TestVirus::test_save_metadata_to_csv_basic PASSED   [ 47%]
-tests/test_virus.py::TestVirus::test_parse_accession_input_empty_file_raises_error PASSED [ 47%]
-tests/test_virus.py::TestVirus::test_parse_accession_input_from_file PASSED [ 47%]
-tests/test_virus.py::TestVirus::test_filter_cached_host_not_in_strategy PASSED [ 47%]
-tests/test_virus.py::TestVirus::test_parse_genbank_xml_empty_set PASSED  [ 48%]
-tests/test_virus.py::TestVirus::test_batch_accessions_for_url PASSED     [ 48%]
-tests/test_virus.py::TestVirus::test_stream_copy_fasta_with_accession_filter PASSED [ 48%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_submitter_institution PASSED [ 48%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_max_gene_count PASSED [ 49%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_vaccine_strain_false PASSED [ 49%]
+tests/test_virus.py::TestVirus::test_save_partial_metadata_empty PASSED  [ 46%]
+tests/test_virus.py::TestVirus::test_retry_helper_successful_operation PASSED [ 46%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_no_parentheses_returns_none PASSED [ 46%]
+tests/test_virus.py::TestVirus::test_parse_date_invalid_raises PASSED    [ 46%]
+tests/test_virus.py::TestVirus::test_virus_invalid_keep_temp_type PASSED [ 47%]
+tests/test_virus.py::TestVirus::test_virus_invalid_genbank_batch_size_negative PASSED [ 47%]
+tests/test_virus.py::TestVirus::test_check_min_max_date_valid PASSED     [ 47%]
+tests/test_virus.py::TestVirus::test_filter_cached_host_in_strategy_skipped PASSED [ 47%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_no_filters PASSED [ 48%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_mature_peptide_count PASSED [ 48%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_nuc_completeness_partial PASSED [ 48%]
+tests/test_virus.py::TestVirus::test_is_alphainfluenza_query_negative PASSED [ 48%]
+tests/test_virus.py::TestVirus::test_deduplicate_all_existing PASSED     [ 49%]
+tests/test_virus.py::TestVirus::test_virus_with_length_filters PASSED    [ 49%]
+tests/test_virus.py::TestVirus::test_load_metadata_from_api_reports_multiple PASSED [ 49%]
 tests/test_virus.py::TestVirus::test_is_sars_cov2_query_common_names PASSED [ 49%]
-tests/test_virus.py::TestVirus::test_clean_xml_declarations_no_declarations PASSED [ 49%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_source_database PASSED [ 50%]
-tests/test_virus.py::TestVirus::test_filter_cached_host_in_strategy_skipped PASSED [ 50%]
-tests/test_virus.py::TestVirus::test_virus_invalid_genbank_batch_size_zero PASSED [ 50%]
-tests/test_virus.py::TestVirus::test_filter_cached_annotated PASSED      [ 50%]
-tests/test_virus.py::TestVirus::test_calculate_max_accessions_per_batch PASSED [ 50%]
-tests/test_virus.py::TestVirus::test_deduplicate_metadata_against_baseline PASSED [ 51%]
-tests/test_virus.py::TestVirus::test_parse_baseline_file_none_raises PASSED [ 51%]
-tests/test_virus.py::TestVirus::test_parse_baseline_file_jsonl PASSED    [ 51%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_provirus_false PASSED [ 51%]
-tests/test_virus.py::TestVirus::test_virus_metadata_schema_validation PASSED [ 52%]
-tests/test_virus.py::TestVirus::test_validate_datasets_binary_empty_path PASSED [ 52%]
-tests/test_virus.py::TestVirus::test_virus_with_has_proteins_filter PASSED [ 52%]
-tests/test_virus.py::TestVirus::test_get_modified_virus_name_add_space_before_virus PASSED [ 52%]
-tests/test_virus.py::TestVirus::test_deduplicate_empty_baseline PASSED   [ 53%]
-tests/test_virus.py::TestVirus::test_clean_xml_declarations PASSED       [ 53%]
-tests/test_virus.py::TestVirus::test_parse_accession_input_single PASSED [ 53%]
-tests/test_virus.py::TestVirus::test_get_modified_virus_name_empty_returns_none PASSED [ 53%]
-tests/test_virus.py::TestVirus::test_is_sars_cov2_query_accession_mode PASSED [ 54%]
-tests/test_virus.py::TestVirus::test_parse_partial_date_year_month_max PASSED [ 54%]
-tests/test_virus.py::TestVirus::test_save_partial_metadata_empty PASSED  [ 54%]
-tests/test_virus.py::TestVirus::test_parse_baseline_file_csv PASSED      [ 54%]
-tests/test_virus.py::TestVirus::test_virus_integer_virus_id PASSED       [ 54%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_host PASSED    [ 55%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_max_seq_length PASSED [ 55%]
-tests/test_virus.py::TestVirus::test_virus_with_lab_passaged_filter PASSED [ 55%]
-tests/test_virus.py::TestVirus::test_write_fasta_record_with_description PASSED [ 55%]
-tests/test_muscle.py::TestMusclePrints::test_muscle_print_nt PASSED      [ 56%]
-tests/test_muscle.py::TestMuscle::test_muscle_nt_txt PASSED              [ 56%]
-tests/test_muscle.py::TestMuscle::test_muscle_nt PASSED                  [ 56%]
-tests/test_muscle.py::TestMuscleSuper::test_muscle_nt_super5 PASSED      [ 56%]
-tests/test_muscle.py::TestMuscleSeqsInput::test_muscle_seqs_as_input PASSED [ 57%]
-tests/test_muscle.py::TestMuscleAASuper::test_muscle_aa_super5 PASSED    [ 57%]
-tests/test_muscle.py::TestMuscleAA::test_muscle_aa PASSED                [ 57%]
-tests/test_info.py::TestInfo::test_info_WB_transcript PASSED             [ 57%]
-tests/test_info.py::TestInfo::test_info_transcript PASSED                [ 58%]
-tests/test_info.py::TestInfo::test_info_ncbifalse_uniprotfalse PASSED    [ 58%]
-tests/test_info.py::TestInfo::test_info_ncbitrue_uniprotfalse PASSED     [ 58%]
-tests/test_info.py::TestInfo::test_info_ncbifalse_uniprottrue PASSED     [ 58%]
-tests/test_info.py::TestInfo::test_info_mix PASSED                       [ 59%]
-tests/test_info.py::TestInfo::test_info_gene_list_non_model PASSED       [ 59%]
-tests/test_info.py::TestInfo::test_info_gene FAILED                      [ 59%]
-tests/test_info.py::TestInfo::test_info_exon PASSED                      [ 59%]
-tests/test_alphafold.py::TestAlphafoldJackhmmerSavedir::test_clean_up_default_dir_when_none PASSED [ 59%]
-tests/test_alphafold.py::TestAlphafoldJackhmmerSavedir::test_clean_up_removes_custom_dir PASSED [ 60%]
-tests/test_alphafold.py::TestAlphafoldJackhmmerSavedir::test_default_dir PASSED [ 60%]
-tests/test_alphafold.py::TestAlphafoldJackhmmerSavedir::test_cli_exposes_jackhmmer_savedir_flag PASSED [ 60%]
-tests/test_alphafold.py::TestAlphafoldJackhmmerSavedir::test_custom_dir PASSED [ 60%]
-tests/test_alphafold.py::TestAlphafoldJackhmmerSavedir::test_clean_up_missing_dir_is_safe PASSED [ 61%]
-tests/test_elm.py::TestELM::test_elm_uniprot_id_new PASSED               [ 61%]
-tests/test_elm.py::TestELM::test_elm_uniprot_aminoacidseq PASSED         [ 61%]
-tests/test_elm.py::TestELM::test_elm_uniprot_id_in_elm PASSED            [ 61%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_bad_species PASSED      [ 62%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_plot PASSED             [ 62%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_diseases_drugs PASSED   [ 62%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_worm PASSED             [ 62%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_bad_gene PASSED         [ 63%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_bad_database_shortcut PASSED [ 63%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_none PASSED             [ 63%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_bad_background PASSED   [ 63%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_celltypes PASSED        [ 63%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_background PASSED       [ 64%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_json PASSED             [ 64%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_yeast PASSED            [ 64%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_background_ensembl PASSED [ 64%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_mouse_is_human PASSED   [ 65%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_transcription PASSED    [ 65%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_ontology PASSED         [ 65%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_pathway PASSED          [ 65%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_fly PASSED              [ 66%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_bad_background_list PASSED [ 66%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_fish PASSED             [ 66%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_ensembl_ids PASSED      [ 66%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_kinase_interactions PASSED [ 67%]
-tests/test_seq.py::TestSeq::test_seq_transcript_gene PASSED              [ 67%]
-tests/test_seq.py::TestSeq::test_seq_gene_iso PASSED                     [ 67%]
-tests/test_seq.py::TestSeq::test_seq_transcript PASSED                   [ 67%]
-tests/test_seq.py::TestSeq::test_seq_transcript_transcript_WB PASSED     [ 68%]
-tests/test_seq.py::TestSeq::test_seq_gene_transcript_iso PASSED          [ 68%]
-tests/test_seq.py::TestSeq::test_seq_transcript_gene_iso PASSED          [ 68%]
-tests/test_seq.py::TestSeq::test_seq_gene PASSED                         [ 68%]
-tests/test_seq.py::TestSeq::test_seq_transcript_gene_WB PASSED           [ 68%]
-tests/test_seq.py::TestSeq::test_seq_missing_uniprot_gene_name PASSED    [ 69%]
-tests/test_seq.py::TestSeq::test_seq_transcript_transcript_iso PASSED    [ 69%]
-tests/test_diamond.py::TestDiamond::test_diamond_seqs_single PASSED      [ 69%]
-tests/test_diamond.py::TestDiamond::test_diamond_both_files PASSED       [ 69%]
-tests/test_diamond.py::TestDiamond::test_diamond_ref_file PASSED         [ 70%]
-tests/test_diamond.py::TestDiamond::test_diamond_query_file PASSED       [ 70%]
-tests/test_diamond.py::TestDiamond::test_diamond_seqs_multiple PASSED    [ 70%]
-tests/test_diamond.py::TestDiamond::test_diamond_JSON_out PASSED         [ 70%]
-tests/test_mutate.py::TestMutate::test_multi_delins_with_true_right_repeats PASSED [ 71%]
-tests/test_mutate.py::TestMutate::test_multi_dup PASSED                  [ 71%]
-tests/test_mutate.py::TestMutate::test_list_of_mutations PASSED          [ 71%]
-tests/test_mutate.py::TestMutate::test_single_delins PASSED              [ 71%]
-tests/test_mutate.py::TestMutate::test_uncertain_mutation PASSED         [ 72%]
-tests/test_mutate.py::TestMutate::test_large_k PASSED                    [ 72%]
-tests/test_mutate.py::TestMutate::test_intron_mutation_plus PASSED       [ 72%]
-tests/test_mutate.py::TestMutate::test_single_substitution_near_left_end PASSED [ 72%]
-tests/test_mutate.py::TestMutate::test_multi_delins_with_psuedo_left_repeats PASSED [ 72%]
-tests/test_mutate.py::TestMutate::test_single_deletion_with_left_repeats PASSED [ 73%]
-tests/test_mutate.py::TestMutate::test_index_error PASSED                [ 73%]
-tests/test_mutate.py::TestMutate::test_multi_delins_with_true_left_repeats PASSED [ 73%]
-tests/test_mutate.py::TestMutate::test_multi_insertion PASSED            [ 73%]
-tests/test_mutate.py::TestMutate::test_single_insertion PASSED           [ 74%]
-tests/test_mutate.py::TestMutate::test_posttranslational_mutation PASSED [ 74%]
-tests/test_mutate.py::TestMutate::test_single_substitution_near_right_end PASSED [ 74%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_no_filters PASSED [ 50%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_min_gene_count PASSED [ 50%]
+tests/test_virus.py::TestVirus::test_get_gget_version_returns_string PASSED [ 50%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_max_seq_length PASSED [ 50%]
+tests/test_virus.py::TestVirus::test_parse_genbank_xml_basic PASSED      [ 50%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_lab_passaged_false PASSED [ 51%]
+tests/test_virus.py::TestVirus::test_parse_accession_input_space_separated PASSED [ 51%]
+tests/test_virus.py::TestVirus::test_virus_multi_accession_space_separated PASSED [ 51%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_protein_count PASSED [ 51%]
+tests/test_virus.py::TestVirus::test_parse_accession_input_from_file PASSED [ 52%]
+tests/test_virus.py::TestVirus::test_merge_metadata_csvs_no_overwrite PASSED [ 52%]
+tests/test_gpt.py::TestGpt::test_gpt PASSED                              [ 52%]
+tests/test_archs4.py::TestArchs4::test_archs4_tissue_ensembl PASSED      [ 52%]
+tests/test_archs4.py::TestArchs4::test_archs4_mouse_json_ensembl PASSED  [ 53%]
+tests/test_archs4.py::TestArchs4::test_archs4_tissue PASSED              [ 53%]
+tests/test_archs4.py::TestArchs4::test_archs4_tissue_json PASSED         [ 53%]
+tests/test_archs4.py::TestArchs4::test_archs4_bad_gene_tissue PASSED     [ 53%]
+tests/test_archs4.py::TestArchs4::test_archs4_bad_ensembl PASSED         [ 54%]
+tests/test_archs4.py::TestArchs4::test_archs4_bad_gene PASSED            [ 54%]
+tests/test_archs4.py::TestArchs4::test_archs4_bad_which PASSED           [ 54%]
+tests/test_archs4.py::TestArchs4::test_archs4_defaults PASSED            [ 54%]
+tests/test_archs4.py::TestArchs4::test_archs4_tissue_mouse PASSED        [ 54%]
+tests/test_archs4.py::TestArchs4::test_archs4_bad_species PASSED         [ 55%]
+tests/test_archs4.py::TestArchs4MissingColor::test_tissue_missing_color_does_not_crash PASSED [ 55%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_bad_database_shortcut PASSED [ 55%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_bad_background PASSED   [ 55%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_ensembl_ids PASSED      [ 56%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_celltypes PASSED        [ 56%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_mouse_is_human PASSED   [ 56%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_bad_gene PASSED         [ 56%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_bad_background_list PASSED [ 57%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_json PASSED             [ 57%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_transcription PASSED    [ 57%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_yeast PASSED            [ 57%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_background_ensembl PASSED [ 58%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_none PASSED             [ 58%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_pathway PASSED          [ 58%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_bad_species PASSED      [ 58%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_diseases_drugs PASSED   [ 59%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_plot PASSED             [ 59%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_background PASSED       [ 59%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_fish PASSED             [ 59%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_ontology PASSED         [ 59%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_worm PASSED             [ 60%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_fly PASSED              [ 60%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_kinase_interactions PASSED [ 60%]
+tests/test_pdb.py::TestPDB::test_pdb_assembly PASSED                     [ 60%]
+tests/test_pdb.py::TestPDB::test_pdb_pdb PASSED                          [ 61%]
+tests/test_pdb.py::TestPDB::test_pdb_legacy_fallback_to_mmcif PASSED     [ 61%]
+tests/test_pdb.py::TestPDB::test_pdb_mmcif PASSED                        [ 61%]
+tests/test_search.py::TestSearch::test_search_transcript_bad_species PASSED [ 61%]
+tests/test_search.py::TestSearch::test_search_gene_bad_species PASSED    [ 62%]
+tests/test_search.py::TestSearch::test_search_gene_two_sw_and PASSED     [ 62%]
+tests/test_search.py::TestSearch::test_search_gene_one_sw_json PASSED    [ 62%]
+tests/test_search.py::TestSearch::test_search_gene_one_sw PASSED         [ 62%]
+tests/test_search.py::TestSearch::test_search_plant_db PASSED            [ 63%]
+tests/test_search.py::TestSearch::test_search_transcript_bad_andor PASSED [ 63%]
+tests/test_search.py::TestSearch::test_search_transcript_two_sw_or PASSED [ 63%]
+tests/test_search.py::TestSearch::test_search_gene_two_sw_limit PASSED   [ 63%]
+tests/test_search.py::TestSearch::test_search_octopus PASSED             [ 63%]
+tests/test_search.py::TestSearch::test_search_transcript_one_sw PASSED   [ 64%]
+tests/test_search.py::TestSearch::test_search_db PASSED                  [ 64%]
+tests/test_search.py::TestSearch::test_search_gene_two_sw_or PASSED      [ 64%]
+tests/test_search.py::TestSearch::test_search_gene_one_sw_limit PASSED   [ 64%]
+tests/test_search.py::TestSearch::test_search_transcript_two_sw_and PASSED [ 65%]
+tests/test_search.py::TestSearch::test_search_plant PASSED               [ 65%]
+tests/test_search.py::TestSearch::test_search_release PASSED             [ 65%]
+tests/test_search.py::TestSearch::test_search_gene_bad_andor PASSED      [ 65%]
+tests/test_elm.py::TestELM::test_elm_uniprot_id_new PASSED               [ 66%]
+tests/test_elm.py::TestELM::test_elm_uniprot_aminoacidseq PASSED         [ 66%]
+tests/test_elm.py::TestELM::test_elm_uniprot_id_in_elm PASSED            [ 66%]
+tests/test_info.py::TestInfo::test_info_mix PASSED                       [ 66%]
+tests/test_info.py::TestInfo::test_info_WB_transcript PASSED             [ 67%]
+tests/test_info.py::TestInfo::test_info_gene FAILED                      [ 67%]
+tests/test_info.py::TestInfo::test_info_ncbifalse_uniprotfalse PASSED    [ 67%]
+tests/test_info.py::TestInfo::test_info_transcript PASSED                [ 67%]
+tests/test_info.py::TestInfo::test_info_ncbifalse_uniprottrue PASSED     [ 68%]
+tests/test_info.py::TestInfo::test_info_gene_list_non_model PASSED       [ 68%]
+tests/test_info.py::TestInfo::test_info_ncbitrue_uniprotfalse FAILED     [ 68%]
+tests/test_info.py::TestInfo::test_info_exon PASSED                      [ 68%]
+tests/test_blat.py::TestBlat::test_blat_aa PASSED                        [ 68%]
+tests/test_blat.py::TestBlat::test_blat_nt_transDNA PASSED               [ 69%]
+tests/test_blat.py::TestBlat::test_blat_bad_txt PASSED                   [ 69%]
+tests/test_blat.py::TestBlat::test_blat_nt PASSED                        [ 69%]
+tests/test_blat.py::TestBlat::test_blat_aa_RNA PASSED                    [ 69%]
+tests/test_blat.py::TestBlat::test_blat_shortseq PASSED                  [ 70%]
+tests/test_blat.py::TestBlat::test_blat_nt_fasta PASSED                  [ 70%]
+tests/test_blat.py::TestBlat::test_blat_nt_txt PASSED                    [ 70%]
+tests/test_blat.py::TestBlat::test_blat_bad_fasta PASSED                 [ 70%]
+tests/test_blat.py::TestBlat::test_blat_bad_seqtype PASSED               [ 71%]
+tests/test_blat.py::TestBlat::test_blat_nt_RNA PASSED                    [ 71%]
+tests/test_blat.py::TestBlat::test_blat_nt_json PASSED                   [ 71%]
+tests/test_blat.py::TestBlat::test_blat_bad_fileformat PASSED            [ 71%]
+tests/test_blat.py::TestBlat::test_blat_nt_DNA PASSED                    [ 72%]
+tests/test_blat.py::TestBlat::test_blat_aa_protein PASSED                [ 72%]
+tests/test_blat.py::TestBlat::test_blat_nt_protein PASSED                [ 72%]
+tests/test_blat.py::TestBlat::test_blat_bad_assembly PASSED              [ 72%]
+tests/test_mutate.py::TestMutate::test_index_error PASSED                [ 72%]
+tests/test_mutate.py::TestMutate::test_single_deletion_with_right_repeats PASSED [ 73%]
+tests/test_mutate.py::TestMutate::test_multi_delins_with_psuedo_left_repeats PASSED [ 73%]
+tests/test_mutate.py::TestMutate::test_large_k PASSED                    [ 73%]
+tests/test_mutate.py::TestMutate::test_intron_mutation_plus PASSED       [ 73%]
+tests/test_mutate.py::TestMutate::test_single_delins PASSED              [ 74%]
+tests/test_mutate.py::TestMutate::test_multi_deletion_with_right_repeats PASSED [ 74%]
+tests/test_mutate.py::TestMutate::test_inversion_with_overlaps PASSED    [ 74%]
 tests/test_mutate.py::TestMutate::test_single_substitution PASSED        [ 74%]
-tests/test_mutate.py::TestMutate::test_ambiguous_mutation PASSED         [ 75%]
+tests/test_mutate.py::TestMutate::test_list_of_mutations PASSED          [ 75%]
+tests/test_mutate.py::TestMutate::test_multi_deletion PASSED             [ 75%]
 tests/test_mutate.py::TestMutate::test_single_deletion PASSED            [ 75%]
-tests/test_mutate.py::TestMutate::test_multi_deletion_with_right_repeats PASSED [ 75%]
-tests/test_mutate.py::TestMutate::test_multi_delins PASSED               [ 75%]
-tests/test_mutate.py::TestMutate::test_multi_deletion PASSED             [ 76%]
-tests/test_mutate.py::TestMutate::test_intron_mutation_minus PASSED      [ 76%]
-tests/test_mutate.py::TestMutate::test_inversion_with_overlaps PASSED    [ 76%]
-tests/test_mutate.py::TestMutate::test_single_dup PASSED                 [ 76%]
-tests/test_mutate.py::TestMutate::test_single_deletion_with_right_repeats PASSED [ 77%]
+tests/test_mutate.py::TestMutate::test_posttranslational_mutation PASSED [ 75%]
+tests/test_mutate.py::TestMutate::test_multi_delins PASSED               [ 76%]
+tests/test_mutate.py::TestMutate::test_multi_insertion PASSED            [ 76%]
+tests/test_mutate.py::TestMutate::test_uncertain_mutation PASSED         [ 76%]
+tests/test_mutate.py::TestMutate::test_single_substitution_near_right_end PASSED [ 76%]
+tests/test_mutate.py::TestMutate::test_single_dup PASSED                 [ 77%]
+tests/test_mutate.py::TestMutate::test_multi_dup PASSED                  [ 77%]
+tests/test_mutate.py::TestMutate::test_intron_mutation_minus PASSED      [ 77%]
+tests/test_mutate.py::TestMutate::test_multi_delins_with_true_left_repeats PASSED [ 77%]
 tests/test_mutate.py::TestMutate::test_multi_insertion_with_left_repeats PASSED [ 77%]
-tests/test_mutate.py::test_mismatch_error PASSED                         [ 77%]
-tests/test_mutate.py::test_csv_of_mutations PASSED                       [ 77%]
-tests/test_blat.py::TestBlat::test_blat_shortseq PASSED                  [ 77%]
-tests/test_blat.py::TestBlat::test_blat_nt PASSED                        [ 78%]
-tests/test_blat.py::TestBlat::test_blat_nt_txt PASSED                    [ 78%]
-tests/test_blat.py::TestBlat::test_blat_nt_protein PASSED                [ 78%]
-tests/test_blat.py::TestBlat::test_blat_nt_transDNA PASSED               [ 78%]
-tests/test_blat.py::TestBlat::test_blat_nt_DNA PASSED                    [ 79%]
-tests/test_blat.py::TestBlat::test_blat_bad_assembly PASSED              [ 79%]
-tests/test_blat.py::TestBlat::test_blat_aa_RNA PASSED                    [ 79%]
-tests/test_blat.py::TestBlat::test_blat_bad_seqtype PASSED               [ 79%]
-tests/test_blat.py::TestBlat::test_blat_nt_RNA PASSED                    [ 80%]
-tests/test_blat.py::TestBlat::test_blat_bad_txt PASSED                   [ 80%]
-tests/test_blat.py::TestBlat::test_blat_aa_protein PASSED                [ 80%]
-tests/test_blat.py::TestBlat::test_blat_nt_json PASSED                   [ 80%]
-tests/test_blat.py::TestBlat::test_blat_nt_fasta PASSED                  [ 81%]
-tests/test_blat.py::TestBlat::test_blat_bad_fileformat PASSED            [ 81%]
-tests/test_blat.py::TestBlat::test_blat_bad_fasta PASSED                 [ 81%]
-tests/test_blat.py::TestBlat::test_blat_aa PASSED                        [ 81%]
-tests/test_blast.py::TestBlast::test_blast_bad_db2 PASSED                [ 81%]
-tests/test_blast.py::TestBlast::test_blast_db_missing PASSED             [ 82%]
-tests/test_blast.py::TestBlast::test_blast_bad_program PASSED            [ 82%]
-tests/test_blast.py::TestBlast::test_blast_bad_fasta PASSED              [ 82%]
-tests/test_blast.py::TestBlast::test_blast_bad_db1 PASSED                [ 82%]
-tests/test_blast.py::TestBlast::test_blast_nt PASSED                     [ 83%]
-tests/test_blast.py::TestBlast::test_blast_bad_seq PASSED                [ 83%]
-tests/test_archs4.py::TestArchs4MissingColor::test_tissue_missing_color_does_not_crash PASSED [ 83%]
-tests/test_archs4.py::TestArchs4::test_archs4_tissue_mouse PASSED        [ 83%]
-tests/test_archs4.py::TestArchs4::test_archs4_mouse_json_ensembl PASSED  [ 84%]
-tests/test_archs4.py::TestArchs4::test_archs4_defaults PASSED            [ 84%]
-tests/test_archs4.py::TestArchs4::test_archs4_bad_gene PASSED            [ 84%]
-tests/test_archs4.py::TestArchs4::test_archs4_bad_species PASSED         [ 84%]
-tests/test_archs4.py::TestArchs4::test_archs4_bad_ensembl PASSED         [ 85%]
-tests/test_archs4.py::TestArchs4::test_archs4_tissue_ensembl PASSED      [ 85%]
-tests/test_archs4.py::TestArchs4::test_archs4_tissue_json PASSED         [ 85%]
-tests/test_archs4.py::TestArchs4::test_archs4_tissue PASSED              [ 85%]
-tests/test_archs4.py::TestArchs4::test_archs4_bad_gene_tissue PASSED     [ 86%]
-tests/test_archs4.py::TestArchs4::test_archs4_bad_which PASSED           [ 86%]
-tests/test_cbio.py::TestCbio::test_cbio_download_partially_existing_files PASSED [ 86%]
-tests/test_cbio.py::TestCbio::test_error_cbio_download PASSED            [ 86%]
-tests/test_cbio.py::TestCbio::test_cbio_download PASSED                  [ 86%]
-tests/test_cbio.py::TestCbioSearch::test_cbio_search PASSED              [ 87%]
-tests/test_pdb.py::TestPDB::test_pdb_pdb PASSED                          [ 87%]
-tests/test_pdb.py::TestPDB::test_pdb_mmcif PASSED                        [ 87%]
-tests/test_pdb.py::TestPDB::test_pdb_assembly PASSED                     [ 87%]
-tests/test_pdb.py::TestPDB::test_pdb_legacy_fallback_to_mmcif PASSED     [ 88%]
-tests/test_bgee.py::TestBgee::test_bgee_expression_multiple PASSED       [ 88%]
-tests/test_bgee.py::TestBgee::test_error_bgee_unknown_type PASSED        [ 88%]
-tests/test_bgee.py::TestBgee::test_bgee_orthologs PASSED                 [ 88%]
-tests/test_bgee.py::TestBgee::test_error_bgee_expression_no_exist PASSED [ 89%]
-tests/test_bgee.py::TestBgee::test_bgee_expression PASSED                [ 89%]
-tests/test_bgee.py::TestBgee::test_error_bgee_orthologs_no_exist PASSED  [ 89%]
-tests/test_gpt.py::TestGpt::test_gpt PASSED                              [ 89%]
-tests/test_cellxgene.py::TestCellxgene::test_cellxgene_metadata SKIPPED  [ 90%]
-tests/test_cellxgene.py::TestCellxgene::test_cellxgene_metadata_macaca_mulatta SKIPPED [ 90%]
-tests/test_cellxgene.py::TestCellxgene::test_cellxgene_adata SKIPPED     [ 90%]
-tests/test_cellxgene.py::TestCellxgeneValidation::test_supported_species_includes_new_primates PASSED [ 90%]
-tests/test_cellxgene.py::TestCellxgeneValidation::test_invalid_species_raises_valueerror PASSED [ 90%]
-tests/test_cellxgene.py::TestCellxgeneValidation::test_typo_species_raises_valueerror PASSED [ 91%]
-tests/test_search.py::TestSearch::test_search_release PASSED             [ 91%]
-tests/test_search.py::TestSearch::test_search_transcript_bad_andor PASSED [ 91%]
-tests/test_search.py::TestSearch::test_search_gene_one_sw PASSED         [ 91%]
-tests/test_search.py::TestSearch::test_search_octopus PASSED             [ 92%]
-tests/test_search.py::TestSearch::test_search_gene_one_sw_limit PASSED   [ 92%]
-tests/test_search.py::TestSearch::test_search_gene_bad_species PASSED    [ 92%]
-tests/test_search.py::TestSearch::test_search_plant_db PASSED            [ 92%]
-tests/test_search.py::TestSearch::test_search_gene_two_sw_limit PASSED   [ 93%]
-tests/test_search.py::TestSearch::test_search_transcript_two_sw_and PASSED [ 93%]
-tests/test_search.py::TestSearch::test_search_gene_one_sw_json PASSED    [ 93%]
-tests/test_search.py::TestSearch::test_search_db PASSED                  [ 93%]
-tests/test_search.py::TestSearch::test_search_plant PASSED               [ 94%]
-tests/test_search.py::TestSearch::test_search_transcript_two_sw_or PASSED [ 94%]
-tests/test_search.py::TestSearch::test_search_transcript_bad_species PASSED [ 94%]
-tests/test_search.py::TestSearch::test_search_gene_bad_andor PASSED      [ 94%]
-tests/test_search.py::TestSearch::test_search_transcript_one_sw PASSED   [ 95%]
-tests/test_search.py::TestSearch::test_search_gene_two_sw_or PASSED      [ 95%]
-tests/test_search.py::TestSearch::test_search_gene_two_sw_and PASSED     [ 95%]
-tests/test_8cube.py::TestGeneExpression::test_gene_expression_basic PASSED [ 95%]
-tests/test_8cube.py::TestSpecificity::test_specificity_basic PASSED      [ 95%]
-tests/test_8cube.py::TestPsiBlock::test_psi_block_basic PASSED           [ 96%]
-tests/test_cosmic.py::TestCosmicWorkflow::test_cosmic_defaults PASSED    [ 96%]
-tests/test_utils.py::TestUtils::test_ref_iv_species_options PASSED       [ 96%]
-tests/test_utils.py::TestUtils::test_get_uniprot_info_transcript PASSED  [ 96%]
-tests/test_utils.py::TestUtils::test_rest_query PASSED                   [ 97%]
-tests/test_utils.py::TestUtils::test_ref_species_options_bad_type PASSED [ 97%]
-tests/test_utils.py::TestUtils::test_ref_species_options PASSED          [ 97%]
-tests/test_utils.py::TestUtils::test_get_uniprot_info_gene PASSED        [ 97%]
-tests/test_utils.py::TestUtils::test_get_uniprot_seqs PASSED             [ 98%]
-tests/test_utils.py::TestUtils::test_search_species_options_bad_type PASSED [ 98%]
-tests/test_utils.py::TestUtils::test_search_species_options PASSED       [ 98%]
-tests/test_utils.py::TestUtils::test_n_colors PASSED                     [ 98%]
-tests/test_utils.py::TestUtils::test_find_latest_ens_rel PASSED          [ 99%]
-tests/test_utils.py::TestUtils::test_aa_colors PASSED                    [ 99%]
-tests/test_utils.py::TestUtils::test_rest_query_bad_type PASSED          [ 99%]
-tests/test_utils.py::TestUtils::test_search_iv_species_options PASSED    [ 99%]
-tests/test_utils.py::TestUtils::test_read_fasta PASSED                   [100%]
+tests/test_mutate.py::TestMutate::test_single_insertion PASSED           [ 78%]
+tests/test_mutate.py::TestMutate::test_single_deletion_with_left_repeats PASSED [ 78%]
+tests/test_mutate.py::TestMutate::test_single_substitution_near_left_end PASSED [ 78%]
+tests/test_mutate.py::TestMutate::test_multi_delins_with_true_right_repeats PASSED [ 78%]
+tests/test_mutate.py::TestMutate::test_ambiguous_mutation PASSED         [ 79%]
+tests/test_mutate.py::test_csv_of_mutations PASSED                       [ 79%]
+tests/test_mutate.py::test_mismatch_error PASSED                         [ 79%]
+tests/test_8cube.py::TestSpecificity::test_specificity_basic PASSED      [ 79%]
+tests/test_8cube.py::TestGeneExpression::test_gene_expression_basic PASSED [ 80%]
+tests/test_8cube.py::TestPsiBlock::test_psi_block_basic PASSED           [ 80%]
+tests/test_cellxgene.py::TestCellxgeneValidation::test_invalid_species_raises_valueerror PASSED [ 80%]
+tests/test_cellxgene.py::TestCellxgeneValidation::test_typo_species_raises_valueerror PASSED [ 80%]
+tests/test_cellxgene.py::TestCellxgeneValidation::test_supported_species_includes_new_primates PASSED [ 81%]
+tests/test_cellxgene.py::TestCellxgene::test_cellxgene_metadata SKIPPED  [ 81%]
+tests/test_cellxgene.py::TestCellxgene::test_cellxgene_metadata_macaca_mulatta SKIPPED [ 81%]
+tests/test_cellxgene.py::TestCellxgene::test_cellxgene_adata SKIPPED     [ 81%]
+tests/test_cbio.py::TestCbioSearch::test_cbio_search PASSED              [ 81%]
+tests/test_cbio.py::TestCbio::test_cbio_download_partially_existing_files PASSED [ 82%]
+tests/test_cbio.py::TestCbio::test_cbio_download PASSED                  [ 82%]
+tests/test_cbio.py::TestCbio::test_error_cbio_download PASSED            [ 82%]
+tests/test_g2p.py::TestG2P::test_g2p_map PASSED                          [ 82%]
+tests/test_g2p.py::TestG2P::test_g2p_map_has_pdb_list_column PASSED      [ 83%]
+tests/test_g2p.py::TestG2P::test_g2p_schema_invariant_across_input_modes PASSED [ 83%]
+tests/test_g2p.py::TestG2P::test_g2p_residues_filter PASSED              [ 83%]
+tests/test_g2p.py::TestG2P::test_g2p_residues_single_int PASSED          [ 83%]
+tests/test_g2p.py::TestG2P::test_g2p_alignment PASSED                    [ 84%]
+tests/test_g2p.py::TestG2P::test_g2p_uniprot_auto_resolved PASSED        [ 84%]
+tests/test_g2p.py::TestG2P::test_g2p_invalid_pair_returns_none PASSED    [ 84%]
+tests/test_g2p.py::TestG2P::test_g2p_features PASSED                     [ 84%]
+tests/test_g2p.py::TestG2P::test_g2p_out_writes_to_explicit_path PASSED  [ 85%]
+tests/test_g2p.py::TestG2P::test_g2p_gene_auto_resolved PASSED           [ 85%]
+tests/test_g2p.py::TestG2PValidation::test_alignment_requires_isoform PASSED [ 85%]
+tests/test_g2p.py::TestG2PValidation::test_residues_wrong_type_raises PASSED [ 85%]
+tests/test_g2p.py::TestG2PValidation::test_invalid_resource_raises PASSED [ 86%]
+tests/test_g2p.py::TestG2PValidation::test_alignment_requires_explicit_uniprot PASSED [ 86%]
+tests/test_g2p.py::TestG2PValidation::test_residues_on_map_raises PASSED [ 86%]
+tests/test_g2p.py::TestG2PValidation::test_missing_both_raises PASSED    [ 86%]
+tests/test_blast.py::TestBlast::test_blast_bad_fasta PASSED              [ 86%]
+tests/test_blast.py::TestBlast::test_blast_bad_seq PASSED                [ 87%]
+tests/test_blast.py::TestBlast::test_blast_db_missing PASSED             [ 87%]
+tests/test_blast.py::TestBlast::test_blast_bad_db2 PASSED                [ 87%]
+tests/test_blast.py::TestBlast::test_blast_bad_db1 PASSED                [ 87%]
+tests/test_blast.py::TestBlast::test_blast_bad_program PASSED            [ 88%]
+tests/test_blast.py::TestBlast::test_blast_nt PASSED                     [ 88%]
+tests/test_opentargets.py::TestOpenTargetsExpressionMocked::test_expression_limit PASSED [ 88%]
+tests/test_opentargets.py::TestOpenTargetsExpressionMocked::test_expression_json PASSED [ 88%]
+tests/test_opentargets.py::TestOpenTargetsExpressionMocked::test_expression_parses_baseline_rows PASSED [ 89%]
+tests/test_opentargets.py::TestOpenTargetsExpressionMocked::test_expression_empty_is_graceful PASSED [ 89%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_depmap PASSED [ 89%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_tractability PASSED [ 89%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_interactions_no_limit PASSED [ 90%]
+tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_bad_limit PASSED [ 90%]
+tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_drugs_invalid_filter PASSED [ 90%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_drugs PASSED [ 90%]
+tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_bad_resource PASSED [ 90%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_interactions PASSED [ 91%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_interactions_simple_filter PASSED [ 91%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets PASSED      [ 91%]
+tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_diseases_filter PASSED [ 91%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_diseases PASSED [ 92%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_depmap_filter PASSED [ 92%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_pharmacogenetics PASSED [ 92%]
+tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_nonexistent_id PASSED [ 92%]
+tests/test_cosmic.py::TestCosmicWorkflow::test_cosmic_defaults PASSED    [ 93%]
+tests/test_bgee.py::TestBgee::test_error_bgee_orthologs_no_exist PASSED  [ 93%]
+tests/test_bgee.py::TestBgee::test_error_bgee_unknown_type PASSED        [ 93%]
+tests/test_bgee.py::TestBgee::test_bgee_expression_multiple PASSED       [ 93%]
+tests/test_bgee.py::TestBgee::test_bgee_expression PASSED                [ 94%]
+tests/test_bgee.py::TestBgee::test_error_bgee_expression_no_exist PASSED [ 94%]
+tests/test_bgee.py::TestBgee::test_bgee_orthologs PASSED                 [ 94%]
+tests/test_ref.py::TestRef::test_ref_bad_which PASSED                    [ 94%]
+tests/test_ref.py::TestRef::test_ref_rel PASSED                          [ 95%]
+tests/test_ref.py::TestRef::test_ref_which PASSED                        [ 95%]
+tests/test_ref.py::TestRef::test_ref_ftp PASSED                          [ 95%]
+tests/test_ref.py::TestRef::test_ref_which_plant PASSED                  [ 95%]
+tests/test_ref.py::TestRef::test_ref_bad_rel PASSED                      [ 95%]
+tests/test_ref.py::TestRef::test_ref_rel_protist PASSED                  [ 96%]
+tests/test_ref.py::TestRef::test_ref_list PASSED                         [ 96%]
+tests/test_ref.py::TestRef::test_ref_bad_species PASSED                  [ 96%]
+tests/test_ref.py::TestRef::test_ref_rel_ftp PASSED                      [ 96%]
+tests/test_ref.py::TestRef::test_ref_rel_ftp_octopus PASSED              [ 97%]
+tests/test_ref.py::TestRef::test_ref PASSED                              [ 97%]
+tests/test_ref.py::TestRef::test_ref_plant PASSED                        [ 97%]
+tests/test_seq.py::TestSeq::test_seq_gene PASSED                         [ 97%]
+tests/test_seq.py::TestSeq::test_seq_transcript_gene_WB PASSED           [ 98%]
+tests/test_seq.py::TestSeq::test_seq_gene_transcript_iso PASSED          [ 98%]
+tests/test_seq.py::TestSeq::test_seq_transcript PASSED                   [ 98%]
+tests/test_seq.py::TestSeq::test_seq_gene_iso PASSED                     [ 98%]
+tests/test_seq.py::TestSeq::test_seq_transcript_gene_iso PASSED          [ 99%]
+tests/test_seq.py::TestSeq::test_seq_transcript_transcript_WB PASSED     [ 99%]
+tests/test_seq.py::TestSeq::test_seq_missing_uniprot_gene_name PASSED    [ 99%]
+tests/test_seq.py::TestSeq::test_seq_transcript_gene PASSED              [ 99%]
+tests/test_seq.py::TestSeq::test_seq_transcript_transcript_iso PASSED    [100%]
 
 =================================== FAILURES ===================================
 ___________________________ TestInfo.test_info_gene ____________________________
@@ -441,64 +441,232 @@ self = <tests.test_info.TestInfo testMethod=test_info_gene>
     def assert_equal(self: unittest.TestCase):
         test = name
         expected_result = td[test]["expected_result"]
->       result_to_test = do_call(func, td[test]["args"])
-                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-tests/from_json.py:68: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-tests/from_json.py:60: in do_call
-    return func(**args)
-           ^^^^^^^^^^^^
-gget/gget_info.py:154: in info
-    results_dict = post_query(server, endpoint, query)
-                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
-server = 'http://rest.ensembl.org/', endpoint = 'lookup/id/'
-query = {'ids': ['EnsMUSG00000000001'], 'expand': True}
-
-    def post_query(server: str, endpoint: str, query: Any) -> Any:
-        """Function to perform a POST API query.
+        result_to_test = do_call(func, td[test]["args"])
+        if test == "test_cosmic_defaults":  # special case for cosmic
+            import numpy as np
     
-        :param server:  Server to query .
-        :param endpoint: Server endpoint
-        :param query:   Query that is passed to server.
+            expected_result = pd.DataFrame(expected_result[0])
+            expected_result = expected_result.replace({None: np.nan})
+            # result_to_test.equals(expected_result)
+            pd.testing.assert_frame_equal(result_to_test, expected_result, check_dtype=False)
+            return
     
-        :return: server output
-        """
-        r = requests.post(server + endpoint, json=query, headers={"Content-Type": "application/json"})
+        # If result is a DataFrame, convert to list
+        if isinstance(result_to_test, pd.DataFrame):
+            result_to_test = result_to_test.dropna(axis=1).values.tolist()
     
-        if not r.ok:
->           raise RuntimeError(
-                f"{server} returned error status code {r.status_code}. Please double-check arguments and try again.\n"
-            )
-E           RuntimeError: http://rest.ensembl.org/ returned error status code 503. Please double-check arguments and try again.
+>       self.assertEqual(result_to_test, expected_result)
+E       AssertionError: Lists differ: [['En[27 chars]1', 'mus_musculus', 'GRCm39', 'Gnai3', 'Gnai3'[2343 chars]62]]] != [['En[27 chars]1', '14679', 'mus_musculus', 'GRCm39', 'Gnai3'[3062 chars]62]]]
+E       
+E       First differing element 0:
+E       ['Ens[26 chars]1', 'mus_musculus', 'GRCm39', 'Gnai3', 'Gnai3'[2342 chars]462]]
+E       ['Ens[26 chars]1', '14679', 'mus_musculus', 'GRCm39', 'Gnai3'[3061 chars]462]]
+E       
+E         [['EnsMUSG00000000001.6',
+E           'Q9DC51',
+E       +   '14679',
+E           'mus_musculus',
+E           'GRCm39',
+E           'Gnai3',
+E           'Gnai3',
+E       -   [],
+E       +   ['Galphai3', 'Gnai-3', 'Hg1a'],
+E           'Guanine nucleotide-binding protein G(i) subunit alpha-3',
+E           'G protein subunit alpha i3 [Source:MGI Symbol;Acc:MGI:95773]',
+E           'Heterotrimeric guanine nucleotide-binding proteins (G proteins) function as '
+E           'transducers downstream of G protein-coupled receptors (GPCRs) in numerous '
+E           'signaling cascades. The alpha chain contains the guanine nucleotide binding '
+E           'site and alternates between an active, GTP-bound state and an inactive, '
+E           'GDP-bound state. Signaling by an activated GPCR promotes GDP release and '
+E           'GTP binding. The alpha subunit has a low GTPase activity that converts '
+E           'bound GTP to GDP, thereby terminating the signal (By similarity). Both GDP '
+E           'release and GTP hydrolysis are modulated by numerous regulatory proteins '
+E           '(By similarity). Signaling is mediated via effector proteins, such as '
+E           'adenylate cyclase. Inhibits adenylate cyclase activity, leading to '
+E           'decreased intracellular cAMP levels (By similarity). Stimulates the '
+E           'activity of receptor-regulated K(+) channels (By similarity). The active '
+E           'GTP-bound form prevents the association of RGS14 with centrosomes and is '
+E           'required for the translocation of RGS14 from the cytoplasm to the plasma '
+E           'membrane. May play a role in cell division (By similarity). The active '
+E           'GTP-bound form activates the calcium permeant TRPC5 ion channels (By '
+E           'similarity)',
+E       +   'Predicted to enable several functions, including G-protein '
+E       +   'beta/gamma-subunit complex binding activity; GDP binding activity; and '
+E       +   'GTPase activating protein binding activity. Predicted to be involved in '
+E       +   'several processes, including G protein-coupled receptor signaling pathway; '
+E       +   'positive regulation of metabolic process; and positive regulation of '
+E       +   'vascular associated smooth muscle cell proliferation. Predicted to act '
+E       +   'upstream of or within G protein-coupled receptor signaling pathway. Located '
+E       +   'in Golgi apparatus. Is expressed in early conceptus; inner ear; and oocyte. '
+E       +   'Orthologous to human GNAI3 (G protein subunit alpha i3). [provided by '
+E       +   'Alliance of Genome Resources, Apr 2025]',
+E           ['Cytoplasm',
+E            'Cell membrane',
+E            'Cytoplasm, cytoskeleton, microtubule organizing center, centrosome'],
+E           'Gene',
+E           'protein_coding',
+E           'ENSMUST00000000001.6',
+E           '3',
+E           -1,
+E           108014590,
+E           108053469,
+E           ['ENSMUST00000000001.6',
+E            'ENSMUST00000535596.1',
+E            'ENSMUST00000535597.1',
+E            'ENSMUST00000535598.1',
+E            'ENSMUST00000535599.1',
+E            'ENSMUST00000535600.1',
+E            'ENSMUST00000535601.1',
+E            'ENSMUST00000535602.1',
+E            'ENSMUST00000535603.1',
+E            'ENSMUST00000558104.1'],
+E           ['protein_coding',
+E            'protein_coding',
+E            'protein_coding',
+E            'nonsense_mediated_decay',
+E            'protein_coding',
+E            'nonsense_mediated_decay',
+E            'nonsense_mediated_decay',
+E            'protein_coding',
+E            'nonsense_mediated_decay',
+E            'nonsense_mediated_decay'],
+E           ['Gnai3-201',
+E            'Gnai3-202',
+E            'Gnai3-203',
+E            'Gnai3-204',
+E            'Gnai3-205',
+E            'Gnai3-206',
+E            'Gnai3-207',
+E            'Gnai3-208',
+E            'Gnai3-209',
+E            'Gnai3-210'],
+E           [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+E           [108014596,
+E            108014596,
+E            108014597,
+E            108014597,
+E            108014592,
+E            108014597,
+E            108014590,
+E            108014613,
+E            108014611,
+E            108014596],
+E           [108053469,
+E            108053469,
+E            108053469,
+E            108053453,
+E            108053469,
+E            108053443,
+E            108053435,
+E            108053469,
+E            108053426,
+E            108053462]]]
 
-gget/utils.py:780: RuntimeError
+tests/from_json.py:82: AssertionError
+___________________ TestInfo.test_info_ncbitrue_uniprotfalse ___________________
+
+self = <tests.test_info.TestInfo testMethod=test_info_ncbitrue_uniprotfalse>
+
+    def assert_equal(self: unittest.TestCase):
+        test = name
+        expected_result = td[test]["expected_result"]
+        result_to_test = do_call(func, td[test]["args"])
+        if test == "test_cosmic_defaults":  # special case for cosmic
+            import numpy as np
+    
+            expected_result = pd.DataFrame(expected_result[0])
+            expected_result = expected_result.replace({None: np.nan})
+            # result_to_test.equals(expected_result)
+            pd.testing.assert_frame_equal(result_to_test, expected_result, check_dtype=False)
+            return
+    
+        # If result is a DataFrame, convert to list
+        if isinstance(result_to_test, pd.DataFrame):
+            result_to_test = result_to_test.dropna(axis=1).values.tolist()
+    
+>       self.assertEqual(result_to_test, expected_result)
+E       AssertionError: Lists differ: [['EN[14 chars]7', 'homo_sapiens', 'GRCh38', 'KRTAP9-8', [], [231 chars]04]]] != [['EN[14 chars]7', '83901', 'homo_sapiens', 'GRCh38', 'KRTAP9[860 chars]04]]]
+E       
+E       First differing element 0:
+E       ['ENS[13 chars]7', 'homo_sapiens', 'GRCh38', 'KRTAP9-8', [], [230 chars]004]]
+E       ['ENS[13 chars]7', '83901', 'homo_sapiens', 'GRCh38', 'KRTAP9[859 chars]004]]
+E       
+E         [['ENSG00000187272.7',
+E       +   '83901',
+E           'homo_sapiens',
+E           'GRCh38',
+E           'KRTAP9-8',
+E       -   [],
+E       +   ['KAP9.8', 'KRTAP9.8'],
+E           'keratin associated protein 9-8 [Source:HGNC Symbol;Acc:HGNC:17231]',
+E       +   'This protein is a member of the keratin-associated protein (KAP) family. '
+E       +   'The KAP proteins form a matrix of keratin intermediate filaments which '
+E       +   'contribute to the structure of hair fibers. KAP family members appear to '
+E       +   'have unique, family-specific amino- and carboxyl-terminal regions and are '
+E       +   'subdivided into three multi-gene families according to amino acid '
+E       +   'composition: the high sulfur, the ultrahigh sulfur, and the high '
+E       +   'tyrosine/glycine KAPs. This protein is a member of the ultrahigh sulfur KAP '
+E       +   'family and the gene is localized to a cluster of KAPs at 17q12-q21. '
+E       +   '[provided by RefSeq, Jul 2008]',
+E           'Gene',
+E           'protein_coding',
+E           'ENST00000254072.7',
+E           '17',
+E           1,
+E           41237999,
+E           41239004,
+E           ['ENST00000254072.7'],
+E           ['protein_coding'],
+E           ['KRTAP9-8-201'],
+E           [1],
+E           [41237999],
+E           [41239004]]]
+
+tests/from_json.py:82: AssertionError
 =============================== warnings summary ===============================
-tests/test_ref.py: 11 warnings
-tests/test_utils.py: 1 warning
-  /home/runner/work/gget/gget/gget/utils.py:998: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
+tests/test_utils.py::TestUtils::test_search_iv_species_options
+tests/test_utils.py::TestUtils::test_search_iv_species_options
+tests/test_utils.py::TestUtils::test_search_iv_species_options
+tests/test_utils.py::TestUtils::test_search_iv_species_options
+tests/test_search.py::TestSearch::test_search_transcript_bad_species
+tests/test_search.py::TestSearch::test_search_transcript_bad_species
+tests/test_search.py::TestSearch::test_search_transcript_bad_species
+tests/test_search.py::TestSearch::test_search_transcript_bad_species
+  /home/runner/work/gget/gget/gget/utils.py:883: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
     for subsoup in soup.body.findAll("a"):
 
-tests/test_ref.py: 24 warnings
 tests/test_utils.py: 4 warnings
+tests/test_ref.py: 24 warnings
   /home/runner/work/gget/gget/gget/utils.py:975: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
     for subsoup in soup.body.findAll("a"):
 
-tests/test_ref.py: 7 warnings
+tests/test_utils.py: 1 warning
+tests/test_ref.py: 11 warnings
+  /home/runner/work/gget/gget/gget/utils.py:998: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
+    for subsoup in soup.body.findAll("a"):
+
+tests/test_utils.py::TestUtils::test_search_species_options
+tests/test_search.py::TestSearch::test_search_transcript_bad_species
+tests/test_search.py::TestSearch::test_search_transcript_two_sw_or
+tests/test_search.py::TestSearch::test_search_release
+  /home/runner/work/gget/gget/gget/utils.py:899: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
+    for subsoup in soup.body.findAll("a"):
+
+tests/test_search.py: 10 warnings
+  /home/runner/work/gget/gget/gget/gget_search.py:267: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+    df_temp = pd.read_sql(query, con=db_connection)
+
 tests/test_search.py: 19 warnings
+tests/test_ref.py: 7 warnings
   /home/runner/work/gget/gget/gget/utils.py:922: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
     for subsoup in soup.body.findAll("a"):
 
-tests/test_ref.py: 39 warnings
-  /home/runner/work/gget/gget/gget/gget_ref.py:49: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
-    links = [stuff.text.strip() for stuff in soup.findAll("td")]
-
-tests/test_ref.py::TestRef::test_ref_ftp
-tests/test_ref.py::TestRef::test_ref
-  /home/runner/work/gget/gget/gget/gget_ref.py:325: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
-    links = [stuff.text.strip() for stuff in soup.findAll("td")]
+tests/test_search.py::TestSearch::test_search_transcript_two_sw_or
+tests/test_search.py::TestSearch::test_search_gene_two_sw_limit
+tests/test_search.py::TestSearch::test_search_transcript_one_sw
+tests/test_search.py::TestSearch::test_search_transcript_two_sw_and
+  /home/runner/work/gget/gget/gget/gget_search.py:302: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+    df_temp = pd.read_sql(query, con=db_connection)
 
 tests/test_mutate.py: 29 warnings
   /home/runner/work/gget/gget/gget/gget_mutate.py:667: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
@@ -530,50 +698,170 @@ tests/test_cbio.py: 16 warnings
   /home/runner/.local/share/hatch/env/virtual/gget/dY-b3nRT/hatch-test.py3.14/lib/python3.14/site-packages/bravado_core/model.py:888: DeprecationWarning: jsonschema.RefResolver.in_scope is deprecated and will be removed in a future release.
     with spec.resolver.in_scope(additional_uri):
 
-tests/test_search.py::TestSearch::test_search_release
-tests/test_search.py::TestSearch::test_search_octopus
-tests/test_search.py::TestSearch::test_search_transcript_two_sw_or
-tests/test_utils.py::TestUtils::test_search_species_options
-  /home/runner/work/gget/gget/gget/utils.py:899: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
-    for subsoup in soup.body.findAll("a"):
+tests/test_ref.py: 39 warnings
+  /home/runner/work/gget/gget/gget/gget_ref.py:49: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
+    links = [stuff.text.strip() for stuff in soup.findAll("td")]
 
-tests/test_search.py::TestSearch::test_search_release
-tests/test_search.py::TestSearch::test_search_release
-tests/test_search.py::TestSearch::test_search_release
-tests/test_search.py::TestSearch::test_search_release
-tests/test_utils.py::TestUtils::test_search_iv_species_options
-tests/test_utils.py::TestUtils::test_search_iv_species_options
-tests/test_utils.py::TestUtils::test_search_iv_species_options
-tests/test_utils.py::TestUtils::test_search_iv_species_options
-  /home/runner/work/gget/gget/gget/utils.py:883: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
-    for subsoup in soup.body.findAll("a"):
-
-tests/test_search.py: 10 warnings
-  /home/runner/work/gget/gget/gget/gget_search.py:267: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
-    df_temp = pd.read_sql(query, con=db_connection)
-
-tests/test_search.py::TestSearch::test_search_gene_two_sw_limit
-tests/test_search.py::TestSearch::test_search_transcript_two_sw_and
-tests/test_search.py::TestSearch::test_search_transcript_two_sw_or
-tests/test_search.py::TestSearch::test_search_transcript_one_sw
-  /home/runner/work/gget/gget/gget/gget_search.py:302: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
-    df_temp = pd.read_sql(query, con=db_connection)
+tests/test_ref.py::TestRef::test_ref_ftp
+tests/test_ref.py::TestRef::test_ref
+  /home/runner/work/gget/gget/gget/gget_ref.py:325: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
+    links = [stuff.text.strip() for stuff in soup.findAll("td")]
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
 ============================= slowest 10 durations =============================
-13944.11s call     tests/test_blast.py::TestBlast::test_blast_nt
-232.12s call     tests/test_virus.py::TestVirus::test_virus_with_lab_passaged_filter
-182.23s call     tests/test_virus.py::TestVirus::test_virus_integer_virus_id
-170.80s call     tests/test_virus.py::TestVirus::test_virus_with_max_ambiguous_chars_filter
-125.96s call     tests/test_virus.py::TestVirus::test_virus_with_source_database_filter
-93.79s call     tests/test_enrichr.py::TestEnrichr::test_enrichr_background_ensembl
-73.81s call     tests/test_virus.py::TestVirus::test_virus_with_protein_count_filters
-71.61s call     tests/test_virus.py::TestVirus::test_virus_with_annotated_filter
-68.79s call     tests/test_virus.py::TestVirus::test_virus_with_length_filters
-64.24s call     tests/test_virus.py::TestVirus::test_virus_with_has_proteins_filter
+1133.83s call     tests/test_blast.py::TestBlast::test_blast_nt
+172.56s call     tests/test_virus.py::TestVirus::test_virus_integer_virus_id
+168.04s call     tests/test_virus.py::TestVirus::test_virus_with_max_ambiguous_chars_filter
+120.55s call     tests/test_virus.py::TestVirus::test_virus_with_lab_passaged_filter
+120.48s call     tests/test_virus.py::TestVirus::test_virus_with_source_database_filter
+69.96s call     tests/test_virus.py::TestVirus::test_virus_with_protein_count_filters
+65.54s call     tests/test_virus.py::TestVirus::test_virus_with_has_proteins_filter
+49.29s call     tests/test_seq.py::TestSeq::test_seq_gene_iso
+48.06s call     tests/test_enrichr.py::TestEnrichr::test_enrichr_background_ensembl
+35.94s call     tests/test_search.py::TestSearch::test_search_gene_two_sw_limit
 =========================== short test summary info ============================
 SKIPPED [1] tests/test_cellxgene.py:55: cellxgene-census is not installed
 SKIPPED [1] tests/test_cellxgene.py:65: cellxgene-census is not installed
 SKIPPED [1] tests/test_cellxgene.py:45: cellxgene-census is not installed
-FAILED tests/test_info.py::TestInfo::test_info_gene - RuntimeError: http://rest.ensembl.org/ returned error status code 503. Please double-check arguments and try again.
-===== 1 failed, 418 passed, 3 skipped, 185 warnings in 15897.56s (4:24:57) =====
+FAILED tests/test_info.py::TestInfo::test_info_gene - AssertionError: Lists differ: [['En[27 chars]1', 'mus_musculus', 'GRCm39', 'Gnai3', 'Gnai3'[2343 chars]62]]] != [['En[27 chars]1', '14679', 'mus_musculus', 'GRCm39', 'Gnai3'[3062 chars]62]]]
+
+First differing element 0:
+['Ens[26 chars]1', 'mus_musculus', 'GRCm39', 'Gnai3', 'Gnai3'[2342 chars]462]]
+['Ens[26 chars]1', '14679', 'mus_musculus', 'GRCm39', 'Gnai3'[3061 chars]462]]
+
+  [['EnsMUSG00000000001.6',
+    'Q9DC51',
++   '14679',
+    'mus_musculus',
+    'GRCm39',
+    'Gnai3',
+    'Gnai3',
+-   [],
++   ['Galphai3', 'Gnai-3', 'Hg1a'],
+    'Guanine nucleotide-binding protein G(i) subunit alpha-3',
+    'G protein subunit alpha i3 [Source:MGI Symbol;Acc:MGI:95773]',
+    'Heterotrimeric guanine nucleotide-binding proteins (G proteins) function as '
+    'transducers downstream of G protein-coupled receptors (GPCRs) in numerous '
+    'signaling cascades. The alpha chain contains the guanine nucleotide binding '
+    'site and alternates between an active, GTP-bound state and an inactive, '
+    'GDP-bound state. Signaling by an activated GPCR promotes GDP release and '
+    'GTP binding. The alpha subunit has a low GTPase activity that converts '
+    'bound GTP to GDP, thereby terminating the signal (By similarity). Both GDP '
+    'release and GTP hydrolysis are modulated by numerous regulatory proteins '
+    '(By similarity). Signaling is mediated via effector proteins, such as '
+    'adenylate cyclase. Inhibits adenylate cyclase activity, leading to '
+    'decreased intracellular cAMP levels (By similarity). Stimulates the '
+    'activity of receptor-regulated K(+) channels (By similarity). The active '
+    'GTP-bound form prevents the association of RGS14 with centrosomes and is '
+    'required for the translocation of RGS14 from the cytoplasm to the plasma '
+    'membrane. May play a role in cell division (By similarity). The active '
+    'GTP-bound form activates the calcium permeant TRPC5 ion channels (By '
+    'similarity)',
++   'Predicted to enable several functions, including G-protein '
++   'beta/gamma-subunit complex binding activity; GDP binding activity; and '
++   'GTPase activating protein binding activity. Predicted to be involved in '
++   'several processes, including G protein-coupled receptor signaling pathway; '
++   'positive regulation of metabolic process; and positive regulation of '
++   'vascular associated smooth muscle cell proliferation. Predicted to act '
++   'upstream of or within G protein-coupled receptor signaling pathway. Located '
++   'in Golgi apparatus. Is expressed in early conceptus; inner ear; and oocyte. '
++   'Orthologous to human GNAI3 (G protein subunit alpha i3). [provided by '
++   'Alliance of Genome Resources, Apr 2025]',
+    ['Cytoplasm',
+     'Cell membrane',
+     'Cytoplasm, cytoskeleton, microtubule organizing center, centrosome'],
+    'Gene',
+    'protein_coding',
+    'ENSMUST00000000001.6',
+    '3',
+    -1,
+    108014590,
+    108053469,
+    ['ENSMUST00000000001.6',
+     'ENSMUST00000535596.1',
+     'ENSMUST00000535597.1',
+     'ENSMUST00000535598.1',
+     'ENSMUST00000535599.1',
+     'ENSMUST00000535600.1',
+     'ENSMUST00000535601.1',
+     'ENSMUST00000535602.1',
+     'ENSMUST00000535603.1',
+     'ENSMUST00000558104.1'],
+    ['protein_coding',
+     'protein_coding',
+     'protein_coding',
+     'nonsense_mediated_decay',
+     'protein_coding',
+     'nonsense_mediated_decay',
+     'nonsense_mediated_decay',
+     'protein_coding',
+     'nonsense_mediated_decay',
+     'nonsense_mediated_decay'],
+    ['Gnai3-201',
+     'Gnai3-202',
+     'Gnai3-203',
+     'Gnai3-204',
+     'Gnai3-205',
+     'Gnai3-206',
+     'Gnai3-207',
+     'Gnai3-208',
+     'Gnai3-209',
+     'Gnai3-210'],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [108014596,
+     108014596,
+     108014597,
+     108014597,
+     108014592,
+     108014597,
+     108014590,
+     108014613,
+     108014611,
+     108014596],
+    [108053469,
+     108053469,
+     108053469,
+     108053453,
+     108053469,
+     108053443,
+     108053435,
+     108053469,
+     108053426,
+     108053462]]]
+FAILED tests/test_info.py::TestInfo::test_info_ncbitrue_uniprotfalse - AssertionError: Lists differ: [['EN[14 chars]7', 'homo_sapiens', 'GRCh38', 'KRTAP9-8', [], [231 chars]04]]] != [['EN[14 chars]7', '83901', 'homo_sapiens', 'GRCh38', 'KRTAP9[860 chars]04]]]
+
+First differing element 0:
+['ENS[13 chars]7', 'homo_sapiens', 'GRCh38', 'KRTAP9-8', [], [230 chars]004]]
+['ENS[13 chars]7', '83901', 'homo_sapiens', 'GRCh38', 'KRTAP9[859 chars]004]]
+
+  [['ENSG00000187272.7',
++   '83901',
+    'homo_sapiens',
+    'GRCh38',
+    'KRTAP9-8',
+-   [],
++   ['KAP9.8', 'KRTAP9.8'],
+    'keratin associated protein 9-8 [Source:HGNC Symbol;Acc:HGNC:17231]',
++   'This protein is a member of the keratin-associated protein (KAP) family. '
++   'The KAP proteins form a matrix of keratin intermediate filaments which '
++   'contribute to the structure of hair fibers. KAP family members appear to '
++   'have unique, family-specific amino- and carboxyl-terminal regions and are '
++   'subdivided into three multi-gene families according to amino acid '
++   'composition: the high sulfur, the ultrahigh sulfur, and the high '
++   'tyrosine/glycine KAPs. This protein is a member of the ultrahigh sulfur KAP '
++   'family and the gene is localized to a cluster of KAPs at 17q12-q21. '
++   '[provided by RefSeq, Jul 2008]',
+    'Gene',
+    'protein_coding',
+    'ENST00000254072.7',
+    '17',
+    1,
+    41237999,
+    41239004,
+    ['ENST00000254072.7'],
+    ['protein_coding'],
+    ['KRTAP9-8-201'],
+    [1],
+    [41237999],
+    [41239004]]]
+===== 2 failed, 417 passed, 3 skipped, 185 warnings in 2526.12s (0:42:06) ======
