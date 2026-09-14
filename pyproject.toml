@@ -148,11 +148,11 @@ ini_options.testpaths = [ "tests" ]
 ini_options.addopts = [ "-ra" ]
 
 [tool.coverage]
+run.source = [ "gget" ]
 run.omit = [
   "**/test_*.py",
   "gget/main.py",
 ]
-run.source = [ "gget" ]
 
 # mypy-baseline grandfathers the pre-existing type errors so the pre-commit
 # mypy hook only fails on NEW errors. Refresh after fixing some with:

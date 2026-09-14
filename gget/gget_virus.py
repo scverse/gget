@@ -5517,7 +5517,7 @@ def merge_metadata_csvs(genbank_csv_path: str, standard_csv_path: str) -> bool:
 
         return True
 
-    except Exception as e:  # noqa: BLE001
+    except Exception as e:
         logger.warning("❌ Failed to merge metadata CSVs: %s", e)
         logger.debug("Exception details:", exc_info=True)
         return False
