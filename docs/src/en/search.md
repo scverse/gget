@@ -6,6 +6,8 @@ Fetch genes and transcripts from [Ensembl](https://www.ensembl.org/) using free-
 Results are matched based on the "gene name" and "description" sections in the Ensembl database. `gget` version >= 0.27.9 also includes results that match the Ensembl "synonym" section.  
 Return format: JSON (command-line) or data frame/CSV (Python).
 
+Before using `gget search` for the first time, run `gget setup search` / `gget.setup("search")` once (also see [`gget setup`](setup.md)), or install gget with the `search` extra: `pip install "gget[search]"`. This installs the optional dependency [`mysql-connector-python`](https://pypi.org/project/mysql-connector-python/), which is not installed by default because it is GPL-licensed.  
+
 **Positional argument**  
 `searchwords`  
 One or more free form search words, e.g. gaba nmda. (Note: Search is not case-sensitive.)

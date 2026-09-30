@@ -10,7 +10,7 @@ Function to install/download third-party dependencies for a specified gget modul
 **Positional argument**  
 `module`  
 gget module for which dependencies should be installed.  
-Choose from: "alphafold", "gpt", "cellxgene", "elm", or "cbio"
+Choose from: "alphafold", "gpt", "cellxgene", "elm", "cbio", or "search"
 
 **Optional arguments**  
 `-o` `--out`  

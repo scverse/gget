@@ -1250,10 +1250,10 @@ def main() -> None:
     parser_setup.add_argument(
         "module",
         type=str,
-        choices=["alphafold", "gpt", "cellxgene", "elm", "cbio"],
+        choices=["alphafold", "gpt", "cellxgene", "elm", "cbio", "search"],
         help=(
             "gget module for which dependencies should be installed, e.g. 'alphafold'. "
-            "Currently supported modules: 'alphafold', 'gpt', 'cellxgene', 'elm', 'cbio'."
+            "Currently supported modules: 'alphafold', 'gpt', 'cellxgene', 'elm', 'cbio', 'search'."
         ),
     )
 
