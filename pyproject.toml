@@ -145,7 +145,7 @@ show_error_codes = true
 
 [tool.pytest]
 ini_options.testpaths = [ "tests" ]
-ini_options.addopts = [ "-ra" ]
+ini_options.addopts = [ "-ra", "--durations=25" ]
 
 [tool.coverage]
 run.omit = [
