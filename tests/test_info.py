@@ -1,12 +1,13 @@
 # import unittest.mock
-# import pandas as pd
 import json
 import unittest
+
+import pandas as pd
 
 # import time
 from gget.gget_info import info
 
-from .from_json import from_json
+from .from_json import do_call, from_json
 
 # Load dictionary containing arguments and expected results
 with open("./tests/fixtures/test_info.json") as json_file:
@@ -16,7 +17,75 @@ with open("./tests/fixtures/test_info.json") as json_file:
 # sleep_time = 15
 
 
-class TestInfo(unittest.TestCase, metaclass=from_json(info_dict, info)):
+_TEST_INFO_GENE_COLUMNS = [
+    "ensembl_id",
+    "uniprot_id",
+    "ncbi_gene_id",
+    "species",
+    "assembly_name",
+    "primary_gene_name",
+    "ensembl_gene_name",
+    "synonyms",
+    "protein_names",
+    "ensembl_description",
+    "uniprot_description",
+    "ncbi_description",
+    "subcellular_localisation",
+    "object_type",
+    "biotype",
+    "canonical_transcript",
+    "seq_region_name",
+    "strand",
+    "start",
+    "end",
+    "all_transcripts",
+    "transcript_biotypes",
+    "transcript_names",
+    "transcript_strands",
+    "transcript_starts",
+    "transcript_ends",
+]
+
+_BEST_EFFORT_INFO_COLUMNS = [
+    "uniprot_id",
+    "ncbi_gene_id",
+    "synonyms",
+    "protein_names",
+    "uniprot_description",
+    "ncbi_description",
+    "subcellular_localisation",
+]
+
+
+def _assert_info_gene_core(name, td, func):
+    def assert_info_gene_core(self: unittest.TestCase):
+        test = name
+        expected_result = pd.DataFrame(td[test]["expected_result"], columns=_TEST_INFO_GENE_COLUMNS)
+        result_to_test = do_call(func, td[test]["args"])
+
+        self.assertIsInstance(result_to_test, pd.DataFrame)
+
+        result_to_test = result_to_test.dropna(axis=1)
+        missing_columns = [col for col in expected_result.columns if col not in result_to_test.columns]
+        missing_core_columns = [col for col in missing_columns if col not in _BEST_EFFORT_INFO_COLUMNS]
+
+        self.assertEqual(missing_core_columns, [])
+
+        expected_result = expected_result.drop(columns=missing_columns)
+
+        pd.testing.assert_frame_equal(
+            result_to_test.reset_index(drop=True),
+            expected_result.reset_index(drop=True),
+            check_dtype=False,
+        )
+
+    return assert_info_gene_core
+
+
+class TestInfo(
+    unittest.TestCase,
+    metaclass=from_json(info_dict, info, {"assert_info_gene_core": _assert_info_gene_core}),
+):
     pass  # all tests are loaded from json
 
 

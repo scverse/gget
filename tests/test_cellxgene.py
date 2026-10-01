@@ -34,7 +34,11 @@ def repr_dict(adata):
         if isinstance(got_attr, int):
             d[attr] = got_attr
         else:
-            keys = list(got_attr.keys())
+            # Ignore None keys: some cellxgene-census versions return an AnnData
+            # whose `.layers` exposes a spurious `None` key, which is not a
+            # meaningful (named) element and would otherwise break the structural
+            # comparison in test_cellxgene_adata (issue #265).
+            keys = [k for k in got_attr.keys() if k is not None]
             if keys:
                 d[attr] = keys
     return d
@@ -96,3 +100,33 @@ class TestCellxgeneValidation(unittest.TestCase):
     def test_typo_species_raises_valueerror(self):
         with self.assertRaises(ValueError):
             cellxgene(species="macaca_mulata", tissue="blood")
+
+
+class TestReprDict(unittest.TestCase):
+    """Network-free tests for the repr_dict helper (issue #265).
+
+    These do not need cellxgene-census, so they run on every Python version
+    (including ones where the live Census tests are skipped), guarding the
+    None-key handling that keeps test_cellxgene_adata robust to upstream drift.
+    """
+
+    class _FakeAnnData:
+        n_obs = 3
+        n_vars = 2
+        obs = {"cell_type": None, "tissue": None}
+        var = {"feature_id": None}
+        uns: dict = {}
+        obsm: dict = {}
+        varm: dict = {}
+        layers = {None: "spurious"}  # cellxgene-census can expose a None-keyed layer
+        obsp: dict = {}
+        varp: dict = {}
+
+    def test_repr_dict_ignores_none_layer_key(self):
+        d = repr_dict(self._FakeAnnData())
+        # A layer whose only key is None must not surface as structure.
+        self.assertNotIn("layers", d)
+        # Meaningful (named) elements are still reported.
+        self.assertEqual(d["n_obs"], 3)
+        self.assertEqual(d["obs"], ["cell_type", "tissue"])
+        self.assertEqual(d["var"], ["feature_id"])
