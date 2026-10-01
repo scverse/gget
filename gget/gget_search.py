@@ -5,7 +5,6 @@ import time
 import warnings
 from typing import Any, Literal, overload
 
-import mysql.connector as sql
 import numpy as np
 import pandas as pd
 
@@ -116,6 +115,16 @@ def search(
 
     Deprecated arguments: 'seqtype' (renamed to id_type)
     """
+    # mysql-connector-python is an optional dependency (it is GPL-licensed), so import it lazily
+    try:
+        import mysql.connector as sql
+    except ImportError as e:
+        raise ImportError(
+            "gget search requires the optional dependency 'mysql-connector-python'. Install it with:\n"
+            ">>> gget.setup('search') or $ gget setup search\n"
+            "or: pip install 'gget[search]'"
+        ) from e
+
     # Handle deprecated arguments
     if seqtype:
         logger.error("'seqtype' argument deprecated! Please use argument 'id_type' instead.")

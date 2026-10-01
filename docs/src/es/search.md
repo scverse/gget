@@ -6,6 +6,8 @@ Obtenga genes y transcripciones de [Ensembl](https://www.ensembl.org/) usando t�
 Los resultados se comparan según las secciones "nombre del gen" y "descripción" en la base de datos de Ensembl. `gget` versión >= 0.27.9 también incluye resultados que coinciden con la sección "sinónimo" de Ensembl.  
 Regresa: Resultados en formato JSON (Terminal) o Dataframe/CSV (Python).  
 
+Antes de usar `gget search` por primera vez, ejecuta `gget setup search` / `gget.setup("search")` una vez (ver también [`gget setup`](setup.md)), o instala gget con el extra `search`: `pip install "gget[search]"`. Esto instala la dependencia opcional [`mysql-connector-python`](https://pypi.org/project/mysql-connector-python/), que no se instala por defecto porque tiene licencia GPL.  
+
 **Parámetro posicional**  
 `searchwords`  
 Una o más palabras de búsqueda de forma libre, p. ej. gaba nmda. (Nota: la búsqueda no distingue entre mayúsculas y minúsculas).  
