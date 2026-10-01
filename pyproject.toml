@@ -35,7 +35,6 @@ dependencies = [
   "ipywidgets",
   "lxml",
   "matplotlib",
-  "mysql-connector-python>=8.0.32",
   "numpy>=1.17.2",
   "pandas>=1",
   "requests>=2.22",
@@ -48,6 +47,10 @@ dependencies = [
 # Under certain resolver paths uv lands on scanpy 1.9.8, which transitively
 # pins numba 0.53.1 and llvmlite 0.36.x — both of which only support Python 3.6-3.9.
 optional-dependencies.cellxgene = [ "cellxgene-census", "scanpy>=1.10" ]
+# Optional feature dependency for `gget search` (install: pip install gget[search]).
+# mysql-connector-python is GPL-2.0 licensed, so it is kept out of the core
+# dependencies to avoid imposing GPL terms on the BSD-2-Clause gget package.
+optional-dependencies.search = [ "mysql-connector-python>=8.0.32" ]
 # https://docs.pypi.org/project_metadata/#project-urls
 urls.Documentation = "https://pachterlab.github.io/gget"
 urls.Homepage = "https://github.com/pachterlab/gget"
@@ -82,6 +85,7 @@ envs.hatch-test.matrix = [
 # the gget cellxgene test skips itself when the dependency is absent.
 envs.hatch-test.overrides.matrix.python.features = [
   { value = "cellxgene", if = [ "3.12", "3.13" ] },
+  { value = "search", if = [ "3.12", "3.13", "3.14" ] },
 ]
 # pyproject.toml is the single source of truth for the environments CI tests:
 # the workflow reads this matrix via `hatch env show --json`.
@@ -148,11 +152,11 @@ ini_options.testpaths = [ "tests" ]
 ini_options.addopts = [ "-ra", "--durations=25" ]
 
 [tool.coverage]
+run.source = [ "gget" ]
 run.omit = [
   "**/test_*.py",
   "gget/main.py",
 ]
-run.source = [ "gget" ]
 
 # mypy-baseline grandfathers the pre-existing type errors so the pre-commit
 # mypy hook only fails on NEW errors. Refresh after fixing some with:

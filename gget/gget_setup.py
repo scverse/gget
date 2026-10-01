@@ -99,7 +99,7 @@ def setup(module: str, verbose: bool = True, out: str | None = None) -> None:
     Some modules require curl to be installed (https://everything.curl.dev/get).
 
     Args:
-    - module    (str) gget module for which dependencies should be installed, e.g. "alphafold", "cellxgene", "elm", "gpt", or "cbio".
+    - module    (str) gget module for which dependencies should be installed, e.g. "alphafold", "cellxgene", "elm", "gpt", "cbio", or "search".
     - verbose   True/False whether to print progress information. Default True.
     - out       (str) Only applies when module='elm'. Path to a directory where the raw ELM database
                 files will be downloaded — useful if you want a local copy of the ELM data for your own
@@ -110,7 +110,7 @@ def setup(module: str, verbose: bool = True, out: str | None = None) -> None:
                 Default None (files are saved inside the gget installation directory where 'gget.elm'
                 can find them).
     """
-    supported_modules = ["alphafold", "cellxgene", "elm", "gpt", "cbio"]
+    supported_modules = ["alphafold", "cellxgene", "elm", "gpt", "cbio", "search"]
     if module not in supported_modules:
         raise ValueError(f"'module' argument specified as {module}. Expected one of: {', '.join(supported_modules)}")
 
@@ -120,6 +120,9 @@ def setup(module: str, verbose: bool = True, out: str | None = None) -> None:
 
     elif module == "cellxgene":
         _install("cellxgene-census", "cellxgene_census", verbose=verbose)
+
+    elif module == "search":
+        _install("mysql-connector-python>=8.0.32", "mysql.connector", verbose=verbose)
 
     elif module == "elm":
         if verbose:
