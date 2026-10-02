@@ -1,0 +1,295 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>gget g2p - gget</title>
+
+
+        <!-- Custom HTML head -->
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZM4N3XBEW7"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+        
+          gtag('config', 'G-ZM4N3XBEW7');
+        </script>
+
+        <meta name="description" content="gget enables efficient querying of genomic reference databases">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="../en/introduction.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="../en/updates.html">What's New?</a></li><li class="chapter-item expanded affix "><a href="../en/dependents.html">Dependents & News</a></li><li class="chapter-item expanded affix "><li class="part-title">User Guide</li><li class="chapter-item expanded "><a href="../en/installation.html">Installation</a></li><li class="chapter-item expanded "><a href="../en/quick_start_guide.html">Quick Start Guide</a></li><li class="chapter-item expanded affix "><li class="part-title">Manual</li><li class="chapter-item expanded "><a href="../en/8cube.html">gget 8cube</a></li><li class="chapter-item expanded "><a href="../en/alphafold.html">gget alphafold</a></li><li class="chapter-item expanded "><a href="../en/archs4.html">gget archs4</a></li><li class="chapter-item expanded "><a href="../en/bgee.html">gget bgee</a></li><li class="chapter-item expanded "><a href="../en/blast.html">gget blast</a></li><li class="chapter-item expanded "><a href="../en/blat.html">gget blat</a></li><li class="chapter-item expanded "><a href="../en/cbio.html">gget cbio</a></li><li class="chapter-item expanded "><a href="../en/cellxgene.html">gget cellxgene</a></li><li class="chapter-item expanded "><a href="../en/cosmic.html">gget cosmic</a></li><li class="chapter-item expanded "><a href="../en/diamond.html">gget diamond</a></li><li class="chapter-item expanded "><a href="../en/elm.html">gget elm</a></li><li class="chapter-item expanded "><a href="../en/enrichr.html">gget enrichr</a></li><li class="chapter-item expanded "><a href="../en/g2p.html">gget g2p</a></li><li class="chapter-item expanded "><a href="../en/gpt.html">gget gpt</a></li><li class="chapter-item expanded "><a href="../en/info.html">gget info</a></li><li class="chapter-item expanded "><a href="../en/muscle.html">gget muscle</a></li><li class="chapter-item expanded "><a href="../en/mutate.html">gget mutate</a></li><li class="chapter-item expanded "><a href="../en/opentargets.html">gget opentargets</a></li><li class="chapter-item expanded "><a href="../en/pdb.html">gget pdb</a></li><li class="chapter-item expanded "><a href="../en/ref.html">gget ref</a></li><li class="chapter-item expanded "><a href="../en/search.html">gget search</a></li><li class="chapter-item expanded "><a href="../en/setup.html">gget setup</a></li><li class="chapter-item expanded "><a href="../en/seq.html">gget seq</a></li><li class="chapter-item expanded "><a href="../en/virus.html">gget virus</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../en/contributing.html">Contributing Guide</a></li><li class="chapter-item expanded "><a href="../en/code_of_conduct.html">Code of Conduct</a></li><li class="chapter-item expanded "><a href="../en/cite.html">Citation Guidelines</a></li><li class="spacer"></li><li class="chapter-item expanded affix "><li class="part-title">Español</li><li class="chapter-item expanded "><a href="../es/introduction.html">Introdución</a></li><li class="chapter-item expanded "><a href="../es/updates.html">¡Lo más reciente!</a></li><li class="chapter-item expanded "><a href="../es/dependents.html">Dependientes y Noticias</a></li><li class="chapter-item expanded affix "><li class="part-title">Guía del usario</li><li class="chapter-item expanded "><a href="../es/installation.html">Instalación</a></li><li class="chapter-item expanded "><a href="../es/quick_start_guide.html">Guía de inicio rápido</a></li><li class="chapter-item expanded affix "><li class="part-title">Manuál</li><li class="chapter-item expanded "><a href="../es/8cube.html">gget 8cube</a></li><li class="chapter-item expanded "><a href="../es/alphafold.html">gget alphafold</a></li><li class="chapter-item expanded "><a href="../es/archs4.html">gget archs4</a></li><li class="chapter-item expanded "><a href="../es/bgee.html">gget bgee</a></li><li class="chapter-item expanded "><a href="../es/blast.html">gget blast</a></li><li class="chapter-item expanded "><a href="../es/blat.html">gget blat</a></li><li class="chapter-item expanded "><a href="../es/cbio.html">gget cbio</a></li><li class="chapter-item expanded "><a href="../es/cellxgene.html">gget cellxgene</a></li><li class="chapter-item expanded "><a href="../es/cosmic.html">gget cosmic</a></li><li class="chapter-item expanded "><a href="../es/diamond.html">gget diamond</a></li><li class="chapter-item expanded "><a href="../es/elm.html">gget elm</a></li><li class="chapter-item expanded "><a href="../es/enrichr.html">gget enrichr</a></li><li class="chapter-item expanded "><a href="../es/g2p.html" class="active">gget g2p</a></li><li class="chapter-item expanded "><a href="../es/gpt.html">gget gpt</a></li><li class="chapter-item expanded "><a href="../es/info.html">gget info</a></li><li class="chapter-item expanded "><a href="../es/muscle.html">gget muscle</a></li><li class="chapter-item expanded "><a href="../es/mutate.html">gget mutate</a></li><li class="chapter-item expanded "><a href="../es/opentargets.html">gget opentargets</a></li><li class="chapter-item expanded "><a href="../es/pdb.html">gget pdb</a></li><li class="chapter-item expanded "><a href="../es/ref.html">gget ref</a></li><li class="chapter-item expanded "><a href="../es/search.html">gget search</a></li><li class="chapter-item expanded "><a href="../es/setup.html">gget setup</a></li><li class="chapter-item expanded "><a href="../es/seq.html">gget seq</a></li><li class="chapter-item expanded "><a href="../es/virus.html">gget virus</a></li><li class="spacer"></li><li class="chapter-item expanded "><a href="../es/contributing.html">Guía de contribución</a></li><li class="chapter-item expanded "><a href="../es/code_of_conduct.html">Codigo de conducto</a></li><li class="chapter-item expanded "><a href="../es/cite.html">Cómo citar</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">gget</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <p><a href="https://github.com/scverse/gget/blob/main/docs/src/es/g2p.md"><kbd> Ver el codigo fuente de la pagina en GitHub </kbd></a></p>
+<blockquote>
+<p>Parámetros de Python són iguales a los parámetros largos (<code>--parámetro</code>) de Terminal, si no es especificado de otra manera. Las banderas son designadas como cierto o falso (True/False) en Python. El manuál para cualquier modulo de gget se puede obtener desde Terminal con la bandera <code>-h</code> <code>--help</code>.</p>
+</blockquote>
+<h1 id="gget-g2p-"><a class="header" href="#gget-g2p-">gget g2p 🧬➜🧪</a></h1>
+<p>Consulta el <a href="https://g2p.broadinstitute.org/">portal Genomics 2 Proteins (G2P)</a> para vincular genes/proteínas con anotaciones estructurales y funcionales a nivel de residuo (p. ej. pLDDT de AlphaFold, sitios de UniProt, bolsillos predichos, PTMs), el mapa gen–transcrito–proteína–isoforma–estructura, y alineamientos entre isoformas.</p>
+<p>Produce: Un Dataframe con la información G2P solicitada.</p>
+<p>Este módulo fue escrito por <a href="https://github.com/Elarwei001">Elarwei</a>.</p>
+<p><strong>Parámetro posicional</strong><br />
+<code>gene</code><br />
+Símbolo del gen, p. ej. BRCA1.</p>
+<p><strong>Otros parámetros requeridos</strong><br />
+<code>-u</code> <code>--uniprot_id</code><br />
+Identificador UniProt, p. ej. P38398. Para <code>--resource alignment</code> esta es la isoforma canónica (p. ej. P01130-1).<br />
+Consejo: encuentra el ID de UniProt de un gen con <a href="info.html"><code>gget info</code></a>.</p>
+<p><strong>Parámetros optionales</strong><br />
+<code>-r</code> <code>--resource</code><br />
+Define el tipo de información a producir (se usa por defecto: 'features'):<br />
+<code>features</code>: Tabla de características de la proteína por residuo (pLDDT de AlphaFold, sitios de UniProt, estructura secundaria, bolsillos predichos, PTMs, etc.).<br />
+<code>map</code>: Mapa de gen → transcrito → isoforma de proteína → estructura (identificadores UniProt/Ensembl/RefSeq/PDB).<br />
+<code>alignment</code>: Alineamiento de secuencia a nivel de residuo entre dos isoformas (requiere <code>--isoform</code>; <code>--uniprot_id</code> es la isoforma canónica).</p>
+<p><code>-i</code> <code>--isoform</code><br />
+Identificador UniProt de una isoforma alternativa (p. ej. P01130-2). Requerido cuando <code>--resource alignment</code>. Por defecto: None.</p>
+<p><code>-o</code> <code>--out</code><br />
+Ruta al archivo en el que se guardarán los resultados, p. ej. ruta/al/directorio/resultados.json. Por defecto: salida estándar (STDOUT).<br />
+Para Python, use <code>save=True</code> para guardar los resultados en el directorio de trabajo actual.</p>
+<p><strong>Banderas</strong><br />
+<code>-csv</code> <code>--csv</code><br />
+Solo para Terminal. Produce los resultados en formato CSV en lugar de JSON.<br />
+Para Python, usa <code>json=False</code> (se usa por defecto) para producir un Dataframe.</p>
+<p><code>-q</code> <code>--quiet</code><br />
+Solo para Terminal. Impide la información de progreso de ser exhibida durante la ejecución del programa.<br />
+Para Python, usa <code>verbose=False</code> para impedir la información de progreso de ser exhibida durante la ejecución del programa.</p>
+<h3 id="ejemplo"><a class="header" href="#ejemplo">Ejemplo</a></h3>
+<pre><code class="language-bash"># Características de la proteína por residuo para BRCA1 (pLDDT de AlphaFold, sitios de UniProt, ...)
+gget g2p BRCA1 -u P38398
+</code></pre>
+<pre><code class="language-python"># Python
+gget.g2p(&quot;BRCA1&quot;, uniprot_id=&quot;P38398&quot;, resource=&quot;features&quot;)
+</code></pre>
+<p>→ Produce un Dataframe con una fila por residuo de la proteína BRCA1 (UniProt P38398) y sus anotaciones estructurales/funcionales.</p>
+<p><br/><br/></p>
+<pre><code class="language-bash"># Mapa gen -&gt; transcrito -&gt; isoforma -&gt; estructura (CSV)
+gget g2p BRCA1 -u P38398 -r map --csv
+</code></pre>
+<pre><code class="language-python"># Python
+gget.g2p(&quot;BRCA1&quot;, uniprot_id=&quot;P38398&quot;, resource=&quot;map&quot;)
+</code></pre>
+<p>→ Produce el mapeo de BRCA1 a sus isoformas de UniProt, identificadores de Ensembl/RefSeq, y estructuras del PDB.</p>
+<p><br/><br/></p>
+<pre><code class="language-bash"># Alineamiento a nivel de residuo entre dos isoformas de LDLR
+gget g2p LDLR -u P01130-1 -r alignment -i P01130-2
+</code></pre>
+<pre><code class="language-python"># Python
+gget.g2p(&quot;LDLR&quot;, uniprot_id=&quot;P01130-1&quot;, resource=&quot;alignment&quot;, isoform=&quot;P01130-2&quot;)
+</code></pre>
+<p>→ Produce el alineamiento a nivel de residuo entre las isoformas P01130-1 y P01130-2 de LDLR.</p>
+<h1 id="citar"><a class="header" href="#citar">Citar</a></h1>
+<p>Si utiliza <code>gget g2p</code> en una publicación, favor de citar los siguientes artículos:</p>
+<ul>
+<li>
+<p>Luebbert, L., &amp; Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. <a href="https://doi.org/10.1093/bioinformatics/btac836">https://doi.org/10.1093/bioinformatics/btac836</a></p>
+</li>
+<li>
+<p>Kwon, S., Safer, J., Nguyen, D.T., et al. Genomics 2 Proteins portal: a resource and discovery tool for linking genetic screening outputs to protein sequences and structures. Nature Methods (2024). <a href="https://doi.org/10.1038/s41592-024-02409-0">https://doi.org/10.1038/s41592-024-02409-0</a></p>
+</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../es/enrichr.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../es/gpt.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../es/enrichr.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../es/gpt.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
