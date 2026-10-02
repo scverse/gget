@@ -1,14 +1,3 @@
-Looking at the diff, the English file had two lines added after the "Return format" line:
-
-```
-+Before using `gget search` for the first time, run `gget setup search` / `gget.setup("search")` once (also see [`gget setup`](setup.md)), or install gget with the `search` extra: `pip install "gget[search]"`. This installs the optional dependency [`mysql-connector-python`](https://pypi.org/project/mysql-connector-python/), which is not installed by default because it is GPL-licensed.  
-+
-```
-
-Looking at the current Spanish file, this paragraph **already exists** in the Spanish file (it was already translated). So no change is needed — the Spanish file already contains the corresponding translation of those added lines.
-
-The Spanish file is already up to date. Here it is unchanged:
-
 [<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/es/search.md)
 
 > Parámetros de Python són iguales a los parámetros largos (`--parámetro`) de Terminal, si no especificado de otra manera. Banderas son parámetros de verdadero o falso (True/False) en Python. El manuál para cualquier modulo de gget se puede llamar desde la Terminal con la bandera `-h` `--help`.  
