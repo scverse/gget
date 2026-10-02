@@ -4,6 +4,8 @@
 
 #### *gget* se unió oficialmente a *scverse* el 9 de junio de 2026. 🥳🥳🥳
 
+**Versión ≥ 0.30.9** (XXX XX, 2026):  
+
 **Versión ≥ 0.30.8** (28 de junio de 2026):  
 - [`gget g2p`](g2p.md): Ahora es suficiente con `gene` o `--uniprot_id` — el que falte se resuelve a través de UniProt y se almacena en caché. Gene→UniProt selecciona la entrada canónica revisada humana de Swiss-Prot; la resolución y sus limitaciones se registran. El par canónico **siempre** se añade al inicio del resultado como columnas `gene_name` / `uniprot_id` (y se almacena en `df.attrs`), por lo que el esquema de salida es invariante independientemente del modo de entrada. Los sitios de llamada existentes siguen funcionando.
   - Nuevo filtro `residues=` (Python: int / list / range / set; CLI `--residues 100,200,300` o `100-200`) restringe `features` / `alignment` a posiciones específicas del lado del cliente.
