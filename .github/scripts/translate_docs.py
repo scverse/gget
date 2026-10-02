@@ -195,6 +195,19 @@ def clean_model_output(text):
     return text + "\n"
 
 
+NO_CHANGES = "NO_CHANGES"
+
+
+def header_ok(output, source):
+    """Check the output starts like the source file (all doc pages open with a `[<kbd>` source link).
+
+    Guards against the model prepending commentary (e.g. "Looking at the diff, ...") to the file.
+    """
+    if not source.lstrip().startswith("[<kbd>"):
+        return True
+    return output.lstrip().startswith("[<kbd>")
+
+
 def translate_new_file(client, en_content, filename, ref_block):
     """Translate a complete English file to Spanish."""
     response = client.messages.create(
@@ -244,7 +257,9 @@ def translate_diff(client, diff_text, en_content, es_content, filename, ref_bloc
                     f"quirks or typos that were not affected by the diff.\n"
                     f"6. Use the glossary below for consistent translations of any NEW text.\n"
                     f"7. Output ONLY the complete updated Spanish file content. No commentary, "
-                    f"no code fences.\n\n"
+                    f"no code fences.\n"
+                    f"8. If the Spanish file already reflects every change in the diff, output "
+                    f"exactly {NO_CHANGES} and nothing else.\n\n"
                     f"{GLOSSARY}\n\n"
                     f"### Existing Spanish files for style reference:\n{ref_block}\n\n"
                     f"### Diff of changes to the English file:\n```\n{diff_text}\n```\n\n"
@@ -254,7 +269,10 @@ def translate_diff(client, diff_text, en_content, es_content, filename, ref_bloc
             }
         ],
     )
-    return clean_model_output(response.content[0].text)
+    text = clean_model_output(response.content[0].text)
+    if text.strip() == NO_CHANGES:
+        return None
+    return text
 
 
 def main():
@@ -299,6 +317,9 @@ def main():
         print(f"Translating new file: {filename} ...")
         translated = translate_new_file(client, en_content, filename, ref_block)
         es_path = es_target(filepath)
+        if not header_ok(translated, en_content):
+            print(f"::warning::Model output for {filename} does not start with the page header; not writing {es_path}")
+            continue
         Path(es_path).parent.mkdir(parents=True, exist_ok=True)
         Path(es_path).write_text(translated)
         print(f"  -> Created: {es_path}")
@@ -313,6 +334,7 @@ def main():
             # No Spanish counterpart yet — translate the full file
             print(f"Spanish file missing for {filename}, translating full file ...")
             translated = translate_new_file(client, en_content, filename, ref_block)
+            source = en_content
         else:
             diff_text = get_file_diff(filepath, before_sha, after_sha)
             if not diff_text.strip():
@@ -321,6 +343,14 @@ def main():
             es_content = Path(es_path).read_text()
             print(f"Applying edits to {filename} ...")
             translated = translate_diff(client, diff_text, en_content, es_content, filename, ref_block)
+            source = es_content
+            if translated is None:
+                print(f"  Spanish file already up to date, skipping: {es_path}")
+                continue
+
+        if not header_ok(translated, source):
+            print(f"::warning::Model output for {filename} does not start with the page header; not writing {es_path}")
+            continue
 
         Path(es_path).parent.mkdir(parents=True, exist_ok=True)
         Path(es_path).write_text(translated)
