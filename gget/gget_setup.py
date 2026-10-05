@@ -48,7 +48,9 @@ def _install(package: str, import_name: str, verbose: bool = True) -> None:
     # Build list of installer commands to try (uv first if available, then pip)
     pip_cmds = []
     if shutil.which("uv"):
-        pip_cmds.append(["uv", "pip", "install", "-U", package])
+        # --python pins the install to the interpreter running gget; without it uv targets
+        # the activated (or ./.venv) environment and fails or installs elsewhere if there is none.
+        pip_cmds.append(["uv", "pip", "install", "--python", sys.executable, "-U", package])
     pip_cmds.append([sys.executable, "-m", "pip", "install", "-q", "-U", package])
 
     for cmd in pip_cmds:
@@ -70,7 +72,8 @@ def _install(package: str, import_name: str, verbose: bool = True) -> None:
                 if verbose:
                     logger.info(f"Retrying installation of {package} with next available installer.")
                 continue
-        # Test installation
+        # Test installation (refresh import caches so a package installed by this process is found)
+        importlib.invalidate_caches()
         try:
             importlib.import_module(import_name)
             if verbose:
