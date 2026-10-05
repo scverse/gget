@@ -69,6 +69,7 @@ test = [
   "parameterized==0.9",
   "pytest>=7",
   "pytest-cov>=6.2.1",
+  "pytest-timeout>=2.3",
   "types-beautifulsoup4==4.12.0.20250516",
   "types-requests==2.33.0.20260518",
   "types-tqdm==4.68.0.20260608",
