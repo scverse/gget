@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json as json_package
+import re
 from typing import Any, Literal, overload
 
 import numpy as np
@@ -26,6 +27,38 @@ from .constants import (  # noqa: E402
     NCBI_URL,
     UNIPROT_REST_API,
 )
+
+# Ensembl stable IDs end in a feature-type letter followed by 11 digits, e.g.
+# ENSG00000187272 (gene), ENSMUST00000000001 (transcript), ENSTGUEE00000179311 (exon),
+# ENSP00000354587 (translation).
+_ENSEMBL_EXON_OR_TRANSLATION_ID = re.compile(r"^ENS[A-Z]*[EP]\d{11}(\.\d+)?$", re.IGNORECASE)
+
+
+def _is_exon_or_translation_id(ensembl_id: str) -> bool:
+    """Return True for Ensembl exon/translation IDs, which do not support 'expand'."""
+    return bool(_ENSEMBL_EXON_OR_TRANSLATION_ID.match(ensembl_id))
+
+
+def _lookup_with_expand(server: str, endpoint: str, ids: list[str]) -> dict[str, Any]:
+    """POST lookup/id with expand=True, falling back to one request per ID if the batch fails.
+
+    Returns only the IDs Ensembl resolved; the rest are retried without 'expand' by the caller.
+    """
+    if not ids:
+        return {}
+    try:
+        results = post_query(server, endpoint, {"ids": ids, "expand": True})
+    except RuntimeError:
+        if len(ids) == 1:
+            return {}
+        # One ID can make Ensembl reject the whole batch; isolate it so the others keep 'expand'.
+        results = {}
+        for ensembl_id in ids:
+            try:
+                results.update(post_query(server, endpoint, {"ids": [ensembl_id], "expand": True}))
+            except RuntimeError:
+                continue
+    return {k: v for k, v in results.items() if v is not None}
 
 
 ## gget info
@@ -149,10 +182,11 @@ def info(
 
     # Query REST APIs from https://rest.ensembl.org/
     endpoint = "lookup/id/"
-    query = {"ids": ens_ids_clean, "expand": True}
 
-    results_dict = post_query(server, endpoint, query)
-    results_dict = {k: v for k, v in results_dict.items() if v is not None}
+    # Ensembl rejects 'expand' for exon and translation IDs, and fails the whole batch
+    # (HTTP 400/500) if one is included, so look those up without 'expand' (second pass below).
+    expand_ids = [ensembl_ID for ensembl_ID in ens_ids_clean if not _is_exon_or_translation_id(ensembl_ID)]
+    results_dict = _lookup_with_expand(server, endpoint, expand_ids)
 
     for ensembl_ID, df_temp in results_dict.items():  # noqa: B007
         try:

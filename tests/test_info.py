@@ -258,3 +258,65 @@ class TestInfo(
 #             result_to_test = result_to_test.dropna(axis=1).values.tolist()
 
 #         self.assertListEqual(result_to_test, expected_result)
+
+
+class TestInfoExpandFallback(unittest.TestCase):
+    """Network-free tests for the Ensembl lookup/id 'expand' handling.
+
+    Ensembl rejects 'expand' for exon and translation IDs and fails the whole batch
+    (HTTP 400/500) when one is included.
+    """
+
+    def test_exon_and_translation_ids_detected(self):
+        from gget.gget_info import _is_exon_or_translation_id
+
+        for exon_or_translation in [
+            "ENSE00001234567",
+            "ENSTGUEE00000179311",
+            "ENSP00000354587",
+            "ENSMUSP00000000001.2",
+        ]:
+            self.assertTrue(_is_exon_or_translation_id(exon_or_translation), exon_or_translation)
+        for other in [
+            "ENSG00000187272",
+            "EnsMUSG00000000001",
+            "ENST00000254072.7",
+            "ENSPPYG00000000001",
+            "WBGene00000001",
+        ]:
+            self.assertFalse(_is_exon_or_translation_id(other), other)
+
+    def test_batch_failure_falls_back_to_single_ids(self):
+        from unittest.mock import patch
+
+        from gget.gget_info import _lookup_with_expand
+
+        def fake_post(server, endpoint, query):
+            if len(query["ids"]) > 1 or query["ids"] == ["BAD"]:
+                raise RuntimeError("500")
+            return {query["ids"][0]: {"id": query["ids"][0]}}
+
+        with patch("gget.gget_info.post_query", side_effect=fake_post) as mock_post:
+            result = _lookup_with_expand("s/", "lookup/id/", ["G1", "BAD", "G2"])
+
+        self.assertEqual(set(result), {"G1", "G2"})
+        # one batch attempt + one request per ID, all with expand
+        self.assertEqual(mock_post.call_count, 4)
+        self.assertTrue(all(c.args[2]["expand"] for c in mock_post.call_args_list))
+
+    def test_info_queries_exons_without_expand(self):
+        from unittest.mock import patch
+
+        queries = []
+
+        def fake_post(server, endpoint, query):
+            queries.append(query)
+            return {
+                i: {"id": i, "version": 1, "object_type": "Exon", "species": "taeniopygia_guttata"}
+                for i in query["ids"]
+            }
+
+        with patch("gget.gget_info.post_query", side_effect=fake_post):
+            info("ENSTGUEE00000179311", ncbi=False, uniprot=False, pdb=False, verbose=False)
+
+        self.assertEqual(queries, [{"ids": ["ENSTGUEE00000179311"]}])
