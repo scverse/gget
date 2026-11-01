@@ -234,6 +234,8 @@ def read_fasta(fasta: str) -> tuple[list[str], list[str]]:
         for i, line in enumerate(fasta_file):
             if i == 0 and line[0] != ">":
                 raise ValueError("Expected FASTA file to start with a '>' character. ")
+            elif not line.strip():
+                continue
             elif line[0] == ">":
                 if title_last:
                     raise ValueError(
@@ -255,6 +257,9 @@ def read_fasta(fasta: str) -> tuple[list[str], list[str]]:
                 else:
                     new_seq = new_seq + line.strip()
                 title_last = False
+
+        if title_last:
+            raise ValueError("FASTA file ends with a header -> missing sequence line. ")
 
         # Append last sequence
         seqs.append(new_seq)
