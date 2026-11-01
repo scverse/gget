@@ -1,5 +1,4 @@
 import pytest
-
 from gget.utils import read_fasta
 
 
