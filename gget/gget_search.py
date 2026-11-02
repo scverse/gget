@@ -254,17 +254,17 @@ def search(
     ## Find genes
     for i, searchword in enumerate(searchwords):
         if id_type == "gene":
-            query = f"""
+            query = """
             SELECT gene.stable_id AS 'ensembl_id', xref.display_label AS 'gene_name', gene.description AS 'ensembl_description', xref.description AS 'ext_ref_description', gene.biotype AS 'biotype', external_synonym.synonym AS 'synonym'
             FROM gene
             LEFT JOIN xref ON gene.display_xref_id = xref.xref_id
             LEFT JOIN external_synonym ON gene.display_xref_id = external_synonym.xref_id
             LEFT JOIN gene_attrib ON gene.gene_id = gene_attrib.gene_id
-            WHERE (gene.description LIKE '%{searchword}%' OR xref.description LIKE '%{searchword}%' OR xref.display_label LIKE '%{searchword}%' OR external_synonym.synonym LIKE '%{searchword}%' OR gene_attrib.value LIKE '%{searchword}%')
+            WHERE (gene.description LIKE %s OR xref.description LIKE %s OR xref.display_label LIKE %s OR external_synonym.synonym LIKE %s OR gene_attrib.value LIKE %s)
             """
 
             # Fetch the search results from the host using the specified query
-            df_temp = pd.read_sql(query, con=db_connection)
+            df_temp = pd.read_sql(query, con=db_connection, params=[f"%{searchword}%"] * 5)
 
             # Order by ENSEMBL ID (I am using pandas for this instead of SQL to increase speed)
             df_temp = df_temp.sort_values("ensembl_id").reset_index(drop=True)
@@ -289,17 +289,17 @@ def search(
                     df = df[df.ensembl_id.isin(val)]
 
         if id_type == "transcript":
-            query = f"""
+            query = """
             SELECT transcript.stable_id AS 'ensembl_id', xref.display_label AS 'gene_name', transcript.description AS 'ensembl_description', xref.description AS 'ext_ref_description', transcript.biotype AS 'biotype', external_synonym.synonym AS 'synonym'
             FROM transcript
             LEFT JOIN xref ON transcript.display_xref_id = xref.xref_id
             LEFT JOIN external_synonym ON transcript.display_xref_id = external_synonym.xref_id
             LEFT JOIN transcript_attrib ON transcript.transcript_id = transcript_attrib.transcript_id
-            WHERE (transcript.description LIKE '%{searchword}%' OR xref.description LIKE '%{searchword}%' OR xref.display_label LIKE '%{searchword}%' OR external_synonym.synonym LIKE '%{searchword}%' OR transcript_attrib.value LIKE '%{searchword}%')
+            WHERE (transcript.description LIKE %s OR xref.description LIKE %s OR xref.display_label LIKE %s OR external_synonym.synonym LIKE %s OR transcript_attrib.value LIKE %s)
             """
 
             # Fetch the search results from the host using the specified query
-            df_temp = pd.read_sql(query, con=db_connection)
+            df_temp = pd.read_sql(query, con=db_connection, params=[f"%{searchword}%"] * 5)
             # Order by ENSEMBL ID (I am using pandas for this instead of SQL to increase speed)
             df_temp = df_temp.sort_values("ensembl_id").reset_index(drop=True)
 
