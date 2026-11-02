@@ -2,6 +2,7 @@
 
 > Python arguments are equivalent to long-option arguments (`--arg`), unless otherwise specified. Flags are True/False arguments in Python. The manual for any gget tool can be called from the command-line using the `-h` `--help` flag.  
 # gget ref 📖
+
 Fetch download links and metadata for [Ensembl](https://www.ensembl.org/) reference genomes.  
 Return format: dictionary/JSON.
 
@@ -21,10 +22,10 @@ Possible entries are one or a combination (as comma-separated list) of the follo
 'dna' - Returns the genome (DNA).  
 'cds' - Returns the coding sequences corresponding to Ensembl genes. (Does not contain UTR or intronic sequence.)  
 'cdrna' - Returns transcript sequences corresponding to non-coding RNA genes (ncRNA).  
-'pep' - Returns the protein translations of Ensembl genes.  
+'pep' - Returns the protein translations of Ensembl genes.
 
 `-r` `--release`  
-Defines the Ensembl release number from which the files are fetched, e.g. 104. Default: latest Ensembl release.  
+Defines the Ensembl release number from which the files are fetched, e.g. 104. Default: latest Ensembl release.
 
 `-od` `--out_dir`  
 Path to the directory where the FTPs will be saved, e.g. path/to/directory/. Default: Current working directory.
@@ -35,13 +36,13 @@ Python: `save=True` will save the output in the current working directory.
 
 **Flags**  
 `-l` `--list_species`  
-Lists all available vertebrate species. (Python: combine with `species=None`.)  
+Lists all available vertebrate species. (Python: combine with `species=None`.)
 
 `-liv` `--list_iv_species`  
-Lists all available invertebrate species. (Python: combine with `species=None`.)  
+Lists all available invertebrate species. (Python: combine with `species=None`.)
 
 `-ftp` `--ftp`  
-Returns only the requested FTP links.  
+Returns only the requested FTP links.
 
 `-d` `--download`  
 Command-line only. Downloads the requested FTPs to the directory specified by `out_dir` (requires [curl](https://curl.se/docs/) to be installed).
@@ -53,7 +54,7 @@ Python: Use `verbose=False` to prevent progress information from being displayed
 
 ### Examples
 
-**Get the genome reference for a specific species:**  
+**Get the genome reference for a specific species:**
 ```bash
 gget ref -w gtf,dna homo_sapiens
 ```
@@ -85,7 +86,7 @@ gget.ref("homo_sapiens", which=["gtf", "dna"])
 
 <br/><br/>
 
-**List all available genomes from Ensembl release 103:**  
+**List all available genomes from Ensembl release 103:**
 ```bash
 gget ref --list_species -r 103
 ```
@@ -94,7 +95,7 @@ gget ref --list_species -r 103
 gget.ref(species=None, list_species=True, release=103)
 ```
 &rarr; Returns a list with all available genomes (checks if GTF and FASTAs are available) from Ensembl release 103.  
-(If no release is specified, `gget ref` will always return information from the latest Ensembl release.)  
+(If no release is specified, `gget ref` will always return information from the latest Ensembl release.)
 
 <br/><br/>
 
@@ -106,12 +107,13 @@ kb ref \
     -f1 fasta.fa \
     $(gget ref --ftp -w dna,gtf homo_sapiens)
 ```
-&rarr; kb ref builds a reference index using the latest DNA and GTF files of species **Homo sapiens** passed to it by `gget ref`.  
+&rarr; kb ref builds a reference index using the latest DNA and GTF files of species **Homo sapiens** passed to it by `gget ref`.
 
 #### [More examples](https://github.com/pachterlab/gget_examples)
 
 # References
-If you use `gget ref` in a publication, please cite the following articles:  
+
+If you use `gget ref` in a publication, please cite the following articles:
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
 

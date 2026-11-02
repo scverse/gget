@@ -12,7 +12,7 @@
   />
 </a>
 
-Consulta [**8cubeDB**](https://eightcubedb.onrender.com/) (datos de secuenciación de snRNA de 8 cepas, tejidos e individuos diferentes de ratón (cuatro de cada sexo)) para métricas de especificidad a nivel génico y valores de expresión normalizados.  
+Consulta [**8cubeDB**](https://eightcubedb.onrender.com/) (datos de secuenciación de snRNA de 8 cepas, tejidos e individuos diferentes de ratón (cuatro de cada sexo)) para métricas de especificidad a nivel génico y valores de expresión normalizados.
 
 Formato de salida: **JSON** (línea de comandos) o **data frame/CSV** (Python).
 
@@ -30,7 +30,7 @@ Recupera estadísticas de especificidad **ψ** y **ζ** para uno o más genes.
 
 gget 8cube specificity <GENES...>
 
-````
+```
 
 **Argumento posicional**  
 `genes`  
@@ -54,7 +54,7 @@ Python: usar `verbose=False`.
 
 ```bash
 gget 8cube specificity Acsm2 ENSMUSG00000046623.9
-````
+```
 
 ```python
 # Python
@@ -195,10 +195,10 @@ from gget import specificity, psi_block, gene_expression
 
 # Notas
 
-* Funciona con símbolos génicos **y** IDs Ensembl (con o sin números de versión).
-* Las tres funciones aceptan **múltiples genes** a la vez.
-* La salida por defecto en Python es un **DataFrame de pandas**; use `json=True` para JSON.
-* La CLI usa **JSON** por defecto, a menos que se utilice `--csv`.
+- Funciona con símbolos génicos **y** IDs Ensembl (con o sin números de versión).
+- Las tres funciones aceptan **múltiples genes** a la vez.
+- La salida por defecto en Python es un **DataFrame de pandas**; use `json=True` para JSON.
+- La CLI usa **JSON** por defecto, a menos que se utilice `--csv`.
 
 ---
 
@@ -206,16 +206,16 @@ from gget import specificity, psi_block, gene_expression
 
 Si utiliza `gget 8cube` en una publicación, por favor cite:
 
-* **Swarna NP, et al.**
-  *Determining gene specificity from multivariate single-cell RNA sequencing data* (2025).
+- **Swarna NP, et al.**
+  _Determining gene specificity from multivariate single-cell RNA sequencing data_ (2025).
   [https://doi.org/10.1101/2025.11.21.689845](https://doi.org/10.1101/2025.11.21.689845)
 
-* **Luebbert, L., & Pachter, L. (2023).**
-  *Efficient querying of genomic reference databases with gget.* Bioinformatics.
+- **Luebbert, L., & Pachter, L. (2023).**
+  _Efficient querying of genomic reference databases with gget._ Bioinformatics.
   [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
 
-* **Rebboah E, et al.**
-  *Systematic cell-type resolved transcriptomes of 8 tissues in 8 lab and wild-derived mouse strains captures global and local expression variation* (2025).
+- **Rebboah E, et al.**
+  _Systematic cell-type resolved transcriptomes of 8 tissues in 8 lab and wild-derived mouse strains captures global and local expression variation_ (2025).
   [https://doi.org/10.1101/2025.04.21.649844](https://doi.org/10.1101/2025.04.21.649844)
 
 ```

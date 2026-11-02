@@ -16,7 +16,7 @@ Choose from: "alphafold", "gpt", "cellxgene", "elm", "cbio", or "search"
 `-o` `--out`  
 Only applies when `module='elm'`. Path to a folder where the raw ELM database files (`elm_instances.fasta`, `elms_classes.tsv`, `elm_instances.tsv`, `elm_interaction_domains.tsv`) will be downloaded — useful if you want a local copy of the ELM data for your own scripts or inspection, separately from running [`gget elm`](elm.md).  
 NOTE: To set up the files so that [`gget elm`](elm.md) can use them, **omit this argument** — [`gget elm`](elm.md) only reads from the default location inside the `gget` package installation folder. Files downloaded to a custom `--out` path will not be picked up by [`gget elm`](elm.md).  
-Default: None (downloaded files are saved inside the `gget` package installation folder where [`gget elm`](elm.md) can find them).  
+Default: None (downloaded files are saved inside the `gget` package installation folder where [`gget elm`](elm.md) can find them).
 
 **Flags**  
 `-q` `--quiet`  
@@ -25,6 +25,7 @@ Python: Use `verbose=False` to prevent progress information from being displayed
 
 
 ### Example
+
 ```bash
 gget setup alphafold
 ```

@@ -2,7 +2,8 @@
 
 > Python arguments are equivalent to long-option arguments (`--arg`), unless otherwise specified. Flags are True/False arguments in Python. The manual for any gget tool can be called from the command-line using the `-h` `--help` flag.  
 # gget cbio 📖
-Plot cancer genomics heatmaps using data from [cBioPortal](https://www.cbioportal.org/) using Ensembl IDs or gene names.  
+
+Plot cancer genomics heatmaps using data from [cBioPortal](https://www.cbioportal.org/) using Ensembl IDs or gene names.
 
 This module was written by [Sam Wagenaar](https://github.com/techno-sam).
 
@@ -11,6 +12,7 @@ This module was written by [Sam Wagenaar](https://github.com/techno-sam).
 Either `search` or `plot`
 
 ### `search` subcommand (Python: `gget.cbio_search`)
+
 Find cBioPortal study IDs by keyword.  
 Return format: JSON (command-line) or string list (Python).  
 **Note: This does not return studies with mixed cancer types.**
@@ -21,6 +23,7 @@ Space-separated list of keywords to search for, e.g. <code>breast&nbsp;lung</cod
 Python: Pass keywords as a list of strings.
 
 ### `plot` subcommand (Python: `gget.cbio_plot`)
+
 Plot cancer genomics heatmaps using data from cBioPortal.
 Return format: PNG (command-line and Python)
 
@@ -71,7 +74,7 @@ Python: `figure_title`
 `-dpi` `--dpi`  
 DPI of the output figure. Default: 100.
 
-**Flags**  
+**Flags**
 
 `-q` `--quiet`  
 Command-line only. Prevents progress information from being displayed.  
@@ -87,7 +90,7 @@ Show the plot in a window (automatic in Jupyter notebooks).
 
 ### Examples
 
-**Find all cBioPortal studies with cancer types matching specific keywords:**  
+**Find all cBioPortal studies with cancer types matching specific keywords:**
 ```bash
 gget cbio search esophag ovary ovarian
 ```
@@ -104,7 +107,7 @@ gget.cbio_search(['esophag', 'ovary', 'ovarian'])
 
 <br/><br/>
 
-**Plot a heatmap of mutation occurrences for specific genes in a specific study:**  
+**Plot a heatmap of mutation occurrences for specific genes in a specific study:**
 ```bash
 gget cbio plot \
     -s msk_impact_2017 \
@@ -131,7 +134,7 @@ gget.cbio_plot(
 
 <br/><br/>
 
-**Plot a heatmap of mutation types for specific genes in a specific study:**  
+**Plot a heatmap of mutation types for specific genes in a specific study:**
 ```bash
 gget cbio plot \
     -s msk_impact_2017 \
@@ -221,7 +224,8 @@ gget.cbio_plot(
 #### [More examples](https://github.com/pachterlab/gget_examples)
 
 # References
-If you use `gget cbio` in a publication, please cite the following articles:  
+
+If you use `gget cbio` in a publication, please cite the following articles:
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
 

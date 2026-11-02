@@ -12,7 +12,7 @@
   />
 </a>
 
-Query [**8cubeDB**](https://eightcubedb.onrender.com/) (snRNA-sequencing data of 8 different mouse strains, tissues, and individuals (four of each sex)) for gene-level specificity metrics and normalized expression values.  
+Query [**8cubeDB**](https://eightcubedb.onrender.com/) (snRNA-sequencing data of 8 different mouse strains, tissues, and individuals (four of each sex)) for gene-level specificity metrics and normalized expression values.
 
 Return format: JSON (command-line) or data frame/CSV (Python).
 
@@ -178,6 +178,7 @@ gget 8cube expression Gjb4 --analysis_level Across_tissues --analysis_type Strai
 ---
 
 # Python API
+
 ```python
 from gget.gget_8cube import specificity, psi_block, gene_expression
 ```
@@ -185,14 +186,15 @@ or
 ```python
 from gget import specificity, psi_block, gene_expression
 ```
+
 ---
 
 # Notes
 
-* Works with gene symbols **and** Ensembl IDs (with or without version numbers).
-* All three functions accept **multiple genes** at once.
-* Default Python output is a **pandas DataFrame**; use `json=True` for JSON.
-* CLI defaults to **JSON**, unless `--csv` is used.
+- Works with gene symbols **and** Ensembl IDs (with or without version numbers).
+- All three functions accept **multiple genes** at once.
+- Default Python output is a **pandas DataFrame**; use `json=True` for JSON.
+- CLI defaults to **JSON**, unless `--csv` is used.
 
 ---
 
@@ -200,14 +202,14 @@ from gget import specificity, psi_block, gene_expression
 
 If you use `gget 8cube` in a publication, please cite:
 
-* **Swarna NP, et al.**
-  *Determining gene specificity from multivariate single-cell RNA sequencing data* (2025).
+- **Swarna NP, et al.**
+  _Determining gene specificity from multivariate single-cell RNA sequencing data_ (2025).
   [https://doi.org/10.1101/2025.11.21.689845](https://doi.org/10.1101/2025.11.21.689845)
 
-* **Luebbert, L., & Pachter, L. (2023).**
-  *Efficient querying of genomic reference databases with gget.* Bioinformatics.
+- **Luebbert, L., & Pachter, L. (2023).**
+  _Efficient querying of genomic reference databases with gget._ Bioinformatics.
   [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
 
-* **Rebboah E, et al.**
-  *Systematic cell-type resolved transcriptomes of 8 tissues in 8 lab and wild-derived mouse strains captures global and local expression variation* (2025).
+- **Rebboah E, et al.**
+  _Systematic cell-type resolved transcriptomes of 8 tissues in 8 lab and wild-derived mouse strains captures global and local expression variation_ (2025).
   [https://doi.org/10.1101/2025.04.21.649844](https://doi.org/10.1101/2025.04.21.649844)

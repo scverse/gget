@@ -5,22 +5,22 @@
 # gget bgee 🐝
 
 Obtenga datos de ortología y expresión genética de [Bgee](https://www.bgee.org/) utilizando IDs de Ensembl.  
-Resultado: JSON/CSV (línea de comandos) o marco de datos (Python).  
+Resultado: JSON/CSV (línea de comandos) o marco de datos (Python).
 
 > Si estás interesado específicamente en datos de expresión génica humana, considera usar [gget opentargets](./opentargets.md) o [gget archs4](./archs4.md) en su lugar. **gget bgee** tiene menos datos, pero admite más especies.
 
-Este módulo fue escrito por [Sam Wagenaar](https://github.com/techno-sam) con ediciones de [Kateřina Večerková](https://github.com/vecerkovakaterina).  
+Este módulo fue escrito por [Sam Wagenaar](https://github.com/techno-sam) con ediciones de [Kateřina Večerková](https://github.com/vecerkovakaterina).
 
 **Argumento posicional**  
 `ens_id`  
 ID de gen Ensembl, por ejemplo, ENSG00000169194 o ENSSSCG00000014725.  
-Cuando `type=expression` también puedes pasar una lista de múltiples ID de Ensembl.  
+Cuando `type=expression` también puedes pasar una lista de múltiples ID de Ensembl.
 
-NOTA: Algunas de las especies en [Bgee](https://www.bgee.org/) no están en Ensembl, y para ellas puede utilizar los ID de genes del NCBI, p. 118215821 (un gen en _Anguilla anguilla_).  
+NOTA: Algunas de las especies en [Bgee](https://www.bgee.org/) no están en Ensembl, y para ellas puede utilizar los ID de genes del NCBI, p. 118215821 (un gen en _Anguilla anguilla_).
 
 **Argumentos requeridos**  
 `-t` `--type`  
-Tipo de datos a obtener. Opciones: `orthologs`, `expression`.  
+Tipo de datos a obtener. Opciones: `orthologs`, `expression`.
 
 **Argumentos opcionales**  
 `-o` `--out`  
@@ -50,7 +50,7 @@ gget.bgee("ENSSSCG00000014725", type="orthologs")
 &rarr; Devuelve ortólogos para el gen con el ID de Ensembl ENSSSCG00000014725.
 
 | gene_id            | gene_name    | species_id | genus   | species    |
-|--------------------|--------------|------------|---------|------------|
+| ------------------ | ------------ | ---------- | ------- | ---------- |
 | 734881             | hbb1         | 8355       | Xenopus | laevis     |
 | ENSFCAG00000038029 | LOC101098159 | 9685       | Felis   | catus      |
 | ENSBTAG00000047356 | LOC107131172 | 9913       | Bos     | taurus     |
@@ -73,7 +73,7 @@ gget.bgee("ENSSSCG00000014725", type="expression")
 &rarr; Devuelve datos de expresión génica para el gen con el ID de Ensembl ENSSSCG00000014725.
 
 | anat_entity_id | anat_entity_name            | score | score_confidence | expression_state |
-|----------------|-----------------------------|-------|------------------|------------------|
+| -------------- | --------------------------- | ----- | ---------------- | ---------------- |
 | UBERON:0000178 | blood                       | 99.98 | high             | expressed        |
 | UBERON:0002106 | spleen                      | 99.96 | high             | expressed        |
 | UBERON:0002190 | subcutaneous adipose tissue | 99.70 | high             | expressed        |
@@ -93,19 +93,20 @@ import gget
 gget.bgee(["ENSBTAG00000047356", "ENSBTAG00000018317"], type="expression")
 ```
 
-&rarr; Devuelve datos de expresión génica para los genes ENSBTAG00000047356 y ENSBTAG00000018317:  
+&rarr; Devuelve datos de expresión génica para los genes ENSBTAG00000047356 y ENSBTAG00000018317:
 
-| anat_entity_id | anat_entity_name            | score | score_confidence | expression_state |
-|----------------|-----------------------------|-------|------------------|------------------|
-| UBERON:0001017 | central nervous system      | 92.15 | high             | expressed        |
-| UBERON:0002616 | regional part of brain      | 79.01 | high             | expressed        |
+| anat_entity_id | anat_entity_name                         | score | score_confidence | expression_state |
+| -------------- | ---------------------------------------- | ----- | ---------------- | ---------------- |
+| UBERON:0001017 | central nervous system                   | 92.15 | high             | expressed        |
+| UBERON:0002616 | regional part of brain                   | 79.01 | high             | expressed        |
 | BGEE:0000000   | anatomical entity and cellular component | 89.12 | high             | expressed        |
-| ...            | ...                         | ...   | ...              | ...              |
+| ...            | ...                                      | ...   | ...              | ...              |
 
 
 #### [Más ejemplos](https://github.com/pachterlab/gget_examples)
 
-# Citar  
+# Citar
+
 Si utiliza `gget bgee` en una publicación, favor de citar los siguientes artículos:
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)

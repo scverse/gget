@@ -1,5 +1,6 @@
 [<kbd> View page source on GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/en/quick_start_guide.md)
 # 🪄 Quick start guide
+
 Command line:
 ```bash
 # Fetch all Homo sapiens reference and annotation FTPs from the latest Ensembl release
@@ -47,7 +48,7 @@ $ gget setup cellxgene # setup only needs to be run once
 $ gget cellxgene --gene ACE2 SLC5A1 --tissue lung --cell_type 'mucus secreting cell' -o example_adata.h5ad
 ```
 Python (Jupyter Lab / Google Colab):
-```python  
+```python
 import gget
 gget.ref("homo_sapiens")
 gget.search(["ace2", "angiotensin converting enzyme 2"], "homo_sapiens")

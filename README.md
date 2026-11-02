@@ -1,4 +1,5 @@
 # gget
+
 [![pypi version](https://img.shields.io/pypi/v/gget)](https://pypi.org/project/gget)
 [![Downloads](https://static.pepy.tech/personalized-badge/gget?period=total&units=international_system&left_color=grey&right_color=brightgreen&left_text=downloads)](https://pepy.tech/project/gget)
 [![Conda](https://img.shields.io/conda/dn/bioconda/gget?logo=Anaconda)](https://anaconda.org/bioconda/gget)
@@ -7,20 +8,21 @@
 [![coverage](https://codecov.io/gh/scverse/gget/branch/main/graph/badge.svg)](https://codecov.io/gh/scverse/gget)
 [![Powered by NumFOCUS](https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat&colorA=E1523D&colorB=007D8A)](https://numfocus.org/)
 
-`gget` is a free, open-source command-line tool and Python package that enables efficient querying of genomic databases. `gget`  consists of a collection of separate but interoperable modules, each designed to facilitate one type of database querying in a single line of code. `gget` was developed by [Laura Luebbert](https://github.com/lauraluebbert) in the [Pachter Lab](https://pachterlab.github.io/).
+`gget` is a free, open-source command-line tool and Python package that enables efficient querying of genomic databases. `gget` consists of a collection of separate but interoperable modules, each designed to facilitate one type of database querying in a single line of code. `gget` was developed by [Laura Luebbert](https://github.com/lauraluebbert) in the [Pachter Lab](https://pachterlab.github.io/).
 
 `gget` is part of the [scverse®](https://scverse.org) project and is fiscally sponsored by [NumFOCUS](https://numfocus.org/). If you like `gget` and want to **support our mission**, please consider making a tax-deductible **[donation](https://opencollective.com/scverse/projects/scverse-gget/donate?interval=oneTime&amount=20&contributeAs=me)**.
 <br>
 
 ![alt text](https://github.com/pachterlab/gget/blob/main/figures/gget_overview.png?raw=true)
 
-If you use `gget` in a publication, please [cite*](https://pachterlab.github.io/gget/en/cite.html):  
+If you use `gget` in a publication, please [cite*](https://pachterlab.github.io/gget/en/cite.html):
 ```
 Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. https://doi.org/10.1093/bioinformatics/btac836
 ```
-Read the article here: https://doi.org/10.1093/bioinformatics/btac836  
+Read the article here: https://doi.org/10.1093/bioinformatics/btac836
 
 # Installation
+
 ```bash
 uv pip install gget
 ```
@@ -44,6 +46,7 @@ import gget
 # [🔗 Manual](https://pachterlab.github.io/gget)
 
 # 🪄 Quick start guide
+
 Command line:
 ```bash
 # Fetch all Homo sapiens reference and annotation FTPs from the latest Ensembl release
@@ -91,7 +94,7 @@ $ gget setup cellxgene # setup only needs to be run once
 $ gget cellxgene --gene ACE2 SLC5A1 --tissue lung --cell_type 'mucus secreting cell' -o example_adata.h5ad
 ```
 Python (Jupyter Lab / Google Colab):
-```python  
+```python
 import gget
 gget.ref("homo_sapiens")
 gget.search(["ace2", "angiotensin converting enzyme 2"], "homo_sapiens")

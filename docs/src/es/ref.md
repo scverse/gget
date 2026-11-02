@@ -2,14 +2,15 @@
 
 > Parámetros de Python són iguales a los parámetros largos (`--parámetro`) de Terminal, si no especificado de otra manera. Banderas son parámetros de verdadero o falso (True/False) en Python. El manuál para cualquier modulo de gget se puede llamar desde la Terminal con la bandera `-h` `--help`.  
 # gget ref 📖
+
 Obtenga enlaces de descarga y metadatos para los genomas de referencia de [Ensembl](https://www.ensembl.org/).  
-Regresa: Resultados en formato JSON.  
+Regresa: Resultados en formato JSON.
 
 **Parámetro posicional**  
 `species`  
 La especie por la cual que se buscará los FTP en el formato género_especies, p. ej. homo_sapiens.  
 Nota: No se requiere cuando se llama a la bandera `--list_species`.  
-Accesos directos: 'human', 'mouse', 'human_grch37' (accede al ensamblaje del genoma GRCh37)  
+Accesos directos: 'human', 'mouse', 'human_grch37' (accede al ensamblaje del genoma GRCh37)
 
 **Parámetros optionales**  
 `-w` `--which`  
@@ -20,42 +21,43 @@ Las entradas posibles son uno solo o una combinación de las siguientes (como li
 'dna' - Regresa el genoma (DNA).  
 'cds' - Regresa las secuencias codificantes correspondientes a los genes Ensembl. (No contiene UTR ni secuencia intrónica).  
 'cdrna' - Regresa secuencias de transcripción correspondientes a genes de ARN no codificantes (ncRNA).  
-'pep' - Regresa las traducciones de proteínas de los genes Ensembl.  
+'pep' - Regresa las traducciones de proteínas de los genes Ensembl.
 
 `-r` `--release`  
-Define el número de versión de Ensembl desde el que se obtienen los archivos, p. ej. 104. Default: latest Ensembl release.  
+Define el número de versión de Ensembl desde el que se obtienen los archivos, p. ej. 104. Default: latest Ensembl release.
 
 `-od` `--out_dir`  
-Ruta al directorio donde se guardarán los archivos FTP, p. ruta/al/directorio/. Por defecto: directorio de trabajo actual.  
+Ruta al directorio donde se guardarán los archivos FTP, p. ruta/al/directorio/. Por defecto: directorio de trabajo actual.
 
 `-o` `--out`  
 Ruta al archivo en el que se guardarán los resultados, p. ej. ruta/al/directorio/resultados.json. Por defecto: salida estándar (STDOUT).  
-Para Python, usa `save=True` para guardar los resultados en el directorio de trabajo actual.  
+Para Python, usa `save=True` para guardar los resultados en el directorio de trabajo actual.
 
 **Banderas**  
 `-l` `--list_species`  
-Enumera todas las especies disponibles. (Para Python: combina con `species=None`.)  
+Enumera todas las especies disponibles. (Para Python: combina con `species=None`.)
 
 `-ftp` `--ftp`  
-Regresa solo los enlaces FTP solicitados.  
+Regresa solo los enlaces FTP solicitados.
 
 `-d` `--download`  
-Solo para Terminal. Descarga los FTP solicitados al directorio actual (requiere [curl](https://curl.se/docs/) para ser instalado).  
+Solo para Terminal. Descarga los FTP solicitados al directorio actual (requiere [curl](https://curl.se/docs/) para ser instalado).
 
 `-q` `--quiet`  
 Solo para la Terminal. Impide la informacion de progreso de ser exhibida durante la corrida.  
-Para Python, usa `verbose=False` para imipidir la informacion de progreso de ser exhibida durante la corrida.  
+Para Python, usa `verbose=False` para imipidir la informacion de progreso de ser exhibida durante la corrida.
 
 ### Por ejemplo
+
 **Use `gget ref` en combinación con [kallisto | bustools](https://www.kallistobus.tools/kb_usage/kb_ref/) para construir un índice de referencia:**
 ```bash
 kb ref -i INDEX -g T2G -f1 FASTA $(gget ref --ftp -w dna,gtf homo_sapiens)
 ```
-&rarr; kb ref crea un índice de referencia utilizando los últimos archivos de ADN y GTF de especies **Homo sapiens** que le ha pasado `gget ref`.  
+&rarr; kb ref crea un índice de referencia utilizando los últimos archivos de ADN y GTF de especies **Homo sapiens** que le ha pasado `gget ref`.
 
 <br/><br/>
 
-**Enumere todos los genomas disponibles de la versión 103 de Ensembl:**  
+**Enumere todos los genomas disponibles de la versión 103 de Ensembl:**
 ```bash
 gget ref --list_species -r 103
 ```
@@ -64,11 +66,11 @@ gget ref --list_species -r 103
 gget.ref(species=None, list_species=True, release=103)
 ```
 &rarr; Regresa una lista con todos los genomas disponibles (`gget ref` verifica si GTF y FASTA están disponibles) de la versión 103 de Ensembl.  
-(Si no se especifica ninguna versión, `gget ref` siempre devolverá información de la última versión de Ensembl).  
+(Si no se especifica ninguna versión, `gget ref` siempre devolverá información de la última versión de Ensembl).
 
 <br/><br/>
 
-**Obtenga la referencia del genoma para una especie específica:**  
+**Obtenga la referencia del genoma para una especie específica:**
 ```bash
 gget ref -w gtf,dna homo_sapiens
 ```
@@ -100,7 +102,8 @@ gget.ref("homo_sapiens", which=["gtf", "dna"])
 
 #### [Más ejemplos](https://github.com/pachterlab/gget_examples)
 
-# Citar  
+# Citar
+
 Si utiliza `gget ref` en una publicación, favor de citar los siguientes artículos:
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)

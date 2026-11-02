@@ -2,13 +2,14 @@
 
 > Parámetros de Python són iguales a los parámetros largos (`--parámetro`) de Terminal, si no especificado de otra manera. Las banderas son parámetros de verdadero o falso (True/False) en Python. El manuál para cualquier modulo de gget se puede llamar desde la Terminal con la bandera `-h` `--help`.  
 # gget enrichr 💰
+
 Realice un análisis de enriquecimiento de una lista de genes utilizando [Enrichr](https://maayanlab.cloud/Enrichr/).  
-Produce: Resultados en formato JSON (Terminal) o Dataframe/CSV (Python).  
+Produce: Resultados en formato JSON (Terminal) o Dataframe/CSV (Python).
 
 **Parámetro posicional**  
 `genes`  
 Lista de nombres cortos (símbolos) de los genes de interés para realizar el análisis de enriquecimiento, p. PHF14 RBM3 MSL1 PHF21A.  
-Alternativamente: use la bandera `--ensembl` para ingresar IDs tipo Ensembl, p. ENSG00000106443 ENSG00000102317 ENSG00000188895.  
+Alternativamente: use la bandera `--ensembl` para ingresar IDs tipo Ensembl, p. ENSG00000106443 ENSG00000102317 ENSG00000188895.
 
 **Otros parámetros requeridos**  
 `-db` `--database`  
@@ -19,49 +20,49 @@ Admite cualquier base de datos enumerada [aquí](https://maayanlab.cloud/Enrichr
 'ontology'      (GO_Biological_Process_2021)  
 'diseases_drugs'   (GWAS_Catalog_2019)  
 'celltypes'      (PanglaoDB_Augmented_2021)  
-'kinase_interactions'   (KEA_2015)  
+'kinase_interactions'  (KEA_2015)
 
 **Parámetros opcionales**  
 `-s` `--species`  
 Especies a utilizar como referencia para el análisis de enriquecimiento. (Por defecto: human)  
-Opciones:  
+Opciones:
 
-| Species  | Database list                                                     |
-|----------|-------------------------------------------------------------------|
-| `human`  | [Enrichr](https://maayanlab.cloud/Enrichr/#libraries)             |
-| `mouse`  | [Equivalente al humano](https://maayanlab.cloud/Enrichr/#libraries) |
-| `fly`    | [FlyEnrichr](https://maayanlab.cloud/FlyEnrichr/#stats)       |
-| `yeast`  | [YeastEnrichr](https://maayanlab.cloud/YeastEnrichr/#stats)   |
-| `worm`   | [WormEnrichr](https://maayanlab.cloud/WormEnrichr/#stats)     |
-| `fish`   | [FishEnrichr](https://maayanlab.cloud/FishEnrichr/#stats)     |
+| Species | Database list                                                       |
+| ------- | ------------------------------------------------------------------- |
+| `human` | [Enrichr](https://maayanlab.cloud/Enrichr/#libraries)               |
+| `mouse` | [Equivalente al humano](https://maayanlab.cloud/Enrichr/#libraries) |
+| `fly`   | [FlyEnrichr](https://maayanlab.cloud/FlyEnrichr/#stats)             |
+| `yeast` | [YeastEnrichr](https://maayanlab.cloud/YeastEnrichr/#stats)         |
+| `worm`  | [WormEnrichr](https://maayanlab.cloud/WormEnrichr/#stats)           |
+| `fish`  | [FishEnrichr](https://maayanlab.cloud/FishEnrichr/#stats)           |
 
 `-bkg_l` `--background_list`  
 Lista de nombres cortos (símbolos) de genes de 'background' (de fondo/control), p. NSUN3 POLRMT NLRX1.  
-Alternativamente: usa la bandera `--ensembl_background` para ingresar IDs tipo Ensembl.  
+Alternativamente: usa la bandera `--ensembl_background` para ingresar IDs tipo Ensembl.
 
 `-o` `--out`  
 Ruta al archivo en el que se guardarán los resultados, p. ruta/al/directorio/resultados.csv (o .json). Por defecto: salida estándar (STDOUT).  
-Para Python, usa `save=True` para guardar los resultados en el directorio de trabajo actual.  
+Para Python, usa `save=True` para guardar los resultados en el directorio de trabajo actual.
 
 `-ko` `--kegg_out`  
-Ruta al archivo png en el que se guardará la imágen de la vía de señalización celular KEGG, p. ej. ruta/al/directorio/KEGG.png. (Por defecto: None)  
+Ruta al archivo png en el que se guardará la imágen de la vía de señalización celular KEGG, p. ej. ruta/al/directorio/KEGG.png. (Por defecto: None)
 
 `-kr` `--kegg_rank`  
-Rango de la ruta KEGG que se va a trazar. (Por defecto: 1)  
+Rango de la ruta KEGG que se va a trazar. (Por defecto: 1)
 
 `figsize`  
 Solo para Python. (ancho, alto) de la visualización en pulgadas. (Por defecto: (10,10))
 
 `ax`  
-Solo para Python. Ingresa un objeto de ejes matplotlib para personalizar la visualización.(Por defecto: None)  
+Solo para Python. Ingresa un objeto de ejes matplotlib para personalizar la visualización.(Por defecto: None)
 
 
 **Banderas**  
 `-e` `--ensembl`  
-Usa esta bandera si `genes` se ingresa como una lista de IDs tipo Ensembl.  
+Usa esta bandera si `genes` se ingresa como una lista de IDs tipo Ensembl.
 
 `-e_b` `--ensembl_bkg`  
-Usa esta bandera si `background_list` se ingresa como una lista de IDs tipo Ensembl.  
+Usa esta bandera si `background_list` se ingresa como una lista de IDs tipo Ensembl.
 
 `-bkg` `--background`  
 Use un conjunto de 20,625 genes 'background'
@@ -69,17 +70,18 @@ listados [aquí](https://github.com/scverse/gget/blob/main/gget/constants/enrich
 
 `-csv` `--csv`  
 Solo para Terminal. Produce los resultados en formato CSV.  
-Para Python, usa `json=True` produce los resultados en formato JSON.  
+Para Python, usa `json=True` produce los resultados en formato JSON.
 
 `-q` `--quiet`  
 Solo para Terminal. Impide la información de progreso de ser exhibida durante la ejecución del programa.  
-Para Python, usa `verbose=False` para imipidir la información de progreso de ser exhibida durante la ejecución del programa.  
+Para Python, usa `verbose=False` para imipidir la información de progreso de ser exhibida durante la ejecución del programa.
 
 `plot`  
-Solo para Python. `plot=True` provée la visualización de los primeros 15 resultados (por defecto: False).  
+Solo para Python. `plot=True` provée la visualización de los primeros 15 resultados (por defecto: False).
 
 
 ### Ejemplo
+
 ```bash
 gget enrichr -db ontology ACE2 AGT AGTR1
 ```
@@ -87,13 +89,13 @@ gget enrichr -db ontology ACE2 AGT AGTR1
 # Python
 gget.enrichr(["ACE2", "AGT", "AGTR1"], database="ontology", plot=True)
 ```
-&rarr; Produce vías/funciones celulares relacionadas con los genes ACE2, AGT y AGTR1 de la base de datos *GO Biological Process 2021*. En Python, `plot=True` provee la visualización de resultados:
+&rarr; Produce vías/funciones celulares relacionadas con los genes ACE2, AGT y AGTR1 de la base de datos _GO Biological Process 2021_. En Python, `plot=True` provee la visualización de resultados:
 
 ![alt text](https://github.com/scverse/gget/blob/main/figures/gget_enrichr_results.png?raw=true)
 
 <br/><br/>
 
-**Use `gget enrichr` con una lista de genes 'background':**  
+**Use `gget enrichr` con una lista de genes 'background':**
 ```bash
 # Aquí, primero ingresamos los genes de interés (parámetro posicional 'genes'), para que no se agreguen a la lista de genes 'background' detrás del parámetro '-bkgr_l'
 gget enrichr \
@@ -139,14 +141,14 @@ gget.enrichr(
 	plot=True
 )
 ```
-&rarr; Provée factores de transcripción relacionados a los genes de interés y controlados con la lista de genes background de la base de datos *ChEA 2022*. En Python, `plot=True` permite la visualización de resultados:
+&rarr; Provée factores de transcripción relacionados a los genes de interés y controlados con la lista de genes background de la base de datos _ChEA 2022_. En Python, `plot=True` permite la visualización de resultados:
 
 ![alt text](https://github.com/scverse/gget/blob/main/figures/gget_enrichr_results_2.png?raw=true)
 
 <br/><br/>
 
 **Genere una imagen de la vía de señalización de células KEGG con los genes del análisis de enriquecimiento resaltados:**  
-Esta función está disponible gracias a un [PR](https://github.com/scverse/gget/pull/106) de [Noriaki Sato](https://github.com/noriakis).  
+Esta función está disponible gracias a un [PR](https://github.com/scverse/gget/pull/106) de [Noriaki Sato](https://github.com/noriakis).
 
 ```bash
 gget enrichr -db pathway --kegg_out kegg.png --kegg_rank 1 ZBP1 IRF3 RIPK1
@@ -156,7 +158,7 @@ gget enrichr -db pathway --kegg_out kegg.png --kegg_rank 1 ZBP1 IRF3 RIPK1
 gget.enrichr(["ZBP1", "IRF3", "RIPK1"], database="pathway", kegg_out="kegg.png", kegg_rank=1)
 ```
 
-&rarr; Además de los resultados estándar `gget enrichr`, el argumento `kegg_out` guarda una imagen con los genes del análisis de enriquecimiento resaltados guardado como kegg.png:  
+&rarr; Además de los resultados estándar `gget enrichr`, el argumento `kegg_out` guarda una imagen con los genes del análisis de enriquecimiento resaltados guardado como kegg.png:
 
 ![kegg](https://github.com/scverse/gget/assets/56094636/b0aa5a64-69d0-4a6a-85db-3e7baf9cb2a4)
 
@@ -221,7 +223,8 @@ df |>
 
 #### [Más ejemplos](https://github.com/pachterlab/gget_examples)
 
-# Citar  
+# Citar
+
 Si utiliza `gget enrichr` en una publicación, favor de citar los siguientes artículos:
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
@@ -232,5 +235,5 @@ Si utiliza `gget enrichr` en una publicación, favor de citar los siguientes art
 
 - Xie Z, Bailey A, Kuleshov MV, Clarke DJB., Evangelista JE, Jenkins SL, Lachmann A, Wojciechowicz ML, Kropiwnicki E, Jagodnik KM, Jeon M, & Ma’ayan A. Gene set knowledge discovery with Enrichr. Current Protocols, 1, e90. 2021. doi: [10.1002/cpz1.90](https://doi.org/10.1002/cpz1.90).
 
-Si trabaja con conjuntos de datos no humanos/ratón, cite también:  
+Si trabaja con conjuntos de datos no humanos/ratón, cite también:
 - Kuleshov MV, Diaz JEL, Flamholz ZN, Keenan AB, Lachmann A, Wojciechowicz ML, Cagan RL, Ma'ayan A. modEnrichr: a suite of gene set enrichment analysis tools for model organisms. Nucleic Acids Res. 2019 Jul 2;47(W1):W183-W190. doi: [10.1093/nar/gkz347](https://doi.org/10.1093/nar/gkz347). PMID: 31069376; PMCID: PMC6602483.

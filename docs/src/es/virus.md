@@ -1,11 +1,11 @@
 [<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/es/virus.md)
 
 > Parámetros de Python són iguales a los parámetros largos (`--parámetro`) de Terminal, si no especificado de otra manera. Banderas son parámetros de verdadero o falso (True/False) en Python. El manuál para cualquier modulo de gget se puede llamar desde la Terminal con la bandera `-h` `--help`.  
-# gget virus 🦠  
+# gget virus 🦠
 
 Descargue secuencias nucleotídicas virales, junto con metadatos ricos y vinculados, de toda la International Nucleotide Sequence Database Collaboration ([INSDC](https://www.insdc.org/)), incluyendo NCBI, [ENA](https://www.ebi.ac.uk/ena/browser/) y [DDBJ](https://www.ddbj.nig.ac.jp/index-e.html) (a través de [NCBI Virus](https://www.ncbi.nlm.nih.gov/labs/virus/)), con la opción de enriquecer adicionalmente los resultados usando metadatos de NCBI GenBank (p. ej. anotaciones de genes y proteínas). `gget virus` aplica filtros secuenciales tanto del lado del servidor como locales para descargar de forma eficiente conjuntos de datos personalizados.
 
-Formato de salida: archivos FASTA, CSV y JSONL guardados en una carpeta de salida.  
+Formato de salida: archivos FASTA, CSV y JSONL guardados en una carpeta de salida.
 
 [Cuaderno de Google Colab sin código y compartible para descargar secuencias virales.](https://colab.research.google.com/github/pachterlab/gget_examples/blob/main/gget_virus/gget_virus_colab.ipynb)
 
@@ -21,20 +21,20 @@ Añada `--is_accession` al proporcionar un número de acceso de NCBI. Añada `--
 
 Para descargas en caché de SARS-CoV-2 y Alphainfluenza, se admite:
 
-* Acceso único: `NC_045512.2`
-* Lista separada por espacios: `NC_045512.2 MN908947.3 MT020781.1`
-* Ruta a archivo de texto: `accessions.txt` (un número de acceso por línea)
+- Acceso único: `NC_045512.2`
+- Lista separada por espacios: `NC_045512.2 MN908947.3 MT020781.1`
+- Ruta a archivo de texto: `accessions.txt` (un número de acceso por línea)
 
 Use la opción `--download_all_accessions` para aplicar filtros sin buscar un virus específico.
 
-**Argumentos opcionales**  
+**Argumentos opcionales**
 
-_Filtros de hospedador_  
+_Filtros de hospedador_
 
 `--host`  
 Filtra por nombre del organismo hospedador o ID de Taxonomía de NCBI (p. ej. 'human', 'Aedes aegypti', `1335626`).
 
-_Filtros de Secuencia y Gen_  
+_Filtros de Secuencia y Gen_
 
 `--nuc_completeness`  
 Filtrar por integridad del nucleótido. Una de las siguientes opciones: 'complete' o 'partial'.  
@@ -85,10 +85,10 @@ Python: `segment="HA"` o `segment=["HA", "NA", "PB1"]`
 `--annotated`  
 `'true'` o `'false'`. Filtra por secuencias que han sido anotadas con información de genes/proteínas.  
 Línea de comandos: `--annotated true` para obtener únicamente secuencias anotadas con información de genes/proteínas, o `--annotated false` para excluirlas.  
-Python: `annotated=True` o `annotated=False` (`annotated=None` para no aplicar ningún filtro).  
+Python: `annotated=True` o `annotated=False` (`annotated=None` para no aplicar ningún filtro).
 
 `--lab_passaged`  
-`'true'` o `'false'`. Filtra a favor o en contra de muestras pasadas por laboratorio (*lab-passaged*).  
+`'true'` o `'false'`. Filtra a favor o en contra de muestras pasadas por laboratorio (_lab-passaged_).  
 Línea de comandos: `--lab_passaged true` para obtener únicamente muestras pasadas por laboratorio, o `--lab_passaged false` para excluirlas.  
 Python: `lab_passaged=True` o `lab_passaged=False` (`lab_passaged=None` para no aplicar ningún filtro).
 
@@ -104,7 +104,7 @@ Python: `provirus=True` o `provirus=False` (`provirus=None` para no aplicar ning
 **Nota:** El uso de este filtro habilita automáticamente la obtención de metadatos de GenBank (`-g`).
 
 
-_Filtros de fecha_  
+_Filtros de fecha_
 
 `--min_collection_date`  
 Filtra por fecha mínima de recolección de la muestra (YYYY-MM-DD).
@@ -183,7 +183,7 @@ Python: `lineage="B.1.1.7"` o `lineage=["B.1.1.7", "P.1"]`
 _Configuración del pipeline_
 
 `--genbank_batch_size`  
-Tamaño de lote para solicitudes a la API de metadatos de GenBank. Por defecto: 200. Lotes más grandes son más rápidos pero pueden ser más propensos a timeouts.  
+Tamaño de lote para solicitudes a la API de metadatos de GenBank. Por defecto: 200. Lotes más grandes son más rápidos pero pueden ser más propensos a timeouts.
 
 `-o` `--out`  
 Ruta a la carpeta donde se guardarán los resultados. Por defecto: `./gget_virus_output/{virus}_{timestamp}/` en el directorio de trabajo actual.  
@@ -221,20 +221,20 @@ Obtiene y guarda metadatos adicionales detallados desde GenBank, incluyendo fech
 **Nota:** Esta bandera se habilita automáticamente al usar cualquiera de los siguientes filtros dependientes de GenBank: `--has_proteins`, `--gen_mol_type`, `--env_source`, `--genotype`, `--provirus`, `--min_gene_count`, `--max_gene_count`, `--min_mature_peptide_count`, `--max_mature_peptide_count`.
 
 `--proteins_complete`  
-Bandera para incluir solo secuencias donde todas las proteínas anotadas estén completas.  
+Bandera para incluir solo secuencias donde todas las proteínas anotadas estén completas.
 
 `-kt` `--keep_temp`  
 Bandera para conservar todos los archivos intermedios/temporales generados durante el procesamiento. Por defecto, solo se conservan los archivos de salida finales.
 
 `-q` `--quiet`  
 Uso limitado para Terminal. Impide la información de progreso de ser exhibida durante la ejecución del programa.  
-Para Python, usa `verbose=False`.  
+Para Python, usa `verbose=False`.
 
 ### Ejemplo
 
 ```bash
 gget virus "Zika virus" --nuc_completeness complete --host human --out zika_data
-````
+```
 
 ```python
 # Python
@@ -344,15 +344,15 @@ gget.virus(
 
 `gget virus` guarda los resultados en la carpeta de salida especificada (por defecto: `./gget_virus_output/{virus}_{timestamp}/`). Los archivos de salida estándar son:
 
-| Archivo | Descripción |
-|---------|-------------|
-| `{virus}_sequences.fasta` | Secuencias nucleotídicas en formato FASTA |
-| `{virus}_metadata.csv` | Metadatos de todas las secuencias en formato CSV |
-| `{virus}_metadata.jsonl` | Metadatos en formato JSONL (un objeto JSON por línea) |
-| `{virus}_genbank_metadata.csv` | Metadatos detallados de GenBank (solo cuando se usa `-g` o se habilita automáticamente) |
-| `{virus}_genbank_metadata_full.xml` | Volcado XML completo de GenBank (solo cuando se usa `-g`) |
-| `{virus}_genbank_metadata_full.csv` | Volcado CSV completo de GenBank - formato XML legible (solo cuando se usa `-g`) |
-| `command_summary.txt` | Resumen de ejecución con estadísticas, archivos de salida y errores |
+| Archivo                             | Descripción                                                                             |
+| ----------------------------------- | --------------------------------------------------------------------------------------- |
+| `{virus}_sequences.fasta`           | Secuencias nucleotídicas en formato FASTA                                               |
+| `{virus}_metadata.csv`              | Metadatos de todas las secuencias en formato CSV                                        |
+| `{virus}_metadata.jsonl`            | Metadatos en formato JSONL (un objeto JSON por línea)                                   |
+| `{virus}_genbank_metadata.csv`      | Metadatos detallados de GenBank (solo cuando se usa `-g` o se habilita automáticamente) |
+| `{virus}_genbank_metadata_full.xml` | Volcado XML completo de GenBank (solo cuando se usa `-g`)                               |
+| `{virus}_genbank_metadata_full.csv` | Volcado CSV completo de GenBank - formato XML legible (solo cuando se usa `-g`)         |
+| `command_summary.txt`               | Resumen de ejecución con estadísticas, archivos de salida y errores                     |
 
 ### Archivo de resumen de comando
 
@@ -656,8 +656,8 @@ El archivo de resumen rastrea los siguientes tipos de fallos, cada uno con detal
 
 Si utilizas `gget virus` en una publicación, por favor cita los siguientes artículos:
 
-  - Nasri, F., Gurev, S., Varilly, P., Ramesh, K., O'Leary, N. A., Cool, J., Renard, B. Y., Sabeti, P. C., & Luebbert, L. (2026). Deterministic access to global viral sequence data enables robust agentic scientific discovery. [arXiv:2606.06749](https://arxiv.org/abs/2606.06749)
+- Nasri, F., Gurev, S., Varilly, P., Ramesh, K., O'Leary, N. A., Cool, J., Renard, B. Y., Sabeti, P. C., & Luebbert, L. (2026). Deterministic access to global viral sequence data enables robust agentic scientific discovery. [arXiv:2606.06749](https://arxiv.org/abs/2606.06749)
 
-  - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
+- Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
 
-  - O'Leary, N.A., Cox, E., Holmes, J.B. et al (2024). Exploring and retrieving sequence and metadata for species across the tree of life with NCBI Datasets. Sci Data 11, 732. [https://doi.org/10.1038/s41597-024-03571-y](https://doi.org/10.1038/s41597-024-03571-y)
+- O'Leary, N.A., Cox, E., Holmes, J.B. et al (2024). Exploring and retrieving sequence and metadata for species across the tree of life with NCBI Datasets. Sci Data 11, 732. [https://doi.org/10.1038/s41597-024-03571-y](https://doi.org/10.1038/s41597-024-03571-y)

@@ -5,6 +5,7 @@
 # Instalación
 
 ## Puedes usar `uv` o `pip` para instalar gget:
+
 ```bash
 uv pip install gget
 ```
@@ -52,6 +53,7 @@ import gget
 ---
 
 # Instalar desde el código fuente
+
 ```bash
 git clone https://github.com/scverse/gget.git
 cd gget
@@ -64,13 +66,17 @@ git clone https://github.com/scverse/gget.git
 cd gget
 pip install .
 ```
+
 ---
 
 # Solución de problemas
+
 - Si ves errores sobre dependencias faltantes, asegúrate de estar usando un entorno limpio y tener la última versión de `pip` o `uv`.
 - Si instalaste gget previamente de forma global, desinstálalo con:
+
   ```bash
   pip uninstall gget
   ```
+
   o elimina el ejecutable de tu `PATH` del sistema.
 - Si sigues teniendo problemas, por favor [contáctanos](https://github.com/scverse/gget/issues).

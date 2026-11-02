@@ -2,38 +2,40 @@
 
 > Python arguments are equivalent to long-option arguments (`--arg`), unless otherwise specified. Flags are True/False arguments in Python. The manual for any gget tool can be called from the command-line using the `-h` `--help` flag.  
 # gget pdb 🔮
+
 Query [RCSB Protein Data Bank (PDB)](https://www.rcsb.org/) for the protein structure/metadata of a given PDB ID.  
-Return format: Resource 'pdb' is returned in legacy PDB format (or PDBx/mmCIF if the legacy PDB file is unavailable), 'mmcif' in PDBx/mmCIF format. All other resources are returned in JSON format.  
+Return format: Resource 'pdb' is returned in legacy PDB format (or PDBx/mmCIF if the legacy PDB file is unavailable), 'mmcif' in PDBx/mmCIF format. All other resources are returned in JSON format.
 
 **Positional argument**  
 `pdb_id`  
-PDB ID to be queried, e.g. '7S7U'.  
+PDB ID to be queried, e.g. '7S7U'.
 
 **Optional arguments**  
- `-r` `--resource`  
- Defines type of information to be returned. One of the following:  
- 'pdb': Returns the protein structure in legacy PDB format (default). The legacy PDB format is being phased out by RCSB and is unavailable for large structures; in that case gget automatically falls back to the PDBx/mmCIF format.  
- 'mmcif': Returns the protein structure in PDBx/mmCIF format (.cif).  
- 'entry': Information about PDB structures at the top level of PDB structure hierarchical data organization.  
- 'pubmed': Get PubMed annotations (data integrated from PubMed) for a given entry's primary citation.  
- 'assembly': Information about PDB structures at the quaternary structure level.  
- 'branched_entity': Get branched entity description (define entity ID as 'identifier').  
- 'nonpolymer_entity': Get non-polymer entity data (define entity ID as 'identifier').  
- 'polymer_entity': Get polymer entity data (define entity ID as 'identifier').  
- 'uniprot': Get UniProt annotations for a given macromolecular entity (define entity ID as 'identifier').  
- 'branched_entity_instance': Get branched entity instance description (define chain ID as 'identifier').  
- 'polymer_entity_instance': Get polymer entity instance (a.k.a chain) data (define chain ID as 'identifier').  
- 'nonpolymer_entity_instance': Get non-polymer entity instance description (define chain ID as 'identifier').  
+`-r` `--resource`  
+Defines type of information to be returned. One of the following:  
+'pdb': Returns the protein structure in legacy PDB format (default). The legacy PDB format is being phased out by RCSB and is unavailable for large structures; in that case gget automatically falls back to the PDBx/mmCIF format.  
+'mmcif': Returns the protein structure in PDBx/mmCIF format (.cif).  
+'entry': Information about PDB structures at the top level of PDB structure hierarchical data organization.  
+'pubmed': Get PubMed annotations (data integrated from PubMed) for a given entry's primary citation.  
+'assembly': Information about PDB structures at the quaternary structure level.  
+'branched_entity': Get branched entity description (define entity ID as 'identifier').  
+'nonpolymer_entity': Get non-polymer entity data (define entity ID as 'identifier').  
+'polymer_entity': Get polymer entity data (define entity ID as 'identifier').  
+'uniprot': Get UniProt annotations for a given macromolecular entity (define entity ID as 'identifier').  
+'branched_entity_instance': Get branched entity instance description (define chain ID as 'identifier').  
+'polymer_entity_instance': Get polymer entity instance (a.k.a chain) data (define chain ID as 'identifier').  
+'nonpolymer_entity_instance': Get non-polymer entity instance description (define chain ID as 'identifier').
 
 `-i` `--identifier`  
-Can be used to define assembly, entity or chain ID (default: None). Assembly/entity IDs are numbers (e.g. 1), and chain IDs are letters (e.g. 'A').  
+Can be used to define assembly, entity or chain ID (default: None). Assembly/entity IDs are numbers (e.g. 1), and chain IDs are letters (e.g. 'A').
 
 `-o` `--out`  
 Path to the file the results will be saved in, e.g. path/to/directory/7S7U.pdb or path/to/directory/7S7U_entry.json. Default: Standard out.  
-Python: `save=True` will save the output in the current working directory.  
+Python: `save=True` will save the output in the current working directory.
 
 
 ### Examples
+
 ```bash
 gget pdb 7S7U -o 7S7U.pdb
 ```
@@ -43,7 +45,7 @@ gget.pdb("7S7U", save=True)
 ```
 &rarr; Saves the structure of 7S7U in PDB format as '7S7U.pdb' in the current working directory.
 
-**Fetch a structure in PDBx/mmCIF format (recommended for large structures, which have no legacy PDB file):**  
+**Fetch a structure in PDBx/mmCIF format (recommended for large structures, which have no legacy PDB file):**
 ```bash
 gget pdb 6Q38 -r mmcif -o 6Q38.cif
 ```
@@ -54,7 +56,7 @@ gget.pdb("6Q38", resource="mmcif", save=True)
 &rarr; Saves the structure of 6Q38 in PDBx/mmCIF format as '6Q38.cif' in the current working directory.  
 Note: `gget pdb 6Q38` (without `-r mmcif`) also works — since 6Q38 has no legacy PDB file, gget automatically falls back to PDBx/mmCIF and saves a '.cif' file.
 
-**Find PDB crystal structures for a comparative analysis of protein structure:**  
+**Find PDB crystal structures for a comparative analysis of protein structure:**
 ```bash
 # Find PDB IDs associated with an Ensembl ID
 gget info ENSG00000130234
@@ -94,7 +96,8 @@ gget.pdb("7CT5", save=True)
 #### [More examples](https://github.com/pachterlab/gget_examples)
 
 # References
-If you use `gget pdb` in a publication, please cite the following articles:  
+
+If you use `gget pdb` in a publication, please cite the following articles:
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
 

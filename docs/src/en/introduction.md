@@ -3,9 +3,9 @@
 [![license](https://img.shields.io/pypi/l/gget)](https://github.com/scverse/gget/blob/main/LICENSE)
 [![tests](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/scverse/gget/main/.github/badges/tests.json)](https://github.com/scverse/gget/blob/main/tests/pytest_results.txt)
 [![Powered by NumFOCUS](https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat&colorA=E1523D&colorB=007D8A)](https://numfocus.org/)
-[![GitHub stars](https://img.shields.io/github/stars/scverse/gget?style=social)](https://github.com/scverse/gget)  
+[![GitHub stars](https://img.shields.io/github/stars/scverse/gget?style=social)](https://github.com/scverse/gget)
 
-# Welcome!  
+# Welcome!
 
 [<img align="right" width="65%" height="65%" src="https://github.com/pachterlab/gget/blob/main/docs/assets/website_v2_gget_overview.png?raw=true" />](https://raw.githubusercontent.com/pachterlab/gget/main/figures/gget_overview.png)
 
@@ -63,7 +63,7 @@ These are the `gget` core modules. Click on any module to access detailed docume
 
 <br>  
 
-If you use `gget` in a publication, please [cite*](/gget/en/cite.md):  
+If you use `gget` in a publication, please [cite*](/gget/en/cite.md):
 ```
 Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. https://doi.org/10.1093/bioinformatics/btac836
 ```
@@ -72,7 +72,7 @@ Read the article here: [https://doi.org/10.1093/bioinformatics/btac836](https://
 <br>  
 <br>  
 
-[![gget PyPI downloads over the last year](https://github.com/lauraluebbert/gget_downloads/raw/main/plots/downloads_gget_daily.png)](https://github.com/lauraluebbert/gget_downloads/tree/main)  
+[![gget PyPI downloads over the last year](https://github.com/lauraluebbert/gget_downloads/raw/main/plots/downloads_gget_daily.png)](https://github.com/lauraluebbert/gget_downloads/tree/main)
 
 <br>  
 <br>  

@@ -3,7 +3,7 @@
 > Parámetros de Python són iguales a los parámetros largos (`--parámetro`) de Terminal, si no especificado de otra manera. Banderas son parámetros de verdadero o falso (True/False) en Python. El manuál para cualquier modulo de gget se puede llamar desde la Terminal con la bandera `-h` `--help`.  
 # gget cbio 📖
 
-Trazar mapas de calor de la genómica del cáncer utilizando datos de [cBioPortal](https://www.cbioportal.org/) con IDs de Ensembl o nombres de genes.  
+Trazar mapas de calor de la genómica del cáncer utilizando datos de [cBioPortal](https://www.cbioportal.org/) con IDs de Ensembl o nombres de genes.
 
 Este módulo fue escrito por [Sam Wagenaar](https://github.com/techno-sam).
 
@@ -12,6 +12,7 @@ Este módulo fue escrito por [Sam Wagenaar](https://github.com/techno-sam).
 O bien `search` o `plot`
 
 ### Subcomando `search` (Python: `gget.cbio_search`)
+
 Buscar IDs de estudios de cBioPortal por palabra clave.  
 Formato de retorno: JSON (línea de comandos) o lista de cadenas (Python).  
 **Nota: Esto no devuelve estudios con tipos de cáncer mixtos.**
@@ -22,6 +23,7 @@ Lista de palabras clave separadas por espacios para buscar, por ejemplo <code>br
 Python: Pasa palabras clave como una lista de cadenas.
 
 ### Subcomando `plot` (Python: `gget.cbio_plot`)
+
 Graficar mapas de calor de genómica del cáncer utilizando datos de cBioPortal.  
 Formato de retorno: PNG (línea de comandos y Python).
 
@@ -87,7 +89,7 @@ Mostrar la gráfica en una ventana (automático en notebooks de Jupyter).
 
 ### Ejemplos
 
-**Encontrar todos los estudios de cBioPortal con tipos de cáncer que coinciden con palabras clave específicas:**  
+**Encontrar todos los estudios de cBioPortal con tipos de cáncer que coinciden con palabras clave específicas:**
 ```bash
 gget cbio search esophag ovary ovarian
 ```
@@ -104,7 +106,7 @@ gget.cbio_search(['esophag', 'ovary', 'ovarian'])
 
 <br/><br/>
 
-**Graficar un mapa de calor de ocurrencias de mutaciones para genes específicos en un estudio específico:**  
+**Graficar un mapa de calor de ocurrencias de mutaciones para genes específicos en un estudio específico:**
 ```bash
 gget cbio plot \
     -s msk_impact_2017 \
@@ -131,7 +133,7 @@ gget.cbio_plot(
 
 <br/><br/>
 
-**Graficar un mapa de calor de tipos de mutaciones para genes específicos en un estudio específico:**  
+**Graficar un mapa de calor de tipos de mutaciones para genes específicos en un estudio específico:**
 ```bash
 gget cbio plot \
     -s msk_impact_2017 \
@@ -181,7 +183,7 @@ gget.cbio_plot(
 )
 ```
 
-&rarr;  Guarda un mapa de calor de tipos de mutaciones para los genes especificados en el estudio especificado, filtrado por tejido, en ./gget_cbio_figures/Heatmap_sample_intestine.png.
+&rarr; Guarda un mapa de calor de tipos de mutaciones para los genes especificados en el estudio especificado, filtrado por tejido, en ./gget_cbio_figures/Heatmap_sample_intestine.png.
 
 ![Heatmap](https://raw.githubusercontent.com/scverse/gget/ef0e8334d87214c17cbac70713028e7b823bba49/docs/assets/gget_cbio_figure_3.png)
 
@@ -220,7 +222,8 @@ gget.cbio_plot(
 
 #### [Más ejemplos](https://github.com/pachterlab/gget_examples)
 
-# Citar  
+# Citar
+
 Si utiliza `gget cbio` en una publicación, favor de citar los siguientes artículos:
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
