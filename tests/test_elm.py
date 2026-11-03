@@ -9,17 +9,24 @@ from gget.gget_setup import setup as gget_setup
 with open("./tests/fixtures/test_elm.json") as json_file:
     elm_dict = json.load(json_file)
 
-for attempt in range(3):
-    try:
-        gget_setup(module="elm")
-        break
-    except RuntimeError as exc:
-        if "ELM database files download failed" not in str(exc) or attempt == 2:
-            raise
-        time.sleep(30)
-
 
 class TestELM(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        # Download the ELM database here rather than at import time: an error during
+        # collection aborts the whole pytest session, so an elm.eu.org outage used to stop
+        # every other test from running. Skip only the ELM tests instead.
+        for attempt in range(3):
+            try:
+                gget_setup(module="elm")
+                return
+            except RuntimeError as exc:
+                if "ELM database files download failed" not in str(exc):
+                    raise
+                if attempt == 2:
+                    raise unittest.SkipTest(f"ELM database unavailable: {exc}") from exc
+                time.sleep(30)
+
     def test_elm_uniprot_id_in_elm(self):
         test = "test1"
         expected_result = elm_dict[test]["expected_result"]
