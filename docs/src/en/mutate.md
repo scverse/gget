@@ -2,8 +2,9 @@
 
 > Python arguments are equivalent to long-option arguments (`--arg`), unless otherwise specified. Flags are True/False arguments in Python.  The manual for any gget tool can be called from the command-line using the `-h` `--help` flag.  
 # gget mutate 🧟
+
 Takes in nucleotide sequences and mutations (in [standard mutation annotation](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1867422/) and returns mutated versions of the input sequences according to the provided mutations.  
-Return format: Saves mutated sequences in FASTA format (or returns a list containing the mutated sequences if `out=None`).  
+Return format: Saves mutated sequences in FASTA format (or returns a list containing the mutated sequences if `out=None`).
 
 This module was written by [Joseph Rich](https://github.com/josephrich98).
 
@@ -12,9 +13,9 @@ This module was written by [Joseph Rich](https://github.com/josephrich98).
 **Positional argument**  
 `sequences`  
 Path to the FASTA file containing the sequences to be mutated, e.g., 'path/to/seqs.fa'.  
-Sequence identifiers following the '>' character must correspond to the identifiers in the seq_ID column of `mutations`.  
+Sequence identifiers following the '>' character must correspond to the identifiers in the seq_ID column of `mutations`.
 
-Example format of the FASTA file:  
+Example format of the FASTA file:
 ```
 >seq1 (or ENSG00000106443)  
 ACTGCGATAGACT  
@@ -29,28 +30,28 @@ NOTE: When the `sequences` input is a genome fasta file, also see the `gtf` argu
 
 **Required arguments**  
 `-m` `--mutations`  
-Path to the csv or tsv file (e.g., 'path/to/mutations.csv') or data frame (DataFrame object) containing information about the mutations in the following format (the 'notes' and 'mut_ID' columns are optional):  
+Path to the csv or tsv file (e.g., 'path/to/mutations.csv') or data frame (DataFrame object) containing information about the mutations in the following format (the 'notes' and 'mut_ID' columns are optional):
 
-| mutation         | mut_ID | seq_ID | notes |
-|------------------|--------|--------|-------|
-| c.2C>T           | mut1   | seq1   | -> Apply mutation 1 to sequence 1 |
-| c.9_13inv        | mut2   | seq2   | -> Apply mutation 2 to sequence 2 |
-| c.9_13inv        | mut2   | seq4   | -> Apply mutation 2 to sequence 4 |
-| c.9_13delinsAAT  | mut3   | seq4   | -> Apply mutation 3 to sequence 4 |
-| ...              | ...    | ...    |                                   |
+| mutation        | mut_ID | seq_ID | notes                             |
+| --------------- | ------ | ------ | --------------------------------- |
+| c.2C>T          | mut1   | seq1   | -> Apply mutation 1 to sequence 1 |
+| c.9_13inv       | mut2   | seq2   | -> Apply mutation 2 to sequence 2 |
+| c.9_13inv       | mut2   | seq4   | -> Apply mutation 2 to sequence 4 |
+| c.9_13delinsAAT | mut3   | seq4   | -> Apply mutation 3 to sequence 4 |
+| ...             | ...    | ...    |                                   |
 
 'mutation' = Column containing the mutations to be performed written in standard mutation annotation  
 'mut_ID' = Column containing the identifier for each mutation  
-'seq_ID' = Column containing the identifiers of the sequences to be mutated (must correspond to the string following the '>' character in the 'sequences' FASTA file; do NOT include spaces or dots)  
+'seq_ID' = Column containing the identifiers of the sequences to be mutated (must correspond to the string following the '>' character in the 'sequences' FASTA file; do NOT include spaces or dots)
 
 Alternatively: Input mutation(s) as a string or list, e.g., 'c.2C>T'.  
-If a list is provided, the number of mutations must equal the number of input sequences.  
+If a list is provided, the number of mutations must equal the number of input sequences.
 
-For use from the terminal (bash): Enclose individual mutation annotations in quotation marks to prevent parsing errors.  
+For use from the terminal (bash): Enclose individual mutation annotations in quotation marks to prevent parsing errors.
 
 **Optional input-related arguments**  
 `-mc` `--mut_column`  
-Name of the column containing the mutations to be performed in `mutations`. Default: 'mutation'.  
+Name of the column containing the mutations to be performed in `mutations`. Default: 'mutation'.
 
 `-sic` `--seq_id_column`  
 Name of the column containing the IDs of the sequences to be mutated in `mutations`. Default: 'seq_ID'.
@@ -61,7 +62,7 @@ Name of the column containing the IDs of each mutation in `mutations`. Default: 
 **Optional mutant sequence generation/filtering arguments**  
 `-k` `--k`  
 Length of sequences flanking the mutation. Default: 30.  
-If k > total length of the sequence, the entire sequence will be kept.  
+If k > total length of the sequence, the entire sequence will be kept.
 
 **Optional general arguments**  
 `-o` `--out`  
@@ -72,9 +73,10 @@ The identifiers (following the '>') of the mutated sequences in the output FASTA
 **Optional general flags**  
 `-q` `--quiet`  
 Command-line only. Prevents progress information from being displayed.  
-Python: Use `verbose=False` to prevent progress information from being displayed.  
+Python: Use `verbose=False` to prevent progress information from being displayed.
 
 ### Examples
+
 ```bash
 gget mutate ATCGCTAAGCT -m 'c.4G>T'
 ```
@@ -82,11 +84,11 @@ gget mutate ATCGCTAAGCT -m 'c.4G>T'
 # Python
 gget.mutate("ATCGCTAAGCT", "c.4G>T")
 ```
-&rarr; Returns ATCTCTAAGCT.  
+&rarr; Returns ATCTCTAAGCT.
 
 <br/><br/>
 
-**List of sequences with a mutation for each sequence provided in a list:**  
+**List of sequences with a mutation for each sequence provided in a list:**
 ```bash
 gget mutate ATCGCTAAGCT TAGCTA -m 'c.4G>T' 'c.1_3inv' -o mut_fasta.fa
 ```
@@ -104,7 +106,7 @@ GATCTA
 
 <br/><br/>
 
-**One mutation applied to several sequences with adjusted `k`:**  
+**One mutation applied to several sequences with adjusted `k`:**
 ```bash
 gget mutate ATCGCTAAGCT TAGCTA -m 'c.1_3inv' -k 3
 ```
@@ -112,10 +114,11 @@ gget mutate ATCGCTAAGCT TAGCTA -m 'c.1_3inv' -k 3
 # Python
 gget.mutate(["ATCGCTAAGCT", "TAGCTA"], "c.1_3inv", k=3)
 ```
-&rarr; Returns ['CTAGCT', 'GATCTA'].  
+&rarr; Returns ['CTAGCT', 'GATCTA'].
 
 
 # References
-If you use `gget mutate` in a publication, please cite the following articles:  
+
+If you use `gget mutate` in a publication, please cite the following articles:
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)

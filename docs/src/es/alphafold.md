@@ -5,8 +5,9 @@
 > ⚠️ `gget alphafold` ya no se mantiene activamente.** Para predicciones actualizadas de AlphaFold, recomendamos [ColabFold](https://github.com/sokrypton/ColabFold) (para AlphaFold 2) o el [AlphaFold Server](https://alphafoldserver.com/) (para AlphaFold 3).
 
 # gget alphafold 🪢
+
 Predice la estructura en 3D de cualquier proteína derivada de su secuencia de aminoácidos usando una versión simplificada del algoritmo [AlphaFold2](https://github.com/deepmind/alphafold) de [DeepMind](https://www.deepmind.com/), originalmente producido y publicado para [AlphaFold Colab](https://colab.research.google.com/github/deepmind/alphafold/blob/main/notebooks/AlphaFold.ipynb).  
-Resultado: Predicción de la estructura (en formato PDB) y el errór de alineación (en formato json).  
+Resultado: Predicción de la estructura (en formato PDB) y el errór de alineación (en formato json).
 
 Antes de usar `gget alphafold` por primera vez:
 1. Instale openmm ejecutando el siguiente comando desde la línea de comando:  
@@ -15,42 +16,42 @@ Antes de usar `gget alphafold` por primera vez:
    Para Python versión 3.10:  
    `conda install -qy conda==24.1.2 && conda install -qy -c conda-forge openmm=7.7.0`  
    Para Python versión 3.11:  
-   `conda install -qy conda==24.11.1 && conda install -qy -c conda-forge openmm=8.0.0`  
+   `conda install -qy conda==24.11.1 && conda install -qy -c conda-forge openmm=8.0.0`
 
-   Recomendación: siga con `conda update -qy conda` para actualizar _conda_ a la última versión.  
-3. Corre `gget setup alphafold` / `gget.setup("alphafold")` (ver también [`gget setup`](setup.md)). Al ejecutar `gget setup alphafold` / `gget.setup("alphafold")` se descargará e instalará la última versión de AlphaFold2 alojada en el [AlphaFold GitHub Repo](https://github.com/deepmind/alphafold). Puede volver a ejecutar este comando en cualquier momento para actualizar el software cuando hay una nueva versión de AlphaFold.  
-
+   Recomendación: siga con `conda update -qy conda` para actualizar _conda_ a la última versión.
+2. Corre `gget setup alphafold` / `gget.setup("alphafold")` (ver también [`gget setup`](setup.md)). Al ejecutar `gget setup alphafold` / `gget.setup("alphafold")` se descargará e instalará la última versión de AlphaFold2 alojada en el [AlphaFold GitHub Repo](https://github.com/deepmind/alphafold). Puede volver a ejecutar este comando en cualquier momento para actualizar el software cuando hay una nueva versión de AlphaFold.
 **Parámetro posicional**  
 `sequence`  
-Secuencia de aminoácidos (str), o una lista de secuencias (*gget alphafold automaticamente usa el algoritmo del multímero si múltiples secuencias son ingresadas*), o una ruta a un archivo formato FASTA.  
+Secuencia de aminoácidos (str), o una lista de secuencias (_gget alphafold automaticamente usa el algoritmo del multímero si múltiples secuencias son ingresadas_), o una ruta a un archivo formato FASTA.
 
 **Parámetros optionales**  
 `-mr` `--multimer_recycles`  
 El algoritmo de multímero se reciclara hasta que las predicciones dejen de cambiar, el limite de ciclos esta indicado aqui. Por defecto: 3  
-Para obtener más exactitud, ajusta este limite a 20 (al costo de ejecuciones mas tardadas).  
+Para obtener más exactitud, ajusta este limite a 20 (al costo de ejecuciones mas tardadas).
 
 `-o` `--out`  
-Ruta a la carpeta para guardar los resultados de la predicción (str). Por defecto: "./[fecha_tiempo]_gget_alphafold_prediction".  
+Ruta a la carpeta para guardar los resultados de la predicción (str). Por defecto: "./[fecha_tiempo]_gget_alphafold_prediction".
 
 **Banderas**  
 `-mfm` `--multimer_for_monomer`  
-Usa el algoritmo de multímero para un monómero.  
+Usa el algoritmo de multímero para un monómero.
 
 `-r` `--relax`  
-Relaja el mejor modelo con el algoritmo AMBER.  
+Relaja el mejor modelo con el algoritmo AMBER.
 
 `-q` `--quiet`  
 Uso limitado para Terminal. Impide la información de progreso de ser exhibida durante la ejecución del programa.  
-Para Python, usa `verbose=False`.  
+Para Python, usa `verbose=False`.
 
 `plot`  
-Solo para Python. `plot=True` provée una visualización interactiva de la predicción con el errór de alineación en 3D con [py3Dmol](https://pypi.org/project/py3Dmol/) y [matplotlib](https://matplotlib.org/) (por defecto: True).  
+Solo para Python. `plot=True` provée una visualización interactiva de la predicción con el errór de alineación en 3D con [py3Dmol](https://pypi.org/project/py3Dmol/) y [matplotlib](https://matplotlib.org/) (por defecto: True).
 
 `show_sidechains`  
-Solo para Python. `show_sidechains=True` incluye las cadenas laterales de proteínas en el esquema (por defecto: True).  
+Solo para Python. `show_sidechains=True` incluye las cadenas laterales de proteínas en el esquema (por defecto: True).
 
 
 ### Ejemplo
+
 ```bash
 # Predice la estructura de una proteína derivada de su secuencia de aminoácidos
 gget alphafold MAAHKGAEHHHKAAEHHEQAAKHHHAAAEHHEKGEHEQAAHHADTAYAHHKHAEEHAAQAAKHDAEHHAPKPH
@@ -79,18 +80,20 @@ gget.pdb("2K42", save=True)
 <iframe width="560" height="315" src="https://www.youtube.com/embed/4qxGF1tbZ3I?si=mEqQ5oSnDYtg2OP7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 # Tutoriales
-### [🔗 Google Colab tutorial](https://github.com/pachterlab/gget_examples/blob/main/gget_alphafold.ipynb)  
+
+### [🔗 Google Colab tutorial](https://github.com/pachterlab/gget_examples/blob/main/gget_alphafold.ipynb)
 
 ### [🔗 Predicción de la estructura de proteínas con comparación con estructuras cristalinas relacionadas](https://github.com/pachterlab/gget_examples/blob/main/protein_structure_prediction_comparison.ipynb)
 
 ### [🔗 gget alphafold - preguntas más frecuentes](https://github.com/scverse/gget/discussions/39)
 
-# Citar  
+# Citar
+
 Si utiliza `gget alphafold` en una publicación, favor de citar los siguientes artículos:
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
 
 - Jumper, J., Evans, R., Pritzel, A. et al. Highly accurate protein structure prediction with AlphaFold. Nature 596, 583–589 (2021). [https://doi.org/10.1038/s41586-021-03819-2](https://doi.org/10.1038/s41586-021-03819-2) · [Leer en línea](https://webeditions.page/works/highly-accurate-protein-structure-prediction-with-alphafold/?via=placement:94c5cc968a0f9a8240d8)
 
-Y, si corresponde:  
+Y, si corresponde:
 - Evans, R. et al. Protein complex prediction with AlphaFold-Multimer. bioRxiv 2021.10.04.463034; [https://doi.org/10.1101/2021.10.04.463034](https://doi.org/10.1101/2021.10.04.463034)

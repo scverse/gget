@@ -1,12 +1,12 @@
 [<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/es/updates.md)
 
-## ✨ ¡Lo más reciente!  
+## ✨ ¡Lo más reciente!
 
-#### *gget* se unió oficialmente a *scverse* el 9 de junio de 2026. 🥳🥳🥳
+#### _gget_ se unió oficialmente a _scverse_ el 9 de junio de 2026. 🥳🥳🥳
 
-**Versión ≥ 0.30.9** (XXX XX, 2026):  
+**Versión ≥ 0.30.9** (XXX XX, 2026):
 
-**Versión ≥ 0.30.8** (28 de junio de 2026):  
+**Versión ≥ 0.30.8** (28 de junio de 2026):
 - [`gget g2p`](g2p.md): Ahora es suficiente con `gene` o `--uniprot_id` — el que falte se resuelve a través de UniProt y se almacena en caché. Gene→UniProt selecciona la entrada canónica revisada humana de Swiss-Prot; la resolución y sus limitaciones se registran. El par canónico **siempre** se añade al inicio del resultado como columnas `gene_name` / `uniprot_id` (y se almacena en `df.attrs`), por lo que el esquema de salida es invariante independientemente del modo de entrada. Los sitios de llamada existentes siguen funcionando.
   - Nuevo filtro `residues=` (Python: int / list / range / set; CLI `--residues 100,200,300` o `100-200`) restringe `features` / `alignment` a posiciones específicas del lado del cliente.
   - Los resultados de `map` ganan una columna `PDB Ids List` parseada (`list[str]`) junto a la cadena `PDB Ids` unida por comas, para encadenamiento directo con [`gget pdb`](pdb.md).
@@ -27,7 +27,7 @@
 - [`gget bgee`](bgee.md): Las solicitudes salientes a la API de Bgee ahora envían un encabezado `User-Agent: gget/<version>` para que el servicio Bgee pueda atribuir (y, si es necesario, incluir en la lista de permitidos) el tráfico de gget, mejorando la resiliencia contra el bloqueo intermitente de solicitudes.
 
 
-**Versión ≥ 0.30.7** (21 de junio de 2026):  
+**Versión ≥ 0.30.7** (21 de junio de 2026):
 - [`gget cellxgene`](cellxgene.md): Se añadió soporte para las tres especies de primates no humanos disponibles en el CZ CELLxGENE Census LTS `2025-11-08`: macaco rhesus (`macaca_mulatta`), tití común (`callithrix_jacchus`), y chimpancé (`pan_troglodytes`).
   - El parámetro `species` (tanto en Python como en línea de comandos) ahora acepta los cinco organismos compatibles; los `choices` de la CLI, el texto de ayuda, y las docstrings los enumeran.
   - Se agregó validación temprana del parámetro `species` que lanza un `ValueError` claro listando las especies compatibles, en lugar de fallar más tarde dentro de la llamada al API de Census.
@@ -73,7 +73,7 @@
 - [`gget blast`](blast.md): Se corrigió la compatibilidad con versiones más nuevas de pandas (≥ 2.0) donde `pd.read_html()` ya no acepta cadenas HTML directamente, causando un error `FileNotFoundError` / `OSError: Filename too long` al analizar los resultados de BLAST
 - [`gget cosmic`](cosmic.md): Se agregaron argumentos overwrite y gzip a los componentes internos.
 
-**Versión ≥ 0.30.3** (26 de febrero de 2026):  
+**Versión ≥ 0.30.3** (26 de febrero de 2026):
 - [`gget virus`](virus.md): Nuevas opciones de filtrado, modo silencioso y mejora en la fiabilidad de descargas
   - Se añadió el filtro `--segment` para virus segmentados (por ejemplo, segmentos de Influenza A como 'HA', 'NA', 'PB1')
   - Se añadió el filtro `--vaccine_strain` para incluir o excluir secuencias de cepas vacunales
@@ -82,8 +82,8 @@
   - Se extendieron las estrategias de respaldo para mejorar la fiabilidad de descarga en conjuntos de datos grandes
   - El archivo de resumen de comandos ahora incluye la versión del software
 
-**Versión ≥ 0.30.2** (08 de febrero de 2026):  
-- [`gget virus`](virus.md): Optimización del streaming de metadatos, mejora del filtrado de proteínas y manejo de errores y lógica de reintentos mejorados  
+**Versión ≥ 0.30.2** (08 de febrero de 2026):
+- [`gget virus`](virus.md): Optimización del streaming de metadatos, mejora del filtrado de proteínas y manejo de errores y lógica de reintentos mejorados
   - Los metadatos ahora se escriben en disco durante la descarga para evitar el agotamiento de memoria en conjuntos de datos grandes (100.000+ registros)
   - Corrección del mapeo del CSV de metadatos (camelCase → snake_case) para nombre del organismo, hospedador y fecha de recolección
   - Mejora del filtrado de proteínas para virus segmentados con un parseo más robusto de los encabezados FASTA
@@ -94,7 +94,7 @@
   - Se añadieron reintentos mejorados para la resolución de nombres de virus
   - Se añadió mayor verbosidad en los pasos de verificación de influenza A y COVID-19
 
-**Versión ≥ 0.30.0** (19 de enero de 2026):  
+**Versión ≥ 0.30.0** (19 de enero de 2026):
 - NUEVOS MÓDULOS:
   - [`gget 8cube`](8cube.md)
   - [`gget virus`](virus.md)
@@ -104,44 +104,44 @@
   - Se reemplazaron llamadas a subprocess con `shell=True` por argumentos basados en listas en [`gget muscle`](muscle.md), [`gget diamond`](diamond.md) y [`gget setup`](setup.md) para prevenir la inyección de comandos
 
 
-**Versión ≥ 0.29.3** (11 de septiembre de 2025):  
+**Versión ≥ 0.29.3** (11 de septiembre de 2025):
 - [`gget blat`](blat.md): Actualiza la solicitud a la API para los nuevos permisos.
-- [`gget pdb`](pdb.md): Agregado el sitio web de `wwpdb`, retrocede a `rcsb` si las solicitudes fallan.  
+- [`gget pdb`](pdb.md): Agregado el sitio web de `wwpdb`, retrocede a `rcsb` si las solicitudes fallan.
 - [`gget cellxgene`](cellxgene.md): Mejora el manejo de argumentos; el frontend no cambia.
 - [`gget setup`](setup.md)/[`gget alphafold`](alphafold.md): Corrige el error pip_cmd en `gget.setup("alphafold")`.
 
-**Versión ≥ 0.29.2** (03 de julio de 2025):  
+**Versión ≥ 0.29.2** (03 de julio de 2025):
 - Ahora se puede instalar `gget` usando `uv pip install gget`
-  - Toda la metadata del paquete (versión, autor, descripción, etc.) ahora se gestiona en `setup.cfg` para una compatibilidad total con herramientas modernas como `uv`, `pip` y PyPI  
+  - Toda la metadata del paquete (versión, autor, descripción, etc.) ahora se gestiona en `setup.cfg` para una compatibilidad total con herramientas modernas como `uv`, `pip` y PyPI
   - `gget` ahora utiliza un `setup.py` mínimo y es completamente compatible con PEP 517/518
-- [`gget setup`](setup.md) intentará usar primero `uv pip install` por su velocidad y resolución moderna de dependencias, y recurrirá a `pip install` si `uv` falla o no está disponible  
-  - Se informa a los usuarios en cada paso qué instalador se está utilizando y si se realiza un reintento  
+- [`gget setup`](setup.md) intentará usar primero `uv pip install` por su velocidad y resolución moderna de dependencias, y recurrirá a `pip install` si `uv` falla o no está disponible
+  - Se informa a los usuarios en cada paso qué instalador se está utilizando y si se realiza un reintento
   - **Nota**: Algunas dependencias científicas (por ejemplo, `cellxgene-census`) pueden no ser compatibles todavía con Python 3.12. Si encuentras errores de instalación, prueba usar Python 3.9 o 3.10. (La instalación con `pip` también podría funcionar en estos casos.)
 - Todas las dependencias requeridas ahora están listadas en `setup.cfg` bajo `install_requires` → Instalar gget con `pip install .` o `uv pip install .` instalará automáticamente todas las dependencias
 
-**Versión ≥ 0.29.1** (21 de abril de 2025):  
-- [`gget mutate`](mutate.md):  
+**Versión ≥ 0.29.1** (21 de abril de 2025):
+- [`gget mutate`](mutate.md):
   - gget mutate se ha simplificado para enfocarse en recibir como entrada una lista de mutaciones y el genoma de referencia correspondiente con información de anotación asociada, y producir como salida las secuencias con la mutación incorporada y una región corta de contexto circundante. Para la funcionalidad completa de la versión anterior y cómo se integra en el contexto de un pipeline de análisis de variantes novedosas, visita el repositorio varseek que está siendo desarrollado por miembros del equipo de gget en https://github.com/pachterlab/varseek.git.
   - Se añadió información adicional a los data frames retornados, como se describe aquí: https://github.com/scverse/gget/pull/169
-- [`gget cosmic`](cosmic.md):  
+- [`gget cosmic`](cosmic.md):
   - Reestructuración importante del módulo `gget cosmic` para cumplir con los nuevos requisitos de inicio de sesión establecidos por COSMIC
   - Se añadieron nuevos argumentos `email` y `password` para permitir que el usuario introduzca manualmente sus credenciales sin necesidad de input adicional para la descarga de datos
   - Cambio por defecto: `gget_mutate=False`
   - Argumento en desuso: `entity`
   - Argumento `mutation_class` ahora es `cosmic_project`
-- [`gget bgee`](bgee.md):  
+- [`gget bgee`](bgee.md):
   - `type="orthologs"` ahora es el valor por defecto, eliminando la necesidad de especificar el argumento `type` al consultar ortólogos
   - Se permite la consulta de múltiples genes a la vez.
-- [`gget diamond`](diamond.md):  
+- [`gget diamond`](diamond.md):
   - Ahora soporta alineamiento traducido de secuencias nucleotídicas contra secuencias de referencia de aminoácidos usando la opción `--translated`.
-- [`gget elm`](elm.md):  
+- [`gget elm`](elm.md):
   - Mejorado el manejo de errores del servidor.
 
-**Versión ≥ 0.29.0** (25 de septiembre de 2024):  
+**Versión ≥ 0.29.0** (25 de septiembre de 2024):
 - **Nuevos módulos:**
-    - [`gget cbio`](cbio.md)
-    - [`gget opentargets`](opentargets.md)
-    - [`gget bgee`](bgee.md)
+  - [`gget cbio`](cbio.md)
+  - [`gget opentargets`](opentargets.md)
+  - [`gget bgee`](bgee.md)
 - **[`gget enrichr`](./enrichr.md) ahora también soporta especies además de humano y ratón (mosca, levadura, gusano y pez) a través de [modEnrichR](https://maayanlab.cloud/modEnrichr/)**
 - [`gget mutate`](./mutate.md):  
   `gget mutate` ahora fusionará secuencias idénticas en el archivo final por defecto. La creación de mutaciones fue vectorizada para disminuir el tiempo de ejecución. Se mejoró la verificación de la secuencia flanqueante para mutaciones no sustitutivas para asegurarse de que no se retenga ningún kmer silvestre en la secuencia que contiene la mutación. Se agregó varios nuevos argumentos para personalizar la generación de secuencias y la salida.
@@ -152,9 +152,9 @@
 - [`gget info`](./info.md) y [`gget seq`](./seq.md):  
   Se cambió a la API POST de Ensembl para aumentar la velocidad (nada cambia en el front end).
 - Otros cambios "detrás de escena":
-    - Pruebas unitarias reorganizadas para aumentar la velocidad y disminuir el código
-    - Requisitos actualizados para [permitir versiones más nuevas de mysql-connector](https://github.com/scverse/gget/pull/159)
-    - [Soporte para Numpy>= 2.0](https://github.com/scverse/gget/issues/157)
+  - Pruebas unitarias reorganizadas para aumentar la velocidad y disminuir el código
+  - Requisitos actualizados para [permitir versiones más nuevas de mysql-connector](https://github.com/scverse/gget/pull/159)
+  - [Soporte para Numpy>= 2.0](https://github.com/scverse/gget/issues/157)
 
 **Versión ≥ 0.28.6 (2 de junio de 2024):**
 - **Nuevo módulo: [`gget mutate`](./mutate.md)**
@@ -165,9 +165,8 @@
 ~~**Version ≥ 0.28.5** (May 29, 2024):~~
 - Retirado debido a un error con 'logging' en `gget.setup("alphafold")` + mutaciones de inversión en `gget mutate` solo invierten la cadena en lugar de también calcular la hebra complementaria
 
-**Versión ≥ 0.28.4** (31 de enero de 2024):  
-- [`gget setup`](./setup.md): soluciona el error con la ruta del archivo al ejecutar `gget.setup("elm")` en el sistema operativo Windows.  
-
+**Versión ≥ 0.28.4** (31 de enero de 2024):
+- [`gget setup`](./setup.md): soluciona el error con la ruta del archivo al ejecutar `gget.setup("elm")` en el sistema operativo Windows.
 **Versión ≥ 0.28.3** (22 de enero de 2024):
 - **[`gget search`](./search.md) y [`gget ref`](./ref.md) ahora también admiten hongos 🍄, protistas 🌝 y metazoos de invertebrados 🐝 🐜 🐌 🐙 (además de vertebrados y plantas)**
 - **Nuevo módulo: [`gget cosmic`](./cosmic.md)**
@@ -194,11 +193,11 @@
 - [`gget elm`](elm.md): agrega el argumento `expand`
 
 **Versión ≥ 0.28.0** (5 de noviembre de 2023):
-- Documentación actualizada de [`gget muscle`](./muscle.md) para agregar un tutorial sobre cómo visualizar secuencias con diferentes longitudes de nombres de secuencia + ligero cambio en la visualización devuelta para que sea un poco más sólida ante diferentes nombres de secuencia  
+- Documentación actualizada de [`gget muscle`](./muscle.md) para agregar un tutorial sobre cómo visualizar secuencias con diferentes longitudes de nombres de secuencia + ligero cambio en la visualización devuelta para que sea un poco más sólida ante diferentes nombres de secuencia
 - [`gget muscle`](./muscle.md) ahora también permite una lista de secuencias como entrada (como alternativa a proporcionar la ruta a un archivo FASTA)
 - Permitir filtro de genes faltante para [`gget cellxgene`](cellxgene.md) (corrige [error](https://github.com/scverse/gget/issues/110))
-- [`gget seq`](./seq.md): permite nombres de genes faltantes (correccione [https://github.com/scverse/gget/issues/107](https://github.com/scverse/gget /números/107))  
-- Nuevos argumentos para [`gget enrichr`](enrichr.md): use el argumento `kegg_out` y `kegg_rank` para crear una imagen de la vía KEGG con los genes del análisis de enriquecimiento resaltados (gracias a [este PR](https ://github.com/scverse/gget/pull/106) por [Noriaki Sato](https://github.com/noriakis))  
+- [`gget seq`](./seq.md): permite nombres de genes faltantes (correccione [https://github.com/scverse/gget/issues/107](https://github.com/scverse/gget /números/107))
+- Nuevos argumentos para [`gget enrichr`](enrichr.md): use el argumento `kegg_out` y `kegg_rank` para crear una imagen de la vía KEGG con los genes del análisis de enriquecimiento resaltados (gracias a [este PR](https ://github.com/scverse/gget/pull/106) por [Noriaki Sato](https://github.com/noriakis))
 - Nuevos módulos: [`gget elm`](elm.md) y [`gget Diamond`](diamond.md)
 
 **Versión ≥ 0.27.9** (7 de agosto de 2023):
@@ -214,8 +213,8 @@
 - Dependencias [`gget alphafold`](alphafold.md) actualizadas para compatibilidad con Python >= 3.10
 - Se agregó el argumento `census_version` a [`gget cellxgene`](cellxgene.md)
 
-**Versión ≥ 0.27.6** (1 de mayo de 2023) (TIRO debido a problemas con las dependencias -> reemplazada por la versión 0.27.7):  
-- Gracias a el PR de [Tomás Di Domenico](https://github.com/tdido): [`gget search`](search.md) ahora también puede consultar los ID de plantas 🌱 Ensembl  
+**Versión ≥ 0.27.6** (1 de mayo de 2023) (TIRO debido a problemas con las dependencias -> reemplazada por la versión 0.27.7):
+- Gracias a el PR de [Tomás Di Domenico](https://github.com/tdido): [`gget search`](search.md) ahora también puede consultar los ID de plantas 🌱 Ensembl
 - Nuevo módulo: [`gget cellxgene`](cellxgene.md)
 
 **Versión ≥ 0.27.5** (6 de abril de 2023):

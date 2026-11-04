@@ -7,13 +7,13 @@
 If you use `gget` in a publication, please cite:  
 Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
 
-- If using `gget alphafold`, please also cite:  
+- If using `gget alphafold`, please also cite:
   - Jumper, J., Evans, R., Pritzel, A. et al. Highly accurate protein structure prediction with AlphaFold. Nature 596, 583–589 (2021). [https://doi.org/10.1038/s41586-021-03819-2](https://doi.org/10.1038/s41586-021-03819-2)
 
-  And, if applicable:  
+  And, if applicable:
   - Evans, R. et al. Protein complex prediction with AlphaFold-Multimer. bioRxiv 2021.10.04.463034; [https://doi.org/10.1101/2021.10.04.463034](https://doi.org/10.1101/2021.10.04.463034)
 
-- If using `gget archs4`, please also cite:  
+- If using `gget archs4`, please also cite:
   - Lachmann A, Torre D, Keenan AB, Jagodnik KM, Lee HJ, Wang L, Silverstein MC, Ma’ayan A. Massive mining of publicly available RNA-seq data from human and mouse. Nature Communications 9. Article number: 1366 (2018), doi:10.1038/s41467-018-03751-6
 
   - Bray NL, Pimentel H, Melsted P and Pachter L, Near optimal probabilistic RNA-seq quantification, Nature Biotechnology 34, p 525--527 (2016). [https://doi.org/10.1038/nbt.3519](https://doi.org/10.1038/nbt.3519)
@@ -21,10 +21,10 @@ Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference data
 - If using `gget bgee`, please also cite:
   - Frederic B Bastian, Julien Roux, Anne Niknejad, Aurélie Comte, Sara S Fonseca Costa, Tarcisio Mendes de Farias, Sébastien Moretti, Gilles Parmentier, Valentine Rech de Laval, Marta Rosikiewicz, Julien Wollbrett, Amina Echchiki, Angélique Escoriza, Walid H Gharib, Mar Gonzales-Porta, Yohan Jarosz, Balazs Laurenczy, Philippe Moret, Emilie Person, Patrick Roelli, Komal Sanjeev, Mathieu Seppey, Marc Robinson-Rechavi (2021). The Bgee suite: integrated curated expression atlas and comparative transcriptomics in animals. Nucleic Acids Research, Volume 49, Issue D1, 8 January 2021, Pages D831–D847, [https://doi.org/10.1093/nar/gkaa793](https://doi.org/10.1093/nar/gkaa793)
 
-- If using `gget blast`, please also cite:  
+- If using `gget blast`, please also cite:
   - Altschul SF, Gish W, Miller W, Myers EW, Lipman DJ. Basic local alignment search tool. J Mol Biol. 1990 Oct 5;215(3):403-10. doi: 10.1016/S0022-2836(05)80360-2. PMID: 2231712.
 
-- If using `gget blat`, please also cite:  
+- If using `gget blat`, please also cite:
   - Kent WJ. BLAT--the BLAST-like alignment tool. Genome Res. 2002 Apr;12(4):656-64. doi: 10.1101/gr.229202. PMID: 11932250; PMCID: PMC187518.
 
 - If using `gget cbio`, please also cite:
@@ -36,13 +36,13 @@ Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference data
 
   - Please also cite the source of the data if you are using a publicly available dataset.
 
-- If using `gget cellxgene`, please also cite:  
+- If using `gget cellxgene`, please also cite:
   - Chanzuckerberg Initiative. (n.d.). CZ CELLxGENE Discover. Retrieved [insert date here], from [https://cellxgene.cziscience.com/](https://cellxgene.cziscience.com/)
 
-- If using `gget cosmic`, please also cite:  
+- If using `gget cosmic`, please also cite:
   - Tate JG, Bamford S, Jubb HC, Sondka Z, Beare DM, Bindal N, Boutselakis H, Cole CG, Creatore C, Dawson E, Fish P, Harsha B, Hathaway C, Jupe SC, Kok CY, Noble K, Ponting L, Ramshaw CC, Rye CE, Speedy HE, Stefancsik R, Thompson SL, Wang S, Ward S, Campbell PJ, Forbes SA. COSMIC: the Catalogue Of Somatic Mutations In Cancer. Nucleic Acids Res. 2019 Jan 8;47(D1):D941-D947. doi: [10.1093/nar/gky1015](https://doi.org/10.1093/nar/gky1015). PMID: 30371878; PMCID: PMC6323903.
 
-- If using `gget diamond`, please also cite:  
+- If using `gget diamond`, please also cite:
   - Buchfink, B., Xie, C. & Huson, D. Fast and sensitive protein alignment using DIAMOND. Nat Methods 12, 59–60 (2015). [https://doi.org/10.1038/nmeth.3176](https://doi.org/10.1038/nmeth.3176)
 
 - If using `gget elm`, please also cite:
@@ -50,7 +50,7 @@ Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference data
 
   - Manjeet Kumar, Sushama Michael, Jesús Alvarado-Valverde, Bálint Mészáros, Hugo Sámano‐Sánchez, András Zeke, Laszlo Dobson, Tamas Lazar, Mihkel Örd, Anurag Nagpal, Nazanin Farahi, Melanie Käser, Ramya Kraleti, Norman E Davey, Rita Pancsa, Lucía B Chemes, Toby J Gibson, The Eukaryotic Linear Motif resource: 2022 release, Nucleic Acids Research, Volume 50, Issue D1, 7 January 2022, Pages D497–D508, [https://doi.org/10.1093/nar/gkab975](https://doi.org/10.1093/nar/gkab975)
 
-- If using `gget enrichr`, please also cite:  
+- If using `gget enrichr`, please also cite:
   - Chen EY, Tan CM, Kou Y, Duan Q, Wang Z, Meirelles GV, Clark NR, Ma'ayan A. Enrichr: interactive and collaborative HTML5 gene list enrichment analysis tool. BMC Bioinformatics. 2013; 128(14). [https://doi.org/10.1186/1471-2105-14-128 ](https://doi.org/10.1186/1471-2105-14-128)
 
   - Kuleshov MV, Jones MR, Rouillard AD, Fernandez NF, Duan Q, Wang Z, Koplev S, Jenkins SL, Jagodnik KM, Lachmann A, McDermott MG, Monteiro CD, Gundersen GW, Ma'ayan A. Enrichr: a comprehensive gene set enrichment analysis web server 2016 update. Nucleic Acids Research. 2016; gkw377. doi: [10.1093/nar/gkw377](https://doi.org/10.1093/nar/gkw377)
@@ -67,7 +67,7 @@ Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference data
 
   - The UniProt Consortium , UniProt: the Universal Protein Knowledgebase in 2023, Nucleic Acids Research, Volume 51, Issue D1, 6 January 2023, Pages D523–D531, [https://doi.org/10.1093/nar/gkac1052](https://doi.org/10.1093/nar/gkac1052)
 
-- If using `gget muscle`, please also cite:  
+- If using `gget muscle`, please also cite:
   - Edgar RC (2021), MUSCLE v5 enables improved estimates of phylogenetic tree confidence by ensemble bootstrapping, bioRxiv 2021.06.20.449169. [https://doi.org/10.1101/2021.06.20.449169](https://doi.org/10.1101/2021.06.20.449169)
 
 - If using `gget opentargets`, please also cite:
@@ -84,6 +84,8 @@ Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference data
 
   - The UniProt Consortium , UniProt: the Universal Protein Knowledgebase in 2023, Nucleic Acids Research, Volume 51, Issue D1, 6 January 2023, Pages D523–D531, [https://doi.org/10.1093/nar/gkac1052](https://doi.org/10.1093/nar/gkac1052)
 
-___
-# Disclaimer  
+---
+
+# Disclaimer
+
 `gget` is only as accurate as the databases/servers/APIs it queries from. The accuracy or reliability of the data is not guaranteed or warranted in any way and the providers disclaim liability of any kind whatsoever, including, without limitation, liability for quality, performance, merchantability and fitness for a particular purpose arising out of the use, or inability to use the data.

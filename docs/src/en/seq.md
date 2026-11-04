@@ -2,6 +2,7 @@
 
 > Python arguments are equivalent to long-option arguments (`--arg`), unless otherwise specified. Flags are True/False arguments in Python. The manual for any gget tool can be called from the command-line using the `-h` `--help` flag.  
 # gget seq 🧬
+
 Fetch nucleotide or amino acid sequence(s) of a gene (and all its isoforms) or a transcript by Ensembl ID.  
 Return format: FASTA.
 
@@ -29,7 +30,8 @@ Command-line only. Prevents progress information from being displayed.
 Python: Use `verbose=False` to prevent progress information from being displayed.
 
 
-### Examples  
+### Examples
+
 ```bash
 gget seq ENSG00000034713 ENSG00000104853 ENSG00000170296
 ```
@@ -37,7 +39,7 @@ gget seq ENSG00000034713 ENSG00000104853 ENSG00000170296
 # Python
 gget.seq(["ENSG00000034713", "ENSG00000104853", "ENSG00000170296"])
 ```
-&rarr; Returns the nucleotide sequences of ENSG00000034713, ENSG00000104853, and ENSG00000170296 in FASTA format.  
+&rarr; Returns the nucleotide sequences of ENSG00000034713, ENSG00000104853, and ENSG00000170296 in FASTA format.
 
 
 ```bash
@@ -52,7 +54,8 @@ gget.seq("ENSG00000034713", translate=True, isoforms=True)
 #### [More examples](https://github.com/pachterlab/gget_examples)
 
 # References
-If you use `gget seq` in a publication, please cite the following articles:  
+
+If you use `gget seq` in a publication, please cite the following articles:
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
 
