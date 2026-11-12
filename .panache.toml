@@ -1,6 +1,6 @@
 #:schema https://panache.bz/panache.schema.json
 flavor = "gfm"
-extend-exclude = ["docs/src/*/dependents.md", "tests/fixtures/"]
+extend-exclude = ["docs/src/*/dependents.md", "docs/src/es/", "tests/fixtures/"]  # bot-generated (dependents, translations)
 
 [format]
 wrap = "preserve"
