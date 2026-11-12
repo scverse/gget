@@ -1,4 +1,5 @@
 # gget
+
 [![pypi version](https://img.shields.io/pypi/v/gget)](https://pypi.org/project/gget)
 [![Downloads](https://static.pepy.tech/personalized-badge/gget?period=total&units=international_system&left_color=grey&right_color=brightgreen&left_text=downloads)](https://pepy.tech/project/gget)
 [![Conda](https://img.shields.io/conda/dn/bioconda/gget?logo=Anaconda)](https://anaconda.org/bioconda/gget)
@@ -14,22 +15,26 @@
 
 ![alt text](https://github.com/pachterlab/gget/blob/main/figures/gget_overview.png?raw=true)
 
-If you use `gget` in a publication, please [cite*](https://pachterlab.github.io/gget/en/cite.html):  
+If you use `gget` in a publication, please [cite*](https://pachterlab.github.io/gget/en/cite.html):
+
 ```
 Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. https://doi.org/10.1093/bioinformatics/btac836
 ```
-Read the article here: https://doi.org/10.1093/bioinformatics/btac836  
+Read the article here: https://doi.org/10.1093/bioinformatics/btac836
 
 # Installation
+
 ```bash
 uv pip install gget
 ```
 or
+
 ```bash
 pip install --upgrade gget
 ```
 
 Install from source:
+
 ```bash
 git clone https://github.com/scverse/gget.git
 cd gget
@@ -37,14 +42,18 @@ uv pip install .
 ```
 
 For use in Jupyter Lab / Google Colab:
+
 ```python
 # Python
 import gget
 ```
+
 # [🔗 Manual](https://pachterlab.github.io/gget)
 
 # 🪄 Quick start guide
+
 Command line:
+
 ```bash
 # Fetch all Homo sapiens reference and annotation FTPs from the latest Ensembl release
 $ gget ref homo_sapiens
@@ -91,7 +100,8 @@ $ gget setup cellxgene # setup only needs to be run once
 $ gget cellxgene --gene ACE2 SLC5A1 --tissue lung --cell_type 'mucus secreting cell' -o example_adata.h5ad
 ```
 Python (Jupyter Lab / Google Colab):
-```python  
+
+```python
 import gget
 gget.ref("homo_sapiens")
 gget.search(["ace2", "angiotensin converting enzyme 2"], "homo_sapiens")
@@ -113,6 +123,7 @@ gget.setup("cellxgene") # setup only needs to be run once
 gget.cellxgene(gene = ["ACE2", "SLC5A1"], tissue = "lung", cell_type = "mucus secreting cell")
 ```
 Call `gget` from R using [reticulate](https://rstudio.github.io/reticulate/):
+
 ```r
 system("pip install gget")
 install.packages("reticulate")
@@ -132,6 +143,7 @@ gget$archs4("ACE2", which="tissue")
 gget$pdb("1R42", save=TRUE)
 gget$virus("Zika virus", host="Homo sapiens", nuc_completeness="complete")
 ```
+
 #### [More tutorials](https://github.com/pachterlab/gget_examples)
 
 <p align="center">

@@ -1,0 +1,8 @@
+#:schema https://panache.bz/panache.schema.json
+flavor = "gfm"
+extend-exclude = ["docs/src/*/dependents.md"]
+
+[format]
+wrap = "preserve"
+smart-punctuation = "unicode"
+tab-stops = "preserve"
