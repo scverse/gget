@@ -13,11 +13,11 @@ Nucleotide or amino acid sequence, or path to FASTA or .txt file.
 
 **Optional arguments**\
 `-st` `--seqtype`\
-‘DNA’, ‘protein’, ‘translated%20RNA’, or ‘translated%20DNA’.\
-Default: ‘DNA’ for nucleotide sequences; ‘protein’ for amino acid sequences.
+'DNA', 'protein', 'translated%20RNA', or 'translated%20DNA'.\
+Default: 'DNA' for nucleotide sequences; 'protein' for amino acid sequences.
 
 `-a` `--assembly`\
-‘human’ (hg38) (default), ‘mouse’ (mm39), ‘zebrafinch’ (taeGut2),\
+'human' (hg38) (default), 'mouse' (mm39), 'zebrafinch' (taeGut2),\
 or any of the species assemblies available [here](https://genome.ucsc.edu/cgi-bin/hgBlat) (use short assembly name).
 
 `-o` `--out`\
@@ -44,9 +44,9 @@ gget.blat("MKWMFKEDHSLEHRCVESAKIRAKYPDRVPVIVEKVSGSQIVDIDKRKYLVPSDITVAQFMWIIRKRIQ
 ```
 &rarr; Returns BLAT results for assembly taeGut2 (zebra finch). In the above example, `gget blat` automatically detects this sequence as an amino acid sequence and therefore sets the BLAT seqtype to *protein*.
 
-  | genome  | query_size | aligned_start | aligned_end | matches | mismatches | %_aligned | …   |
+  | genome  | query_size | aligned_start | aligned_end | matches | mismatches | %_aligned | ... |
   | ------- | ---------- | ------------- | ----------- | ------- | ---------- | --------- | --- |
-  | taeGut2 | 88         | 12            | 88          | 77      | 0          | 87.5      | …   |
+  | taeGut2 | 88         | 12            | 88          | 77      | 0          | 87.5      | ... |
 
 #### [More examples](https://github.com/pachterlab/gget_examples)
 

@@ -4,7 +4,7 @@
 
 # gget archs4 🐁
 
-Find the most correlated genes to a gene of interest or find the gene’s tissue expression atlas using [ARCHS4](https://maayanlab.cloud/archs4/).\
+Find the most correlated genes to a gene of interest or find the gene's tissue expression atlas using [ARCHS4](https://maayanlab.cloud/archs4/).\
 Return format: JSON (command-line) or data frame/CSV (Python).
 
 > **Note on the data source:** `gget archs4` queries the legacy ARCHS4 HTTP endpoints at `maayanlab.cloud`, which are lightweight and still maintained. ARCHS4 has since launched a new site ([archs4.org](https://archs4.org)) with a larger, more up-to-date dataset, but its programmatic access is provided only via the [`archs4py`](https://github.com/MaayanLab/archs4py) package and multi-GB HDF5 downloads (there is currently no equivalent lightweight HTTP API to query). `gget archs4` therefore continues to use the legacy endpoints. A possible future migration is tracked in [issue 254](https://github.com/scverse/gget/issues/254).
@@ -16,12 +16,12 @@ Alternatively: use flag `--ensembl` to input an Ensembl gene IDs, e.g. ENSG00000
 
 **Optional arguments**\
  `-w` `--which`\
-‘correlation’ (default) or ‘tissue’.\
-‘correlation’ returns a gene correlation table that contains the 100 most correlated genes to the gene of interest. The Pearson correlation is calculated over all samples and tissues in [ARCHS4](https://maayanlab.cloud/archs4/).\
-‘tissue’ returns a tissue expression atlas calculated from human or mouse samples (as defined by ‘species’) in [ARCHS4](https://maayanlab.cloud/archs4/).
+'correlation' (default) or 'tissue'.\
+'correlation' returns a gene correlation table that contains the 100 most correlated genes to the gene of interest. The Pearson correlation is calculated over all samples and tissues in [ARCHS4](https://maayanlab.cloud/archs4/).\
+'tissue' returns a tissue expression atlas calculated from human or mouse samples (as defined by 'species') in [ARCHS4](https://maayanlab.cloud/archs4/).
 
 `-s` `--species`\
-‘human’ (default) or ‘mouse’.\
+'human' (default) or 'mouse'.\
 Defines whether to use human or mouse samples from [ARCHS4](https://maayanlab.cloud/archs4/).\
 (Only for tissue expression atlas.)
 

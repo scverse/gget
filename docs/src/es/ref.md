@@ -11,18 +11,18 @@ Regresa: Resultados en formato JSON.
 `species`\
 La especie por la cual que se buscará los FTP en el formato género_especies, p. ej. homo_sapiens.\
 Nota: No se requiere cuando se llama a la bandera `--list_species`.\
-Accesos directos: ‘human’, ‘mouse’, ‘human_grch37’ (accede al ensamblaje del genoma GRCh37)
+Accesos directos: 'human', 'mouse', 'human_grch37' (accede al ensamblaje del genoma GRCh37)
 
 **Parámetros optionales**\
 `-w` `--which`\
-Define qué resultados devolver. Por defecto: ‘all’ -> Regresa todos los resultados disponibles.\
+Define qué resultados devolver. Por defecto: 'all' -> Regresa todos los resultados disponibles.\
 Las entradas posibles son uno solo o una combinación de las siguientes (como lista separada por comas):\
-‘gtf’ - Regresa la anotación (GTF).\
-‘cdna’ - Regresa el transcriptoma (cDNA).\
-‘dna’ - Regresa el genoma (DNA).\
-‘cds’ - Regresa las secuencias codificantes correspondientes a los genes Ensembl. (No contiene UTR ni secuencia intrónica).\
-‘cdrna’ - Regresa secuencias de transcripción correspondientes a genes de ARN no codificantes (ncRNA).\
-‘pep’ - Regresa las traducciones de proteínas de los genes Ensembl.
+'gtf' - Regresa la anotación (GTF).\
+'cdna' - Regresa el transcriptoma (cDNA).\
+'dna' - Regresa el genoma (DNA).\
+'cds' - Regresa las secuencias codificantes correspondientes a los genes Ensembl. (No contiene UTR ni secuencia intrónica).\
+'cdrna' - Regresa secuencias de transcripción correspondientes a genes de ARN no codificantes (ncRNA).\
+'pep' - Regresa las traducciones de proteínas de los genes Ensembl.
 
 `-r` `--release`\
 Define el número de versión de Ensembl desde el que se obtienen los archivos, p. ej. 104. Default: latest Ensembl release.

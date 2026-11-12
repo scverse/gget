@@ -13,12 +13,12 @@ Nucleotide or amino acid sequence, or path to FASTA or .txt file.
 
 **Optional arguments**\
 `-p` `--program`\
-‘blastn’, ‘blastp’, ‘blastx’, ‘tblastn’, or ‘tblastx’.\
-Default: ‘blastn’ for nucleotide sequences; ‘blastp’ for amino acid sequences.
+'blastn', 'blastp', 'blastx', 'tblastn', or 'tblastx'.\
+Default: 'blastn' for nucleotide sequences; 'blastp' for amino acid sequences.
 
 `-db` `--database`\
-‘nt’, ‘nr’, ‘refseq_rna’, ‘refseq_protein’, ‘swissprot’, ‘pdbaa’, or ‘pdbnt’.\
-Default: ‘nt’ for nucleotide sequences; ‘nr’ for amino acid sequences.\
+'nt', 'nr', 'refseq_rna', 'refseq_protein', 'swissprot', 'pdbaa', or 'pdbnt'.\
+Default: 'nt' for nucleotide sequences; 'nr' for amino acid sequences.\
 [More info on BLAST databases](https://ncbi.github.io/blast-cloud/blastdb/available-blastdbs.html)
 
 `-l` `--limit`\
@@ -60,10 +60,10 @@ gget.blast("MKWMFKEDHSLEHRCVESAKIRAKYPDRVPVIVEKVSGSQIVDIDKRKYLVPSDITVAQFMWIIRKRI
 ```
 &rarr; Returns the BLAST result of the sequence of interest. `gget blast` automatically detects this sequence as an amino acid sequence and therefore sets the BLAST program to *blastp* with database *nr*.
 
-  | Description                                     | Scientific Name              | Common Name | Taxid  | Max Score | Total Score | Query Cover | …   |
-  | ----------------------------------------------- | ---------------------------- | ----------- | ------ | --------- | ----------- | ----------- | --- |
-  | PREDICTED: gamma-aminobutyric acid receptor-as… | Colobus angolensis palliatus | NaN         | 336983 | 180       | 180         | 100%        | …   |
-  | . . .                                           | . . .                        | . . .       | . . .  | . . .     | . . .       | . . .       | …   |
+  | Description                                       | Scientific Name              | Common Name | Taxid  | Max Score | Total Score | Query Cover | ... |
+  | ------------------------------------------------- | ---------------------------- | ----------- | ------ | --------- | ----------- | ----------- | --- |
+  | PREDICTED: gamma-aminobutyric acid receptor-as... | Colobus angolensis palliatus | NaN         | 336983 | 180       | 180         | 100%        | ... |
+  | . . .                                             | . . .                        | . . .       | . . .  | . . .     | . . .       | . . .       | ... |
 
 <br/><br/>
 **BLAST from .fa or .txt file:**

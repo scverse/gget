@@ -15,7 +15,7 @@ ID de gen Ensembl, por ejemplo, ENSG00000169194.
 
 **Argumentos opcionales**\
 `-r` `--resource`\
-Define el tipo de información a devolver en la salida. Predeterminado: ‘diseases’ (enfermedades).\
+Define el tipo de información a devolver en la salida. Predeterminado: 'diseases' (enfermedades).\
 Los recursos posibles son:
 
   | Recurso            | Valor devuelto                                                         | Filtros válidos                                   | Fuentes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
@@ -37,7 +37,7 @@ Ruta al archivo JSON donde se guardarán los resultados, por ejemplo, path/to/di
 Python: `save=True` guardará la salida en el directorio de trabajo actual.
 
 `--filters`\
-Filtrar resultados por igualdad exacta usando nombres de columnas de OpenTargets devueltos. Pase múltiples filtros repitiendo la bandera, p. ej. ‘–filter disease.id=EFO_0000274 –filter drug.id=CHEMBL1743081’. Los campos anidados usan notación de punto, coincidiendo con los nombres de columna devueltos por la API.
+Filtrar resultados por igualdad exacta usando nombres de columnas de OpenTargets devueltos. Pase múltiples filtros repitiendo la bandera, p. ej. '--filter disease.id=EFO_0000274 --filter drug.id=CHEMBL1743081'. Los campos anidados usan notación de punto, coincidiendo con los nombres de columna devueltos por la API.
 
 **Banderas**\
 `-csv` `--csv`\
@@ -68,9 +68,9 @@ gget.opentargets('ENSG00000169194', resource='diseases', limit=1)
 ```
 &rarr; Devuelve la principal enfermedad asociada con el gen ENSG00000169194.
 
-  | id          | name               | description                                                         | score            |
-  | ----------- | ------------------ | ------------------------------------------------------------------- | ---------------- |
-  | EFO_0000274 | atopic&nbsp;eczema | A chronic inflammatory genetically determined disease of the skin … | 0.66364347241831 |
+  | id          | name               | description                                                           | score            |
+  | ----------- | ------------------ | --------------------------------------------------------------------- | ---------------- |
+  | EFO_0000274 | atopic&nbsp;eczema | A chronic inflammatory genetically determined disease of the skin ... | 0.66364347241831 |
 
 <br/><br/>
 
@@ -87,10 +87,10 @@ gget.opentargets('ENSG00000169194', resource='drugs', limit=2)
 
 &rarr; Devuelve los 2 principales medicamentos asociados con el gen ENSG00000169194.
 
-  | id            | name         | type     | action_mechanism                    | description                                                | synonyms                                           | trade_names           | disease_id  | disease_name                  | trial_phase | trial_status | trial_ids     | approved |
-  | ------------- | ------------ | -------- | ----------------------------------- | ---------------------------------------------------------- | -------------------------------------------------- | --------------------- | ----------- | ----------------------------- | ----------- | ------------ | ------------- | -------- |
-  | CHEMBL1743081 | TRALOKINUMAB | Antibody | Interleukin&#8209;13&nbsp;inhibitor | Antibody drug with a maximum clinical trial phase of IV …  | [‘CAT-354’, ‘Tralokinumab’]                        | [‘Adbry’, ‘Adtralza’] | EFO_0000274 | atopic&nbsp;eczema            | 4           |              | []            | True     |
-  | CHEMBL4297864 | CENDAKIMAB   | Antibody | Interleukin&#8209;13&nbsp;inhibitor | Antibody drug with a maximum clinical trial phase of III … | [ABT-308, Abt-308, CC-93538, Cendakimab, RPC-4046] | []                    | EFO_0004232 | eosinophilic&nbsp;esophagitis | 3           | Recruiting   | [NCT04991935] | False    |
+  | id            | name         | type     | action_mechanism                    | description                                                  | synonyms                                           | trade_names           | disease_id  | disease_name                  | trial_phase | trial_status | trial_ids     | approved |
+  | ------------- | ------------ | -------- | ----------------------------------- | ------------------------------------------------------------ | -------------------------------------------------- | --------------------- | ----------- | ----------------------------- | ----------- | ------------ | ------------- | -------- |
+  | CHEMBL1743081 | TRALOKINUMAB | Antibody | Interleukin&#8209;13&nbsp;inhibitor | Antibody drug with a maximum clinical trial phase of IV ...  | ['CAT-354', 'Tralokinumab']                        | ['Adbry', 'Adtralza'] | EFO_0000274 | atopic&nbsp;eczema            | 4           |              | []            | True     |
+  | CHEMBL4297864 | CENDAKIMAB   | Antibody | Interleukin&#8209;13&nbsp;inhibitor | Antibody drug with a maximum clinical trial phase of III ... | [ABT-308, Abt-308, CC-93538, Cendakimab, RPC-4046] | []                    | EFO_0004232 | eosinophilic&nbsp;esophagitis | 3           | Recruiting   | [NCT04991935] | False    |
 
 *Note: Los `trial_ids` devueltos son identificadores de [ClinicalTrials.gov](https://clinicaltrials.gov)*
 
@@ -132,9 +132,9 @@ gget.opentargets('ENSG00000169194', resource='pharmacogenetics', limit=1)
 
 &rarr; Devuelve respuestas farmacogenéticas para el gen ENSG00000169194.
 
-  | rs_id     | genotype_id       | genotype | variant_consequence_id | variant_consequence_label | drugs                                                                                                                                   | phenotype                                                               | genotype_annotation                                                                                        | response_category | direct_target | evidence_level | source   | literature |
-  | --------- | ----------------- | -------- | ---------------------- | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ----------------- | ------------- | -------------- | -------- | ---------- |
-  | rs1295686 | 5_132660151_T_T,T | TT       | SO:0002073             | no_sequence_alteration    | &nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name<br/>0&nbsp;&nbsp;None&nbsp;&nbsp;hepatitis&nbsp;vaccines | increased risk for non&#8209;immune response to the hepatitis B vaccine | Patients with the TT genotype may be at increased risk for non-immune response to the hepatitis B vaccine… | efficacy          | False         | 3              | pharmgkb | [21111021] |
+  | rs_id     | genotype_id       | genotype | variant_consequence_id | variant_consequence_label | drugs                                                                                                                                   | phenotype                                                               | genotype_annotation                                                                                          | response_category | direct_target | evidence_level | source   | literature |
+  | --------- | ----------------- | -------- | ---------------------- | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ----------------- | ------------- | -------------- | -------- | ---------- |
+  | rs1295686 | 5_132660151_T_T,T | TT       | SO:0002073             | no_sequence_alteration    | &nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name<br/>0&nbsp;&nbsp;None&nbsp;&nbsp;hepatitis&nbsp;vaccines | increased risk for non&#8209;immune response to the hepatitis B vaccine | Patients with the TT genotype may be at increased risk for non-immune response to the hepatitis B vaccine... | efficacy          | False         | 3              | pharmgkb | [21111021] |
 
 *Note: Los identificadores de `literature` devueltos son identificadores de [PMC de Europa](https://europepmc.org/article/med/)*
 

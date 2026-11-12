@@ -5,7 +5,7 @@
 # gget search 🔎
 
 Obtenga genes y transcripciones de [Ensembl](https://www.ensembl.org/) usando términos de búsqueda de forma libre.\
-Los resultados se comparan según las secciones “nombre del gen” y “descripción” en la base de datos de Ensembl. `gget` versión >= 0.27.9 también incluye resultados que coinciden con la sección “sinónimo” de Ensembl.\
+Los resultados se comparan según las secciones "nombre del gen" y "descripción" en la base de datos de Ensembl. `gget` versión >= 0.27.9 también incluye resultados que coinciden con la sección "sinónimo" de Ensembl.\
 Regresa: Resultados en formato JSON (Terminal) o Dataframe/CSV (Python).
 
 Antes de usar `gget search` por primera vez, ejecuta `gget setup search` / `gget.setup("search")` una vez (ver también [`gget setup`](setup.md)), o instala gget con el extra `search`: `pip install "gget[search]"`. Esto instala la dependencia opcional [`mysql-connector-python`](https://pypi.org/project/mysql-connector-python/), que no se instala por defecto porque tiene licencia GPL.
@@ -17,14 +17,14 @@ Una o más palabras de búsqueda de forma libre, p. ej. gaba nmda. (Nota: la bú
 **Otros parámetros requeridos**\
 `-s` `--species`\
 Especies o base de datos a buscar.\
-Una especie se puede pasar en el formato ‘género_especie’, p. ej. ‘homo_sapiens’ o ‘arabidopsis_thaliana’.\
-Para pasar una base de datos específica, pase el nombre de la base de datos CORE, p. ej. ‘mus_musculus_dba2j_core_105_1’.
+Una especie se puede pasar en el formato 'género_especie', p. ej. 'homo_sapiens' o 'arabidopsis_thaliana'.\
+Para pasar una base de datos específica, pase el nombre de la base de datos CORE, p. ej. 'mus_musculus_dba2j_core_105_1'.
 
 Todas las bases de datos disponibles para cada versión de Ensembl se pueden encontrar aquí:\
 Vertebrados: [http://ftp.ensembl.org/pub/current/mysql/](http://ftp.ensembl.org/pub/current/mysql/)\
 Invertebrados: [http://ftp.ensemblgenomes.org/pub/current/](http://ftp.ensemblgenomes.org/pub/current/) + selecciona reino animal + selecciona mysql/
 
-Accesos directos: ‘human’, ‘mouse’
+Accesos directos: 'human', 'mouse'
 
 **Parámetros optionales**\
 `-r` `--release`\
@@ -35,13 +35,13 @@ Nota: *No se aplica a las especies invertebrados* (en su lugar, puede pasar una 
 Este argumento se sobrescribe si se pasa una base de datos específica (que incluye un número de publicación) al argumento `species`.
 
 `-t` `--id_type`\
-‘gene’ (esto se use por defecto) o ‘transcript’\
+'gene' (esto se use por defecto) o 'transcript'\
 Regesa genes o transcripciones, respectivamente.
 
 `-ao` `--andor`\
-‘or’ (esto se use por defecto) o ‘and’\
-‘or’ (‘o’): Regresa todos los genes que INCLUYEN AL MENOS UNA de las palabras de búsqueda en su nombre/descripción.\
-‘and’ (‘y’): Regresa solo los genes que INCLUYEN TODAS las palabras de búsqueda en su nombre/descripción.
+'or' (esto se use por defecto) o 'and'\
+'or' ('o'): Regresa todos los genes que INCLUYEN AL MENOS UNA de las palabras de búsqueda en su nombre/descripción.\
+'and' ('y'): Regresa solo los genes que INCLUYEN TODAS las palabras de búsqueda en su nombre/descripción.
 
 `-l` `--limit`\
 Limita el número de resultados de búsqueda, p. ej. 10. Por defecto: None.

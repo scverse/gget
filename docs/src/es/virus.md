@@ -16,7 +16,7 @@ Este módulo fue escrito por [Ferdous Nasri](https://github.com/ferbsx).
 
 **Argumento posicional**\
 `virus`
-Nombre del taxón viral (p. ej., ‘Zika virus’), ID de taxón (p. ej., ‘2697049’), número de acceso de NCBI (p. ej., ‘NC_045512.2’), lista de números de acceso separados por espacios (p. ej., ‘NC_045512.2 MN908947.3 MT020781.1’) o ruta a un archivo de texto que contenga números de acceso (uno por línea) (p. ej., ‘path/to/text.txt’).
+Nombre del taxón viral (p. ej., 'Zika virus'), ID de taxón (p. ej., '2697049'), número de acceso de NCBI (p. ej., 'NC_045512.2'), lista de números de acceso separados por espacios (p. ej., 'NC_045512.2 MN908947.3 MT020781.1') o ruta a un archivo de texto que contenga números de acceso (uno por línea) (p. ej., 'path/to/text.txt').
 
 Añada `--is_accession` al proporcionar un número de acceso de NCBI. Añada `--is_sars_cov2` o `--is_alphainfluenza` para la descarga optimizada de secuencias de SARS-CoV-2 o Alphainfluenza, respectivamente.
 
@@ -33,13 +33,13 @@ Use la opción `--download_all_accessions` para aplicar filtros sin buscar un vi
 *Filtros de hospedador*
 
 `--host`\
-Filtra por nombre del organismo hospedador o ID de Taxonomía de NCBI (p. ej. ‘human’, ‘Aedes aegypti’, `1335626`).
+Filtra por nombre del organismo hospedador o ID de Taxonomía de NCBI (p. ej. 'human', 'Aedes aegypti', `1335626`).
 
 *Filtros de Secuencia y Gen*
 
 `--nuc_completeness`\
-Filtrar por integridad del nucleótido. Una de las siguientes opciones: ‘complete’ o ‘partial’.\
-Establezca ‘complete’ para devolver únicamente secuencias de nucleótidos marcadas como completas; establezca ‘partial’ para devolver únicamente secuencias marcadas como parciales.
+Filtrar por integridad del nucleótido. Una de las siguientes opciones: 'complete' o 'partial'.\
+Establezca 'complete' para devolver únicamente secuencias de nucleótidos marcadas como completas; establezca 'partial' para devolver únicamente secuencias marcadas como parciales.
 
 `--min_seq_length`\
 Filtra por longitud mínima de secuencia.
@@ -73,13 +73,13 @@ Filtra por número máximo de péptidos maduros.\
 Filtra por número máximo de caracteres nucleotídicos ambiguos (N).
 
 `--has_proteins`\
-Filtra por secuencias que contengan proteínas o genes específicos (p. ej. ‘spike’, ‘ORF1ab’). Puede ser un solo nombre de proteína o una lista de nombres de proteínas. Cualquier proteína que coincida mantendrá la secuencia.\
+Filtra por secuencias que contengan proteínas o genes específicos (p. ej. 'spike', 'ORF1ab'). Puede ser un solo nombre de proteína o una lista de nombres de proteínas. Cualquier proteína que coincida mantendrá la secuencia.\
 Línea de comandos: `--has_proteins spike` o `--has_proteins hemagglutinin,neuraminidase` (separados por comas, sin espacios)\
 Python: `has_proteins="spike"` o `has_proteins=["spike", "ORF1ab"]`\
 **Nota:** El uso de este filtro habilita automáticamente la obtención de metadatos de GenBank (`-g`).
 
 `--segment`\
-Filtra por secuencias con segmento(s) específico(s) (p. ej. ‘HA’, ‘NA’). Puede ser un solo nombre de segmento o una lista de nombres de segmentos. Cualquier segmento que coincida mantendrá la secuencia.\
+Filtra por secuencias con segmento(s) específico(s) (p. ej. 'HA', 'NA'). Puede ser un solo nombre de segmento o una lista de nombres de segmentos. Cualquier segmento que coincida mantendrá la secuencia.\
 Línea de comandos: `--segment HA` o `--segment HA,NA,PB1` (separados por comas, sin espacios)\
 Python: `segment="HA"` o `segment=["HA", "NA", "PB1"]`
 
@@ -121,7 +121,7 @@ Filtra por fecha máxima de liberación de la secuencia (YYYY-MM-DD).
 *Filtros de ubicación y remitente*
 
 `--geographic_location`\
-Filtra por ubicación geográfica de la recolección de la muestra (p. ej. ‘USA’, ‘Asia’).
+Filtra por ubicación geográfica de la recolección de la muestra (p. ej. 'USA', 'Asia').
 
 `--submitter_name`\
 Filtra por el nombre del autor remitente. Puede ser un solo nombre o una lista de nombres. Cualquier nombre que coincida mantendrá la secuencia.\
@@ -139,22 +139,22 @@ Línea de comandos: `--submitter_country USA` o `--submitter_country USA,Germany
 Python: `submitter_country="USA"` o `submitter_country=["USA", "Germany", "Japan"]`
 
 `--source_database`\
-Filtra por base de datos de origen. Uno de: ‘genbank’ o ‘refseq’.
+Filtra por base de datos de origen. Uno de: 'genbank' o 'refseq'.
 
 *Filtros de muestra y aislado*
 
 `--isolate`\
-Filtra por nombre de aislado (p. ej. ‘Wuhan-hu-1’). Puede ser un solo nombre de aislado o una lista de nombres de aislados. Cualquier aislado que coincida mantendrá la secuencia.\
+Filtra por nombre de aislado (p. ej. 'Wuhan-hu-1'). Puede ser un solo nombre de aislado o una lista de nombres de aislados. Cualquier aislado que coincida mantendrá la secuencia.\
 Línea de comandos: `--isolate Wuhan-hu-1` o `--isolate Wuhan-hu-1,LASV_3609` (separados por comas, sin espacios)\
 Python: `isolate="Wuhan-hu-1"` o `isolate=["Wuhan-hu-1", "LASV_3609"]`
 
 `--isolation_source`\
-Filtra por fuente de aislamiento (tejido/espécimen/fuente) (p. ej. ‘blood’, ‘serum’). Puede ser una sola fuente o una lista de fuentes. Cualquier fuente que coincida mantendrá la secuencia.\
+Filtra por fuente de aislamiento (tejido/espécimen/fuente) (p. ej. 'blood', 'serum'). Puede ser una sola fuente o una lista de fuentes. Cualquier fuente que coincida mantendrá la secuencia.\
 Línea de comandos: `--isolation_source blood` o `--isolation_source blood,serum,plasma` (separados por comas, sin espacios)\
 Python: `isolation_source="blood"` o `isolation_source=["blood", "serum", "plasma"]`
 
 `--env_source`\
-Filtra por fuente ambiental (p. ej. ‘water’, ‘sewage’). Excluye cualquier secuencia con hospedadores nombrados. NO combinar con el filtro `--host`. Puede ser una sola fuente o una lista de fuentes. Cualquier fuente que coincida mantendrá la secuencia.\
+Filtra por fuente ambiental (p. ej. 'water', 'sewage'). Excluye cualquier secuencia con hospedadores nombrados. NO combinar con el filtro `--host`. Puede ser una sola fuente o una lista de fuentes. Cualquier fuente que coincida mantendrá la secuencia.\
 Línea de comandos: `--env_source water` o `--env_source water,soil,air` (separados por comas, sin espacios)\
 Python: `env_source="water"` o `env_source=["water", "soil", "air"]`\
 **Nota:** El uso de este filtro habilita automáticamente la obtención de metadatos de GenBank (`-g`).
@@ -162,13 +162,13 @@ Python: `env_source="water"` o `env_source=["water", "soil", "air"]`\
 *Filtros de clasificación viral*
 
 `--genotype`\
-Filtra por genotipo (p. ej. ‘H5N1’, ‘H3N2’). Puede ser un solo genotipo o una lista de genotipos. Cualquier genotipo que coincida mantendrá la secuencia.\
+Filtra por genotipo (p. ej. 'H5N1', 'H3N2'). Puede ser un solo genotipo o una lista de genotipos. Cualquier genotipo que coincida mantendrá la secuencia.\
 Línea de comandos: `--genotype H5N1` o `--genotype H5N1,H3N2` (separados por comas, sin espacios)\
 Python: `genotype="H5N1"` o `genotype=["H5N1", "H3N2"]`\
 **Nota:** El uso de este filtro habilita automáticamente la obtención de metadatos de GenBank (`-g`).
 
 `--gen_mol_type`\
-Filtra por tipo de molécula genómica (p. ej. ‘dsDNA’, ‘RNA’). Puede ser un solo tipo o una lista de tipos. Cualquier tipo de molécula que coincida mantendrá la secuencia.\
+Filtra por tipo de molécula genómica (p. ej. 'dsDNA', 'RNA'). Puede ser un solo tipo o una lista de tipos. Cualquier tipo de molécula que coincida mantendrá la secuencia.\
 Línea de comandos: `--gen_mol_type dsDNA` o `--gen_mol_type RNA,dsRNA` (separados por comas, sin espacios)\
 Python: `gen_mol_type="dsDNA"` o `gen_mol_type=["RNA", "dsRNA"]`\
 **Nota:** El uso de este filtro habilita automáticamente la obtención de metadatos de GenBank (`-g`).
@@ -176,7 +176,7 @@ Python: `gen_mol_type="dsDNA"` o `gen_mol_type=["RNA", "dsRNA"]`\
 *Filtros específicos de SARS-CoV-2*
 
 `--lineage`\
-Filtra por linaje Pango de SARS-CoV-2 (p. ej. ‘B.1.1.7’, ‘P.1’). Puede ser un solo linaje o una lista de linajes. Cualquier linaje que coincida mantendrá la secuencia.\
+Filtra por linaje Pango de SARS-CoV-2 (p. ej. 'B.1.1.7', 'P.1'). Puede ser un solo linaje o una lista de linajes. Cualquier linaje que coincida mantendrá la secuencia.\
 Línea de comandos: `--lineage B.1.1.7` o `--lineage B.1.1.7,P.1` (separados por comas, sin espacios)\
 Python: `lineage="B.1.1.7"` o `lineage=["B.1.1.7", "P.1"]`
 
@@ -191,7 +191,7 @@ Python: `outfolder="path/to/folder"`
 
 `--baseline`\
 Ruta a un archivo de metadatos de referencia (CSV, JSONL, JSON o texto) que contiene accesiones a omitir. Solo se descargarán las accesiones nuevas que no se encuentren en la referencia. Útil para actualizaciones incrementales o para reanudar después de fallos de la API.\
-Los archivos CSV deben tener una columna ‘accession’. Los archivos de texto deben tener una accesión por línea.\
+Los archivos CSV deben tener una columna 'accession'. Los archivos de texto deben tener una accesión por línea.\
 Python: `baseline_metadata="path/to/previous_metadata.csv"`
 
 `--merge-results`\
@@ -288,7 +288,7 @@ gget.virus(
 )
 ```
 
-→ Uses cached download for speed (via NCBI’s SARS-CoV-2 data packages when available), applies the sequence length filter post-download, and fetches detailed GenBank metadata for all filtered sequences.
+→ Uses cached download for speed (via NCBI's SARS-CoV-2 data packages when available), applies the sequence length filter post-download, and fetches detailed GenBank metadata for all filtered sequences.
 
 <br><br>
 **Descargar secuencias del virus de la Influenza A con caché optimizada y filtrado posterior a la descarga:**

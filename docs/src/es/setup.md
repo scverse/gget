@@ -11,7 +11,7 @@ Función para instalar/descargar dependencias de terceros para un módulo de gge
 **Parámetro posicional**\
 `module`\
 Módulo gget para el que se deben instalar las dependencias.\
-Elige entre: “alphafold”, “gpt”, “cellxgene”, “elm”, “cbio”, o “search”
+Elige entre: "alphafold", "gpt", "cellxgene", "elm", "cbio", o "search"
 
 **Parámetros optionales**\
 `-o` `--out`\

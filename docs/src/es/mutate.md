@@ -11,8 +11,8 @@ Este módulo fue coescrito por [Joseph Rich](https://github.com/josephrich98).
 
 **Argumento posicional**\
 `sequences`\
-Ruta al archivo FASTA que contiene las secuencias a ser mutadas, por ejemplo, ‘path/to/seqs.fa’.\
-Los identificadores de las secuencias que siguen al carácter ‘>’ deben corresponder a los identificadores en la columna seq_ID de `mutations`.
+Ruta al archivo FASTA que contiene las secuencias a ser mutadas, por ejemplo, 'path/to/seqs.fa'.\
+Los identificadores de las secuencias que siguen al carácter '>' deben corresponder a los identificadores en la columna seq_ID de `mutations`.
 
 Formato de ejemplo del archivo FASTA:
 
@@ -23,14 +23,14 @@ ACTGCGATAGACT
 AGATCGCTAG
 ```
 
-Alternativamente: Secuencia(s) de entrada como una cadena o lista, por ejemplo, ‘AGCTAGCT’.
+Alternativamente: Secuencia(s) de entrada como una cadena o lista, por ejemplo, 'AGCTAGCT'.
 
 NOTA: Solo se utilizarán las letras hasta el primer espacio o punto como identificadores de secuencias; se ignorarán los números de versión de los IDs de Ensembl.\
 NOTA: Cuando la entrada `sequences` es un archivo fasta de genoma, consulte también el argumento `gtf` a continuación.
 
 **Argumentos requeridos**\
 `-m` `--mutations`\
-Ruta al archivo csv o tsv (por ejemplo, ‘path/to/mutations.csv’) o marco de datos (objeto DataFrame) que contiene información sobre las mutaciones en el siguiente formato (las columnas ‘notes’ y ‘mut_ID’ son opcionales):
+Ruta al archivo csv o tsv (por ejemplo, 'path/to/mutations.csv') o marco de datos (objeto DataFrame) que contiene información sobre las mutaciones en el siguiente formato (las columnas 'notes' y 'mut_ID' son opcionales):
 
   | mutation        | mut_ID | seq_ID | notes                                  |
   | --------------- | ------ | ------ | -------------------------------------- |
@@ -38,29 +38,29 @@ Ruta al archivo csv o tsv (por ejemplo, ‘path/to/mutations.csv’) o marco de 
   | c.9_13inv       | mut2   | seq2   | -> Aplicar mutación 2 a la secuencia 2 |
   | c.9_13inv       | mut2   | seq4   | -> Aplicar mutación 2 a la secuencia 4 |
   | c.9_13delinsAAT | mut3   | seq4   | -> Aplicar mutación 3 a la secuencia 4 |
-  | …               | …      | …      |                                        |
+  | ...             | ...    | ...    |                                        |
 
-‘mutation’ = Columna que contiene las mutaciones a realizar escritas en la anotación estándar de mutaciones\
-‘mut_ID’ = Columna que contiene el identificador para cada mutación\
-‘seq_ID’ = Columna que contiene los identificadores de las secuencias a ser mutadas (deben corresponder a la cadena que sigue al carácter ‘>’ en el archivo FASTA ‘sequences’; NO incluya espacios ni puntos)
+'mutation' = Columna que contiene las mutaciones a realizar escritas en la anotación estándar de mutaciones\
+'mut_ID' = Columna que contiene el identificador para cada mutación\
+'seq_ID' = Columna que contiene los identificadores de las secuencias a ser mutadas (deben corresponder a la cadena que sigue al carácter '>' en el archivo FASTA 'sequences'; NO incluya espacios ni puntos)
 
-Alternativamente: Mutación(es) de entrada como una cadena o lista, por ejemplo, ‘c.2C>T’.\
+Alternativamente: Mutación(es) de entrada como una cadena o lista, por ejemplo, 'c.2C>T'.\
 Si se proporciona una lista, el número de mutaciones debe ser igual al número de secuencias de entrada.
 
 Para usar desde la terminal (bash): Enciérrale las anotaciones de mutación individuales entre comillas para evitar errores de análisis.
 
 **Argumentos opcionales relacionados con la entrada**\
 `-mc` `--mut_column`\
-Nombre de la columna que contiene las mutaciones a realizar en `mutations`. Predeterminado: ‘mutation’.
+Nombre de la columna que contiene las mutaciones a realizar en `mutations`. Predeterminado: 'mutation'.
 
 `-sic` `--seq_id_column`\
-Nombre de la columna que contiene los ID de las secuencias a ser mutadas en `mutations`. Predeterminado: ‘seq_ID’.
+Nombre de la columna que contiene los ID de las secuencias a ser mutadas en `mutations`. Predeterminado: 'seq_ID'.
 
 `-mic` `--mut_id_column`\
 Nombre de la columna que contiene los IDs de cada mutación en `mutations`. Predeterminado: Igual que `mut_column`.
 
 `-gtf` `--gtf`\
-Ruta a un archivo .gtf. Al proporcionar un archivo fasta de genoma como entrada para ‘sequences’, puede proporcionar un archivo .gtf aquí y las secuencias de entrada se definirán de acuerdo con los límites de los transcritos, por ejemplo, ‘path/to/genome_annotation.gtf’. Predeterminado: Ninguno
+Ruta a un archivo .gtf. Al proporcionar un archivo fasta de genoma como entrada para 'sequences', puede proporcionar un archivo .gtf aquí y las secuencias de entrada se definirán de acuerdo con los límites de los transcritos, por ejemplo, 'path/to/genome_annotation.gtf'. Predeterminado: Ninguno
 
 `-gtic` `--gtf_transcript_id_column`\
 Nombre de la columna en el archivo de entrada `mutations` que contiene el ID del transcrito. En este caso, la columna `seq_id_column` debe contener el número de cromosoma.\
@@ -75,7 +75,7 @@ Si k > longitud total de la secuencia, se mantendrá toda la secuencia.
 Longitud mínima de la secuencia de salida mutante, por ejemplo, 100. Las secuencias mutantes más pequeñas que esto serán descartadas. Predeterminado: Ninguno
 
 `-ma` `--max_ambiguous`\
-Número máximo de caracteres ‘N’ (o ‘n’) permitidos en la secuencia de salida, por ejemplo, 10. Predeterminado: Ninguno (no se aplicará filtro de caracteres ambiguos)
+Número máximo de caracteres 'N' (o 'n') permitidos en la secuencia de salida, por ejemplo, 10. Predeterminado: Ninguno (no se aplicará filtro de caracteres ambiguos)
 
 **Banderas opcionales para la generación/filtrado de secuencias mutantes**\
 `-ofr` `--optimize_flanking_regions`\
@@ -92,8 +92,8 @@ No fusionar secuencias mutantes idénticas en la salida (por defecto, las secuen
 Esta salida se activa utilizando la bandera `--update_df` y se almacenará en una copia del DataFrame `mutations`.
 
 `-udf_o` `--update_df_out`\
-Ruta al archivo csv de salida que contiene el DataFrame actualizado, por ejemplo, ‘path/to/mutations_updated.csv’. Solo válido cuando se usa con `--update_df`.\
-Predeterminado: Ninguno -> el nuevo archivo csv se guardará en el mismo directorio que el DataFrame `mutations` con el apéndice ‘_updated’
+Ruta al archivo csv de salida que contiene el DataFrame actualizado, por ejemplo, 'path/to/mutations_updated.csv'. Solo válido cuando se usa con `--update_df`.\
+Predeterminado: Ninguno -> el nuevo archivo csv se guardará en el mismo directorio que el DataFrame `mutations` con el apéndice '_updated'
 
 `-ts` `--translate_start`\
 (int o str) La posición en la secuencia de nucleótidos de entrada para comenzar a traducir, por ejemplo, 5. Si se proporciona una cadena, debe corresponder a un nombre de columna en `mutations` que contenga las posiciones de inicio del marco de lectura abierto para cada secuencia/mutación. Solo válido cuando se usa con `--translate`.\
@@ -115,9 +115,9 @@ Agrega columnas adicionales al DataFrame actualizado `mutations` que contienen l
 
 **Argumentos generales opcionales**\
 `-o` `--out`\
-Ruta al archivo FASTA de salida que contiene las secuencias mutadas, por ejemplo, ‘path/to/output_fasta.fa’.\
+Ruta al archivo FASTA de salida que contiene las secuencias mutadas, por ejemplo, 'path/to/output_fasta.fa'.\
 Predeterminado: Ninguno -> devuelve una lista de las secuencias mutadas a la salida estándar.\
-Los identificadores (que siguen al ‘>’) de las secuencias mutadas en el FASTA de salida serán ‘>[seq_ID]_[mut_ID]’.
+Los identificadores (que siguen al '>') de las secuencias mutadas en el FASTA de salida serán '>[seq_ID]_[mut_ID]'.
 
 **Banderas generales opcionales**\
 `-q` `--quiet`\
@@ -146,7 +146,7 @@ gget mutate ATCGCTAAGCT TAGCTA -m 'c.4G>T' 'c.1_3inv' -o mut_fasta.fa
 # Python
 gget.mutate(["ATCGCTAAGCT", "TAGCTA"], ["c.4G>T", "c.1_3inv"], out="mut_fasta.fa")
 ```
-&rarr; Guarda el archivo ‘mut_fasta.fa’ que contiene:
+&rarr; Guarda el archivo 'mut_fasta.fa' que contiene:
 
 ```
 >seq1_mut1  
@@ -166,7 +166,7 @@ gget mutate ATCGCTAAGCT TAGCTA -m 'c.1_3inv' -k 3
 # Python
 gget.mutate(["ATCGCTAAGCT", "TAGCTA"], "c.1_3inv", k=3)
 ```
-&rarr; Devuelve [‘CTAGCT’, ‘GATCTA’].
+&rarr; Devuelve ['CTAGCT', 'GATCTA'].
 
 <br/><br/>
 
@@ -220,7 +220,7 @@ gget.mutate(
   translate_end="Translate_End"
 )
 ```
-&rarr; Toma un genoma fasta (‘genome_reference.fa’) y un archivo gtf (‘genome_annotation.gtf’) (estos se pueden descargar usando [`gget ref`](ref.md)), así como un archivo ‘mutations_input.csv’ que contiene:
+&rarr; Toma un genoma fasta ('genome_reference.fa') y un archivo gtf ('genome_annotation.gtf') (estos se pueden descargar usando [`gget ref`](ref.md)), así como un archivo 'mutations_input.csv' que contiene:
 
 ```
 | Chromosome | Mutation          | Ensembl_Transcript_ID  | Translate_Start | Translate_End |
@@ -229,7 +229,7 @@ gget.mutate(
 | 8          | g.25111del        | ENST00000174411        | 0               | 294           |
 | X          | g.1011_1012insAA  | ENST00000421914        | 9               | 1211          |
 ```
-&rarr; Guarda el archivo ‘mut_fasta.fa’ que contiene:
+&rarr; Guarda el archivo 'mut_fasta.fa' que contiene:
 
 ```
 >1:g.224411A>C  
@@ -239,7 +239,7 @@ GAGTCGAT
 >X:g.1011_1012insAA
 TTAGAACTT
 ```
-&rarr; Guarda el archivo ‘mutations_updated.csv’ que contiene:
+&rarr; Guarda el archivo 'mutations_updated.csv' que contiene:
 
 ```
 

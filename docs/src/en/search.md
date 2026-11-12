@@ -5,7 +5,7 @@
 # gget search 🔎
 
 Fetch genes and transcripts from [Ensembl](https://www.ensembl.org/) using free-form search terms.\
-Results are matched based on the “gene name” and “description” sections in the Ensembl database. `gget` version >= 0.27.9 also includes results that match the Ensembl “synonym” section.\
+Results are matched based on the "gene name" and "description" sections in the Ensembl database. `gget` version >= 0.27.9 also includes results that match the Ensembl "synonym" section.\
 Return format: JSON (command-line) or data frame/CSV (Python).
 
 Before using `gget search` for the first time, run `gget setup search` / `gget.setup("search")` once (also see [`gget setup`](setup.md)), or install gget with the `search` extra: `pip install "gget[search]"`. This installs the optional dependency [`mysql-connector-python`](https://pypi.org/project/mysql-connector-python/), which is not installed by default because it is GPL-licensed.
@@ -17,14 +17,14 @@ One or more free form search words, e.g. gaba nmda. (Note: Search is not case-se
 **Other required arguments**\
 `-s` `--species`\
 Species or database to be searched.\
-A species can be passed in the format ‘genus_species’, e.g. ‘homo_sapiens’ or ‘arabidopsis_thaliana’.\
-To pass a specific database, pass the name of the CORE database, e.g. ‘mus_musculus_dba2j_core_105_1’.
+A species can be passed in the format 'genus_species', e.g. 'homo_sapiens' or 'arabidopsis_thaliana'.\
+To pass a specific database, pass the name of the CORE database, e.g. 'mus_musculus_dba2j_core_105_1'.
 
 All available core databases can be found here:\
 Vertebrates: [http://ftp.ensembl.org/pub/current/mysql/](http://ftp.ensembl.org/pub/current/mysql/)\
 Invertebrates: [http://ftp.ensemblgenomes.org/pub/current/](http://ftp.ensemblgenomes.org/pub/current/) + select kingdom + go to mysql/
 
-Supported shortcuts: ‘human’, ‘mouse’
+Supported shortcuts: 'human', 'mouse'
 
 **Optional arguments**\
 `-r` `--release`\
@@ -35,13 +35,13 @@ Note: *The release argument does not apply to invertebrate species* (you can pas
 This argument is overwritten if a specific database (which includes a release number) is passed to the species argument.
 
 `-t` `--id_type`\
-‘gene’ (default) or ‘transcript’\
+'gene' (default) or 'transcript'\
 Returns genes or transcripts, respectively.
 
 `-ao` `--andor`\
-‘or’ (default) or ‘and’\
-‘or’: Returns all genes that INCLUDE AT LEAST ONE of the searchwords in their name/description.\
-‘and’: Returns only genes that INCLUDE ALL of the searchwords in their name/description.
+'or' (default) or 'and'\
+'or': Returns all genes that INCLUDE AT LEAST ONE of the searchwords in their name/description.\
+'and': Returns only genes that INCLUDE ALL of the searchwords in their name/description.
 
 `-l` `--limit`\
 Limits the number of search results, e.g. 10. Default: None.

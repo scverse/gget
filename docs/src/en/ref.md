@@ -12,18 +12,18 @@ Return format: dictionary/JSON.
 Species for which the FTPs will be fetched in the format genus_species, e.g. homo_sapiens.\
 Supports all available vertebrate and invertebrate (plants, fungi, protists, and invertebrate metazoa) genomes from Ensembl, except bacteria.\
 Note: Not required when using flags `--list_species` or `--list_iv_species`.\
-Supported shortcuts: ‘human’, ‘mouse’, ‘human_grch37’ (accesses the GRCh37 genome assembly)
+Supported shortcuts: 'human', 'mouse', 'human_grch37' (accesses the GRCh37 genome assembly)
 
 **Optional arguments**\
 `-w` `--which`\
-Defines which results to return. Default: ‘all’ -> Returns all available results.\
+Defines which results to return. Default: 'all' -> Returns all available results.\
 Possible entries are one or a combination (as comma-separated list) of the following:\
-‘gtf’ - Returns the annotation (GTF).\
-‘cdna’ - Returns the trancriptome (cDNA).\
-‘dna’ - Returns the genome (DNA).\
-‘cds’ - Returns the coding sequences corresponding to Ensembl genes. (Does not contain UTR or intronic sequence.)\
-‘cdrna’ - Returns transcript sequences corresponding to non-coding RNA genes (ncRNA).\
-‘pep’ - Returns the protein translations of Ensembl genes.
+'gtf' - Returns the annotation (GTF).\
+'cdna' - Returns the trancriptome (cDNA).\
+'dna' - Returns the genome (DNA).\
+'cds' - Returns the coding sequences corresponding to Ensembl genes. (Does not contain UTR or intronic sequence.)\
+'cdrna' - Returns transcript sequences corresponding to non-coding RNA genes (ncRNA).\
+'pep' - Returns the protein translations of Ensembl genes.
 
 `-r` `--release`\
 Defines the Ensembl release number from which the files are fetched, e.g. 104. Default: latest Ensembl release.

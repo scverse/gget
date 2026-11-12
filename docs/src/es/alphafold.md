@@ -33,7 +33,7 @@ El algoritmo de multímero se reciclara hasta que las predicciones dejen de camb
 Para obtener más exactitud, ajusta este limite a 20 (al costo de ejecuciones mas tardadas).
 
 `-o` `--out`\
-Ruta a la carpeta para guardar los resultados de la predicción (str). Por defecto: “./[fecha_tiempo]_gget_alphafold_prediction”.
+Ruta a la carpeta para guardar los resultados de la predicción (str). Por defecto: "./[fecha_tiempo]_gget_alphafold_prediction".
 
 **Banderas**\
 `-mfm` `--multimer_for_monomer`\
@@ -77,7 +77,7 @@ gget.blast("MAAHKGAEHHHKAAEHHEQAAKHHHAAAEHHEKGEHEQAAHHADTAYAHHKHAEEHAAQAAKHDAEHH
 gget.pdb("3UQ3", save=True)
 gget.pdb("2K42", save=True)
 ```
-&rarr; `gget alphafold` produce la estructura predecida (en formato PDB) y el errór de alineación (en formato json) en una nueva carpeta (“./[fecha_tiempo]_gget_alphafold_prediction”). Este ejemplo demuestra como usar [`gget blast`](blast.md) y [`gget pdb`](pdb.md) para correr un análisis comparativo. Los archivos PDB se pueden ver en 3D con [RCSB 3D view](https://rcsb.org/3d-view), o usando programas como [PyMOL](https://pymol.org/) o [Blender](https://www.blender.org/). Para comparar múltiples archivos PDB, use [RCSB alignment](https://rcsb.org/alignment). Python también produce [esquemas interactivos](https://twitter.com/NeuroLuebbert/status/1555968042948915200), los cuales se pueden generar de los archivos PDB y JSON, como es describido en [gget alphafold FAQ](https://github.com/scverse/gget/discussions/39) Q4.
+&rarr; `gget alphafold` produce la estructura predecida (en formato PDB) y el errór de alineación (en formato json) en una nueva carpeta ("./[fecha_tiempo]_gget_alphafold_prediction"). Este ejemplo demuestra como usar [`gget blast`](blast.md) y [`gget pdb`](pdb.md) para correr un análisis comparativo. Los archivos PDB se pueden ver en 3D con [RCSB 3D view](https://rcsb.org/3d-view), o usando programas como [PyMOL](https://pymol.org/) o [Blender](https://www.blender.org/). Para comparar múltiples archivos PDB, use [RCSB alignment](https://rcsb.org/alignment). Python también produce [esquemas interactivos](https://twitter.com/NeuroLuebbert/status/1555968042948915200), los cuales se pueden generar de los archivos PDB y JSON, como es describido en [gget alphafold FAQ](https://github.com/scverse/gget/discussions/39) Q4.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/4qxGF1tbZ3I?si=mEqQ5oSnDYtg2OP7" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 

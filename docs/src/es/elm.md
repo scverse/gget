@@ -18,7 +18,7 @@ Al proporcionar una Uniprot Acc, use la bandera `--uniprot` (Python: `uniprot=Tr
 
 **Parámetros optionales**\
 `-s` `sensitivity`\
-Sensibilidad de la alineación DIAMOND (str). Por defecto: “very-sensitive” (muy sensible).\
+Sensibilidad de la alineación DIAMOND (str). Por defecto: "very-sensitive" (muy sensible).\
 Uno de los siguientes: fast, mid-sensitive, sensitive, more-sensitive, very-sensitive, or ultra-sensitive.
 
 `-t` `threads`\
@@ -28,7 +28,7 @@ Número de hilos de procesamiento utilizados en la alineación de secuencias con
 Ruta al binario DIAMOND (str). Por defecto: None -> Utiliza el binario DIAMOND instalado automáticamente con `gget`.
 
 `-o` `--out`\
-Ruta al archivo en el que se guardarán los resultados (str), p. ej. “ruta/al/directorio”. Por defecto: salida estándar (STDOUT); los archivos temporales se eliminan.
+Ruta al archivo en el que se guardarán los resultados (str), p. ej. "ruta/al/directorio". Por defecto: salida estándar (STDOUT); los archivos temporales se eliminan.
 
 **Banderas**\
 `-u` `--uniprot`\

@@ -13,12 +13,12 @@ Secuencia de nucleótidos o aminoácidos, o una ruta a un archivo tipo FASTA o .
 
 **Parámetros optionales**\
 `-st` `--seqtype`\
-‘DNA’, ‘protein’, ‘translated%20RNA’, o ‘translated%20DNA’.\
-Por defecto: ‘DNA’ para secuencias de nucleótidos; ‘protein’ para secuencias de aminoácidos.
+'DNA', 'protein', 'translated%20RNA', o 'translated%20DNA'.\
+Por defecto: 'DNA' para secuencias de nucleótidos; 'protein' para secuencias de aminoácidos.
 
 `-a` `--assembly`\
-Ensamblaje del genoma. ‘human’ (hg38) (se usa por defecto), ‘mouse’ (mm39) (ratón), ‘zebrafish’ (taeGut2) (pinzón cebra),\
-o cualquiera de los ensamblajes de especies disponibles [aquí](https://genome.ucsc.edu/cgi-bin/hgBlat) (use el nombre corto del ensamblado, p. ej. ‘hg38’).
+Ensamblaje del genoma. 'human' (hg38) (se usa por defecto), 'mouse' (mm39) (ratón), 'zebrafish' (taeGut2) (pinzón cebra),\
+o cualquiera de los ensamblajes de especies disponibles [aquí](https://genome.ucsc.edu/cgi-bin/hgBlat) (use el nombre corto del ensamblado, p. ej. 'hg38').
 
 `-o` `--out`\
 Ruta al archivo en el que se guardarán los resultados, p. ej. ruta/al/directorio/resultados.csv (o .json). Por defecto: salida estándar (STDOUT).\
@@ -44,9 +44,9 @@ gget.blat("MKWMFKEDHSLEHRCVESAKIRAKYPDRVPVIVEKVSGSQIVDIDKRKYLVPSDITVAQFMWIIRKRIQ
 ```
 &rarr; Produce los resultados de BLAT para el ensamblaje taeGut2 (pinzón cebra). En este ejemplo, `gget blat` automáticamente detecta esta secuencia como una secuencia de aminoácidos y, por lo tanto, establece el tipo de secuencia (`--seqtype`) como *proteína*.
 
-  | genome  | query_size | aligned_start | aligned_end | matches | mismatches | %_aligned | …   |
+  | genome  | query_size | aligned_start | aligned_end | matches | mismatches | %_aligned | ... |
   | ------- | ---------- | ------------- | ----------- | ------- | ---------- | --------- | --- |
-  | taeGut2 | 88         | 12            | 88          | 77      | 0          | 87.5      | …   |
+  | taeGut2 | 88         | 12            | 88          | 77      | 0          | 87.5      | ... |
 
 #### [Màs ejemplos](https://github.com/pachterlab/gget_examples)
 

@@ -224,7 +224,7 @@ gget.cbio_plot(
 )
 ```
 
-&rarr; Saves a heatmap of mutation types for the specified genes in the specified study, filtered by tissue, with the title “Intestinal Mutations” to `./gget_cbio_figures/intestinal_mutations.png`.
+&rarr; Saves a heatmap of mutation types for the specified genes in the specified study, filtered by tissue, with the title "Intestinal Mutations" to `./gget_cbio_figures/intestinal_mutations.png`.
 
 ![Heatmap](https://raw.githubusercontent.com/pachterlab/gget/b32c01efefd55d37c19034ce96a86826e30ae3e5/docs/assets/gget_cbio_figure_4.png)
 

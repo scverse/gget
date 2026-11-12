@@ -21,7 +21,7 @@ Consejo: encuentra el ID de UniProt de un gen con [`gget info`](info.md).
 
 **Parámetros optionales**\
 `-r` `--resource`\
-Define el tipo de información a producir (se usa por defecto: ‘features’):\
+Define el tipo de información a producir (se usa por defecto: 'features'):\
 `features`: Tabla de características de la proteína por residuo (pLDDT de AlphaFold, sitios de UniProt, estructura secundaria, bolsillos predichos, PTMs, etc.).\
 `map`: Mapa de gen → transcrito → isoforma de proteína → estructura (identificadores UniProt/Ensembl/RefSeq/PDB).\
 `alignment`: Alineamiento de secuencia a nivel de residuo entre dos isoformas (requiere `--isoform`; `--uniprot_id` es la isoforma canónica).

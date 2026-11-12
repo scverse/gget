@@ -1,5 +1,4 @@
-Format of dictionaries containing arguments and expected results:
-
+Format of dictionaries containing arguments and expected results:  
 ```
 {
     "test_name": {
@@ -29,7 +28,7 @@ Format of dictionaries containing arguments and expected results:
 }
 ```
 
-Note: Results returned in a DataFrame format need to be converted to a list and NA values should be dropped (df.dropna(axis=1).values.tolist()).
+Note: Results returned in a DataFrame format need to be converted to a list and NA values should be dropped (df.dropna(axis=1).values.tolist()).  
 
-**Test types:**\
+**Test types:**  
 See: https://github.com/scverse/gget/blob/c7044545494ef72c042db1a5c5f116f45fbf28a3/tests/from_json.py#L197C1-L197C7

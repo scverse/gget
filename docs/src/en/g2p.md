@@ -6,7 +6,7 @@
 
 Query the [Genomics 2 Proteins (G2P) portal](https://g2p.broadinstitute.org/) to link genes/proteins to residue-level structural and functional annotations, the gene–transcript–protein–isoform–structure map, and isoform alignments.
 
-The per-residue feature table is rich (~140 columns), including AlphaFold pLDDT, DSSP secondary structure, accessible surface area, UniProt sites (active/binding/domain/…), PhosphoSitePlus PTMs, fpocket / af2bind / p2rank pocket predictions, intra- and inter-chain hydrogen bonds, non-bonded interactions, disulfide bonds and salt bridges (from PDB and AlphaFold), the PFES (Protein Feature Enrichment Score) sub-scores used by G2P for missense variant interpretation, and per-residue MaveDB experimental functional scores. See the [`g2p-bis` documentation](https://github.com/broadinstitute/g2p-bis) for column descriptions.
+The per-residue feature table is rich (~140 columns), including AlphaFold pLDDT, DSSP secondary structure, accessible surface area, UniProt sites (active/binding/domain/...), PhosphoSitePlus PTMs, fpocket / af2bind / p2rank pocket predictions, intra- and inter-chain hydrogen bonds, non-bonded interactions, disulfide bonds and salt bridges (from PDB and AlphaFold), the PFES (Protein Feature Enrichment Score) sub-scores used by G2P for missense variant interpretation, and per-residue MaveDB experimental functional scores. See the [`g2p-bis` documentation](https://github.com/broadinstitute/g2p-bis) for column descriptions.
 
 > Note: this module wraps the *public* G2P REST API. The variant overlays shown in the portal's web UI (gnomAD, ClinVar, HGMD) are not exposed by the public API and are therefore not available via `gget g2p` — use the portal directly for those.
 
@@ -23,12 +23,12 @@ If omitted, resolved from `--uniprot_id`. In this case, note that gene → UniPr
 
 `-u` `--uniprot_id`\
 UniProt accession, e.g. P38398. If omitted, resolved from `gene`. For `--resource alignment` this is the canonical isoform (e.g. P01130-1) and is **required** (gene→UniProt lookup returns the base accession and cannot disambiguate isoforms).\
-Tip: find a gene’s UniProt ID with [`gget search`](search.md) (to get a gene’s Ensembl ID) and [`gget info`](info.md).
+Tip: find a gene's UniProt ID with [`gget search`](search.md) (to get a gene's Ensembl ID) and [`gget info`](info.md).
 
 **Optional arguments**\
 `-r` `--resource`\
-Defines the type of information to return (default: ‘features’):\
-`features`: Per-residue protein feature table (~140 columns: AlphaFold pLDDT, UniProt sites, secondary structure, predicted pockets, PTMs, PFES, MaveDB scores, …).\
+Defines the type of information to return (default: 'features'):\
+`features`: Per-residue protein feature table (~140 columns: AlphaFold pLDDT, UniProt sites, secondary structure, predicted pockets, PTMs, PFES, MaveDB scores, ...).\
 `map`: Gene → transcript → protein isoform → structure map (UniProt/Ensembl/RefSeq/PDB identifiers). The comma-joined `PDB Ids` column is augmented with a parsed `PDB Ids List` column (`list[str]`) for direct consumption (e.g. with [`gget pdb`](pdb.md)).\
 `alignment`: Residue-level sequence alignment between two isoforms (requires `--isoform`; `--uniprot_id` is the canonical isoform).
 

@@ -1,7 +1,7 @@
 # Summary
 
 [Introduction](en/introduction.md)\
-[What’s New?](en/updates.md)\
+[What's New?](en/updates.md)\
 [Dependents & News](en/dependents.md)
 
 # User Guide

@@ -12,21 +12,21 @@ Before using `gget cellxgene` for the first time, run `gget setup cellxgene` / `
 
 **Optional arguments**\
 `-s` `--species`\
-Choice of ‘homo_sapiens’, ‘mus_musculus’, ‘macaca_mulatta’, ‘callithrix_jacchus’, or ‘pan_troglodytes’. Default: ‘homo_sapiens’.\
-Non-human primates (‘macaca_mulatta’, ‘callithrix_jacchus’, ‘pan_troglodytes’) require `--census_version 2025-11-08` (LTS) or newer.
+Choice of 'homo_sapiens', 'mus_musculus', 'macaca_mulatta', 'callithrix_jacchus', or 'pan_troglodytes'. Default: 'homo_sapiens'.\
+Non-human primates ('macaca_mulatta', 'callithrix_jacchus', 'pan_troglodytes') require `--census_version 2025-11-08` (LTS) or newer.
 
 `-g` `--gene`\
  Str or list of gene name(s) or Ensembl ID(s). Default: None.\
  NOTE: Use `-e / --ensembl` (Python: `ensembl=True`) when providing Ensembl ID(s) instead of gene name(s).\
- NOTE: Gene symbols are case sensitive! Use canonical casing when passing gene symbols, e.g., ‘PAX7’ (human), ‘Pax7’ (mouse).\
+ NOTE: Gene symbols are case sensitive! Use canonical casing when passing gene symbols, e.g., 'PAX7' (human), 'Pax7' (mouse).\
  See https://cellxgene.cziscience.com/gene-expression for examples of available genes.
 
  `-cv` `--census_version`\
- Str defining version of Census, e.g. “2023-05-15”, or “latest” or “stable”. Default: “stable”.
+ Str defining version of Census, e.g. "2023-05-15", or "latest" or "stable". Default: "stable".
 
 `-cn` `--column_names`\
 List of metadata columns to return (stored in AnnData.obs).\
-Default: [‘dataset_id’, ‘assay’, ‘suspension_type’, ‘sex’, ‘tissue_general’, ‘tissue’, ‘cell_type’]\
+Default: ['dataset_id', 'assay', 'suspension_type', 'sex', 'tissue_general', 'tissue', 'cell_type']\
 For more options, see: https://api.cellxgene.cziscience.com/curation/ui/#/ -> Schemas -> dataset
 
 `-o` `--out`\
@@ -46,11 +46,11 @@ Python: Use `verbose=False` to prevent progress information from being displayed
 
 **Optional arguments corresponding to CZ CELLxGENE Discover metadata attributes**\
 `--tissue`\
-Str or list of tissue(s), e.g. [‘lung’, ‘blood’]. Default: None.\
+Str or list of tissue(s), e.g. ['lung', 'blood']. Default: None.\
 See https://cellxgene.cziscience.com/gene-expression for examples of available tissues.
 
 `--cell_type`\
-Str or list of cell type (s), e.g. [‘mucus secreting cell’, ‘neuroendocrine cell’]. Default: None.\
+Str or list of cell type (s), e.g. ['mucus secreting cell', 'neuroendocrine cell']. Default: None.\
 See https://cellxgene.cziscience.com/gene-expression and select a tissue to see examples of available cell types.
 
 `--development_stage`\
@@ -60,7 +60,7 @@ Str or list of development stage(s). Default: None.
 Str or list of disease(s). Default: None.
 
 `--sex`\
-Str or list of sex(es), e.g. ‘female’. Default: None.
+Str or list of sex(es), e.g. 'female'. Default: None.
 
 `--dataset_id`\
 Str or list of CELLxGENE dataset ID(s). Default: None.

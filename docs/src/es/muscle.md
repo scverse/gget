@@ -5,7 +5,7 @@
 # gget muscle 🦾
 
 Alinea múltiples secuencias de nucleótidos o aminoácidos usando el algoritmo [Muscle5](https://www.drive5.com/muscle/).\
-Regresa: Salida estándar (STDOUT) en formato ClustalW o archivo de tipo ‘aligned FASTA’ (.afa).
+Regresa: Salida estándar (STDOUT) en formato ClustalW o archivo de tipo 'aligned FASTA' (.afa).
 
 **Parámetro posicional**\
 `fasta`\
@@ -42,7 +42,7 @@ gget muscle fasta.fa
 # Python
 gget.muscle("fasta.fa")
 ```
-&rarr; Regresa las secuencias alineadas con coloración ClustalW. (Para devolver un archivo FASTA alineado (.afa), use el argumento `--out` (o `save=True` en Python).) En este ejemplo, el archivo ‘fasta.fa’ incluye varias secuencias para alineación (por ejemplo, isoformas devueltas desde `gget seq`).
+&rarr; Regresa las secuencias alineadas con coloración ClustalW. (Para devolver un archivo FASTA alineado (.afa), use el argumento `--out` (o `save=True` en Python).) En este ejemplo, el archivo 'fasta.fa' incluye varias secuencias para alineación (por ejemplo, isoformas devueltas desde `gget seq`).
 
 ![alt text](https://github.com/scverse/gget/blob/main/figures/example_muscle_return.png?raw=true)
 

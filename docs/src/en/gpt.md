@@ -6,8 +6,8 @@
 
 # gget gpt 💬
 
-Generates natural language text based on a given prompt using the [OpenAI](https://openai.com/) API’s ‘openai.ChatCompletion.create’ endpoint.
-This module, including its source code, documentation and unit tests, were partly written by OpenAI’s Chat-GTP3.
+Generates natural language text based on a given prompt using the [OpenAI](https://openai.com/) API's 'openai.ChatCompletion.create' endpoint.
+This module, including its source code, documentation and unit tests, were partly written by OpenAI's Chat-GTP3.
 
 Get your OpenAI API key [here](https://platform.openai.com/account/api-keys).\
 You can define a hard monthly billing limit [here](https://platform.openai.com/account/billing/limits).\
@@ -26,7 +26,7 @@ Your OpenAI API key (str) ([get your API key](https://platform.openai.com/accoun
 
 **Optional arguments**\
 `-m` `--model`\
-The name of the GPT model to use for generating the text (str). Default is “gpt-3.5-turbo”.\
+The name of the GPT model to use for generating the text (str). Default is "gpt-3.5-turbo".\
 See https://platform.openai.com/docs/models/gpt-4 for more information on the available models.
 
 `-temp` `--temperature`\
@@ -45,10 +45,10 @@ A sequence of tokens to mark the end of the generated text (str). Default is Non
 Controls the maximum length of the generated text, in tokens (int). Default is 200.
 
 `-pp` `--presence_penalty`\
-Number between -2.0 and 2.0. Higher values result increase the model’s likelihood to talk about new topics (float). Default is 0.
+Number between -2.0 and 2.0. Higher values result increase the model's likelihood to talk about new topics (float). Default is 0.
 
 `-fp` `--frequency_penalty`\
-Number between -2.0 and 2.0. Higher values decrease the model’s likelihood to repeat the same line verbatim (float). Default is 0.
+Number between -2.0 and 2.0. Higher values decrease the model's likelihood to repeat the same line verbatim (float). Default is 0.
 
 `-lb` `--logit_bias`\
 A dictionary that specifies a bias towards certain tokens in the generated text (dict). Default is None.

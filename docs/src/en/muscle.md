@@ -42,7 +42,7 @@ gget muscle fasta.fa
 # Python
 gget.muscle("fasta.fa")
 ```
-&rarr; Returns an overview of the aligned sequences with ClustalW coloring. (To return an aligned FASTA (.afa) file, use `--out` argument (or `save=True` in Jupyter Lab/Google Colab).) In the above example, the ‘fasta.fa’ includes several sequences to be aligned (e.g. isoforms returned from `gget seq`).
+&rarr; Returns an overview of the aligned sequences with ClustalW coloring. (To return an aligned FASTA (.afa) file, use `--out` argument (or `save=True` in Jupyter Lab/Google Colab).) In the above example, the 'fasta.fa' includes several sequences to be aligned (e.g. isoforms returned from `gget seq`).
 
 ![alt text](https://github.com/scverse/gget/blob/main/figures/example_muscle_return.png?raw=true)
 

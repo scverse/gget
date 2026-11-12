@@ -16,12 +16,12 @@ NOTA: Al utilizar este módulo por primera vez, primero descarga una base de dat
 **Argumento posicional (para consultar información)**\
 `searchterm`\
 Término de búsqueda, que puede ser una mutación, un nombre de gen (o ID de Ensembl), una muestra, etc.\
-Ejemplos: ‘EGFR’, ‘ENST00000275493’, ‘c.650A>T’, ‘p.Q217L’, ‘COSV51765119’, ‘BT2012100223LNCTB’ (ID de muestra)\
+Ejemplos: 'EGFR', 'ENST00000275493', 'c.650A>T', 'p.Q217L', 'COSV51765119', 'BT2012100223LNCTB' (ID de muestra)\
 NOTA: (solo en Python) Establecer en `None` al descargar bases de datos de COSMIC con `download_cosmic=True`.
 
 **Argumento obligatorio (para consultar información)**\
 `-ctp` `--cosmic_tsv_path`\
-Ruta al archivo tsv de la base de datos de COSMIC, por ejemplo: ‘path/to/CancerMutationCensus_AllData_v101_GRCh37.tsv’.\
+Ruta al archivo tsv de la base de datos de COSMIC, por ejemplo: 'path/to/CancerMutationCensus_AllData_v101_GRCh37.tsv'.\
 Este archivo se descarga al usar los argumentos descritos debajo para descargar bases de datos.\
 NOTA: Este argumento es obligatorio cuando `download_cosmic=False`.
 
@@ -42,7 +42,7 @@ Crea una versión modificada de la base de datos COSMIC para usar con [`gget mut
 
 **Argumentos opcionales (para descargar bases de datos de COSMIC)**\
 `-cp` `--cosmic_project`\
-‘cancer’ (por defecto), ‘cancer_example’, ‘census’, ‘resistance’, ‘cell_line’, ‘genome_screen’, o ‘targeted_screen’\
+'cancer' (por defecto), 'cancer_example', 'census', 'resistance', 'cell_line', 'genome_screen', o 'targeted_screen'\
 Tipo de base de datos COSMIC a descargar:
 
   | cosmic_project  | Descripción                                                            | Notas                                                                                | Tamaño |
@@ -75,17 +75,17 @@ Indica si se debe conservar la información genómica en la base modificada para
 Indica si se deben eliminar filas duplicadas de la base modificada para usar con `gget mutate`. Por defecto: False
 
 `--seq_id_column`\
-(str) Nombre de la columna de ID de secuencia en el archivo CSV creado por `gget_mutate`. Por defecto: “seq_ID”
+(str) Nombre de la columna de ID de secuencia en el archivo CSV creado por `gget_mutate`. Por defecto: "seq_ID"
 
 `--mutation_column`\
-(str) Nombre de la columna de mutaciones en el archivo CSV creado por `gget_mutate`. Por defecto: “mutation”
+(str) Nombre de la columna de mutaciones en el archivo CSV creado por `gget_mutate`. Por defecto: "mutation"
 
 `--mut_id_column`\
-(str) Nombre de la columna de ID de mutación en el archivo CSV creado por `gget_mutate`. Por defecto: “mutation_id”
+(str) Nombre de la columna de ID de mutación en el archivo CSV creado por `gget_mutate`. Por defecto: "mutation_id"
 
 **Argumentos opcionales (generales)**\
 `-o` `--out`\
-Ruta del archivo (o carpeta cuando se descargan bases de datos con la bandera `download_cosmic`) donde se guardarán los resultados, por ejemplo: ‘path/to/results.json’.\
+Ruta del archivo (o carpeta cuando se descargan bases de datos con la bandera `download_cosmic`) donde se guardarán los resultados, por ejemplo: 'path/to/results.json'.\
 Valores por defecto:\
 → Cuando `download_cosmic=False`: los resultados se devuelven por la salida estándar\
 → Cuando `download_cosmic=True`: la base de datos se descarga en el directorio de trabajo actual
@@ -115,13 +115,13 @@ gget.cosmic(searchterm=None, download_cosmic=True, cosmic_project="cancer")
 gget.cosmic("EGFR", cosmic_tsv_path="CancerMutationCensus_AllData_Tsv_v101_GRCh37/CancerMutationCensus_AllData_v101_GRCh37.tsv")
 ```
 
-&rarr; El primer comando descarga la base de datos solicitada de la última versión de COSMIC en el directorio de trabajo actual. El segundo comando busca en la base de datos las mutaciones asociadas al gen ‘EGFR’ y devuelve los resultados en el siguiente formato:
+&rarr; El primer comando descarga la base de datos solicitada de la última versión de COSMIC en el directorio de trabajo actual. El segundo comando busca en la base de datos las mutaciones asociadas al gen 'EGFR' y devuelve los resultados en el siguiente formato:
 
-  | GENE_NAME | ACCESSION_NUMBER  | ONC_TSG  | Mutation_CDS | Mutation_AA | …   |
+  | GENE_NAME | ACCESSION_NUMBER  | ONC_TSG  | Mutation_CDS | Mutation_AA | ... |
   | --------- | ----------------- | -------- | ------------ | ----------- | --- |
-  | EGFR      | ENST00000275493.2 | oncogene | c.650A>T     | p.Q217L     | …   |
-  | EGFR      | ENST00000275493.2 | oncogene | c.966C>T     | p.G322=     | …   |
-  | …         | …                 | …        | …            | …           | …   |
+  | EGFR      | ENST00000275493.2 | oncogene | c.650A>T     | p.Q217L     | ... |
+  | EGFR      | ENST00000275493.2 | oncogene | c.966C>T     | p.G322=     | ... |
+  | ...       | ...               | ...      | ...          | ...         | ... |
 
 #### Descargar la base de datos "census" de COSMIC y consultar información
 
@@ -139,13 +139,13 @@ gget.cosmic(searchterm=None, download_cosmic=True, cosmic_project="cancer")
 gget.cosmic("EGFR", cosmic_tsv_path="Cosmic_MutantCensus_Tsv_v101_GRCh37/Cosmic_MutantCensus_v101_GRCh37.tsv")
 ```
 
-&rarr; El primer comando descarga la base de datos solicitada de la última versión de COSMIC en el directorio de trabajo actual. El segundo comando busca en la base de datos las mutaciones asociadas al gen ‘EGFR’ y devuelve los resultados en el siguiente formato:
+&rarr; El primer comando descarga la base de datos solicitada de la última versión de COSMIC en el directorio de trabajo actual. El segundo comando busca en la base de datos las mutaciones asociadas al gen 'EGFR' y devuelve los resultados en el siguiente formato:
 
-  | GENE_SYMBOL | COSMIC_GENE_ID | MUTATION_DESCRIPTION | MUTATION_CDS   | Mutation_AA    | MUTATION_SOMATIC_STATUS                      | …   |
+  | GENE_SYMBOL | COSMIC_GENE_ID | MUTATION_DESCRIPTION | MUTATION_CDS   | Mutation_AA    | MUTATION_SOMATIC_STATUS                      | ... |
   | ----------- | -------------- | -------------------- | -------------- | -------------- | -------------------------------------------- | --- |
-  | EGFR        | COSG35617      | inframe_deletion     | c.2235_2249del | p.E746_A750del | Reported in another cancer sample as somatic | …   |
-  | EGFR        | COSG35617      | missense_variant     | c.2573T>G      | p.L858R        | Reported in another cancer sample as somatic | …   |
-  | …           | …              | …                    | …              | …              | …                                            | …   |
+  | EGFR        | COSG35617      | inframe_deletion     | c.2235_2249del | p.E746_A750del | Reported in another cancer sample as somatic | ... |
+  | EGFR        | COSG35617      | missense_variant     | c.2573T>G      | p.L858R        | Reported in another cancer sample as somatic | ... |
+  | ...         | ...            | ...                  | ...            | ...            | ...                                          | ... |
 
 # Citar
 

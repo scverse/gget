@@ -57,7 +57,7 @@ gget.bgee("ENSSSCG00000014725")
   | ENSBTAG00000047356 | LOC107131172 | 9913       | Bos     | taurus     |
   | ENSOARG00000019163 | LOC101105437 | 9940       | Ovis    | aries      |
   | ENSXETG00000025667 | hbg1         | 8364       | Xenopus | tropicalis |
-  | …                  | …            | …          | …       | …          |
+  | ...                | ...          | ...        | ...     | ...        |
 
 <br/><br/>
 
@@ -80,7 +80,7 @@ gget.bgee("ENSSSCG00000014725", type="expression")
   | UBERON:0002190 | subcutaneous adipose tissue | 99.70 | high             | expressed        |
   | UBERON:0005316 | endocardial endothelium     | 99.61 | high             | expressed        |
   | UBERON:0002107 | liver                       | 99.27 | high             | expressed        |
-  | …              | …                           | …     | …                | …                |
+  | ...            | ...                         | ...   | ...              | ...              |
 
 <br/><br/>
 
@@ -101,7 +101,7 @@ gget.bgee(["ENSBTAG00000047356", "ENSBTAG00000018317"], type="expression")
   | UBERON:0001017 | central nervous system                   | 92.15 | high             | expressed        |
   | UBERON:0002616 | regional part of brain                   | 79.01 | high             | expressed        |
   | BGEE:0000000   | anatomical entity and cellular component | 89.12 | high             | expressed        |
-  | …              | …                                        | …     | …                | …                |
+  | ...            | ...                                      | ...   | ...              | ...              |
 
 #### [More examples](https://github.com/pachterlab/gget_examples)
 

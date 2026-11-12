@@ -12,7 +12,7 @@ In this guide you will get an overview of the contribution workflow from opening
 
 ### Create a new issue
 
-If you spot a problem with gget or you have an idea for a new feature, [check if an issue already exists](https://github.com/scverse/gget/issues). If a related issue doesn’t exist, you can open a new issue using the relevant [issue form](https://github.com/scverse/gget/issues/new/choose).
+If you spot a problem with gget or you have an idea for a new feature, [check if an issue already exists](https://github.com/scverse/gget/issues). If a related issue doesn't exist, you can open a new issue using the relevant [issue form](https://github.com/scverse/gget/issues/new/choose).
 
 ### Solve an issue
 
@@ -64,7 +64,7 @@ Reviewers move faster on small, focused PRs. Whenever possible:
 
 ### Pull Request
 
-When you’re finished with the changes, [create a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request), also known as a PR.
+When you're finished with the changes, [create a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request), also known as a PR.
 
 ‼️ Please DO NOT commit AI-generated code without careful review.
 
@@ -78,7 +78,7 @@ Once you submit your PR, a `gget` team member will review your proposal. We may 
 
 ### What runs automatically on your PR
 
-When you open a PR, a few checks run automatically — you don’t need to set anything up:
+When you open a PR, a few checks run automatically — you don't need to set anything up:
 
 - **Linting & formatting** ([pre-commit.ci](https://pre-commit.ci)): runs [ruff](https://docs.astral.sh/ruff/) (lint + format), [biome](https://biomejs.dev/), and basic hygiene hooks. It **auto-fixes** formatting issues by pushing a commit to your branch; it only fails the check for problems it can't fix automatically (e.g. lint errors).
 - **Type checking** (mypy, via pre-commit.ci): newly introduced type errors fail this check.

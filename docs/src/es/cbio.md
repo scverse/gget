@@ -224,7 +224,7 @@ gget.cbio_plot(
 )
 ```
 
-&rarr; Guarda un mapa de calor de los tipos de mutaciones para los genes especificados en el estudio especificado, filtrado por tejido, con el título “Mutaciones intestinales” en ./gget_cbio_figures/intestinal_mutations.png.
+&rarr; Guarda un mapa de calor de los tipos de mutaciones para los genes especificados en el estudio especificado, filtrado por tejido, con el título "Mutaciones intestinales" en ./gget_cbio_figures/intestinal_mutations.png.
 
 ![Heatmap](https://raw.githubusercontent.com/scverse/gget/b32c01efefd55d37c19034ce96a86826e30ae3e5/docs/assets/gget_cbio_figure_4.png)
 

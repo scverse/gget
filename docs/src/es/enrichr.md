@@ -16,12 +16,12 @@ Alternativamente: use la bandera `--ensembl` para ingresar IDs tipo Ensembl, p. 
 `-db` `--database`\
 Base de datos que será utilizada como referencia para el análisis de enriquecimiento.\
 Admite cualquier base de datos enumerada [aquí](https://maayanlab.cloud/Enrichr/#libraries) o uno de los siguientes accesos directos:\
-‘pathway’       (KEGG_2021_Human)\
-‘transcription’     (ChEA_2016)\
-‘ontology’      (GO_Biological_Process_2021)\
-‘diseases_drugs’   (GWAS_Catalog_2019)\
-‘celltypes’      (PanglaoDB_Augmented_2021)\
-‘kinase_interactions’   (KEA_2015)
+'pathway'       (KEGG_2021_Human)\
+'transcription'     (ChEA_2016)\
+'ontology'      (GO_Biological_Process_2021)\
+'diseases_drugs'   (GWAS_Catalog_2019)\
+'celltypes'      (PanglaoDB_Augmented_2021)\
+'kinase_interactions'   (KEA_2015)
 
 **Parámetros opcionales**\
 `-s` `--species`\
@@ -38,7 +38,7 @@ Opciones:
   | `fish`  | [FishEnrichr](https://maayanlab.cloud/FishEnrichr/#stats)           |
 
 `-bkg_l` `--background_list`\
-Lista de nombres cortos (símbolos) de genes de ‘background’ (de fondo/control), p. NSUN3 POLRMT NLRX1.\
+Lista de nombres cortos (símbolos) de genes de 'background' (de fondo/control), p. NSUN3 POLRMT NLRX1.\
 Alternativamente: usa la bandera `--ensembl_background` para ingresar IDs tipo Ensembl.
 
 `-o` `--out`\
@@ -65,7 +65,7 @@ Usa esta bandera si `genes` se ingresa como una lista de IDs tipo Ensembl.
 Usa esta bandera si `background_list` se ingresa como una lista de IDs tipo Ensembl.
 
 `-bkg` `--background`\
-Use un conjunto de 20,625 genes ‘background’
+Use un conjunto de 20,625 genes 'background'
 listados [aquí](https://github.com/scverse/gget/blob/main/gget/constants/enrichr_bkg_genes.txt).
 
 `-csv` `--csv`\
@@ -94,7 +94,7 @@ gget.enrichr(["ACE2", "AGT", "AGTR1"], database="ontology", plot=True)
 
 <br/><br/>
 
-**Use `gget enrichr` con una lista de genes ‘background’:**
+**Use `gget enrichr` con una lista de genes 'background':**
 
 ```bash
 # Aquí, primero ingresamos los genes de interés (parámetro posicional 'genes'), para que no se agreguen a la lista de genes 'background' detrás del parámetro '-bkgr_l'

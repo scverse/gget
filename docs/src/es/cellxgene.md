@@ -11,7 +11,7 @@ Antes de usar `gget cellxgene` por primera vez, corre `gget setup cellxgene` / `
 
 **Parámetros opcionales**\
 `-s` `--species`\
-‘homo_sapiens’ o ‘mus_musculus’. Por defecto: ‘homo_sapiens’.
+'homo_sapiens' o 'mus_musculus'. Por defecto: 'homo_sapiens'.
 
 `-g` `--gene`\
 Str o lista de genes de interés o ID(s) tipo Ensembl. Por defecto: None (ninguno).\
@@ -20,12 +20,12 @@ Atención: ¡Los símbolos de genes distinguen mayúsculas y minúsculas! Usa la
 Ver https://cellxgene.cziscience.com/gene-expression para ejemplos de genes.
 
 `-cv` `--census_version`\
-Versión del CZ CELLxGENE Discover Census (str), p. ej. “2023-05-15”, o “latest” (ultima) o “stable” (estable). Por defecto: “stable” (estable).
+Versión del CZ CELLxGENE Discover Census (str), p. ej. "2023-05-15", o "latest" (ultima) o "stable" (estable). Por defecto: "stable" (estable).
 
 `-cn` `--column_names`\
 Lista de columnas de metadatos a obtener (almacenadas en AnnData.obs).\
-Por defecto: [‘dataset_id’, ‘assay’, ‘suspension_type’, ‘sex’, ‘tissue_general’, ‘tissue’, ‘cell_type’]\
-Para más opciones, ver: https://api.cellxgene.cziscience.com/curation/ui/#/ -> ‘Schemas’ -> ‘dataset’
+Por defecto: ['dataset_id', 'assay', 'suspension_type', 'sex', 'tissue_general', 'tissue', 'cell_type']\
+Para más opciones, ver: https://api.cellxgene.cziscience.com/curation/ui/#/ -> 'Schemas' -> 'dataset'
 
 `-o` `--out`\
 Ruta al archivo para guardar el objeto AnnData formato .h5ad (o .csv con bandera `-mo / --meta_only`).\
@@ -44,11 +44,11 @@ Para Python, usa `verbose=False` para impedir la información de progreso de ser
 
 **Parámetros opcionales correspondientes a los atributos de metadatos de CZ CELLxGENE Discover**\
 `--tissue`\
-Str o lista de tejido(s), p. ej. [‘lung’, ‘blood’]. Por defecto: None.\
+Str o lista de tejido(s), p. ej. ['lung', 'blood']. Por defecto: None.\
 Ver https://cellxgene.cziscience.com/gene-expression para ejemplos de tejidos.
 
 `--cell_type`\
-Str o lista de tipo(s) de célula(s), p. ej. [‘mucus secreting cell’, ‘neuroendocrine cell’]. Por defecto: None.\
+Str o lista de tipo(s) de célula(s), p. ej. ['mucus secreting cell', 'neuroendocrine cell']. Por defecto: None.\
 Ver https://cellxgene.cziscience.com/gene-expression y seleccione un tejido para ejemplos de tipos de células.
 
 `--development_stage`\
@@ -58,7 +58,7 @@ Str o lista de etapa(s) de desarrollo. Por defecto: None.
 Str o lista de enfermedad(es). Por defecto: None.
 
 `--sex`\
-Str o lista de sexo(s), p. ej. ‘female’ (femenina). Por defecto: None.
+Str o lista de sexo(s), p. ej. 'female' (femenina). Por defecto: None.
 
 `--dataset_id`\
 Str o lista de CELLxGENE ID(s). Por defecto: None.
@@ -72,34 +72,34 @@ Str o lista de tejido(s) del tipo high-level. Por defecto: None.\
 Tejidos y sus IDs de UBERON se enumeran [aquí](https://github.com/chanzuckerberg/single-cell-data-portal/blob/9b94ccb0a2e0a8f6182b213aa4852c491f6f6aff/backend/wmg/data/tissue_mapper.py).
 
 `--tissue_ontology_term_id`\
-Str o lista de ID(s) de ‘tissue ontology term’ como están definidos en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.
+Str o lista de ID(s) de 'tissue ontology term' como están definidos en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.
 
 `--assay_ontology_term_id`\
-Str o lista de ID(s) de ‘assay ontology term’ como están definidos en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.
+Str o lista de ID(s) de 'assay ontology term' como están definidos en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.
 
 `--assay`\
-Str o lista de ‘assays’ (métodos) como están definidos en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.
+Str o lista de 'assays' (métodos) como están definidos en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.
 
 `--cell_type_ontology_term_id`\
-Str o lista de ID(s) de ‘celltype ontology term’ como están definidos en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.
+Str o lista de ID(s) de 'celltype ontology term' como están definidos en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.
 
 `--development_stage_ontology_term_id`\
-Str o lista de ID(s) de ‘development stage ontology term’ como están definidos en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.
+Str o lista de ID(s) de 'development stage ontology term' como están definidos en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.
 
 `--disease_ontology_term_id`\
-Str o lista de ID(s) de ‘disease ontology term’ como están definidos en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.
+Str o lista de ID(s) de 'disease ontology term' como están definidos en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.
 
 `--donor_id`\
-Str o lista de ID(s) de ‘donor’ (donador) como están definidos en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.
+Str o lista de ID(s) de 'donor' (donador) como están definidos en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.
 
 `--self_reported_ethnicity_ontology_term_id`\
-Str o lista de ID(s) de ‘self-reported ethnicity ontology’ como están definidos en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.
+Str o lista de ID(s) de 'self-reported ethnicity ontology' como están definidos en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.
 
 `--self_reported_ethnicity`\
 Str o lista de etnias autoinformadas como están definidas en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.
 
 `--sex_ontology_term_id`\
-Str o lista de ID(s) de ‘sex ontology’ como están definidos en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.
+Str o lista de ID(s) de 'sex ontology' como están definidos en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.
 
 `--suspension_type`\
 Str o lista de tipo(s) de suspensión como están definidos en el [esquema de datos del CELLxGENE](https://github.com/chanzuckerberg/single-cell-curation/tree/main/schema). Por defecto: None.

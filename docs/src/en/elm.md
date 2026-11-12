@@ -18,7 +18,7 @@ When providing a Uniprot Acc, use flag `--uniprot` (Python: `uniprot=True`).
 
 **Optional arguments**\
 `-s` `--sensitivity`\
-Sensitivity of DIAMOND alignment (str). Default: “very-sensitive”.\
+Sensitivity of DIAMOND alignment (str). Default: "very-sensitive".\
 One of the following: fast, mid-sensitive, sensitive, more-sensitive, very-sensitive, or ultra-sensitive.
 
 `-t` `--threads`\
@@ -28,7 +28,7 @@ Number of threads used in DIAMOND alignment (int). Default: 1.
 Path to DIAMOND binary (str). Default: None -> Uses DIAMOND binary installed with `gget`.
 
 `-o` `--out`\
-Path to the folder to save results in (str), e.g. “path/to/directory”. Default: Standard out; temporary files are deleted.
+Path to the folder to save results in (str), e.g. "path/to/directory". Default: Standard out; temporary files are deleted.
 
 **Flags**\
 `-u` `--uniprot`\

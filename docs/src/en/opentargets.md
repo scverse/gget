@@ -17,7 +17,7 @@ Ensembl gene ID, e.g ENSG00000169194.
 
 **Optional arguments**\
 `-r` `--resource`\
-Defines the type of information to return in the output. Default: ‘diseases’.\
+Defines the type of information to return in the output. Default: 'diseases'.\
 Possible resources are:
 
   | Resource           | Return Value                                                                                     | Valid Filters                                                     | Sources                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
@@ -39,7 +39,7 @@ Path to the JSON file the results will be saved in, e.g. path/to/directory/resul
 Python: `save=True` will save the output in the current working directory.
 
 `--filters`\
-Filter results by exact equality using returned OpenTargets column names. Pass multiple filters by repeating the flag, e.g. ‘–filter disease.id=EFO_0000274 –filter drug.id=CHEMBL1743081’. Nested fields use dot notation, matching the column names returned by the API.
+Filter results by exact equality using returned OpenTargets column names. Pass multiple filters by repeating the flag, e.g. '--filter disease.id=EFO_0000274 --filter drug.id=CHEMBL1743081'. Nested fields use dot notation, matching the column names returned by the API.
 
 **Flags**\
 `-csv` `--csv`\
@@ -70,9 +70,9 @@ gget.opentargets('ENSG00000169194', resource='diseases', limit=1)
 ```
 &rarr; Returns the top disease associated with the gene ENSG00000169194.
 
-  | score              | disease.id    | disease.name       | disease.description                                                 |
-  | ------------------ | ------------- | ------------------ | ------------------------------------------------------------------- |
-  | 0.7279798021712002 | MONDO_0004980 | atopic&nbsp;eczema | A common chronic pruritic inflammatory skin disease with a strong … |
+  | score              | disease.id    | disease.name       | disease.description                                                   |
+  | ------------------ | ------------- | ------------------ | --------------------------------------------------------------------- |
+  | 0.7279798021712002 | MONDO_0004980 | atopic&nbsp;eczema | A common chronic pruritic inflammatory skin disease with a strong ... |
 
 > **Understanding the `score` column and disease IDs** ([issue #168](https://github.com/scverse/gget/issues/168))
 > - `score` is OpenTargets' **overall target–disease association score** — a single value between 0 and 1 that aggregates the evidence across *all* data types and data sources. It is **not** a per-data-source score. The OpenTargets website shows, in addition, a per-data-type breakdown (genetic associations, somatic mutations, known drugs, animal models, etc.) in its "Associations" view; `gget opentargets` currently returns only the aggregated `score`, so a single gget row corresponds to one whole row of that web table.
@@ -93,10 +93,10 @@ gget.opentargets('ENSG00000169194', resource='drugs', limit=2)
 
 &rarr; Returns the top 2 drugs associated with the gene ENSG00000169194.
 
-  | drug.id       | drug.name    | drug.drugType | drug.mechanismsOfAction.rows        | drug.description                                          | drug.synonyms                     | drug.tradeNames | drug.maximumClinicalStage | drug.indications.rows                                                                            |
-  | ------------- | ------------ | ------------- | ----------------------------------- | --------------------------------------------------------- | --------------------------------- | --------------- | ------------------------- | ------------------------------------------------------------------------------------------------ |
-  | CHEMBL1743035 | LEBRIKIZUMAB | Antibody      | Interleukin&#8209;13&nbsp;inhibitor | Antibody drug with a maximum clinical stage of Approval … | [‘Lebrikizumab’, ‘MILR-1444A’, …] | Ebglyss         | APPROVAL                  | [{‘id’: ‘MONDO_0004980’, ‘name’: ‘atopic eczema’}, {‘id’: ‘MONDO_0004979’, ‘name’: ‘asthma’}, …] |
-  | CHEMBL1742985 | ANRUKINZUMAB | Antibody      | Interleukin&#8209;13&nbsp;inhibitor | Antibody drug with a maximum clinical stage of Phase 2 …  | [‘Anrukinzumab’, ‘IMA-638’]       | []              | PHASE2                    | [{‘id’: ‘MONDO_0005101’, ‘name’: ‘ulcerative colitis’}, …]                                       |
+  | drug.id       | drug.name    | drug.drugType | drug.mechanismsOfAction.rows        | drug.description                                            | drug.synonyms                       | drug.tradeNames | drug.maximumClinicalStage | drug.indications.rows                                                                              |
+  | ------------- | ------------ | ------------- | ----------------------------------- | ----------------------------------------------------------- | ----------------------------------- | --------------- | ------------------------- | -------------------------------------------------------------------------------------------------- |
+  | CHEMBL1743035 | LEBRIKIZUMAB | Antibody      | Interleukin&#8209;13&nbsp;inhibitor | Antibody drug with a maximum clinical stage of Approval ... | ['Lebrikizumab', 'MILR-1444A', ...] | Ebglyss         | APPROVAL                  | [{'id': 'MONDO_0004980', 'name': 'atopic eczema'}, {'id': 'MONDO_0004979', 'name': 'asthma'}, ...] |
+  | CHEMBL1742985 | ANRUKINZUMAB | Antibody      | Interleukin&#8209;13&nbsp;inhibitor | Antibody drug with a maximum clinical stage of Phase 2 ...  | ['Anrukinzumab', 'IMA-638']         | []              | PHASE2                    | [{'id': 'MONDO_0005101', 'name': 'ulcerative colitis'}, ...]                                       |
 
 *Note: associated diseases/indications are nested under `drug.indications.rows` (each a `{'id', 'name'}` dict); the `drug.id` values are [ChEMBL](https://www.ebi.ac.uk/chembl/) identifiers.*
 
@@ -139,9 +139,9 @@ gget.opentargets('ENSG00000169194', resource='pharmacogenetics', limit=1)
 
 &rarr; Returns pharmacogenetic responses for the gene ENSG00000169194.
 
-  | variantId       | genotypeId        | genotype | drugs                                    | phenotypeText                               | genotypeAnnotationText                   | pgxCategory | isDirectTarget | evidenceLevel | datasourceId | literature | variantFunctionalConsequence.id | variantFunctionalConsequence.label |
-  | --------------- | ----------------- | -------- | ---------------------------------------- | ------------------------------------------- | ---------------------------------------- | ----------- | -------------- | ------------- | ------------ | ---------- | ------------------------------- | ---------------------------------- |
-  | 5_132657117_C_T | 5_132657117_C_C,T | CT       | {‘id’: ‘CHEMBL535’, ‘name’: ‘SUNITINIB’} | decreased severity of drug-induced toxicity | Patients with renal cell carcinoma and … | toxicity    | False          | 3             | clinpgx      | 26387812   | SO:0001631                      | upstream_gene_variant              |
+  | variantId       | genotypeId        | genotype | drugs                                    | phenotypeText                               | genotypeAnnotationText                     | pgxCategory | isDirectTarget | evidenceLevel | datasourceId | literature | variantFunctionalConsequence.id | variantFunctionalConsequence.label |
+  | --------------- | ----------------- | -------- | ---------------------------------------- | ------------------------------------------- | ------------------------------------------ | ----------- | -------------- | ------------- | ------------ | ---------- | ------------------------------- | ---------------------------------- |
+  | 5_132657117_C_T | 5_132657117_C_C,T | CT       | {'id': 'CHEMBL535', 'name': 'SUNITINIB'} | decreased severity of drug-induced toxicity | Patients with renal cell carcinoma and ... | toxicity    | False          | 3             | clinpgx      | 26387812   | SO:0001631                      | upstream_gene_variant              |
 
 *Note: `drugs` is a `{'id', 'name'}` dict (or list of them); `literature` ids are [Europe PMC](https://europepmc.org/article/med/) identifiers.*
 

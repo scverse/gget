@@ -6,7 +6,7 @@
 
 # gget gpt 💬
 
-Genera texto en lenguaje natural basado en mensaje de entrada. `gget gpt` use la API ‘openai.ChatCompletion.create’ de [OpenAI](https://openai.com/).
+Genera texto en lenguaje natural basado en mensaje de entrada. `gget gpt` use la API 'openai.ChatCompletion.create' de [OpenAI](https://openai.com/).
 Este módulo, incluido su código, documentación y pruebas unitarias, fue escrito en parte por Chat-GTP3 de OpenAI.
 
 Obtenga su clave API de OpenAI [aquí](https://platform.openai.com/account/api-keys).\
@@ -26,7 +26,7 @@ Su clave API de OpenAI (str) ([obtenga su clave API](https://platform.openai.com
 
 **Parámetros optionales**\
 `-m` `--model`\
-El nombre del algoritmo GPT que se usará para generar el texto (str). Por defecto: “gpt-3.5-turbo”.\
+El nombre del algoritmo GPT que se usará para generar el texto (str). Por defecto: "gpt-3.5-turbo".\
 See https://platform.openai.com/docs/models/gpt-4 for more information on the available models.
 
 `-temp` `--temperature`\

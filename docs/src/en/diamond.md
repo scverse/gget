@@ -22,7 +22,7 @@ Path to save DIAMOND database created from `reference` (str).\
 Default: None -> Temporary db file will be deleted after alignment or saved in `out` if `out` is provided.
 
 `-s` `--sensitivity`\
-Sensitivity of alignment (str). Default: “very-sensitive”.\
+Sensitivity of alignment (str). Default: "very-sensitive".\
 One of the following: fast, mid-sensitive, sensitive, more-sensitive, very-sensitive, or ultra-sensitive.
 
 `-t` `--threads`\
@@ -32,7 +32,7 @@ Number of threads used (int). Default: 1.
 Path to DIAMOND binary (str). Default: None -> Uses DIAMOND binary installed with `gget`.
 
 `-o` `--out`\
-Path to the folder to save results in (str), e.g. “path/to/directory”. Default: Standard out; temporary files are deleted.
+Path to the folder to save results in (str), e.g. "path/to/directory". Default: Standard out; temporary files are deleted.
 
 **Flags**\
 `-x` `--translated`\

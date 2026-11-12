@@ -15,15 +15,15 @@ Alternatively: use flag `--ensembl` to input a list of Ensembl gene IDs, e.g. EN
 **Other required arguments**\
 `-db` `--database`\
 Database database to use as reference for the enrichment analysis.\
-Supports any database listed [here](https://maayanlab.cloud/Enrichr/#libraries) under ‘Gene-set Library’ or one of the following shortcuts:\
-‘pathway’       (KEGG_2021_Human)\
-‘transcription’     (ChEA_2016)\
-‘ontology’      (GO_Biological_Process_2021)\
-‘diseases_drugs’   (GWAS_Catalog_2019)\
-‘celltypes’      (PanglaoDB_Augmented_2021)\
-‘kinase_interactions’   (KEA_2015)
+Supports any database listed [here](https://maayanlab.cloud/Enrichr/#libraries) under 'Gene-set Library' or one of the following shortcuts:\
+'pathway'       (KEGG_2021_Human)\
+'transcription'     (ChEA_2016)\
+'ontology'      (GO_Biological_Process_2021)\
+'diseases_drugs'   (GWAS_Catalog_2019)\
+'celltypes'      (PanglaoDB_Augmented_2021)\
+'kinase_interactions'   (KEA_2015)
 
-NOTE: database shortcuts are not supported for species other than ‘human’ or ‘mouse’. Click on the species databases listed below under `species` to view a list of databases available for each species.
+NOTE: database shortcuts are not supported for species other than 'human' or 'mouse'. Click on the species databases listed below under `species` to view a list of databases available for each species.
 
 **Optional arguments**\
 `-s` `--species`\

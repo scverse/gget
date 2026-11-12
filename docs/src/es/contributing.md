@@ -16,7 +16,7 @@ Si detecta un problema con gget o tiene una idea para una nueva función, [compr
 
 ### Resolver un Issue
 
-Explore nuestros [Issues existentes](https://github.com/scverse/gget/issues) para encontrar uno que le interese. Puede restringir la búsqueda utilizando “labels” como filtros. Si encuentra un Issue en el que desea trabajar, puede abrir un PR con una solución.
+Explore nuestros [Issues existentes](https://github.com/scverse/gget/issues) para encontrar uno que le interese. Puede restringir la búsqueda utilizando "labels" como filtros. Si encuentra un Issue en el que desea trabajar, puede abrir un PR con una solución.
 
 ## Contribuir a través de Pull Requests (PRs)
 
@@ -57,7 +57,7 @@ Si tiene alguna pregunta, no dude en iniciar una [discusión](https://github.com
 
 ### Crear un Pull Request (PR)
 
-Cuando haya terminado con los cambios, [cree un Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request), también conocido como “PR”.
+Cuando haya terminado con los cambios, [cree un Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request), también conocido como "PR".
 
 ‼️ Realice todos los PRs contra la rama `dev` del repositorio gget
 

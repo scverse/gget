@@ -14,12 +14,12 @@ Alternativamente: usa la bandera `--ensembl` para ingresar un ID tipo Ensembl, p
 
 **Parámetros optionales**\
  `-w` `--which`\
-‘correlation’ (correlación; se usa por defecto) o ‘tissue’ (tejido).\
-‘correlation’ produce una tabla que contiene los 100 genes más correlacionados con el gen de interés. La correlación de Pearson se calcula de todas las muestras y tejidos en [ARCHS4](https://maayanlab.cloud/archs4/).\
-‘tissue’ produce un atlas de expresión tisular calculado de todas las muestras humanas o de ratón (según lo definido usando el parámetro `--species` (especies)) en [ARCHS4](https://maayanlab.cloud/archs4/).
+'correlation' (correlación; se usa por defecto) o 'tissue' (tejido).\
+'correlation' produce una tabla que contiene los 100 genes más correlacionados con el gen de interés. La correlación de Pearson se calcula de todas las muestras y tejidos en [ARCHS4](https://maayanlab.cloud/archs4/).\
+'tissue' produce un atlas de expresión tisular calculado de todas las muestras humanas o de ratón (según lo definido usando el parámetro `--species` (especies)) en [ARCHS4](https://maayanlab.cloud/archs4/).
 
 `-s` `--species`\
-‘human’ (humano; se usa por defecto) o ‘mouse’ (ratón).\
+'human' (humano; se usa por defecto) o 'mouse' (ratón).\
 Define si se usan muestras humanas o de ratón de [ARCHS4](https://maayanlab.cloud/archs4/).\
 (Solo aplica para el atlas de expresión tisular.)
 
