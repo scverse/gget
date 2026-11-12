@@ -41,7 +41,7 @@ jobs:
 
       - name: Create credentials.json
         id: create-json
-        uses: jsdaniell/create-json@v1.2.3
+        uses: jsdaniell/create-json@v1.2.4
         with:
           name: "credentials.json"
           json: ${{ secrets.GDRIVE_BACKUP_CREDENTIALS }}
