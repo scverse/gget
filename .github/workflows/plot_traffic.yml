@@ -9,9 +9,9 @@ on:
   workflow_dispatch:
   # Trigger when Traffic workflow finishes
   workflow_run:
-      workflows: ["Traffic"]
-      types:
-        - completed
+    workflows: ["Traffic"]
+    types:
+      - completed
 
 jobs:
   build:
@@ -26,7 +26,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.8'
+          python-version: "3.8"
 
       - name: Configure pip caching
         uses: actions/cache@v4

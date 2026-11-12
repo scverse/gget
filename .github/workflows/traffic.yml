@@ -11,23 +11,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
-      with:
-        ref: "traffic"
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        with:
+          ref: "traffic"
 
-    # Calculates traffic and clones and stores them in a CSV file
-    # This workflow is based on https://github.com/marketplace/actions/repository-traffic
-    - name: GitHub traffic
-      uses: sangonzal/repository-traffic-action@v.0.1.6
-      env:
-        TRAFFIC_ACTION_TOKEN: ${{ secrets.TRAFFIC_ACTION_TOKEN }}
+      # Calculates traffic and clones and stores them in a CSV file
+      # This workflow is based on https://github.com/marketplace/actions/repository-traffic
+      - name: GitHub traffic
+        uses: sangonzal/repository-traffic-action@v.0.1.6
+        env:
+          TRAFFIC_ACTION_TOKEN: ${{ secrets.TRAFFIC_ACTION_TOKEN }}
 
-    # Commits files to traffic branch
-    - name: Commit changes
-      uses: EndBug/add-and-commit@v4
-      with:
-        author_name: Laura Luebbert
-        message: "GitHub traffic"
-        add: "./traffic/*"
-        ref: "traffic"
+      # Commits files to traffic branch
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v4
+        with:
+          author_name: Laura Luebbert
+          message: "GitHub traffic"
+          add: "./traffic/*"
+          ref: "traffic"

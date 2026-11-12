@@ -4,10 +4,10 @@ on:
   push:
     branches: [main]
     paths:
-      - 'docs/src/en/**'
+      - "docs/src/en/**"
       # The English contributing page is an mdbook include of this file, so a
       # change here must regenerate docs/src/es/contributing.md (see translate_docs.py).
-      - 'CONTRIBUTING.md'
+      - "CONTRIBUTING.md"
   workflow_dispatch:
 
 # Only one translation run at a time; new pushes cancel in-progress runs.
@@ -25,13 +25,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # full history so git diff works
-          token: ${{ secrets.TRAFFIC_ACTION_TOKEN }}  # PAT so the push triggers deploy.yml
+          fetch-depth: 0 # full history so git diff works
+          token: ${{ secrets.TRAFFIC_ACTION_TOKEN }} # PAT so the push triggers deploy.yml
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: "3.12"
 
       - name: Install dependencies
         run: pip install anthropic
