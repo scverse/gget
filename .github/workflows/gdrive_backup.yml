@@ -1,0 +1,76 @@
+name: Backup gget Repo on Google Drive
+
+on:
+  schedule:
+    - cron: "0 0 1 * *"  # Runs at midnight on the 1st of every month
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Stable filename (no date suffix) so each monthly run overwrites the
+      # previous Google Drive object instead of stacking up new ones.
+      # NOTE: avoid the `echo \"...\"` form the original used — those literal
+      # backslash-escaped quotes ended up in the filename itself, so every
+      # historic backup was uploaded as `"owner-repo-backup-DATE.tar.gz"`
+      # (with literal " characters as part of the name).
+      - name: Set backup filename
+        run: |
+          REPO="${{ github.repository }}"
+          echo "BACKUP_FILE=${REPO//\//-}-backup.tar.gz" >> $GITHUB_ENV
+
+      - name: Clone the repository (mirror all branches and history)
+        run: |
+          git clone --mirror https://github.com/${{ github.repository }}.git repo-mirror
+
+      - name: Create backup archive
+        run: |
+          tar -czvf "$BACKUP_FILE" repo-mirror
+
+      - name: Check if backup archive exists
+        run: |
+          if [ -f "$BACKUP_FILE" ]; then
+            echo "Backup file found: $BACKUP_FILE"
+            ls -lh "$BACKUP_FILE"
+          else
+            echo "Backup file not found!"
+            exit 1
+          fi
+
+      - name: Create credentials.json
+        id: create-json
+        uses: jsdaniell/create-json@v1.2.3
+        with:
+          name: "credentials.json"
+          json: ${{ secrets.GDRIVE_BACKUP_CREDENTIALS }}
+
+      - name: Install rclone
+        run: |
+          curl https://rclone.org/install.sh | sudo bash
+
+      - name: Configure rclone
+        run: |
+          mkdir -p ~/.config/rclone/
+          rclone config create gdrive drive \
+            --config ~/.config/rclone/rclone.conf \
+            service_account_file credentials.json || exit 1
+
+      # `copyto` overwrites the file at the exact destination path.
+      # --drive-use-trash=false permanently deletes the replaced version
+      # instead of moving it to the service account's trash, which is what
+      # we want here because service accounts have a 0-byte storage quota
+      # and trashed files still count against it.
+      - name: Upload archive to Google Drive (overwriting previous backup)
+        run: |
+          rclone copyto "$BACKUP_FILE" "gdrive:/GitHub_backups/$BACKUP_FILE" \
+            --drive-shared-with-me \
+            --drive-use-trash=false \
+            --verbose || exit 1
+
+      - name: Clean up
+        run: |
+          rm -rf repo-mirror
+          rm -f "$BACKUP_FILE"
+          rm -f credentials.json
