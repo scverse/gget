@@ -1,6 +1,9 @@
 [<kbd> View page source on GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/en/quick_start_guide.md)
+
 # 🪄 Quick start guide
+
 Command line:
+
 ```bash
 # Fetch all Homo sapiens reference and annotation FTPs from the latest Ensembl release
 $ gget ref homo_sapiens
@@ -47,7 +50,8 @@ $ gget setup cellxgene # setup only needs to be run once
 $ gget cellxgene --gene ACE2 SLC5A1 --tissue lung --cell_type 'mucus secreting cell' -o example_adata.h5ad
 ```
 Python (Jupyter Lab / Google Colab):
-```python  
+
+```python
 import gget
 gget.ref("homo_sapiens")
 gget.search(["ace2", "angiotensin converting enzyme 2"], "homo_sapiens")
@@ -69,6 +73,7 @@ gget.setup("cellxgene") # setup only needs to be run once
 gget.cellxgene(gene = ["ACE2", "SLC5A1"], tissue = "lung", cell_type = "mucus secreting cell")
 ```
 Call `gget` from R using [reticulate](https://rstudio.github.io/reticulate/):
+
 ```r
 system("pip install gget")
 install.packages("reticulate")
@@ -88,4 +93,5 @@ gget$archs4("ACE2", which="tissue")
 gget$pdb("1R42", save=TRUE)
 gget$virus("Zika virus", host="Homo sapiens", nuc_completeness="complete")
 ```
+
 #### [More examples](https://github.com/pachterlab/gget_examples)

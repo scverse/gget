@@ -1,93 +1,99 @@
 [<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/es/cbio.md)
 
-> Parámetros de Python són iguales a los parámetros largos (`--parámetro`) de Terminal, si no especificado de otra manera. Banderas son parámetros de verdadero o falso (True/False) en Python. El manuál para cualquier modulo de gget se puede llamar desde la Terminal con la bandera `-h` `--help`.  
+> Parámetros de Python són iguales a los parámetros largos (`--parámetro`) de Terminal, si no especificado de otra manera. Banderas son parámetros de verdadero o falso (True/False) en Python. El manuál para cualquier modulo de gget se puede llamar desde la Terminal con la bandera `-h` `--help`.
+
 # gget cbio 📖
 
-Trazar mapas de calor de la genómica del cáncer utilizando datos de [cBioPortal](https://www.cbioportal.org/) con IDs de Ensembl o nombres de genes.  
+Trazar mapas de calor de la genómica del cáncer utilizando datos de [cBioPortal](https://www.cbioportal.org/) con IDs de Ensembl o nombres de genes.
 
 Este módulo fue escrito por [Sam Wagenaar](https://github.com/techno-sam).
 
-**Argumento posicional**  
-`subcommand`  
+**Argumento posicional**\
+`subcommand`\
 O bien `search` o `plot`
 
 ### Subcomando `search` (Python: `gget.cbio_search`)
-Buscar IDs de estudios de cBioPortal por palabra clave.  
-Formato de retorno: JSON (línea de comandos) o lista de cadenas (Python).  
+
+Buscar IDs de estudios de cBioPortal por palabra clave.\
+Formato de retorno: JSON (línea de comandos) o lista de cadenas (Python).\
 **Nota: Esto no devuelve estudios con tipos de cáncer mixtos.**
 
-**Argumento posicional**  
-`keywords`  
-Lista de palabras clave separadas por espacios para buscar, por ejemplo <code>breast&nbsp;lung</code>.  
+**Argumento posicional**\
+`keywords`\
+Lista de palabras clave separadas por espacios para buscar, por ejemplo <code>breast&nbsp;lung</code>.\
 Python: Pasa palabras clave como una lista de cadenas.
 
 ### Subcomando `plot` (Python: `gget.cbio_plot`)
-Graficar mapas de calor de genómica del cáncer utilizando datos de cBioPortal.  
+
+Graficar mapas de calor de genómica del cáncer utilizando datos de cBioPortal.\
 Formato de retorno: PNG (línea de comandos y Python).
 
-**Argumentos requeridos**  
-`-s` `--study_ids`  
+**Argumentos requeridos**\
+`-s` `--study_ids`\
 Lista separada por espacios de IDs de estudios de cBioPortal, por ejemplo, <code>msk_impact_2017&nbsp;egc_msk_2023</code>.
 
-`-g` `--genes`  
+`-g` `--genes`\
 Lista separada por espacios de nombres de genes o IDs de Ensembl, por ejemplo, <code>NOTCH3&nbsp;ENSG00000108375</code>.
 
-**Argumentos opcionales**  
-`-st` `--stratification`  
-Columna por la cual estratificar los datos. Predeterminado: `tissue`.  
+**Argumentos opcionales**\
+`-st` `--stratification`\
+Columna por la cual estratificar los datos. Predeterminado: `tissue`.\
 Opciones:
+
 - tissue
 - cancer_type
 - cancer_type_detailed
 - study_id
 - sample
 
-`-vt` `--variation_type`  
-Tipo de variación a graficar. Predeterminado: `mutation_occurrences`.  
+`-vt` `--variation_type`\
+Tipo de variación a graficar. Predeterminado: `mutation_occurrences`.\
 Opciones:
+
 - mutation_occurrences
 - cna_nonbinary (Nota: la `stratification` debe ser 'sample' para esta opción)
 - sv_occurrences
 - cna_occurrences
 - Consequence (Nota: la `stratification` debe ser 'sample' para esta opción)
 
-`-f` `--filter`  
-Filtrar los datos por un valor específico en una columna específica, por ejemplo, `study_id:msk_impact_2017`.  
+`-f` `--filter`\
+Filtrar los datos por un valor específico en una columna específica, por ejemplo, `study_id:msk_impact_2017`.\
 Python: `filter=(column, value)`
 
-`-dd` `--data_dir`  
+`-dd` `--data_dir`\
 Directorio para almacenar los archivos de datos. Predeterminado: `./gget_cbio_cache`.
 
-`-fd` `--figure_dir`  
+`-fd` `--figure_dir`\
 Directorio para las figuras de salida. Predeterminado: `./gget_cbio_figures`.
 
-`-fn` `--filename`  
-Nombre del archivo de salida, relativo a `figure_dir`. Predeterminado: auto-generado.  
+`-fn` `--filename`\
+Nombre del archivo de salida, relativo a `figure_dir`. Predeterminado: auto-generado.\
 Python: `figure_filename`.
 
-`-t` `--title`  
-Título para la figura de salida. Predeterminado: auto-generado.  
+`-t` `--title`\
+Título para la figura de salida. Predeterminado: auto-generado.\
 Python: `figure_title`.
 
-`-dpi` `--dpi`  
+`-dpi` `--dpi`\
 DPI de la figura de salida. Predeterminado: 100.
 
 **Banderas**
 
-`-q` `--quiet`  
-Solo en línea de comandos. Evita que se muestre la información de progreso.  
+`-q` `--quiet`\
+Solo en línea de comandos. Evita que se muestre la información de progreso.\
 Python: Usa `verbose=False` para evitar que se muestre la información de progreso.
 
-`-nc` `--no_confirm`  
-Solo en línea de comandos. Omitir las confirmaciones de descarga.  
+`-nc` `--no_confirm`\
+Solo en línea de comandos. Omitir las confirmaciones de descarga.\
 Python: Usa `confirm_download=True` para habilitar las confirmaciones de descarga.
 
-`-sh` `--show`  
+`-sh` `--show`\
 Mostrar la gráfica en una ventana (automático en notebooks de Jupyter).
 
 ### Ejemplos
 
-**Encontrar todos los estudios de cBioPortal con tipos de cáncer que coinciden con palabras clave específicas:**  
+**Encontrar todos los estudios de cBioPortal con tipos de cáncer que coinciden con palabras clave específicas:**
+
 ```bash
 gget cbio search esophag ovary ovarian
 ```
@@ -104,7 +110,8 @@ gget.cbio_search(['esophag', 'ovary', 'ovarian'])
 
 <br/><br/>
 
-**Graficar un mapa de calor de ocurrencias de mutaciones para genes específicos en un estudio específico:**  
+**Graficar un mapa de calor de ocurrencias de mutaciones para genes específicos en un estudio específico:**
+
 ```bash
 gget cbio plot \
     -s msk_impact_2017 \
@@ -131,7 +138,8 @@ gget.cbio_plot(
 
 <br/><br/>
 
-**Graficar un mapa de calor de tipos de mutaciones para genes específicos en un estudio específico:**  
+**Graficar un mapa de calor de tipos de mutaciones para genes específicos en un estudio específico:**
+
 ```bash
 gget cbio plot \
     -s msk_impact_2017 \
@@ -159,6 +167,7 @@ gget.cbio_plot(
 <br/><br/>
 
 **Graficar un mapa de calor de tipos de mutaciones para genes específicos en un estudio específico, filtrando por tejido::**
+
 ```bash
 gget cbio plot \
     -s msk_impact_2017 \
@@ -188,6 +197,7 @@ gget.cbio_plot(
 <br/><br/>
 
 **Graficar un mapa de calor con un título y nombre de archivo personalizados::**
+
 ```bash
 gget cbio plot \
     -s msk_impact_2017 \
@@ -220,7 +230,8 @@ gget.cbio_plot(
 
 #### [Más ejemplos](https://github.com/pachterlab/gget_examples)
 
-# Citar  
+# Citar
+
 Si utiliza `gget cbio` en una publicación, favor de citar los siguientes artículos:
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)

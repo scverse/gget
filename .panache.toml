@@ -1,0 +1,8 @@
+#:schema https://panache.bz/panache.schema.json
+flavor = "gfm"
+extend-exclude = ["docs/src/*/dependents.md", "tests/fixtures/"]
+
+[format]
+wrap = "preserve"
+smart-punctuation = "preserve" # docs quote literal argument values
+tab-stops = "preserve"

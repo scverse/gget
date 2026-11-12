@@ -1,59 +1,61 @@
 [<kbd> View page source on GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/en/ref.md)
 
-> Python arguments are equivalent to long-option arguments (`--arg`), unless otherwise specified. Flags are True/False arguments in Python. The manual for any gget tool can be called from the command-line using the `-h` `--help` flag.  
+> Python arguments are equivalent to long-option arguments (`--arg`), unless otherwise specified. Flags are True/False arguments in Python. The manual for any gget tool can be called from the command-line using the `-h` `--help` flag.
+
 # gget ref 📖
-Fetch download links and metadata for [Ensembl](https://www.ensembl.org/) reference genomes.  
+
+Fetch download links and metadata for [Ensembl](https://www.ensembl.org/) reference genomes.\
 Return format: dictionary/JSON.
 
-**Positional argument**  
-`species`  
-Species for which the FTPs will be fetched in the format genus_species, e.g. homo_sapiens.  
-Supports all available vertebrate and invertebrate (plants, fungi, protists, and invertebrate metazoa) genomes from Ensembl, except bacteria.  
-Note: Not required when using flags `--list_species` or `--list_iv_species`.  
+**Positional argument**\
+`species`\
+Species for which the FTPs will be fetched in the format genus_species, e.g. homo_sapiens.\
+Supports all available vertebrate and invertebrate (plants, fungi, protists, and invertebrate metazoa) genomes from Ensembl, except bacteria.\
+Note: Not required when using flags `--list_species` or `--list_iv_species`.\
 Supported shortcuts: 'human', 'mouse', 'human_grch37' (accesses the GRCh37 genome assembly)
 
-**Optional arguments**  
-`-w` `--which`  
-Defines which results to return. Default: 'all' -> Returns all available results.  
-Possible entries are one or a combination (as comma-separated list) of the following:  
-'gtf' - Returns the annotation (GTF).  
-'cdna' - Returns the trancriptome (cDNA).  
-'dna' - Returns the genome (DNA).  
-'cds' - Returns the coding sequences corresponding to Ensembl genes. (Does not contain UTR or intronic sequence.)  
-'cdrna' - Returns transcript sequences corresponding to non-coding RNA genes (ncRNA).  
-'pep' - Returns the protein translations of Ensembl genes.  
+**Optional arguments**\
+`-w` `--which`\
+Defines which results to return. Default: 'all' -> Returns all available results.\
+Possible entries are one or a combination (as comma-separated list) of the following:\
+'gtf' - Returns the annotation (GTF).\
+'cdna' - Returns the trancriptome (cDNA).\
+'dna' - Returns the genome (DNA).\
+'cds' - Returns the coding sequences corresponding to Ensembl genes. (Does not contain UTR or intronic sequence.)\
+'cdrna' - Returns transcript sequences corresponding to non-coding RNA genes (ncRNA).\
+'pep' - Returns the protein translations of Ensembl genes.
 
-`-r` `--release`  
-Defines the Ensembl release number from which the files are fetched, e.g. 104. Default: latest Ensembl release.  
+`-r` `--release`\
+Defines the Ensembl release number from which the files are fetched, e.g. 104. Default: latest Ensembl release.
 
-`-od` `--out_dir`  
+`-od` `--out_dir`\
 Path to the directory where the FTPs will be saved, e.g. path/to/directory/. Default: Current working directory.
 
-`-o` `--out`  
-Path to the JSON file the results will be saved in, e.g. path/to/directory/results.json. Default: Standard out.  
+`-o` `--out`\
+Path to the JSON file the results will be saved in, e.g. path/to/directory/results.json. Default: Standard out.\
 Python: `save=True` will save the output in the current working directory.
 
-**Flags**  
-`-l` `--list_species`  
-Lists all available vertebrate species. (Python: combine with `species=None`.)  
+**Flags**\
+`-l` `--list_species`\
+Lists all available vertebrate species. (Python: combine with `species=None`.)
 
-`-liv` `--list_iv_species`  
-Lists all available invertebrate species. (Python: combine with `species=None`.)  
+`-liv` `--list_iv_species`\
+Lists all available invertebrate species. (Python: combine with `species=None`.)
 
-`-ftp` `--ftp`  
-Returns only the requested FTP links.  
+`-ftp` `--ftp`\
+Returns only the requested FTP links.
 
-`-d` `--download`  
+`-d` `--download`\
 Command-line only. Downloads the requested FTPs to the directory specified by `out_dir` (requires [curl](https://curl.se/docs/) to be installed).
 
-`-q` `--quiet`  
-Command-line only. Prevents progress information from being displayed.  
+`-q` `--quiet`\
+Command-line only. Prevents progress information from being displayed.\
 Python: Use `verbose=False` to prevent progress information from being displayed.
-
 
 ### Examples
 
-**Get the genome reference for a specific species:**  
+**Get the genome reference for a specific species:**
+
 ```bash
 gget ref -w gtf,dna homo_sapiens
 ```
@@ -62,6 +64,7 @@ gget ref -w gtf,dna homo_sapiens
 gget.ref("homo_sapiens", which=["gtf", "dna"])
 ```
 &rarr; Returns a JSON with the latest human GTF and FASTA FTPs, and their respective metadata, in the format:
+
 ```
 {
     "homo_sapiens": {
@@ -85,7 +88,8 @@ gget.ref("homo_sapiens", which=["gtf", "dna"])
 
 <br/><br/>
 
-**List all available genomes from Ensembl release 103:**  
+**List all available genomes from Ensembl release 103:**
+
 ```bash
 gget ref --list_species -r 103
 ```
@@ -93,12 +97,13 @@ gget ref --list_species -r 103
 # Python
 gget.ref(species=None, list_species=True, release=103)
 ```
-&rarr; Returns a list with all available genomes (checks if GTF and FASTAs are available) from Ensembl release 103.  
-(If no release is specified, `gget ref` will always return information from the latest Ensembl release.)  
+&rarr; Returns a list with all available genomes (checks if GTF and FASTAs are available) from Ensembl release 103.\
+(If no release is specified, `gget ref` will always return information from the latest Ensembl release.)
 
 <br/><br/>
 
 **Use `gget ref` in combination with [kallisto | bustools](https://www.kallistobus.tools/kb_usage/kb_ref/) to build a reference index:**
+
 ```bash
 kb ref \
     -i index.idx \
@@ -106,12 +111,13 @@ kb ref \
     -f1 fasta.fa \
     $(gget ref --ftp -w dna,gtf homo_sapiens)
 ```
-&rarr; kb ref builds a reference index using the latest DNA and GTF files of species **Homo sapiens** passed to it by `gget ref`.  
+&rarr; kb ref builds a reference index using the latest DNA and GTF files of species **Homo sapiens** passed to it by `gget ref`.
 
 #### [More examples](https://github.com/pachterlab/gget_examples)
 
 # References
-If you use `gget ref` in a publication, please cite the following articles:  
+
+If you use `gget ref` in a publication, please cite the following articles:
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
 

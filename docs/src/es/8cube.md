@@ -1,6 +1,7 @@
 [<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/es/8cube.md)
 
 > Parámetros de Python són iguales a los parámetros largos (`--parámetro`) de Terminal, si no especificado de otra manera. Banderas son parámetros de verdadero o falso (True/False) en Python. El manuál para cualquier modulo de gget se puede llamar desde la Terminal con la bandera `-h` `--help`.
+
 # gget 8cube 🔬
 
 <a href="https://www.biorxiv.org/content/10.1101/2025.04.21.649844">
@@ -12,7 +13,7 @@
   />
 </a>
 
-Consulta [**8cubeDB**](https://eightcubedb.onrender.com/) (datos de secuenciación de snRNA de 8 cepas, tejidos e individuos diferentes de ratón (cuatro de cada sexo)) para métricas de especificidad a nivel génico y valores de expresión normalizados.  
+Consulta [**8cubeDB**](https://eightcubedb.onrender.com/) (datos de secuenciación de snRNA de 8 cepas, tejidos e individuos diferentes de ratón (cuatro de cada sexo)) para métricas de especificidad a nivel génico y valores de expresión normalizados.
 
 Formato de salida: **JSON** (línea de comandos) o **data frame/CSV** (Python).
 
@@ -20,7 +21,7 @@ Este módulo fue escrito por [Nikhila Swarna](https://github.com/nikkiswarna).
 
 <br clear="right" />
 
----
+--------------------------------------------------------------------------------
 
 # gget 8cube specificity 🎯
 
@@ -30,31 +31,31 @@ Recupera estadísticas de especificidad **ψ** y **ζ** para uno o más genes.
 
 gget 8cube specificity <GENES...>
 
-````
+```
 
-**Argumento posicional**  
-`genes`  
+**Argumento posicional**\
+`genes`\
 Símbolos génicos o IDs de genes Ensembl. Se permiten múltiples genes.
 
-**Argumentos opcionales**  
-`-csv` `--csv`  
-Devuelve CSV en lugar de JSON (solo línea de comandos).  
+**Argumentos opcionales**\
+`-csv` `--csv`\
+Devuelve CSV en lugar de JSON (solo línea de comandos).\
 Python: usar `json=False` (DataFrame por defecto) o `json=True` para JSON.
 
-`-o` `--out`  
-Ruta del archivo de salida (CSV o .json según `--csv`).  
+`-o` `--out`\
+Ruta del archivo de salida (CSV o .json según `--csv`).\
 Python: `save=True` guarda automáticamente en el directorio actual.
 
-**Banderas**  
-`-q` `--quiet`  
-Suprime la información de progreso.  
+**Banderas**\
+`-q` `--quiet`\
+Suprime la información de progreso.\
 Python: usar `verbose=False`.
 
 ### Ejemplo
 
 ```bash
 gget 8cube specificity Acsm2 ENSMUSG00000046623.9
-````
+```
 
 ```python
 # Python
@@ -64,7 +65,7 @@ specificity(["Acsm2", "ENSMUSG00000046623.9"])
 
 → Devuelve los valores de especificidad ψ y ζ para **Acsm2**.
 
----
+--------------------------------------------------------------------------------
 
 # gget 8cube psi_block 🧩
 
@@ -113,7 +114,7 @@ psi_block(["Acsm2"], analysis_level="Kidney", analysis_type="Sex:Celltype")
 
 → Devuelve puntuaciones de especificidad ψ-block a nivel de partición para **Acsm2**.
 
----
+--------------------------------------------------------------------------------
 
 # gget 8cube expression 📊
 
@@ -162,7 +163,7 @@ gene_expression(["ENSMUSG00000046623.9"], analysis_level="Across_tissues", analy
 
 → Devuelve valores de expresión normalizados agrupados por tipo celular y sexo.
 
----
+--------------------------------------------------------------------------------
 
 # Ejemplo de flujo de trabajo
 
@@ -177,7 +178,7 @@ gget 8cube psi_block Gjb4 --analysis_level Across_tissues --analysis_type Strain
 gget 8cube expression Gjb4 --analysis_level Across_tissues --analysis_type Strain
 ```
 
----
+--------------------------------------------------------------------------------
 
 # API de Python
 
@@ -191,7 +192,7 @@ o
 from gget import specificity, psi_block, gene_expression
 ```
 
----
+--------------------------------------------------------------------------------
 
 # Notas
 
@@ -200,7 +201,7 @@ from gget import specificity, psi_block, gene_expression
 * La salida por defecto en Python es un **DataFrame de pandas**; use `json=True` para JSON.
 * La CLI usa **JSON** por defecto, a menos que se utilice `--csv`.
 
----
+--------------------------------------------------------------------------------
 
 # Citar
 

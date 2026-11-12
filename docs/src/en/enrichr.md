@@ -1,87 +1,88 @@
 [<kbd> View page source on GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/en/enrichr.md)
 
-> Python arguments are equivalent to long-option arguments (`--arg`), unless otherwise specified. Flags are True/False arguments in Python. The manual for any gget tool can be called from the command-line using the `-h` `--help` flag.  
+> Python arguments are equivalent to long-option arguments (`--arg`), unless otherwise specified. Flags are True/False arguments in Python. The manual for any gget tool can be called from the command-line using the `-h` `--help` flag.
+
 # gget enrichr 💰
-Perform an enrichment analysis on a list of genes using [Enrichr](https://maayanlab.cloud/Enrichr/) or [modEnrichr](https://maayanlab.cloud/modEnrichr/).  
+
+Perform an enrichment analysis on a list of genes using [Enrichr](https://maayanlab.cloud/Enrichr/) or [modEnrichr](https://maayanlab.cloud/modEnrichr/).\
 Return format: JSON (command-line) or data frame/CSV (Python).
 
-**Positional argument**  
-`genes`  
-Short names (gene symbols) of genes to perform enrichment analysis on, e.g. PHF14 RBM3 MSL1 PHF21A.  
+**Positional argument**\
+`genes`\
+Short names (gene symbols) of genes to perform enrichment analysis on, e.g. PHF14 RBM3 MSL1 PHF21A.\
 Alternatively: use flag `--ensembl` to input a list of Ensembl gene IDs, e.g. ENSG00000106443 ENSG00000102317 ENSG00000188895.
 
-**Other required arguments**  
-`-db` `--database`  
-Database database to use as reference for the enrichment analysis.  
-Supports any database listed [here](https://maayanlab.cloud/Enrichr/#libraries) under 'Gene-set Library' or one of the following shortcuts:  
-'pathway'       (KEGG_2021_Human)  
-'transcription'     (ChEA_2016)  
-'ontology'      (GO_Biological_Process_2021)  
-'diseases_drugs'   (GWAS_Catalog_2019)  
-'celltypes'      (PanglaoDB_Augmented_2021)  
-'kinase_interactions'   (KEA_2015)  
+**Other required arguments**\
+`-db` `--database`\
+Database database to use as reference for the enrichment analysis.\
+Supports any database listed [here](https://maayanlab.cloud/Enrichr/#libraries) under 'Gene-set Library' or one of the following shortcuts:\
+'pathway'       (KEGG_2021_Human)\
+'transcription'     (ChEA_2016)\
+'ontology'      (GO_Biological_Process_2021)\
+'diseases_drugs'   (GWAS_Catalog_2019)\
+'celltypes'      (PanglaoDB_Augmented_2021)\
+'kinase_interactions'   (KEA_2015)
 
-NOTE: database shortcuts are not supported for species other than 'human' or 'mouse'. Click on the species databases listed below under `species` to view a list of databases available for each species.  
+NOTE: database shortcuts are not supported for species other than 'human' or 'mouse'. Click on the species databases listed below under `species` to view a list of databases available for each species.
 
-**Optional arguments**  
-`-s` `--species`  
-Species to use as reference for the enrichment analysis. (Default: human)  
-Options:  
+**Optional arguments**\
+`-s` `--species`\
+Species to use as reference for the enrichment analysis. (Default: human)\
+Options:
 
-| Species  | Database list                                                     |
-|----------|-------------------------------------------------------------------|
-| `human`  | [Enrichr](https://maayanlab.cloud/Enrichr/#libraries)             |
-| `mouse`  | [Equivalent to human](https://maayanlab.cloud/Enrichr/#libraries) |
-| `fly`    | [FlyEnrichr](https://maayanlab.cloud/FlyEnrichr/#stats)       |
-| `yeast`  | [YeastEnrichr](https://maayanlab.cloud/YeastEnrichr/#stats)   |
-| `worm`   | [WormEnrichr](https://maayanlab.cloud/WormEnrichr/#stats)     |
-| `fish`   | [FishEnrichr](https://maayanlab.cloud/FishEnrichr/#stats)     |
+  | Species | Database list                                                     |
+  | ------- | ----------------------------------------------------------------- |
+  | `human` | [Enrichr](https://maayanlab.cloud/Enrichr/#libraries)             |
+  | `mouse` | [Equivalent to human](https://maayanlab.cloud/Enrichr/#libraries) |
+  | `fly`   | [FlyEnrichr](https://maayanlab.cloud/FlyEnrichr/#stats)           |
+  | `yeast` | [YeastEnrichr](https://maayanlab.cloud/YeastEnrichr/#stats)       |
+  | `worm`  | [WormEnrichr](https://maayanlab.cloud/WormEnrichr/#stats)         |
+  | `fish`  | [FishEnrichr](https://maayanlab.cloud/FishEnrichr/#stats)         |
 
-`-bkg_l` `--background_list`  
-Short names (gene symbols) of background genes to perform enrichment analysis on, e.g. NSUN3 POLRMT NLRX1.  
-Alternatively: use flag `--ensembl_background` to input a list of Ensembl gene IDs.  
-See [this Tweetorial](https://x.com/ChiHoangCaltech/status/1689679611335155712?s=20) to learn why you should use a background gene list when performing an enrichment analysis.  
+`-bkg_l` `--background_list`\
+Short names (gene symbols) of background genes to perform enrichment analysis on, e.g. NSUN3 POLRMT NLRX1.\
+Alternatively: use flag `--ensembl_background` to input a list of Ensembl gene IDs.\
+See [this Tweetorial](https://x.com/ChiHoangCaltech/status/1689679611335155712?s=20) to learn why you should use a background gene list when performing an enrichment analysis.
 
-`-o` `--out`  
-Path to the file the results will be saved in, e.g. path/to/directory/results.csv (or .json). (Default: Standard out.)  
-Python: `save=True` will save the output in the current working directory.  
+`-o` `--out`\
+Path to the file the results will be saved in, e.g. path/to/directory/results.csv (or .json). (Default: Standard out.)\
+Python: `save=True` will save the output in the current working directory.
 
-`-ko` `--kegg_out`  
-Path to the png file the marked KEGG pathway images will be saved in, e.g. path/to/directory/pathway.png. (Default: None)  
+`-ko` `--kegg_out`\
+Path to the png file the marked KEGG pathway images will be saved in, e.g. path/to/directory/pathway.png. (Default: None)
 
-`-kr` `--kegg_rank`  
-Rank of the KEGG pathway to be plotted. (Default: 1)  
+`-kr` `--kegg_rank`\
+Rank of the KEGG pathway to be plotted. (Default: 1)
 
-`figsize`  
+`figsize`\
 Python only. (width, height) of plot in inches. (Default: (10,10))
 
-`ax`  
+`ax`\
 Python only. Pass a matplotlib axes object for plot customization. (Default: None)
 
-
-**Flags**  
-`-e` `--ensembl`  
+**Flags**\
+`-e` `--ensembl`\
 Add this flag if `genes` are given as Ensembl gene IDs.
 
-`-e_b` `--ensembl_bkg`  
+`-e_b` `--ensembl_bkg`\
 Add this flag if `background_list` are given as Ensembl gene IDs.
 
-`-bkg` `--background`  
-If True, use set of > 20,000 default background genes listed [here](https://github.com/pachterlab/gget/blob/main/gget/constants/enrichr_bkg_genes.txt).  
+`-bkg` `--background`\
+If True, use set of > 20,000 default background genes listed [here](https://github.com/pachterlab/gget/blob/main/gget/constants/enrichr_bkg_genes.txt).
 
-`-csv` `--csv`  
-Command-line only. Returns results in CSV format.  
+`-csv` `--csv`\
+Command-line only. Returns results in CSV format.\
 Python: Use `json=True` to return output in JSON format.
 
-`-q` `--quiet`  
-Command-line only. Prevents progress information from being displayed.  
+`-q` `--quiet`\
+Command-line only. Prevents progress information from being displayed.\
 Python: Use `verbose=False` to prevent progress information from being displayed.
 
-`plot`  
-Python only. `plot=True` provides a graphical overview of the first 15 results (default: False).  
-
+`plot`\
+Python only. `plot=True` provides a graphical overview of the first 15 results (default: False).
 
 ### Examples
+
 ```bash
 gget enrichr -db ontology ACE2 AGT AGTR1
 ```
@@ -95,8 +96,9 @@ gget.enrichr(["ACE2", "AGT", "AGTR1"], database="ontology", plot=True)
 
 <br/><br/>
 
-**Use `gget enrichr` with a background gene list:**  
-See [this Tweetorial](https://x.com/ChiHoangCaltech/status/1689679611335155712?s=20) to learn why you should use a background gene list when performing an enrichment analysis.  
+**Use `gget enrichr` with a background gene list:**\
+See [this Tweetorial](https://x.com/ChiHoangCaltech/status/1689679611335155712?s=20) to learn why you should use a background gene list when performing an enrichment analysis.
+
 ```bash
 # Here, we are passing the input genes first (positional argument 'genes'), so they are not added to the background gene list behind the '-bkgr_l' argument
 gget enrichr \
@@ -148,8 +150,8 @@ gget.enrichr(
 
 <br/><br/>
 
-**Generate a KEGG pathway image with the genes from the enrichment analysis highlighted:**  
-This feature is available thanks to a [PR](https://github.com/scverse/gget/pull/106) by [Noriaki Sato](https://github.com/noriakis).  
+**Generate a KEGG pathway image with the genes from the enrichment analysis highlighted:**\
+This feature is available thanks to a [PR](https://github.com/scverse/gget/pull/106) by [Noriaki Sato](https://github.com/noriakis).
 
 ```bash
 gget enrichr -db pathway --kegg_out kegg.png --kegg_rank 1 ZBP1 IRF3 RIPK1
@@ -165,9 +167,10 @@ gget.enrichr(["ZBP1", "IRF3", "RIPK1"], database="pathway", kegg_out="kegg.png",
 
 <br/><br/>
 
-The following example was submitted by [Dylan Lawless](https://github.com/DylanLawless) via [PR](https://github.com/scverse/gget/pull/54):  
-**Use `gget enrichr` in R and create a similar plot using [ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html).**  
-NOTE the switch of axes compared to the Python plot.  
+The following example was submitted by [Dylan Lawless](https://github.com/DylanLawless) via [PR](https://github.com/scverse/gget/pull/54):\
+**Use `gget enrichr` in R and create a similar plot using [ggplot](https://ggplot2.tidyverse.org/reference/ggplot.html).**\
+NOTE the switch of axes compared to the Python plot.
+
 ```r
 system("pip install gget")
 install.packages("reticulate")
@@ -223,10 +226,12 @@ df |>
 ```
 
 # Tutorials
+
 [Using `gget enrichr` with background genes](https://github.com/pachterlab/gget_examples/blob/main/gget_enrichr_with_background_genes.ipynb)
 
 # References
-If you use `gget enrichr` in a publication, please cite the following articles:  
+
+If you use `gget enrichr` in a publication, please cite the following articles:
 
 - Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
 
@@ -237,4 +242,5 @@ If you use `gget enrichr` in a publication, please cite the following articles:
 - Xie Z, Bailey A, Kuleshov MV, Clarke DJB., Evangelista JE, Jenkins SL, Lachmann A, Wojciechowicz ML, Kropiwnicki E, Jagodnik KM, Jeon M, & Ma’ayan A. Gene set knowledge discovery with Enrichr. Current Protocols, 1, e90. 2021. doi: [10.1002/cpz1.90](https://doi.org/10.1002/cpz1.90).
 
 If working with non-human/mouse datasets, please also cite:
+
 - Kuleshov MV, Diaz JEL, Flamholz ZN, Keenan AB, Lachmann A, Wojciechowicz ML, Cagan RL, Ma'ayan A. modEnrichr: a suite of gene set enrichment analysis tools for model organisms. Nucleic Acids Res. 2019 Jul 2;47(W1):W183-W190. doi: [10.1093/nar/gkz347](https://doi.org/10.1093/nar/gkz347). PMID: 31069376; PMCID: PMC6602483.

@@ -3,15 +3,15 @@
 [![license](https://img.shields.io/pypi/l/gget)](https://github.com/scverse/gget/blob/main/LICENSE)
 [![tests](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/scverse/gget/main/.github/badges/tests.json)](https://github.com/scverse/gget/blob/main/tests/pytest_results.txt)
 [![Powered by NumFOCUS](https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat&colorA=E1523D&colorB=007D8A)](https://numfocus.org/)
-[![GitHub stars](https://img.shields.io/github/stars/scverse/gget?style=social)](https://github.com/scverse/gget)  
+[![GitHub stars](https://img.shields.io/github/stars/scverse/gget?style=social)](https://github.com/scverse/gget)
 
-# ¡Bienvenidos!  
+# ¡Bienvenidos!
 
 [<img align="right" width="65%" height="65%" src="https://github.com/scverse/gget/blob/main/docs/assets/website_v2_gget_overview.png?raw=true" />](https://raw.githubusercontent.com/scverse/gget/main/figures/gget_overview.png)
 
-`gget` es un programa gratuito de código fuente abierta de Terminal y Python que permite la consulta eficiente de bases de datos genómicas.  
+`gget` es un programa gratuito de código fuente abierta de Terminal y Python que permite la consulta eficiente de bases de datos genómicas.\
 <br>
-`gget` consiste en un conjunto de módulos separados pero interoperables, cada uno diseñado para facilitar un tipo de consulta de base de datos en una sola línea de código.  
+`gget` consiste en un conjunto de módulos separados pero interoperables, cada uno diseñado para facilitar un tipo de consulta de base de datos en una sola línea de código.\
 <br>
 `gget` es parte del proyecto [scverse®](https://scverse.org) y está patrocinado fiscalmente por [NumFOCUS](https://numfocus.org/). Si te gusta `gget` y quieres **apoyar nuestra misión**, por favor considera hacer una **[donación](https://opencollective.com/scverse/projects/scverse-gget/donate?interval=oneTime&amount=20&contributeAs=me)** deducible de impuestos.
 
@@ -62,21 +62,21 @@ Estos son los módulos principales de `gget`. Haga clic en cualquier módulo par
   </tr>
 </table>
 
-
 <br>  
 
-Si usa `gget` en una publicación, por favor [cite*](cite.md):  
+Si usa `gget` en una publicación, por favor [cite*](cite.md):
+
 ```
 Luebbert, L., & Pachter, L. (2023). Efficient querying of genomic reference databases with gget. Bioinformatics. https://doi.org/10.1093/bioinformatics/btac836
 ```
 Lea el artículo aquí: [https://doi.org/10.1093/bioinformatics/btac836](https://doi.org/10.1093/bioinformatics/btac836)
 
-Gracias a [Victor Garcia-Ruiz](https://github.com/victorg775) y [Anna Karen Orta](https://www.linkedin.com/in/akorta/) por su ayuda con la traduccion del sitio web.  
+Gracias a [Victor Garcia-Ruiz](https://github.com/victorg775) y [Anna Karen Orta](https://www.linkedin.com/in/akorta/) por su ayuda con la traduccion del sitio web.
 
 <br>  
 <br>  
 
-[![gget PyPI downloads over the last year](https://github.com/lauraluebbert/gget_downloads/raw/main/plots/downloads_gget_daily.png)](https://github.com/lauraluebbert/gget_downloads/tree/main)  
+[![gget PyPI downloads over the last year](https://github.com/lauraluebbert/gget_downloads/raw/main/plots/downloads_gget_daily.png)](https://github.com/lauraluebbert/gget_downloads/tree/main)
 
 <br>  
 <br>  

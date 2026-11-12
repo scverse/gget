@@ -1,6 +1,5 @@
 [<kbd> Ver el codigo fuente de la pagina en GitHub </kbd>](https://github.com/scverse/gget/blob/main/docs/src/es/code_of_conduct.md)
 
-
 # Código de Conducta convenido para Contribuyentes
 
 ## Nuestro compromiso
@@ -23,7 +22,7 @@ Ejemplos de comportamiento inaceptable:
 
 * El uso de lenguaje o imágenes sexualizadas, y aproximaciones o
   atenciones sexuales de cualquier tipo
-* Comentarios despectivos (_trolling_), insultantes o derogatorios, y ataques personales o políticos
+* Comentarios despectivos (*trolling*), insultantes o derogatorios, y ataques personales o políticos
 * El acoso en público o privado
 * Publicar información privada de otras personas, tales como direcciones físicas o de correo
   electrónico, sin su permiso explícito
@@ -34,7 +33,7 @@ Ejemplos de comportamiento inaceptable:
 
 Los administradores de la comunidad son responsables de aclarar y hacer cumplir nuestros estándares de comportamiento aceptable y tomarán acciones apropiadas y correctivas de forma justa en respuesta a cualquier comportamiento que consideren inapropiado, amenazante, ofensivo o dañino.
 
-Los administradores de la comunidad tendrán el derecho y la responsabilidad de eliminar, editar o rechazar comentarios, _commits_, código, ediciones de páginas de wiki, _issues_ y otras contribuciones que no se alineen con este Código de Conducta, y comunicarán las razones para sus decisiones de moderación cuando sea apropiado.
+Los administradores de la comunidad tendrán el derecho y la responsabilidad de eliminar, editar o rechazar comentarios, *commits*, código, ediciones de páginas de wiki, *issues* y otras contribuciones que no se alineen con este Código de Conducta, y comunicarán las razones para sus decisiones de moderación cuando sea apropiado.
 
 ## Alcance
 
