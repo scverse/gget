@@ -1,3 +1,21 @@
+Looking at the diff carefully, the changes are:
+
+1. Line with GitHub stars badge: removed trailing two spaces (the `  ` at end of line)
+2. `# Welcome!` line: removed trailing two spaces
+3. Two lines about `gget` description: changed from `  ` (two trailing spaces) to `\` (backslash continuation) — but in the Spanish file, these lines already use `\` so no change needed there
+4. The citation section: removed trailing two spaces from `please [cite*](/gget/en/cite.md):  ` and added a blank line after it
+5. The downloads image line: removed trailing two spaces
+
+Let me check the Spanish file against each change:
+
+1. GitHub stars line - Spanish file has no trailing spaces → already matches
+2. `# ¡Bienvenidos!` - Spanish has no trailing spaces → already matches  
+3. The `gget` description lines already use `\` in Spanish → no change needed
+4. Citation line: Spanish has `Si usa \`gget\` en una publicación, por favor [cite*](cite.md):` with no trailing spaces, but the English diff adds a blank line after the closing `:` — checking Spanish... there's no blank line between the cite line and the code block. Need to add blank line.
+5. Downloads image line - Spanish has no trailing spaces → already matches
+
+So the only actual change needed is adding a blank line after the citation line in Spanish.
+
 [![pypi version](https://img.shields.io/pypi/v/gget)](https://pypi.org/project/gget)
 [![Downloads](https://static.pepy.tech/personalized-badge/gget?period=total&units=international_system&left_color=grey&right_color=brightgreen&left_text=Downloads)](https://pepy.tech/project/gget)
 [![license](https://img.shields.io/pypi/l/gget)](https://github.com/scverse/gget/blob/main/LICENSE)
