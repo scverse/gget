@@ -19,7 +19,7 @@ exclude: |
   )
 repos:
   - repo: https://github.com/biomejs/pre-commit
-    rev: v2.5.12
+    rev: v2.6.5
     hooks:
       - id: biome-format
   - repo: https://github.com/jolars/panache-pre-commit
@@ -27,11 +27,11 @@ repos:
     hooks:
       - id: panache-format
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: v2.29.3
+    rev: v2.30.6
     hooks:
       - id: pyproject-fmt
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.16.6
+    rev: v0.17.3
     hooks:
       - id: ruff-check
         types_or: [python, pyi, jupyter]
