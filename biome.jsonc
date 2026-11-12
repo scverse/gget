@@ -1,0 +1,4 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.6.5/schema.json",
+	"markdown": { "formatter": { "enabled": false } } // handled by panache
+}
