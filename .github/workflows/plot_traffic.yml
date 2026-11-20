@@ -19,17 +19,17 @@ jobs:
 
     steps:
       - name: Check out traffic branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: traffic
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v7
         with:
           python-version: "3.8"
 
       - name: Configure pip caching
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
