@@ -51,7 +51,7 @@ jobs:
       # automatically follow the newest tested interpreter without hardcoding.
       latest_python: ${{ steps.get-envs.outputs.latest_python }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Install uv
         uses: astral-sh/setup-uv@v7
       - name: Get test environments from hatch
@@ -79,7 +79,7 @@ jobs:
 
     steps:
       - name: Checkout branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -144,7 +144,7 @@ jobs:
 
       - name: Upload coverage to Codecov
         if: always()
-        uses: codecov/codecov-action@v6
+        uses: codecov/codecov-action@v7
         with:
           use_oidc: true
           fail_ci_if_error: false
@@ -189,7 +189,7 @@ jobs:
       # Only once (latest Python) to avoid duplicate artifacts from the matrix.
       - name: Upload pytest results artifact
         if: always() && matrix.env.python == needs.get-environments.outputs.latest_python
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: pytest-results
           path: tests/pytest_results.txt
