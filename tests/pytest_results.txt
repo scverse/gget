@@ -1,19 +1,376 @@
-Pytest results (Python 3.14) - 2026-11-24T02:46:37Z
+Pytest results (Python 3.14) - 2026-11-27T00:21:07Z
 
 ============================= test session starts ==============================
 platform linux -- Python 3.14.4, pytest-9.2.0, pluggy-1.7.0 -- /home/runner/.local/share/hatch/env/virtual/gget/dY-b3nRT/hatch-test.py3.14/bin/python
 cachedir: .pytest_cache
-Using --randomly-seed=3596001238
+Using --randomly-seed=1280473368
 rootdir: /home/runner/work/gget/gget
 configfile: pyproject.toml
 testpaths: tests
 plugins: rerunfailures-14.0, xdist-3.8.0, timeout-2.4.0, mock-3.17.0, randomly-3.16.0, cov-7.1.0
 collecting ... collected 432 items
 
-tests/test_blast.py::TestBlast::test_blast_bad_fasta PASSED              [  0%]
-tests/test_blast.py::TestBlast::test_blast_bad_db2 PASSED                [  0%]
+tests/test_elm.py::TestELM::test_elm_uniprot_id_new PASSED               [  0%]
+tests/test_elm.py::TestELM::test_elm_uniprot_id_in_elm PASSED            [  0%]
+tests/test_elm.py::TestELM::test_elm_uniprot_aminoacidseq PASSED         [  0%]
+tests/test_archs4.py::TestArchs4MissingColor::test_tissue_missing_color_does_not_crash PASSED [  0%]
+tests/test_archs4.py::TestArchs4::test_archs4_tissue PASSED              [  1%]
+tests/test_archs4.py::TestArchs4::test_archs4_tissue_json PASSED         [  1%]
+tests/test_archs4.py::TestArchs4::test_archs4_bad_which PASSED           [  1%]
+tests/test_archs4.py::TestArchs4::test_archs4_bad_gene_tissue PASSED     [  1%]
+tests/test_archs4.py::TestArchs4::test_archs4_mouse_json_ensembl PASSED  [  2%]
+tests/test_archs4.py::TestArchs4::test_archs4_tissue_mouse PASSED        [  2%]
+tests/test_archs4.py::TestArchs4::test_archs4_defaults PASSED            [  2%]
+tests/test_archs4.py::TestArchs4::test_archs4_tissue_ensembl PASSED      [  2%]
+tests/test_archs4.py::TestArchs4::test_archs4_bad_gene PASSED            [  3%]
+tests/test_archs4.py::TestArchs4::test_archs4_bad_species PASSED         [  3%]
+tests/test_archs4.py::TestArchs4::test_archs4_bad_ensembl PASSED         [  3%]
+tests/test_cosmic.py::TestCosmicWorkflow::test_cosmic_defaults ERROR     [  3%]
+tests/test_gpt.py::TestGpt::test_gpt PASSED                              [  3%]
+tests/test_diamond.py::TestDiamond::test_diamond_seqs_multiple PASSED    [  4%]
+tests/test_diamond.py::TestDiamond::test_diamond_query_file FAILED       [  4%]
+tests/test_diamond.py::TestDiamond::test_diamond_ref_file FAILED         [  4%]
+tests/test_diamond.py::TestDiamond::test_diamond_JSON_out PASSED         [  4%]
+tests/test_diamond.py::TestDiamond::test_diamond_both_files FAILED       [  5%]
+tests/test_diamond.py::TestDiamond::test_diamond_seqs_single PASSED      [  5%]
+tests/test_seq.py::TestSeq::test_seq_transcript_gene_iso PASSED          [  5%]
+tests/test_seq.py::TestSeq::test_seq_transcript_gene_WB PASSED           [  5%]
+tests/test_seq.py::TestSeq::test_seq_gene_transcript_iso PASSED          [  6%]
+tests/test_seq.py::TestSeq::test_seq_transcript PASSED                   [  6%]
+tests/test_seq.py::TestSeq::test_seq_transcript_transcript_iso PASSED    [  6%]
+tests/test_seq.py::TestSeq::test_seq_gene PASSED                         [  6%]
+tests/test_seq.py::TestSeq::test_seq_transcript_transcript_WB PASSED     [  6%]
+tests/test_seq.py::TestSeq::test_seq_missing_uniprot_gene_name FAILED    [  7%]
+tests/test_seq.py::TestSeq::test_seq_transcript_gene PASSED              [  7%]
+tests/test_seq.py::TestSeq::test_seq_gene_iso PASSED                     [  7%]
+tests/test_search.py::TestSearch::test_search_gene_bad_andor PASSED      [  7%]
+tests/test_search.py::TestSearch::test_search_gene_bad_species PASSED    [  8%]
+tests/test_search.py::TestSearch::test_search_transcript_two_sw_and PASSED [  8%]
+tests/test_search.py::TestSearch::test_search_plant PASSED               [  8%]
+tests/test_search.py::TestSearch::test_search_db PASSED                  [  8%]
+tests/test_search.py::TestSearch::test_search_transcript_one_sw PASSED   [  9%]
+tests/test_search.py::TestSearch::test_search_gene_one_sw_json PASSED    [  9%]
+tests/test_search.py::TestSearch::test_search_gene_one_sw PASSED         [  9%]
+tests/test_search.py::TestSearch::test_search_gene_two_sw_and PASSED     [  9%]
+tests/test_search.py::TestSearch::test_search_transcript_bad_species PASSED [  9%]
+tests/test_search.py::TestSearch::test_search_gene_two_sw_limit PASSED   [ 10%]
+tests/test_search.py::TestSearch::test_search_plant_db PASSED            [ 10%]
+tests/test_search.py::TestSearch::test_search_octopus PASSED             [ 10%]
+tests/test_search.py::TestSearch::test_search_gene_one_sw_limit PASSED   [ 10%]
+tests/test_search.py::TestSearch::test_search_transcript_two_sw_or PASSED [ 11%]
+tests/test_search.py::TestSearch::test_search_transcript_bad_andor PASSED [ 11%]
+tests/test_search.py::TestSearch::test_search_release PASSED             [ 11%]
+tests/test_search.py::TestSearch::test_search_gene_two_sw_or PASSED      [ 11%]
+tests/test_cellxgene.py::TestCellxgeneValidation::test_supported_species_includes_new_primates PASSED [ 12%]
+tests/test_cellxgene.py::TestCellxgeneValidation::test_invalid_species_raises_valueerror PASSED [ 12%]
+tests/test_cellxgene.py::TestCellxgeneValidation::test_typo_species_raises_valueerror PASSED [ 12%]
+tests/test_cellxgene.py::TestCellxgene::test_cellxgene_adata SKIPPED     [ 12%]
+tests/test_cellxgene.py::TestCellxgene::test_cellxgene_metadata_macaca_mulatta SKIPPED [ 12%]
+tests/test_cellxgene.py::TestCellxgene::test_cellxgene_metadata SKIPPED  [ 13%]
+tests/test_cellxgene.py::TestReprDict::test_repr_dict_ignores_none_layer_key PASSED [ 13%]
+tests/test_mutate.py::TestMutate::test_list_of_mutations PASSED          [ 13%]
+tests/test_mutate.py::TestMutate::test_single_deletion_with_left_repeats PASSED [ 13%]
+tests/test_mutate.py::TestMutate::test_ambiguous_mutation PASSED         [ 14%]
+tests/test_mutate.py::TestMutate::test_multi_delins_with_true_right_repeats PASSED [ 14%]
+tests/test_mutate.py::TestMutate::test_single_substitution_near_right_end PASSED [ 14%]
+tests/test_mutate.py::TestMutate::test_large_k PASSED                    [ 14%]
+tests/test_mutate.py::TestMutate::test_single_delins PASSED              [ 15%]
+tests/test_mutate.py::TestMutate::test_multi_deletion_with_right_repeats PASSED [ 15%]
+tests/test_mutate.py::TestMutate::test_multi_delins PASSED               [ 15%]
+tests/test_mutate.py::TestMutate::test_intron_mutation_minus PASSED      [ 15%]
+tests/test_mutate.py::TestMutate::test_single_substitution_near_left_end PASSED [ 15%]
+tests/test_mutate.py::TestMutate::test_intron_mutation_plus PASSED       [ 16%]
+tests/test_mutate.py::TestMutate::test_multi_delins_with_true_left_repeats PASSED [ 16%]
+tests/test_mutate.py::TestMutate::test_multi_delins_with_psuedo_left_repeats PASSED [ 16%]
+tests/test_mutate.py::TestMutate::test_multi_insertion_with_left_repeats PASSED [ 16%]
+tests/test_mutate.py::TestMutate::test_uncertain_mutation PASSED         [ 17%]
+tests/test_mutate.py::TestMutate::test_multi_deletion PASSED             [ 17%]
+tests/test_mutate.py::TestMutate::test_single_insertion PASSED           [ 17%]
+tests/test_mutate.py::TestMutate::test_single_substitution PASSED        [ 17%]
+tests/test_mutate.py::TestMutate::test_posttranslational_mutation PASSED [ 18%]
+tests/test_mutate.py::TestMutate::test_single_dup PASSED                 [ 18%]
+tests/test_mutate.py::TestMutate::test_index_error PASSED                [ 18%]
+tests/test_mutate.py::TestMutate::test_multi_dup PASSED                  [ 18%]
+tests/test_mutate.py::TestMutate::test_multi_insertion PASSED            [ 18%]
+tests/test_mutate.py::TestMutate::test_inversion_with_overlaps PASSED    [ 19%]
+tests/test_mutate.py::TestMutate::test_single_deletion_with_right_repeats PASSED [ 19%]
+tests/test_mutate.py::TestMutate::test_single_deletion PASSED            [ 19%]
+tests/test_mutate.py::test_csv_of_mutations PASSED                       [ 19%]
+tests/test_mutate.py::test_mismatch_error PASSED                         [ 20%]
+tests/test_g2p.py::TestG2P::test_g2p_uniprot_auto_resolved PASSED        [ 20%]
+tests/test_g2p.py::TestG2P::test_g2p_map_has_pdb_list_column PASSED      [ 20%]
+tests/test_g2p.py::TestG2P::test_g2p_residues_single_int PASSED          [ 20%]
+tests/test_g2p.py::TestG2P::test_g2p_out_writes_to_explicit_path PASSED  [ 21%]
+tests/test_g2p.py::TestG2P::test_g2p_features PASSED                     [ 21%]
+tests/test_g2p.py::TestG2P::test_g2p_residues_filter PASSED              [ 21%]
+tests/test_g2p.py::TestG2P::test_g2p_invalid_pair_returns_none PASSED    [ 21%]
+tests/test_g2p.py::TestG2P::test_g2p_alignment PASSED                    [ 21%]
+tests/test_g2p.py::TestG2P::test_g2p_schema_invariant_across_input_modes PASSED [ 22%]
+tests/test_g2p.py::TestG2P::test_g2p_map PASSED                          [ 22%]
+tests/test_g2p.py::TestG2P::test_g2p_gene_auto_resolved PASSED           [ 22%]
+tests/test_g2p.py::TestG2PValidation::test_alignment_requires_explicit_uniprot PASSED [ 22%]
+tests/test_g2p.py::TestG2PValidation::test_invalid_resource_raises PASSED [ 23%]
+tests/test_g2p.py::TestG2PValidation::test_missing_both_raises PASSED    [ 23%]
+tests/test_g2p.py::TestG2PValidation::test_alignment_requires_isoform PASSED [ 23%]
+tests/test_g2p.py::TestG2PValidation::test_residues_on_map_raises PASSED [ 23%]
+tests/test_g2p.py::TestG2PValidation::test_residues_wrong_type_raises PASSED [ 24%]
+tests/test_virus.py::TestVirus::test_parse_date_various_formats PASSED   [ 24%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_csv PASSED      [ 24%]
+tests/test_virus.py::TestVirus::test_check_min_max_none_values PASSED    [ 24%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_submitter_name PASSED [ 25%]
+tests/test_virus.py::TestVirus::test_is_alphainfluenza_query_common_names PASSED [ 25%]
+tests/test_virus.py::TestVirus::test_get_gget_version_returns_string PASSED [ 25%]
+tests/test_virus.py::TestVirus::test_load_metadata_from_api_reports_basic PASSED [ 25%]
+tests/test_virus.py::TestVirus::test_virus_completeness_filter_verification PASSED [ 25%]
+tests/test_virus.py::TestVirus::test_deduplicate_all_existing PASSED     [ 26%]
+tests/test_virus.py::TestVirus::test_merge_baseline_with_new_csv PASSED  [ 26%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_text PASSED     [ 26%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_submitter_country PASSED [ 26%]
+tests/test_virus.py::TestVirus::test_virus_metadata_schema_validation PASSED [ 27%]
+tests/test_virus.py::TestVirus::test_parse_accession_input_nonexistent_file_raises_error PASSED [ 27%]
+tests/test_virus.py::TestVirus::test_retry_helper_success_after_retry PASSED [ 27%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_segment PASSED [ 27%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_max_release_date PASSED [ 28%]
+tests/test_virus.py::TestVirus::test_check_min_max_date_invalid_raises PASSED [ 28%]
+tests/test_virus.py::TestVirus::test_filter_cached_annotated PASSED      [ 28%]
+tests/test_virus.py::TestVirus::test_virus_with_max_ambiguous_chars_filter PASSED [ 28%]
+tests/test_virus.py::TestVirus::test_save_command_summary_creates_file PASSED [ 28%]
+tests/test_virus.py::TestVirus::test_force_garbage_collection_runs PASSED [ 29%]
+tests/test_virus.py::TestVirus::test_parse_partial_date_year_only_min_comparison PASSED [ 29%]
+tests/test_virus.py::TestVirus::test_parse_partial_date_empty_raises PASSED [ 29%]
+tests/test_virus.py::TestVirus::test_virus_invalid_genbank_batch_size_negative PASSED [ 29%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_max_gene_count PASSED [ 30%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_geographic_location PASSED [ 30%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_provirus_true PASSED [ 30%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_jsonl PASSED    [ 30%]
+tests/test_virus.py::TestVirus::test_virus_specific_accession_file_creation PASSED [ 31%]
+tests/test_virus.py::TestVirus::test_track_failed_operation_creates_key PASSED [ 31%]
+tests/test_virus.py::TestVirus::test_get_memory_usage_returns_dict PASSED [ 31%]
+tests/test_virus.py::TestVirus::test_parse_accession_input_from_file PASSED [ 31%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_json PASSED     [ 31%]
+tests/test_virus.py::TestVirus::test_filter_sequences_no_filters PASSED  [ 32%]
+tests/test_virus.py::TestVirus::test_filter_cached_complete_only PASSED  [ 32%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_nonexistent_raises PASSED [ 32%]
+tests/test_virus.py::TestVirus::test_virus_invalid_completeness PASSED   [ 32%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_vaccine_strain_false PASSED [ 33%]
+tests/test_virus.py::TestVirus::test_retry_helper_failed_commands_tracking PASSED [ 33%]
+tests/test_virus.py::TestVirus::test_virus_multi_accession_space_separated PASSED [ 33%]
+tests/test_virus.py::TestVirus::test_virus_multiple_filters_relationship_check PASSED [ 33%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_combined_filters PASSED [ 34%]
+tests/test_virus.py::TestVirus::test_virus_with_host_filter PASSED       [ 34%]
+tests/test_virus.py::TestVirus::test_virus_invalid_proteins_complete_type PASSED [ 34%]
+tests/test_virus.py::TestVirus::test_check_min_max_equal PASSED          [ 34%]
+tests/test_virus.py::TestVirus::test_genbank_xml_to_csv_basic PASSED     [ 34%]
+tests/test_virus.py::TestVirus::test_filter_sequences_proteins_complete PASSED [ 35%]
+tests/test_virus.py::TestVirus::test_virus_integer_virus_id PASSED       [ 35%]
+tests/test_virus.py::TestVirus::test_virus_with_completeness_filter PASSED [ 35%]
+tests/test_virus.py::TestVirus::test_check_min_max_invalid_raises PASSED [ 35%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_already_correct_returns_none PASSED [ 36%]
+tests/test_virus.py::TestVirus::test_retry_helper_successful_operation PASSED [ 36%]
+tests/test_virus.py::TestVirus::test_clean_xml_declarations PASSED       [ 36%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_vaccine_strain_true PASSED [ 36%]
+tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_seq_length PASSED [ 37%]
+tests/test_virus.py::TestVirus::test_filter_cached_host_not_in_strategy PASSED [ 37%]
+tests/test_virus.py::TestVirus::test_unzip_file_valid PASSED             [ 37%]
+tests/test_virus.py::TestVirus::test_parse_date_invalid_raises PASSED    [ 37%]
+tests/test_virus.py::TestVirus::test_parse_partial_date_year_month_min PASSED [ 37%]
+tests/test_virus.py::TestVirus::test_validate_datasets_binary_nonexistent PASSED [ 38%]
+tests/test_virus.py::TestVirus::test_load_metadata_from_api_reports_missing_accession PASSED [ 38%]
+tests/test_virus.py::TestVirus::test_retry_helper_exponential_backoff_timing PASSED [ 38%]
+tests/test_virus.py::TestVirus::test_filter_sequences_max_ambiguous_chars PASSED [ 38%]
+tests/test_virus.py::TestVirus::test_get_datasets_path_returns_valid_path PASSED [ 39%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_isolation_source PASSED [ 39%]
+tests/test_virus.py::TestVirus::test_parse_date_full PASSED              [ 39%]
+tests/test_virus.py::TestVirus::test_filter_cached_no_filters PASSED     [ 39%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_host PASSED    [ 40%]
+tests/test_virus.py::TestVirus::test_validate_datasets_binary_valid PASSED [ 40%]
+tests/test_virus.py::TestVirus::test_get_datasets_version_returns_string_or_none PASSED [ 40%]
+tests/test_virus.py::TestVirus::test_virus_multi_accession_file_input PASSED [ 40%]
+tests/test_virus.py::TestVirus::test_parse_genbank_xml_invalid_raises PASSED [ 40%]
+tests/test_virus.py::TestVirus::test_save_metadata_to_csv_basic PASSED   [ 41%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_add_virus_suffix PASSED [ 41%]
+tests/test_virus.py::TestVirus::test_is_sars_cov2_query_accession_mode PASSED [ 41%]
+tests/test_virus.py::TestVirus::test_parse_accession_input_single PASSED [ 41%]
+tests/test_virus.py::TestVirus::test_parse_genbank_xml_empty_set PASSED  [ 42%]
+tests/test_virus.py::TestVirus::test_virus_with_length_filters PASSED    [ 42%]
+tests/test_virus.py::TestVirus::test_check_min_max_date_valid PASSED     [ 42%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_collection_date_range PASSED [ 42%]
+tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_release_date PASSED [ 43%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_gen_mol_type PASSED [ 43%]
+tests/test_virus.py::TestVirus::test_save_metadata_to_csv_empty_metadata PASSED [ 43%]
+tests/test_virus.py::TestVirus::test_check_min_max_valid PASSED          [ 43%]
+tests/test_virus.py::TestVirus::test_virus_with_protein_count_filters PASSED [ 43%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_isolate PASSED [ 44%]
+tests/test_virus.py::TestVirus::test_unzip_file_bad_zip_raises PASSED    [ 44%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_lab_passaged_true PASSED [ 44%]
+tests/test_virus.py::TestVirus::test_virus_none_virus_name PASSED        [ 44%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_nuc_completeness_partial PASSED [ 45%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_add_space_before_virus PASSED [ 45%]
+tests/test_virus.py::TestVirus::test_parse_partial_date_year_month_max PASSED [ 45%]
+tests/test_virus.py::TestVirus::test_filter_cached_host_in_strategy_skipped PASSED [ 45%]
+tests/test_virus.py::TestVirus::test_virus_with_multiple_filters PASSED  [ 46%]
+tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_gene_count PASSED [ 46%]
+tests/test_virus.py::TestVirus::test_virus_invalid_is_accession_type PASSED [ 46%]
+tests/test_virus.py::TestVirus::test_is_alphainfluenza_query_negative PASSED [ 46%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_no_filters PASSED [ 46%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_empty PASSED [ 47%]
+tests/test_virus.py::TestVirus::test_write_fasta_record_long_sequence_wraps PASSED [ 47%]
+tests/test_virus.py::TestVirus::test_save_genbank_metadata_to_csv_empty PASSED [ 47%]
+tests/test_virus.py::TestVirus::test_deduplicate_empty_baseline PASSED   [ 47%]
+tests/test_virus.py::TestVirus::test_write_fasta_record_without_description PASSED [ 48%]
+tests/test_virus.py::TestVirus::test_merge_baseline_with_new_deduplicates PASSED [ 48%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_provirus_false PASSED [ 48%]
+tests/test_virus.py::TestVirus::test_virus_release_date_filter_verification PASSED [ 48%]
+tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_protein_count PASSED [ 49%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_has_proteins PASSED [ 49%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_min_seq_length PASSED [ 49%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_empty_raises PASSED [ 49%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_genotype_list PASSED [ 50%]
+tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_peptide_count PASSED [ 50%]
+tests/test_virus.py::TestVirus::test_save_genbank_metadata_to_csv_basic PASSED [ 50%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_no_parentheses_returns_none PASSED [ 50%]
+tests/test_virus.py::TestVirus::test_write_fasta_record_with_description PASSED [ 50%]
+tests/test_virus.py::TestVirus::test_virus_with_source_database_filter PASSED [ 51%]
+tests/test_virus.py::TestVirus::test_load_metadata_from_api_reports_multiple PASSED [ 51%]
+tests/test_virus.py::TestVirus::test_virus_with_genbank_metadata_retrieval PASSED [ 51%]
+tests/test_virus.py::TestVirus::test_retry_helper_custom_retryable_exceptions PASSED [ 51%]
+tests/test_virus.py::TestVirus::test_save_partial_metadata_empty PASSED  [ 52%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_annotated_true PASSED [ 52%]
+tests/test_virus.py::TestVirus::test_merge_metadata_csvs_no_overwrite PASSED [ 52%]
+tests/test_virus.py::TestVirus::test_stream_copy_fasta_with_accession_filter PASSED [ 52%]
+tests/test_virus.py::TestVirus::test_parse_genbank_xml_basic PASSED      [ 53%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_max_seq_length PASSED [ 53%]
+tests/test_virus.py::TestVirus::test_parse_accession_input_space_separated PASSED [ 53%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_mature_peptide_count PASSED [ 53%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_combined PASSED [ 53%]
+tests/test_virus.py::TestVirus::test_virus_relationship_check_counts_match PASSED [ 54%]
+tests/test_virus.py::TestVirus::test_virus_with_annotated_filter PASSED  [ 54%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_submitter_institution PASSED [ 54%]
+tests/test_virus.py::TestVirus::test_parse_baseline_file_none_raises PASSED [ 54%]
+tests/test_virus.py::TestVirus::test_track_failed_operation_appends PASSED [ 55%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_empty_returns_none PASSED [ 55%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_min_gene_count PASSED [ 55%]
+tests/test_virus.py::TestVirus::test_datasets_cli_version_output PASSED  [ 55%]
+tests/test_virus.py::TestVirus::test_virus_invalid_genbank_batch_size_type PASSED [ 56%]
+tests/test_virus.py::TestVirus::test_deduplicate_metadata_against_baseline PASSED [ 56%]
+tests/test_virus.py::TestVirus::test_virus_invalid_lab_passaged_type PASSED [ 56%]
+tests/test_virus.py::TestVirus::test_track_failed_operation_none_dict PASSED [ 56%]
+tests/test_virus.py::TestVirus::test_merge_baseline_with_new_empty_new PASSED [ 56%]
+tests/test_virus.py::TestVirus::test_calculate_max_accessions_per_batch PASSED [ 57%]
+tests/test_virus.py::TestVirus::test_local_name_with_namespace PASSED    [ 57%]
+tests/test_virus.py::TestVirus::test_virus_with_geographic_location_filter PASSED [ 57%]
+tests/test_virus.py::TestVirus::test_virus_invalid_annotated_type PASSED [ 57%]
+tests/test_virus.py::TestVirus::test_merge_metadata_csvs_fills_missing PASSED [ 58%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_invalid_attempt_returns_none PASSED [ 58%]
+tests/test_virus.py::TestVirus::test_virus_invalid_keep_temp_type PASSED [ 58%]
+tests/test_virus.py::TestVirus::test_virus_with_lab_passaged_filter PASSED [ 58%]
+tests/test_virus.py::TestVirus::test_virus_host_filter_verification PASSED [ 59%]
+tests/test_virus.py::TestVirus::test_virus_with_collection_date_filters PASSED [ 59%]
+tests/test_virus.py::TestVirus::test_load_metadata_from_api_reports_empty PASSED [ 59%]
+tests/test_virus.py::TestVirus::test_parse_accession_input_empty_file_raises_error PASSED [ 59%]
+tests/test_virus.py::TestVirus::test_retry_helper_non_retryable_exception PASSED [ 59%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_protein_count PASSED [ 60%]
+tests/test_virus.py::TestVirus::test_filter_cached_min_release_date PASSED [ 60%]
+tests/test_virus.py::TestVirus::test_parse_partial_date_year_only_max_comparison PASSED [ 60%]
+tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_collection_date PASSED [ 60%]
+tests/test_virus.py::TestVirus::test_save_partial_metadata PASSED        [ 61%]
+tests/test_virus.py::TestVirus::test_get_datasets_path_uses_bundled_binary PASSED [ 61%]
+tests/test_virus.py::TestVirus::test_save_command_summary_with_error PASSED [ 61%]
+tests/test_virus.py::TestVirus::test_is_sars_cov2_query_negative PASSED  [ 61%]
+tests/test_virus.py::TestVirus::test_validate_datasets_binary_empty_path PASSED [ 62%]
+tests/test_virus.py::TestVirus::test_virus_invalid_genbank_batch_size_zero PASSED [ 62%]
+tests/test_virus.py::TestVirus::test_virus_empty_virus_name PASSED       [ 62%]
+tests/test_virus.py::TestVirus::test_merge_metadata_csvs_missing_standard_file PASSED [ 62%]
+tests/test_virus.py::TestVirus::test_local_name_without_namespace PASSED [ 62%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_env_source PASSED [ 63%]
+tests/test_virus.py::TestVirus::test_filter_cached_geographic_location PASSED [ 63%]
+tests/test_virus.py::TestVirus::test_virus_invalid_genbank_metadata_type PASSED [ 63%]
+tests/test_virus.py::TestVirus::test_parse_partial_date_full_date PASSED [ 63%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_lab_passaged_false PASSED [ 64%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_annotated_false PASSED [ 64%]
+tests/test_virus.py::TestVirus::test_filter_genbank_metadata_genotype PASSED [ 64%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_no_filters PASSED [ 64%]
+tests/test_virus.py::TestVirus::test_virus_with_has_proteins_filter PASSED [ 65%]
+tests/test_virus.py::TestVirus::test_unzip_file_nonexistent_raises PASSED [ 65%]
+tests/test_virus.py::TestVirus::test_get_modified_virus_name_remove_parentheses PASSED [ 65%]
+tests/test_virus.py::TestVirus::test_filter_metadata_only_source_database PASSED [ 65%]
+tests/test_virus.py::TestVirus::test_batch_accessions_for_url PASSED     [ 65%]
+tests/test_virus.py::TestVirus::test_filter_cached_refseq_only PASSED    [ 66%]
+tests/test_virus.py::TestVirus::test_clean_xml_declarations_no_declarations PASSED [ 66%]
+tests/test_virus.py::TestVirus::test_stream_copy_fasta_all_records PASSED [ 66%]
+tests/test_virus.py::TestVirus::test_is_alphainfluenza_query_accession_mode PASSED [ 66%]
+tests/test_virus.py::TestVirus::test_is_sars_cov2_query_common_names PASSED [ 67%]
+tests/test_muscle.py::TestMuscleAA::test_muscle_aa PASSED                [ 67%]
+tests/test_muscle.py::TestMuscleAASuper::test_muscle_aa_super5 PASSED    [ 67%]
+tests/test_muscle.py::TestMuscleSuper::test_muscle_nt_super5 PASSED      [ 67%]
+tests/test_muscle.py::TestMuscleSeqsInput::test_muscle_seqs_as_input PASSED [ 68%]
+tests/test_muscle.py::TestMuscle::test_muscle_nt PASSED                  [ 68%]
+tests/test_muscle.py::TestMuscle::test_muscle_nt_txt PASSED              [ 68%]
+tests/test_muscle.py::TestMusclePrints::test_muscle_print_nt PASSED      [ 68%]
+tests/test_blat.py::TestBlat::test_blat_nt_protein PASSED                [ 68%]
+tests/test_blat.py::TestBlat::test_blat_aa PASSED                        [ 69%]
+tests/test_blat.py::TestBlat::test_blat_aa_RNA PASSED                    [ 69%]
+tests/test_blat.py::TestBlat::test_blat_bad_assembly PASSED              [ 69%]
+tests/test_blat.py::TestBlat::test_blat_nt PASSED                        [ 69%]
+tests/test_blat.py::TestBlat::test_blat_nt_DNA PASSED                    [ 70%]
+tests/test_blat.py::TestBlat::test_blat_bad_fileformat PASSED            [ 70%]
+tests/test_blat.py::TestBlat::test_blat_bad_seqtype PASSED               [ 70%]
+tests/test_blat.py::TestBlat::test_blat_bad_txt PASSED                   [ 70%]
+tests/test_blat.py::TestBlat::test_blat_nt_fasta PASSED                  [ 71%]
+tests/test_blat.py::TestBlat::test_blat_bad_fasta PASSED                 [ 71%]
+tests/test_blat.py::TestBlat::test_blat_nt_txt PASSED                    [ 71%]
+tests/test_blat.py::TestBlat::test_blat_nt_json PASSED                   [ 71%]
+tests/test_blat.py::TestBlat::test_blat_aa_protein PASSED                [ 71%]
+tests/test_blat.py::TestBlat::test_blat_nt_transDNA PASSED               [ 72%]
+tests/test_blat.py::TestBlat::test_blat_shortseq PASSED                  [ 72%]
+tests/test_blat.py::TestBlat::test_blat_nt_RNA PASSED                    [ 72%]
+tests/test_alphafold.py::TestAlphafoldJackhmmerSavedir::test_custom_dir PASSED [ 72%]
+tests/test_alphafold.py::TestAlphafoldJackhmmerSavedir::test_cli_exposes_jackhmmer_savedir_flag PASSED [ 73%]
+tests/test_alphafold.py::TestAlphafoldJackhmmerSavedir::test_default_dir PASSED [ 73%]
+tests/test_alphafold.py::TestAlphafoldJackhmmerSavedir::test_clean_up_removes_custom_dir PASSED [ 73%]
+tests/test_alphafold.py::TestAlphafoldJackhmmerSavedir::test_clean_up_default_dir_when_none PASSED [ 73%]
+tests/test_alphafold.py::TestAlphafoldJackhmmerSavedir::test_clean_up_missing_dir_is_safe PASSED [ 74%]
+tests/test_bgee.py::TestBgee::test_error_bgee_orthologs_no_exist PASSED  [ 74%]
+tests/test_bgee.py::TestBgee::test_bgee_expression_multiple FAILED       [ 74%]
+tests/test_bgee.py::TestBgee::test_error_bgee_expression_no_exist PASSED [ 74%]
+tests/test_bgee.py::TestBgee::test_bgee_expression FAILED                [ 75%]
+tests/test_bgee.py::TestBgee::test_error_bgee_unknown_type PASSED        [ 75%]
+tests/test_bgee.py::TestBgee::test_bgee_orthologs FAILED                 [ 75%]
+tests/test_ref.py::TestRef::test_ref_ftp PASSED                          [ 75%]
+tests/test_ref.py::TestRef::test_ref_plant PASSED                        [ 75%]
+tests/test_ref.py::TestRef::test_ref_which PASSED                        [ 76%]
+tests/test_ref.py::TestRef::test_ref_bad_rel PASSED                      [ 76%]
+tests/test_ref.py::TestRef::test_ref_rel_ftp_octopus PASSED              [ 76%]
+tests/test_ref.py::TestRef::test_ref PASSED                              [ 76%]
+tests/test_ref.py::TestRef::test_ref_bad_species PASSED                  [ 77%]
+tests/test_ref.py::TestRef::test_ref_list PASSED                         [ 77%]
+tests/test_ref.py::TestRef::test_ref_rel PASSED                          [ 77%]
+tests/test_ref.py::TestRef::test_ref_which_plant PASSED                  [ 77%]
+tests/test_ref.py::TestRef::test_ref_bad_which PASSED                    [ 78%]
+tests/test_ref.py::TestRef::test_ref_rel_protist PASSED                  [ 78%]
+tests/test_ref.py::TestRef::test_ref_rel_ftp PASSED                      [ 78%]
+tests/test_cbio.py::TestCbioSearch::test_cbio_search FAILED              [ 78%]
+tests/test_cbio.py::TestCbio::test_error_cbio_download PASSED            [ 78%]
+tests/test_cbio.py::TestCbio::test_cbio_download_partially_existing_files PASSED [ 79%]
+tests/test_cbio.py::TestCbio::test_cbio_download PASSED                  [ 79%]
+tests/test_pdb.py::TestPDB::test_pdb_mmcif PASSED                        [ 79%]
+tests/test_pdb.py::TestPDB::test_pdb_legacy_fallback_to_mmcif PASSED     [ 79%]
+tests/test_pdb.py::TestPDB::test_pdb_pdb PASSED                          [ 80%]
+tests/test_pdb.py::TestPDB::test_pdb_assembly PASSED                     [ 80%]
+tests/test_blast.py::TestBlast::test_blast_db_missing PASSED             [ 80%]
 tests/test_blast.py::TestBlast::test_blast_nt +++++++++++++++++++++++++++++++++++ Timeout ++++++++++++++++++++++++++++++++++++
-~~~~~~~~~~~~~~~ Stack of Thread-1 (run_server) (138443434727104) ~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~ Stack of tqdm_monitor (138107492939456) ~~~~~~~~~~~~~~~~~~~~
+  File "/usr/lib/python3.14/threading.py", line 1044, in _bootstrap
+    self._bootstrap_inner()
+  File "/usr/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+  File "/home/runner/.local/share/hatch/env/virtual/gget/dY-b3nRT/hatch-test.py3.14/lib/python3.14/site-packages/tqdm/_monitor.py", line 69, in run
+    self.was_killed.wait(self.sleep_interval)
+  File "/usr/lib/python3.14/threading.py", line 670, in wait
+    signaled = self._cond.wait(timeout)
+  File "/usr/lib/python3.14/threading.py", line 373, in wait
+    gotit = waiter.acquire(True, timeout)
+~~~~~~~~~~~~~~~ Stack of Thread-1 (run_server) (138107666581184) ~~~~~~~~~~~~~~~
   File "/usr/lib/python3.14/threading.py", line 1044, in _bootstrap
     self._bootstrap_inner()
   File "/usr/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
@@ -25,436 +382,90 @@ tests/test_blast.py::TestBlast::test_blast_nt ++++++++++++++++++++++++++++++++++
   File "/usr/lib/python3.14/socket.py", line 298, in accept
     fd, addr = self._accept()
 +++++++++++++++++++++++++++++++++++ Timeout ++++++++++++++++++++++++++++++++++++
-FAILED                                                                   [  0%]
-tests/test_blast.py::TestBlast::test_blast_bad_seq PASSED                [  0%]
-tests/test_blast.py::TestBlast::test_blast_bad_program PASSED            [  1%]
-tests/test_blast.py::TestBlast::test_blast_bad_db1 PASSED                [  1%]
-tests/test_blast.py::TestBlast::test_blast_db_missing PASSED             [  1%]
-tests/test_g2p.py::TestG2P::test_g2p_out_writes_to_explicit_path PASSED  [  1%]
-tests/test_g2p.py::TestG2P::test_g2p_residues_single_int PASSED          [  2%]
-tests/test_g2p.py::TestG2P::test_g2p_map PASSED                          [  2%]
-tests/test_g2p.py::TestG2P::test_g2p_alignment PASSED                    [  2%]
-tests/test_g2p.py::TestG2P::test_g2p_map_has_pdb_list_column PASSED      [  2%]
-tests/test_g2p.py::TestG2P::test_g2p_invalid_pair_returns_none PASSED    [  3%]
-tests/test_g2p.py::TestG2P::test_g2p_features PASSED                     [  3%]
-tests/test_g2p.py::TestG2P::test_g2p_gene_auto_resolved PASSED           [  3%]
-tests/test_g2p.py::TestG2P::test_g2p_residues_filter PASSED              [  3%]
-tests/test_g2p.py::TestG2P::test_g2p_uniprot_auto_resolved PASSED        [  3%]
-tests/test_g2p.py::TestG2P::test_g2p_schema_invariant_across_input_modes PASSED [  4%]
-tests/test_g2p.py::TestG2PValidation::test_alignment_requires_isoform PASSED [  4%]
-tests/test_g2p.py::TestG2PValidation::test_alignment_requires_explicit_uniprot PASSED [  4%]
-tests/test_g2p.py::TestG2PValidation::test_invalid_resource_raises PASSED [  4%]
-tests/test_g2p.py::TestG2PValidation::test_residues_wrong_type_raises PASSED [  5%]
-tests/test_g2p.py::TestG2PValidation::test_residues_on_map_raises PASSED [  5%]
-tests/test_g2p.py::TestG2PValidation::test_missing_both_raises PASSED    [  5%]
-tests/test_utils.py::TestUtils::test_rest_query PASSED                   [  5%]
-tests/test_utils.py::TestUtils::test_read_fasta PASSED                   [  6%]
-tests/test_utils.py::TestUtils::test_get_uniprot_seqs PASSED             [  6%]
-tests/test_utils.py::TestUtils::test_find_latest_ens_rel PASSED          [  6%]
-tests/test_utils.py::TestUtils::test_get_uniprot_info_gene PASSED        [  6%]
-tests/test_utils.py::TestUtils::test_n_colors PASSED                     [  6%]
-tests/test_utils.py::TestUtils::test_rest_query_bad_type PASSED          [  7%]
-tests/test_utils.py::TestUtils::test_get_uniprot_info_transcript PASSED  [  7%]
-tests/test_utils.py::TestUtils::test_search_iv_species_options PASSED    [  7%]
-tests/test_utils.py::TestUtils::test_search_species_options PASSED       [  7%]
-tests/test_utils.py::TestUtils::test_search_species_options_bad_type PASSED [  8%]
-tests/test_utils.py::TestUtils::test_aa_colors PASSED                    [  8%]
-tests/test_utils.py::TestUtils::test_ref_species_options PASSED          [  8%]
-tests/test_utils.py::TestUtils::test_ref_species_options_bad_type PASSED [  8%]
-tests/test_utils.py::TestUtils::test_ref_iv_species_options PASSED       [  9%]
-tests/test_utils.py::TestQueryRetry::test_retries_on_503_then_succeeds PASSED [  9%]
-tests/test_utils.py::TestQueryRetry::test_retries_on_connection_error_then_succeeds PASSED [  9%]
-tests/test_utils.py::TestQueryRetry::test_persistent_connection_error_raises PASSED [  9%]
-tests/test_utils.py::TestQueryRetry::test_exhausts_retries_on_persistent_503 PASSED [  9%]
-tests/test_utils.py::TestQueryRetry::test_no_retry_on_client_error PASSED [ 10%]
-tests/test_utils.py::TestQueryRetry::test_retry_after_header_used PASSED [ 10%]
-tests/test_pdb.py::TestPDB::test_pdb_assembly PASSED                     [ 10%]
-tests/test_pdb.py::TestPDB::test_pdb_pdb PASSED                          [ 10%]
-tests/test_pdb.py::TestPDB::test_pdb_mmcif PASSED                        [ 11%]
-tests/test_pdb.py::TestPDB::test_pdb_legacy_fallback_to_mmcif PASSED     [ 11%]
-tests/test_gpt.py::TestGpt::test_gpt PASSED                              [ 11%]
-tests/test_diamond.py::TestDiamond::test_diamond_seqs_single PASSED      [ 11%]
-tests/test_diamond.py::TestDiamond::test_diamond_both_files FAILED       [ 12%]
-tests/test_diamond.py::TestDiamond::test_diamond_JSON_out PASSED         [ 12%]
-tests/test_diamond.py::TestDiamond::test_diamond_seqs_multiple PASSED    [ 12%]
-tests/test_diamond.py::TestDiamond::test_diamond_ref_file FAILED         [ 12%]
-tests/test_diamond.py::TestDiamond::test_diamond_query_file FAILED       [ 12%]
-tests/test_compile.py::TestCompilerWindows::test_compiler_windows PASSED [ 13%]
-tests/test_muscle.py::TestMuscleAASuper::test_muscle_aa_super5 PASSED    [ 13%]
-tests/test_muscle.py::TestMusclePrints::test_muscle_print_nt PASSED      [ 13%]
-tests/test_muscle.py::TestMuscleSeqsInput::test_muscle_seqs_as_input PASSED [ 13%]
-tests/test_muscle.py::TestMuscle::test_muscle_nt PASSED                  [ 14%]
-tests/test_muscle.py::TestMuscle::test_muscle_nt_txt PASSED              [ 14%]
-tests/test_muscle.py::TestMuscleSuper::test_muscle_nt_super5 PASSED      [ 14%]
-tests/test_muscle.py::TestMuscleAA::test_muscle_aa PASSED                [ 14%]
-tests/test_info.py::TestInfo::test_info_ncbifalse_uniprottrue PASSED     [ 15%]
-tests/test_info.py::TestInfo::test_info_WB_transcript PASSED             [ 15%]
-tests/test_info.py::TestInfo::test_info_ncbifalse_uniprotfalse PASSED    [ 15%]
-tests/test_info.py::TestInfo::test_info_transcript PASSED                [ 15%]
-tests/test_info.py::TestInfo::test_info_gene_list_non_model PASSED       [ 15%]
-tests/test_info.py::TestInfo::test_info_ncbitrue_uniprotfalse FAILED     [ 16%]
-tests/test_info.py::TestInfo::test_info_gene FAILED                      [ 16%]
-tests/test_info.py::TestInfo::test_info_exon PASSED                      [ 16%]
-tests/test_info.py::TestInfo::test_info_mix PASSED                       [ 16%]
-tests/test_info.py::TestInfoExpandFallback::test_exon_and_translation_ids_detected PASSED [ 17%]
-tests/test_info.py::TestInfoExpandFallback::test_batch_failure_falls_back_to_single_ids PASSED [ 17%]
-tests/test_info.py::TestInfoExpandFallback::test_info_queries_exons_without_expand PASSED [ 17%]
-tests/test_opentargets.py::TestOpenTargetsExpressionMocked::test_expression_empty_is_graceful PASSED [ 17%]
-tests/test_opentargets.py::TestOpenTargetsExpressionMocked::test_expression_json PASSED [ 18%]
-tests/test_opentargets.py::TestOpenTargetsExpressionMocked::test_expression_parses_baseline_rows PASSED [ 18%]
-tests/test_opentargets.py::TestOpenTargetsExpressionMocked::test_expression_limit PASSED [ 18%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets_interactions_no_limit FAILED [ 18%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets_interactions FAILED [ 18%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets FAILED      [ 19%]
-tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_drugs_invalid_filter PASSED [ 19%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets_depmap_filter FAILED [ 19%]
-tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_nonexistent_id PASSED [ 19%]
-tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_bad_resource PASSED [ 20%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets_interactions_simple_filter PASSED [ 20%]
-tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_bad_limit PASSED [ 20%]
-tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_diseases_filter PASSED [ 20%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets_drugs FAILED [ 21%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets_diseases FAILED [ 21%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets_pharmacogenetics FAILED [ 21%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets_depmap FAILED [ 21%]
-tests/test_opentargets.py::TestOpenTargets::test_opentargets_tractability PASSED [ 21%]
-tests/test_mutate.py::test_csv_of_mutations PASSED                       [ 22%]
-tests/test_mutate.py::test_mismatch_error PASSED                         [ 22%]
-tests/test_mutate.py::TestMutate::test_large_k PASSED                    [ 22%]
-tests/test_mutate.py::TestMutate::test_multi_insertion_with_left_repeats PASSED [ 22%]
-tests/test_mutate.py::TestMutate::test_list_of_mutations PASSED          [ 23%]
-tests/test_mutate.py::TestMutate::test_multi_delins_with_psuedo_left_repeats PASSED [ 23%]
-tests/test_mutate.py::TestMutate::test_single_deletion_with_right_repeats PASSED [ 23%]
-tests/test_mutate.py::TestMutate::test_single_insertion PASSED           [ 23%]
-tests/test_mutate.py::TestMutate::test_single_deletion_with_left_repeats PASSED [ 24%]
-tests/test_mutate.py::TestMutate::test_uncertain_mutation PASSED         [ 24%]
-tests/test_mutate.py::TestMutate::test_single_substitution PASSED        [ 24%]
-tests/test_mutate.py::TestMutate::test_multi_deletion_with_right_repeats PASSED [ 24%]
-tests/test_mutate.py::TestMutate::test_multi_delins_with_true_left_repeats PASSED [ 25%]
-tests/test_mutate.py::TestMutate::test_multi_deletion PASSED             [ 25%]
-tests/test_mutate.py::TestMutate::test_multi_delins_with_true_right_repeats PASSED [ 25%]
-tests/test_mutate.py::TestMutate::test_multi_dup PASSED                  [ 25%]
-tests/test_mutate.py::TestMutate::test_ambiguous_mutation PASSED         [ 25%]
-tests/test_mutate.py::TestMutate::test_intron_mutation_minus PASSED      [ 26%]
-tests/test_mutate.py::TestMutate::test_index_error PASSED                [ 26%]
-tests/test_mutate.py::TestMutate::test_multi_delins PASSED               [ 26%]
-tests/test_mutate.py::TestMutate::test_single_deletion PASSED            [ 26%]
-tests/test_mutate.py::TestMutate::test_posttranslational_mutation PASSED [ 27%]
-tests/test_mutate.py::TestMutate::test_single_delins PASSED              [ 27%]
-tests/test_mutate.py::TestMutate::test_multi_insertion PASSED            [ 27%]
-tests/test_mutate.py::TestMutate::test_single_dup PASSED                 [ 27%]
-tests/test_mutate.py::TestMutate::test_intron_mutation_plus PASSED       [ 28%]
-tests/test_mutate.py::TestMutate::test_single_substitution_near_left_end PASSED [ 28%]
-tests/test_mutate.py::TestMutate::test_single_substitution_near_right_end PASSED [ 28%]
-tests/test_mutate.py::TestMutate::test_inversion_with_overlaps PASSED    [ 28%]
-tests/test_8cube.py::TestGeneExpression::test_gene_expression_basic PASSED [ 28%]
-tests/test_8cube.py::TestPsiBlock::test_psi_block_basic PASSED           [ 29%]
-tests/test_8cube.py::TestSpecificity::test_specificity_basic PASSED      [ 29%]
-tests/test_bgee.py::TestBgee::test_error_bgee_expression_no_exist PASSED [ 29%]
-tests/test_bgee.py::TestBgee::test_bgee_expression PASSED                [ 29%]
-tests/test_bgee.py::TestBgee::test_bgee_orthologs PASSED                 [ 30%]
-tests/test_bgee.py::TestBgee::test_bgee_expression_multiple PASSED       [ 30%]
-tests/test_bgee.py::TestBgee::test_error_bgee_unknown_type PASSED        [ 30%]
-tests/test_bgee.py::TestBgee::test_error_bgee_orthologs_no_exist PASSED  [ 30%]
-tests/test_alphafold.py::TestAlphafoldJackhmmerSavedir::test_clean_up_removes_custom_dir PASSED [ 31%]
-tests/test_alphafold.py::TestAlphafoldJackhmmerSavedir::test_clean_up_missing_dir_is_safe PASSED [ 31%]
-tests/test_alphafold.py::TestAlphafoldJackhmmerSavedir::test_default_dir PASSED [ 31%]
-tests/test_alphafold.py::TestAlphafoldJackhmmerSavedir::test_cli_exposes_jackhmmer_savedir_flag PASSED [ 31%]
-tests/test_alphafold.py::TestAlphafoldJackhmmerSavedir::test_custom_dir PASSED [ 31%]
-tests/test_alphafold.py::TestAlphafoldJackhmmerSavedir::test_clean_up_default_dir_when_none PASSED [ 32%]
-tests/test_elm.py::TestELM::test_elm_uniprot_id_in_elm PASSED            [ 32%]
-tests/test_elm.py::TestELM::test_elm_uniprot_aminoacidseq PASSED         [ 32%]
-tests/test_elm.py::TestELM::test_elm_uniprot_id_new PASSED               [ 32%]
-tests/test_seq.py::TestSeq::test_seq_transcript_transcript_WB PASSED     [ 33%]
-tests/test_seq.py::TestSeq::test_seq_gene_transcript_iso PASSED          [ 33%]
-tests/test_seq.py::TestSeq::test_seq_transcript_gene_iso PASSED          [ 33%]
-tests/test_seq.py::TestSeq::test_seq_gene PASSED                         [ 33%]
-tests/test_seq.py::TestSeq::test_seq_missing_uniprot_gene_name FAILED    [ 34%]
-tests/test_seq.py::TestSeq::test_seq_transcript_transcript_iso PASSED    [ 34%]
-tests/test_seq.py::TestSeq::test_seq_transcript_gene PASSED              [ 34%]
-tests/test_seq.py::TestSeq::test_seq_transcript PASSED                   [ 34%]
-tests/test_seq.py::TestSeq::test_seq_transcript_gene_WB PASSED           [ 34%]
-tests/test_seq.py::TestSeq::test_seq_gene_iso PASSED                     [ 35%]
-tests/test_virus.py::TestVirus::test_parse_accession_input_single PASSED [ 35%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_annotated_true PASSED [ 35%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_protein_count PASSED [ 35%]
-tests/test_virus.py::TestVirus::test_parse_date_various_formats PASSED   [ 36%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_submitter_country PASSED [ 36%]
-tests/test_virus.py::TestVirus::test_get_gget_version_returns_string PASSED [ 36%]
-tests/test_virus.py::TestVirus::test_is_sars_cov2_query_accession_mode PASSED [ 36%]
-tests/test_virus.py::TestVirus::test_virus_none_virus_name PASSED        [ 37%]
-tests/test_virus.py::TestVirus::test_load_metadata_from_api_reports_basic PASSED [ 37%]
-tests/test_virus.py::TestVirus::test_virus_with_lab_passaged_filter PASSED [ 37%]
-tests/test_virus.py::TestVirus::test_check_min_max_equal PASSED          [ 37%]
-tests/test_virus.py::TestVirus::test_batch_accessions_for_url PASSED     [ 37%]
-tests/test_virus.py::TestVirus::test_virus_release_date_filter_verification PASSED [ 38%]
-tests/test_virus.py::TestVirus::test_virus_invalid_genbank_batch_size_zero PASSED [ 38%]
-tests/test_virus.py::TestVirus::test_deduplicate_empty_baseline PASSED   [ 38%]
-tests/test_virus.py::TestVirus::test_load_metadata_from_api_reports_missing_accession PASSED [ 38%]
-tests/test_virus.py::TestVirus::test_filter_sequences_max_ambiguous_chars PASSED [ 39%]
-tests/test_virus.py::TestVirus::test_virus_empty_virus_name PASSED       [ 39%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_env_source PASSED [ 39%]
-tests/test_virus.py::TestVirus::test_retry_helper_exponential_backoff_timing PASSED [ 39%]
-tests/test_virus.py::TestVirus::test_get_datasets_path_returns_valid_path PASSED [ 40%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_combined_filters PASSED [ 40%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_isolate PASSED [ 40%]
-tests/test_virus.py::TestVirus::test_stream_copy_fasta_with_accession_filter PASSED [ 40%]
-tests/test_virus.py::TestVirus::test_merge_metadata_csvs_fills_missing PASSED [ 40%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_provirus_true PASSED [ 41%]
-tests/test_virus.py::TestVirus::test_virus_invalid_genbank_batch_size_type PASSED [ 41%]
-tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_gene_count PASSED [ 41%]
-tests/test_virus.py::TestVirus::test_virus_invalid_completeness PASSED   [ 41%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_min_seq_length PASSED [ 42%]
-tests/test_virus.py::TestVirus::test_parse_baseline_file_jsonl PASSED    [ 42%]
-tests/test_virus.py::TestVirus::test_merge_metadata_csvs_missing_standard_file PASSED [ 42%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_has_proteins PASSED [ 42%]
-tests/test_virus.py::TestVirus::test_save_command_summary_creates_file PASSED [ 43%]
-tests/test_virus.py::TestVirus::test_retry_helper_success_after_retry PASSED [ 43%]
-tests/test_virus.py::TestVirus::test_write_fasta_record_long_sequence_wraps PASSED [ 43%]
-tests/test_virus.py::TestVirus::test_stream_copy_fasta_all_records PASSED [ 43%]
-tests/test_virus.py::TestVirus::test_filter_cached_host_in_strategy_skipped PASSED [ 43%]
-tests/test_virus.py::TestVirus::test_filter_cached_min_release_date PASSED [ 44%]
-tests/test_virus.py::TestVirus::test_virus_with_host_filter PASSED       [ 44%]
-tests/test_virus.py::TestVirus::test_parse_baseline_file_json PASSED     [ 44%]
-tests/test_virus.py::TestVirus::test_clean_xml_declarations_no_declarations PASSED [ 44%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_lab_passaged_false PASSED [ 45%]
-tests/test_virus.py::TestVirus::test_check_min_max_valid PASSED          [ 45%]
-tests/test_virus.py::TestVirus::test_virus_completeness_filter_verification PASSED [ 45%]
-tests/test_virus.py::TestVirus::test_local_name_without_namespace PASSED [ 45%]
-tests/test_virus.py::TestVirus::test_save_metadata_to_csv_basic PASSED   [ 46%]
-tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_seq_length PASSED [ 46%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_source_database PASSED [ 46%]
-tests/test_virus.py::TestVirus::test_virus_multiple_filters_relationship_check PASSED [ 46%]
-tests/test_virus.py::TestVirus::test_clean_xml_declarations PASSED       [ 46%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_isolation_source PASSED [ 47%]
-tests/test_virus.py::TestVirus::test_virus_with_annotated_filter PASSED  [ 47%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_segment PASSED [ 47%]
-tests/test_virus.py::TestVirus::test_virus_invalid_is_accession_type PASSED [ 47%]
-tests/test_virus.py::TestVirus::test_get_datasets_path_uses_bundled_binary PASSED [ 48%]
-tests/test_virus.py::TestVirus::test_save_genbank_metadata_to_csv_empty PASSED [ 48%]
-tests/test_virus.py::TestVirus::test_is_alphainfluenza_query_common_names PASSED [ 48%]
-tests/test_virus.py::TestVirus::test_get_datasets_version_returns_string_or_none PASSED [ 48%]
-tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_peptide_count PASSED [ 49%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_combined PASSED [ 49%]
-tests/test_virus.py::TestVirus::test_virus_integer_virus_id PASSED       [ 49%]
-tests/test_virus.py::TestVirus::test_parse_partial_date_year_month_min PASSED [ 49%]
-tests/test_virus.py::TestVirus::test_check_min_max_invalid_raises PASSED [ 50%]
-tests/test_virus.py::TestVirus::test_get_memory_usage_returns_dict PASSED [ 50%]
-tests/test_virus.py::TestVirus::test_check_min_max_date_valid PASSED     [ 50%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_geographic_location PASSED [ 50%]
-tests/test_virus.py::TestVirus::test_virus_invalid_proteins_complete_type PASSED [ 50%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_no_filters PASSED [ 51%]
-tests/test_virus.py::TestVirus::test_retry_helper_failed_commands_tracking PASSED [ 51%]
-tests/test_virus.py::TestVirus::test_virus_invalid_genbank_metadata_type PASSED [ 51%]
-tests/test_virus.py::TestVirus::test_parse_baseline_file_csv PASSED      [ 51%]
-tests/test_virus.py::TestVirus::test_parse_partial_date_empty_raises PASSED [ 52%]
-tests/test_virus.py::TestVirus::test_is_alphainfluenza_query_negative PASSED [ 52%]
-tests/test_virus.py::TestVirus::test_save_genbank_metadata_to_csv_basic PASSED [ 52%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_submitter_name PASSED [ 52%]
-tests/test_virus.py::TestVirus::test_parse_date_full PASSED              [ 53%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_host PASSED    [ 53%]
-tests/test_virus.py::TestVirus::test_datasets_cli_version_output PASSED  [ 53%]
-tests/test_virus.py::TestVirus::test_write_fasta_record_with_description PASSED [ 53%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_min_gene_count PASSED [ 53%]
-tests/test_virus.py::TestVirus::test_virus_multi_accession_space_separated PASSED [ 54%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_empty PASSED [ 54%]
-tests/test_virus.py::TestVirus::test_parse_partial_date_year_month_max PASSED [ 54%]
-tests/test_virus.py::TestVirus::test_parse_baseline_file_text PASSED     [ 54%]
-tests/test_virus.py::TestVirus::test_parse_accession_input_empty_file_raises_error PASSED [ 55%]
-tests/test_virus.py::TestVirus::test_save_command_summary_with_error PASSED [ 55%]
-tests/test_virus.py::TestVirus::test_virus_metadata_schema_validation PASSED [ 55%]
-tests/test_virus.py::TestVirus::test_virus_with_max_ambiguous_chars_filter PASSED [ 55%]
-tests/test_virus.py::TestVirus::test_load_metadata_from_api_reports_empty PASSED [ 56%]
-tests/test_virus.py::TestVirus::test_virus_with_length_filters PASSED    [ 56%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_max_gene_count PASSED [ 56%]
-tests/test_virus.py::TestVirus::test_merge_baseline_with_new_csv PASSED  [ 56%]
-tests/test_virus.py::TestVirus::test_virus_host_filter_verification PASSED [ 56%]
-tests/test_virus.py::TestVirus::test_validate_datasets_binary_nonexistent PASSED [ 57%]
-tests/test_virus.py::TestVirus::test_retry_helper_successful_operation PASSED [ 57%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_genotype PASSED [ 57%]
-tests/test_virus.py::TestVirus::test_virus_invalid_genbank_batch_size_negative PASSED [ 57%]
-tests/test_virus.py::TestVirus::test_check_min_max_date_invalid_raises PASSED [ 58%]
-tests/test_virus.py::TestVirus::test_get_modified_virus_name_remove_parentheses PASSED [ 58%]
-tests/test_virus.py::TestVirus::test_parse_partial_date_year_only_max_comparison PASSED [ 58%]
-tests/test_virus.py::TestVirus::test_retry_helper_non_retryable_exception PASSED [ 58%]
-tests/test_virus.py::TestVirus::test_virus_invalid_keep_temp_type PASSED [ 59%]
-tests/test_virus.py::TestVirus::test_track_failed_operation_none_dict PASSED [ 59%]
-tests/test_virus.py::TestVirus::test_deduplicate_all_existing PASSED     [ 59%]
-tests/test_virus.py::TestVirus::test_virus_with_completeness_filter PASSED [ 59%]
-tests/test_virus.py::TestVirus::test_track_failed_operation_appends PASSED [ 59%]
-tests/test_virus.py::TestVirus::test_genbank_xml_to_csv_basic PASSED     [ 60%]
-tests/test_virus.py::TestVirus::test_filter_sequences_no_filters PASSED  [ 60%]
-tests/test_virus.py::TestVirus::test_virus_with_geographic_location_filter PASSED [ 60%]
-tests/test_virus.py::TestVirus::test_calculate_max_accessions_per_batch PASSED [ 60%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_gen_mol_type PASSED [ 61%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_lab_passaged_true PASSED [ 61%]
-tests/test_virus.py::TestVirus::test_validate_datasets_binary_empty_path PASSED [ 61%]
-tests/test_virus.py::TestVirus::test_filter_cached_annotated PASSED      [ 61%]
-tests/test_virus.py::TestVirus::test_parse_baseline_file_none_raises PASSED [ 62%]
-tests/test_virus.py::TestVirus::test_virus_with_source_database_filter PASSED [ 62%]
-tests/test_virus.py::TestVirus::test_track_failed_operation_creates_key PASSED [ 62%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_provirus_false PASSED [ 62%]
-tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_release_date PASSED [ 62%]
-tests/test_virus.py::TestVirus::test_parse_baseline_file_empty_raises PASSED [ 63%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_collection_date_range PASSED [ 63%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_submitter_institution PASSED [ 63%]
-tests/test_virus.py::TestVirus::test_get_modified_virus_name_already_correct_returns_none PASSED [ 63%]
-tests/test_virus.py::TestVirus::test_merge_metadata_csvs_no_overwrite PASSED [ 64%]
-tests/test_virus.py::TestVirus::test_check_min_max_none_values PASSED    [ 64%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_max_release_date PASSED [ 64%]
-tests/test_virus.py::TestVirus::test_virus_with_collection_date_filters PASSED [ 64%]
-tests/test_virus.py::TestVirus::test_virus_with_has_proteins_filter PASSED [ 65%]
-tests/test_virus.py::TestVirus::test_filter_cached_no_filters PASSED     [ 65%]
-tests/test_virus.py::TestVirus::test_virus_relationship_check_counts_match PASSED [ 65%]
-tests/test_virus.py::TestVirus::test_virus_invalid_annotated_type PASSED [ 65%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_annotated_false PASSED [ 65%]
-tests/test_virus.py::TestVirus::test_write_fasta_record_without_description PASSED [ 66%]
-tests/test_virus.py::TestVirus::test_get_modified_virus_name_add_virus_suffix PASSED [ 66%]
-tests/test_virus.py::TestVirus::test_save_partial_metadata PASSED        [ 66%]
-tests/test_virus.py::TestVirus::test_virus_with_multiple_filters PASSED  [ 66%]
-tests/test_virus.py::TestVirus::test_force_garbage_collection_runs PASSED [ 67%]
-tests/test_virus.py::TestVirus::test_unzip_file_nonexistent_raises PASSED [ 67%]
-tests/test_virus.py::TestVirus::test_get_modified_virus_name_no_parentheses_returns_none PASSED [ 67%]
-tests/test_virus.py::TestVirus::test_retry_helper_custom_retryable_exceptions PASSED [ 67%]
-tests/test_virus.py::TestVirus::test_unzip_file_valid PASSED             [ 68%]
-tests/test_virus.py::TestVirus::test_parse_partial_date_full_date PASSED [ 68%]
-tests/test_virus.py::TestVirus::test_deduplicate_metadata_against_baseline PASSED [ 68%]
-tests/test_virus.py::TestVirus::test_parse_date_invalid_raises PASSED    [ 68%]
-tests/test_virus.py::TestVirus::test_filter_sequences_proteins_complete PASSED [ 68%]
-tests/test_virus.py::TestVirus::test_filter_cached_complete_only PASSED  [ 69%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_mature_peptide_count PASSED [ 69%]
-tests/test_virus.py::TestVirus::test_virus_with_genbank_metadata_retrieval PASSED [ 69%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_vaccine_strain_true PASSED [ 69%]
-tests/test_virus.py::TestVirus::test_merge_baseline_with_new_deduplicates PASSED [ 70%]
-tests/test_virus.py::TestVirus::test_virus_invalid_lab_passaged_type PASSED [ 70%]
-tests/test_virus.py::TestVirus::test_is_sars_cov2_query_common_names PASSED [ 70%]
-tests/test_virus.py::TestVirus::test_virus_multi_accession_file_input PASSED [ 70%]
-tests/test_virus.py::TestVirus::test_save_partial_metadata_empty PASSED  [ 71%]
-tests/test_virus.py::TestVirus::test_load_metadata_from_api_reports_multiple PASSED [ 71%]
-tests/test_virus.py::TestVirus::test_save_metadata_to_csv_empty_metadata PASSED [ 71%]
-tests/test_virus.py::TestVirus::test_parse_genbank_xml_invalid_raises PASSED [ 71%]
-tests/test_virus.py::TestVirus::test_get_modified_virus_name_empty_returns_none PASSED [ 71%]
-tests/test_virus.py::TestVirus::test_filter_cached_host_not_in_strategy PASSED [ 72%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_no_filters PASSED [ 72%]
-tests/test_virus.py::TestVirus::test_get_modified_virus_name_invalid_attempt_returns_none PASSED [ 72%]
-tests/test_virus.py::TestVirus::test_virus_with_protein_count_filters PASSED [ 72%]
-tests/test_virus.py::TestVirus::test_parse_partial_date_year_only_min_comparison PASSED [ 73%]
-tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_collection_date PASSED [ 73%]
-tests/test_virus.py::TestVirus::test_validate_datasets_binary_valid PASSED [ 73%]
-tests/test_virus.py::TestVirus::test_unzip_file_bad_zip_raises PASSED    [ 73%]
-tests/test_virus.py::TestVirus::test_is_sars_cov2_query_negative PASSED  [ 74%]
-tests/test_virus.py::TestVirus::test_virus_specific_accession_file_creation PASSED [ 74%]
-tests/test_virus.py::TestVirus::test_filter_cached_refseq_only PASSED    [ 74%]
-tests/test_virus.py::TestVirus::test_parse_genbank_xml_basic PASSED      [ 74%]
-tests/test_virus.py::TestVirus::test_merge_baseline_with_new_empty_new PASSED [ 75%]
-tests/test_virus.py::TestVirus::test_parse_accession_input_space_separated PASSED [ 75%]
-tests/test_virus.py::TestVirus::test_filter_genbank_metadata_genotype_list PASSED [ 75%]
-tests/test_virus.py::TestVirus::test_get_modified_virus_name_add_space_before_virus PASSED [ 75%]
-tests/test_virus.py::TestVirus::test_parse_accession_input_from_file PASSED [ 75%]
-tests/test_virus.py::TestVirus::test_parse_accession_input_nonexistent_file_raises_error PASSED [ 76%]
-tests/test_virus.py::TestVirus::test_parse_baseline_file_nonexistent_raises PASSED [ 76%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_nuc_completeness_partial PASSED [ 76%]
-tests/test_virus.py::TestVirus::test_local_name_with_namespace PASSED    [ 76%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_max_seq_length PASSED [ 77%]
-tests/test_virus.py::TestVirus::test_filter_cached_geographic_location PASSED [ 77%]
-tests/test_virus.py::TestVirus::test_filter_metadata_only_vaccine_strain_false PASSED [ 77%]
-tests/test_virus.py::TestVirus::test_virus_min_greater_than_max_protein_count PASSED [ 77%]
-tests/test_virus.py::TestVirus::test_parse_genbank_xml_empty_set PASSED  [ 78%]
-tests/test_virus.py::TestVirus::test_is_alphainfluenza_query_accession_mode PASSED [ 78%]
-tests/test_archs4.py::TestArchs4::test_archs4_bad_gene PASSED            [ 78%]
-tests/test_archs4.py::TestArchs4::test_archs4_bad_gene_tissue PASSED     [ 78%]
-tests/test_archs4.py::TestArchs4::test_archs4_mouse_json_ensembl PASSED  [ 78%]
-tests/test_archs4.py::TestArchs4::test_archs4_tissue_ensembl PASSED      [ 79%]
-tests/test_archs4.py::TestArchs4::test_archs4_tissue_mouse PASSED        [ 79%]
-tests/test_archs4.py::TestArchs4::test_archs4_bad_ensembl PASSED         [ 79%]
-tests/test_archs4.py::TestArchs4::test_archs4_tissue_json PASSED         [ 79%]
-tests/test_archs4.py::TestArchs4::test_archs4_defaults PASSED            [ 80%]
-tests/test_archs4.py::TestArchs4::test_archs4_bad_which PASSED           [ 80%]
-tests/test_archs4.py::TestArchs4::test_archs4_bad_species PASSED         [ 80%]
-tests/test_archs4.py::TestArchs4::test_archs4_tissue PASSED              [ 80%]
-tests/test_archs4.py::TestArchs4MissingColor::test_tissue_missing_color_does_not_crash PASSED [ 81%]
-tests/test_blat.py::TestBlat::test_blat_aa_RNA PASSED                    [ 81%]
-tests/test_blat.py::TestBlat::test_blat_nt_RNA PASSED                    [ 81%]
-tests/test_blat.py::TestBlat::test_blat_nt_fasta PASSED                  [ 81%]
-tests/test_blat.py::TestBlat::test_blat_nt_txt PASSED                    [ 81%]
-tests/test_blat.py::TestBlat::test_blat_bad_fasta PASSED                 [ 82%]
-tests/test_blat.py::TestBlat::test_blat_bad_txt PASSED                   [ 82%]
-tests/test_blat.py::TestBlat::test_blat_bad_fileformat PASSED            [ 82%]
-tests/test_blat.py::TestBlat::test_blat_nt_json PASSED                   [ 82%]
-tests/test_blat.py::TestBlat::test_blat_nt_DNA PASSED                    [ 83%]
-tests/test_blat.py::TestBlat::test_blat_nt_transDNA PASSED               [ 83%]
-tests/test_blat.py::TestBlat::test_blat_bad_assembly PASSED              [ 83%]
-tests/test_blat.py::TestBlat::test_blat_aa_protein PASSED                [ 83%]
-tests/test_blat.py::TestBlat::test_blat_nt_protein PASSED                [ 84%]
-tests/test_blat.py::TestBlat::test_blat_nt PASSED                        [ 84%]
-tests/test_blat.py::TestBlat::test_blat_aa PASSED                        [ 84%]
-tests/test_blat.py::TestBlat::test_blat_shortseq PASSED                  [ 84%]
-tests/test_blat.py::TestBlat::test_blat_bad_seqtype PASSED               [ 84%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_bad_species PASSED      [ 85%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_diseases_drugs PASSED   [ 85%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_pathway PASSED          [ 85%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_bad_background PASSED   [ 85%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_ensembl_ids PASSED      [ 86%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_bad_gene PASSED         [ 86%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_background_ensembl PASSED [ 86%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_ontology PASSED         [ 86%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_bad_background_list PASSED [ 87%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_background PASSED       [ 87%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_none PASSED             [ 87%]
+FAILED                                                                   [ 80%]
+tests/test_blast.py::TestBlast::test_blast_bad_fasta PASSED              [ 81%]
+tests/test_blast.py::TestBlast::test_blast_bad_program PASSED            [ 81%]
+tests/test_blast.py::TestBlast::test_blast_bad_db2 PASSED                [ 81%]
+tests/test_blast.py::TestBlast::test_blast_bad_seq PASSED                [ 81%]
+tests/test_blast.py::TestBlast::test_blast_bad_db1 PASSED                [ 81%]
+tests/test_compile.py::TestCompilerWindows::test_compiler_windows PASSED [ 82%]
+tests/test_utils.py::TestQueryRetry::test_retry_after_header_used PASSED [ 82%]
+tests/test_utils.py::TestQueryRetry::test_retries_on_503_then_succeeds PASSED [ 82%]
+tests/test_utils.py::TestQueryRetry::test_no_retry_on_client_error PASSED [ 82%]
+tests/test_utils.py::TestQueryRetry::test_exhausts_retries_on_persistent_503 PASSED [ 83%]
+tests/test_utils.py::TestQueryRetry::test_persistent_connection_error_raises PASSED [ 83%]
+tests/test_utils.py::TestQueryRetry::test_retries_on_connection_error_then_succeeds PASSED [ 83%]
+tests/test_utils.py::TestUtils::test_search_species_options_bad_type PASSED [ 83%]
+tests/test_utils.py::TestUtils::test_rest_query PASSED                   [ 84%]
+tests/test_utils.py::TestUtils::test_get_uniprot_seqs PASSED             [ 84%]
+tests/test_utils.py::TestUtils::test_find_latest_ens_rel PASSED          [ 84%]
+tests/test_utils.py::TestUtils::test_get_uniprot_info_gene PASSED        [ 84%]
+tests/test_utils.py::TestUtils::test_n_colors PASSED                     [ 84%]
+tests/test_utils.py::TestUtils::test_ref_species_options_bad_type PASSED [ 85%]
+tests/test_utils.py::TestUtils::test_search_species_options PASSED       [ 85%]
+tests/test_utils.py::TestUtils::test_search_iv_species_options PASSED    [ 85%]
+tests/test_utils.py::TestUtils::test_get_uniprot_info_transcript PASSED  [ 85%]
+tests/test_utils.py::TestUtils::test_read_fasta PASSED                   [ 86%]
+tests/test_utils.py::TestUtils::test_ref_species_options PASSED          [ 86%]
+tests/test_utils.py::TestUtils::test_aa_colors PASSED                    [ 86%]
+tests/test_utils.py::TestUtils::test_rest_query_bad_type PASSED          [ 86%]
+tests/test_utils.py::TestUtils::test_ref_iv_species_options PASSED       [ 87%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_transcription PASSED    [ 87%]
 tests/test_enrichr.py::TestEnrichr::test_enrichr_kinase_interactions PASSED [ 87%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_json PASSED             [ 87%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_yeast PASSED            [ 88%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_bad_database_shortcut PASSED [ 88%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_fish PASSED             [ 88%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_fly PASSED              [ 88%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_worm PASSED             [ 89%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_ensembl_ids PASSED      [ 87%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_plot PASSED             [ 87%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_ontology PASSED         [ 88%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_worm PASSED             [ 88%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_background_ensembl PASSED [ 88%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_background PASSED       [ 88%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_bad_database_shortcut PASSED [ 89%]
 tests/test_enrichr.py::TestEnrichr::test_enrichr_celltypes PASSED        [ 89%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_transcription PASSED    [ 89%]
 tests/test_enrichr.py::TestEnrichr::test_enrichr_mouse_is_human PASSED   [ 89%]
-tests/test_enrichr.py::TestEnrichr::test_enrichr_plot PASSED             [ 90%]
-tests/test_cellxgene.py::TestCellxgene::test_cellxgene_metadata SKIPPED  [ 90%]
-tests/test_cellxgene.py::TestCellxgene::test_cellxgene_metadata_macaca_mulatta SKIPPED [ 90%]
-tests/test_cellxgene.py::TestCellxgene::test_cellxgene_adata SKIPPED     [ 90%]
-tests/test_cellxgene.py::TestReprDict::test_repr_dict_ignores_none_layer_key PASSED [ 90%]
-tests/test_cellxgene.py::TestCellxgeneValidation::test_supported_species_includes_new_primates PASSED [ 91%]
-tests/test_cellxgene.py::TestCellxgeneValidation::test_invalid_species_raises_valueerror PASSED [ 91%]
-tests/test_cellxgene.py::TestCellxgeneValidation::test_typo_species_raises_valueerror PASSED [ 91%]
-tests/test_cosmic.py::TestCosmicWorkflow::test_cosmic_defaults ERROR     [ 91%]
-tests/test_cbio.py::TestCbio::test_error_cbio_download PASSED            [ 92%]
-tests/test_cbio.py::TestCbio::test_cbio_download PASSED                  [ 92%]
-tests/test_cbio.py::TestCbio::test_cbio_download_partially_existing_files PASSED [ 92%]
-tests/test_cbio.py::TestCbioSearch::test_cbio_search FAILED              [ 92%]
-tests/test_ref.py::TestRef::test_ref_bad_which PASSED                    [ 93%]
-tests/test_ref.py::TestRef::test_ref_list PASSED                         [ 93%]
-tests/test_ref.py::TestRef::test_ref_rel_ftp PASSED                      [ 93%]
-tests/test_ref.py::TestRef::test_ref_rel PASSED                          [ 93%]
-tests/test_ref.py::TestRef::test_ref_which_plant PASSED                  [ 93%]
-tests/test_ref.py::TestRef::test_ref PASSED                              [ 94%]
-tests/test_ref.py::TestRef::test_ref_bad_rel PASSED                      [ 94%]
-tests/test_ref.py::TestRef::test_ref_plant PASSED                        [ 94%]
-tests/test_ref.py::TestRef::test_ref_which PASSED                        [ 94%]
-tests/test_ref.py::TestRef::test_ref_bad_species PASSED                  [ 95%]
-tests/test_ref.py::TestRef::test_ref_rel_ftp_octopus PASSED              [ 95%]
-tests/test_ref.py::TestRef::test_ref_ftp PASSED                          [ 95%]
-tests/test_ref.py::TestRef::test_ref_rel_protist PASSED                  [ 95%]
-tests/test_search.py::TestSearch::test_search_gene_two_sw_or PASSED      [ 96%]
-tests/test_search.py::TestSearch::test_search_octopus PASSED             [ 96%]
-tests/test_search.py::TestSearch::test_search_db PASSED                  [ 96%]
-tests/test_search.py::TestSearch::test_search_gene_bad_species PASSED    [ 96%]
-tests/test_search.py::TestSearch::test_search_gene_one_sw_limit PASSED   [ 96%]
-tests/test_search.py::TestSearch::test_search_plant_db PASSED            [ 97%]
-tests/test_search.py::TestSearch::test_search_transcript_one_sw PASSED   [ 97%]
-tests/test_search.py::TestSearch::test_search_gene_one_sw_json PASSED    [ 97%]
-tests/test_search.py::TestSearch::test_search_gene_two_sw_and PASSED     [ 97%]
-tests/test_search.py::TestSearch::test_search_gene_one_sw PASSED         [ 98%]
-tests/test_search.py::TestSearch::test_search_gene_bad_andor PASSED      [ 98%]
-tests/test_search.py::TestSearch::test_search_release PASSED             [ 98%]
-tests/test_search.py::TestSearch::test_search_plant PASSED               [ 98%]
-tests/test_search.py::TestSearch::test_search_transcript_bad_andor PASSED [ 99%]
-tests/test_search.py::TestSearch::test_search_gene_two_sw_limit PASSED   [ 99%]
-tests/test_search.py::TestSearch::test_search_transcript_bad_species PASSED [ 99%]
-tests/test_search.py::TestSearch::test_search_transcript_two_sw_or PASSED [ 99%]
-tests/test_search.py::TestSearch::test_search_transcript_two_sw_and PASSED [100%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_fish PASSED             [ 89%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_yeast PASSED            [ 90%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_bad_background PASSED   [ 90%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_json PASSED             [ 90%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_bad_species PASSED      [ 90%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_bad_gene PASSED         [ 90%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_fly PASSED              [ 91%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_diseases_drugs PASSED   [ 91%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_bad_background_list PASSED [ 91%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_none PASSED             [ 91%]
+tests/test_enrichr.py::TestEnrichr::test_enrichr_pathway PASSED          [ 92%]
+tests/test_8cube.py::TestSpecificity::test_specificity_basic PASSED      [ 92%]
+tests/test_8cube.py::TestGeneExpression::test_gene_expression_basic PASSED [ 92%]
+tests/test_8cube.py::TestPsiBlock::test_psi_block_basic PASSED           [ 92%]
+tests/test_opentargets.py::TestOpenTargetsExpressionMocked::test_expression_empty_is_graceful PASSED [ 93%]
+tests/test_opentargets.py::TestOpenTargetsExpressionMocked::test_expression_json PASSED [ 93%]
+tests/test_opentargets.py::TestOpenTargetsExpressionMocked::test_expression_limit PASSED [ 93%]
+tests/test_opentargets.py::TestOpenTargetsExpressionMocked::test_expression_parses_baseline_rows PASSED [ 93%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_interactions FAILED [ 93%]
+tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_nonexistent_id PASSED [ 94%]
+tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_bad_limit PASSED [ 94%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_depmap_filter FAILED [ 94%]
+tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_drugs_invalid_filter PASSED [ 94%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_interactions_no_limit FAILED [ 95%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_diseases FAILED [ 95%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_drugs FAILED [ 95%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_tractability PASSED [ 95%]
+tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_diseases_filter PASSED [ 96%]
+tests/test_opentargets.py::TestOpenTargets::test_error_opentargets_bad_resource PASSED [ 96%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_interactions_simple_filter PASSED [ 96%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_pharmacogenetics FAILED [ 96%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets FAILED      [ 96%]
+tests/test_opentargets.py::TestOpenTargets::test_opentargets_depmap FAILED [ 97%]
+tests/test_info.py::TestInfo::test_info_gene FAILED                      [ 97%]
+tests/test_info.py::TestInfo::test_info_ncbifalse_uniprotfalse PASSED    [ 97%]
+tests/test_info.py::TestInfo::test_info_exon PASSED                      [ 97%]
+tests/test_info.py::TestInfo::test_info_transcript PASSED                [ 98%]
+tests/test_info.py::TestInfo::test_info_gene_list_non_model PASSED       [ 98%]
+tests/test_info.py::TestInfo::test_info_mix PASSED                       [ 98%]
+tests/test_info.py::TestInfo::test_info_WB_transcript PASSED             [ 98%]
+tests/test_info.py::TestInfo::test_info_ncbifalse_uniprottrue PASSED     [ 99%]
+tests/test_info.py::TestInfo::test_info_ncbitrue_uniprotfalse FAILED     [ 99%]
+tests/test_info.py::TestInfoExpandFallback::test_info_queries_exons_without_expand PASSED [ 99%]
+tests/test_info.py::TestInfoExpandFallback::test_batch_failure_falls_back_to_single_ids PASSED [ 99%]
+tests/test_info.py::TestInfoExpandFallback::test_exon_and_translation_ids_detected PASSED [100%]
 
 ==================================== ERRORS ====================================
 __________ ERROR at setup of TestCosmicWorkflow.test_cosmic_defaults ___________
@@ -508,6 +519,565 @@ INFO     gget.utils:gget_cosmic.py:190 Extracted tar file to /home/runner/work/g
 INFO     gget.utils:gget_cosmic.py:487 Creating modified mutations file for use with gget mutate...
 INFO     gget.utils:gget_cosmic.py:682 Modified mutations file for use with gget mutate created at /home/runner/work/gget/gget/example_GRCh37/CancerMutationCensus_AllData_v105_GRCh37_mutation_workflow.csv
 =================================== FAILURES ===================================
+_____________________ TestDiamond.test_diamond_query_file ______________________
+
+self = <tests.test_diamond.TestDiamond testMethod=test_diamond_query_file>
+
+    def assert_equal(self: unittest.TestCase):
+        test = name
+        expected_result = td[test]["expected_result"]
+        result_to_test = do_call(func, td[test]["args"])
+        if test == "test_cosmic_defaults":  # special case for cosmic
+            import numpy as np
+    
+            expected_result = pd.DataFrame(expected_result[0])
+            expected_result = expected_result.replace({None: np.nan})
+            # result_to_test.equals(expected_result)
+            pd.testing.assert_frame_equal(result_to_test, expected_result, check_dtype=False)
+            return
+    
+        # If result is a DataFrame, convert to list
+        if isinstance(result_to_test, pd.DataFrame):
+            result_to_test = result_to_test.dropna(axis=1).values.tolist()
+    
+>       self.assertEqual(result_to_test, expected_result)
+E       AssertionError: Lists differ: [['EN[64 chars], 3.84e-52, 144], ['ENSTGUT00000027003', 'Seq0[50 chars]187]] != [['EN[64 chars], 3.8399999999999994e-52, 144], ['ENSTGUT00000[64 chars]187]]
+E       
+E       First differing element 0:
+E       ['ENS[30 chars] 84, 88, 67, 0, 0, 11, 77, 22, 88, 3.84e-52, 144]
+E       ['ENS[30 chars] 84, 88, 67, 0, 0, 11, 77, 22, 88, 3.8399999999999994e-52, 144]
+E       
+E         [['ENSTGUT00000006367',
+E           'Seq0',
+E           100,
+E           84,
+E           88,
+E           67,
+E           0,
+E           0,
+E           11,
+E           77,
+E           22,
+E           88,
+E       -   3.84e-52,
+E       +   3.8399999999999994e-52,
+E           144],
+E          ['ENSTGUT00000027003',
+E           'Seq0',
+E           100,
+E           88,
+E           88,
+E           88,
+E           0,
+E           0,
+E           1,
+E           88,
+E           1,
+E           88,
+E           3.69e-69,
+E           187]]
+
+tests/from_json.py:82: AssertionError
+----------------------------- Captured stdout call -----------------------------
+diamond version 2.1.8
+------------------------------ Captured log call -------------------------------
+INFO     gget.utils:gget_diamond.py:174 Creating DIAMOND database and initiating alignment...
+INFO     gget.utils:gget_diamond.py:246 DIAMOND alignment complete.
+______________________ TestDiamond.test_diamond_ref_file _______________________
+
+self = <tests.test_diamond.TestDiamond testMethod=test_diamond_ref_file>
+
+    def assert_equal(self: unittest.TestCase):
+        test = name
+        expected_result = td[test]["expected_result"]
+        result_to_test = do_call(func, td[test]["args"])
+        if test == "test_cosmic_defaults":  # special case for cosmic
+            import numpy as np
+    
+            expected_result = pd.DataFrame(expected_result[0])
+            expected_result = expected_result.replace({None: np.nan})
+            # result_to_test.equals(expected_result)
+            pd.testing.assert_frame_equal(result_to_test, expected_result, check_dtype=False)
+            return
+    
+        # If result is a DataFrame, convert to list
+        if isinstance(result_to_test, pd.DataFrame):
+            result_to_test = result_to_test.dropna(axis=1).values.tolist()
+    
+>       self.assertEqual(result_to_test, expected_result)
+E       AssertionError: Lists differ: [['Se[61 chars]8, 7.2e-69, 187], ['Seq0', 'ENSTGUT00000006367[52 chars]145]] != [['Se[61 chars]8, 7.199999999999999e-69, 187], ['Seq0', 'ENST[66 chars]145]]
+E       
+E       First differing element 0:
+E       ['Seq[27 chars]00, 88, 88, 88, 0, 0, 1, 88, 1, 88, 7.2e-69, 187]
+E       ['Seq[27 chars]00, 88, 88, 88, 0, 0, 1, 88, 1, 88, 7.199999999999999e-69, 187]
+E       
+E         [['Seq0',
+E           'ENSTGUT00000027003',
+E           100,
+E           88,
+E           88,
+E           88,
+E           0,
+E           0,
+E           1,
+E           88,
+E           1,
+E           88,
+E       -   7.2e-69,
+E       +   7.199999999999999e-69,
+E           187],
+E          ['Seq0',
+E           'ENSTGUT00000006367',
+E           100,
+E           88,
+E           84,
+E           67,
+E           0,
+E           0,
+E           22,
+E           88,
+E           11,
+E           77,
+E           2.74e-52,
+E           145]]
+
+tests/from_json.py:82: AssertionError
+----------------------------- Captured stdout call -----------------------------
+diamond version 2.1.8
+------------------------------ Captured log call -------------------------------
+INFO     gget.utils:gget_diamond.py:174 Creating DIAMOND database and initiating alignment...
+INFO     gget.utils:gget_diamond.py:246 DIAMOND alignment complete.
+_____________________ TestDiamond.test_diamond_both_files ______________________
+
+self = <tests.test_diamond.TestDiamond testMethod=test_diamond_both_files>
+
+    def assert_equal(self: unittest.TestCase):
+        test = name
+        expected_result = td[test]["expected_result"]
+        result_to_test = do_call(func, td[test]["args"])
+        if test == "test_cosmic_defaults":  # special case for cosmic
+            import numpy as np
+    
+            expected_result = pd.DataFrame(expected_result[0])
+            expected_result = expected_result.replace({None: np.nan})
+            # result_to_test.equals(expected_result)
+            pd.testing.assert_frame_equal(result_to_test, expected_result, check_dtype=False)
+            return
+    
+        # If result is a DataFrame, convert to list
+        if isinstance(result_to_test, pd.DataFrame):
+            result_to_test = result_to_test.dropna(axis=1).values.tolist()
+    
+>       self.assertEqual(result_to_test, expected_result)
+E       AssertionError: Lists differ: [['EN[176 chars], 7.51e-52, 144], ['ENSTGUT00000027003', 'ENST[163 chars]145]] != [['EN[176 chars], 7.509999999999999e-52, 144], ['ENSTGUT000000[190 chars]145]]
+E       
+E       First differing element 1:
+E       ['ENS[43 chars], 84, 88, 67, 0, 0, 11, 77, 22, 88, 7.51e-52, 144]
+E       ['ENS[43 chars], 84, 88, 67, 0, 0, 11, 77, 22, 88, 7.509999999999999e-52, 144]
+E       
+E         [['ENSTGUT00000006367',
+E           'ENSTGUT00000006367',
+E           100,
+E           84,
+E           84,
+E           84,
+E           0,
+E           0,
+E           1,
+E           84,
+E           1,
+E           84,
+E           2.04e-64,
+E           176],
+E          ['ENSTGUT00000006367',
+E           'ENSTGUT00000027003',
+E           100,
+E           84,
+E           88,
+E           67,
+E           0,
+E           0,
+E           11,
+E           77,
+E           22,
+E           88,
+E       -   7.51e-52,
+E       +   7.509999999999999e-52,
+E           144],
+E          ['ENSTGUT00000027003',
+E           'ENSTGUT00000027003',
+E           100,
+E           88,
+E           88,
+E           88,
+E           0,
+E           0,
+E           1,
+E           88,
+E           1,
+E           88,
+E       -   7.2e-69,
+E       +   7.199999999999999e-69,
+E           187],
+E          ['ENSTGUT00000027003',
+E           'ENSTGUT00000006367',
+E           100,
+E           88,
+E           84,
+E           67,
+E           0,
+E           0,
+E           22,
+E           88,
+E           11,
+E           77,
+E           2.74e-52,
+E           145]]
+
+tests/from_json.py:82: AssertionError
+----------------------------- Captured stdout call -----------------------------
+diamond version 2.1.8
+------------------------------ Captured log call -------------------------------
+INFO     gget.utils:gget_diamond.py:174 Creating DIAMOND database and initiating alignment...
+INFO     gget.utils:gget_diamond.py:246 DIAMOND alignment complete.
+__________________ TestSeq.test_seq_missing_uniprot_gene_name __________________
+
+self = <tests.test_seq.TestSeq testMethod=test_seq_missing_uniprot_gene_name>
+
+    def test_seq_missing_uniprot_gene_name(self):
+        test = "test11"
+        expected_result = seq_dict[test]["expected_result"]
+        result_to_test = seq(**seq_dict[test]["args"])
+    
+>       self.assertListEqual(result_to_test, expected_result)
+E       AssertionError: Lists differ: ['>EN[67 chars]ame: RBM27-POU4F3 organism: Homo sapiens seque[1044 chars]AGT'] != ['>EN[67 chars]ame: LOC127814297 organism: Homo sapiens seque[1044 chars]AGT']
+E       
+E       First differing element 0:
+E       '>ENS[66 chars]ame: RBM27-POU4F3 organism: Homo sapiens sequence_length: 1027'
+E       '>ENS[66 chars]ame: LOC127814297 organism: Homo sapiens sequence_length: 1027'
+E       
+E         ['>ENST00000506502 uniprot_id: U3KPZ7 ensembl_id: ENST00000506502 gene_name: '
+E       -  'RBM27-POU4F3 organism: Homo sapiens sequence_length: 1027',
+E       ?   ^^^  ^^^^ ^^
+E       
+E       +  'LOC127814297 organism: Homo sapiens sequence_length: 1027',
+E       ?   ^^^^  ^^ ^^^
+E       
+E          'MLIEDVDALKSWLAKLLEPICDADPSALANYVVALVKKDKPEKELKAFCADQLDVFLQKETSGFVDKLFESLYTKNYLPLLEPVKPEPKPLVQEKEEIKEEVFQEPAEEERDGRKKKYPSPQKTRSESSERRTREKKREDGKWRDYDRYYERNELYREKYDWRRGRSKSRSKSRGLSRSRSRSRGRSKDRDPNRNVEHRERSKFKSERNDLESSYVPVSAPPPNSSEQYSSGAQSIPSTVTVIAPAHHSENTTESWSNYYNNHSSSNSFGRNLPPKRRCRDYDERGFCVLGDLCQFDHGNDPLVVDEVALPSMIPFPPPPPGLPPPPPPGMLMPPMPGPGPGPGPGPGPGPGPGPGPGHSMRLPVPQGHGQPPPSVVLPIPRPPITQSSLINSRDQPGTSAVPNLASVGTRLPPPLPQNLLYTVSEHTYEPDGYNPEAPSITSSGRSQYRQFFSRTQTQRPNLIGLTSGDMDVNPRAANIVIQTEPPVPVSINSNITRVVLEPDSRKRAMSGLEGPLTKKPWLGKQGNNNQNKPGFLRKNQYTNTKLEVKKIPQELNNITKLNEHFSKFGTIVNIQVAFKGDPEAALIQYLTNEEARKAISSTEAVLNNRFIRVLWHRENNEQPTLQSSAQLLLQQQQTLSHLSQQHHHLPQHLHQQQVLVAQSAPSTVHGGIQKMMSKPQTSGAYVLNKVPVKHRLGHAGGNQSDASHLLNQSGGAGEDCQIFSTPGHPKMIYSSSNLKTPSKLCSGSKSHDVQEVLKKKQEAMKLQQDMRKKRQEVLEKQIECQKMLISKLEKNKNMKPEERANIMKTLKELGEKISQLKDELKTSSAVSTPSKVKTKTEAQKELLDTELDLHKRLSSGEDTTELRKKLSQLQVEAARLGILPVGRGKTMSSQGRGRGRGRGGRGRGSLNHMVVDHRPKALTVGGFIEEEKEDLLQHFSMEFCSCCPGWSAMVRSRLTATSASLVQVILLPQPPKQLRLQEREDDGHELQAAFRHAPGAARTQILQSALWLRGHAPSLSPSPAGT']
+
+tests/test_seq.py:95: AssertionError
+------------------------------ Captured log call -------------------------------
+INFO     gget.utils:gget_seq.py:251 Requesting amino acid sequence of the canonical transcript ENST00000506502 of gene ENSG00000275740 from UniProt.
+WARNING  gget.utils:utils.py:394 No reviewed UniProt results were found for ID ENST00000506502. Returning all unreviewed results.
+____________________ TestBgee.test_bgee_expression_multiple ____________________
+
+self = <tests.test_bgee.TestBgee testMethod=test_bgee_expression_multiple>
+
+    def assert_equal(self: unittest.TestCase):
+        test = name
+        expected_result = td[test]["expected_result"]
+>       result_to_test = do_call(func, td[test]["args"])
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/from_json.py:68: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/from_json.py:60: in do_call
+    return func(**args)
+           ^^^^^^^^^^^^
+gget/gget_bgee.py:229: in bgee
+    return _bgee_expression(gene_id, json=json, verbose=verbose)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+gget/gget_bgee.py:127: in _bgee_expression
+    species_set = {_bgee_species(gene_id, verbose=verbose) for gene_id in gene_ids}
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+gget/gget_bgee.py:32: in _bgee_species
+    payload = http_json(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+method = 'GET', url = 'https://bgee.org/api/'
+context = 'Bgee API (species lookup)', timeout = (10, 60), retries = 3
+backoff = 1.0
+kwargs = {'headers': {'User-Agent': 'gget/0.30.9 (+https://github.com/scverse/gget)'}, 'params': {'display_type': 'json', 'page': 'gene', 'action': 'general_info', 'gene_id': 'ENSBTAG00000047356'}}
+
+    def http_json(
+        method: str,
+        url: str,
+        *,
+        context: str = "",
+        timeout: float | tuple[float, float] = DEFAULT_REQUESTS_TIMEOUT,
+        retries: int = 3,
+        backoff: float = 1.0,
+        **kwargs: Any,
+    ) -> Any:
+        """Issue an HTTP request and return the parsed JSON body, raising a
+    
+        RuntimeError with consistent context if the request fails or the body
+        is not valid JSON.
+    
+        `context` is a short human-readable label (e.g. "Bgee API") used in
+        error messages so users can identify which upstream service failed.
+        Transient failures (connection errors, read timeouts, HTTP 5xx) are
+        retried up to `retries` additional times with exponential backoff
+        (`backoff * 2**i` seconds between attempts). Set `retries=0` to disable.
+        All other keyword arguments are forwarded to `requests.request`.
+        """
+        label = context or url
+        last_exc = None
+        last_status = None
+        last_body = ""
+        attempts = retries + 1
+        for attempt in range(attempts):
+            try:
+                response = requests.request(method, url, timeout=timeout, **kwargs)
+            except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
+                last_exc = e
+                last_status = None
+                last_body = ""
+            else:
+                if response.ok:
+                    try:
+                        return response.json()
+                    except json.JSONDecodeError as e:
+                        body = response.text[:200] if response.text else ""
+                        raise RuntimeError(
+                            f"{label} returned non-JSON response (HTTP {response.status_code}): {body}"
+                        ) from e
+                # Retry on transient server errors only; client errors are returned
+                # to the caller without retry.
+                if response.status_code < 500:
+                    body = response.text[:200] if response.text else ""
+>                   raise RuntimeError(f"{label} returned HTTP {response.status_code}. Body: {body}")
+E                   RuntimeError: Bgee API (species lookup) returned HTTP 403. Body: <!DOCTYPE html><html lang="en-US"><head><title>Just a moment...</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta nam
+
+gget/utils.py:148: RuntimeError
+------------------------------ Captured log call -------------------------------
+INFO     gget.utils:gget_bgee.py:30 Getting species ID for gene ENSBTAG00000047356 from Bgee
+________________________ TestBgee.test_bgee_expression _________________________
+
+self = <tests.test_bgee.TestBgee testMethod=test_bgee_expression>
+
+    def assert_equal(self: unittest.TestCase):
+        test = name
+        expected_result = td[test]["expected_result"]
+>       result_to_test = do_call(func, td[test]["args"])
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/from_json.py:68: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/from_json.py:60: in do_call
+    return func(**args)
+           ^^^^^^^^^^^^
+gget/gget_bgee.py:229: in bgee
+    return _bgee_expression(gene_id, json=json, verbose=verbose)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+gget/gget_bgee.py:127: in _bgee_expression
+    species_set = {_bgee_species(gene_id, verbose=verbose) for gene_id in gene_ids}
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+gget/gget_bgee.py:32: in _bgee_species
+    payload = http_json(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+method = 'GET', url = 'https://bgee.org/api/'
+context = 'Bgee API (species lookup)', timeout = (10, 60), retries = 3
+backoff = 1.0
+kwargs = {'headers': {'User-Agent': 'gget/0.30.9 (+https://github.com/scverse/gget)'}, 'params': {'display_type': 'json', 'page': 'gene', 'action': 'general_info', 'gene_id': 'ENSBTAG00000047356'}}
+
+    def http_json(
+        method: str,
+        url: str,
+        *,
+        context: str = "",
+        timeout: float | tuple[float, float] = DEFAULT_REQUESTS_TIMEOUT,
+        retries: int = 3,
+        backoff: float = 1.0,
+        **kwargs: Any,
+    ) -> Any:
+        """Issue an HTTP request and return the parsed JSON body, raising a
+    
+        RuntimeError with consistent context if the request fails or the body
+        is not valid JSON.
+    
+        `context` is a short human-readable label (e.g. "Bgee API") used in
+        error messages so users can identify which upstream service failed.
+        Transient failures (connection errors, read timeouts, HTTP 5xx) are
+        retried up to `retries` additional times with exponential backoff
+        (`backoff * 2**i` seconds between attempts). Set `retries=0` to disable.
+        All other keyword arguments are forwarded to `requests.request`.
+        """
+        label = context or url
+        last_exc = None
+        last_status = None
+        last_body = ""
+        attempts = retries + 1
+        for attempt in range(attempts):
+            try:
+                response = requests.request(method, url, timeout=timeout, **kwargs)
+            except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
+                last_exc = e
+                last_status = None
+                last_body = ""
+            else:
+                if response.ok:
+                    try:
+                        return response.json()
+                    except json.JSONDecodeError as e:
+                        body = response.text[:200] if response.text else ""
+                        raise RuntimeError(
+                            f"{label} returned non-JSON response (HTTP {response.status_code}): {body}"
+                        ) from e
+                # Retry on transient server errors only; client errors are returned
+                # to the caller without retry.
+                if response.status_code < 500:
+                    body = response.text[:200] if response.text else ""
+>                   raise RuntimeError(f"{label} returned HTTP {response.status_code}. Body: {body}")
+E                   RuntimeError: Bgee API (species lookup) returned HTTP 403. Body: <!DOCTYPE html><html lang="en-US"><head><title>Just a moment...</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta nam
+
+gget/utils.py:148: RuntimeError
+------------------------------ Captured log call -------------------------------
+INFO     gget.utils:gget_bgee.py:30 Getting species ID for gene ENSBTAG00000047356 from Bgee
+_________________________ TestBgee.test_bgee_orthologs _________________________
+
+self = <tests.test_bgee.TestBgee testMethod=test_bgee_orthologs>
+
+    def assert_equal(self: unittest.TestCase):
+        test = name
+        expected_result = td[test]["expected_result"]
+>       result_to_test = do_call(func, td[test]["args"])
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/from_json.py:68: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/from_json.py:60: in do_call
+    return func(**args)
+           ^^^^^^^^^^^^
+gget/gget_bgee.py:231: in bgee
+    return _bgee_orthologs(gene_id, json=json, verbose=verbose)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+gget/gget_bgee.py:69: in _bgee_orthologs
+    species = _bgee_species(gene_id, verbose=verbose)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+gget/gget_bgee.py:32: in _bgee_species
+    payload = http_json(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+method = 'GET', url = 'https://bgee.org/api/'
+context = 'Bgee API (species lookup)', timeout = (10, 60), retries = 3
+backoff = 1.0
+kwargs = {'headers': {'User-Agent': 'gget/0.30.9 (+https://github.com/scverse/gget)'}, 'params': {'display_type': 'json', 'page': 'gene', 'action': 'general_info', 'gene_id': 'ENSOARG00000019163'}}
+
+    def http_json(
+        method: str,
+        url: str,
+        *,
+        context: str = "",
+        timeout: float | tuple[float, float] = DEFAULT_REQUESTS_TIMEOUT,
+        retries: int = 3,
+        backoff: float = 1.0,
+        **kwargs: Any,
+    ) -> Any:
+        """Issue an HTTP request and return the parsed JSON body, raising a
+    
+        RuntimeError with consistent context if the request fails or the body
+        is not valid JSON.
+    
+        `context` is a short human-readable label (e.g. "Bgee API") used in
+        error messages so users can identify which upstream service failed.
+        Transient failures (connection errors, read timeouts, HTTP 5xx) are
+        retried up to `retries` additional times with exponential backoff
+        (`backoff * 2**i` seconds between attempts). Set `retries=0` to disable.
+        All other keyword arguments are forwarded to `requests.request`.
+        """
+        label = context or url
+        last_exc = None
+        last_status = None
+        last_body = ""
+        attempts = retries + 1
+        for attempt in range(attempts):
+            try:
+                response = requests.request(method, url, timeout=timeout, **kwargs)
+            except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
+                last_exc = e
+                last_status = None
+                last_body = ""
+            else:
+                if response.ok:
+                    try:
+                        return response.json()
+                    except json.JSONDecodeError as e:
+                        body = response.text[:200] if response.text else ""
+                        raise RuntimeError(
+                            f"{label} returned non-JSON response (HTTP {response.status_code}): {body}"
+                        ) from e
+                # Retry on transient server errors only; client errors are returned
+                # to the caller without retry.
+                if response.status_code < 500:
+                    body = response.text[:200] if response.text else ""
+>                   raise RuntimeError(f"{label} returned HTTP {response.status_code}. Body: {body}")
+E                   RuntimeError: Bgee API (species lookup) returned HTTP 403. Body: <!DOCTYPE html><html lang="en-US"><head><title>Just a moment...</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta nam
+
+gget/utils.py:148: RuntimeError
+------------------------------ Captured log call -------------------------------
+INFO     gget.utils:gget_bgee.py:30 Getting species ID for gene ENSOARG00000019163 from Bgee
+_______________________ TestCbioSearch.test_cbio_search ________________________
+
+self = <tests.test_cbio.TestCbioSearch testMethod=test_cbio_search>
+
+    def assert_equal(self: unittest.TestCase):
+        test = name
+        expected_result = td[test]["expected_result"]
+        result_to_test = do_call(func, td[test]["args"])
+        if test == "test_cosmic_defaults":  # special case for cosmic
+            import numpy as np
+    
+            expected_result = pd.DataFrame(expected_result[0])
+            expected_result = expected_result.replace({None: np.nan})
+            # result_to_test.equals(expected_result)
+            pd.testing.assert_frame_equal(result_to_test, expected_result, check_dtype=False)
+            return
+    
+        # If result is a DataFrame, convert to list
+        if isinstance(result_to_test, pd.DataFrame):
+            result_to_test = result_to_test.dropna(axis=1).values.tolist()
+    
+>       self.assertEqual(result_to_test, expected_result)
+E       AssertionError: Lists differ: ['egc[32 chars]_msk_2026', 'egc_msk_tp53_ccr_2022', 'egc_mskc[421 chars]pub'] != ['egc[32 chars]_msk_tp53_ccr_2022', 'egc_mskcc_2020', 'egc_tm[405 chars]pub']
+E       
+E       First differing element 2:
+E       'egc_msk_2026'
+E       'egc_msk_tp53_ccr_2022'
+E       
+E       First list contains 1 additional elements.
+E       First extra element 25:
+E       'stes_tcga_pub'
+E       
+E         ['egc_msk_2017',
+E          'egc_msk_2023',
+E       -  'egc_msk_2026',
+E          'egc_msk_tp53_ccr_2022',
+E          'egc_mskcc_2020',
+E          'egc_tmucih_2015',
+E          'egc_trap_ccr_msk_2023',
+E          'egc_trap_msk_2020',
+E          'esca_broad',
+E          'esca_tcga',
+E          'esca_tcga_gdc',
+E          'esca_tcga_pan_can_atlas_2018',
+E          'escc_icgc',
+E          'escc_ucla_2014',
+E          'hgsoc_msk_2021',
+E          'hgsoc_tcga_gdc',
+E          'lgsoc_mapk_msk_2022',
+E          'msk_spectrum_tme_2022',
+E          'ov_tcga',
+E          'ov_tcga_pan_can_atlas_2018',
+E          'ov_tcga_pub',
+E          'ovarian_msk_2025',
+E          'ovary_cptac_gdc',
+E          'ovary_geomx_gray_foundation_2024',
+E          'scco_mskcc',
+E          'stes_tcga_pub']
+
+tests/from_json.py:82: AssertionError
 ___________________________ TestBlast.test_blast_nt ____________________________
 
 self = <tests.test_blast.TestBlast testMethod=test_blast_nt>
@@ -743,400 +1313,14 @@ megablast = 'on', verbose = True, wrap_text = False, json = False, save = False
             # Communicate RTOE
             if verbose:
                 logger.info(f"BLAST initiated with search ID {RID}. Estimated time to completion: {RTOE} seconds.")
-            time.sleep(int(RTOE))
-    
-        ## Poll server for status and fetch search results
-        # Args for the GET command
-        get_args = [
-            ("RID", RID),
-            ("DESCRIPTIONS", limit),
-            ("HITLIST_SIZE", limit),
-            ("ALIGNMENTS", 0),
-            ("FORMAT_TYPE", "HTML"),
-            ("CMD", "Get"),
-        ]
-        get_query = [x for x in get_args if x[1] is not None]
-        get_message = urlencode(get_query).encode()
-    
-        ## Poll NCBI until the results are ready
-        searching = True
-        i = 0
-        while searching:
-            if i > 0:
-                # Sleep for 61 seconds if first fetch was not succesful
-                # to comply with server rules
->               time.sleep(61)
-E               Failed: Timeout (>1200.0s) from pytest-timeout.
+>           time.sleep(int(RTOE))
+E           Failed: Timeout (>1200.0s) from pytest-timeout.
 
-gget/gget_blast.py:297: Failed
+gget/gget_blast.py:275: Failed
 ------------------------------ Captured log call -------------------------------
 INFO     gget.utils:gget_blast.py:183 Sequence recognized as amino acid sequence.
 INFO     gget.utils:gget_blast.py:184 BLAST will use program 'blastp' with database 'nr'.
-INFO     gget.utils:gget_blast.py:274 BLAST initiated with search ID G9YMMHTS014. Estimated time to completion: 40 seconds.
-INFO     gget.utils:gget_blast.py:311 BLASTING...
-INFO     gget.utils:gget_blast.py:311 BLASTING...
-INFO     gget.utils:gget_blast.py:311 BLASTING...
-INFO     gget.utils:gget_blast.py:311 BLASTING...
-INFO     gget.utils:gget_blast.py:311 BLASTING...
-INFO     gget.utils:gget_blast.py:311 BLASTING...
-INFO     gget.utils:gget_blast.py:311 BLASTING...
-INFO     gget.utils:gget_blast.py:311 BLASTING...
-INFO     gget.utils:gget_blast.py:311 BLASTING...
-INFO     gget.utils:gget_blast.py:311 BLASTING...
-INFO     gget.utils:gget_blast.py:311 BLASTING...
-INFO     gget.utils:gget_blast.py:311 BLASTING...
-INFO     gget.utils:gget_blast.py:311 BLASTING...
-INFO     gget.utils:gget_blast.py:311 BLASTING...
-INFO     gget.utils:gget_blast.py:311 BLASTING...
-INFO     gget.utils:gget_blast.py:311 BLASTING...
-INFO     gget.utils:gget_blast.py:311 BLASTING...
-INFO     gget.utils:gget_blast.py:311 BLASTING...
-INFO     gget.utils:gget_blast.py:311 BLASTING...
-_____________________ TestDiamond.test_diamond_both_files ______________________
-
-self = <tests.test_diamond.TestDiamond testMethod=test_diamond_both_files>
-
-    def assert_equal(self: unittest.TestCase):
-        test = name
-        expected_result = td[test]["expected_result"]
-        result_to_test = do_call(func, td[test]["args"])
-        if test == "test_cosmic_defaults":  # special case for cosmic
-            import numpy as np
-    
-            expected_result = pd.DataFrame(expected_result[0])
-            expected_result = expected_result.replace({None: np.nan})
-            # result_to_test.equals(expected_result)
-            pd.testing.assert_frame_equal(result_to_test, expected_result, check_dtype=False)
-            return
-    
-        # If result is a DataFrame, convert to list
-        if isinstance(result_to_test, pd.DataFrame):
-            result_to_test = result_to_test.dropna(axis=1).values.tolist()
-    
->       self.assertEqual(result_to_test, expected_result)
-E       AssertionError: Lists differ: [['EN[176 chars], 7.51e-52, 144], ['ENSTGUT00000027003', 'ENST[163 chars]145]] != [['EN[176 chars], 7.509999999999999e-52, 144], ['ENSTGUT000000[190 chars]145]]
-E       
-E       First differing element 1:
-E       ['ENS[43 chars], 84, 88, 67, 0, 0, 11, 77, 22, 88, 7.51e-52, 144]
-E       ['ENS[43 chars], 84, 88, 67, 0, 0, 11, 77, 22, 88, 7.509999999999999e-52, 144]
-E       
-E         [['ENSTGUT00000006367',
-E           'ENSTGUT00000006367',
-E           100,
-E           84,
-E           84,
-E           84,
-E           0,
-E           0,
-E           1,
-E           84,
-E           1,
-E           84,
-E           2.04e-64,
-E           176],
-E          ['ENSTGUT00000006367',
-E           'ENSTGUT00000027003',
-E           100,
-E           84,
-E           88,
-E           67,
-E           0,
-E           0,
-E           11,
-E           77,
-E           22,
-E           88,
-E       -   7.51e-52,
-E       +   7.509999999999999e-52,
-E           144],
-E          ['ENSTGUT00000027003',
-E           'ENSTGUT00000027003',
-E           100,
-E           88,
-E           88,
-E           88,
-E           0,
-E           0,
-E           1,
-E           88,
-E           1,
-E           88,
-E       -   7.2e-69,
-E       +   7.199999999999999e-69,
-E           187],
-E          ['ENSTGUT00000027003',
-E           'ENSTGUT00000006367',
-E           100,
-E           88,
-E           84,
-E           67,
-E           0,
-E           0,
-E           22,
-E           88,
-E           11,
-E           77,
-E           2.74e-52,
-E           145]]
-
-tests/from_json.py:82: AssertionError
------------------------------ Captured stdout call -----------------------------
-diamond version 2.1.8
------------------------------- Captured log call -------------------------------
-INFO     gget.utils:gget_diamond.py:174 Creating DIAMOND database and initiating alignment...
-INFO     gget.utils:gget_diamond.py:246 DIAMOND alignment complete.
-______________________ TestDiamond.test_diamond_ref_file _______________________
-
-self = <tests.test_diamond.TestDiamond testMethod=test_diamond_ref_file>
-
-    def assert_equal(self: unittest.TestCase):
-        test = name
-        expected_result = td[test]["expected_result"]
-        result_to_test = do_call(func, td[test]["args"])
-        if test == "test_cosmic_defaults":  # special case for cosmic
-            import numpy as np
-    
-            expected_result = pd.DataFrame(expected_result[0])
-            expected_result = expected_result.replace({None: np.nan})
-            # result_to_test.equals(expected_result)
-            pd.testing.assert_frame_equal(result_to_test, expected_result, check_dtype=False)
-            return
-    
-        # If result is a DataFrame, convert to list
-        if isinstance(result_to_test, pd.DataFrame):
-            result_to_test = result_to_test.dropna(axis=1).values.tolist()
-    
->       self.assertEqual(result_to_test, expected_result)
-E       AssertionError: Lists differ: [['Se[61 chars]8, 7.2e-69, 187], ['Seq0', 'ENSTGUT00000006367[52 chars]145]] != [['Se[61 chars]8, 7.199999999999999e-69, 187], ['Seq0', 'ENST[66 chars]145]]
-E       
-E       First differing element 0:
-E       ['Seq[27 chars]00, 88, 88, 88, 0, 0, 1, 88, 1, 88, 7.2e-69, 187]
-E       ['Seq[27 chars]00, 88, 88, 88, 0, 0, 1, 88, 1, 88, 7.199999999999999e-69, 187]
-E       
-E         [['Seq0',
-E           'ENSTGUT00000027003',
-E           100,
-E           88,
-E           88,
-E           88,
-E           0,
-E           0,
-E           1,
-E           88,
-E           1,
-E           88,
-E       -   7.2e-69,
-E       +   7.199999999999999e-69,
-E           187],
-E          ['Seq0',
-E           'ENSTGUT00000006367',
-E           100,
-E           88,
-E           84,
-E           67,
-E           0,
-E           0,
-E           22,
-E           88,
-E           11,
-E           77,
-E           2.74e-52,
-E           145]]
-
-tests/from_json.py:82: AssertionError
------------------------------ Captured stdout call -----------------------------
-diamond version 2.1.8
------------------------------- Captured log call -------------------------------
-INFO     gget.utils:gget_diamond.py:174 Creating DIAMOND database and initiating alignment...
-INFO     gget.utils:gget_diamond.py:246 DIAMOND alignment complete.
-_____________________ TestDiamond.test_diamond_query_file ______________________
-
-self = <tests.test_diamond.TestDiamond testMethod=test_diamond_query_file>
-
-    def assert_equal(self: unittest.TestCase):
-        test = name
-        expected_result = td[test]["expected_result"]
-        result_to_test = do_call(func, td[test]["args"])
-        if test == "test_cosmic_defaults":  # special case for cosmic
-            import numpy as np
-    
-            expected_result = pd.DataFrame(expected_result[0])
-            expected_result = expected_result.replace({None: np.nan})
-            # result_to_test.equals(expected_result)
-            pd.testing.assert_frame_equal(result_to_test, expected_result, check_dtype=False)
-            return
-    
-        # If result is a DataFrame, convert to list
-        if isinstance(result_to_test, pd.DataFrame):
-            result_to_test = result_to_test.dropna(axis=1).values.tolist()
-    
->       self.assertEqual(result_to_test, expected_result)
-E       AssertionError: Lists differ: [['EN[64 chars], 3.84e-52, 144], ['ENSTGUT00000027003', 'Seq0[50 chars]187]] != [['EN[64 chars], 3.8399999999999994e-52, 144], ['ENSTGUT00000[64 chars]187]]
-E       
-E       First differing element 0:
-E       ['ENS[30 chars] 84, 88, 67, 0, 0, 11, 77, 22, 88, 3.84e-52, 144]
-E       ['ENS[30 chars] 84, 88, 67, 0, 0, 11, 77, 22, 88, 3.8399999999999994e-52, 144]
-E       
-E         [['ENSTGUT00000006367',
-E           'Seq0',
-E           100,
-E           84,
-E           88,
-E           67,
-E           0,
-E           0,
-E           11,
-E           77,
-E           22,
-E           88,
-E       -   3.84e-52,
-E       +   3.8399999999999994e-52,
-E           144],
-E          ['ENSTGUT00000027003',
-E           'Seq0',
-E           100,
-E           88,
-E           88,
-E           88,
-E           0,
-E           0,
-E           1,
-E           88,
-E           1,
-E           88,
-E           3.69e-69,
-E           187]]
-
-tests/from_json.py:82: AssertionError
------------------------------ Captured stdout call -----------------------------
-diamond version 2.1.8
------------------------------- Captured log call -------------------------------
-INFO     gget.utils:gget_diamond.py:174 Creating DIAMOND database and initiating alignment...
-INFO     gget.utils:gget_diamond.py:246 DIAMOND alignment complete.
-___________________ TestInfo.test_info_ncbitrue_uniprotfalse ___________________
-
-self = <tests.test_info.TestInfo testMethod=test_info_ncbitrue_uniprotfalse>
-
-    def assert_equal(self: unittest.TestCase):
-        test = name
-        expected_result = td[test]["expected_result"]
-        result_to_test = do_call(func, td[test]["args"])
-        if test == "test_cosmic_defaults":  # special case for cosmic
-            import numpy as np
-    
-            expected_result = pd.DataFrame(expected_result[0])
-            expected_result = expected_result.replace({None: np.nan})
-            # result_to_test.equals(expected_result)
-            pd.testing.assert_frame_equal(result_to_test, expected_result, check_dtype=False)
-            return
-    
-        # If result is a DataFrame, convert to list
-        if isinstance(result_to_test, pd.DataFrame):
-            result_to_test = result_to_test.dropna(axis=1).values.tolist()
-    
->       self.assertEqual(result_to_test, expected_result)
-E       AssertionError: Lists differ: [['EN[14 chars]7', 'homo_sapiens', 'GRCh38', 'KRTAP9-8', [], [231 chars]04]]] != [['EN[14 chars]7', '83901', 'homo_sapiens', 'GRCh38', 'KRTAP9[860 chars]04]]]
-E       
-E       First differing element 0:
-E       ['ENS[13 chars]7', 'homo_sapiens', 'GRCh38', 'KRTAP9-8', [], [230 chars]004]]
-E       ['ENS[13 chars]7', '83901', 'homo_sapiens', 'GRCh38', 'KRTAP9[859 chars]004]]
-E       
-E         [['ENSG00000187272.7',
-E       +   '83901',
-E           'homo_sapiens',
-E           'GRCh38',
-E           'KRTAP9-8',
-E       -   [],
-E       +   ['KAP9.8', 'KRTAP9.8'],
-E           'keratin associated protein 9-8 [Source:HGNC Symbol;Acc:HGNC:17231]',
-E       +   'This protein is a member of the keratin-associated protein (KAP) family. '
-E       +   'The KAP proteins form a matrix of keratin intermediate filaments which '
-E       +   'contribute to the structure of hair fibers. KAP family members appear to '
-E       +   'have unique, family-specific amino- and carboxyl-terminal regions and are '
-E       +   'subdivided into three multi-gene families according to amino acid '
-E       +   'composition: the high sulfur, the ultrahigh sulfur, and the high '
-E       +   'tyrosine/glycine KAPs. This protein is a member of the ultrahigh sulfur KAP '
-E       +   'family and the gene is localized to a cluster of KAPs at 17q12-q21. '
-E       +   '[provided by RefSeq, Jul 2008]',
-E           'Gene',
-E           'protein_coding',
-E           'ENST00000254072.7',
-E           '17',
-E           1,
-E           41237999,
-E           41239004,
-E           ['ENST00000254072.7'],
-E           ['protein_coding'],
-E           ['KRTAP9-8-201'],
-E           [1],
-E           [41237999],
-E           [41239004]]]
-
-tests/from_json.py:82: AssertionError
-___________________________ TestInfo.test_info_gene ____________________________
-
-self = <tests.test_info.TestInfo testMethod=test_info_gene>
-
-    def assert_info_gene_core(self: unittest.TestCase):
-        test = name
-        expected_result = pd.DataFrame(td[test]["expected_result"], columns=_TEST_INFO_GENE_COLUMNS)
-        result_to_test = do_call(func, td[test]["args"])
-    
-        self.assertIsInstance(result_to_test, pd.DataFrame)
-    
-        result_to_test = result_to_test.dropna(axis=1)
-        missing_columns = [col for col in expected_result.columns if col not in result_to_test.columns]
-        missing_core_columns = [col for col in missing_columns if col not in _BEST_EFFORT_INFO_COLUMNS]
-    
-        self.assertEqual(missing_core_columns, [])
-    
-        expected_result = expected_result.drop(columns=missing_columns)
-    
->       pd.testing.assert_frame_equal(
-            result_to_test.reset_index(drop=True),
-            expected_result.reset_index(drop=True),
-            check_dtype=False,
-        )
-
-tests/test_info.py:76: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-pandas/_libs/testing.pyx:64: in pandas._libs.testing.assert_almost_equal
-    ???
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
-
->   ???
-E   AssertionError: DataFrame.iloc[:, 6] (column name="synonyms") are different
-E   
-E   DataFrame.iloc[:, 6] (column name="synonyms") values are different (100.0 %)
-E   [index]: [0]
-E   [left]:  [[]]
-E   [right]: [[Galphai3, Gnai-3, Hg1a]]
-E   At positional index 0, first diff: [] != ['Galphai3', 'Gnai-3', 'Hg1a']
-
-pandas/_libs/testing.pyx:227: AssertionError
-____________ TestOpenTargets.test_opentargets_interactions_no_limit ____________
-
-self = <tests.test_opentargets.TestOpenTargets testMethod=test_opentargets_interactions_no_limit>
-
-    def assert_equal_json_hash(self: unittest.TestCase):
-        test = name
-        expected_result = td[test]["expected_result"]
-        result_to_test = do_call(func, td[test]["args"])
-        # If result is a DataFrame, convert to list
-        if isinstance(result_to_test, pd.DataFrame):
-            result_to_test = result_to_test.dropna(axis=1).values.tolist()
-    
-        result_to_test = json.dumps(result_to_test)
-        result_to_test = hashlib.md5(result_to_test.encode()).hexdigest()
-    
->       self.assertEqual(result_to_test, expected_result)
-E       AssertionError: 'fa95d278c2d31ded3731e154d65fcda5' != '8ed7f7380590628acdbaa5f9501365a6'
-E       - fa95d278c2d31ded3731e154d65fcda5
-E       + 8ed7f7380590628acdbaa5f9501365a6
-
-tests/from_json.py:145: AssertionError
------------------------------- Captured log call -------------------------------
-INFO     gget.utils:gget_opentargets.py:379 Querying OpenTargets for interactions associated with ENSG00000169194...
+INFO     gget.utils:gget_blast.py:274 BLAST initiated with search ID GHM7KYHT014. Estimated time to completion: 28635 seconds.
 ________________ TestOpenTargets.test_opentargets_interactions _________________
 
 self = <tests.test_opentargets.TestOpenTargets testMethod=test_opentargets_interactions>
@@ -1262,56 +1446,6 @@ E       -   'targetB.id': 'ENSG00000131724'}]
 tests/from_json.py:248: AssertionError
 ------------------------------ Captured log call -------------------------------
 INFO     gget.utils:gget_opentargets.py:379 Querying OpenTargets for interactions associated with ENSG00000169194...
-_______________________ TestOpenTargets.test_opentargets _______________________
-
-self = <tests.test_opentargets.TestOpenTargets testMethod=test_opentargets>
-
-    def assert_equal(self: unittest.TestCase):
-        test = name
-        expected_result = td[test]["expected_result"]
-        result_to_test = do_call(func, td[test]["args"])
-        if test == "test_cosmic_defaults":  # special case for cosmic
-            import numpy as np
-    
-            expected_result = pd.DataFrame(expected_result[0])
-            expected_result = expected_result.replace({None: np.nan})
-            # result_to_test.equals(expected_result)
-            pd.testing.assert_frame_equal(result_to_test, expected_result, check_dtype=False)
-            return
-    
-        # If result is a DataFrame, convert to list
-        if isinstance(result_to_test, pd.DataFrame):
-            result_to_test = result_to_test.dropna(axis=1).values.tolist()
-    
->       self.assertEqual(result_to_test, expected_result)
-E       AssertionError: Lists differ: [[0.7470161187562232, 'MONDO_0004980', 'atopic[713 chars]y.']] != [[0.7279798021712002, 'MONDO_0004980', 'atopic[713 chars]y.']]
-E       
-E       First differing element 0:
-E       [0.7470161187562232, 'MONDO_0004980', 'atopic[149 chars]fe.']
-E       [0.7279798021712002, 'MONDO_0004980', 'atopic[149 chars]fe.']
-E       
-E       - [[0.7470161187562232,
-E       + [[0.7279798021712002,
-E           'MONDO_0004980',
-E           'atopic eczema',
-E           'A common chronic pruritic inflammatory skin disease with a strong genetic '
-E           'component. Onset typically occurs during the first 2 years of life.'],
-E       -  [0.6998368518128084,
-E       +  [0.6952093612226559,
-E           'MONDO_0004979',
-E           'asthma',
-E           'A bronchial disease that is characterized by chronic inflammation and '
-E           'narrowing of the airways, which is caused by a combination of environmental '
-E           'and genetic factors resulting in recurring periods of wheezing (a whistling '
-E           'sound while breathing), chest tightness, shortness of breath, mucus '
-E           'production and coughing. The symptoms appear due to a variety of triggers '
-E           'such as allergens, irritants, respiratory infections, weather changes, '
-E           'exercise, stress, reflux disease, medications, foods and emotional '
-E           'anxiety.']]
-
-tests/from_json.py:82: AssertionError
------------------------------- Captured log call -------------------------------
-INFO     gget.utils:gget_opentargets.py:379 Querying OpenTargets for diseases associated with ENSG00000169194...
 ________________ TestOpenTargets.test_opentargets_depmap_filter ________________
 
 self = <tests.test_opentargets.TestOpenTargets testMethod=test_opentargets_depmap_filter>
@@ -1359,6 +1493,135 @@ E       -   0.2760075628757477]]
 tests/from_json.py:82: AssertionError
 ------------------------------ Captured log call -------------------------------
 INFO     gget.utils:gget_opentargets.py:379 Querying OpenTargets for depmap associated with ENSG00000169194...
+____________ TestOpenTargets.test_opentargets_interactions_no_limit ____________
+
+self = <tests.test_opentargets.TestOpenTargets testMethod=test_opentargets_interactions_no_limit>
+
+    def assert_equal_json_hash(self: unittest.TestCase):
+        test = name
+        expected_result = td[test]["expected_result"]
+        result_to_test = do_call(func, td[test]["args"])
+        # If result is a DataFrame, convert to list
+        if isinstance(result_to_test, pd.DataFrame):
+            result_to_test = result_to_test.dropna(axis=1).values.tolist()
+    
+        result_to_test = json.dumps(result_to_test)
+        result_to_test = hashlib.md5(result_to_test.encode()).hexdigest()
+    
+>       self.assertEqual(result_to_test, expected_result)
+E       AssertionError: 'fa95d278c2d31ded3731e154d65fcda5' != '8ed7f7380590628acdbaa5f9501365a6'
+E       - fa95d278c2d31ded3731e154d65fcda5
+E       + 8ed7f7380590628acdbaa5f9501365a6
+
+tests/from_json.py:145: AssertionError
+------------------------------ Captured log call -------------------------------
+INFO     gget.utils:gget_opentargets.py:379 Querying OpenTargets for interactions associated with ENSG00000169194...
+__________________ TestOpenTargets.test_opentargets_diseases ___________________
+
+self = <tests.test_opentargets.TestOpenTargets testMethod=test_opentargets_diseases>
+
+    def assert_equal_json_with_keys(self: unittest.TestCase):
+        def normalize(x):
+            if isinstance(x, tuple):
+                x = [normalize(v) for v in x]
+    
+            if isinstance(x, list):
+                x = [normalize(v) for v in x]
+    
+                # Detect list-of-pairs -> dict recursively.
+                if all(isinstance(i, list) and len(i) == 2 for i in x):
+                    try:
+                        x = {i[0]: i[1] for i in x}
+                    except Exception:  # noqa: BLE001
+                        try:
+                            x = {i[1]: i[0] for i in x}
+                        except Exception:  # noqa: BLE001
+                            pass
+    
+                # Collapse singleton wrappers such as:
+                # [{"drug": {...}}] -> {"drug": {...}}
+                # ["26387812"] -> "26387812"
+                if isinstance(x, list) and len(x) == 1:
+                    return normalize(x[0])
+    
+            if isinstance(x, dict):
+                x = {k: normalize(v) for k, v in x.items()}
+    
+                # Collapse single-key wrapper dicts such as:
+                # {"drug": {...}} -> {...}
+                # {"drug": None} -> None
+                if len(x) == 1:
+                    return normalize(next(iter(x.values())))
+    
+                return x
+    
+            return x
+    
+        test = name
+    
+        expected_result = td[test]["expected_result"]
+        result_to_test = do_call(func, td[test]["args"])
+        if isinstance(result_to_test, pd.DataFrame):
+            result_to_test = json.loads(
+                result_to_test.dropna(axis=1, how="all").to_json(orient="records", force_ascii=False)
+            )
+    
+        result_to_test = normalize(result_to_test)
+        expected_result = normalize(expected_result)
+    
+        # ✅ Infer keys from expected_result
+        if not expected_result:
+            raise ValueError(f"Test {test} has empty expected_result")
+    
+        keys = list(expected_result[0].keys())
+    
+        # Convert list-of-lists → list-of-dicts
+        if isinstance(result_to_test, list) and len(result_to_test) > 0 and isinstance(result_to_test[0], list):
+            result_to_test = [dict(zip(keys, row, strict=False)) for row in result_to_test]
+    
+        # Optional: float rounding
+        def round_dict(d, ndigits=10):
+            return {k: round(v, ndigits) if isinstance(v, float) else v for k, v in d.items()}
+    
+        result_to_test = [round_dict(r) for r in result_to_test]
+        expected_result = [round_dict(r) for r in expected_result]
+    
+>       self.assertEqual(result_to_test, expected_result)
+E       AssertionError: Lists differ: [{'score': 0.7470161188, 'disease.id': 'MONDO_0004980',[816 chars]y.'}] != [{'score': 0.7279798022, 'disease.id': 'MONDO_0004980',[816 chars]y.'}]
+E       
+E       First differing element 0:
+E       {'score': 0.7470161188, 'disease.id': 'MONDO_0004980',[196 chars]fe.'}
+E       {'score': 0.7279798022, 'disease.id': 'MONDO_0004980',[196 chars]fe.'}
+E       
+E         [{'disease.description': 'A common chronic pruritic inflammatory skin disease '
+E                                  'with a strong genetic component. Onset typically '
+E                                  'occurs during the first 2 years of life.',
+E           'disease.id': 'MONDO_0004980',
+E           'disease.name': 'atopic eczema',
+E       -   'score': 0.7470161188},
+E       +   'score': 0.7279798022},
+E          {'disease.description': 'A bronchial disease that is characterized by chronic '
+E                                  'inflammation and narrowing of the airways, which is '
+E                                  'caused by a combination of environmental and genetic '
+E                                  'factors resulting in recurring periods of wheezing '
+E                                  '(a whistling sound while breathing), chest '
+E                                  'tightness, shortness of breath, mucus production and '
+E                                  'coughing. The symptoms appear due to a variety of '
+E                                  'triggers such as allergens, irritants, respiratory '
+E                                  'infections, weather changes, exercise, stress, '
+E                                  'reflux disease, medications, foods and emotional '
+E                                  'anxiety.',
+E           'disease.id': 'MONDO_0004979',
+E           'disease.name': 'asthma',
+E       -   'score': 0.6998368518}]
+E       ?                 -  -- ^
+E       
+E       +   'score': 0.6952093612}]
+E       ?                +++    ^
+
+tests/from_json.py:248: AssertionError
+------------------------------ Captured log call -------------------------------
+INFO     gget.utils:gget_opentargets.py:379 Querying OpenTargets for diseases associated with ENSG00000169194...
 ____________________ TestOpenTargets.test_opentargets_drugs ____________________
 
 self = <tests.test_opentargets.TestOpenTargets testMethod=test_opentargets_drugs>
@@ -1496,112 +1759,6 @@ E           'drug.tradeNames': None}]
 tests/from_json.py:248: AssertionError
 ------------------------------ Captured log call -------------------------------
 INFO     gget.utils:gget_opentargets.py:379 Querying OpenTargets for drugs associated with ENSG00000169194...
-__________________ TestOpenTargets.test_opentargets_diseases ___________________
-
-self = <tests.test_opentargets.TestOpenTargets testMethod=test_opentargets_diseases>
-
-    def assert_equal_json_with_keys(self: unittest.TestCase):
-        def normalize(x):
-            if isinstance(x, tuple):
-                x = [normalize(v) for v in x]
-    
-            if isinstance(x, list):
-                x = [normalize(v) for v in x]
-    
-                # Detect list-of-pairs -> dict recursively.
-                if all(isinstance(i, list) and len(i) == 2 for i in x):
-                    try:
-                        x = {i[0]: i[1] for i in x}
-                    except Exception:  # noqa: BLE001
-                        try:
-                            x = {i[1]: i[0] for i in x}
-                        except Exception:  # noqa: BLE001
-                            pass
-    
-                # Collapse singleton wrappers such as:
-                # [{"drug": {...}}] -> {"drug": {...}}
-                # ["26387812"] -> "26387812"
-                if isinstance(x, list) and len(x) == 1:
-                    return normalize(x[0])
-    
-            if isinstance(x, dict):
-                x = {k: normalize(v) for k, v in x.items()}
-    
-                # Collapse single-key wrapper dicts such as:
-                # {"drug": {...}} -> {...}
-                # {"drug": None} -> None
-                if len(x) == 1:
-                    return normalize(next(iter(x.values())))
-    
-                return x
-    
-            return x
-    
-        test = name
-    
-        expected_result = td[test]["expected_result"]
-        result_to_test = do_call(func, td[test]["args"])
-        if isinstance(result_to_test, pd.DataFrame):
-            result_to_test = json.loads(
-                result_to_test.dropna(axis=1, how="all").to_json(orient="records", force_ascii=False)
-            )
-    
-        result_to_test = normalize(result_to_test)
-        expected_result = normalize(expected_result)
-    
-        # ✅ Infer keys from expected_result
-        if not expected_result:
-            raise ValueError(f"Test {test} has empty expected_result")
-    
-        keys = list(expected_result[0].keys())
-    
-        # Convert list-of-lists → list-of-dicts
-        if isinstance(result_to_test, list) and len(result_to_test) > 0 and isinstance(result_to_test[0], list):
-            result_to_test = [dict(zip(keys, row, strict=False)) for row in result_to_test]
-    
-        # Optional: float rounding
-        def round_dict(d, ndigits=10):
-            return {k: round(v, ndigits) if isinstance(v, float) else v for k, v in d.items()}
-    
-        result_to_test = [round_dict(r) for r in result_to_test]
-        expected_result = [round_dict(r) for r in expected_result]
-    
->       self.assertEqual(result_to_test, expected_result)
-E       AssertionError: Lists differ: [{'score': 0.7470161188, 'disease.id': 'MONDO_0004980',[816 chars]y.'}] != [{'score': 0.7279798022, 'disease.id': 'MONDO_0004980',[816 chars]y.'}]
-E       
-E       First differing element 0:
-E       {'score': 0.7470161188, 'disease.id': 'MONDO_0004980',[196 chars]fe.'}
-E       {'score': 0.7279798022, 'disease.id': 'MONDO_0004980',[196 chars]fe.'}
-E       
-E         [{'disease.description': 'A common chronic pruritic inflammatory skin disease '
-E                                  'with a strong genetic component. Onset typically '
-E                                  'occurs during the first 2 years of life.',
-E           'disease.id': 'MONDO_0004980',
-E           'disease.name': 'atopic eczema',
-E       -   'score': 0.7470161188},
-E       +   'score': 0.7279798022},
-E          {'disease.description': 'A bronchial disease that is characterized by chronic '
-E                                  'inflammation and narrowing of the airways, which is '
-E                                  'caused by a combination of environmental and genetic '
-E                                  'factors resulting in recurring periods of wheezing '
-E                                  '(a whistling sound while breathing), chest '
-E                                  'tightness, shortness of breath, mucus production and '
-E                                  'coughing. The symptoms appear due to a variety of '
-E                                  'triggers such as allergens, irritants, respiratory '
-E                                  'infections, weather changes, exercise, stress, '
-E                                  'reflux disease, medications, foods and emotional '
-E                                  'anxiety.',
-E           'disease.id': 'MONDO_0004979',
-E           'disease.name': 'asthma',
-E       -   'score': 0.6998368518}]
-E       ?                 -  -- ^
-E       
-E       +   'score': 0.6952093612}]
-E       ?                +++    ^
-
-tests/from_json.py:248: AssertionError
------------------------------- Captured log call -------------------------------
-INFO     gget.utils:gget_opentargets.py:379 Querying OpenTargets for diseases associated with ENSG00000169194...
 ______________ TestOpenTargets.test_opentargets_pharmacogenetics _______________
 
 self = <tests.test_opentargets.TestOpenTargets testMethod=test_opentargets_pharmacogenetics>
@@ -1764,6 +1921,56 @@ E       +   'variantId': '5_132660151_T_C'}]
 tests/from_json.py:248: AssertionError
 ------------------------------ Captured log call -------------------------------
 INFO     gget.utils:gget_opentargets.py:379 Querying OpenTargets for pharmacogenetics associated with ENSG00000169194...
+_______________________ TestOpenTargets.test_opentargets _______________________
+
+self = <tests.test_opentargets.TestOpenTargets testMethod=test_opentargets>
+
+    def assert_equal(self: unittest.TestCase):
+        test = name
+        expected_result = td[test]["expected_result"]
+        result_to_test = do_call(func, td[test]["args"])
+        if test == "test_cosmic_defaults":  # special case for cosmic
+            import numpy as np
+    
+            expected_result = pd.DataFrame(expected_result[0])
+            expected_result = expected_result.replace({None: np.nan})
+            # result_to_test.equals(expected_result)
+            pd.testing.assert_frame_equal(result_to_test, expected_result, check_dtype=False)
+            return
+    
+        # If result is a DataFrame, convert to list
+        if isinstance(result_to_test, pd.DataFrame):
+            result_to_test = result_to_test.dropna(axis=1).values.tolist()
+    
+>       self.assertEqual(result_to_test, expected_result)
+E       AssertionError: Lists differ: [[0.7470161187562232, 'MONDO_0004980', 'atopic[713 chars]y.']] != [[0.7279798021712002, 'MONDO_0004980', 'atopic[713 chars]y.']]
+E       
+E       First differing element 0:
+E       [0.7470161187562232, 'MONDO_0004980', 'atopic[149 chars]fe.']
+E       [0.7279798021712002, 'MONDO_0004980', 'atopic[149 chars]fe.']
+E       
+E       - [[0.7470161187562232,
+E       + [[0.7279798021712002,
+E           'MONDO_0004980',
+E           'atopic eczema',
+E           'A common chronic pruritic inflammatory skin disease with a strong genetic '
+E           'component. Onset typically occurs during the first 2 years of life.'],
+E       -  [0.6998368518128084,
+E       +  [0.6952093612226559,
+E           'MONDO_0004979',
+E           'asthma',
+E           'A bronchial disease that is characterized by chronic inflammation and '
+E           'narrowing of the airways, which is caused by a combination of environmental '
+E           'and genetic factors resulting in recurring periods of wheezing (a whistling '
+E           'sound while breathing), chest tightness, shortness of breath, mucus '
+E           'production and coughing. The symptoms appear due to a variety of triggers '
+E           'such as allergens, irritants, respiratory infections, weather changes, '
+E           'exercise, stress, reflux disease, medications, foods and emotional '
+E           'anxiety.']]
+
+tests/from_json.py:82: AssertionError
+------------------------------ Captured log call -------------------------------
+INFO     gget.utils:gget_opentargets.py:379 Querying OpenTargets for diseases associated with ENSG00000169194...
 ___________________ TestOpenTargets.test_opentargets_depmap ____________________
 
 self = <tests.test_opentargets.TestOpenTargets testMethod=test_opentargets_depmap>
@@ -1787,38 +1994,50 @@ E       + e81a60ff47c06bfecb3b421d28047718
 tests/from_json.py:145: AssertionError
 ------------------------------ Captured log call -------------------------------
 INFO     gget.utils:gget_opentargets.py:379 Querying OpenTargets for depmap associated with ENSG00000169194...
-__________________ TestSeq.test_seq_missing_uniprot_gene_name __________________
+___________________________ TestInfo.test_info_gene ____________________________
 
-self = <tests.test_seq.TestSeq testMethod=test_seq_missing_uniprot_gene_name>
+self = <tests.test_info.TestInfo testMethod=test_info_gene>
 
-    def test_seq_missing_uniprot_gene_name(self):
-        test = "test11"
-        expected_result = seq_dict[test]["expected_result"]
-        result_to_test = seq(**seq_dict[test]["args"])
+    def assert_info_gene_core(self: unittest.TestCase):
+        test = name
+        expected_result = pd.DataFrame(td[test]["expected_result"], columns=_TEST_INFO_GENE_COLUMNS)
+        result_to_test = do_call(func, td[test]["args"])
     
->       self.assertListEqual(result_to_test, expected_result)
-E       AssertionError: Lists differ: ['>EN[67 chars]ame: RBM27-POU4F3 organism: Homo sapiens seque[1044 chars]AGT'] != ['>EN[67 chars]ame: LOC127814297 organism: Homo sapiens seque[1044 chars]AGT']
-E       
-E       First differing element 0:
-E       '>ENS[66 chars]ame: RBM27-POU4F3 organism: Homo sapiens sequence_length: 1027'
-E       '>ENS[66 chars]ame: LOC127814297 organism: Homo sapiens sequence_length: 1027'
-E       
-E         ['>ENST00000506502 uniprot_id: U3KPZ7 ensembl_id: ENST00000506502 gene_name: '
-E       -  'RBM27-POU4F3 organism: Homo sapiens sequence_length: 1027',
-E       ?   ^^^  ^^^^ ^^
-E       
-E       +  'LOC127814297 organism: Homo sapiens sequence_length: 1027',
-E       ?   ^^^^  ^^ ^^^
-E       
-E          'MLIEDVDALKSWLAKLLEPICDADPSALANYVVALVKKDKPEKELKAFCADQLDVFLQKETSGFVDKLFESLYTKNYLPLLEPVKPEPKPLVQEKEEIKEEVFQEPAEEERDGRKKKYPSPQKTRSESSERRTREKKREDGKWRDYDRYYERNELYREKYDWRRGRSKSRSKSRGLSRSRSRSRGRSKDRDPNRNVEHRERSKFKSERNDLESSYVPVSAPPPNSSEQYSSGAQSIPSTVTVIAPAHHSENTTESWSNYYNNHSSSNSFGRNLPPKRRCRDYDERGFCVLGDLCQFDHGNDPLVVDEVALPSMIPFPPPPPGLPPPPPPGMLMPPMPGPGPGPGPGPGPGPGPGPGPGHSMRLPVPQGHGQPPPSVVLPIPRPPITQSSLINSRDQPGTSAVPNLASVGTRLPPPLPQNLLYTVSEHTYEPDGYNPEAPSITSSGRSQYRQFFSRTQTQRPNLIGLTSGDMDVNPRAANIVIQTEPPVPVSINSNITRVVLEPDSRKRAMSGLEGPLTKKPWLGKQGNNNQNKPGFLRKNQYTNTKLEVKKIPQELNNITKLNEHFSKFGTIVNIQVAFKGDPEAALIQYLTNEEARKAISSTEAVLNNRFIRVLWHRENNEQPTLQSSAQLLLQQQQTLSHLSQQHHHLPQHLHQQQVLVAQSAPSTVHGGIQKMMSKPQTSGAYVLNKVPVKHRLGHAGGNQSDASHLLNQSGGAGEDCQIFSTPGHPKMIYSSSNLKTPSKLCSGSKSHDVQEVLKKKQEAMKLQQDMRKKRQEVLEKQIECQKMLISKLEKNKNMKPEERANIMKTLKELGEKISQLKDELKTSSAVSTPSKVKTKTEAQKELLDTELDLHKRLSSGEDTTELRKKLSQLQVEAARLGILPVGRGKTMSSQGRGRGRGRGGRGRGSLNHMVVDHRPKALTVGGFIEEEKEDLLQHFSMEFCSCCPGWSAMVRSRLTATSASLVQVILLPQPPKQLRLQEREDDGHELQAAFRHAPGAARTQILQSALWLRGHAPSLSPSPAGT']
+        self.assertIsInstance(result_to_test, pd.DataFrame)
+    
+        result_to_test = result_to_test.dropna(axis=1)
+        missing_columns = [col for col in expected_result.columns if col not in result_to_test.columns]
+        missing_core_columns = [col for col in missing_columns if col not in _BEST_EFFORT_INFO_COLUMNS]
+    
+        self.assertEqual(missing_core_columns, [])
+    
+        expected_result = expected_result.drop(columns=missing_columns)
+    
+>       pd.testing.assert_frame_equal(
+            result_to_test.reset_index(drop=True),
+            expected_result.reset_index(drop=True),
+            check_dtype=False,
+        )
 
-tests/test_seq.py:95: AssertionError
------------------------------- Captured log call -------------------------------
-INFO     gget.utils:gget_seq.py:251 Requesting amino acid sequence of the canonical transcript ENST00000506502 of gene ENSG00000275740 from UniProt.
-WARNING  gget.utils:utils.py:394 No reviewed UniProt results were found for ID ENST00000506502. Returning all unreviewed results.
-_______________________ TestCbioSearch.test_cbio_search ________________________
+tests/test_info.py:76: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+pandas/_libs/testing.pyx:64: in pandas._libs.testing.assert_almost_equal
+    ???
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
 
-self = <tests.test_cbio.TestCbioSearch testMethod=test_cbio_search>
+>   ???
+E   AssertionError: DataFrame.iloc[:, 6] (column name="synonyms") are different
+E   
+E   DataFrame.iloc[:, 6] (column name="synonyms") values are different (100.0 %)
+E   [index]: [0]
+E   [left]:  [[]]
+E   [right]: [[Galphai3, Gnai-3, Hg1a]]
+E   At positional index 0, first diff: [] != ['Galphai3', 'Gnai-3', 'Hg1a']
+
+pandas/_libs/testing.pyx:227: AssertionError
+___________________ TestInfo.test_info_ncbitrue_uniprotfalse ___________________
+
+self = <tests.test_info.TestInfo testMethod=test_info_ncbitrue_uniprotfalse>
 
     def assert_equal(self: unittest.TestCase):
         test = name
@@ -1838,77 +2057,85 @@ self = <tests.test_cbio.TestCbioSearch testMethod=test_cbio_search>
             result_to_test = result_to_test.dropna(axis=1).values.tolist()
     
 >       self.assertEqual(result_to_test, expected_result)
-E       AssertionError: Lists differ: ['egc[32 chars]_msk_2026', 'egc_msk_tp53_ccr_2022', 'egc_mskc[421 chars]pub'] != ['egc[32 chars]_msk_tp53_ccr_2022', 'egc_mskcc_2020', 'egc_tm[405 chars]pub']
+E       AssertionError: Lists differ: [['EN[14 chars]7', 'homo_sapiens', 'GRCh38', 'KRTAP9-8', [], [231 chars]04]]] != [['EN[14 chars]7', '83901', 'homo_sapiens', 'GRCh38', 'KRTAP9[860 chars]04]]]
 E       
-E       First differing element 2:
-E       'egc_msk_2026'
-E       'egc_msk_tp53_ccr_2022'
+E       First differing element 0:
+E       ['ENS[13 chars]7', 'homo_sapiens', 'GRCh38', 'KRTAP9-8', [], [230 chars]004]]
+E       ['ENS[13 chars]7', '83901', 'homo_sapiens', 'GRCh38', 'KRTAP9[859 chars]004]]
 E       
-E       First list contains 1 additional elements.
-E       First extra element 25:
-E       'stes_tcga_pub'
-E       
-E         ['egc_msk_2017',
-E          'egc_msk_2023',
-E       -  'egc_msk_2026',
-E          'egc_msk_tp53_ccr_2022',
-E          'egc_mskcc_2020',
-E          'egc_tmucih_2015',
-E          'egc_trap_ccr_msk_2023',
-E          'egc_trap_msk_2020',
-E          'esca_broad',
-E          'esca_tcga',
-E          'esca_tcga_gdc',
-E          'esca_tcga_pan_can_atlas_2018',
-E          'escc_icgc',
-E          'escc_ucla_2014',
-E          'hgsoc_msk_2021',
-E          'hgsoc_tcga_gdc',
-E          'lgsoc_mapk_msk_2022',
-E          'msk_spectrum_tme_2022',
-E          'ov_tcga',
-E          'ov_tcga_pan_can_atlas_2018',
-E          'ov_tcga_pub',
-E          'ovarian_msk_2025',
-E          'ovary_cptac_gdc',
-E          'ovary_geomx_gray_foundation_2024',
-E          'scco_mskcc',
-E          'stes_tcga_pub']
+E         [['ENSG00000187272.7',
+E       +   '83901',
+E           'homo_sapiens',
+E           'GRCh38',
+E           'KRTAP9-8',
+E       -   [],
+E       +   ['KAP9.8', 'KRTAP9.8'],
+E           'keratin associated protein 9-8 [Source:HGNC Symbol;Acc:HGNC:17231]',
+E       +   'This protein is a member of the keratin-associated protein (KAP) family. '
+E       +   'The KAP proteins form a matrix of keratin intermediate filaments which '
+E       +   'contribute to the structure of hair fibers. KAP family members appear to '
+E       +   'have unique, family-specific amino- and carboxyl-terminal regions and are '
+E       +   'subdivided into three multi-gene families according to amino acid '
+E       +   'composition: the high sulfur, the ultrahigh sulfur, and the high '
+E       +   'tyrosine/glycine KAPs. This protein is a member of the ultrahigh sulfur KAP '
+E       +   'family and the gene is localized to a cluster of KAPs at 17q12-q21. '
+E       +   '[provided by RefSeq, Jul 2008]',
+E           'Gene',
+E           'protein_coding',
+E           'ENST00000254072.7',
+E           '17',
+E           1,
+E           41237999,
+E           41239004,
+E           ['ENST00000254072.7'],
+E           ['protein_coding'],
+E           ['KRTAP9-8-201'],
+E           [1],
+E           [41237999],
+E           [41239004]]]
 
 tests/from_json.py:82: AssertionError
 =============================== warnings summary ===============================
-tests/test_utils.py::TestUtils::test_search_iv_species_options
-tests/test_utils.py::TestUtils::test_search_iv_species_options
-tests/test_utils.py::TestUtils::test_search_iv_species_options
-tests/test_utils.py::TestUtils::test_search_iv_species_options
-tests/test_search.py::TestSearch::test_search_octopus
-tests/test_search.py::TestSearch::test_search_octopus
-tests/test_search.py::TestSearch::test_search_octopus
-tests/test_search.py::TestSearch::test_search_octopus
-  /home/runner/work/gget/gget/gget/utils.py:921: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
-    for subsoup in soup.body.findAll("a"):
+tests/test_elm.py::TestELM::test_elm_uniprot_id_new
+tests/test_elm.py::TestELM::test_elm_uniprot_id_in_elm
+tests/test_elm.py::TestELM::test_elm_uniprot_aminoacidseq
+  /home/runner/work/gget/gget/gget/gget_elm.py:221: Pandas4Warning: The inplace keyword in DataFrame.rename is deprecated and will be removed in a future version (PDEP-8).
+  See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.
+    df_final.rename(columns={"Accession_x": "Instance_accession"}, inplace=True)
 
-tests/test_utils.py::TestUtils::test_search_species_options
-tests/test_search.py::TestSearch::test_search_octopus
-tests/test_search.py::TestSearch::test_search_release
+tests/test_search.py::TestSearch::test_search_gene_bad_species
 tests/test_search.py::TestSearch::test_search_transcript_two_sw_or
+tests/test_search.py::TestSearch::test_search_release
+tests/test_utils.py::TestUtils::test_search_species_options
   /home/runner/work/gget/gget/gget/utils.py:937: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
     for subsoup in soup.body.findAll("a"):
 
-tests/test_utils.py: 1 warning
-tests/test_ref.py: 11 warnings
-  /home/runner/work/gget/gget/gget/utils.py:1036: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
+tests/test_search.py::TestSearch::test_search_gene_bad_species
+tests/test_search.py::TestSearch::test_search_gene_bad_species
+tests/test_search.py::TestSearch::test_search_gene_bad_species
+tests/test_search.py::TestSearch::test_search_gene_bad_species
+tests/test_utils.py::TestUtils::test_search_iv_species_options
+tests/test_utils.py::TestUtils::test_search_iv_species_options
+tests/test_utils.py::TestUtils::test_search_iv_species_options
+tests/test_utils.py::TestUtils::test_search_iv_species_options
+  /home/runner/work/gget/gget/gget/utils.py:921: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
     for subsoup in soup.body.findAll("a"):
 
-tests/test_utils.py: 4 warnings
-tests/test_ref.py: 24 warnings
-  /home/runner/work/gget/gget/gget/utils.py:1013: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
+tests/test_search.py::TestSearch::test_search_transcript_two_sw_and
+tests/test_search.py::TestSearch::test_search_transcript_one_sw
+tests/test_search.py::TestSearch::test_search_gene_two_sw_limit
+tests/test_search.py::TestSearch::test_search_transcript_two_sw_or
+  /home/runner/work/gget/gget/gget/gget_search.py:311: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+    df_temp = pd.read_sql(query, con=db_connection)
+
+tests/test_search.py: 19 warnings
+tests/test_ref.py: 7 warnings
+  /home/runner/work/gget/gget/gget/utils.py:960: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
     for subsoup in soup.body.findAll("a"):
 
-tests/test_info.py::TestInfo::test_info_ncbitrue_uniprotfalse
-tests/test_info.py::TestInfo::test_info_exon
-  /home/runner/work/gget/gget/gget/gget_info.py:424: Pandas4Warning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. The existing dtype float64 cannot hold the value being set, so the result has dtype object. Cast the object to object before this operation to retain the current behavior.
-    df_uni_ncbi.loc["synonyms"] = [synonyms]
+tests/test_search.py: 10 warnings
+  /home/runner/work/gget/gget/gget/gget_search.py:276: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
+    df_temp = pd.read_sql(query, con=db_connection)
 
 tests/test_mutate.py: 29 warnings
   /home/runner/work/gget/gget/gget/gget_mutate.py:260: Pandas4Warning: The inplace keyword in DataFrame.drop is deprecated and will be removed in a future version (PDEP-8).
@@ -1919,12 +2146,24 @@ tests/test_mutate.py: 29 warnings
   /home/runner/work/gget/gget/gget/gget_mutate.py:667: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
     mask = mutations[mut_column].str.contains(combined_pattern)
 
-tests/test_elm.py::TestELM::test_elm_uniprot_id_in_elm
-tests/test_elm.py::TestELM::test_elm_uniprot_aminoacidseq
-tests/test_elm.py::TestELM::test_elm_uniprot_id_new
-  /home/runner/work/gget/gget/gget/gget_elm.py:221: Pandas4Warning: The inplace keyword in DataFrame.rename is deprecated and will be removed in a future version (PDEP-8).
-  See https://pandas.pydata.org/docs/dev/whatsnew/v3.1.0.html#deprecation-inplace for more details.
-    df_final.rename(columns={"Accession_x": "Instance_accession"}, inplace=True)
+tests/test_ref.py: 11 warnings
+tests/test_utils.py: 1 warning
+  /home/runner/work/gget/gget/gget/utils.py:1036: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
+    for subsoup in soup.body.findAll("a"):
+
+tests/test_ref.py: 39 warnings
+  /home/runner/work/gget/gget/gget/gget_ref.py:49: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
+    links = [stuff.text.strip() for stuff in soup.findAll("td")]
+
+tests/test_ref.py::TestRef::test_ref_ftp
+tests/test_ref.py::TestRef::test_ref
+  /home/runner/work/gget/gget/gget/gget_ref.py:325: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
+    links = [stuff.text.strip() for stuff in soup.findAll("td")]
+
+tests/test_ref.py: 24 warnings
+tests/test_utils.py: 4 warnings
+  /home/runner/work/gget/gget/gget/utils.py:1013: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
+    for subsoup in soup.body.findAll("a"):
 
 tests/test_cbio.py::TestCbioSearch::test_cbio_search
 tests/test_cbio.py::TestCbioSearch::test_cbio_search
@@ -1952,49 +2191,98 @@ tests/test_cbio.py: 16 warnings
   /home/runner/.local/share/hatch/env/virtual/gget/dY-b3nRT/hatch-test.py3.14/lib/python3.14/site-packages/bravado_core/model.py:888: DeprecationWarning: jsonschema.RefResolver.in_scope is deprecated and will be removed in a future release.
     with spec.resolver.in_scope(additional_uri):
 
-tests/test_ref.py: 39 warnings
-  /home/runner/work/gget/gget/gget/gget_ref.py:49: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
-    links = [stuff.text.strip() for stuff in soup.findAll("td")]
-
-tests/test_ref.py: 7 warnings
-tests/test_search.py: 19 warnings
-  /home/runner/work/gget/gget/gget/utils.py:960: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
-    for subsoup in soup.body.findAll("a"):
-
-tests/test_ref.py::TestRef::test_ref
-tests/test_ref.py::TestRef::test_ref_ftp
-  /home/runner/work/gget/gget/gget/gget_ref.py:325: DeprecationWarning: Call to deprecated method findAll. (Replaced by find_all) -- Deprecated since version 4.0.0.
-    links = [stuff.text.strip() for stuff in soup.findAll("td")]
-
-tests/test_search.py: 10 warnings
-  /home/runner/work/gget/gget/gget/gget_search.py:276: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
-    df_temp = pd.read_sql(query, con=db_connection)
-
-tests/test_search.py::TestSearch::test_search_transcript_one_sw
-tests/test_search.py::TestSearch::test_search_gene_two_sw_limit
-tests/test_search.py::TestSearch::test_search_transcript_two_sw_or
-tests/test_search.py::TestSearch::test_search_transcript_two_sw_and
-  /home/runner/work/gget/gget/gget/gget_search.py:311: UserWarning: pandas only supports SQLAlchemy connectable (engine/connection) or database string URI or sqlite3 DBAPI2 connection. Other DBAPI2 objects are not tested. Please consider using SQLAlchemy.
-    df_temp = pd.read_sql(query, con=db_connection)
+tests/test_info.py::TestInfo::test_info_exon
+tests/test_info.py::TestInfo::test_info_ncbitrue_uniprotfalse
+  /home/runner/work/gget/gget/gget/gget_info.py:424: Pandas4Warning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. The existing dtype float64 cannot hold the value being set, so the result has dtype object. Cast the object to object before this operation to retain the current behavior.
+    df_uni_ncbi.loc["synonyms"] = [synonyms]
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
 ============================= slowest 10 durations =============================
-1200.00s call     tests/test_blast.py::TestBlast::test_blast_nt
-218.28s call     tests/test_virus.py::TestVirus::test_virus_with_lab_passaged_filter
-123.34s call     tests/test_virus.py::TestVirus::test_virus_with_source_database_filter
-122.23s call     tests/test_virus.py::TestVirus::test_virus_with_max_ambiguous_chars_filter
-121.52s call     tests/test_virus.py::TestVirus::test_virus_integer_virus_id
-70.45s call     tests/test_virus.py::TestVirus::test_virus_with_annotated_filter
-57.67s call     tests/test_virus.py::TestVirus::test_virus_with_has_proteins_filter
-37.85s call     tests/test_search.py::TestSearch::test_search_gene_two_sw_limit
-23.44s call     tests/test_enrichr.py::TestEnrichr::test_enrichr_background_ensembl
-21.39s call     tests/test_virus.py::TestVirus::test_virus_with_protein_count_filters
+1200.02s call     tests/test_blast.py::TestBlast::test_blast_nt
+172.34s call     tests/test_virus.py::TestVirus::test_virus_integer_virus_id
+169.95s call     tests/test_virus.py::TestVirus::test_virus_with_source_database_filter
+121.94s call     tests/test_virus.py::TestVirus::test_virus_with_max_ambiguous_chars_filter
+74.64s call     tests/test_virus.py::TestVirus::test_virus_with_lab_passaged_filter
+54.71s call     tests/test_virus.py::TestVirus::test_virus_with_has_proteins_filter
+52.02s call     tests/test_search.py::TestSearch::test_search_gene_two_sw_limit
+21.79s call     tests/test_virus.py::TestVirus::test_virus_with_protein_count_filters
+19.55s call     tests/test_virus.py::TestVirus::test_virus_with_annotated_filter
+19.21s call     tests/test_virus.py::TestVirus::test_virus_with_length_filters
 =========================== short test summary info ============================
-SKIPPED [1] tests/test_cellxgene.py:59: cellxgene-census is not installed
-SKIPPED [1] tests/test_cellxgene.py:69: cellxgene-census is not installed
 SKIPPED [1] tests/test_cellxgene.py:49: cellxgene-census is not installed
+SKIPPED [1] tests/test_cellxgene.py:69: cellxgene-census is not installed
+SKIPPED [1] tests/test_cellxgene.py:59: cellxgene-census is not installed
 ERROR tests/test_cosmic.py::TestCosmicWorkflow::test_cosmic_defaults - FileNotFoundError: Expected COSMIC files were not found after download.
-FAILED tests/test_blast.py::TestBlast::test_blast_nt - Failed: Timeout (>1200.0s) from pytest-timeout.
+FAILED tests/test_diamond.py::TestDiamond::test_diamond_query_file - AssertionError: Lists differ: [['EN[64 chars], 3.84e-52, 144], ['ENSTGUT00000027003', 'Seq0[50 chars]187]] != [['EN[64 chars], 3.8399999999999994e-52, 144], ['ENSTGUT00000[64 chars]187]]
+
+First differing element 0:
+['ENS[30 chars] 84, 88, 67, 0, 0, 11, 77, 22, 88, 3.84e-52, 144]
+['ENS[30 chars] 84, 88, 67, 0, 0, 11, 77, 22, 88, 3.8399999999999994e-52, 144]
+
+  [['ENSTGUT00000006367',
+    'Seq0',
+    100,
+    84,
+    88,
+    67,
+    0,
+    0,
+    11,
+    77,
+    22,
+    88,
+-   3.84e-52,
++   3.8399999999999994e-52,
+    144],
+   ['ENSTGUT00000027003',
+    'Seq0',
+    100,
+    88,
+    88,
+    88,
+    0,
+    0,
+    1,
+    88,
+    1,
+    88,
+    3.69e-69,
+    187]]
+FAILED tests/test_diamond.py::TestDiamond::test_diamond_ref_file - AssertionError: Lists differ: [['Se[61 chars]8, 7.2e-69, 187], ['Seq0', 'ENSTGUT00000006367[52 chars]145]] != [['Se[61 chars]8, 7.199999999999999e-69, 187], ['Seq0', 'ENST[66 chars]145]]
+
+First differing element 0:
+['Seq[27 chars]00, 88, 88, 88, 0, 0, 1, 88, 1, 88, 7.2e-69, 187]
+['Seq[27 chars]00, 88, 88, 88, 0, 0, 1, 88, 1, 88, 7.199999999999999e-69, 187]
+
+  [['Seq0',
+    'ENSTGUT00000027003',
+    100,
+    88,
+    88,
+    88,
+    0,
+    0,
+    1,
+    88,
+    1,
+    88,
+-   7.2e-69,
++   7.199999999999999e-69,
+    187],
+   ['Seq0',
+    'ENSTGUT00000006367',
+    100,
+    88,
+    84,
+    67,
+    0,
+    0,
+    22,
+    88,
+    11,
+    77,
+    2.74e-52,
+    145]]
 FAILED tests/test_diamond.py::TestDiamond::test_diamond_both_files - AssertionError: Lists differ: [['EN[176 chars], 7.51e-52, 144], ['ENSTGUT00000027003', 'ENST[163 chars]145]] != [['EN[176 chars], 7.509999999999999e-52, 144], ['ENSTGUT000000[190 chars]145]]
 
 First differing element 1:
@@ -2059,122 +2347,60 @@ First differing element 1:
     77,
     2.74e-52,
     145]]
-FAILED tests/test_diamond.py::TestDiamond::test_diamond_ref_file - AssertionError: Lists differ: [['Se[61 chars]8, 7.2e-69, 187], ['Seq0', 'ENSTGUT00000006367[52 chars]145]] != [['Se[61 chars]8, 7.199999999999999e-69, 187], ['Seq0', 'ENST[66 chars]145]]
+FAILED tests/test_seq.py::TestSeq::test_seq_missing_uniprot_gene_name - AssertionError: Lists differ: ['>EN[67 chars]ame: RBM27-POU4F3 organism: Homo sapiens seque[1044 chars]AGT'] != ['>EN[67 chars]ame: LOC127814297 organism: Homo sapiens seque[1044 chars]AGT']
 
 First differing element 0:
-['Seq[27 chars]00, 88, 88, 88, 0, 0, 1, 88, 1, 88, 7.2e-69, 187]
-['Seq[27 chars]00, 88, 88, 88, 0, 0, 1, 88, 1, 88, 7.199999999999999e-69, 187]
+'>ENS[66 chars]ame: RBM27-POU4F3 organism: Homo sapiens sequence_length: 1027'
+'>ENS[66 chars]ame: LOC127814297 organism: Homo sapiens sequence_length: 1027'
 
-  [['Seq0',
-    'ENSTGUT00000027003',
-    100,
-    88,
-    88,
-    88,
-    0,
-    0,
-    1,
-    88,
-    1,
-    88,
--   7.2e-69,
-+   7.199999999999999e-69,
-    187],
-   ['Seq0',
-    'ENSTGUT00000006367',
-    100,
-    88,
-    84,
-    67,
-    0,
-    0,
-    22,
-    88,
-    11,
-    77,
-    2.74e-52,
-    145]]
-FAILED tests/test_diamond.py::TestDiamond::test_diamond_query_file - AssertionError: Lists differ: [['EN[64 chars], 3.84e-52, 144], ['ENSTGUT00000027003', 'Seq0[50 chars]187]] != [['EN[64 chars], 3.8399999999999994e-52, 144], ['ENSTGUT00000[64 chars]187]]
+  ['>ENST00000506502 uniprot_id: U3KPZ7 ensembl_id: ENST00000506502 gene_name: '
+-  'RBM27-POU4F3 organism: Homo sapiens sequence_length: 1027',
+?   ^^^  ^^^^ ^^
 
-First differing element 0:
-['ENS[30 chars] 84, 88, 67, 0, 0, 11, 77, 22, 88, 3.84e-52, 144]
-['ENS[30 chars] 84, 88, 67, 0, 0, 11, 77, 22, 88, 3.8399999999999994e-52, 144]
++  'LOC127814297 organism: Homo sapiens sequence_length: 1027',
+?   ^^^^  ^^ ^^^
 
-  [['ENSTGUT00000006367',
-    'Seq0',
-    100,
-    84,
-    88,
-    67,
-    0,
-    0,
-    11,
-    77,
-    22,
-    88,
--   3.84e-52,
-+   3.8399999999999994e-52,
-    144],
-   ['ENSTGUT00000027003',
-    'Seq0',
-    100,
-    88,
-    88,
-    88,
-    0,
-    0,
-    1,
-    88,
-    1,
-    88,
-    3.69e-69,
-    187]]
-FAILED tests/test_info.py::TestInfo::test_info_ncbitrue_uniprotfalse - AssertionError: Lists differ: [['EN[14 chars]7', 'homo_sapiens', 'GRCh38', 'KRTAP9-8', [], [231 chars]04]]] != [['EN[14 chars]7', '83901', 'homo_sapiens', 'GRCh38', 'KRTAP9[860 chars]04]]]
+   'MLIEDVDALKSWLAKLLEPICDADPSALANYVVALVKKDKPEKELKAFCADQLDVFLQKETSGFVDKLFESLYTKNYLPLLEPVKPEPKPLVQEKEEIKEEVFQEPAEEERDGRKKKYPSPQKTRSESSERRTREKKREDGKWRDYDRYYERNELYREKYDWRRGRSKSRSKSRGLSRSRSRSRGRSKDRDPNRNVEHRERSKFKSERNDLESSYVPVSAPPPNSSEQYSSGAQSIPSTVTVIAPAHHSENTTESWSNYYNNHSSSNSFGRNLPPKRRCRDYDERGFCVLGDLCQFDHGNDPLVVDEVALPSMIPFPPPPPGLPPPPPPGMLMPPMPGPGPGPGPGPGPGPGPGPGPGHSMRLPVPQGHGQPPPSVVLPIPRPPITQSSLINSRDQPGTSAVPNLASVGTRLPPPLPQNLLYTVSEHTYEPDGYNPEAPSITSSGRSQYRQFFSRTQTQRPNLIGLTSGDMDVNPRAANIVIQTEPPVPVSINSNITRVVLEPDSRKRAMSGLEGPLTKKPWLGKQGNNNQNKPGFLRKNQYTNTKLEVKKIPQELNNITKLNEHFSKFGTIVNIQVAFKGDPEAALIQYLTNEEARKAISSTEAVLNNRFIRVLWHRENNEQPTLQSSAQLLLQQQQTLSHLSQQHHHLPQHLHQQQVLVAQSAPSTVHGGIQKMMSKPQTSGAYVLNKVPVKHRLGHAGGNQSDASHLLNQSGGAGEDCQIFSTPGHPKMIYSSSNLKTPSKLCSGSKSHDVQEVLKKKQEAMKLQQDMRKKRQEVLEKQIECQKMLISKLEKNKNMKPEERANIMKTLKELGEKISQLKDELKTSSAVSTPSKVKTKTEAQKELLDTELDLHKRLSSGEDTTELRKKLSQLQVEAARLGILPVGRGKTMSSQGRGRGRGRGGRGRGSLNHMVVDHRPKALTVGGFIEEEKEDLLQHFSMEFCSCCPGWSAMVRSRLTATSASLVQVILLPQPPKQLRLQEREDDGHELQAAFRHAPGAARTQILQSALWLRGHAPSLSPSPAGT']
+FAILED tests/test_bgee.py::TestBgee::test_bgee_expression_multiple - RuntimeError: Bgee API (species lookup) returned HTTP 403. Body: <!DOCTYPE html><html lang="en-US"><head><title>Just a moment...</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta nam
+FAILED tests/test_bgee.py::TestBgee::test_bgee_expression - RuntimeError: Bgee API (species lookup) returned HTTP 403. Body: <!DOCTYPE html><html lang="en-US"><head><title>Just a moment...</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta nam
+FAILED tests/test_bgee.py::TestBgee::test_bgee_orthologs - RuntimeError: Bgee API (species lookup) returned HTTP 403. Body: <!DOCTYPE html><html lang="en-US"><head><title>Just a moment...</title><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=Edge"><meta nam
+FAILED tests/test_cbio.py::TestCbioSearch::test_cbio_search - AssertionError: Lists differ: ['egc[32 chars]_msk_2026', 'egc_msk_tp53_ccr_2022', 'egc_mskc[421 chars]pub'] != ['egc[32 chars]_msk_tp53_ccr_2022', 'egc_mskcc_2020', 'egc_tm[405 chars]pub']
 
-First differing element 0:
-['ENS[13 chars]7', 'homo_sapiens', 'GRCh38', 'KRTAP9-8', [], [230 chars]004]]
-['ENS[13 chars]7', '83901', 'homo_sapiens', 'GRCh38', 'KRTAP9[859 chars]004]]
+First differing element 2:
+'egc_msk_2026'
+'egc_msk_tp53_ccr_2022'
 
-  [['ENSG00000187272.7',
-+   '83901',
-    'homo_sapiens',
-    'GRCh38',
-    'KRTAP9-8',
--   [],
-+   ['KAP9.8', 'KRTAP9.8'],
-    'keratin associated protein 9-8 [Source:HGNC Symbol;Acc:HGNC:17231]',
-+   'This protein is a member of the keratin-associated protein (KAP) family. '
-+   'The KAP proteins form a matrix of keratin intermediate filaments which '
-+   'contribute to the structure of hair fibers. KAP family members appear to '
-+   'have unique, family-specific amino- and carboxyl-terminal regions and are '
-+   'subdivided into three multi-gene families according to amino acid '
-+   'composition: the high sulfur, the ultrahigh sulfur, and the high '
-+   'tyrosine/glycine KAPs. This protein is a member of the ultrahigh sulfur KAP '
-+   'family and the gene is localized to a cluster of KAPs at 17q12-q21. '
-+   '[provided by RefSeq, Jul 2008]',
-    'Gene',
-    'protein_coding',
-    'ENST00000254072.7',
-    '17',
-    1,
-    41237999,
-    41239004,
-    ['ENST00000254072.7'],
-    ['protein_coding'],
-    ['KRTAP9-8-201'],
-    [1],
-    [41237999],
-    [41239004]]]
-FAILED tests/test_info.py::TestInfo::test_info_gene - AssertionError: DataFrame.iloc[:, 6] (column name="synonyms") are different
+First list contains 1 additional elements.
+First extra element 25:
+'stes_tcga_pub'
 
-DataFrame.iloc[:, 6] (column name="synonyms") values are different (100.0 %)
-[index]: [0]
-[left]:  [[]]
-[right]: [[Galphai3, Gnai-3, Hg1a]]
-At positional index 0, first diff: [] != ['Galphai3', 'Gnai-3', 'Hg1a']
-FAILED tests/test_opentargets.py::TestOpenTargets::test_opentargets_interactions_no_limit - AssertionError: 'fa95d278c2d31ded3731e154d65fcda5' != '8ed7f7380590628acdbaa5f9501365a6'
-- fa95d278c2d31ded3731e154d65fcda5
-+ 8ed7f7380590628acdbaa5f9501365a6
+  ['egc_msk_2017',
+   'egc_msk_2023',
+-  'egc_msk_2026',
+   'egc_msk_tp53_ccr_2022',
+   'egc_mskcc_2020',
+   'egc_tmucih_2015',
+   'egc_trap_ccr_msk_2023',
+   'egc_trap_msk_2020',
+   'esca_broad',
+   'esca_tcga',
+   'esca_tcga_gdc',
+   'esca_tcga_pan_can_atlas_2018',
+   'escc_icgc',
+   'escc_ucla_2014',
+   'hgsoc_msk_2021',
+   'hgsoc_tcga_gdc',
+   'lgsoc_mapk_msk_2022',
+   'msk_spectrum_tme_2022',
+   'ov_tcga',
+   'ov_tcga_pan_can_atlas_2018',
+   'ov_tcga_pub',
+   'ovarian_msk_2025',
+   'ovary_cptac_gdc',
+   'ovary_geomx_gray_foundation_2024',
+   'scco_mskcc',
+   'stes_tcga_pub']
+FAILED tests/test_blast.py::TestBlast::test_blast_nt - Failed: Timeout (>1200.0s) from pytest-timeout.
 FAILED tests/test_opentargets.py::TestOpenTargets::test_opentargets_interactions - AssertionError: Lists differ: [{'sc[137 chars]000361004', 'intBBiologicalRole': 'unspecified[573 chars]134}] != [{'sc[137 chars]000360730', 'intBBiologicalRole': 'unspecified[573 chars]134}]
 
 First differing element 0:
@@ -2225,30 +2451,6 @@ First differing element 0:
 -   'targetA.id': 'ENSG00000169194',
 -   'targetB.approvedSymbol': 'IL13RA1',
 -   'targetB.id': 'ENSG00000131724'}]
-FAILED tests/test_opentargets.py::TestOpenTargets::test_opentargets - AssertionError: Lists differ: [[0.7470161187562232, 'MONDO_0004980', 'atopic[713 chars]y.']] != [[0.7279798021712002, 'MONDO_0004980', 'atopic[713 chars]y.']]
-
-First differing element 0:
-[0.7470161187562232, 'MONDO_0004980', 'atopic[149 chars]fe.']
-[0.7279798021712002, 'MONDO_0004980', 'atopic[149 chars]fe.']
-
-- [[0.7470161187562232,
-+ [[0.7279798021712002,
-    'MONDO_0004980',
-    'atopic eczema',
-    'A common chronic pruritic inflammatory skin disease with a strong genetic '
-    'component. Onset typically occurs during the first 2 years of life.'],
--  [0.6998368518128084,
-+  [0.6952093612226559,
-    'MONDO_0004979',
-    'asthma',
-    'A bronchial disease that is characterized by chronic inflammation and '
-    'narrowing of the airways, which is caused by a combination of environmental '
-    'and genetic factors resulting in recurring periods of wheezing (a whistling '
-    'sound while breathing), chest tightness, shortness of breath, mucus '
-    'production and coughing. The symptoms appear due to a variety of triggers '
-    'such as allergens, irritants, respiratory infections, weather changes, '
-    'exercise, stress, reflux disease, medications, foods and emotional '
-    'anxiety.']]
 FAILED tests/test_opentargets.py::TestOpenTargets::test_opentargets_depmap_filter - AssertionError: Lists differ: [['UBERON_0002367', 'prostate gland', 'P4E[170 chars]477]] != []
 
 First list contains 2 additional elements.
@@ -2270,6 +2472,40 @@ First extra element 0:
 -   'Prostate Adenocarcinoma',
 -   'ACH-000956',
 -   0.2760075628757477]]
+FAILED tests/test_opentargets.py::TestOpenTargets::test_opentargets_interactions_no_limit - AssertionError: 'fa95d278c2d31ded3731e154d65fcda5' != '8ed7f7380590628acdbaa5f9501365a6'
+- fa95d278c2d31ded3731e154d65fcda5
++ 8ed7f7380590628acdbaa5f9501365a6
+FAILED tests/test_opentargets.py::TestOpenTargets::test_opentargets_diseases - AssertionError: Lists differ: [{'score': 0.7470161188, 'disease.id': 'MONDO_0004980',[816 chars]y.'}] != [{'score': 0.7279798022, 'disease.id': 'MONDO_0004980',[816 chars]y.'}]
+
+First differing element 0:
+{'score': 0.7470161188, 'disease.id': 'MONDO_0004980',[196 chars]fe.'}
+{'score': 0.7279798022, 'disease.id': 'MONDO_0004980',[196 chars]fe.'}
+
+  [{'disease.description': 'A common chronic pruritic inflammatory skin disease '
+                           'with a strong genetic component. Onset typically '
+                           'occurs during the first 2 years of life.',
+    'disease.id': 'MONDO_0004980',
+    'disease.name': 'atopic eczema',
+-   'score': 0.7470161188},
++   'score': 0.7279798022},
+   {'disease.description': 'A bronchial disease that is characterized by chronic '
+                           'inflammation and narrowing of the airways, which is '
+                           'caused by a combination of environmental and genetic '
+                           'factors resulting in recurring periods of wheezing '
+                           '(a whistling sound while breathing), chest '
+                           'tightness, shortness of breath, mucus production and '
+                           'coughing. The symptoms appear due to a variety of '
+                           'triggers such as allergens, irritants, respiratory '
+                           'infections, weather changes, exercise, stress, '
+                           'reflux disease, medications, foods and emotional '
+                           'anxiety.',
+    'disease.id': 'MONDO_0004979',
+    'disease.name': 'asthma',
+-   'score': 0.6998368518}]
+?                 -  -- ^
+
++   'score': 0.6952093612}]
+?                +++    ^
 FAILED tests/test_opentargets.py::TestOpenTargets::test_opentargets_drugs - AssertionError: Lists differ: [{'dr[246 chars]with an approval for atopic eczema and psorias[1297 chars]'}]}] != [{'dr[246 chars]with 3 approved and 7 investigational indicati[1319 chars]'}]}]
 
 First differing element 0:
@@ -2332,37 +2568,6 @@ First differing element 0:
     'drug.name': 'ANRUKINZUMAB',
     'drug.synonyms': ['Anrukinzumab', 'IMA-638'],
     'drug.tradeNames': None}]
-FAILED tests/test_opentargets.py::TestOpenTargets::test_opentargets_diseases - AssertionError: Lists differ: [{'score': 0.7470161188, 'disease.id': 'MONDO_0004980',[816 chars]y.'}] != [{'score': 0.7279798022, 'disease.id': 'MONDO_0004980',[816 chars]y.'}]
-
-First differing element 0:
-{'score': 0.7470161188, 'disease.id': 'MONDO_0004980',[196 chars]fe.'}
-{'score': 0.7279798022, 'disease.id': 'MONDO_0004980',[196 chars]fe.'}
-
-  [{'disease.description': 'A common chronic pruritic inflammatory skin disease '
-                           'with a strong genetic component. Onset typically '
-                           'occurs during the first 2 years of life.',
-    'disease.id': 'MONDO_0004980',
-    'disease.name': 'atopic eczema',
--   'score': 0.7470161188},
-+   'score': 0.7279798022},
-   {'disease.description': 'A bronchial disease that is characterized by chronic '
-                           'inflammation and narrowing of the airways, which is '
-                           'caused by a combination of environmental and genetic '
-                           'factors resulting in recurring periods of wheezing '
-                           '(a whistling sound while breathing), chest '
-                           'tightness, shortness of breath, mucus production and '
-                           'coughing. The symptoms appear due to a variety of '
-                           'triggers such as allergens, irritants, respiratory '
-                           'infections, weather changes, exercise, stress, '
-                           'reflux disease, medications, foods and emotional '
-                           'anxiety.',
-    'disease.id': 'MONDO_0004979',
-    'disease.name': 'asthma',
--   'score': 0.6998368518}]
-?                 -  -- ^
-
-+   'score': 0.6952093612}]
-?                +++    ^
 FAILED tests/test_opentargets.py::TestOpenTargets::test_opentargets_pharmacogenetics - AssertionError: Lists differ: [{'variantId': None, 'genotypeId': '5_132657117_C_C,C', [1558 chars]nt'}] != [{'variantId': '5_132657117_C_T', 'genotypeId': '5_13265[1549 chars]nt'}]
 
 First differing element 0:
@@ -2450,57 +2655,74 @@ First differing element 0:
 +   'variantFunctionalConsequence.id': 'SO:0001627',
 +   'variantFunctionalConsequence.label': 'intron_variant',
 +   'variantId': '5_132660151_T_C'}]
+FAILED tests/test_opentargets.py::TestOpenTargets::test_opentargets - AssertionError: Lists differ: [[0.7470161187562232, 'MONDO_0004980', 'atopic[713 chars]y.']] != [[0.7279798021712002, 'MONDO_0004980', 'atopic[713 chars]y.']]
+
+First differing element 0:
+[0.7470161187562232, 'MONDO_0004980', 'atopic[149 chars]fe.']
+[0.7279798021712002, 'MONDO_0004980', 'atopic[149 chars]fe.']
+
+- [[0.7470161187562232,
++ [[0.7279798021712002,
+    'MONDO_0004980',
+    'atopic eczema',
+    'A common chronic pruritic inflammatory skin disease with a strong genetic '
+    'component. Onset typically occurs during the first 2 years of life.'],
+-  [0.6998368518128084,
++  [0.6952093612226559,
+    'MONDO_0004979',
+    'asthma',
+    'A bronchial disease that is characterized by chronic inflammation and '
+    'narrowing of the airways, which is caused by a combination of environmental '
+    'and genetic factors resulting in recurring periods of wheezing (a whistling '
+    'sound while breathing), chest tightness, shortness of breath, mucus '
+    'production and coughing. The symptoms appear due to a variety of triggers '
+    'such as allergens, irritants, respiratory infections, weather changes, '
+    'exercise, stress, reflux disease, medications, foods and emotional '
+    'anxiety.']]
 FAILED tests/test_opentargets.py::TestOpenTargets::test_opentargets_depmap - AssertionError: '947d6d0e8c41a466173ebebecb106b5b' != 'e81a60ff47c06bfecb3b421d28047718'
 - 947d6d0e8c41a466173ebebecb106b5b
 + e81a60ff47c06bfecb3b421d28047718
-FAILED tests/test_seq.py::TestSeq::test_seq_missing_uniprot_gene_name - AssertionError: Lists differ: ['>EN[67 chars]ame: RBM27-POU4F3 organism: Homo sapiens seque[1044 chars]AGT'] != ['>EN[67 chars]ame: LOC127814297 organism: Homo sapiens seque[1044 chars]AGT']
+FAILED tests/test_info.py::TestInfo::test_info_gene - AssertionError: DataFrame.iloc[:, 6] (column name="synonyms") are different
+
+DataFrame.iloc[:, 6] (column name="synonyms") values are different (100.0 %)
+[index]: [0]
+[left]:  [[]]
+[right]: [[Galphai3, Gnai-3, Hg1a]]
+At positional index 0, first diff: [] != ['Galphai3', 'Gnai-3', 'Hg1a']
+FAILED tests/test_info.py::TestInfo::test_info_ncbitrue_uniprotfalse - AssertionError: Lists differ: [['EN[14 chars]7', 'homo_sapiens', 'GRCh38', 'KRTAP9-8', [], [231 chars]04]]] != [['EN[14 chars]7', '83901', 'homo_sapiens', 'GRCh38', 'KRTAP9[860 chars]04]]]
 
 First differing element 0:
-'>ENS[66 chars]ame: RBM27-POU4F3 organism: Homo sapiens sequence_length: 1027'
-'>ENS[66 chars]ame: LOC127814297 organism: Homo sapiens sequence_length: 1027'
+['ENS[13 chars]7', 'homo_sapiens', 'GRCh38', 'KRTAP9-8', [], [230 chars]004]]
+['ENS[13 chars]7', '83901', 'homo_sapiens', 'GRCh38', 'KRTAP9[859 chars]004]]
 
-  ['>ENST00000506502 uniprot_id: U3KPZ7 ensembl_id: ENST00000506502 gene_name: '
--  'RBM27-POU4F3 organism: Homo sapiens sequence_length: 1027',
-?   ^^^  ^^^^ ^^
-
-+  'LOC127814297 organism: Homo sapiens sequence_length: 1027',
-?   ^^^^  ^^ ^^^
-
-   'MLIEDVDALKSWLAKLLEPICDADPSALANYVVALVKKDKPEKELKAFCADQLDVFLQKETSGFVDKLFESLYTKNYLPLLEPVKPEPKPLVQEKEEIKEEVFQEPAEEERDGRKKKYPSPQKTRSESSERRTREKKREDGKWRDYDRYYERNELYREKYDWRRGRSKSRSKSRGLSRSRSRSRGRSKDRDPNRNVEHRERSKFKSERNDLESSYVPVSAPPPNSSEQYSSGAQSIPSTVTVIAPAHHSENTTESWSNYYNNHSSSNSFGRNLPPKRRCRDYDERGFCVLGDLCQFDHGNDPLVVDEVALPSMIPFPPPPPGLPPPPPPGMLMPPMPGPGPGPGPGPGPGPGPGPGPGHSMRLPVPQGHGQPPPSVVLPIPRPPITQSSLINSRDQPGTSAVPNLASVGTRLPPPLPQNLLYTVSEHTYEPDGYNPEAPSITSSGRSQYRQFFSRTQTQRPNLIGLTSGDMDVNPRAANIVIQTEPPVPVSINSNITRVVLEPDSRKRAMSGLEGPLTKKPWLGKQGNNNQNKPGFLRKNQYTNTKLEVKKIPQELNNITKLNEHFSKFGTIVNIQVAFKGDPEAALIQYLTNEEARKAISSTEAVLNNRFIRVLWHRENNEQPTLQSSAQLLLQQQQTLSHLSQQHHHLPQHLHQQQVLVAQSAPSTVHGGIQKMMSKPQTSGAYVLNKVPVKHRLGHAGGNQSDASHLLNQSGGAGEDCQIFSTPGHPKMIYSSSNLKTPSKLCSGSKSHDVQEVLKKKQEAMKLQQDMRKKRQEVLEKQIECQKMLISKLEKNKNMKPEERANIMKTLKELGEKISQLKDELKTSSAVSTPSKVKTKTEAQKELLDTELDLHKRLSSGEDTTELRKKLSQLQVEAARLGILPVGRGKTMSSQGRGRGRGRGGRGRGSLNHMVVDHRPKALTVGGFIEEEKEDLLQHFSMEFCSCCPGWSAMVRSRLTATSASLVQVILLPQPPKQLRLQEREDDGHELQAAFRHAPGAARTQILQSALWLRGHAPSLSPSPAGT']
-FAILED tests/test_cbio.py::TestCbioSearch::test_cbio_search - AssertionError: Lists differ: ['egc[32 chars]_msk_2026', 'egc_msk_tp53_ccr_2022', 'egc_mskc[421 chars]pub'] != ['egc[32 chars]_msk_tp53_ccr_2022', 'egc_mskcc_2020', 'egc_tm[405 chars]pub']
-
-First differing element 2:
-'egc_msk_2026'
-'egc_msk_tp53_ccr_2022'
-
-First list contains 1 additional elements.
-First extra element 25:
-'stes_tcga_pub'
-
-  ['egc_msk_2017',
-   'egc_msk_2023',
--  'egc_msk_2026',
-   'egc_msk_tp53_ccr_2022',
-   'egc_mskcc_2020',
-   'egc_tmucih_2015',
-   'egc_trap_ccr_msk_2023',
-   'egc_trap_msk_2020',
-   'esca_broad',
-   'esca_tcga',
-   'esca_tcga_gdc',
-   'esca_tcga_pan_can_atlas_2018',
-   'escc_icgc',
-   'escc_ucla_2014',
-   'hgsoc_msk_2021',
-   'hgsoc_tcga_gdc',
-   'lgsoc_mapk_msk_2022',
-   'msk_spectrum_tme_2022',
-   'ov_tcga',
-   'ov_tcga_pan_can_atlas_2018',
-   'ov_tcga_pub',
-   'ovarian_msk_2025',
-   'ovary_cptac_gdc',
-   'ovary_geomx_gray_foundation_2024',
-   'scco_mskcc',
-   'stes_tcga_pub']
-= 16 failed, 412 passed, 3 skipped, 219 warnings, 1 error in 2366.18s (0:39:26) =
+  [['ENSG00000187272.7',
++   '83901',
+    'homo_sapiens',
+    'GRCh38',
+    'KRTAP9-8',
+-   [],
++   ['KAP9.8', 'KRTAP9.8'],
+    'keratin associated protein 9-8 [Source:HGNC Symbol;Acc:HGNC:17231]',
++   'This protein is a member of the keratin-associated protein (KAP) family. '
++   'The KAP proteins form a matrix of keratin intermediate filaments which '
++   'contribute to the structure of hair fibers. KAP family members appear to '
++   'have unique, family-specific amino- and carboxyl-terminal regions and are '
++   'subdivided into three multi-gene families according to amino acid '
++   'composition: the high sulfur, the ultrahigh sulfur, and the high '
++   'tyrosine/glycine KAPs. This protein is a member of the ultrahigh sulfur KAP '
++   'family and the gene is localized to a cluster of KAPs at 17q12-q21. '
++   '[provided by RefSeq, Jul 2008]',
+    'Gene',
+    'protein_coding',
+    'ENST00000254072.7',
+    '17',
+    1,
+    41237999,
+    41239004,
+    ['ENST00000254072.7'],
+    ['protein_coding'],
+    ['KRTAP9-8-201'],
+    [1],
+    [41237999],
+    [41239004]]]
+= 19 failed, 409 passed, 3 skipped, 219 warnings, 1 error in 2285.11s (0:38:05) =
